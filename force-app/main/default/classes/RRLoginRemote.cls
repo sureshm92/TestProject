@@ -8,11 +8,6 @@ global without sharing class RRLoginRemote {
     public static String login(String username, String password, String startUrl) {
         try {
             ApexPages.PageReference lgn = Site.login(username, password, startUrl);
-
-            //PEH-2038 & PEH-2008: When porspect who is delegate of a participant logs in the community,
-            //set the Landing_Community__c based on the Site
-            //set userCommunityDelegateId__c to null
-            //set Current_Participant_Enrollment__c to null
             List<User> loginUser = [
                 SELECT
                     Id,
@@ -27,16 +22,17 @@ global without sharing class RRLoginRemote {
                 WHERE UserName = :username
                 LIMIT 1
             ];
-
-            //No participant enrollment and UserCommunityIsDelegate__c to ensure the
-            //contact is a prospect and delegate of a certain contact
+            //When porspect who is delegate of a participant logs in the community
             if (
                 !loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c == 'Participant'
             ) {
                 Contact c = new Contact(
                     Id = loginUser[0].ContactId,
+                    //set Current_Participant_Enrollment__c to null
                     Current_Participant_Enrollment__c = null,
+                    //set userCommunityDelegateId__c to null
                     userCommunityDelegateId__c = null,
+                    //set the Landing_Community__c based on the Site
                     Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                         ? CommunityService.IQVIA_NETWORK_NAME
                         : Site.getMasterLabel()
@@ -201,14 +197,13 @@ global without sharing class RRLoginRemote {
         }
     }
 
-    //@Krishna Mahto - PEH-1910 - Prod Issue fix- Start
     /**
      * ───────────────────────────────────────────────────────────────────────────────────────────────┐
      * This method will return the current communityName
      * ────────────────────────────────────────────────────────────────────────────────────────────────
      * @Method:   getCommunityName
      * @param:    NA
-     * @return:   Strings
+     * @return:   String
      * ───────────────────────────────────────────────────────────────────────────────────────────────┘
      **/
     @auraEnabled
@@ -294,17 +289,17 @@ global without sharing class RRLoginRemote {
                 WHERE UserName = :username
                 LIMIT 1
             ];
-            //PEH-2038 & PEH-2008: When porspect who is a delegate of a participant logs in to the community,
-            //set the Landing_Community__c based on the Site
-            //set userCommunityDelegateId__c to null
-            //set Current_Participant_Enrollment__c to null
+            //PEH-2038 & PEH-2008: When porspect who is a delegate of a participant logs in to the community
             if (
                 !loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c == 'Participant'
             ) {
                 Contact c = new Contact(
                     Id = loginUser[0].ContactId,
+                    //set Current_Participant_Enrollment__c to null
                     Current_Participant_Enrollment__c = null,
+                    //set userCommunityDelegateId__c to null
                     userCommunityDelegateId__c = null,
+                    //set the Landing_Community__c based on the Site
                     Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                         ? CommunityService.IQVIA_NETWORK_NAME
                         : Site.getMasterLabel()
