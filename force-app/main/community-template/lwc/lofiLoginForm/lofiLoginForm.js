@@ -152,7 +152,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (this.currentPageReference.state.c__username) {
             isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
                 .then((result) => {
-                    console.log('##result: ' + JSON.stringify(result));
                     if (result.TimeDifference) {
                         this.timeLeft = Number(result['TimeDifference']);
                         this.isLockOut = true;
@@ -214,11 +213,14 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (allValid) {
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner.show();
-            communityLogin({ userName: userName.value, password: password.value, startUrl: '' })
+            communityLogin({
+                userName: userName.value,
+                password: password.value,
+                startUrl: decodeURIComponent(this.currentPageReference.state.startURL)
+            })
                 .then((result) => {
                     //Key: startUrl, lockoutError, wrongPasswordError, exception
                     this.spinner.hide();
-                    console.log(JSON.stringify(result));
                     if (result.startUrl) {
                         //re-direct to homepage
                         location.href = result.startUrl;
@@ -256,7 +258,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (userName) {
             isUserPasswordLocked({ userName: userName })
                 .then((result) => {
-                    console.log('##result: ' + JSON.stringify(result));
                     if (result.TimeDifference) {
                         this.timeLeft = result['TimeDifference'];
                         this.isLockOut = true;
