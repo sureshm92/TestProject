@@ -23,6 +23,8 @@
   font-weight: bold;
   letter-spacing: 0;
   line-height: 21px;
+  word-wrap: break-word;
+  padding-right: 10px;
 }
 
 .profile-patientName {
