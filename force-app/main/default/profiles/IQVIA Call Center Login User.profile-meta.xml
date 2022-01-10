@@ -161,10 +161,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateECOASubject</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_CreateNewRPDelegates</apexClass>
         <enabled>true</enabled>
     </classAccesses>
