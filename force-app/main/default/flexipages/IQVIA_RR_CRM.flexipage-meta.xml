@@ -4,6 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:todayTaskContainer</componentName>
+                <identifier>runtime_sales_activities_todayTaskContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -21,6 +22,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -53,11 +55,13 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:reportChart</componentName>
+                <identifier>flexipage_reportChart</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>home:eventContainer</componentName>
+                <identifier>home_eventContainer</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
