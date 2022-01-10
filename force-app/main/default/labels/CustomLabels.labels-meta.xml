@@ -18879,6 +18879,41 @@ communications using the toggles below.</value>
         <value>Notification preferences</value>
     </labels>
     <labels>
+        <fullName>RH_RequestMedicalBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RequestMedicalBtn</shortDescription>
+        <value>Request Medical Records</value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRecordAuthorized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
+        <value>Authorization Requested on: </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRecordProvider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRecordProvider</shortDescription>
+        <value>Medical Records Providers  </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRetrieve_EmailError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
+        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRetrive_Succces</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRetrive_Succces</shortDescription>
+        <value>We have notified the patient to authorize medical vendor(s)  </value>
+    </labels>
+    <labels>
         <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
         <language>en_US</language>
         <protected>true</protected>
