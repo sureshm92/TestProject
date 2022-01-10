@@ -10222,6 +10222,13 @@ The expected format is REF##### to REF########</value>
         <value>Dashboard</value>
     </labels>
     <labels>
+        <fullName>Navigation_eDiary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation_eDiary</shortDescription>
+        <value>eDiaries</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Help</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21225,6 +21232,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Info</shortDescription>
         <value>Study Info</value>
+    </labels>
+    <labels>
+        <fullName>Study_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_GUID_Error_Message</shortDescription>
+        <value>Please enter Study GUID.</value>
+    </labels>
+    <labels>
+        <fullName>Study_Version_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Version_GUID_Error_Message</shortDescription>
+        <value>Please enter Study Version GUID.</value>
     </labels>
     <labels>
         <fullName>Summary_View</fullName>

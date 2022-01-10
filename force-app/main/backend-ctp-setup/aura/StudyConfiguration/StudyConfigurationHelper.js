@@ -21,8 +21,24 @@
         else{
             component.set('v.ctp.Delayed_No_Of_Days__c', component.get("v.delay_days"));
         }
+        //eCOA toggle logic
+        if(source === 'saveECOAGUIDs'){
+            component.set('v.study_guid', component.get("v.ctp.Study_GUID__c"));
+            component.set('v.study_version_guid', component.get("v.ctp.Study_Version_GUID__c"));
+        }
+        else{
+            //Initialize the GUIDs with the actual GUIds saved in database when other toggle action gets perform.
+            component.set('v.ctp.Study_GUID__c', component.get("v.study_guid"));
+            component.set('v.ctp.Study_Version_GUID__c', component.get("v.study_version_guid"));
+        }
+        
+        
         component.find('spinner').show();
-        if((source === 'saveDelayDays' && component.find('delayedDays').reportValidity()) || source !== 'saveDelayDays'){
+        //check if source is saveECOAGUIDs and study GUID and study Version GUID inputs are valid. 
+        var saveGUIDsforECOAToggle = source === 'saveECOAGUIDs' && component.find('studyGUID').reportValidity() && component.find('studyVersionGUID').reportValidity();
+        //check if the source is other than saveDelayDays and saveECOAGUIDs. 
+        var saveOtherToggles = source !== 'saveDelayDays' && source !== 'saveECOAGUIDs';
+        if((source === 'saveDelayDays' && component.find('delayedDays').reportValidity()) || saveGUIDsforECOAToggle || saveOtherToggles){
             communityService.executeAction(
                 component,
                 'saveChanges',

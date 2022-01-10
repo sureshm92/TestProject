@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "My Patients"
       },
       "componentName" : "forceCommunity:seoAssistant",

@@ -1,0 +1,27 @@
+<template>
+    <div class="container">
+        <nav role="navigation" aria-label="Breadcrumbs">
+            <ol class="slds-breadcrumb slds-list_horizontal slds-wrap">
+                <li class="slds-breadcrumb__item">
+                    <a style="color: #666666" href="/s/">Home</a>
+                </li>
+                <li style="padding-left: 1%" class="slds-breadcrumb__item">
+                    <p style="color: black; font-weight: 600">eDiaries</p>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <div>
+        <p class="ediariy">eDiaries</p>
+    </div>
+    <div class="widthLimiter">
+        <iframe src={ecoaUrl} frameborder="0" height="700px" width="100%"></iframe>
+    </div>
+    <div if:true={isLoading}>
+        <lightning-spinner
+            variant="brand"
+            alternative-text="Loading"
+            size="medium"
+        ></lightning-spinner>
+    </div>
+</template>

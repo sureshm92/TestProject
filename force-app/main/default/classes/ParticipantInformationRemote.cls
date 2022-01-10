@@ -57,6 +57,13 @@ public without sharing class ParticipantInformationRemote {
                 userMode,
                 delegateId
             );
+            Id participantid = pi.pe.Participant__c;
+            Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
+            if(count > 0){
+                pi.containsFile = true;
+            }else{
+                pi.containsFile = false;
+            }
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -783,6 +790,7 @@ public without sharing class ParticipantInformationRemote {
                 oldParticipantEnrollment
             );
             pe.Site_Communication_Preference__c=sitepreference;
+            pe.ParticipantNoShow__c = PartcipantNoShow;
             update pe;
             if (
                 (oldParticipantEnrollment.Initial_visit_scheduled_date__c == null ||
@@ -1209,6 +1217,7 @@ public without sharing class ParticipantInformationRemote {
                 ctp,
                 oldParticipantEnrollment
             );
+            pe.ParticipantNoShow__c = PartcipantNoShow;
             update pe;
             if (
                 (oldParticipantEnrollment.Initial_visit_scheduled_date__c == null ||
