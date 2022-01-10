@@ -8,6 +8,10 @@
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ecoaDiariesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 	 <classAccesses>
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
@@ -5404,6 +5408,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Study_Hub_Log__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Subject_GUID__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
