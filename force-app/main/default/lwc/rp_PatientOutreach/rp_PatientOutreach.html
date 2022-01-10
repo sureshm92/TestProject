@@ -27,7 +27,9 @@
           </div>
         </template>
         <template if:true={singleStudy}>
-          <div class="studyTitle">{singleStudyName}</div>
+          <div class="studyContent">
+            <div class="studyTitle">{singleStudyName}</div>
+          </div>
         </template>
         <div class="outreachInfo">
           <lightning-formatted-rich-text value={outreachInfo}></lightning-formatted-rich-text>
