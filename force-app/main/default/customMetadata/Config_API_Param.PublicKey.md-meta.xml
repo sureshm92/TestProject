@@ -10,4 +10,8 @@
         <field>ParamValue__c</field>
         <value xsi:type="xsd:string">-----BEGIN PUBLIC KEY----- MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJjbl2Q2syikYx2ZV609JjGrM7iv2 fze9MNjTBwaDps31Vv1OummOaEw5Zt9j9uDwhnRavY++JUQvvDC9KLtm1A== -----END PUBLIC KEY-----</value>
     </values>
+    <values>
+        <field>Param_Value_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>
