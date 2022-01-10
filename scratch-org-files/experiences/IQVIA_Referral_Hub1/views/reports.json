@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Reports"
       },
       "componentName" : "forceCommunity:seoAssistant",

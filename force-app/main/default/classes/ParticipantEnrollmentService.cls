@@ -598,6 +598,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
+        'Clinical_Trial_Profile__r.Study_GUID__c',
+        'Subject_GUID__c',
         'isAuthorized__c',
         'Human_Id__c',
         'Unique_HumanId__c',
