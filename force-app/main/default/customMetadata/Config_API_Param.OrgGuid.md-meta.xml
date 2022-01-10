@@ -10,4 +10,8 @@
         <field>ParamValue__c</field>
         <value xsi:type="xsd:string">orgs/org_35b5645b-22ca-4cbc-8d29-986e7ea9a5d2</value>
     </values>
+    <values>
+        <field>Param_Value_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>
