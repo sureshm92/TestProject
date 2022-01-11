@@ -5,19 +5,19 @@ import loadDiary from '@salesforce/apex/ecoaDiariesController.getToken';
 
 export default class ViewEcoaDiaries extends LightningElement {
     @track ecoaUrl;
-    @track isLoading = false;
+    //@track isLoading;
     connectedCallback() {
-        this.isLoading = true;
+        //this.isLoading = true;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 let ppGetter = loadDiary()
                     .then((result) => {
-                        this.isLoading = false;
+                        //this.isLoading = false;
                         this.ecoaUrl = result;
                     })
                     .catch(function (error) {
                         console.error('Error: ' + JSON.stringify(error));
-                        this.isLoading = false;
+                        //this.isLoading = false;
                     });
             })
             .catch((error) => {
