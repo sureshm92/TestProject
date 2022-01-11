@@ -907,6 +907,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.totalRecordCount = totalRecordCount;
                             delegateWrap.DelegateAgeOfMajority = DelegateAgeOfMajority; 
                             delegateWrap.DelegateYOB = DelegateYOB;
+                            delegateWrap.isParticipantAdult = participant.Adult__c;
                             delegateWrapList.add(delegateWrap);
                             patientdelegateUpdateList.add(delegateWrap);
                         }
