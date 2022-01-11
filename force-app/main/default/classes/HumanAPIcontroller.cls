@@ -295,6 +295,9 @@ public with sharing class HumanAPIcontroller {
               {
                   return 'EmailError';
               }
+              else{
+                email = objParticipantDelegate.Email__c;
+              }
               
           }
           else{
