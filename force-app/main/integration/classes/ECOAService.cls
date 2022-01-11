@@ -111,6 +111,8 @@ public with sharing class ECOAService {
                         peObj.Subject_GUID__c = respBody;
                         // pesToUpdate.add(peObj);
                         sObjectsList.add(peObj);
+                    }
+                    if (remoteCall.log != null) {
                         sObjectsList.add(remoteCall.log);
                     }
                 }
