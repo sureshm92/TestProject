@@ -722,6 +722,10 @@
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
+        <relatedList>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Override_Study_Site_Recruitment_Status__c</fields>
         <relatedList>Study_Site__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
