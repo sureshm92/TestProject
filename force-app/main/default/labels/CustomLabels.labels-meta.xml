@@ -10222,6 +10222,13 @@ The expected format is REF##### to REF########</value>
         <value>Dashboard</value>
     </labels>
     <labels>
+        <fullName>Navigation_eDiary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation_eDiary</shortDescription>
+        <value>eDiaries</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Help</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18816,6 +18823,13 @@ communications using the toggles below.</value>
         <value>High Risk</value>
     </labels>
     <labels>
+        <fullName>RH_HumanAPIError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_HumanAPIError</shortDescription>
+        <value>Oops! Something went wrong, Please contact Admin</value>
+    </labels>
+    <labels>
         <fullName>RH_InitialVisitScheduled</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18870,6 +18884,41 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Notification</shortDescription>
         <value>Notification preferences</value>
+    </labels>
+    <labels>
+        <fullName>RH_RequestMedicalBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RequestMedicalBtn</shortDescription>
+        <value>Request Medical Records</value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRecordAuthorized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
+        <value>Authorization Requested on: </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRecordProvider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRecordProvider</shortDescription>
+        <value>Medical Records Providers  </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRetrieve_EmailError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
+        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRetrive_Succces</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRetrive_Succces</shortDescription>
+        <value>We have notified the patient to authorize medical vendor(s)  </value>
     </labels>
     <labels>
         <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
@@ -21225,6 +21274,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Info</shortDescription>
         <value>Study Info</value>
+    </labels>
+    <labels>
+        <fullName>Study_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_GUID_Error_Message</shortDescription>
+        <value>Please enter Study GUID.</value>
+    </labels>
+    <labels>
+        <fullName>Study_Version_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Version_GUID_Error_Message</shortDescription>
+        <value>Please enter Study Version GUID.</value>
     </labels>
     <labels>
         <fullName>Summary_View</fullName>
