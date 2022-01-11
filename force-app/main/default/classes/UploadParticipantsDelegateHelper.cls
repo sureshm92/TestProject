@@ -346,8 +346,28 @@ public without sharing class UploadParticipantsDelegateHelper {
                  Participant__c participantDelegate = new Participant__c();
                  if(ddInfo != null && ddInfo.participantId != null){
                    participantDelegate.Id = ddInfo.participantId;
-                   participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
-                   participantUpdateMap.put(participantDelegate.Id,participantDelegate);
+                   		participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                     
+                     if (pWrapper.isParticipantAdult == false && !String.isBlank(pWrapper.DelegatePhoneNo)) {
+                         participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                         participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
+                         participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                         participantDelegate.Alternative_Phone_Type__c = 'Home';
+                     } else if (
+                         pWrapper.isParticipantAdult == false && String.isBlank(pWrapper.DelegatePhoneNo)
+                     ) {
+                         participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
+                         participantDelegate.Phone_Type__c = 'Home';
+                         participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                         participantDelegate.Alternative_Phone_Type__c = 'Home';
+                     } else if (
+                         pWrapper.isParticipantAdult == true && String.isBlank(pWrapper.DelegatePhoneNo)
+                     ) {
+                         participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
+                         participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
+                     }
+ 
+                    participantUpdateMap.put(participantDelegate.Id,participantDelegate);
                    }
         }
          try{
@@ -383,5 +403,6 @@ public without sharing class UploadParticipantsDelegateHelper {
         public Integer totalRecordCount;
         public String DelegateAgeOfMajority;
         public String DelegateYOB;
+        public Boolean isParticipantAdult;
     }
 }
