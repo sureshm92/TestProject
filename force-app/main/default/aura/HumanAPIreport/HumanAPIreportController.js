@@ -45,7 +45,7 @@
             email: component.get("v.pe").Participant__r.Email__c,
             peId: component.get("v.pe").Id,
             ParticipantId : component.get("v.pe").Participant__c,
-            isAdult : component.get("v.pe").Participant__r.Adult__c 
+              isAdult : component.get("v.pe").Participant__r.Adult__c 
           },
           function (returnvalue) {
               if(returnvalue != 'EmailError'){
@@ -72,7 +72,7 @@
                   toastEvent.setParams({
                       title: "Requested Not Completed",
                       type: "Error",
-                      message: "Oops! Something went wrong, Please contact Admin"
+                      message: $A.get('$Label.c.RH_HumanAPIError') 
                   });
                   toastEvent.fire();
                   }

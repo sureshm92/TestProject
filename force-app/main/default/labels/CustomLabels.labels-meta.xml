@@ -18823,6 +18823,13 @@ communications using the toggles below.</value>
         <value>High Risk</value>
     </labels>
     <labels>
+        <fullName>RH_HumanAPIError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_HumanAPIError</shortDescription>
+        <value>Oops! Something went wrong, Please contact Admin</value>
+    </labels>
+    <labels>
         <fullName>RH_InitialVisitScheduled</fullName>
         <language>en_US</language>
         <protected>false</protected>
