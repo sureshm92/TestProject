@@ -9,6 +9,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ecoaDiariesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5407,6 +5411,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.HCP_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Subject_GUID__c </field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
