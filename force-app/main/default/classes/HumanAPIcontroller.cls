@@ -344,6 +344,12 @@ public with sharing class HumanAPIcontroller {
         reqWrap.type = 'session';
 
         String requestBody = JSON.serialize(reqWrap);
+        IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+          objIntegrationLog.Request_Body__c = requestBody;
+          objIntegrationLog.Request_Time__c  = Datetime.now();
+          objIntegrationLog.Request_Type__c = 'SiteMediaRequest_HumanAPICallout_GenerateHumanId';
+          objIntegrationLog.Function_Name__c = 'HumanAPIcontroller_requestMedicalRecords';
+          objIntegrationLog.Http_Method__c = 'POST';
 
         Http h = new HTTP();
         HTTPRequest req = new HTTPRequest();
@@ -355,13 +361,17 @@ public with sharing class HumanAPIcontroller {
         HTTPResponse resp = h.send(req);
         System.debug('###### resp ' + resp);
         System.debug('###### resp ' + resp.getBody());
+        objIntegrationLog.Response_Body__c = resp.getBody();
+        objIntegrationLog.Response_Status__c = resp.getStatus();
+        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
+          
         if (resp.getStatusCode() == 200) {
           ResponseWrapperTokenRegister deserializedResponseWrapperToken = (ResponseWrapperTokenRegister) JSON.deserialize(
             resp.getBody(),
             ResponseWrapperTokenRegister.class
           );
           humanId = deserializedResponseWrapperToken.human_id;
-          
+          objIntegrationLog.Success__c = true;
           Participant_Enrollment__c p = new Participant_Enrollment__c(
             Id = peId,
             Human_Id__c = humanId,
@@ -377,20 +387,11 @@ public with sharing class HumanAPIcontroller {
           strMessage = 'true';
         }
           else{
-              IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-              objIntegrationLog.Request_Body__c = requestBody;
-              objIntegrationLog.Request_Time__c  = Datetime.now();
-              objIntegrationLog.Response_Body__c = resp.getBody();
-              objIntegrationLog.Response_Status__c = resp.getStatus();
-              objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-              objIntegrationLog.Request_Type__c = 'SiteMediaRequest_HumanAPICallout_GenerateHumanId';
-              objIntegrationLog.Function_Name__c = 'HumanAPIcontroller_requestMedicalRecords';
               objIntegrationLog.Success__c = false;
-              objIntegrationLog.Http_Method__c = 'POST';
-              insert objIntegrationLog;
               strMessage = 'APIError';
-              
           }
+         insert objIntegrationLog;
+          
       }
     } else {
       Participant_Enrollment__c p = new Participant_Enrollment__c(
