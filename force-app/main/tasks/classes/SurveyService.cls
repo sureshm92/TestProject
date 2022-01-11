@@ -115,7 +115,7 @@ public without sharing class SurveyService {
             if(ts.Reminder_in_days_before_the_end_date__c != null){
                 days = Integer.valueOf(ts.Reminder_in_days_before_the_end_date__c);
                 reminderDate = endDate.addDays(-days);
-                remTime = Time.newInstance(11, 0, 0, 0);
+                remTime = Time.newInstance(9, 30, 0, 0);
             }
             
         	Integer offsetSeconds = 0;
