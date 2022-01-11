@@ -1,6 +1,6 @@
-{ 
+{
   "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
-  "componentName" : "c:EmptyLayout",
+  "componentName" : "siteforce:sldsTwoCol48Layout",
   "id" : "8135643c-302f-47ab-a0c3-3c45b52aadda",
   "label" : "eDiaries",
   "regions" : [ {
@@ -34,20 +34,8 @@
     "id" : "a4da6982-31ca-47d8-96dc-fd1b21397172",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
-  }, {
-    "components" : [ {
-      "componentAttributes" : { },
-      "componentName" : "c:viewEcoaDiaries",
-      "id" : "7af78bca-159a-4d51-9fe7-21d990745f2f",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
-    "id" : "fba4ea5d-9258-44c6-821c-5d5a974187c7",
-    "regionName" : "column1",
-    "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
   "viewType" : "custom-e-diaries"
-}
+} 
