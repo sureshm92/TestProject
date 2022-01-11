@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Patient Profile"
       },
       "componentName" : "forceCommunity:seoAssistant",

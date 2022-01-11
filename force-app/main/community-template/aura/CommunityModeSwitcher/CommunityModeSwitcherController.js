@@ -51,6 +51,7 @@
                         function (userVisibility) {
                             communityService.setMessagesVisible(userVisibility.messagesVisible);
                             communityService.setTrialMatchVisible(userVisibility.trialMatchVisible);
+                            communityService.setEDiaryVisible(userVisibility.eDiaryVisible);
                             component.set('v.allModes', modes);
                             component.getEvent('onModeChange').fire();
                             component.find('pubsub').fireEvent('reload');

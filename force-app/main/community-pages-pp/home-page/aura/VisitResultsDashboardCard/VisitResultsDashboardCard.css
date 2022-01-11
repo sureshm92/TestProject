@@ -59,8 +59,9 @@
 }
 .THIS .visit-results-container {
     display: flex;
-    padding: 15px 5px 0;
-    justify-content: space-around;
+    padding: 15px 2px;
+    justify-content: space-between;
+    overflow-x: scroll;
 }
 
 .THIS .visit-results-item {
