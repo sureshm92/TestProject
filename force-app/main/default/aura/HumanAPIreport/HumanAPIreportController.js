@@ -48,7 +48,7 @@
               isAdult : component.get("v.pe").Participant__r.Adult__c 
           },
           function (returnvalue) {
-              if(returnvalue != 'EmailError'){
+              if(returnvalue == 'true'){
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                   title: "Requested Successfully",

@@ -93,6 +93,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateECOASubject</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_SendDelegateEMailForNewReferrals</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3543,6 +3547,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Drug_Usage__c.Primary_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.ClinroRuleSetGuid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.EproRuleSetGuid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8411,6 +8430,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ECOA_Study_Schedule__c-ECOA Study Schedule Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>EmailMessage-Email Message Layout</layout>
