@@ -3996,6 +3996,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>IntegrationLog__c.Request_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>IntegrationLog__c.Request_Time__c</field>
         <readable>false</readable>
@@ -5318,6 +5323,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.RequestedMedicalRecords__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
