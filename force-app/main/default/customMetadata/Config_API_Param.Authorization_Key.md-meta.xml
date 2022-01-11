@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Authorization Key</label>
+    <protected>false</protected>
+    <values>
+        <field>ConfigAPI__c</field>
+        <value xsi:type="xsd:string">ECOAIntegration</value>
+    </values>
+    <values>
+        <field>ParamValue__c</field>
+        <value xsi:type="xsd:string">Key key_f3e88951-a65d-4aa0-a950-18a6012be6ca:277d0fca238b29b7fedf11f08e3b1d9ec27214fa8f1927ffaeadf3795101f59a</value>
+    </values>
+</CustomMetadata>

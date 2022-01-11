@@ -593,10 +593,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ecoaDiariesController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5961,11 +5957,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Subject_GUID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment__c.Terms_and_Conditions_Accepted_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9661,7 +9652,7 @@
         <recordType>Contact.MASTER</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
+    <!--<recordTypeVisibilities>
         <default>false</default>
         <recordType>Metric.Completion</recordType>
         <visible>true</visible>
@@ -9670,7 +9661,7 @@
         <default>true</default>
         <recordType>Metric.Progress</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>
+    </recordTypeVisibilities>-->
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Res_study__c.Study_Resource</recordType>
@@ -10541,4 +10532,4 @@
         <enabled>true</enabled>
         <name>WorkCalibrationUser</name>
     </userPermissions>
-</Profile>  
+</Profile>

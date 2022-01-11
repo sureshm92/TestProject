@@ -1,6 +1,6 @@
-{ 
+{
   "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "componentName" : "c:EmptyLayout",
+  "componentName" : "siteforce:sldsTwoCol48Layout",
   "id" : "f82d5fc5-0700-458c-9d6b-5b82d93ff08a",
   "label" : "eDiaries",
   "regions" : [ {
@@ -12,14 +12,6 @@
     "regionName" : "sidebar",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : { },
-      "componentName" : "c:viewEcoaDiaries",
-      "id" : "b0989857-4b9f-41cd-baba-311f7d379339",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "41845819-0238-45a8-a992-08c145663099",
     "regionName" : "content",
     "type" : "region"
@@ -42,20 +34,8 @@
     "id" : "1b49086d-6cb4-4f56-bdfc-e62aa91f98ab",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
-  }, {
-    "components" : [ {
-      "componentAttributes" : { },
-      "componentName" : "c:viewEcoaDiaries",
-      "id" : "a2d100ee-9852-4338-b246-6f98ea29ca2d",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
-    "id" : "c28fdd52-2002-4d8c-8c34-c96da1af3f4d",
-    "regionName" : "column1",
-    "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
   "viewType" : "custom-e-diaries"
-}
+} 

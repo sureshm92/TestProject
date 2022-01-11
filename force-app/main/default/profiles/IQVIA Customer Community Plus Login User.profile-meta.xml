@@ -8,10 +8,6 @@
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>ecoaDiariesController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
 	 <classAccesses>
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
@@ -5410,11 +5406,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant_Enrollment__c.Subject_GUID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Study_ID__c</field>
         <readable>false</readable>
@@ -8422,7 +8413,7 @@
         <recordType>Contact.MASTER</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
+    <!--<recordTypeVisibilities>
         <default>false</default>
         <recordType>Metric.Completion</recordType>
         <visible>true</visible>
@@ -8431,7 +8422,7 @@
         <default>true</default>
         <recordType>Metric.Progress</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>
+    </recordTypeVisibilities>-->
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Res_study__c.Study_Resource</recordType>
@@ -8754,4 +8745,4 @@
         <enabled>true</enabled>
         <name>WorkDotComUserPerm</name>
     </userPermissions>
-</Profile>  
+</Profile>
