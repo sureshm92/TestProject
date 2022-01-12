@@ -75,6 +75,7 @@
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
+    padding: 10px 0;
 }
 
 .THIS .slds-datepicker table {
