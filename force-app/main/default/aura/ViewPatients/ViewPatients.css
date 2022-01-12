@@ -174,9 +174,7 @@
   color: #000000 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
-  text-overflow:ellipsis !important ;
-  overflow:hidden !important;
-  /*width:260px !important;*/
+  
 }
 
 .THIS .greaterThanIcons svg {
