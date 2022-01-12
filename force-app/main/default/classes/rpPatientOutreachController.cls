@@ -76,6 +76,7 @@ public without sharing class rpPatientOutreachController {
             }    
             else if(!isError){
                 peRec.Outreach_Email_Status__c = 'Submitted';
+                peRec.Outreach_Mail_Sent__c = 'Yes';
                 submittedPEs.add(peRec);
             }
         }     
