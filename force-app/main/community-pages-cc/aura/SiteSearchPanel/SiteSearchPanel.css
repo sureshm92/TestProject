@@ -8,6 +8,7 @@
 .THIS .ssp-label {
     letter-spacing: 0;
     align-self: center;
+    width:99px;
 }
 
 .THIS .ssp-content {
@@ -18,9 +19,9 @@
 
 .THIS .ssp-select {
     position: relative;
-    width: 200px;
+    width: 220px;
     margin-top: -3px;
-    margin-left: -16px;
+    /*margin-left: -16px;*/
 }
 
 .THIS .ssp-selectRTL {
@@ -41,8 +42,8 @@
 
 .THIS .ssp-sort-list {
     width: 220px;
-    margin-left: 20px;
-    padding-left: 20px;
+   /* margin-left: 20px;
+    padding-left: 20px;*/
 }
 .THIS .ssp-sort-listRTL {
     width: 67%;

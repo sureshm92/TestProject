@@ -21,7 +21,7 @@
       <div class="headerdiv">
         <div class="slds-grid">
           <div class="slds-col slds-size--8-of-12">
-            <span>Medical Records Providers</span>
+            <span>{!$Label.c.RH_MedicalRecordProvider}</span>
           </div>
           <div class="slds-col slds-size--4-of-12 highlights">
             <span class="slds-truncate fontStyle" style="float: right">
@@ -82,15 +82,15 @@
             <div>No Medical Reports Available</div>
             </div>
         </div> -->
-      <div class="maindiv slds-border_bottom" style="display: none;">
+        <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
           <div class="slds-grid">
             <div class="slds-col slds-size--8-of-12">
-              <span>Medical Records Providers</span>
+              <span>{!$Label.c.RH_MedicalRecordProvider}</span>
               <aura:iteration items="{!v.requestHistory}" var="item">
                 <div>
                   <span style="font-size: 1rem; font-weight: 500"
-                    >Authorization Requested on:
+                    >{!$Label.c.RH_MedicalRecordAuthorized}
                     <lightning:formattedDateTime
                       value="{!item.NewValue}"
                       year="numeric"
@@ -107,7 +107,7 @@
                 <lightning:button
                   class="apollo-btn primary slds-button--neutral"
                   onclick="{!c.requestRecords}"
-                  >Request Medical Records</lightning:button
+                  >{!$Label.c.RH_RequestMedicalBtn}</lightning:button
                 >
               </span>
             </div>

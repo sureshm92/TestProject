@@ -2,285 +2,139 @@
 public class Test_Batch_SendDelgtEmailForNewReferrals {
     @isTest
     private static void ReceivedPIsCreated_NoBatchNotificationsCreated() {
-        //initData();
-       Test.startTest();
-        DataBase.executeBatch(new Batch_SendDelegateEmailForNewReferrals());
-        Test.stopTest();
+        initData();
+       //Test.startTest();
+        //datetime.newInstance(2014, 9, 15, 13, 30, 0);
+        DataBase.executeBatch(new Batch_SendDelegateEmailForNewReferrals(datetime.newInstance(2020, 9, 15, 6, 45, 0)));
+        //Test.stopTest();
     }
 
     private static void initData() {
-     Test.startTest();
-        delete [SELECT Id FROM Participant__c];
-        delete [SELECT Id FROM Resource__c];
-        delete [SELECT Id FROM Resource_Action__c];
+        
+          Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
+        insert portalTC;
 
-        ClassFactory.clearStubTypesByClassNamesMap();
-        Id cOIRecordTypeId = SchemaUtil.getRecordTypeIdByName(
-            TherapeuticAreaService.COI_RT_NAME,
-            Therapeutic_Area__c.getSObjectType()
+        List<Account> accounts = new List<Account>();
+        Account participantsAccount = new Account(
+            Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
-        Id tARecordTypeId = SchemaUtil.getRecordTypeIdByName(
-            TherapeuticAreaService.TA_RT_NAME,
-            Therapeutic_Area__c.getSObjectType()
-        );
+        insert participantsAccount;
 
-        Id articleRecordType = SchemaUtil.getRecordTypeIdByName(
-            ResourceService.RESOURCE_TYPE_ARTICLE,
-            Resource__c.getSObjectType()
-        );
-        Id videoRecordType = SchemaUtil.getRecordTypeIdByName(
-            ResourceService.RESOURCE_TYPE_VIDEO,
-            Resource__c.getSObjectType()
-        );
-        Id studyDocumentRecordType = SchemaUtil.getRecordTypeIdByName(
-            ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT,
-            Resource__c.getSObjectType()
-        );
+        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        User admin = [
+            SELECT Id, Username, UserRoleId
+            FROM User
+            WHERE
+                Profile.Name = 'System Administrator'
+                AND UserRoleId = :userRole_1.Id
+                AND IsActive = TRUE
+            LIMIT 1
+        ];
+        User user_1;
+        Contact contact_1;
+        Account account_1;
+        System.runAs(admin) {
+            account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+            insert account_1;
 
-        Map<String, Account> accountsByTypes = new Map<String, Account>();
-        accountsByTypes.put(
-            'Common',
-            (Account) TestDataFactory.getSObject(Account.getSObjectType())
-        );
-        accountsByTypes.put(
-            'Participant',
-            (Account) TestDataFactory.getSObject(
-                Account.getSObjectType(),
-                new Map<String, Object>{ 'Name' => 'Participant' }
-            )
-        );
-        insert accountsByTypes.values();
+            contact_1 = new Contact(AccountId = account_1.Id, LastName = 'xgeek');
+            insert contact_1;
 
-        Contact piContact = (Contact) TestDataFactory.getSObject(
-            Contact.getSObjectType(),
-            new Map<String, Object>{
-                'AccountId' => accountsByTypes.get('Common').Id,
-                'LastName' => 'portalTestUser1',
-                'Email' => 'some@email.com'
-            }
-        );
-        insert piContact;
+            user_1 = new User(
+                Email = 'yourusername@gmail.com',
+                ProfileId = profile_1.Id,
+                UserName = 'yourusername@gmail.com',
+                Alias = 'Test',
+                TimeZoneSidKey = 'America/New_York',
+                EmailEncodingKey = 'ISO-8859-1',
+                LocaleSidKey = 'en_US',
+                LanguageLocaleKey = 'en_US',
+                ContactId = contact_1.Id,
+                PortalRole = 'Manager',
+                FirstName = 'Firstname',
+                LastName = 'Lastname'
+            );
+            insert user_1;
+        }
+        Test.startTest();
+      
 
-        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(
-            Participant__c.getSObjectType(),
-            new Map<String, Object>{
-                'Contact__c' => piContact.Id // TODO Contact__c mustn't be piContact
-            }
+        Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+            Protocol_ID__c = 'tt123456790',
+            Override_Recruitment_Status__c = 'Actively Enrolling',
+            NCT_Number__c = 'NCT00000002',
+            Link_to_Pre_screening__c = 'some link',
+            Study_Title__c = 'Some Title',
+            Study_Code_Name__c = 'Some Code Name',
+            Suppress_Participant_Emails__c = false
         );
-        insert singleParticipant;
+        insert clinical;
 
-        Map<String, Resource__c> resourcesByTypes = new Map<String, Resource__c>();
-        resourcesByTypes.put(
-            'Article_Platform',
-            (Resource__c) TestDataFactory.getSObject(
-                Resource__c.getSObjectType(),
-                new Map<String, Object>{
-                    'Content_Class__c' => ResourceService.RESOURCE_SOURCE_PLATFORM,
-                    'Title__c' => 'Resource 1',
-                    'RecordTypeId' => articleRecordType
-                }
-            )
-        );
-        resourcesByTypes.put(
-            'Video_Platform',
-            (Resource__c) TestDataFactory.getSObject(
-                Resource__c.getSObjectType(),
-                new Map<String, Object>{
-                    'Content_Class__c' => ResourceService.RESOURCE_SOURCE_PLATFORM,
-                    'Title__c' => 'Resource 2',
-                    'RecordTypeId' => videoRecordType
-                }
-            )
-        );
-        resourcesByTypes.put(
-            'Article_Study',
-            (Resource__c) TestDataFactory.getSObject(
-                Resource__c.getSObjectType(),
-                new Map<String, Object>{
-                    'Content_Class__c' => ResourceService.RESOURCE_SOURCE_STUDY,
-                    'Title__c' => 'Resource 3',
-                    'RecordTypeId' => articleRecordType
-                }
-            )
-        );
-        resourcesByTypes.put(
-            'Article_Third_Party',
-            (Resource__c) TestDataFactory.getSObject(
-                Resource__c.getSObjectType(),
-                new Map<String, Object>{
-                    'Content_Class__c' => ResourceService.RESOURCE_SOURCE_THIRD_PARTY,
-                    'Title__c' => 'Resource 4',
-                    'RecordTypeId' => articleRecordType
-                }
-            )
-        );
-        resourcesByTypes.put(
-            'Study_Document',
-            (Resource__c) TestDataFactory.getSObject(
-                Resource__c.getSObjectType(),
-                new Map<String, Object>{
-                    'document_type__c' => ResourceService.RESOURCE_TYPE_DOCUMENT,
-                    'Title__c' => 'Resource 5',
-                    'RecordTypeId' => studyDocumentRecordType
-                }
-            )
-        );
-        insert resourcesByTypes.values();
-
-        Map<String, Therapeutic_Area__c> tAsByNames = new Map<String, Therapeutic_Area__c>();
-        tAsByNames.put(
-            'COI 1',
-            new Therapeutic_Area__c(RecordTypeId = cOIRecordTypeId, Name = 'COI 1')
-        );
-        tAsByNames.put(
-            'COI 2',
-            new Therapeutic_Area__c(RecordTypeId = cOIRecordTypeId, Name = 'COI 2')
-        );
-        tAsByNames.put(
-            'TA 1',
-            new Therapeutic_Area__c(RecordTypeId = tARecordTypeId, Name = 'TA 1')
-        );
-        insert tAsByNames.values();
-
-        List<Therapeutic_Area_Patient__c> tAPs = new List<Therapeutic_Area_Patient__c>();
-        tAPs.add(
-            new Therapeutic_Area_Patient__c(
-                Participant__c = singleParticipant.Id,
-                Therapeutic_Area__c = tAsByNames.get('COI 1').Id,
-                Condition_Of_Interest_Order__c = 1
-            )
-        );
-        tAPs.add(
-            new Therapeutic_Area_Patient__c(
-                Participant__c = singleParticipant.Id,
-                Therapeutic_Area__c = tAsByNames.get('COI 2').Id,
-                Condition_Of_Interest_Order__c = 2
-            )
-        );
-        insert tAPs;
-
-        Clinical_Trial_Profile__c clinicalTrialProfile = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
-            Clinical_Trial_Profile__c.getSObjectType(),
-            new Map<String, Object>{ 'Therapeutic_Area__c' => tAsByNames.get('TA 1').Id }
-        );
-        insert clinicalTrialProfile;
-
-        Study_Site__c studySite = (Study_Site__c) TestDataFactory.getSObject(
-            Study_Site__c.getSObjectType(),
-            new Map<String, Object>{
-                'Clinical_Trial_Profile__c' => clinicalTrialProfile.Id,
-                'Site__c' => accountsByTypes.get('Common').Id,
-                'Principal_Investigator__c' => piContact.Id,
-                'Override_PI_Referral_Status__c' => 'Invitation Sent'
-            }
+        Study_Site__c studySite = new Study_Site__c(
+            Name = 'Test',
+            Study_Site_Phone__c = '0000034445',
+            Principal_Investigator__c = contact_1.Id,
+            Clinical_Trial_Profile__c = clinical.Id,
+            Site__c = account_1.Id,
+            Study_Site_Type__c = 'Traditional',
+            Suppress_Participant_Emails__c = false,
+            Override_PI_Referral_Status__c = 'Accepted'
         );
         insert studySite;
 
-        Participant_Enrollment__c enrollment = (Participant_Enrollment__c) TestDataFactory.getSObject(
-            Participant_Enrollment__c.getSObjectType(),
-            new Map<String, Object>{
-                'Medical_Record_Review_Status__c' => 'Pass',
-                'Pre_screening_Status__c' => 'Pass',
-                'Participant_Name__c' => singleParticipant.First_Name__c,
-                'Participant_Surname__c' => singleParticipant.Last_Name__c,
-                'Patient_ID__c' => '12345678',
-                'Participant_Status__c' => 'Received',
-                'Referral_Source__c' => 'HCP',
-                'Study_Site__c' => studySite.Id,
-                'Participant__c' => singleParticipant.Id
-            }
+        HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
+            Study_Site__c = studySite.Id,
+            HCP_Contact__c = contact_1.Id,
+            Status__c = HCPEnrollmentService.HCP_S_ACTIVATION_PENDING
         );
-        insert enrollment;
+        insert hcpEnrollment;
 
-        List<Therapeutic_Area_Assignment__c> assignments = new List<Therapeutic_Area_Assignment__c>();
-        assignments.add(
-            new Therapeutic_Area_Assignment__c(
-                Resource__c = resourcesByTypes.get('Article_Platform').Id,
-                Therapeutic_Area__c = tAsByNames.get('COI 1').Id
-            )
+        Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'part1@email.com',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            age__c = 23,
+            site__c = account_1.id,
+            Gender_Technical__c = 'Male',
+            // Present_Age__c = 24,
+            Adult__c = true,
+            Ethnicity__c = ''
         );
-        assignments.add(
-            new Therapeutic_Area_Assignment__c(
-                Resource__c = resourcesByTypes.get('Video_Platform').Id,
-                Therapeutic_Area__c = tAsByNames.get('COI 2').Id
-            )
-        );
-        assignments.add(
-            new Therapeutic_Area_Assignment__c(
-                Resource__c = resourcesByTypes.get('Article_Third_Party').Id,
-                Therapeutic_Area__c = tAsByNames.get('COI 2').Id
-            )
-        );
-        insert assignments;
+        insert participant;
 
-        List<Res_study__c> resStudies = new List<Res_study__c>();
-        resStudies.add(
-            new Res_study__c(
-                Clinical_Trial_Profile__c = clinicalTrialProfile.Id,
-                Resource__c = resourcesByTypes.get('Article_Study').Id
-            )
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
+            HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = contact_1.Id,
+            Initial_visit_scheduled_date__c = date.today(),
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId1',
+            Referral_Source__c = 'HCP',
+            Source_Type__c = 'Referring Provider',
+            HighRisk_Indicator__c = 'Yes',
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR1',
+            Comorbidities__c = 'Yes'
         );
-        resStudies.add(
-            new Res_study__c(
-                Clinical_Trial_Profile__c = clinicalTrialProfile.Id,
-                Resource__c = resourcesByTypes.get('Study_Document').Id
-            )
-        );
-        insert resStudies;
-
-        List<Participant__c> participants = [
-            SELECT Id, Contact__c
-            FROM Participant__c
-            WHERE Id = :singleParticipant.Id
-        ];
-        System.assertEquals(1, participants.size());
-
-        List<User> users = [SELECT Id FROM User WHERE ContactId = :participants[0].Contact__c];
-        System.assertEquals(1, users.size());
-
-        Contact delegateContact = (Contact) TestDataFactory.getSObject(
-            Contact.getSObjectType(),
-            new Map<String, Object>{
-                'AccountId' => accountsByTypes.get('Common').Id,
-                'LastName' => 'portalTestUser1',
-                'Email' => 'some@email.com'
-            }
-        );
-        insert delegateContact;
+        insert pe;
+        
         Site_Staff__c siteStaff = new Site_Staff__c();
-        siteStaff.Site_Contact__c = delegateContact.Id;
+        siteStaff.Site_Contact__c = contact_1.Id;
         siteStaff.Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1;
         siteStaff.Study_Site__c = studySite.Id;
+        siteStaff.is_Invited__c = true;
         insert siteStaff;
-
-        List<Resource__Share> shares = new List<Resource__Share>();
-        for (Resource__c singleResource : resourcesByTypes.values()) {
-            shares.add(
-                new Resource__Share(
-                    ParentId = singleResource.Id,
-                    UserOrGroupId = users[0].Id,
-                    AccessLevel = 'Edit'
-                )
-            );
-        }
-        insert shares;
-
-        List<Resource_Action__c> resourceActions = new List<Resource_Action__c>();
-        resourceActions.add(
-            new Resource_Action__c(
-                Resource__c = resourcesByTypes.get('Article_Platform').Id,
-                IsFavorite__c = true,
-                Participant__c = singleParticipant.Id
-            )
-        );
-        resourceActions.add(
-            new Resource_Action__c(
-                Resource__c = resourcesByTypes.get('Video_Platform').Id,
-                IsFavorite__c = true,
-                Participant__c = singleParticipant.Id
-            )
-        );
-        insert resourceActions;
-         Test.stopTest();
+      
+        
     }
 }

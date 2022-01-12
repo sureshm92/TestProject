@@ -59,10 +59,9 @@
 }
 .THIS .visit-results-container {
     display: flex;
-    /*padding: 15px 0;*/
-    padding: 15px 5px 0 0;
-    /* justify-content: space-evenly; */
-    overflow-x: auto;
+    padding: 15px 2px;
+    justify-content: space-between;
+    overflow-x: scroll;
 }
 
 .THIS .visit-results-item {
@@ -168,28 +167,8 @@
 }
 .THIS .visit-results-containerRTL {
     display: flex;
-    /* justify-content: space-around; */
-    overflow-x: auto;
+    justify-content: space-around;
     padding-left: 6px;
-}
-
-.THIS ::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
-}
-.THIS ::-webkit-scrollbar-thumb {
-    width: 4px;
-    border-radius: 4px;
-    background-color: #999999;
-    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.16);
-    height: 100px;
-}
-.THIS ::-webkit-scrollbar-track {
-    display: none;
-}
-
-.THIS ::-webkit-scrollbar-button {
-    height: 0;
 }
 
 @media all and (max-width: 500px) {

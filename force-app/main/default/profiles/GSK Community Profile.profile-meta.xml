@@ -8,6 +8,10 @@
         <apexClass>LibraryRPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
@@ -150,6 +154,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateBecomeAdultNotification</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreateECOASubject</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

@@ -323,6 +323,7 @@ public without sharing class TaskService {
             SELECT
                 Id,
                 ExpireDateTime__c,
+                ReminderDateTime__c,
                 Participant_Enrollment__r.Participant_Contact__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Reminder_Schedule__c,
@@ -336,8 +337,12 @@ public without sharing class TaskService {
 
         Set<Id> contactIds = new Set<Id>();
          List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
-        for (SurveyInvitation inv : surveyInvitation)
-            contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+        for (SurveyInvitation inv : surveyInvitation){
+            if(inv.Participant_Enrollment__r.Participant_Contact__c != null){
+                contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+            }
+        }
+            
         if(!contactIds.isEmpty()){
               patientDelegates = [
                 SELECT Id, Contact__c, Participant__r.Contact__c
@@ -446,18 +451,14 @@ public without sharing class TaskService {
                             Datetime.now().timeGmt(),  
                             userTZ
                         );
-
-                    tsc.startDate = userDatetime.dateGMT();
+					tsc.startDate = userDatetime.dateGMT();
                     if (inv.ExpireDateTime__c != null) {
-                        Date expiryDate = inv.ExpireDateTime__c.date();
-                        Integer daysBetween = Date.today().daysBetween(expiryDate);
-                        tsc.activityDate = Datetime.now().addDays(daysBetween);
+                        tsc.activityDate = inv.ExpireDateTime__c;
                     }
 
-                    if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
-                        Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                        tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
-                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                    if (inv.ReminderDateTime__c != null) {
+                        tsc.reminderDatetime = inv.ReminderDateTime__c;
+                        tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
                 }
 

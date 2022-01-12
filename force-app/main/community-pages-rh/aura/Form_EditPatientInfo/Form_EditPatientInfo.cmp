@@ -42,7 +42,8 @@
     <aura:attribute name="isEmailConfrmBtnClick" type="Boolean"  />
     <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" /> 
     <aura:attribute name="isEmailForPartRequired" type="Boolean"  /> 
-    
+    <aura:attribute name="isVisitPlanAssigned" type="Boolean"/>
+
     
     <aura:attribute name="yob" type="List" /> <!--Added by Vikrant -->
     <aura:attribute name="attestAge" type="Boolean" default="false" /> <!--Added by Vikrant -->
@@ -52,7 +53,7 @@
     <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
     <aura:attribute name="isBulkImport" type="Boolean"/>
     <aura:attribute name="isBulkImportOld" type="Boolean"/>
-    
+    <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean"/>
     
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="emailDelegate" type="String" />
@@ -908,7 +909,7 @@
                             {!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details :
                             $Label.c.PG_AP_H_Referral_Information}
                         </div></div>
-                    <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-grid slds-gutters slds-wrap slds-grid_vertical-align-end">
                         <aura:if isTrue="{!!v.updateMode}">
                             <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
@@ -971,7 +972,7 @@
                                      > 
                                     
                                     
-                                    <div class="label" style="width: 300px;">
+                                    <div class="label" style="width: auto;">
                                         <aura:if isTrue="{!v.screeningRequired}">
                                             <abbr title="required" class="slds-required">*</abbr>
                                         </aura:if>
@@ -1103,19 +1104,23 @@
                                                      />
                                 </div>
                             </aura:if>
-                            
-                            <aura:if isTrue="{!v.pe.Visit_Plan__c}">
+
+                            <aura:if isTrue="{!or(v.pe.Visit_Plan__c,v.formData.visitPlansLVList.length >0)}">
                                 <div
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
+                                     class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 visit-plan-display"
                                      >
                                     <div class="label">{!$Label.c.FD_PE_Field_Arm_Cohort}</div>
-                                    <lightning:input
-                                                     aura:id="VisitPlanID"
-                                                     type="text"
-                                                     value="{!v.pe.Visit_Plan__r.Name}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     disabled="true"
-                                                     />
+                                    
+                                    <c:rrSelect
+                                                options="{!v.formData.visitPlansLVList}"
+                                                disabled="{!and(v.isOneVisitPlanAvailableAndSelected!=true,v.pe.Visit_Plan__c &amp;&amp; or(v.formData.visitPlansLVList.length ==1,v.formData.visitPlansLVList.length ==0))}"
+                                                value="{!v.pe.Visit_Plan__c}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                useSentenceFont="false"
+                                                onchange="{!c.doCheckFields}"
+                                                setValueAsSelected="true"
+                                                />
+                                    
                                 </div>
                             </aura:if>
                         </div>

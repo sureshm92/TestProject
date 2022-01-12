@@ -20,6 +20,38 @@ private class Test_TrialMatchLearnMoreLinkPDF {
         }
         Test.stopTest();
     }
+     @IsTest //getBase64LearnMoreData
+    static void testQuery_getBase64LearnMoreData() {
+        Test.startTest();
+        Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
+            Study_Code_Name__c = 'Test Code',
+            Detailed_Description__c = 'Test Description',
+            Protocol_ID__c = System.now() + 'Test'
+        );
+        insert ctp;
+         try {
+            TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData(ctp.Id);
+        } catch (Exception e) {
+            System.debug('Exception Handing');
+        }
+        Test.stopTest();
+    }
+    @IsTest //getBase64LearnMoreData
+    static void testQuery_getBase64LearnMoreDataNegative() {
+        Test.startTest();
+        Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
+            Study_Code_Name__c = 'Test Code',
+            Detailed_Description__c = 'Test Description',
+            Protocol_ID__c = System.now() + 'Test'
+        );
+        insert ctp;
+         try {
+            TrialMatchLearnMoreLinkPDF.getBase64LearnMoreData('');
+        } catch (Exception e) {
+            System.debug('Exception Handing');
+        }
+        Test.stopTest();
+    }
 
     //This method tests CTP query
     @IsTest

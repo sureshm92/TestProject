@@ -11,7 +11,7 @@ SonarCheck:
       refs: 
         - merge_requests
       variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF|^master/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -97,7 +97,7 @@ Validate:
          }
          get_mr_parent
          export PARENT
-         echo 'y' | sfdx plugins:install sfdx-git-delta
+         #echo 'y' | sfdx plugins:install sfdx-git-delta
          sfdx sgd:source:delta --to "HEAD" --from $PARENT --output "."
          echo "--- package.xml generated with added and modified metadata ---"
          cat package/package.xml
@@ -121,7 +121,7 @@ Deploy:
     before_script: 
       - |
          set -x
-         echo 'y' | sfdx plugins:install sfdx-git-delta
+         #echo 'y' | sfdx plugins:install sfdx-git-delta
          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
          echo "--- package.xml generated with added and modified metadata ---"
          cat package/package.xml

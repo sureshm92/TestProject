@@ -22,8 +22,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Privacy Policy"
       },
       "componentName" : "forceCommunity:seoAssistant",

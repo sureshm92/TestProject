@@ -111,7 +111,7 @@ public without sharing class AddPatientByPIRemote {
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
 			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
-            if(createUser && participant.Adult__c){
+            if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
                 pe.Invited_To_PP_Date__c =  DateTime.now();
             }
 
@@ -180,7 +180,7 @@ public without sharing class AddPatientByPIRemote {
     }
  
     @Future
-    private static void assignParticipantPermissions(String ssId, String contactId) {
+    public static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
         String permissionSetName = CommunityTemplateService.getTemplate(
@@ -250,7 +250,9 @@ public without sharing class AddPatientByPIRemote {
                     if(String.isNotBlank(participant.Nickname__c)){
                         partici.Nickname__c = participant.Nickname__c;
                     }
-                   // partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   if(String.isNotBlank(participant.Date_of_Birth__c)){
+                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   }
                    if(String.isNotBlank(participant.Gender__c)){
                     partici.Gender__c = participant.Gender__c;
                    }

@@ -907,6 +907,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.totalRecordCount = totalRecordCount;
                             delegateWrap.DelegateAgeOfMajority = DelegateAgeOfMajority; 
                             delegateWrap.DelegateYOB = DelegateYOB;
+                            delegateWrap.isParticipantAdult = participant.Adult__c;
                             delegateWrapList.add(delegateWrap);
                             patientdelegateUpdateList.add(delegateWrap);
                         }
@@ -1238,7 +1239,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(i)) !=null ? Date.ValueOf(mapParticipantFov.get(i)):null,
                             Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(i)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
-                if(createUsers==true && mapParticipant.get(i).Adult__c){
+                if(createUsers==true && mapParticipant.get(i).Adult__c && String.isNotBlank(mapParticipant.get(i).Email__c)){ //EMail condition RH-5163
                     participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
                 }
                 mapPER.put(i,participantEnrollment);
@@ -1272,7 +1273,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         contactEnrollmentMap.put(pEnrollment.Participant_Contact__c,pEnrollment.Id);
                     }
             for (Participant__c part : [
-                        SELECT Id, Contact__c,Adult__c
+                        SELECT Id, Contact__c,Adult__c, Email__c // RH_5163 Included Email__c field
                         FROM Participant__c
                         WHERE Contact__c IN :duplicateContactIds
                     ]) {
@@ -1343,7 +1344,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(totalrecorcountindx)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
                         
-                        if(createUsers==true && contactParticipantMap.get(i).Adult__c){
+                        if(createUsers==true && contactParticipantMap.get(i).Adult__c && String.isNotBlank(contactParticipantMap.get(i).Email__c)){ //RH-5163 Email condition
                             participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
                         }
                         
