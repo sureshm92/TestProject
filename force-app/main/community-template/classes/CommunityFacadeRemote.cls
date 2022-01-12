@@ -45,6 +45,7 @@ public without sharing class CommunityFacadeRemote {
         String sponsorName;
         Boolean messagesVisible;
         Boolean trialMatchVisible;
+        Boolean eDiaryVisible;
         Boolean isMobileApp;
         Boolean hasIQVIAStudiesPI;
     }
@@ -68,6 +69,8 @@ public without sharing class CommunityFacadeRemote {
         public Boolean messagesVisible;
         @AuraEnabled
         public Boolean trialMatchVisible;
+        @AuraEnabled
+        public Boolean eDiaryVisible;
     }
     @AuraEnabled
     public static String getCommunityUrl() {
@@ -91,6 +94,8 @@ public without sharing class CommunityFacadeRemote {
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
+                cd.eDiaryVisible = getEDiaryVisibility();
+                
             }
             cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             cd.currentUserMode = UserContext.getCurrentUserMode();
@@ -173,6 +178,7 @@ public without sharing class CommunityFacadeRemote {
             CommunityUserVisibility userVisibility = new CommunityUserVisibility();
             userVisibility.messagesVisible = getMessagesVisibility();
             userVisibility.trialMatchVisible = getTrialMatchVisibility();
+            userVisibility.eDiaryVisible = getEDiaryVisibility();
             return userVisibility;
         } catch (Exception e) {
             return (CommunityUserVisibility) AuraHelper.throwException(e);
@@ -286,6 +292,14 @@ public without sharing class CommunityFacadeRemote {
     private static Boolean getTrialMatchVisibility() {
         if (ParticipantContext.getCurrentPEId() != null) {
             return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Trial_Match_Is_Available__c
+                   && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+        }
+        return false;
+    }
+    // set visibility for eDiary tab for patient when eCOA toggle is on at CTP level. 
+    private static Boolean getEDiaryVisibility() {
+        if (ParticipantContext.getCurrentPEId() != null) {
+            return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.ECOA_Is_Avaialble__c
                    && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
         }
         return false;

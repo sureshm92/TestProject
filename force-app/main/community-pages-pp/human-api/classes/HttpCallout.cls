@@ -15,6 +15,14 @@ public class HttpCallout extends RemoteCall{
         this.logAutoInsert = false;
     }
 
+    public void setEndPointURL(String endPointURL) {
+        this.endPointURL = endPointURL;
+    }
+
+    public void setAutoLogInsert(Boolean setAutoLogInsert) {
+        this.logAutoInsert = setAutoLogInsert;
+    }
+
     @TestVisible
     protected override String buildRequestBody() {
       return constructJsonReq();
