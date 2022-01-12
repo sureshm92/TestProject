@@ -7,10 +7,8 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
     }
     
     public Database.QueryLocator start(Database.BatchableContext BC) {
-        list<Id> participantIds = this.participantIds;
-        System.debug('participantIds:'+participantIds);
+        list<Id> participantIds = this.participantIds;;
         String query = 'SELECT Id FROM Participant__c WHERE Id IN : participantIds';
-        System.debug('query:'+query);
         return Database.getQueryLocator(query);
         
     }
@@ -19,7 +17,6 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
         String perWhereClause = ' AND Participant__c IN :participantIds';
         List<String> perIds = new List<String>();
         List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause,participantIds);
-        System.debug('perList:'+perList);
         for(Participant_Enrollment__c per:perList) {
             perIds.add(per.Id);
         }

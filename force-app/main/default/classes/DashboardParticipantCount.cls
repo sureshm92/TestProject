@@ -40,7 +40,6 @@ public without sharing class DashboardParticipantCount {
 
     @AuraEnabled
     public static List<BarItem> participantInvitationDashboard(Id pIid,Id ctpId) {
-        System.debug('parameters:'+piId+'  **'+ctpId);
         try {
             List<BarItem> resList = new List<BarItem>();
             Integer totalCount = 0;
@@ -259,7 +258,6 @@ public without sharing class DashboardParticipantCount {
             +' WHERE Study_Site__c != NULL'
             +' '+whereClause
             +' ORDER BY Createddate DESC';
-        System.debug('query:'+query);
         return Database.query(query);
     }
     
@@ -286,7 +284,6 @@ public without sharing class DashboardParticipantCount {
 
     @AuraEnabled
     public static List<ParticipantDetails> fetchParticipantsNotYetInvitedDetails(Id pIid,Id ctpId) {
-        System.debug('parameters:'+piId+'  **'+ctpId);
         try {
             List<ParticipantDetails> resList = new List<ParticipantDetails>();
            
@@ -295,8 +292,7 @@ public without sharing class DashboardParticipantCount {
             String perWhereClause = ' AND study_Site__r.Study_Site_Type__c != \'Virtual\' AND study_Site__r.Study_Site_Type__c != \'Hybrid\' AND study_Site__r.Suppress_Participant_Emails__c=false';  
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__c =\''+ String.escapeSingleQuotes(ctpId)+'\' AND Study_Site__r.Principal_Investigator__c = \''+String.escapeSingleQuotes(piId)+'\'';
-
-            System.debug('perWhereClause:'+perWhereClause);
+            
             List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause, new List<Id>());
             for(Participant_Enrollment__c per : perList) {
                 ParticipantDetails parDetail = new ParticipantDetails();
@@ -343,7 +339,6 @@ public without sharing class DashboardParticipantCount {
     public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson) {
 
         List<ParticipantDetails> participantDetails = (List<ParticipantDetails>)JSON.deserialize(participantJson,List<ParticipantDetails>.class);
-        System.debug('participantDetails:'+participantDetails);
         Map<String,String> resMap = new Map<String,String>();
         try {
             List<Id> participantIds = new List<Id>();

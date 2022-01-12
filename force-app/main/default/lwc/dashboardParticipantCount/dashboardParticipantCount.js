@@ -65,7 +65,6 @@ export default class DashboardParticipantCount extends LightningElement {
             if(this.isInvitationDashboard === 'true') {
                 getParticipantCount({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
                 .then(result => {
-                    console.log('result:'+JSON.stringify(result));                              
                     this.peList=result;
                     this.parseResult();
                 })
@@ -76,7 +75,6 @@ export default class DashboardParticipantCount extends LightningElement {
             } else {
                 getLoggedParticipantCount({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
                 .then(result => {
-                    console.log('result:'+JSON.stringify(result));                              
                     this.peList=result;
                     this.parseResult();
                 })
@@ -123,14 +121,12 @@ export default class DashboardParticipantCount extends LightningElement {
     retrieveNotInvitedParticipants() {          
         getNotYetInvitedParticipants({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
         .then(result => {
-            console.log('result:'+JSON.stringify(result)); 
             const cloneResult = [...result];          
             cloneResult.sort(this.compareParticipantName);
             this.peList=cloneResult;            
             this.popupLoading = false; 
         })
         .catch(error => {  
-            console.log('error:'+JSON.stringify(error));                       
             this.error = error;                    
             this.popupLoading = false;                
         });
@@ -205,7 +201,6 @@ export default class DashboardParticipantCount extends LightningElement {
             this.closeParticipantModal();
         })
         .catch(error => {  
-            console.log('error:'+JSON.stringify(error));                       
             this.error = error;                    
             this.popupLoading = false; 
             this.showNotification('error',JSON.stringify(error),'error');

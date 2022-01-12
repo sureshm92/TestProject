@@ -7,9 +7,7 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
 
     public Database.QueryLocator start(Database.BatchableContext BC) {
         list<Id> delParticipantIds = this.delParticipantIds;
-        System.debug('delParticipantIds:'+delParticipantIds);
         String query = 'SELECT Id FROM Participant__c WHERE Id IN : delParticipantIds';
-        System.debug('query:'+query);
         return Database.getQueryLocator(query);
     }
 
