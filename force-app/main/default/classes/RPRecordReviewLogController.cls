@@ -394,8 +394,8 @@ public without sharing class RPRecordReviewLogController {
                    MedicalReview=MedicalReview+Integer.Valueof(ar.get('total'));
                 }
                 if(ar.get('Outreach_Mail_Sent__c') == 'Yes'){
-                   //OutreachMailSent=OutreachMailSent+Integer.Valueof(ar.get('total'));
-                   OutreachMailSent = 0;
+                   OutreachMailSent=OutreachMailSent+Integer.Valueof(ar.get('total'));
+                   //OutreachMailSent = 0;
                 }
             }
             yesterdaycount =[SELECT count() FROM Participant_Enrollment__c 

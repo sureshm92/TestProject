@@ -9,6 +9,7 @@
     <emailSenderName>IQVIA Referral Hub</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>false</enableDirectMessages>
+    <enableExperienceBundleBasedSnaOverrideEnabled>true</enableExperienceBundleBasedSnaOverrideEnabled>
     <enableGuestChatter>false</enableGuestChatter>
     <enableGuestFileAccess>true</enableGuestFileAccess>
     <enableGuestMemberVisibility>true</enableGuestMemberVisibility>
@@ -28,7 +29,7 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>Community_Janssen</permissionSet>
-        <profile>Admin</profile>
+        <profile>admin</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>VisualForce</changePasswordPageOverrideSetting>

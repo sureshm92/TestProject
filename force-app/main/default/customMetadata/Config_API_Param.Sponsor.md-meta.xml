@@ -10,4 +10,8 @@
         <field>ParamValue__c</field>
         <value xsi:type="xsd:string">iqvia</value>
     </values>
+    <values>
+        <field>Param_Value_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>
