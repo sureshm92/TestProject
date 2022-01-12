@@ -7,7 +7,7 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
     }
     
     public Database.QueryLocator start(Database.BatchableContext BC) {
-        list<Id> participantIds = this.participantIds;;
+        list<Id> participantIds = this.participantIds;
         String query = 'SELECT Id FROM Participant__c WHERE Id IN : participantIds';
         return Database.getQueryLocator(query);
         
