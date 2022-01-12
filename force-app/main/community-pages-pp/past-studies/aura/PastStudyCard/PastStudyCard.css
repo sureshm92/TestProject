@@ -32,6 +32,7 @@
 .THIS .rr-output-field > .label {
     font-size: 1rem;
     font-weight: 400;
+    padding: 6px 0px;
 }
 
 .THIS .rr-output-field > .value {
