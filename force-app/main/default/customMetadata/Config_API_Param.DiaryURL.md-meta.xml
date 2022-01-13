@@ -10,4 +10,8 @@
         <field>ParamValue__c</field>
         <value xsi:type="xsd:string">https://test.iqviadiary.com/#token=</value>
     </values>
+    <values>
+        <field>Param_Value_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>

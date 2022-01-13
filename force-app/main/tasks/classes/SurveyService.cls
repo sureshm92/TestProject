@@ -97,7 +97,7 @@ public without sharing class SurveyService {
                 else if(ts.Recurrence_Frequency__c == 'Yearly'){
                     endDate = today.addYears(1).addDays(-1);
                 }
-                if(ts.Survey_end_date__c != null && today>ts.Survey_end_date__c){
+                if(ts.Survey_end_date__c != null && endDate>ts.Survey_end_date__c){
                     endDate = ts.Survey_end_date__c;
                 }
             }
@@ -115,7 +115,7 @@ public without sharing class SurveyService {
             if(ts.Reminder_in_days_before_the_end_date__c != null){
                 days = Integer.valueOf(ts.Reminder_in_days_before_the_end_date__c);
                 reminderDate = endDate.addDays(-days);
-                remTime = Time.newInstance(11, 0, 0, 0);
+                remTime = Time.newInstance(9, 30, 0, 0);
             }
             
         	Integer offsetSeconds = 0;
