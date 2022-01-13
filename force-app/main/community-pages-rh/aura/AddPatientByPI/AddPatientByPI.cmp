@@ -338,7 +338,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
-                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                <div class="slds-checkbox slds-checkbox-custom" data-gtm="checkbox_Permit_IQVIA_Connect">
                                     <input
                                         aura:id="checkbox-Contact"
                                         type="checkbox"
@@ -363,7 +363,7 @@
                             <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                                 <div class="slds-form-element__control">
                                     <div
-                                        class="slds-checkbox"
+                                        class="slds-checkbox slds-checkbox-custom"
                                         data-gtm="checkbox_Permit_IQVIA_Connect"
                                     >
                                         <input
@@ -391,7 +391,7 @@
                             <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                                 <div class="slds-form-element__control">
                                     <div
-                                        class="slds-checkbox"
+                                        class="slds-checkbox slds-checkbox-custom"
                                         data-gtm="checkbox_Permit_IQVIA_Connect"
                                     >
                                         <input
@@ -420,7 +420,7 @@
                             <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                                 <div class="slds-form-element__control">
                                     <div
-                                        class="slds-checkbox"
+                                        class="slds-checkbox slds-checkbox-custom"
                                         data-gtm="checkbox_Permit_IQVIA_Connect"
                                     >
                                         <input
