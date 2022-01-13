@@ -88,6 +88,7 @@
                                             isDelegate="{!v.isDelegate}"
                                             hasProfilePic="{!v.hasProfilePic}"
                                             isRTLLanguage="{!v.isRTL}"
+                                            userMode="{!v.userMode}"
                                         ></c:Action_AddProfilePhoto>
                                         <aura:set attribute="else">
                                             <div class="slds-grid profileImg">
@@ -109,6 +110,7 @@
                                         recordId="{!v.userId}"
                                         isDelegate="{!v.isDelegate}"
                                         hasProfilePic="{!v.hasProfilePic}"
+                                        userMode="{!v.userMode}"
                                     ></c:Action_AddProfilePhoto>
                                 </aura:if>
                             </div>
