@@ -93,11 +93,11 @@ export default class DashboardParticipantCount extends LightningElement {
             let width=this.peList[i].width=='0%'?'1%':this.peList[i].width;
 
             if(this.peList[i].title === 'topBar') {                
-                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 50px; display: inline-block;';
+                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 20px; display: inline-block;';
                 this.topBarRec=this.peList[i];
             
             } else if(this.peList[i].title === 'secondBar') {
-                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 50px; display: inline-block'; 
+                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 20px; display: inline-block'; 
                 this.secondBarRec=this.peList[i];
             }    
         }
