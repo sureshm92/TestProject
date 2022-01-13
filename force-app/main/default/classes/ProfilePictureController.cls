@@ -1,11 +1,14 @@
 public with sharing class ProfilePictureController {
+    public static String loggedInUserMode;
+    public static final String USER_MODE_HCP = 'HCP';
     @AuraEnabled
-    public static string getProfilePicture(Id parentId) {
+    public static string getProfilePicture(Id parentId,String userMode) {
         // Attachment permissions are set in parent object (Contact)
         if (!Schema.sObjectType.Contact.isAccessible()) {
             throw new System.NoAccessException();
             //return null;
         }
+        loggedInUserMode = userMode;
         Contact currentContact = new Contact();
         currentContact = [
             SELECT Id, userCommunityDelegateId__c
@@ -14,7 +17,7 @@ public with sharing class ProfilePictureController {
             LIMIT 1
         ];
 
-        if (currentContact.userCommunityDelegateId__c != null) {
+        if (loggedInUserMode != USER_MODE_HCP && currentContact.userCommunityDelegateId__c != null) {
             currentContact = ContactService.getContact(currentContact.userCommunityDelegateId__c);
         }
 
