@@ -183,6 +183,12 @@ public with sharing class HumanAPIcontroller {
     @AuraEnabled
     public String details;
   }
+    
+  public class HumanAPIErrorWrapper{
+    public Integer statusCode;	 
+    public String error;	 
+    public String message;	  
+   }
 
   @AuraEnabled
   public static Map<String,String> getSources(String accessToken) {
@@ -260,21 +266,22 @@ public with sharing class HumanAPIcontroller {
 
   @AuraEnabled
   public static String requestMedicalRecords(
-    String humanId,
-    String uniqueId,
-    String email,
     Id peId,
-    Id ParticipantId,
-    Boolean isAdult
+    Id ParticipantId 
   ) {
     DateTime dt = DateTime.now();
     String strMessage = '';
     Map<String, String> COUNTRY_CODE_BY_NAME_MAP_Mdt = new Map<String, String>(); 
       
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
-                                         ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c
-                                         ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c,PI_Contact__c,PI_Contact__r.language__c
-                                         ,PI_Contact__r.Salutation from Participant_Enrollment__c Where ID=:peId];
+                                         ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
+                                         ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c 
+                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation 
+                                          from Participant_Enrollment__c Where ID=:peId];
+      String email = objPER.Participant__r.Email__c;
+      Boolean isAdult = objPER.Participant__r.Adult__c;
+      String humanId = objPER.Human_Id__c;
+      String uniqueId = objPER.Unique_HumanId__c;
       
       List<RH_Country_Name__mdt> countryMetaLst = [SELECT id,Country_Code__c,Country_Name__c,IsVisible__c FROM RH_Country_Name__mdt];
       for(RH_Country_Name__mdt meta: countryMetaLst){
@@ -283,7 +290,7 @@ public with sharing class HumanAPIcontroller {
             }
         }  
       Participant__c objParticipantDelegate;
-    
+    	 
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 
                                                         Where Participant__c =:ParticipantId AND Primary_Delegate__c = True LIMIT 1];
@@ -349,7 +356,7 @@ public with sharing class HumanAPIcontroller {
         String requestBody = JSON.serialize(reqWrap);
         IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
           objIntegrationLog.Request_Body__c = requestBody;
-          objIntegrationLog.Request_Time__c  = Datetime.now();
+          objIntegrationLog.Request_Time__c  = dt;
           objIntegrationLog.Request_Type__c = 'SiteMediaRequest_HumanAPICallout_GenerateHumanId';
           objIntegrationLog.Function_Name__c = 'HumanAPIcontroller_requestMedicalRecords';
           objIntegrationLog.Http_Method__c = 'POST';
@@ -360,10 +367,7 @@ public with sharing class HumanAPIcontroller {
         req.setHeader('Content-Type', 'application/json;charset=UTF-8');
         req.setMethod('POST');
         req.setbody(requestBody);
-        System.debug('###### request ' + req.getBody());
         HTTPResponse resp = h.send(req);
-        System.debug('###### resp ' + resp);
-        System.debug('###### resp ' + resp.getBody());
         objIntegrationLog.Response_Body__c = resp.getBody();
         objIntegrationLog.Response_Status__c = resp.getStatus();
         objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
@@ -385,13 +389,20 @@ public with sharing class HumanAPIcontroller {
         	String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
             sendDataToMule(strHuman_RH_Data);
           update p;
-           
           //call mulesoft api to inform SFMC
           strMessage = 'true';
         }
           else{
+               HumanAPIErrorWrapper deserializedResponseWrapperToken = (HumanAPIErrorWrapper) JSON.deserialize(
+                                    resp.getBody(),HumanAPIErrorWrapper.class);
+              objIntegrationLog.Error_Message__c = deserializedResponseWrapperToken.message;
               objIntegrationLog.Success__c = false;
-              strMessage = 'APIError';
+              if(deserializedResponseWrapperToken.message.containsIgnoreCase('must be a valid email')){
+                  strMessage = 'EmailNotCorrect';
+              }
+              else{
+                  strMessage = 'APIError';
+              } 
           }
          insert objIntegrationLog;
           
@@ -401,16 +412,14 @@ public with sharing class HumanAPIcontroller {
         Id = peId,
         RequestedMedicalRecords__c = dt
       );
-         strMessage = 'true';
+      strMessage = 'true';
         objWrapper.humanId = objPER.Human_Id__c;
         lstMulesoftWrapper.add(objWrapper);
         String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
         sendDataToMule(strHuman_RH_Data);
       update p;
-       
       //call mulesoft api to inform SFMC
     }
-
     return strMessage;
   }
     
@@ -422,10 +431,7 @@ public with sharing class HumanAPIcontroller {
         r.setHeader('Content-Type', 'application/json;charset=UTF-8');
         r.setMethod('POST');
         r.setbody(strHumanRhData);
-        System.debug('###### request of mulesoft ' +r.getBody());
         HTTPResponse resp = h.send(r);
-        System.debug('###### resp ' +resp);
-        System.debug('###### resp ' +resp.getBody());
         
         //lOGGED THE Details in Integration Log Object
         IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
