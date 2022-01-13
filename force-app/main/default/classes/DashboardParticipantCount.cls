@@ -241,9 +241,9 @@ public without sharing class DashboardParticipantCount {
 	private static Set<Id> fetchUsersLoggedIn(Set<Id> contactIds) {
 		Set<Id> contactLoggeduserSet = new Set<Id>();
 		
-		List<User> userList = [SELECT Id,isActive,ContactId,LastLoginDate 
+		List<User> userList = [SELECT Id,isActive,ContactId,IsCommunityUserRegistered__c 
                                	FROM User 
-                               	WHERE LastLoginDate != null AND contactId IN : contactIds];
+                               	WHERE IsCommunityUserRegistered__c = true AND contactId IN : contactIds];
 		for(User userRec: userList) {
 			contactLoggeduserSet.add(userRec.contactId);	
 		}
@@ -253,7 +253,7 @@ public without sharing class DashboardParticipantCount {
     public static List<Participant_Enrollment__c> fetchPerRecords(String whereClause,List<Id> participantIds) { 
         
         String query = 'SELECT Id,Invited_To_PP_Date__c,Participant__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,'
-            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c'
+            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c'
             +' FROM Participant_Enrollment__c'
             +' WHERE Study_Site__c != NULL'
             +' '+whereClause
@@ -297,7 +297,7 @@ public without sharing class DashboardParticipantCount {
             for(Participant_Enrollment__c per : perList) {
                 ParticipantDetails parDetail = new ParticipantDetails();
                 participantIds.add(per.Participant__c);
-                if(per.Invited_To_PP_Date__c == null && per.Participant__r.Email__c != null && per.Participant__c != null) { // If Adult
+                if(per.Invited_To_PP_Date__c == null && per.Participant__r.Email__c != null && per.Participant__c != null && per.Participant__r.Adult__c) { // If Adult
                     parDetail.participantId = per.Participant__c;
                     parDetail.participantName = per.Participant__r.First_Name__c+' '+per.Participant__r.Last_Name__c;
                     parDetail.isChecked = false;
