@@ -124,7 +124,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             newParticipantsMap.values()
         );
         Map<String, String> participantsByEmailRefid = new Map<String, String>();
-        List<Contact> contactsToInsert = new List<Contact>();
+        Map<String,Contact> iprAndContactsToInsert = new Map<String,Contact>();
         Map<String, String> conEmailAccMap = new Map<String, String>();
         Map<Id, Id> dupPartContMap = new Map<Id, Id>();
 
@@ -168,7 +168,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participantDuplicate.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participantDuplicate.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participantDuplicate.Mailing_Zip_Postal_Code__c;
-                    contactsToInsert.add(newContact);
+                    iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participantDuplicate.Email__c, ipr.referralID__c);
                     String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
                     conEmailAccMap.put(duplicateKey,participantDuplicate.Site__c);
@@ -200,7 +200,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participant.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                    contactsToInsert.add(newContact);
+                    iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participant.Email__c, ipr.referralID__c);
                     String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
                     conEmailAccMap.put(duplicateKey,participant.Site__c);
@@ -209,10 +209,9 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             }
             
         }
-        insert contactsToInsert;
-        
-        for (Contact newContact : contactsToInsert) {
-            newParticipantsMap.get(participantsByEmailRefid.get(newContact.Email)).Contact__c = newContact.Id;    
+        insert iprAndContactsToInsert.values();
+        for(String ipr : iprAndContactsToInsert.keySet()) {
+            newParticipantsMap.get(ipr).Contact__c = iprAndContactsToInsert.get(ipr).Id;
         }
         
         Set<Participant__c> newParticipantsSet = new Set<Participant__c>(newParticipantsMap.values());
@@ -534,9 +533,9 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
 					contactsToUpdateMap.put(c.Id,c);
 				}
             }
-        }   
-        if (!contactsToInsert.isEmpty()) { 
-            for(contact con : contactsToInsert){
+        }
+        if (!iprAndContactsToInsert.values().isEmpty()) { 
+            for(contact con : iprAndContactsToInsert.values()){
                 String duplicateKey = con.Email?.toLowerCase() + con.LastName?.toLowerCase();
                 contact c = new contact();
                 c.id = con.id;
