@@ -41,11 +41,15 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.thick1 {
+    font-weight: bold;
+    color: #297dfd;
+}
 .site-footer {
     background: rgba(255, 255, 255, 0.15) 50% !important;
   }
 .slds-card{
-    margin-top: 25px;
+    margin-top: 1rem;
     background: #ffffff;
     border: 1px solid #f2f2f2;
     border-radius: 5px;
@@ -90,9 +94,9 @@
 
 
 @media all and (max-width: 768px) {
-    { 
+    /* { 
         margin-top: 1rem;
-    }
+    } */
 
  .db-qal-items > .slds-col {
         max-width: 60%;
@@ -118,8 +122,9 @@
     }
 
  .db-qal-items {
-        min-height: 345px;
+        min-height: 200px;
         max-height: 345px;
+        padding: 0 16px;
     }
 
  .barContainer {
@@ -130,6 +135,15 @@
     }
 
  .barTitle {
+        /* float: left;
+        display: inline;
+        text-align: left;
+        font-size: 1rem;
+        margin-left: 10px;
+        min-width: 45%;
+        color: #000; */
+    }
+    .barTitle {
         float: left;
         display: inline;
         text-align: left;
@@ -137,30 +151,44 @@
         margin-left: 10px;
         min-width: 45%;
         color: #000;
-    }
+     
+     }
 
  .barGrp {
-        position: absolute;
-        display: inline-flex;
+        /* position: absolute;
+        display: inline-flex; */
         min-width: 100%;
-        margin-top: -21px;
+        /* margin-top: -21px;
         top: 30px;
         left: 0;
-        max-width: 100%;
+        max-width: 100%; */
     }
 
- .bar {
+ .bar:nth-of-type(1) {
         max-width: 85%;
         position: absolute;
         left: 25px;
-        top: 25px;
+        top: 35px;
+		 
+    }
+    .bar.secondbar{
+        max-width: 85%;
+        position: absolute;
+        left: 25px;
+        top: 190px;
 		 
     }
 
- .barText {
+ .barText:nth-of-type(1) {
         text-align: right;
         position: absolute;
         top: 0;
+        right: 1.5rem;
+    }
+    .barText.secondbartext {
+        text-align: right;
+        position: absolute;
+        top: 158px;
         right: 1.5rem;
     }
     

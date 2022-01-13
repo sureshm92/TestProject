@@ -75,6 +75,7 @@
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
+    padding: 10px 0;
 }
 
 .THIS .slds-datepicker table {
@@ -95,7 +96,7 @@
 
 .THIS .slds-form-element__help {
     position: absolute;
-    width: 226px;
+    width: 256px !important;
     margin-top: 0;
     line-height: 1;
 }
