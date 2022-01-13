@@ -2,12 +2,15 @@
  * Created by D.Yasinskyi  on 07.05.2018
  */
 public without sharing class AccountSettingsController {
+	public static String loggedInUserMode;
+    public static final String USER_MODE_HCP = 'HCP';
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
+			loggedInUserMode = userMode;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (initData.myContact.userCommunityDelegateId__c != null) {
+            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null && initData.myContact.userCommunityDelegateId__c != null) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -203,11 +206,12 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeEmail(String newEmail) {
+    public static void changeEmail(String newEmail,String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (initData.myContact.userCommunityDelegateId__c != null) {
+			loggedInUserMode = userMode;
+            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -260,12 +264,14 @@ public without sharing class AccountSettingsController {
         Boolean participantOptInStatusEmail,
         Boolean hcpOptInPatientEmail,
         Boolean hcpOptInStudyEmail,
-        Boolean hcpOptInRefStatusEmail
+        Boolean hcpOptInRefStatusEmail,
+		String userMode
     ) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (initData.myContact.userCommunityDelegateId__c != null) {
+			loggedInUserMode = userMode;
+            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -281,11 +287,12 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeOptInSMS(Boolean participantOptInStatusSMS) {
+    public static void changeOptInSMS(Boolean participantOptInStatusSMS,String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (initData.myContact.userCommunityDelegateId__c != null) {
+			loggedInUserMode = userMode;
+            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
