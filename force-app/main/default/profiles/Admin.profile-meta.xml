@@ -9,6 +9,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ecoaDiariesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4121,6 +4125,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>IntegrationLog__c.Request_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>IntegrationLog__c.Response_Body__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5411,6 +5420,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Subject_GUID__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.HCP_Contact_HCPEnroll__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5747,6 +5761,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Randomized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.RequestedMedicalRecords__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
