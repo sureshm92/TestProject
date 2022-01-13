@@ -457,7 +457,7 @@ private class Test_BaseCRCPCommunity {
                 testData.ctp.Id
             );
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
-            AccountSettingsController.changeEmail('new@emil.com');
+            AccountSettingsController.changeEmail('new@emil.com',CommunityService.USER_MODE_HCP);
             AccountSettingsController.changePassword('Dd231324d13', 'Dd231324d13', '11111');
             ClinicProfileRemote.getClinicProfileData(hcpAccount.Id);
             CommunityFacadeRemote.getCommunityData();
@@ -699,9 +699,9 @@ private class Test_BaseCRCPCommunity {
         System.runAs(testData.piUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
-            AccountSettingsController.changeEmail('some@email.com');
+            AccountSettingsController.changeEmail('some@email.com',CommunityService.USER_MODE_PI);
             AccountSettingsController.changePassword('QwqwQw!2321%43@', 'QwqwQw!2321%43@', null);
-            AccountSettingsController.changeOptInEmail(true, true, true, true);
+            AccountSettingsController.changeOptInEmail(true, true, true, true,CommunityService.USER_MODE_PI);
             AccountSettingsController.createCase('Some Case', 'Problem');
         }
         System.runAs(testData.participantUser) {
