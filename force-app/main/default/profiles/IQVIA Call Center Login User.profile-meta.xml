@@ -7817,7 +7817,7 @@
         <recordType>ContentVersion.ReferralHub</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
+    <!--<recordTypeVisibilities>
         <default>false</default>
         <recordType>Metric.Completion</recordType>
         <visible>true</visible>
@@ -7826,7 +7826,7 @@
         <default>true</default>
         <recordType>Metric.Progress</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>
+    </recordTypeVisibilities>-->
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Res_study__c.Study_Resource</recordType>
