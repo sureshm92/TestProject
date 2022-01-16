@@ -117,7 +117,7 @@ export default class Rp_PatientOutreach extends LightningElement {
         getPatientInfo({
           peId: this.peIds
         }).then((res) => {
-          this.closeUploadModal();
+         // this.closeUploadModal();
 					//	this.validation = false;
 						
           this.showNotification(

@@ -2,7 +2,7 @@ public without sharing class rpPatientOutreachController {
     @AuraEnabled(cacheable=false)                          
     public static list<Clinical_Trial_Profile__c> fetchOutreachInfo(list<string> peIds) {
         set<Clinical_Trial_Profile__c> studies = new set<Clinical_Trial_Profile__c>();
-        for(Participant_Enrollment__c pe : [select  Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c, Clinical_Trial_Profile__r.Patient_Outreach_Info__c FROM Participant_Enrollment__c where id in : peids and Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c = true]){
+        for(Participant_Enrollment__c pe : [select  Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c, Clinical_Trial_Profile__r.Patient_Outreach_Info__c FROM Participant_Enrollment__c where id in : peids ]){
             studies.add(new Clinical_Trial_Profile__c(id=pe.Clinical_Trial_Profile__c,Study_Code_Name__c=pe.Clinical_Trial_Profile__r.Study_Code_Name__c, Patient_Outreach_Info__c=pe.Clinical_Trial_Profile__r.Patient_Outreach_Info__c ));
         }
         return  new list<Clinical_Trial_Profile__c>(studies);
@@ -76,6 +76,7 @@ public without sharing class rpPatientOutreachController {
             }    
             else if(!isError){
                 peRec.Outreach_Email_Status__c = 'Submitted';
+                peRec.Outreach_Mail_Sent__c = 'Yes';
                 submittedPEs.add(peRec);
             }
         }     

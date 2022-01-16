@@ -170,7 +170,8 @@ public without sharing class RRChangePasswordController {
                 Contact.OwnerId,
                 LanguageLocaleKey,
                 TimeZoneSidKey,
-                LocaleSidKey
+                LocaleSidKey,
+                IsCommunityUserRegistered__c
             FROM User
             WHERE Id = :userId
         ];
@@ -324,6 +325,8 @@ public without sharing class RRChangePasswordController {
 
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
+            
+            userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             //            }
             for (ApexPages.Message m : ApexPages.getMessages()) {
@@ -354,6 +357,7 @@ public without sharing class RRChangePasswordController {
                     }
                 }
             }
+            
 
             if (tcId != null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
