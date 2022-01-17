@@ -18827,7 +18827,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_HumanAPIError</shortDescription>
-        <value>Oops! Something went wrong, Please contact Admin</value>
+        <value>Unable to process the request- please retry</value>
+    </labels>
+    <labels>
+        <fullName>RH_HumanAPIEmailError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_HumanAPIEmailError</shortDescription>
+        <value>Please correct email information and retry the request</value>
     </labels>
     <labels>
         <fullName>RH_InitialVisitScheduled</fullName>
@@ -18897,7 +18904,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on: </value>
+        <value>Authorization Requested on:  </value>
     </labels>
     <labels>
         <fullName>RH_MedicalRecordProvider</fullName>
@@ -18918,7 +18925,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRetrive_Succces</shortDescription>
-        <value>We have notified the patient to authorize medical vendor(s)  </value>
+        <value>You have successfully notified the participant/caregiver to authorize medical records.</value>
     </labels>
     <labels>
         <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>

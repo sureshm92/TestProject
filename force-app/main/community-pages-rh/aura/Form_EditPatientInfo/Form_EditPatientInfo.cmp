@@ -909,7 +909,7 @@
                             {!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details :
                             $Label.c.PG_AP_H_Referral_Information}
                         </div></div>
-                    <div class="slds-grid slds-gutters slds-wrap slds-grid_vertical-align-end">
+                    <div class="slds-grid slds-gutters slds-wrap ">
                         <aura:if isTrue="{!!v.updateMode}">
                             <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
