@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev testing */
+ * Created by Leonid Bartenev*/
 
 @IsTest
 public class TestData {
