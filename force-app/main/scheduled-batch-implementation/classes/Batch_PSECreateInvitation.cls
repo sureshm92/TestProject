@@ -3,6 +3,7 @@
 */
 
 public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract {
+    private List<Trial_Survey__c> trialSurveyList = new List<Trial_Survey__c>();
     public Database.QueryLocator start(Database.BatchableContext param1) {
         List<Trial_Survey__c> trialSurveys = [
             SELECT Clinical_Trial_Profile__c
@@ -10,6 +11,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             WHERE
             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
             AND 
+            Status__c = 'Active'
+            AND
             (Active_On_Status__c != NULL
              OR (Survey_start_date__c != NULL 
                  AND Survey_start_date__c <= TOMORROW 
@@ -66,12 +69,17 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         List<Trial_Survey__c> trialSurveys = [
             SELECT
             Id,
+            Recordtype.Name,
             Clinical_Trial_Profile__c,
             Survey__c,
             Survey__r.Name,
             Is_Recurrence_Survey__c,
             Recurrence_Frequency__c,
             Next_Occurrence_Date__c,
+            Next_Occurrence_Reminder__c,
+            Next_Task_Due_Date__c,
+            Last_Occurrence_Date__c,
+            Last_Occurrence_Reminder__c,
             Active_After_Days__c,
             Active_On_Status__c,
             Number_of_occurrences__c,
@@ -90,6 +98,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE Id IN :enrollments
             )
             AND Survey__r.ActiveVersionId != NULL
+            AND Status__c = 'Active'
             AND (Active_On_Status__c != NULL
                  OR (Survey_start_date__c != NULL 
                      AND Survey_start_date__c <= TOMORROW 
@@ -154,10 +163,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         }
                         expiryDateTime = expiryDateTime.addSeconds(offsetSeconds).addHours(-7);
                         Date ExpiryDate = expiryDateTime.date();
-                        if(((ts.Number_of_occurrences__c != null && surveyInvLst.size() < ts.Number_of_occurrences__c) || 
-                            (ts.Survey_end_date__c != null && ExpiryDate != ts.Survey_end_date__c))
-                            && ExpiryDate.addDays(1) == partDate
-                            ){
+                        if((((ts.Number_of_occurrences__c != null && surveyInvLst.size() < ts.Number_of_occurrences__c) || 
+                        (ts.Survey_end_date__c != null && ExpiryDate != ts.Survey_end_date__c))
+                        && ExpiryDate.addDays(1) == partDate) ||
+                        (ts.Survey_start_date__c != null && ts.Survey_start_date__c == partDate)
+                        ){
                             newInvitations.add(
                             SurveyService.getInstance()
                             .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
@@ -168,8 +178,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         || (ts.Survey_start_date__c <= partDate && ts.Survey_end_date__c >=partDate)){
                         if (invitationMap.get(key) == null) {
                             newInvitations.add(
-                                SurveyService.getInstance()
-                                .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
+                            SurveyService.getInstance()
+                            .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
                             );
                         }
                     }
@@ -178,6 +188,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         }
         
         insert newInvitations;
+        for(Trial_Survey__c ts:trialSurveys){
+            if(ts.Recordtype.Name == 'Time based' && ts.Is_Recurrence_Survey__c && ts.Next_Occurrence_Date__c==Date.today()){
+                updateTrialSurvey(ts);
+            }
+        }
         Map<Id, String> invitationsVisible = new Map<Id, String>();
         for (SurveyInvitation inv : newInvitations) {
             invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
@@ -207,10 +222,56 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         }
         return invitationMap;
     }
+
+    private void updateTrialSurvey(Trial_Survey__c ts){
+        System.debug('Date Time : '+Datetime.now());
+        Integer days;
+        if(ts.Reminder_in_days_before_the_end_date__c != null){
+            days = Integer.valueOf(ts.Reminder_in_days_before_the_end_date__c);
+        }
+            Date nextendDate = ts.Next_Occurrence_Date__c;
+            Date endDate = ts.Next_Task_Due_Date__c;
+            ts.Last_Occurrence_Date__c = ts.Next_Occurrence_Date__c;
+            ts.Last_Occurrence_Reminder__c = ts.Next_Occurrence_Reminder__c;
+            if(ts.Survey_end_date__c != endDate){
+                if(ts.Recurrence_Frequency__c == 'Daily'){
+                    ts.Next_Occurrence_Date__c = ts.Last_Occurrence_Date__c.addDays(1);
+                    nextendDate = endDate.addDays(1);
+                }
+                if(ts.Recurrence_Frequency__c == 'Weekly'){
+                    ts.Next_Occurrence_Date__c = ts.Last_Occurrence_Date__c.addDays(7);
+                    nextendDate = endDate.addDays(7);
+                }
+                if(ts.Recurrence_Frequency__c == 'Monthly'){
+                    ts.Next_Occurrence_Date__c = ts.Last_Occurrence_Date__c.addMonths(1);
+                    nextendDate = endDate.addMonths(1);
+                }
+                if(ts.Recurrence_Frequency__c == 'Yearly'){
+                    ts.Next_Occurrence_Date__c = ts.Last_Occurrence_Date__c.addYears(1);
+                    nextendDate = endDate.addYears(1);
+                }
+                if(nextendDate > ts.Survey_end_date__c){
+                    nextendDate = ts.Survey_end_date__c;
+                }
+                ts.Next_Task_Due_Date__c = nextendDate;
+                if(days!=null && nextendDate.addDays(-days) >= ts.Next_Occurrence_Date__c){
+                    ts.Next_Occurrence_Reminder__c = nextendDate.addDays(-days);
+                }
+                trialSurveyList.add(ts);
+            }
+            else{
+                ts.Next_Occurrence_Date__c = null;
+                ts.Next_Occurrence_Reminder__c = null;
+                ts.Next_Task_Due_Date__c = null;
+                trialSurveyList.add(ts);
+            }
+    }
     
     public override void finalAction() {
         try{
-            
+            if(trialSurveyList.size() != 0){
+                Database.update(trialSurveyList);
+            }
         }catch (Exception e) {
             System.debug(e.getMessage());
         }
