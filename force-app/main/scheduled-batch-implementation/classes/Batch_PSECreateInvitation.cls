@@ -166,7 +166,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         if((((ts.Number_of_occurrences__c != null && surveyInvLst.size() < ts.Number_of_occurrences__c) || 
                         (ts.Survey_end_date__c != null && ExpiryDate != ts.Survey_end_date__c))
                         && ExpiryDate.addDays(1) == partDate) ||
-                        (ts.Survey_start_date__c != null && ts.Survey_start_date__c == partDate)
+                        (ts.Survey_start_date__c != null && ts.Survey_start_date__c == partDate 
+                        && ts.Survey_start_date__c==ts.Next_Occurrence_Date__c)
                         ){
                             newInvitations.add(
                             SurveyService.getInstance()
@@ -257,13 +258,17 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 if(days!=null && nextendDate.addDays(-days) >= ts.Next_Occurrence_Date__c){
                     ts.Next_Occurrence_Reminder__c = nextendDate.addDays(-days);
                 }
-                trialSurveyList.add(ts);
+                if(!trialSurveyList.contains(ts)){
+                    trialSurveyList.add(ts);
+                }
             }
             else{
                 ts.Next_Occurrence_Date__c = null;
                 ts.Next_Occurrence_Reminder__c = null;
                 ts.Next_Task_Due_Date__c = null;
-                trialSurveyList.add(ts);
+                if(!trialSurveyList.contains(ts)){
+                    trialSurveyList.add(ts);
+                }
             }
     }
     
