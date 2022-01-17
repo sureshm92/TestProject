@@ -338,42 +338,26 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                     this.surveyEndDate = result.Survey_end_date__c;
                     this.lastOccurrenceDate =result.Last_Occurrence_Date__c;
                     this.error = undefined;
-                    console.log('recordTypeId : '+this.recordTypeId);
                     console.log('recordTypeName : '+this.recordTypeName);
-                    console.log('surveyStartDate : '+this.surveyStartDate);
-                    console.log('surveyEndDate : '+this.surveyEndDate);
-                    console.log('isRecurrenceSurvey : '+this.isRecurrenceSurvey);
 
                     // validation logic begins
                     let today = new Date();
                     let currentDate = today.toISOString().split('T')[0];
-                    console.log('currentDate renderedCallback: '+currentDate);
-                    console.log('surveyStartDate renderedCallback: '+this.surveyStartDate);
-                    console.log('surveyEndDate renderedCallback: '+this.surveyEndDate);
-                    console.log('isRecurrenceSurvey renderedCallback: '+this.isRecurrenceSurvey);
-
                     if(this.recordTypeName === 'Time based'){
-                        console.log('Inside renderedCallback 3 = count'+number);
                         this.recurringSurveyDisabled = false;
                         if(this.lastOccurrenceDate!=null){
                             this.recurringSurveyDisabled = true;
                         }
                         if (this.surveyStartDate <= currentDate) {
-                            console.log('Inside renderedCallback 4 = count'+ number);
-                            console.log('start date is less than current date');
                             this.recurringSurveyDisabled = true;
                             if(!this.isRecurrenceSurvey){
-                                console.log('Inside renderedCallback 5 = count'+ number);   
                                 this.startDateDisabled = true;      
                             }
                         
                         }
                         if (this.surveyEndDate <= currentDate) {
-                            console.log('Inside renderedCallback 6 = count'+number);
-                            console.log('end date is less than current date');
                             this.endDateDisabled = true;
                             if(this.isRecurrenceSurvey){
-                                console.log('Inside renderedCallback 7 = count'+number);
                                     this.startDateDisabled = true;      
                             }
                         }    
