@@ -16,6 +16,7 @@ import errorOnNumberOfOccurrence from '@salesforce/label/c.Number_Of_Occurrence_
 import remDateError from '@salesforce/label/c.reminder_greaterthan_one_year_error';
 import { loadScript } from 'lightning/platformResourceLoader';
 import momentJs from '@salesforce/resourceUrl/moment_js';
+import fetchTrialSurvey from '@salesforce/apex/TrialSurveyContainerController.getRecordTypeNameAndId';
 
 export default class trialSurvey extends NavigationMixin(LightningElement) {
     @api ctpId;
@@ -26,8 +27,18 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     isModalOpen = false;
     isctpId = false;
     isrecordtype = false;
-    //isStatusBasedTrialSurvey = false;
-    isRecurrenceSurvey = false;    
+    isRecurrenceSurvey = false; 
+    activeOnStatusDisabled = false;
+    recurringSurveyDisabled = false;
+    whoseResponseNeededDisabled = false;
+    startDateDisabled = false;
+    endDateDisabled = false;
+    isEdit=false; 
+    surveyStartDate;
+    surveyEndDate;
+    lastOccurrenceDate;  
+    error;
+    executeRenderedCallbackk = true;
     notNumericValue = false;
     labels = {
         weeklyError,
@@ -45,7 +56,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         errorOnNumberOfOccurrence
 
     };
-
+  
     connectedCallback() {
         this.isModalOpen = true;
         if (this.ctpId !== null) {
@@ -54,12 +65,28 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         if (this.recordTypeId !== null) {
             this.isrecordtype = true;
         }
-        /*if (this.recordTypeName === 'Status based') {
-            this.isStatusBasedTrialSurvey = true;
-        }*/
+        if (this.recordId !== null) {
+            this.isEdit = true;
+            this.activeOnStatusDisabled=true;
+            this.recurringSurveyDisabled=true;
+            this.whoseResponseNeededDisabled=true;
+        }
+
         loadScript(this, momentJs).then(() => {
-            console.log('scriptLoaded');
+            console.log('scriptLoaded');           
         });
+    }
+
+    renderedCallback(){
+        let number = ++this.number;
+        //Check to avoid unneccessary calls
+        if(this.executeRenderedCallbackk && this.isEdit){
+            //fetch Trial Survey data in case of edit. 
+            this.fetchTrialSurveyOnEdit();
+            this.executeRenderedCallbackk = false;   
+            
+        }
+        
     }
     handleFrequencyChange(event) {
         const inputFields = this.template.querySelectorAll('.remDate');
@@ -245,7 +272,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     }
     //Navigate to current CTP page on click of Save/Cancel button.
     naviagetOnSuccess(event) {
-        this.isModalOpen = false;
+        this.isModalOpen = false;   
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
@@ -277,12 +304,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         } else {
             this.reminderDisabled = false;
         }
-        if(this.recordTypeName == 'Time based'){
-            //this.isrecordtype = false;
-        }
-        else{
-           // this.isrecordtype = true;
-        }
+        
         this.isRecurrenceSurvey = event.target.value;
     }
     handleSuccess(event) {
@@ -302,4 +324,46 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         const selectedEvent = new CustomEvent('pagerefresh');
         this.dispatchEvent(selectedEvent);
     }
+    //Fetch trial survey for edit 
+    fetchTrialSurveyOnEdit() {
+        fetchTrialSurvey({ tsRecordId: this.recordId })
+            .then(result => {
+                if(result){
+                    this.recordTypeId = result.RecordTypeId;
+                    this.recordTypeName = result.RecordType.Name;
+                    this.isRecurrenceSurvey = result.Is_Recurrence_Survey__c;
+                    this.surveyStartDate = result.Survey_start_date__c;
+                    this.surveyEndDate = result.Survey_end_date__c;
+                    this.lastOccurrenceDate =result.Last_Occurrence_Date__c;
+                    this.error = undefined;
+                    // validation logic begins
+                    let today = new Date();
+                    let currentDate = today.toISOString().split('T')[0];
+                    if(this.recordTypeName === 'Time based'){
+                        this.recurringSurveyDisabled = false;
+                        if(this.lastOccurrenceDate!=null){
+                            this.recurringSurveyDisabled = true;
+                        }
+                        if (this.surveyStartDate <= currentDate) {
+                            this.recurringSurveyDisabled = true;
+                            if(!this.isRecurrenceSurvey){
+                                this.startDateDisabled = true;      
+                            }
+                        
+                        }
+                        if (this.surveyEndDate <= currentDate) {
+                            this.endDateDisabled = true;
+                            if(this.isRecurrenceSurvey){
+                                    this.startDateDisabled = true;      
+                            }
+                        }    
+                    }   
+                }     
+            })
+            .catch(error => {
+                this.error = error;
+                
+            });
+    }
+
 }

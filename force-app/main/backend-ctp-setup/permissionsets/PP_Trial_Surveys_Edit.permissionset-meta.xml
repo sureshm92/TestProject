@@ -47,6 +47,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Survey__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Survey_start_date__c</field>
         <readable>true</readable>
     </fieldPermissions>
