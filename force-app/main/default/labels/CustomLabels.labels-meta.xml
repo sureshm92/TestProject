@@ -4761,7 +4761,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action Complete Baseline Survey</shortDescription>
-        <value>Complete Survey</value>
+        <value>Login now</value>
     </labels>
     <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
@@ -4893,7 +4893,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName.</value>
+        <value>You have a new task awaiting your action: ##SurveyName Due Date and Time: ##expirationDate.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate</fullName>
@@ -5915,7 +5915,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Complete Baseline Survey</shortDescription>
-        <value>Please provide feedback</value>
+        <value>This is a task notification</value>
     </labels>
     <labels>
         <fullName>Email_Header_Covid_19</fullName>
@@ -6682,7 +6682,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Survey</shortDescription>
-        <value>We appreciate your feedback!
+        <value>We appreciate your participation!
 
             Sincerely,
 
@@ -6745,7 +6745,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
-        <value>Feedback requested</value>
+        <value>You have a new task: ##SurveyName</value>
     </labels>
     <labels>
         <fullName>Email_Subject_FollowUp_Reminder</fullName>
@@ -10220,13 +10220,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Navigation Dashboard</shortDescription>
         <value>Dashboard</value>
-    </labels>
-    <labels>
-        <fullName>Navigation_eDiary</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation_eDiary</shortDescription>
-        <value>eDiaries</value>
     </labels>
     <labels>
         <fullName>Navigation_Help</fullName>
@@ -18823,20 +18816,6 @@ communications using the toggles below.</value>
         <value>High Risk</value>
     </labels>
     <labels>
-        <fullName>RH_HumanAPIError</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_HumanAPIError</shortDescription>
-        <value>Unable to process the request- please retry</value>
-    </labels>
-    <labels>
-        <fullName>RH_HumanAPIEmailError</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_HumanAPIEmailError</shortDescription>
-        <value>Please correct email information and retry the request</value>
-    </labels>
-    <labels>
         <fullName>RH_InitialVisitScheduled</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18891,41 +18870,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Notification</shortDescription>
         <value>Notification preferences</value>
-    </labels>
-    <labels>
-        <fullName>RH_RequestMedicalBtn</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_RequestMedicalBtn</shortDescription>
-        <value>Request Medical Records</value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRecordAuthorized</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on:  </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRecordProvider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRecordProvider</shortDescription>
-        <value>Medical Records Providers  </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRetrieve_EmailError</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRetrive_Succces</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRetrive_Succces</shortDescription>
-        <value>You have successfully notified the participant/caregiver to authorize medical records.</value>
     </labels>
     <labels>
         <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
@@ -21281,20 +21225,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Info</shortDescription>
         <value>Study Info</value>
-    </labels>
-    <labels>
-        <fullName>Study_GUID_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study_GUID_Error_Message</shortDescription>
-        <value>Please enter Study GUID.</value>
-    </labels>
-    <labels>
-        <fullName>Study_Version_GUID_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study_Version_GUID_Error_Message</shortDescription>
-        <value>Please enter Study Version GUID.</value>
     </labels>
     <labels>
         <fullName>Summary_View</fullName>
