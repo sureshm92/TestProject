@@ -17,5 +17,6 @@ database.update(pdList);
 ```
 3. Go to Setup – All Sites – click on builder beside IQVIA Referral Hub  to open community builder– click on publish button present at the top right corner without doing anychanges– again click on publish button on the popup. 
 4. Go to Setup – All Sites – click on builder beside GSK Community to open community builder  – click on publish button present at the top right corner without doing anychanges – again click on publish button on the popup. 
+5. Go to setup > Object Manager > Search for "Trial Survey" object and click on it > Click on "Buttons, Links, and Actions" from the left panel > Search for "Edit" button and Click on "Edit" on Right side drop down of "Edit" button > for "Lightning Experience Override" option, select "Lightning component" radio button and on Drop down, Select "c:TrialSurveyContainer" > for "Mobile Overrid" option, select "Lightning component" radio button and on Drop down, Select "c:TrialSurveyContainer"  > click on Save
 
 
