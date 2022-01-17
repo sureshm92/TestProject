@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Sravani
  * @group             : 
- * @last modified on  : 01-16-2022
+ * @last modified on  : 01-17-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class TrialSurveyContainerController {
@@ -20,7 +20,6 @@ public without sharing class TrialSurveyContainerController {
         String tsRecordId
     ) { 
         Trial_Survey__c trialSurvey = [SELECT Id, RecordtypeId, RecordType.name,Is_Recurrence_Survey__c,Survey_start_date__c,Survey_end_date__c,Last_Occurrence_Date__c FROM Trial_Survey__c Where Id=:tsRecordId];
-        System.debug('trialSurvey: ' + trialSurvey);
         return trialSurvey;
     }
 }
