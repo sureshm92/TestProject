@@ -136,6 +136,7 @@ export default class DashboardParticipantCount extends LightningElement {
     //close model for refresh
     closeParticipantModal() {
         this.peList = [];
+        this.selectedPEList = [];
         this.isParticipantModalOpen = false;
     }
     
@@ -220,6 +221,7 @@ export default class DashboardParticipantCount extends LightningElement {
     selectAll() {
         this.popupLoading = true;
         let allRows = this.peList;
+        this.selectedPEList = [];
         for (var i = 0; i < allRows.length; i++) {
             let row = Object.assign({}, allRows[i]);  
             row.isChecked = true;
