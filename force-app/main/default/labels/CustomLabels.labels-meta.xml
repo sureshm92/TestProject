@@ -23410,7 +23410,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
-        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMN&oid=00D1I000001V1t1&lastMod=1607836850000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMN&amp;oid=00D1I000001V1t1&amp;lastMod=1607836850000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_TrackLogo</fullName>
