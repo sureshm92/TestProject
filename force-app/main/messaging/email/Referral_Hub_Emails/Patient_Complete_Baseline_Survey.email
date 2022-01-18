@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Complete_Baseline_Survey_New}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Complete_Baseline_Survey_New}: {!relatedTo.Survey__r.Name}"
                          recipientType="Contact"
                          relatedToType="SurveyInvitation"
                          language="{!recipient.Language__c}">

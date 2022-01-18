@@ -6770,7 +6770,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey New</shortDescription>
-        <value>You have a new task: ##SurveyName</value>
+        <value>You have a new task</value>
     </labels>
     <labels>
         <fullName>Email_Subject_FollowUp_Reminder</fullName>
@@ -19777,14 +19777,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Add/Update Patient</value>
+        <value>Add/Update patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Bulk_Import_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Bulk_Import_Patient</shortDescription>
-        <value>Bulk Import Patient</value>
+        <value>Bulk import patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
