@@ -299,6 +299,13 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 field.reset();
             });
         }
+        const inputExpAftDaysFields = this.template.querySelectorAll('.expAftDays');
+        if (inputExpAftDaysFields) {
+            inputExpAftDaysFields.forEach((field) => {
+                field.reset();
+            });
+        }
+        
         if (event.target.value) {
             this.reminderDisabled = true;
         } else {
