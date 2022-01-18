@@ -32,6 +32,7 @@ export default class DashboardParticipantCount extends LightningElement {
     loading = false;
     popupLoading = false;
     isParticipantModalOpen = false;
+    disableButton = false;
     selectedPEList = [];
 
     label = {
@@ -62,6 +63,7 @@ export default class DashboardParticipantCount extends LightningElement {
     fetchDashboardValues() {
         if(this.selectedCTP && this.selectedPI) {
             this.loading = true;
+
             if(this.isInvitationDashboard === 'true') {
                 getParticipantCount({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
                 .then(result => {
@@ -93,11 +95,11 @@ export default class DashboardParticipantCount extends LightningElement {
             let width=this.peList[i].width=='0%'?'1%':this.peList[i].width;
 
             if(this.peList[i].title === 'topBar') {                
-                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 20px; display: inline-block;';
+                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+';  display: inline-block;';
                 this.topBarRec=this.peList[i];
             
             } else if(this.peList[i].title === 'secondBar') {
-                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 20px; display: inline-block'; 
+                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+';  display: inline-block'; 
                 this.secondBarRec=this.peList[i];
             }    
         }
@@ -115,6 +117,7 @@ export default class DashboardParticipantCount extends LightningElement {
     openParticipantModal() {
         this.isParticipantModalOpen = true;
         this.popupLoading = true; 
+        this.disableButton = true;
         this.retrieveNotInvitedParticipants();
     }
 
@@ -136,6 +139,7 @@ export default class DashboardParticipantCount extends LightningElement {
     //close model for refresh
     closeParticipantModal() {
         this.peList = [];
+        this.selectedPEList = [];
         this.isParticipantModalOpen = false;
     }
     
@@ -157,14 +161,15 @@ export default class DashboardParticipantCount extends LightningElement {
         return comparison;
     }
 
-    doRecordSelection(event) {           
+    doRecordSelection(event) {    
+
         for (var i = 0; i < this.peList.length; i++) {
             let row = Object.assign({}, this.peList[i]);   
             let selectedRow = event.target.dataset.id;
-
             if(row.datasetId === selectedRow) {
-                if(event.target.checked) {
+                if(event.target.checked) {                    
                     row.isChecked = true;
+                    this.disableButton = false;
                     this.selectedPEList.push(row);
                 } else {
                     for(let j = 0; j < this.selectedPEList.length; j++) {
@@ -186,6 +191,7 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     sendToAll(event) {
+      
         if(this.peList.length > 0) {
             this.sendInvitesToApex(this.peList);
         }
@@ -219,7 +225,9 @@ export default class DashboardParticipantCount extends LightningElement {
     }
     selectAll() {
         this.popupLoading = true;
+        this.disableButton = false;
         let allRows = this.peList;
+        this.selectedPEList = [];
         for (var i = 0; i < allRows.length; i++) {
             let row = Object.assign({}, allRows[i]);  
             row.isChecked = true;
