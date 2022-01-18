@@ -11,30 +11,33 @@
             ></lightning-spinner>
         </template>
    
-         <div class="db-qal-items slds-grid slds-wrap db-section" style="height: 200px; margin-top: 40px">
-            <div class="barContainer" >
-                <div class="slds-col slds-size--3-of-12 barTitle  slds-align_absolute-right"  style="overflow-wrap: break-word;width: 142px;margin-top: 10px;">
+         <div class="db-qal-items slds-grid slds-wrap db-section" style="height: 200px; margin-top: 15px">
+            <div class="barContainer">
+                <div class="slds-col slds-size--3-of-12 barTitle  slds-align_absolute-right"  style="margin-bottom: 10px;">
                     <!--{invitedRec.title}-->
                     {topBarLabel}  
                 </div>
                 <div class="slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
                     <div class="bar"  style={topBarStyle} ></div>
-                        <div class="barText" style="margin-left: 10px; margin-top: 10px; display: inline-block" >
+                        <div class="barText" style="margin-left: 10px; display: inline-block" >
                             {topBarRec.count } {participantText}
                         </div>                            
                     
                     </div>
                 </div>
-                <div class="slds-col slds-size--3-of-12 barTitle  slds-align_absolute-right" style="overflow-wrap: break-word;width: 142px;">
-                    {secondBarLabel}  
-                </div>
-                <div class="slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
-                    <div class="bar"  style={secondBarStyle} ></div>
-                    <div class="barText" style="margin-left: 10px; margin-top: 10px; display: inline-block" >
-                        {secondBarRec.count } {participantText}
+                <div class="barContainer">
+                    <div class="slds-col slds-size--3-of-12 barTitle  slds-align_absolute-right" style="margin-bottom:10px">
+                        {secondBarLabel}  
                     </div>
-
+                    <div class="slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
+                        <div class="bar"  style={secondBarStyle} ></div>
+                        <div class="barText" style="margin-left: 10px;display: inline-block" >
+                            {secondBarRec.count } {participantText}
+                        </div>
+    
+                    </div>
                 </div>
+                
             
 		</div>
       

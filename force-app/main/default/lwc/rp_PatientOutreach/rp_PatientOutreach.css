@@ -5,7 +5,7 @@
   display: -moz-box;
 }
 .table-header-label {
-  color: black !important;
+    color: #444444 !important;
     font-family: "Proxima Nova";
     font-size: 14px;
     font-weight: bold!important;
@@ -91,9 +91,13 @@
   border-color: #1c577f;
 }
 .patientOutreachValidation .subtitle {
+  color: #000000;
+  font-family: "Proxima Nova";
   font-size: 16px;
-  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 24px;
 }
+
 .patientOutreachValidation .outreach-sent {
   font-size: 16px;
   font-weight: bold;
@@ -106,10 +110,11 @@
   padding-top: 12px;
 }
 .patientOutreachValidation .success {
+  padding: 15px 20px;
   color: #444444;
+  font-family: "Proxima Nova";
   font-size: 14px;
   font-weight: bold;
-  padding: 15px 20px;
 }
 .patientOutreachValidation .success:before{
   content: "";
