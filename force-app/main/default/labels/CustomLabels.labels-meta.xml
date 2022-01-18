@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Number Of Occurrence Error</shortDescription>
-        <value>You cannot create this Survey.</value>
+        <value>Number Of Occurrences should be greater than 0.</value>
     </labels>
     <labels>
         <fullName>Start_Date_Error_Message</fullName>
