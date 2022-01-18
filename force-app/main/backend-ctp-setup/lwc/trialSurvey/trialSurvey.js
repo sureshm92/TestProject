@@ -326,8 +326,6 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     }
     //Fetch trial survey for edit 
     fetchTrialSurveyOnEdit() {
-        let number =++this.number1;
-        console.log('Inside fetchTrial Survey : count= ' +number);
         fetchTrialSurvey({ tsRecordId: this.recordId })
             .then(result => {
                 if(result){
@@ -338,8 +336,6 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                     this.surveyEndDate = result.Survey_end_date__c;
                     this.lastOccurrenceDate =result.Last_Occurrence_Date__c;
                     this.error = undefined;
-                    console.log('recordTypeName : '+this.recordTypeName);
-
                     // validation logic begins
                     let today = new Date();
                     let currentDate = today.toISOString().split('T')[0];
