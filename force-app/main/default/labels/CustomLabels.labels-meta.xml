@@ -6770,7 +6770,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey New</shortDescription>
-        <value>You have a new task: ##SurveyName</value>
+        <value>You have a new task</value>
     </labels>
     <labels>
         <fullName>Email_Subject_FollowUp_Reminder</fullName>
