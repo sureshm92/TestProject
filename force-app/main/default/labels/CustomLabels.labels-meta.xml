@@ -19752,14 +19752,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Add/Update Patient</value>
+        <value>Add/Update patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Bulk_Import_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Bulk_Import_Patient</shortDescription>
-        <value>Bulk Import Patient</value>
+        <value>Bulk import patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
