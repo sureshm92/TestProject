@@ -30,4 +30,4 @@ for(User userRec:userList) {
 update userList;
 ```
 
-
+7. Add Batch_CreateECOASubject to the Batch Control Panel with Relaunch interval 5 mins and Scope Size : 50
