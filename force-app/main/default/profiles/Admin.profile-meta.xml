@@ -2014,6 +2014,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>User.IsCommunityUserRegistered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>
@@ -4125,6 +4130,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>IntegrationLog__c.Request_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>IntegrationLog__c.Response_Body__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5756,6 +5766,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Randomized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.RequestedMedicalRecords__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8116,6 +8131,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trial_Survey__c.is_Recurrence_Survey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
