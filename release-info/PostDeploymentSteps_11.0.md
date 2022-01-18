@@ -30,4 +30,4 @@ for(User userRec:userList) {
 update userList;
 ```
 
-7. Click on App launcher --> Click on Batch Control Panel-->Click on Add new Job->Select Batch_CreateECOASubject -> Select Interval mode as Minutes and Relaunch Interval Mode to 5 and Scope Size: 50
+7. Click on App launcher --> Click on Batch Control Panel-->Click on Add new Job->Select Batch_CreateECOASubject -> Select Interval mode as Minutes and Relaunch Interval Mode to 5 and Scope Size: 50 -> Click on Create new batch detail
