@@ -9,7 +9,8 @@
     <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">SurveyName = Survey__r.Name
-invId= Id</value>
+invId= Id
+expirationDate = ExpireDateTime__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
