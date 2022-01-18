@@ -108,13 +108,25 @@
                                         <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                             <p>
                                                 <lightning-input-field
+                                                    class="expAftDays"
                                                     onchange={isNumberKey}
                                                     required="true"
                                                     field-name="Expires_After_Days__c"
                                                 ></lightning-input-field>
                                             </p>
                                         </div>
-                                    </template>
+                                   </template>
+                                  <template if:true={isRecurrenceSurvey}>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                        <p>
+                                            <lightning-input-field
+                                                onchange={isNumberKey}
+                                                field-name="Expires_After_Days__c"
+                                                disabled="true"  
+                                            ></lightning-input-field>
+                                        </p>
+                                    </div>
+                                   </template>
                                 </div>
                                 <div class="slds-grid">
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
