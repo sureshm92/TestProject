@@ -87,10 +87,8 @@ public without sharing class rpPatientOutreachController {
             else if(!isError){
                 peRec.Outreach_Email_Status__c = 'Submitted';
                 peRec.Outreach_Mail_Sent__c = 'Yes';
-               
                 rpPatientOutreachAPIController.PatientOutreachWrapper outreachWrapper = rpPatientOutreachAPIController.generateObjectToJSON(peRec);
                 patientOutreachWrapperList.add(outreachWrapper);
-               
                 submittedPEs.add(peRec);
             }
         }     
@@ -98,7 +96,6 @@ public without sharing class rpPatientOutreachController {
             if(!submittedPEs.isEmpty()){
                 String json = JSON.serialize(patientOutreachWrapperList);
                 rpPatientOutreachAPIController.sendDataToMuleSoft(json);
-    
                 update submittedPEs;
             }
         }
