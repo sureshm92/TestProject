@@ -4761,7 +4761,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action Complete Baseline Survey</shortDescription>
-        <value>Login now</value>
+        <value>Complete Survey</value>
     </labels>
     <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
@@ -4862,25 +4862,6 @@ By using our website, you are accepting our use of cookies.</value>
         <value>To access all your participants, log in to the IQVIA Referral Hub and navigate to &quot;My Participants.&quot;</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Survey_New_Reminder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Survey New Reminder</shortDescription>
-        <value>This is an email to remind you of your upcoming  task ##SurveyName.
-Due Date and Time: ##expirationDate</value>
-    </labels>
-    <labels>
-        <fullName>Email_Signature_Survey_New</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email_Signature_Survey_New</shortDescription>
-        <value>We appreciate your participation!
-
-Sincerely,
-
-##SignatureShortCommunityName</value>
-    </labels>
-    <labels>
         <fullName>Email_Body_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4912,6 +4893,13 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
+        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New</shortDescription>
         <value>You have a new task awaiting your action: ##SurveyName Due Date and Time: ##expirationDate.</value>
     </labels>
     <labels>
@@ -5934,7 +5922,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Complete Baseline Survey</shortDescription>
-        <value>This is a task notification</value>
+        <value>Please provide feedback</value>
     </labels>
     <labels>
         <fullName>Email_Header_Covid_19</fullName>
@@ -6701,6 +6689,17 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Signature_Survey</shortDescription>
+        <value>We appreciate your feedback!
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Signature_Survey_New</shortDescription>
         <value>We appreciate your participation!
 
             Sincerely,
@@ -6764,6 +6763,13 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
+        <value>Feedback requested</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Complete_Baseline_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Complete Baseline Survey New</shortDescription>
         <value>You have a new task: ##SurveyName</value>
     </labels>
     <labels>
@@ -23433,13 +23439,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set yearly task for these dates.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_Complete_Baseline_Survey_New</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action Complete Baseline Survey New</shortDescription>
-        <value>Login Now</value>
     </labels>
     <labels>
         <fullName>Yes</fullName>
