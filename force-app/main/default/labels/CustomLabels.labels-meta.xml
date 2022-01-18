@@ -4862,6 +4862,25 @@ By using our website, you are accepting our use of cookies.</value>
         <value>To access all your participants, log in to the IQVIA Referral Hub and navigate to &quot;My Participants.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Survey_New_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Signature_Survey_New</shortDescription>
+        <value>We appreciate your participation!
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -23414,6 +23433,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set yearly task for these dates.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action Complete Baseline Survey New</shortDescription>
+        <value>Login Now</value>
     </labels>
     <labels>
         <fullName>Yes</fullName>

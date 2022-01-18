@@ -166,7 +166,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         if((((ts.Number_of_occurrences__c != null && surveyInvLst.size() < ts.Number_of_occurrences__c) || 
                         (ts.Survey_end_date__c != null && ExpiryDate != ts.Survey_end_date__c))
                         && ExpiryDate.addDays(1) == partDate) ||
-                        (ts.Survey_start_date__c != null && ts.Survey_start_date__c == partDate)
+                        (ts.Survey_start_date__c != null && ts.Survey_start_date__c == partDate 
+                        && ts.Survey_start_date__c==ts.Next_Occurrence_Date__c)
                         ){
                             newInvitations.add(
                             SurveyService.getInstance()
@@ -224,7 +225,6 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
     }
 
     private void updateTrialSurvey(Trial_Survey__c ts){
-        System.debug('Date Time : '+Datetime.now());
         Integer days;
         if(ts.Reminder_in_days_before_the_end_date__c != null){
             days = Integer.valueOf(ts.Reminder_in_days_before_the_end_date__c);
@@ -257,13 +257,17 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 if(days!=null && nextendDate.addDays(-days) >= ts.Next_Occurrence_Date__c){
                     ts.Next_Occurrence_Reminder__c = nextendDate.addDays(-days);
                 }
-                trialSurveyList.add(ts);
+                if(!trialSurveyList.contains(ts)){
+                    trialSurveyList.add(ts);
+                }
             }
             else{
                 ts.Next_Occurrence_Date__c = null;
                 ts.Next_Occurrence_Reminder__c = null;
                 ts.Next_Task_Due_Date__c = null;
-                trialSurveyList.add(ts);
+                if(!trialSurveyList.contains(ts)){
+                    trialSurveyList.add(ts);
+                }
             }
     }
     
