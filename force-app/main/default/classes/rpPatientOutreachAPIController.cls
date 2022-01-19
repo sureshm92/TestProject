@@ -35,9 +35,7 @@ public without sharing class rpPatientOutreachAPIController {
         public String rpCountry;
         public String rpState;
     }
-
    
-
 	public class PatientOutreachResults {
 		public String participantId;
 		public String studyCodeName;
@@ -88,27 +86,13 @@ public without sharing class rpPatientOutreachAPIController {
     public static void sendDataToMuleSoft(String patientOutreachData) {        
         HTTP h = new HTTP();
         HTTPRequest r = new HTTPRequest();
-        //	https://iqvia-rds-rh-outreach-exp-1-0-dev.us-e1.cloudhub.io/api/sitemediatedoutreaches
-        //https://iqvia-rds-rh-outreach-exp-1-0-dev.us-e1.cloudhub.io/api/patientoutreaches
-        r.setEndpoint('callout:HumanAPI_MulesoftCnct');
+        r.setEndpoint('callout:Patient_Outreach_Mulesoft_Connect');
         r.setHeader('Content-Type', 'application/json;charset=UTF-8');
         r.setMethod('POST');
         r.setbody(patientOutreachData);
-        System.debug('###### request ' +r.getBody());
         HTTPResponse resp = h.send(r);
-        System.debug('###### resp ' +resp);
-        System.debug('###### resp ' +resp.getBody());
-
         List<IntegrationLog__c> objIntegrationLogList = new List<IntegrationLog__c>();
-       //JsonParser parser = JSON.createParser(resp.getBody());
-       System.debug(resp.getBody());
-       PatientOutreachLog log = PatientOutreachLog.parse(resp.getBody());
-      System.debug (PatientOutreachLog.parse(resp.getBody()));
-      //  String jSONstr = JSON.serialize(resp.getBody());
-      //  System.debug(jSONstr);
-      //  List<PatientOutreachResults> deserializedResponseWrapper = (List<PatientOutreachResults>)JSON.deserialize(jSONstr, List<PatientOutreachResults>.class);
-      System.debug ('log' + log.results);
-
+        PatientOutreachLog log = PatientOutreachLog.parse(resp.getBody());
         for (PatientOutreachLog.Results wrap: log.results){
             IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
             objIntegrationLog.Request_Body__c = patientOutreachData;
@@ -122,21 +106,7 @@ public without sharing class rpPatientOutreachAPIController {
             objIntegrationLog.Http_Method__c = 'POST';
             objIntegrationLogList.add(objIntegrationLog);
         }
-
-        insert objIntegrationLogList;
-
-       /* IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-        objIntegrationLog.Request_Body__c = patientOutreachData;
-        objIntegrationLog.Request_Time__c  = Datetime.now();
-        objIntegrationLog.Response_Body__c = resp.getBody();
-        objIntegrationLog.Response_Status__c = resp.getStatus();
-        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-        objIntegrationLog.Request_Type__c = 'PatientOutreach_RHtoMulesoft';
-        objIntegrationLog.Function_Name__c = 'rpPatientOutreachAPIController_sendDataToMuleSoft';
-        objIntegrationLog.Success__c = resp.getStatusCode() == 200 ? True : false;
-        objIntegrationLog.Http_Method__c = 'POST';
-        insert objIntegrationLog;*/
-
+        Insert objIntegrationLogList;
     }
     
 }
