@@ -600,3 +600,6 @@
     }
 
 }
+.THIS .slds-datepicker { 
+    max-width: 50rem;
+    }
