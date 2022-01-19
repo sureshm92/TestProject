@@ -23583,4 +23583,32 @@ communications using the toggles below.</value>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
-</CustomLabels><!-- new required label added -->
+    <labels>
+        <fullName>RH_RP_Comments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Comments</shortDescription>
+        <value>Comments</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Add_Comments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Add Comments</shortDescription>
+        <value>Add Comments here...</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Clear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Clear</shortDescription>
+        <value>Clear</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Save_Note</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Save Note</shortDescription>
+        <value>Save Note</value>
+    </labels>
+</CustomLabels>
