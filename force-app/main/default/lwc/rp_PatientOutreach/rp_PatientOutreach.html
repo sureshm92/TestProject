@@ -75,10 +75,10 @@
             <tbody>
               <template for:each={outreachFailureInfo} for:item="failinfo">
                 <tr key={failinfo.patientId}>
-                  <td key={failinfo.patientId} title={failinfo.patientId}><div class="slds-cell-wrap">{failinfo.patientId}</div></td>
-                  <td key={failinfo.patientId} title={failinfo.validationMsg}>{failinfo.validationMsg}</td>
+                  <td class="table-header-label" key={failinfo.patientId} title={failinfo.patientId}><div class="slds-cell-wrap">{failinfo.patientId}</div></td>
+                  <td class="table-header-label" key={failinfo.patientId} title={failinfo.validationMsg}>{failinfo.validationMsg}</td>
                 </tr>
-              </template>
+              </template> 
             </tbody>
             </table>
           </div>

@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Number Of Occurrence Error</shortDescription>
-        <value>You cannot create this Survey.</value>
+        <value>Number Of Occurrences should be greater than 0.</value>
     </labels>
     <labels>
         <fullName>Start_Date_Error_Message</fullName>
@@ -4896,6 +4896,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New</shortDescription>
+        <value>You have a new task awaiting your action: ##SurveyName Due Date and Time: ##expirationDate.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6689,6 +6696,17 @@ Sincerely,
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Signature_Survey_New</shortDescription>
+        <value>We appreciate your participation!
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6746,6 +6764,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
         <value>Feedback requested</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Complete_Baseline_Survey_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Complete Baseline Survey New</shortDescription>
+        <value>You have a new task</value>
     </labels>
     <labels>
         <fullName>Email_Subject_FollowUp_Reminder</fullName>
@@ -10220,13 +10245,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Navigation Dashboard</shortDescription>
         <value>Dashboard</value>
-    </labels>
-    <labels>
-        <fullName>Navigation_eDiary</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation_eDiary</shortDescription>
-        <value>eDiaries</value>
     </labels>
     <labels>
         <fullName>Navigation_Help</fullName>
@@ -18823,20 +18841,6 @@ communications using the toggles below.</value>
         <value>High Risk</value>
     </labels>
     <labels>
-        <fullName>RH_HumanAPIError</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_HumanAPIError</shortDescription>
-        <value>Unable to process the request- please retry</value>
-    </labels>
-    <labels>
-        <fullName>RH_HumanAPIEmailError</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_HumanAPIEmailError</shortDescription>
-        <value>Please correct email information and retry the request</value>
-    </labels>
-    <labels>
         <fullName>RH_InitialVisitScheduled</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18891,41 +18895,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Notification</shortDescription>
         <value>Notification preferences</value>
-    </labels>
-    <labels>
-        <fullName>RH_RequestMedicalBtn</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_RequestMedicalBtn</shortDescription>
-        <value>Request Medical Records</value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRecordAuthorized</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on:  </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRecordProvider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRecordProvider</shortDescription>
-        <value>Medical Records Providers  </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRetrieve_EmailError</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
-    </labels>
-    <labels>
-        <fullName>RH_MedicalRetrive_Succces</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_MedicalRetrive_Succces</shortDescription>
-        <value>You have successfully notified the participant/caregiver to authorize medical records.</value>
     </labels>
     <labels>
         <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
@@ -19808,14 +19777,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Add/Update Patient</value>
+        <value>Add/Update patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Bulk_Import_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Bulk_Import_Patient</shortDescription>
-        <value>Bulk Import Patient</value>
+        <value>Bulk import patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
@@ -21281,20 +21250,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Info</shortDescription>
         <value>Study Info</value>
-    </labels>
-    <labels>
-        <fullName>Study_GUID_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study_GUID_Error_Message</shortDescription>
-        <value>Please enter Study GUID.</value>
-    </labels>
-    <labels>
-        <fullName>Study_Version_GUID_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study_Version_GUID_Error_Message</shortDescription>
-        <value>Please enter Study Version GUID.</value>
     </labels>
     <labels>
         <fullName>Summary_View</fullName>
@@ -23628,6 +23583,7 @@ communications using the toggles below.</value>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
+<<<<<<< HEAD
     <labels>
         <fullName>RH_RP_Comments</fullName>
         <language>en_US</language>
@@ -23657,3 +23613,6 @@ communications using the toggles below.</value>
         <value>Save Note</value>
     </labels>
 </CustomLabels>
+=======
+</CustomLabels><!-- new required label added -->
+>>>>>>> origin/INT11
