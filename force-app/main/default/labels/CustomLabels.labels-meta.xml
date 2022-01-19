@@ -23583,7 +23583,6 @@ communications using the toggles below.</value>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
-<<<<<<< HEAD
     <labels>
         <fullName>RH_RP_Comments</fullName>
         <language>en_US</language>
@@ -23613,6 +23612,3 @@ communications using the toggles below.</value>
         <value>Save Note</value>
     </labels>
 </CustomLabels>
-=======
-</CustomLabels><!-- new required label added -->
->>>>>>> origin/INT11
