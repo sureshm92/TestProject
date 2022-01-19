@@ -390,6 +390,7 @@
 
 .THIS .p-content.with-scroll {
     overflow-y: auto;
+    max-height: 55vh;
 }
 
 .THIS .disabledVisit .slds-input,
