@@ -207,20 +207,9 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 );
                 return;
             }
-            if (frequency == 'Weekly' && expiryDays < 7) {
-                communityService.showErrorToast('', this.labels.weeklyError, 3000);
-                return;
-            } else if (frequency == 'Monthly' && monthdiff < 1) {
-                communityService.showErrorToast('', this.labels.monthlyError, 3000);
-                return;
-            } else if (frequency == 'Yearly' && yearsDiff < 1) {
-                communityService.showErrorToast('', this.labels.yearlyError, 3000);
-                return;
-            } else {
-                // save record
-                this.template.querySelector('lightning-record-edit-form').submit(fields);
-                this.naviagetOnSuccess();
-            }
+             // save record
+             this.template.querySelector('lightning-record-edit-form').submit(fields);
+             this.naviagetOnSuccess();
         } else if (this.recordTypeName == 'Time based') {
             // time based
             let todaysDate = new Date();
