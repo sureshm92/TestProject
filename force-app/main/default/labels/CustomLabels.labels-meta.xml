@@ -23605,7 +23605,7 @@ communications using the toggles below.</value>
         <value>Clear</value>
     </labels>
     <labels>
-        <fullName>RH_RP_Save Note</fullName>
+        <fullName>RH_RP_Save_Note</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Save Note</shortDescription>
