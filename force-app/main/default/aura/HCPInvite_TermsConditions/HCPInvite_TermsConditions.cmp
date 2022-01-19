@@ -1,0 +1,72 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable"
+                controller="HCPInviteControllerNew" extends="c:CommunityContext"
+                access="global" description="HCPInvite_TermsConditions">
+    
+    <ltng:require
+                  scripts="{!$Resource.rr_community_js}"
+                  afterScriptsLoaded="{!c.doInit}"
+                  />
+    
+    <aura:attribute name="tcData" type="Object" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="CommunityUrl" type="String" />
+    <aura:attribute name="UserName" type="String" />
+    <aura:attribute name="userId" type="String" />
+    <aura:attribute name="ContactUserWrapperData" type="Object" /> 
+    
+    <aura:registerEvent name="HCPInviteEvt" type="c:HCPInviteEvent"/> 
+    
+    <c:RRSpinner size="medium" aura:id="mainSpinner" />
+    <div class="slds-grid slds-grid_align-center">
+        <span class="main-header">{!$Label.c.PG_TC_H_Terms_And_Conditions}</span>
+    </div>
+    <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-12 slds-medium-size_3-of-12"></div>
+        <div class="slds-col slds-size_10-of-12 slds-medium-size_6-of-12">
+            <lightning:formattedRichText
+                                         class="slds-text-longform"
+                                         value="{!v.tcData.T_C_Text__c}"
+                                         />
+        </div>
+        <div class="slds-col slds-size_1-of-12 slds-medium-size_3-of-12"></div>
+    </div>
+    
+    <div class="rr-bottom-bar-area">
+        <div class="rr-bottom-bar">
+            <div class="rr-bottom-bar-line"></div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_0-of-12 slds-medium-size_3-of-12"></div>
+                <div class="slds-col slds-size_12-of-12 slds-medium-size_6-of-12">
+                    <div class="slds-grid footer-margin">
+                        <div class="slds-col slds-size_5-of-12 slds-medium-size_6-of-12 term-txt-top">
+                            <span class="tc-accept-text">{!$Label.c.PG_TC_H_Do_You_Accept}</span>
+                        </div>
+                        <div class="slds-col slds-size_7-of-12 slds-medium-size_6-of-12 slds-text-align_right">
+                            <lightning:button
+                                              class="apollo-btn secondary"
+                                              label="{!$Label.c.BTN_Back}"
+                                              title="{!$Label.c.BTN_Back}"
+                                              onclick="{! c.navigateToProfileCmp }"
+                                              />
+                            <lightning:button
+                                              class="apollo-btn primary"
+                                              label="{!$Label.c.BTN_I_Accept}"
+                                              title="{!$Label.c.BTN_I_Accept}"
+                                              onclick="{! c.doAccepttermsCondition }"
+                                              />
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_0-of-12 slds-medium-size_3-of-12"></div>
+            </div>
+            <div style="height: 80px"></div>
+            <div class="footer">
+                <div class="rr-width-limiter side-padding">
+                    <div class="copyright">{!$Label.c.Footer_T_Copyright}</div> 
+                </div>
+            </div>
+            <div  style="display:block; height: 24px"> </div> 
+        </div>
+    </div>
+</aura:component>

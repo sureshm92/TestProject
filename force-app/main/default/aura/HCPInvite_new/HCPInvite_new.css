@@ -1,0 +1,59 @@
+.THIS.header-logo-css{
+    max-width:85%;
+    height:42px;
+    background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+}
+.THIS.rr-all-content{
+        background-color: #f8f9fb;
+}
+.THIS.rr-min-body-height .siteforceContentArea{
+    background-color: red!important;
+}
+
+.THIS .cust-header-block{
+    margin: 12px 0 0 97px;
+	width: 137px;
+    height: 20px;    
+}
+.THIS .header-css{
+    background-color: white;
+    height: 2.6rem;
+    padding-top: .8rem;
+    margin-top: 0.6rem;
+	border:1px solid lightgrey;
+	max-width:100%;
+	margin-left: 0rem;    
+}
+.THIS .thick-line {
+    height: 5px;
+    background-color: #999999;
+}
+.THIS .line-info {
+    color: #999999;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.THIS .thick-line.selected {
+    background-color: #8700F7;
+}
+.THIS .line-info.selected {
+    color: #8700F7;
+}
+@media (max-width:768px){
+    .THIS.header-logo-css{
+        max-width:100%;
+    }
+    .THIS .cust-header-block {
+    	margin: 12px 0 0 40px;
+    }
+    .THIS .mob-header-css{
+        margin-top: 0.6rem;
+        padding: 10px 0 5px 0;
+        background-color: #ffffff;
+        border:1px solid lightgrey;
+        max-width:100%;
+        margin-left: 0px;
+    }
+}
