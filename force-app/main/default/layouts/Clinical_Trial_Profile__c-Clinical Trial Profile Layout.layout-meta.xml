@@ -732,6 +732,8 @@
     <relatedLists>
         <fields>Survey.NAME</fields>
         <fields>RECORDTYPE</fields>
+         <fields>Status__c</fields>
+        <fields>Is_Recurrence_Survey__c</fields>
         <fields>Whose_response_needed__c</fields>
         <fields>Is_Midpoint__c</fields>
         <relatedList>Trial_Survey__c.Clinical_Trial_Profile__c</relatedList>
