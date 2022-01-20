@@ -15,7 +15,9 @@ private class Test_MyTeamRemote {
     @IsTest
     static void hcpDelegateTest() {
         TestData testData = new TestData();
-        Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
+        Contact hcpContact = [SELECT Id, HCP_Opt_In_Referral_Status_Emails__c FROM Contact WHERE Email = 'hcp@emil.com'];
+        hcpContact.HCP_Opt_In_Referral_Status_Emails__c = true;
+        Database.update(hcpContact);
         Test.startTest();
         System.runAs(testData.hcpUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, null);
