@@ -6,7 +6,7 @@
             'getProfilePicture',
             {
                 parentId: component.get('v.recordId'),
-				userMode: component.get('v.userMode')
+                userMode: component.get('v.userMode')
             },
             function (returnValue) {
                 var attachment = returnValue;

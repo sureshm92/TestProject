@@ -73,7 +73,7 @@ public class UserService {
         'fr_MC' => 'dd/MM/yyyy HH:mm',
         'hr_HR' => 'yyyy.MM.dd. HH:mm',
         'hu' => 'yyyy.MM.dd, HH:mm',
-        'hy_AM' => 'dd.MM.yyyy, HH:mm',        
+        'hy_AM' => 'dd.MM.yyyy, HH:mm',
         'it' => 'dd/MM/yyyy H.mm',
         'it_CH' => 'dd.MM.yyyy, HH:mm',
         'it_IT' => 'dd/MM/yyyy, HH:mm',
@@ -95,8 +95,8 @@ public class UserService {
         'no' => 'dd.MM.yyyy HH:mm',
         'no_NO' => 'dd.MM.yyyy, HH:mm',
         'pl' => 'yyyy-MM-dd HH:mm',
-        'pt' => 'dd-MM-yyyy H:mm',        
-        'pt_BR' => 'dd/MM/yyyy HH:mm',       
+        'pt' => 'dd-MM-yyyy H:mm',
+        'pt_BR' => 'dd/MM/yyyy HH:mm',
         'ro_RO' => 'dd.MM.yyyy, HH:mm',
         'ru' => 'dd.MM.yyyy H:mm',
         'sk_SK' => 'd.M.yyyy H:mm',
@@ -108,7 +108,7 @@ public class UserService {
         'tr' => 'dd.MM.yyyy HH:mm',
         'ur_PK' => 'dd/MM/yyyy h:mm a',
         'vi_VN' => 'HH:mm, dd/MM/yyyy',
-        'zh' => 'yyyy-M-d ah:mm',       
+        'zh' => 'yyyy-M-d ah:mm',
         'tl_PH' => 'MM/dd/yyyy, hh:mm a',
         'pl_PL' => 'dd.MM.yyyy, HH:mm',
         'ru_RU' => 'dd.MM.yyyy, HH:mm',
@@ -188,10 +188,10 @@ public class UserService {
         'fr_KM' => 'dd/MM/yyyy HH:mm',
         'fr_MR' => 'dd/MM/yyyy hh:mm a',
         'fr_WF' => 'dd/MM/yyyy HH:mm',
-        'ga_IE' =>  'dd/MM/yyyy HH:mm',
-        'gu_IN' =>  'dd/MM/yyyy hh:mm a',
+        'ga_IE' => 'dd/MM/yyyy HH:mm',
+        'gu_IN' => 'dd/MM/yyyy hh:mm a',
         'hi_IN' => 'dd/MM/yyyy, hh:mm a',
-        'hu_HU' =>  'yyyy.MM.dd. HH:mm',
+        'hu_HU' => 'yyyy.MM.dd. HH:mm',
         'in_ID' => 'dd/MM/yyyy HH:mm',
         'is_IS' => 'dd.MM.yyyy, HH:mm',
         'ka_GE' => 'dd.MM.yyyy, HH:mm',
@@ -201,52 +201,52 @@ public class UserService {
         'lb_LU' => 'dd.MM.yyyy HH:mm',
         'lo_LA' => 'dd/MM/yyyy, HH:mm',
         'lu_CD' => 'dd/MM/yyyy HH:mm',
-       'mi_NZ' => 'yyyy-MM-dd hh:mm',
-       'mk_MK' => 'dd.MM.yyyy HH:mm',
-       'ml_IN' => 'dd/MM/yyyy hh:mm a',
-       'mr_IN' => 'dd/MM/yyyy hh:mm a',
-       'ms_BN' => 'dd/MM/yyyy, hh:mm a',
-       'mt_MT' => 'dd/MM/yyyy HH:mm',
-       'ne_NP' => 'yyyy/MM/dd, HH:mm',
-       'nl_AW' => 'dd-MM-yyyy HH:mm',
-       'pt_AO' => 'dd/MM/yyyy, HH:mm',
-       'pt_CV' => 'dd/MM/yyyy, HH:mm',
-       'pt_MZ' => 'dd/MM/yyyy, HH:mm',
-       'pt_PT' => 'dd/MM/yyyy, HH:mm',
-       'pt_ST' => 'dd/MM/yyyy, HH:mm',
-       'rm_CH' => 'dd-MM-yyyy HH:mm',
-       'rn_BI' => 'dd/MM/yyyy HH:mm',
-       'ro_MD' => 'dd.MM.yyyy, HH:mm',
-       'ru_KZ' => 'dd.MM.yyyy, HH:mm',
-       'sh_BA' => 'dd.MM.yyyy. HH:mm',
-       'sh_CS' => 'dd.MM.yyyy. HH:mm',
-       'sh_ME' => 'dd.MM.yyyy. HH:mm',
-       'sh_ME_USD' => 'dd.MM.yyyy. HH:mm',
-       'so_DJ' => 'dd/MM/yyyy hh:mm a',
-       'so_SO' => 'dd/MM/yyyy hh:mm a',
-       'sq_AL' =>  'dd.MM.yyyy, hh:mm a',
-       'sr_BA' => 'dd.MM.yyyy. HH:mm',
-       'sr_CS' => 'dd.MM.yyyy. HH:mm',
-       'sr_RS' => 'dd.MM.yyyy. HH:mm',
-       'sw_KE' => 'dd/MM/yyyy, HH:mm',
-       'ta_IN' => 'dd/MM/yyyy a hh:mm',
-       'ta_LK' => 'dd/MM/yyyy, HH:mm',
-       'te_IN' => 'dd-MM-yyyy hh:mm a',
-       'tg_TJ' => 'dd/MM/yyyy HH:mm',       
-       'ti_ET' => 'dd/MM/yyyy hh:mm a',
-       'tr_TR' => 'dd.MM.yyyy HH:mm',
-       'uk_UA' => 'dd.MM.yyyy, HH:mm',
-       'uz_LATN_UZ' => 'dd/MM/yyyy, HH:mm',
-       'yo_BJ' => 'dd/MM/yyyy HH:mm',
-       'zh_CN' => 'yyyy/MM/dd a hh:mm',
-       'zh_CN_PINYIN' => 'yyyy/MM/dd a hh:mm',
-       'zh_CN_STROKE' => 'yyyy/MM/dd a hh:mm',
-       'zh_HK'  => 'dd/MM/yyyy a hh:mm',
-       'zh_HK_STROKE' => 'dd/MM/yyyy a hh:mm',
-       'zh_MO' => 'dd/MM/yyyy a hh:mm',
-       'zh_SG' => 'dd/MM/yyyy a hh:mm',
-       'zh_TW' => 'yyyy/MM/dd a hh:mm',
-       'zh_TW_STROKE' => 'yyyy/MM/dd a hh:mm'
+        'mi_NZ' => 'yyyy-MM-dd hh:mm',
+        'mk_MK' => 'dd.MM.yyyy HH:mm',
+        'ml_IN' => 'dd/MM/yyyy hh:mm a',
+        'mr_IN' => 'dd/MM/yyyy hh:mm a',
+        'ms_BN' => 'dd/MM/yyyy, hh:mm a',
+        'mt_MT' => 'dd/MM/yyyy HH:mm',
+        'ne_NP' => 'yyyy/MM/dd, HH:mm',
+        'nl_AW' => 'dd-MM-yyyy HH:mm',
+        'pt_AO' => 'dd/MM/yyyy, HH:mm',
+        'pt_CV' => 'dd/MM/yyyy, HH:mm',
+        'pt_MZ' => 'dd/MM/yyyy, HH:mm',
+        'pt_PT' => 'dd/MM/yyyy, HH:mm',
+        'pt_ST' => 'dd/MM/yyyy, HH:mm',
+        'rm_CH' => 'dd-MM-yyyy HH:mm',
+        'rn_BI' => 'dd/MM/yyyy HH:mm',
+        'ro_MD' => 'dd.MM.yyyy, HH:mm',
+        'ru_KZ' => 'dd.MM.yyyy, HH:mm',
+        'sh_BA' => 'dd.MM.yyyy. HH:mm',
+        'sh_CS' => 'dd.MM.yyyy. HH:mm',
+        'sh_ME' => 'dd.MM.yyyy. HH:mm',
+        'sh_ME_USD' => 'dd.MM.yyyy. HH:mm',
+        'so_DJ' => 'dd/MM/yyyy hh:mm a',
+        'so_SO' => 'dd/MM/yyyy hh:mm a',
+        'sq_AL' => 'dd.MM.yyyy, hh:mm a',
+        'sr_BA' => 'dd.MM.yyyy. HH:mm',
+        'sr_CS' => 'dd.MM.yyyy. HH:mm',
+        'sr_RS' => 'dd.MM.yyyy. HH:mm',
+        'sw_KE' => 'dd/MM/yyyy, HH:mm',
+        'ta_IN' => 'dd/MM/yyyy a hh:mm',
+        'ta_LK' => 'dd/MM/yyyy, HH:mm',
+        'te_IN' => 'dd-MM-yyyy hh:mm a',
+        'tg_TJ' => 'dd/MM/yyyy HH:mm',
+        'ti_ET' => 'dd/MM/yyyy hh:mm a',
+        'tr_TR' => 'dd.MM.yyyy HH:mm',
+        'uk_UA' => 'dd.MM.yyyy, HH:mm',
+        'uz_LATN_UZ' => 'dd/MM/yyyy, HH:mm',
+        'yo_BJ' => 'dd/MM/yyyy HH:mm',
+        'zh_CN' => 'yyyy/MM/dd a hh:mm',
+        'zh_CN_PINYIN' => 'yyyy/MM/dd a hh:mm',
+        'zh_CN_STROKE' => 'yyyy/MM/dd a hh:mm',
+        'zh_HK' => 'dd/MM/yyyy a hh:mm',
+        'zh_HK_STROKE' => 'dd/MM/yyyy a hh:mm',
+        'zh_MO' => 'dd/MM/yyyy a hh:mm',
+        'zh_SG' => 'dd/MM/yyyy a hh:mm',
+        'zh_TW' => 'yyyy/MM/dd a hh:mm',
+        'zh_TW_STROKE' => 'yyyy/MM/dd a hh:mm'
     };
     public static final Map<String, String> DATE_ONLY_FORMAT_BY_LOCALE = new Map<String, String>{
         'ar' => 'dd/MM/yyyy',
@@ -318,7 +318,7 @@ public class UserService {
         'fr_MC' => 'dd/MM/yyyy',
         'hr_HR' => 'yyyy.MM.dd',
         'hu' => 'yyyy.MM.dd',
-        'hy_AM' => 'dd.MM.yyyy',        
+        'hy_AM' => 'dd.MM.yyyy',
         'it' => 'dd/MM/yyyy',
         'it_CH' => 'dd.MM.yyyy',
         'it_IT' => 'dd/MM/yyyy',
@@ -340,8 +340,8 @@ public class UserService {
         'no' => 'dd.MM.yyyy',
         'no_NO' => 'dd.MM.yyyy',
         'pl' => 'yyyy-MM-dd',
-        'pt' => 'dd-MM-yyyy',        
-        'pt_BR' => 'dd/MM/yyyy',       
+        'pt' => 'dd-MM-yyyy',
+        'pt_BR' => 'dd/MM/yyyy',
         'ro_RO' => 'dd.MM.yyyy',
         'ru' => 'dd.MM.yyyy',
         'sk_SK' => 'd.M.yyyy',
@@ -353,7 +353,7 @@ public class UserService {
         'tr' => 'dd.MM.yyyy',
         'ur_PK' => 'dd/MM/yyyy',
         'vi_VN' => 'dd/MM/yyyy',
-        'zh' => 'yyyy-M-d',          
+        'zh' => 'yyyy-M-d',
         'tl_PH' => 'MM/dd/yyyy',
         'pl_PL' => 'dd.MM.yyyy',
         'ru_RU' => 'dd.MM.yyyy',
@@ -433,10 +433,10 @@ public class UserService {
         'fr_KM' => 'dd/MM/yyyy',
         'fr_MR' => 'dd/MM/yyyy',
         'fr_WF' => 'dd/MM/yyyy',
-        'ga_IE' =>  'dd/MM/yyyy',
-        'gu_IN' =>  'dd/MM/yyyy',
+        'ga_IE' => 'dd/MM/yyyy',
+        'gu_IN' => 'dd/MM/yyyy',
         'hi_IN' => 'dd/MM/yyyy',
-        'hu_HU' =>  'yyyy.MM.dd',
+        'hu_HU' => 'yyyy.MM.dd',
         'in_ID' => 'dd/MM/yyyy',
         'is_IS' => 'dd.MM.yyyy',
         'ka_GE' => 'dd.MM.yyyy',
@@ -446,54 +446,54 @@ public class UserService {
         'lb_LU' => 'dd.MM.yyyy',
         'lo_LA' => 'dd/MM/yyyy',
         'lu_CD' => 'dd/MM/yyyy',
-       'mi_NZ' => 'yyyy-MM-dd',
-       'mk_MK' => 'dd.MM.yyyy',
-       'ml_IN' => 'dd/MM/yyyy',
-       'mr_IN' => 'dd/MM/yyyy',
-       'ms_BN' => 'dd/MM/yyyy',
-       'mt_MT' => 'dd/MM/yyyy',
-       'ne_NP' => 'yyyy/MM/dd',
-       'nl_AW' => 'dd-MM-yyyy',
-       'pt_AO' => 'dd/MM/yyyy',
-       'pt_CV' => 'dd/MM/yyyy',
-       'pt_MZ' => 'dd/MM/yyyy',
-       'pt_PT' => 'dd/MM/yyyy',
-       'pt_ST' => 'dd/MM/yyyy',
-       'rm_CH' => 'dd-MM-yyyy',
-       'rn_BI' => 'dd/MM/yyyy',
-       'ro_MD' => 'dd.MM.yyyy',
-       'ru_KZ' => 'dd.MM.yyyy',
-       'sh_BA' => 'dd.MM.yyyy',
-       'sh_CS' => 'dd.MM.yyyy',
-       'sh_ME' => 'dd.MM.yyyy',
-       'sh_ME_USD' => 'dd.MM.yyyy',
-       'so_DJ' => 'dd/MM/yyyy',
-       'so_SO' => 'dd/MM/yyyy',
-       'sq_AL' =>  'dd.MM.yyyy',
-       'sr_BA' => 'dd.MM.yyyy',
-       'sr_CS' => 'dd.MM.yyyy',
-       'sr_RS' => 'dd.MM.yyyy',
-       'sw_KE' => 'dd/MM/yyyy',
-       'ta_IN' => 'dd/MM/yyyy',
-       'ta_LK' => 'dd/MM/yyyy',
-       'te_IN' => 'dd-MM-yyyy',
-       'tg_TJ' => 'dd/MM/yyyy',       
-       'ti_ET' => 'dd/MM/yyyy',
-       'tr_TR' => 'dd.MM.yyyy',
-       'uk_UA' => 'dd.MM.yyyy',
-       'uz_LATN_UZ' => 'dd/MM/yyyy',
-       'yo_BJ' => 'dd/MM/yyyy',
-       'zh_CN' => 'yyyy/MM/dd',
-       'zh_CN_PINYIN' => 'yyyy/MM/dd',
-       'zh_CN_STROKE' => 'yyyy/MM/dd',
-       'zh_HK'  => 'dd/MM/yyyy',
-       'zh_HK_STROKE' => 'dd/MM/yyyy',
-       'zh_MO' => 'dd/MM/yyyy',
-       'zh_SG' => 'dd/MM/yyyy',
-       'zh_TW' => 'yyyy/MM/dd',
-       'zh_TW_STROKE' => 'yyyy/MM/dd'
+        'mi_NZ' => 'yyyy-MM-dd',
+        'mk_MK' => 'dd.MM.yyyy',
+        'ml_IN' => 'dd/MM/yyyy',
+        'mr_IN' => 'dd/MM/yyyy',
+        'ms_BN' => 'dd/MM/yyyy',
+        'mt_MT' => 'dd/MM/yyyy',
+        'ne_NP' => 'yyyy/MM/dd',
+        'nl_AW' => 'dd-MM-yyyy',
+        'pt_AO' => 'dd/MM/yyyy',
+        'pt_CV' => 'dd/MM/yyyy',
+        'pt_MZ' => 'dd/MM/yyyy',
+        'pt_PT' => 'dd/MM/yyyy',
+        'pt_ST' => 'dd/MM/yyyy',
+        'rm_CH' => 'dd-MM-yyyy',
+        'rn_BI' => 'dd/MM/yyyy',
+        'ro_MD' => 'dd.MM.yyyy',
+        'ru_KZ' => 'dd.MM.yyyy',
+        'sh_BA' => 'dd.MM.yyyy',
+        'sh_CS' => 'dd.MM.yyyy',
+        'sh_ME' => 'dd.MM.yyyy',
+        'sh_ME_USD' => 'dd.MM.yyyy',
+        'so_DJ' => 'dd/MM/yyyy',
+        'so_SO' => 'dd/MM/yyyy',
+        'sq_AL' => 'dd.MM.yyyy',
+        'sr_BA' => 'dd.MM.yyyy',
+        'sr_CS' => 'dd.MM.yyyy',
+        'sr_RS' => 'dd.MM.yyyy',
+        'sw_KE' => 'dd/MM/yyyy',
+        'ta_IN' => 'dd/MM/yyyy',
+        'ta_LK' => 'dd/MM/yyyy',
+        'te_IN' => 'dd-MM-yyyy',
+        'tg_TJ' => 'dd/MM/yyyy',
+        'ti_ET' => 'dd/MM/yyyy',
+        'tr_TR' => 'dd.MM.yyyy',
+        'uk_UA' => 'dd.MM.yyyy',
+        'uz_LATN_UZ' => 'dd/MM/yyyy',
+        'yo_BJ' => 'dd/MM/yyyy',
+        'zh_CN' => 'yyyy/MM/dd',
+        'zh_CN_PINYIN' => 'yyyy/MM/dd',
+        'zh_CN_STROKE' => 'yyyy/MM/dd',
+        'zh_HK' => 'dd/MM/yyyy',
+        'zh_HK_STROKE' => 'dd/MM/yyyy',
+        'zh_MO' => 'dd/MM/yyyy',
+        'zh_SG' => 'dd/MM/yyyy',
+        'zh_TW' => 'yyyy/MM/dd',
+        'zh_TW_STROKE' => 'yyyy/MM/dd'
     };
-        public static String contactIDvalue;  
+    public static String contactIDvalue;
 
     public static String formatDateTime(Datetime dt, String locale) {
         if (dt == null)
@@ -501,22 +501,20 @@ public class UserService {
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
         if (dateFormat == null)
             return dt.format();
-        return dt.format(dateFormat); 
+        return dt.format(dateFormat);
     }
 
-    public static String formatDateTimebyZone(Datetime dt, String locale,String timeZone)
-    {
-         if (dt == null)
+    public static String formatDateTimebyZone(Datetime dt, String locale, String timeZone) {
+        if (dt == null)
             return '';
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
-        if( timeZone !=null &&  dateFormat == null)
-        {
-            return dt.format(DATE_FORMAT_BY_LOCALE.get('Default'),timeZone);
+        if (timeZone != null && dateFormat == null) {
+            return dt.format(DATE_FORMAT_BY_LOCALE.get('Default'), timeZone);
         }
-        if (dateFormat == null) 
-            return dt.format(); 
-        return dt.format(dateFormat,timeZone);
-    } 
+        if (dateFormat == null)
+            return dt.format();
+        return dt.format(dateFormat, timeZone);
+    }
 
     public static String formatDate(Date d, String locale) {
         if (d == null)
@@ -526,13 +524,24 @@ public class UserService {
         return result.substringBefore(' ');
     }
 
-    public static String formatDatebyLocale(Datetime dt,String locale)
-    {
+    public static String formatDatebyLocale(Datetime dt, String locale) {
         if (dt == null)
-            return '';        
+            return '';
         String dateFormat = DATE_ONLY_FORMAT_BY_LOCALE.get(locale);
         if (dateFormat == null)
             return dt.format(DATE_ONLY_FORMAT_BY_LOCALE.get('Default'));
-        return dt.format(dateFormat); 
+        return dt.format(dateFormat);
+    }
+
+    public static User getCommunityUserDetails(Id contactId) {
+        List<User> contactUsers = [
+            SELECT Id, FirstName, LastName, Email, Username
+            FROM User
+            WHERE ContactId = :contactId
+        ];
+        if (!contactUsers.isEmpty())
+            return contactUsers.get(0);
+        else
+            return null;
     }
 }

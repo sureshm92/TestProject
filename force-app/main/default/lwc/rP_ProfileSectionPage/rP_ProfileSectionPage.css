@@ -16,13 +16,15 @@
 }
 
 .profile-patientID {
-  min-width: 200px;
+  max-width: 170px;
   color: #595959;
   font-family: "Proxima Nova";
   font-size: 21px;
   font-weight: bold;
   letter-spacing: 0;
   line-height: 21px;
+  word-wrap: break-word;
+  padding-right: 10px;
 }
 
 .profile-patientName {

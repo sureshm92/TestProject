@@ -28,8 +28,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "No data to display"
       },
       "componentName" : "forceCommunity:seoAssistant",

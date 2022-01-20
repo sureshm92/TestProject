@@ -163,7 +163,7 @@
                         />
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '6')}">
-                        <c:RH_NotificationPreference getuserMode="{!v.userMode}" />
+                        <c:RH_NotificationPreference getuserMode="{!v.userMode}"/>
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '5')}">
                         <c:CookieSettings userMode="{!v.userMode}" />

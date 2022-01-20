@@ -75,11 +75,11 @@
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
+    padding: 10px 0;
 }
 
 .THIS .slds-datepicker table {
-    table-layout: fixed;
-    width: 300px;
+    max-width: 30rem;
 }
 
 .THIS .taskClass > .slds-form-element__help {
@@ -95,7 +95,7 @@
 
 .THIS .slds-form-element__help {
     position: absolute;
-    width: 215px;
+    width: 256px !important;
     margin-top: 0;
     line-height: 1;
 }
@@ -390,6 +390,7 @@
 
 .THIS .p-content.with-scroll {
     overflow-y: auto;
+    max-height: 55vh;
 }
 
 .THIS .disabledVisit .slds-input,
