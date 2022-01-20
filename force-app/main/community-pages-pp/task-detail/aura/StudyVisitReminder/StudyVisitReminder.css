@@ -79,8 +79,7 @@
 }
 
 .THIS .slds-datepicker table {
-    table-layout: fixed;
-    width: 300px;
+    max-width: 30rem;
 }
 
 .THIS .taskClass > .slds-form-element__help {
@@ -391,6 +390,7 @@
 
 .THIS .p-content.with-scroll {
     overflow-y: auto;
+    max-height: 55vh;
 }
 
 .THIS .disabledVisit .slds-input,

@@ -31,3 +31,7 @@ update userList;
 ```
 
 7. Click on App launcher --> Click on Batch Control Panel-->Click on Add new Job->Select Batch_CreateECOASubject -> Select Interval mode as Minutes and Relaunch Interval Mode to 5 and Scope Size: 50 -> Click on Create new batch detail
+
+8. Uncheck Require email confirmations for email address changes (applies to users in Experience Builder sites)
+
+Go to Setup -> Identity Verification -> Uncheck Require email confirmations for email address changes (applies to users in Experience Builder sites)
