@@ -4778,6 +4778,15 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Login Now</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Survey_New_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Action_Register</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18877,6 +18886,20 @@ communications using the toggles below.</value>
         <value>Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
+        <fullName>RH_inviteRP_ConfirmInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_inviteRP_ConfirmInfo</shortDescription>
+        <value>Confirm your Information</value>
+    </labels>
+    <labels>
+        <fullName>SFMCHCP_RecordNotFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SFMCHCP_RecordNotFound</shortDescription>
+        <value>The information you provided does not match an account we have. Please try again. </value>
+    </labels>
+    <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20353,6 +20376,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Report Study Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>RH_UserAlreadyRegister_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_UserAlreadyRegister_Error</shortDescription>
+        <value>User is already registered – please log in</value>
+    </labels>
+    <labels>
+        <fullName>RH_RegistratinSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RRH_RegistratinSuccess</shortDescription>
+        <value>Registration was successful – please log in </value>
     </labels>
     <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
