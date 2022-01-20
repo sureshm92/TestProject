@@ -31,12 +31,13 @@
   font-size: 16px;
   font-weight: 510;
   letter-spacing: 0;
-  line-height: 24px;
+  line-height: 30px;
 }
 
 .information > div {
   margin-left: 2.25rem;
-  margin-top: -1.7rem;
+  margin-top: -1.45rem;
+  line-height: 16px;
 }
 
 .slds-spinner_container {
@@ -95,9 +96,12 @@
 
 @media screen and (max-width: 486px) {
   .information > div {
-    margin-left: 1rem;
+    margin-top: -2rem;
   }
   .delegate-back-btn {
     display: block;
+  }
+  .information {
+    line-height: 45px;
   }
 }

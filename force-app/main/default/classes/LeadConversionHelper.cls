@@ -10,6 +10,7 @@ public without sharing class LeadConversionHelper {
         Map<Id, Lead> oldLeadsMap,
         Map<Id, Lead> newLeadsMap
     ) {
+        System.debug('newLeads: ' + newLeads);
         // extract only converted leads
         List<Lead> convertedLeads = getConvertedLeads(newLeads, oldLeadsMap);
 
@@ -39,7 +40,7 @@ public without sharing class LeadConversionHelper {
         createPortalUsersWithoutStudy(convertedLeads);
     }
 
-    private static void createPortalUsersWithoutStudy(List<Lead> convertedLeads) {
+    public static void createPortalUsersWithoutStudy(List<Lead> convertedLeads) {
         Set<Id> contactsWithoutStudySite = new Set<Id>();
         for (Lead lead : convertedLeads) {
             if (
@@ -70,7 +71,7 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static void updateContactsWithoutStudySite(List<Lead> convertedLeads) {
+    public static void updateContactsWithoutStudySite(List<Lead> convertedLeads) {
         Set<Id> contactsWithoutStudySite = new Set<Id>();
         for (Lead lead : convertedLeads) {
             if (lead.Study_Site__c == null) {
@@ -102,7 +103,7 @@ public without sharing class LeadConversionHelper {
         return convertedLeads;
     }
 
-    private static Map<Id, HCP_Enrollment__c> insertEnrollments(List<Lead> convertedLeads) {
+    public static Map<Id, HCP_Enrollment__c> insertEnrollments(List<Lead> convertedLeads) {
         Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap = new Map<Id, HCP_Enrollment__c>();
         List<HCP_Enrollment__c> hcpEnrollmentsToCreate = new List<HCP_Enrollment__c>();
         for (Lead lead : convertedLeads) {
@@ -170,7 +171,7 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static void updateLeadsWithHCPEnrollments(
+    public static void updateLeadsWithHCPEnrollments(
         Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap
     ) {
         List<Lead> leadsToUpdate = new List<Lead>();
@@ -190,7 +191,7 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static void insertPointOfContacts(
+    public static void insertPointOfContacts(
         List<Lead> convertedLeads,
         Map<Id, Contact> leadPOCMap
     ) {
@@ -212,7 +213,7 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static Map<Id, Contact> createContacts(
+    public static Map<Id, Contact> createContacts(
         List<Lead> convertedLeads,
         Map<Id, Map<String, Contact>> accountPOCMap
     ) {
@@ -249,7 +250,7 @@ public without sharing class LeadConversionHelper {
         return leadPOCMap;
     }
 
-    private static Map<Id, Map<String, Contact>> getAccountPOCMap(List<Lead> convertedLeads) {
+    public static Map<Id, Map<String, Contact>> getAccountPOCMap(List<Lead> convertedLeads) {
         Set<Id> accountsForLeads = new Set<Id>();
         Set<String> pocFirstNames = new Set<String>();
         Set<String> pocLastNames = new Set<String>();
