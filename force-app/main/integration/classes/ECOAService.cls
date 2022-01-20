@@ -179,6 +179,7 @@ public with sharing class ECOAService {
         );
 
         if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
             Database.upsert(sObjectsList, false);
         }
     }
