@@ -154,7 +154,7 @@ public without sharing class ManualTaskFilter {
         delegateOwnerMap.putAll(delegateParticipantByContactIds);
        if(visibility == 'Owner'){
            return participantByContactIds; 
-        }else if(visibility == 'Owner;Delegates'){
+        } else if(visibility == 'Owner;Delegates'){
            return delegateOwnerMap; 
         }else if(visibility == 'Delegates'){
            return delegateParticipantByContactIds; 

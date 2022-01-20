@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Medical Record Review Log"
       },
       "componentName" : "forceCommunity:seoAssistant",

@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Sites search"
       },
       "componentName" : "forceCommunity:seoAssistant",
