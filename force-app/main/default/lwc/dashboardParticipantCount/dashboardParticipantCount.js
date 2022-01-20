@@ -8,6 +8,7 @@ import PPLoginStatusTitle from '@salesforce/label/c.Site_DB_Patient_Portal_Login
 import CountOfParticipants from '@salesforce/label/c.Site_DB_Participants';
 import SendInvitestoNotYetInvited from '@salesforce/label/c.Site_DB_Send_Invites_to_Not_Yet_Invited';
 import ViewParticipantsNotYetLoggedIn from '@salesforce/label/c.Site_DB_View_Participants_Not_Yet_Logged_In';
+import SendInviteSuccessMsg from '@salesforce/label/c.Send_Invite_Success_Msg';
 import getParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantInvitationDashboard';
 import getLoggedParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantLoginDashboard';
 import getNotYetInvitedParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetInvitedDetails';
@@ -44,7 +45,8 @@ export default class DashboardParticipantCount extends LightningElement {
         ViewParticipantsNotYetLoggedIn,
         PPLogin,
         PPNotYetLogin,
-        PPLoginStatusTitle
+        PPLoginStatusTitle,
+        SendInviteSuccessMsg
     };
 	  
 
@@ -199,11 +201,12 @@ export default class DashboardParticipantCount extends LightningElement {
 
     sendInvitesToApex(finalPEList) {
         this.popupLoading = true; 
-        sendInvites({ participantJson: JSON.stringify(finalPEList) })            
+        sendInvites({ participantJson: JSON.stringify(finalPEList), ctpId: this.selectedCTP })            
         .then(result => {
             this.popupLoading = false;
-            let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
-            this.showNotification('success',messsage,'success');
+            let message = this.labelFormat(SendInviteSuccessMsg,finalPEList.length);
+            //let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
+            this.showNotification('success',message,'success');
             this.closeParticipantModal();
         })
         .catch(error => {  
@@ -213,6 +216,12 @@ export default class DashboardParticipantCount extends LightningElement {
             this.closeParticipantModal();
         });
         
+    }
+
+    labelFormat(stringToFormat, ...formattingArguments) {
+        if (typeof stringToFormat !== 'string') throw new Error('\'stringToFormat\' must be a String');
+        return stringToFormat.replace(/{(\d+)}/gm, (match, index) =>
+            (formattingArguments[index] === undefined ? '' : `${formattingArguments[index]}`));
     }
 
     showNotification(title,message,variant) {
