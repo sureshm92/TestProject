@@ -4785,6 +4785,15 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Login Now</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Survey_New_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder</shortDescription>
+        <value>This is an email to remind you of your upcoming  task ##SurveyName.
+Due Date and Time: ##expirationDate</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Action_Register</fullName>
         <language>en_US</language>
         <protected>false</protected>
