@@ -489,7 +489,7 @@ public without sharing class MyTeamRemote {
                         ConId.add(dw.delegateContact.Id);
                         SiteId.add(delegateRecord.enrollmentOrStudySiteId);
                     }
-                }
+                }            
                 //To check existing data present or not
                 lstss = [
                     SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c

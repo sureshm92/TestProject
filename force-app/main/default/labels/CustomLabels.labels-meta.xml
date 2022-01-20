@@ -20259,6 +20259,34 @@ communications using the toggles below.</value>
         <value>Remember to add a Study</value>
     </labels>
     <labels>
+        <fullName>RH_Pre_screen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pre-screen</shortDescription>
+        <value>Pre-screen</value>
+    </labels>
+    <labels>
+        <fullName>RH_Referred_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Referred by</shortDescription>
+        <value>Referred by</value>
+    </labels>
+    <labels>
+        <fullName>RH_Send_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Send to DCT Platform</shortDescription>
+        <value>Send to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sent_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Sent to DCT Platform</shortDescription>
+        <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
         <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
         <language>en_US</language>
         <protected>true</protected>
