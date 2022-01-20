@@ -77,6 +77,8 @@ border-bottom: 1px solid black;
  .barContainer {
     width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
  .db-section {
@@ -139,7 +141,7 @@ border-bottom: 1px solid black;
     height: 50px;
  }
  .barText {
-   padding-top: 10px;
+   padding-top: 13px;
 }
 
 
@@ -183,6 +185,9 @@ border-bottom: 1px solid black;
         padding: 5px 1rem 30px;
         position: relative;
         border-bottom: 1px solid #e9e9e9;
+        display: unset;
+        justify-content: unset;
+        align-items: unset;
     }
 
     .barTitle {
