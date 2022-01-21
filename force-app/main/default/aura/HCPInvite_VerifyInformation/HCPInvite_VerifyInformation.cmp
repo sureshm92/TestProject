@@ -1,0 +1,73 @@
+<aura:component controller="HCPInviteControllerNew" description="HCPInvite_VerifyInformation">
+    <aura:attribute name="FirstName" type="String" default="" />
+    <aura:attribute name="LastName" type="String" default="" />
+    <aura:attribute name="postalCode" type="String" default="" />
+    <aura:attribute name="isLoaded" type="Boolean" default="true" />
+    <aura:attribute name="leadId"  type="String" default="" />
+    <aura:attribute name="isBtnDisabled" type="Boolean" default="true" />
+    <aura:attribute name="isError" type="Boolean" default="false" />
+    
+    <aura:attribute name="isNotDuplicate" type="Boolean" default="false" />
+    <aura:attribute name="CommunityUrl" type="String" />
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="HCPInviteEvt" type="c:HCPInviteEvent"/> 
+    
+    <!--  <aura:registerEvent name="appEvent" type="c:HCPInviteEvent"/> -->
+    
+    <c:RRSpinner size="medium" aura:id="spinner" fixed="true" />
+    <aura:if isTrue="{!v.isNotDuplicate}" >
+        <div class="MainVerifyInfo">
+            <div class="main-header slds-p-top_large slds-m-top_large slds-m-bottom_medium">{!$Label.c.RH_inviteRP_ConfirmInfo}</div>
+            
+            <div class="slds-grid mob-pad slds-wrap slds-gutters">
+                <div class="slds-col slds-medium-size_2-of-6"></div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6">
+                    <lightning:input 
+                                     name="{!$Label.c.RH_RP_First_Name}"
+                                     label="{!$Label.c.RH_RP_First_Name}"
+                                     value="{!v.FirstName}"
+                                     onchange="{!c.validateInput}"
+                                     class="inputClassCss"
+                                     />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6">
+                    <lightning:input 
+                                     name="{!$Label.c.RH_RP_Last_Name}"
+                                     label="{!$Label.c.RH_RP_Last_Name}"
+                                     value="{!v.LastName}"
+                                     class="inputClassCss"
+                                     onchange="{!c.validateInput}"
+                                     />
+                </div>
+                <div class="slds-col slds-medium-size_2-of-6"></div>
+            </div>
+            <div class="slds-grid mob-pad slds-wrap slds-gutters">
+                <div class="slds-col slds-medium-size_2-of-6"></div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6">
+                    <lightning:input  
+                                     name="{!$Label.c.RH_RP_Postal_Code}"
+                                     label="{!$Label.c.RH_RP_Postal_Code}"
+                                     class="postalcode-width inputClassCss"
+                                     value="{!v.postalCode}"
+                                     onchange="{!c.validateInput}"
+                                     />
+                </div>
+                <div class="slds-col slds-medium-size_3-of-6"></div>
+            </div>
+            
+            <aura:if isTrue="{!v.isError}"> 
+                <div>
+                    <p>
+                        {!$Label.c.SFMCHCP_RecordNotFound}
+                    </p>
+                </div> 
+            </aura:if>
+            <div class="slds-p-around_medium slds-align_absolute-center"  >
+                <button class="slds-button slds-button_brand inviteRP-btn disableBtnClass" aura:id="cntueBtn"
+                        onclick="{! c.checkLeadDetails }" disabled="{!v.isBtnDisabled}">{!$Label.c.Continue}</button>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>
