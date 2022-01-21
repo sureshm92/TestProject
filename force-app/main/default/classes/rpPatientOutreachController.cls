@@ -54,8 +54,10 @@ public without sharing class rpPatientOutreachController {
                 isError = true;
             }
             if(String.isBlank(peRec.Email__c)){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Email';
-                isError = true;
+                if(String.isBlank(peRec.Primary_Delegate_Email__c)){
+                    peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Email';
+                    isError = true;
+                }
             }
             if(String.isBlank(peRec.Study_Name__c)){
                 peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Study Name';
