@@ -4,7 +4,7 @@ public class ECOADiariesController {
         try {
             ECOAService.getJWTToken();
         } catch (Exception ex) {
-            new AuraHandledException(ex.getMessage());
+            throw new AuraHandledException(ex.getMessage());
         }
     }
 }
