@@ -112,7 +112,7 @@
                     },
                     {
                         text: $A.get('$Label.c.DLIT_L_Pre_eligibility_screening'),
-                        levels: [true, true,false]
+                        levels: [true, true,true]
                     },
                    
                     // {
