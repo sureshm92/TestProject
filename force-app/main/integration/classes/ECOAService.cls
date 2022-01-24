@@ -18,10 +18,10 @@ public with sharing class ECOAService {
     public static final String ALGO_NAME = 'rsa-sha256';
 
     public static Map<String, Config_API_Param__mdt> apiParamsMap;
-    public static final Map<String, List<String>> dataTypeTokenHeader = new Map<String, String>{
+    public static final Map<String, List<String>> dataTypeTokenHeader = new Map<String, List<String>>{
         'String' => new List<String>{ 'alg', 'typ' }
     };
-    public static final Map<String, List<String>> dataTypeTokenBody = new Map<String, String>{
+    public static final Map<String, List<String>> dataTypeTokenBody = new Map<String, List<String>>{
         'String' => new List<String>{
             'iss',
             'sub',
@@ -31,7 +31,7 @@ public with sharing class ECOAService {
             'ecoa:actor_id',
             'ecoa:schedule'
         },
-        'Number' => new List<String>{ 'iat', 'exp' }
+        'LongNumber' => new List<String>{ 'iat', 'exp' }
     };
 
     static {
@@ -243,10 +243,12 @@ public with sharing class ECOAService {
         };
 
         header = HttpCallout.base64UrlEncode(
-            HttpCallout.constructJSONReq(tokenHeaderValueMap, dataTypeTokenHeader, false)
+            Blob.valueOf(
+                HttpCallout.constructJSONReq(tokenHeaderValueMap, dataTypeTokenHeader, false)
+            )
         );
         payload = HttpCallout.base64UrlEncode(
-            HttpCallout.constructJSONReq(tokenBodyValueMap, dataTypeTokenBody, false)
+            Blob.valueOf(HttpCallout.constructJSONReq(tokenBodyValueMap, dataTypeTokenBody, false))
         );
 
         String jwtTemp = header + '.' + payload;

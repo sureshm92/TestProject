@@ -113,12 +113,12 @@ public class HttpCallout extends RemoteCall {
             gen.writeStartObject();
             if (itemTypeMap.containsKey('String')) {
                 for (String item : itemTypeMap.get('String')) {
-                    gen.writeStringField(item, itemValueMap.get(item));
+                    gen.writeStringField(item, (String) itemValueMap.get(item));
                 }
             }
-            if (itemTypeMap.containsKey('Number')) {
-                for (String item : itemTypeMap.get('Number')) {
-                    gen.writeNumberField(item, itemValueMap.get(item));
+            if (itemTypeMap.containsKey('LongNumber')) {
+                for (String item : itemTypeMap.get('LongNumber')) {
+                    gen.writeNumberField(item, (Long) itemValueMap.get(item));
                 }
             }
             //TO-DO: Add other types supported by JSONGenerator method
