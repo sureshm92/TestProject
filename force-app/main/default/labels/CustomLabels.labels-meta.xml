@@ -19279,6 +19279,13 @@ communications using the toggles below.</value>
         <value>are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
+        <fullName>RH_ProfileInfoErrorMsz</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ProfileInfoErrorMsz</shortDescription>
+        <value>You must enter a value</value>
+    </labels>
+    <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
