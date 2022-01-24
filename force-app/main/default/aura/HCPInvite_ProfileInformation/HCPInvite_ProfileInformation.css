@@ -1,0 +1,178 @@
+/* .THIS .label-field-space{
+    margin-top:1rem;
+} */
+.THIS .rr-form-element .label {
+    margin-bottom: 2px;
+}
+.THIS .rr-form-element + .rr-form-element {
+     margin-top: unset;
+}
+.THIS .hcp-block {
+    margin-right: 20rem;
+    margin-left: 20rem;
+    margin-top: 4rem;
+}
+
+.THIS .main-header {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+   margin-bottom: 1rem;
+}
+
+.THIS .photocls {
+    width: 100px;
+    min-height: 50px;
+    margin: 10px auto;
+    
+}
+.THIS .footer{
+    background-color: #F2F2F2;
+}
+.THIS .copyright{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 33px 0 30px 0;
+    display: block;
+    text-align: right;
+}
+.THIS .profileLabel {
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-right: 3px;
+}
+.THIS .profileLabel:hover {
+    background-color: #eef5ff;
+}
+.THIS .remove-photo-disabled {
+    opacity: 0.4;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-left: 1px;
+}
+.THIS .prfile-btn-container {
+    display: inline-flex;
+    justify-content: space-around; 
+       
+}
+.THIS .lg-error-alert{
+    margin: 10px 0 0 16px !important;
+}
+.THIS .edit-photo {
+    color: #0768fd;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: "Proxima Nova";
+    margin-right: 10PX;
+    cursor: pointer;
+
+}
+.THIS .cp-save-btn-container{
+    height: 50px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+
+} 
+.THIS .btnClass{
+    background: #297DFD;
+    box-shadow: 0 4px 8px 0 rgb(41 125 253 / 16%), 0 4px 4px 0 rgb(0 0 0 / 4%), 0 8px 16px 0 rgb(41 125 253 / 32%);
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 6px 16px;
+    margin-top: 0.5px;
+}
+
+.THIS .btnClass:hover{
+    background: #10558a;
+    transition: .25s;
+}
+.THIS .edit-photo:hover {
+    background-color: #eef5ff;
+}
+.THIS .divider-vertical-standard-line {
+    margin-right: 10px;
+    color: rgb(212, 212, 212);
+    height: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: rgb(255 255 255);
+    width: 1px;
+    margin-top: 2px;
+}
+.THIS .section-header {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 36px;
+}
+.THIS .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.THIS .inputFile {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+}
+.THIS .btn-upload-photo {
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+}
+.THIS .btn-upload-photo svg {
+    width: 20px;
+    height: 22px;
+    fill: #999999;
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+.THIS .btn-upload-photo .input-control {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.THIS .widthclass{ 
+    width: 100%;
+}
+.THIS .section-description {
+    color: #000;
+    font-size: 1rem;
+    line-height: 20px;
+}
+@media screen and (max-width: 768px) {
+    .THIS .hcp-block {
+        margin-right: unset;
+        margin-left: unset;
+        margin-top: 5rem;
+	}
+    .THIS .main-header {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+       margin-bottom: 2rem;
+    }
+}
