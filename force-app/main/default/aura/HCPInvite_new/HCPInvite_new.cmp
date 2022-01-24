@@ -1,0 +1,54 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" 
+                extends="c:CommunityContext" Description="HCPInvite_new">
+    
+    <aura:attribute name="isLoaded" type="Boolean" default="true" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!--  <aura:handler event="c:HCPInviteEvent" action="{!c.handleEvent}"/> -->
+    <aura:handler name="HCPInviteEvt" event="c:HCPInviteEvent" action="{!c.handleEvent}"/>
+    
+    <c:RRSpinner size="medium" aura:id="spinner" fixed="true" />
+    <div class="slds-container_width slds-container_center header-logo-css">
+        <div class="slds-grid">
+            <div class="logo-click" data-aura-rendered-by="5:66;a">
+                <img class="logo-block cust-header-block" src="/resource/1632826738000/rr_community_icons/Referral_Hub_Logo.svg"/>
+            </div>
+        </div>
+        <aura:if isTrue="{!($Browser.formFactor != 'DESKTOP')}">
+            <div class="slds-grid slds-gutters  mob-header-css">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="thick-line selected"></div>
+                    <div class="line-info  selected">{!$Label.c.RH_inviteRP_ConfirmInfo}</div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="thick-line" aura:id="profileDiv"></div>  
+                    <div class="line-info " aura:id="profileDivText">{!$Label.c.PP_Profile_Information}</div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="thick-line" aura:id="TermsDiv"></div>
+                    <div class="line-info" aura:id="TermsDivText">{!$Label.c.PG_Login_H_Terms_And_Conditions}</div>
+                </div>
+            </div>
+            <aura:set attribute="else">
+                <div class="slds-grid slds-gutters header-css">
+                    <div class="slds-col slds-medium-size_1-of-5"></div>
+                    <div class="slds-col slds-medium-size_1-of-5">
+                        <div class="thick-line selected"></div>
+                        <div class="line-info  selected">{!$Label.c.RH_inviteRP_ConfirmInfo}</div>
+                    </div> 
+                    <div class="slds-col slds-medium-size_1-of-5 selected">
+                        <div class="thick-line" aura:id="profileDiv"></div>  
+                        <div class="line-info " aura:id="profileDivText">{!$Label.c.PP_Profile_Information}</div>
+                    </div>
+                    <div class="slds-col slds-medium-size_1-of-5">
+                        <div class="thick-line" aura:id="TermsDiv"></div>
+                        <div class="line-info" aura:id="TermsDivText">{!$Label.c.PG_Login_H_Terms_And_Conditions}</div>
+                    </div>
+                    <div class="slds-col slds-medium-size_1-of-5"></div>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+    
+    <div aura:id="createCmp" class="hcpinvite-bg-ht">{!v.body}</div>
+</aura:component>

@@ -30,7 +30,14 @@
 .layout{
     height: 228px !important;
 }
-
+.btn {
+    min-width: 115px;
+    white-space: nowrap;
+    height: 40px;
+}
+.line{
+border-bottom: 1px solid black;
+}
 .thick {
     font-weight: bold;
     color: #297dfd;
@@ -40,6 +47,14 @@
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+.apollo-btn.primary {
+    background: #297DFD;
+    box-shadow: 0 4px 8px 0 rgb(41 125 253 / 16%), 0 4px 4px 0 rgb(0 0 0 / 4%), 0 8px 16px 0 rgb(41 125 253 / 32%);
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 6px 16px;
+    margin-top: 0.5px;
 }
 .thick1 {
     font-weight: bold;
@@ -62,6 +77,8 @@
  .barContainer {
     width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
  .db-section {
@@ -72,10 +89,13 @@
  .barTitle {
    text-align: right;
    padding-right: 10px;
-   padding-bottom: 10px;
+   padding-bottom: 10px;   
+   margin-left: 10px;
    font-size: 16px;
    color: #000000;
-
+   width: 100px;
+   word-wrap: break-word;
+   margin-top: 10px;
 }
 
  .barGrp {
@@ -89,6 +109,39 @@
 }
 .slds-size--9-of-12 > div {
     max-width: 60%;
+}
+.processBody .slds-scrollable{
+    height: 25rem;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 15px;
+}
+.processBody .slds-scrollable::-webkit-scrollbar {
+    width: 10px !important;
+    display: block !important;
+  }
+  
+  .processBody .slds-scrollable::-webkit-scrollbar-track {
+    background: #c7c7c7;
+    border-radius: 10px;
+  }
+  
+  .processBody .slds-scrollable::-webkit-scrollbar-thumb {
+    background-color: #898888;
+    border-radius: 10px;
+    border: 3px solid #8b8686 ;
+  }
+  .processBody{
+    margin-bottom: 30px;
+  }
+  
+  .modal_btns span {
+    margin-right: 1rem;
+  }
+.bar{
+    height: 50px;
+ }
+ .barText {
+   padding-top: 13px;
 }
 
 
@@ -132,17 +185,11 @@
         padding: 5px 1rem 30px;
         position: relative;
         border-bottom: 1px solid #e9e9e9;
+        display: unset;
+        justify-content: unset;
+        align-items: unset;
     }
 
- .barTitle {
-        /* float: left;
-        display: inline;
-        text-align: left;
-        font-size: 1rem;
-        margin-left: 10px;
-        min-width: 45%;
-        color: #000; */
-    }
     .barTitle {
         float: left;
         display: inline;
@@ -151,9 +198,11 @@
         margin-left: 10px;
         min-width: 45%;
         color: #000;
-     
+        padding-top: unset;  
+        width: unset;
+        word-wrap: unset;
+        margin-top: unset;          
      }
-
  .barGrp {
         /* position: absolute;
         display: inline-flex; */
@@ -163,33 +212,33 @@
         left: 0;
         max-width: 100%; */
     }
-
- .bar:nth-of-type(1) {
+ .bar{
         max-width: 85%;
         position: absolute;
         left: 25px;
         top: 35px;
+        height:20px;
 		 
     }
-    .bar.secondbar{
-        max-width: 85%;
-        position: absolute;
-        left: 25px;
-        top: 190px;
-		 
-    }
-
- .barText:nth-of-type(1) {
+ .barText {
         text-align: right;
         position: absolute;
-        top: 0;
+        top: 5px;
         right: 1.5rem;
+        padding-top: unset;
     }
-    .barText.secondbartext {
-        text-align: right;
-        position: absolute;
-        top: 158px;
-        right: 1.5rem;
+    .modal_btns{
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+        align-items: center;
+        
+    }
+    .modal_btns span {
+        margin-right: unset;
+      }
+    .processBody{
+        margin-bottom: 0;
     }
     
 }

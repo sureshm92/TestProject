@@ -98,10 +98,10 @@
                         text: $A.get('$Label.c.DLIT_L_Refer_a_patient_to_a_study_site'),
                         levels: [true, false, false]
                     },
-                    {
-                        text: $A.get('$Label.c.RH_RP_Outreach_Patient'),
-                        levels: [true, false, false]
-                    },
+                    // {
+                    //     text: $A.get('$Label.c.RH_RP_Outreach_Patient'),
+                    //     levels: [true, false, false]
+                    // },
                     {
                         text: $A.get('$Label.c.RH_RP_Bulk_Import_Patient'),
                         levels: [true, false, false]

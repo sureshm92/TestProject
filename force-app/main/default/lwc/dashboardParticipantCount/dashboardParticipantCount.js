@@ -8,6 +8,7 @@ import PPLoginStatusTitle from '@salesforce/label/c.Site_DB_Patient_Portal_Login
 import CountOfParticipants from '@salesforce/label/c.Site_DB_Participants';
 import SendInvitestoNotYetInvited from '@salesforce/label/c.Site_DB_Send_Invites_to_Not_Yet_Invited';
 import ViewParticipantsNotYetLoggedIn from '@salesforce/label/c.Site_DB_View_Participants_Not_Yet_Logged_In';
+import SendInviteSuccessMsg from '@salesforce/label/c.Send_Invite_Success_Msg';
 import getParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantInvitationDashboard';
 import getLoggedParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantLoginDashboard';
 import getNotYetInvitedParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetInvitedDetails';
@@ -32,6 +33,7 @@ export default class DashboardParticipantCount extends LightningElement {
     loading = false;
     popupLoading = false;
     isParticipantModalOpen = false;
+    disableButton = false;
     selectedPEList = [];
 
     label = {
@@ -43,7 +45,8 @@ export default class DashboardParticipantCount extends LightningElement {
         ViewParticipantsNotYetLoggedIn,
         PPLogin,
         PPNotYetLogin,
-        PPLoginStatusTitle
+        PPLoginStatusTitle,
+        SendInviteSuccessMsg
     };
 	  
 
@@ -62,6 +65,7 @@ export default class DashboardParticipantCount extends LightningElement {
     fetchDashboardValues() {
         if(this.selectedCTP && this.selectedPI) {
             this.loading = true;
+
             if(this.isInvitationDashboard === 'true') {
                 getParticipantCount({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
                 .then(result => {
@@ -93,11 +97,11 @@ export default class DashboardParticipantCount extends LightningElement {
             let width=this.peList[i].width=='0%'?'1%':this.peList[i].width;
 
             if(this.peList[i].title === 'topBar') {                
-                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 50px; display: inline-block;';
+                this.topBarStyle='width:'+width+'; background-color:'+this.peList[i].color+';  display: inline-block;';
                 this.topBarRec=this.peList[i];
             
             } else if(this.peList[i].title === 'secondBar') {
-                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+'; height: 50px; display: inline-block'; 
+                this.secondBarStyle='width:'+width+'; background-color:'+this.peList[i].color+';  display: inline-block'; 
                 this.secondBarRec=this.peList[i];
             }    
         }
@@ -115,6 +119,7 @@ export default class DashboardParticipantCount extends LightningElement {
     openParticipantModal() {
         this.isParticipantModalOpen = true;
         this.popupLoading = true; 
+        this.disableButton = true;
         this.retrieveNotInvitedParticipants();
     }
 
@@ -136,6 +141,7 @@ export default class DashboardParticipantCount extends LightningElement {
     //close model for refresh
     closeParticipantModal() {
         this.peList = [];
+        this.selectedPEList = [];
         this.isParticipantModalOpen = false;
     }
     
@@ -157,14 +163,15 @@ export default class DashboardParticipantCount extends LightningElement {
         return comparison;
     }
 
-    doRecordSelection(event) {           
+    doRecordSelection(event) {    
+
         for (var i = 0; i < this.peList.length; i++) {
             let row = Object.assign({}, this.peList[i]);   
             let selectedRow = event.target.dataset.id;
-
             if(row.datasetId === selectedRow) {
-                if(event.target.checked) {
+                if(event.target.checked) {                    
                     row.isChecked = true;
+                    this.disableButton = false;
                     this.selectedPEList.push(row);
                 } else {
                     for(let j = 0; j < this.selectedPEList.length; j++) {
@@ -186,6 +193,7 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     sendToAll(event) {
+      
         if(this.peList.length > 0) {
             this.sendInvitesToApex(this.peList);
         }
@@ -193,11 +201,12 @@ export default class DashboardParticipantCount extends LightningElement {
 
     sendInvitesToApex(finalPEList) {
         this.popupLoading = true; 
-        sendInvites({ participantJson: JSON.stringify(finalPEList) })            
+        sendInvites({ participantJson: JSON.stringify(finalPEList), ctpId: this.selectedCTP })            
         .then(result => {
             this.popupLoading = false;
-            let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
-            this.showNotification('success',messsage,'success');
+            let message = this.labelFormat(SendInviteSuccessMsg,finalPEList.length);
+            //let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
+            this.showNotification('success',message,'success');
             this.closeParticipantModal();
         })
         .catch(error => {  
@@ -207,6 +216,12 @@ export default class DashboardParticipantCount extends LightningElement {
             this.closeParticipantModal();
         });
         
+    }
+
+    labelFormat(stringToFormat, ...formattingArguments) {
+        if (typeof stringToFormat !== 'string') throw new Error('\'stringToFormat\' must be a String');
+        return stringToFormat.replace(/{(\d+)}/gm, (match, index) =>
+            (formattingArguments[index] === undefined ? '' : `${formattingArguments[index]}`));
     }
 
     showNotification(title,message,variant) {
@@ -219,7 +234,9 @@ export default class DashboardParticipantCount extends LightningElement {
     }
     selectAll() {
         this.popupLoading = true;
+        this.disableButton = false;
         let allRows = this.peList;
+        this.selectedPEList = [];
         for (var i = 0; i < allRows.length; i++) {
             let row = Object.assign({}, allRows[i]);  
             row.isChecked = true;
