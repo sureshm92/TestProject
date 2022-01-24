@@ -1,6 +1,7 @@
 public class HttpCallout extends RemoteCall {
     public String methodType;
     public Map<String, String> requestMap;
+    public String jsonReqBody;
     public Type classType;
 
     public HttpCallout(
@@ -18,6 +19,21 @@ public class HttpCallout extends RemoteCall {
         this.logAutoInsert = false;
     }
 
+    public HttpCallout(
+        String endPointURL,
+        String methodType,
+        Map<String, String> headerMap,
+        String jsonReqBody,
+        Type classType
+    ) {
+        this.endPointURL = 'callout:' + endPointURL;
+        this.httpMethod = methodType;
+        this.headersMap.putAll(headerMap);
+        this.jsonReqBody = jsonReqBody;
+        this.classType = classType;
+        this.logAutoInsert = false;
+    }
+
     public void setEndPointURL(String endPointURL) {
         this.endPointURL = endPointURL;
     }
@@ -28,12 +44,16 @@ public class HttpCallout extends RemoteCall {
 
     @TestVisible
     protected override String buildRequestBody() {
-        return constructJSONReq();
+        if (jsonReqBody == null) {
+            return constructJsonReq();
+        } else {
+            return jsonReqBody;
+        }
     }
 
     @TestVisible
     public override Type getType() {
-        return classType; //RemoteCall_getSessionToken
+        return classType;
     }
 
     @TestVisible

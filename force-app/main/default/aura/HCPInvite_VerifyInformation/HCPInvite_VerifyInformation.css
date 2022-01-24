@@ -1,0 +1,67 @@
+.THIS  .main-header {
+    font-size: 24px;
+    font-weight: 600; 
+    text-align: center;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+     line-height: 32px;
+    margin-top:3rem;
+}
+
+.THIS .inputClassCss .slds-form-element__label{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+     line-height: 24px;
+}
+
+.THIS .btnClass{
+    color: white;
+}
+.THIS .inviteRP-btn {
+    background-color:#297dfd;
+    color:#fff;
+    font-size: 14px;
+}
+
+.THIS p{
+    color:#E20000;
+    font-size: 13px; 
+    font-weight: 600;
+    margin-bottom: 7px;
+    margin-top: 29px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 24px;
+}
+.THIS .disableBtnClass{
+    opacity: 0.5;
+}
+.THIS .enableBtnClass:hover{
+    background: #10558a;
+    transition: .25s;
+}
+
+.THIS .postalcode-width{
+    width:8rem;
+}
+.THIS .mob-pad{
+    margin-bottom: 12px;
+}
+@media (max-width:768px){
+    .THIS .mob-pad{
+        padding: 0 15px 0 15px;
+        margin-bottom: 12px;
+    }
+    .THIS .postalcode-width{
+        width:8rem;
+    }
+    .THIS .main-header {
+        margin-top: 3.8rem;
+    }
+}
