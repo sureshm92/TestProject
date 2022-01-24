@@ -17,7 +17,7 @@ private class Test_TrialMatchHelper {
             Matched_Date__c = Datetime.now().dateGmt(),
             Matching_Details__c = 'Sample Matching Details',
             Matching_Score__c = 77,
-            Is_User_notified__c = TRUE,
+            Is_User_notified__c = true,
             Participant_Enrollment__c = testData.pe.id,
             Passed__c = false,
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'

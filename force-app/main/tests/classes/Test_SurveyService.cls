@@ -28,12 +28,22 @@ private class Test_SurveyService {
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Reminder_Schedule__c = schedule.Id,
             Survey__c = survey.get(0).Id,
+            Survey_end_date__c = date.today(),
+            Survey_start_date__c = date.today() - 1,
+            Is_Recurrence_Survey__c = true,
+            Recurrence_Frequency__c = 'weekly',
             Whose_response_needed__c = 'Patient only'
         );
         insert ts;
 
         SurveyInvitation invitation = SurveyService.getInstance()
-            .generateInvitation(ts, testData.pe.Id, communityId, System.today(),UserInfo.getTimeZone());
+            .generateInvitation(
+                ts,
+                testData.pe.Id,
+                communityId,
+                System.today(),
+                UserInfo.getTimeZone()
+            );
         insert invitation;
 
         SurveyService.getInstance().getSurveyWrapper(invitation.Id);
@@ -88,8 +98,16 @@ private class Test_SurveyService {
             Survey__c = survey.get(0).Id,
             Whose_response_needed__c = 'Patient only'
         );
+
         insert ts;
-        insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id, communityId,System.today(),UserInfo.getTimeZone());
+        insert SurveyService.getInstance()
+            .generateInvitation(
+                ts,
+                testData.pe.Id,
+                communityId,
+                System.today(),
+                UserInfo.getTimeZone()
+            );
 
         SurveyService.getInstance()
             .isInvitationExpired(
