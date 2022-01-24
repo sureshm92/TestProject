@@ -3,7 +3,7 @@
     <fullName>Enable_RP_Outreach_Email__c</fullName>
     <externalId>false</externalId>
     <formula>Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c</formula>
-    <label>Enable RP Outreach Email</label>
+    <label>Enable Patient Outreach Email</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
