@@ -163,7 +163,7 @@
                                 var="action"
                                 indexVar="actionIndex"
                                 >
-                    <aura:if isTrue="{!and(or(action.id == 'medicalRecordReview',action.id == 'refer'),v.accessUserLevel =='Level 3')}"> 
+                    <aura:if isTrue="{!(action.id == 'refer')}">
                         <button
                                     class="apollo-btn secondary"
                                     disabled="true"
