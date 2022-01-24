@@ -323,6 +323,7 @@ public without sharing class TaskService {
             SELECT
                 Id,
                 ExpireDateTime__c,
+                ReminderDateTime__c,
                 Participant_Enrollment__r.Participant_Contact__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Reminder_Schedule__c,
@@ -455,10 +456,9 @@ public without sharing class TaskService {
                         tsc.activityDate = inv.ExpireDateTime__c;
                     }
 
-                    if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
-                        Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                        tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
-                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                    if (inv.ReminderDateTime__c != null) {
+                        tsc.reminderDatetime = inv.ReminderDateTime__c;
+                        tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
                 }
 

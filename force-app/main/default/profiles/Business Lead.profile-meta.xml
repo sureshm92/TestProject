@@ -157,6 +157,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateECOASubject</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateNewRPDelegates</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2090,6 +2094,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>User.IsCommunityUserRegistered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>

@@ -459,3 +459,6 @@
         width: 720px;
     }
 }
+.THIS .slds-datepicker { 
+    max-width: 30rem;
+  }
