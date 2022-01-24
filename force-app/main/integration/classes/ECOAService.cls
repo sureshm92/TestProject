@@ -7,8 +7,32 @@ public with sharing class ECOAService {
     public static final String AUTHORIZATION_KEY = 'Authorization_Key';
     public static final String END_POINT_URL = 'EndPoint';
     public static final String ORG_GUID = 'OrgGuid';
+    public static final String ALGORITHM = 'Algorithm';
+    public static final String ISSUER_GUID = 'IssuerGuid';
+    public static final String AUD = 'Environment';
+    public static final String ACTOR_TYPE = 'ActorType';
+    public static final String SCHEDULE = 'eCOASchedule';
+    public static final String DIARY_URL = 'DiaryURL';
+    public static final String PVT_KEY = 'PrivateKey';
+    public static final string TOKEN_TYPE = 'JWT';
+    public static final String ALGO_NAME = 'rsa-sha256';
 
     public static Map<String, Config_API_Param__mdt> apiParamsMap;
+    public static final Map<String, List<String>> dataTypeTokenHeader = new Map<String, String>{
+        'String' => new List<String>{ 'alg', 'typ' }
+    };
+    public static final Map<String, List<String>> dataTypeTokenBody = new Map<String, String>{
+        'String' => new List<String>{
+            'iss',
+            'sub',
+            'aud',
+            'ecoa:study_guid',
+            'ecoa:actor_type',
+            'ecoa:actor_id',
+            'ecoa:schedule'
+        },
+        'Number' => new List<String>{ 'iat', 'exp' }
+    };
 
     static {
         apiParamsMap = new Map<String, Config_API_Param__mdt>();
@@ -182,5 +206,54 @@ public with sharing class ECOAService {
             sObjectsList.sort();
             Database.upsert(sObjectsList, false);
         }
+    }
+
+    public static String getJWTToken() {
+        String jwtToken;
+        String subjectGUID;
+        String studyGUID;
+        String endpoint = apiParamsMap.get(DIARY_URL).ParamValue__c;
+        String payload;
+        String verifySign;
+        String pvtKey = apiParamsMap.get(PVT_KEY).Param_Value_Long__c.replace('\n', '');
+        String pubKey;
+        String header;
+        Long rightNow = (dateTime.now().getTime() / 1000) + 1;
+        Blob privateKey = EncodingUtil.base64Decode(pvtKey);
+
+        if (ParticipantContext.getCurrentPEId() != null) {
+            studyGUID = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Study_GUID__c;
+            subjectGUID = ParticipantContext.getCurrentPE().Subject_GUID__c;
+        }
+        Map<String, Object> tokenHeaderValueMap = new Map<String, Object>{
+            'alg' => apiParamsMap.get(ALGORITHM).ParamValue__c,
+            'typ' => 'JWT'
+        };
+
+        Map<String, Object> tokenBodyValueMap = new Map<String, Object>{
+            'iss' => apiParamsMap.get(ISSUER_GUID).ParamValue__c,
+            'sub' => ('guid:' + subjectGUID),
+            'aud' => apiParamsMap.get(AUD).ParamValue__c,
+            'iat' => rightNow,
+            'exp' => (rightNow + 36000),
+            'ecoa:study_guid' => studyGUID,
+            'ecoa:actor_type' => apiParamsMap.get(ACTOR_TYPE).ParamValue__c,
+            'ecoa:actor_id' => ('guid:' + subjectGUID),
+            'ecoa:schedule' => apiParamsMap.get(SCHEDULE).ParamValue__c
+        };
+
+        header = HttpCallout.base64UrlEncode(
+            HttpCallout.constructJSONReq(tokenHeaderValueMap, dataTypeTokenHeader, false)
+        );
+        payload = HttpCallout.base64UrlEncode(
+            HttpCallout.constructJSONReq(tokenBodyValueMap, dataTypeTokenBody, false)
+        );
+
+        String jwtTemp = header + '.' + payload;
+        Blob sign = Crypto.sign(ALGO_NAME, Blob.valueOf(jwtTemp), privateKey);
+
+        String output = EncodingUtil.base64Encode(sign);
+        jwtToken = jwtTemp + '.' + output;
+        return endpoint + jwtToken;
     }
 }
