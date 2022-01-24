@@ -6,6 +6,7 @@
 private class Test_TrialSurveyContainerController {
     @IsTest(SeeAllData=true)
     static void testRecocrTypeID() {
+        
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty())
             return;
@@ -29,12 +30,12 @@ private class Test_TrialSurveyContainerController {
             Active_After_Days__c = 0,
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Expires_After_Days__c = 999,
-            Reminder_Schedule__c = schedule.Id,
             Survey__c = survey.get(0).Id,
             RecordTypeId = Schema.sObjectType.Trial_Survey__c.getRecordTypeInfosByName().get('Status based').getRecordTypeId(),
             Whose_response_needed__c = 'Patient or any Delegate'
         );
         insert tsAllSee;
         TrialSurveyContainerController.getRecordTypeNameById(tsAllSee.RecordTypeId);
-    }
+        TrialSurveyContainerController.getRecordTypeNameAndId(tsAllSee.id);
+  }
 }

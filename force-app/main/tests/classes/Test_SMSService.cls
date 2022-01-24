@@ -51,11 +51,12 @@ public with sharing class Test_SMSService {
 
     @IsTest
     static void sendTest() {
-        List<Notification__c> notifications = [SELECT Id FROM Notification__c];
+        List<Notification__c> notifications = [SELECT Id,WhatId__c,Notification_Type__c FROM Notification__c];
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new RemoteCallHttpCalloutMock());
         SMSService.send(notifications);
+        //System.enqueueJob(new Test_SMSService());
         Test.stopTest();
 
         List<Send_Result__c> sendResults = [

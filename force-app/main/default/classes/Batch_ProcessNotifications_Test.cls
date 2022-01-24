@@ -24,7 +24,8 @@ public class Batch_ProcessNotifications_Test {
         Notification__c notifyForTest = new Notification__c(
             Notification_Type__c = 'PP_RH_Push_Notification',
             Recipient__c = pe.Participant__r.Contact__c,
-            WhatId__c = pe.Id);
+            WhatId__c = pe.Id,
+        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING);
         newList.add(notifyForTest);
         
         Notification__c notifyForTest1 = new Notification__c(
@@ -32,7 +33,7 @@ public class Batch_ProcessNotifications_Test {
             Recipient__c = pe.Participant__r.Contact__c,
             Task_Id__c = t.Id,
             WhatId__c = pe.Id,
-        Status__c = 'Pending',
+        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING,
         Email__c = 'test1@test.com');
         newList.add(notifyForTest1);
         
@@ -60,9 +61,9 @@ public class Batch_ProcessNotifications_Test {
         Database.BatchableContext BC;
         QL = obj.start(BC);
         
-        obj.execute(BC, notifications);
+        //obj.execute(BC, notifications);
         obj.finish(BC);
-        DataBase.executeBatch(obj); 
+        //DataBase.executeBatch(obj); 
         obj.getBatchDescription();
         obj.getRecommendedIntervalMode();
         obj.getRecommendedRelaunchInterval();

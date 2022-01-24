@@ -14,12 +14,15 @@ private class Test_Batch_PSECreateInvitation {
             TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class
         );
         Test.startTest();
+        Batch_PSECreateInvitation b = new Batch_PSECreateInvitation(); 
+        Database.executeBatch(b);
         TestData.loadTestData();
                 Test.stopTest();
 
         TestData testData = new TestData();
 
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        testData.pe.Clinical_Trial_Profile__c = testData.ctp.Id;
         update testData.pe;
 
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(First_Reminder_day__c = 1);
@@ -29,8 +32,9 @@ private class Test_Batch_PSECreateInvitation {
             Active_After_Days__c = 0,
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Expires_After_Days__c = 999,
-            Reminder_Schedule__c = schedule.Id,
             Survey__c = survey.get(0).Id,
+            Survey_start_date__c = date.today()-1,
+            Survey_end_date__c = date.today(),
             Whose_response_needed__c = 'Patient or any Delegate'
         );
         insert tsAllSee;
@@ -46,6 +50,22 @@ private class Test_Batch_PSECreateInvitation {
             FROM Participant_Enrollment__c
             WHERE Id = :testData.pe.Id
         ];
+/*       
+SurveyInvitation SurveyInvit = new SurveyInvitation(
+Participant_Enrollment__c = enrollments[0].Id,
+ExpireDateTime__c = date.today(),
+Trial_Survey__c = tsAllSee.id);
+insert SurveyInvit;*/
+
+
         new Batch_PSECreateInvitation().execute(null, enrollments);
+        
+        Batch_PSECreateInvitation obj = new Batch_PSECreateInvitation(); 
+		DataBase.executeBatch(obj); 
+        obj.finalAction();
+obj.getType();
+obj.getBatchDescription();
+obj.getRecommendedIntervalMode();
+obj.getRecommendedRelaunchInterval();
     }
 }
