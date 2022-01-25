@@ -78,14 +78,6 @@
                                 </td>
                                 <td>
                                     <span class="taskLabel">{!$Label.c.Due_Date}:</span>
-                                    <aura:if
-                                        isTrue="{!taskWrapper.openTask.Status == 'In Progress'}"
-                                    >
-                                        {!$Label.c.Task_Tab_Table_Status_In_Progress}
-                                    </aura:if>
-                                    <aura:if
-                                        isTrue="{!taskWrapper.openTask.Status != 'In Progress'}"
-                                    >
                                         <aura:if isTrue="{!taskWrapper.activityDate}">
                                             <!-- <ui:outputDate value="{!taskWrapper.activityDate}"/>-->
                                             <lightning:formattedDateTime
@@ -98,7 +90,6 @@
 
                                             <aura:set attribute="else"> {!$Label.c.None} </aura:set>
                                         </aura:if>
-                                    </aura:if>
                                 </td>
                                 <td>
                                     <span class="taskLabel">{!$Label.c.Reminder_Date}:</span>
