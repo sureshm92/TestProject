@@ -65,6 +65,13 @@
 .note-button {
     padding-left: 64px;
 }
+
+.slds-size_1-of-2 {
+
+  width   : auto; 
+  padding : 10px;
+}
+
 :host {
     --sds-c-textarea-sizing-min-height: 200px;
  }

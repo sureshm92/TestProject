@@ -11,7 +11,7 @@
     <lightning-layout multiple-rows="true">
         <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="6"
             padding="around-small">
-            <lightning-textarea spellcheck="true" name="Comments" label="Comments" placeholder="Add comments here..."
+            <lightning-textarea spellcheck="true" name="Comments" label={label.RH_RP_Comments}  placeholder={label.RH_RP_Add_Comments}
                 value={commentValue} onchange={handleTextAreaChange} max-length={totalCount} class="text">
             </lightning-textarea>
             <div>
@@ -19,22 +19,22 @@
             </div>
             <div class="slds-grid note-button">
                 <div class="slds-col slds-size_1-of-2">
-                    <button class="apollo-btn secondary search-more-btn" onclick={clearComments} title="Clear"
+                    <button class="apollo-btn secondary search-more-btn" onclick={clearComments} title={label.RH_RP_Clear}
                         disabled={disabledSaveButton}>
-                        Clear
+                        {label.RH_RP_Clear}
                     </button>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
-                    <button class="apollo-btn primary search-more-btn" onclick={openCommentModel} title="Save Note"
+                    <button class="apollo-btn primary search-more-btn" onclick={openCommentModel} title={label.RH_RP_Save_Note}
                         disabled={disabledSaveButton}>
-                        Save Note
+                        {label.RH_RP_Save_Note}
                     </button>
                 </div>
             </div>
         </lightning-layout-item>
         <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="6"
             padding="around-small">
-            <lightning-input label="" type="search" value={searchValue} placeholder="Search" variant="label-hidden"
+            <lightning-input label="" type="search" value={searchValue} placeholder={label.CC_Btn_Search}  variant="label-hidden"
                 onchange={handleSearch} class="searchBox1">
             </lightning-input>
 

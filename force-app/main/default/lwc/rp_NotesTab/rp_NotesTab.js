@@ -5,12 +5,22 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
 import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
+import RH_RP_Comments from '@salesforce/label/c.RH_RP_Comments';
+import RH_RP_Add_Comments from '@salesforce/label/c.RH_RP_Add_Comments';
+import RH_RP_Clear from '@salesforce/label/c.RH_RP_Clear';
+import RH_RP_Save_Note from '@salesforce/label/c.RH_RP_Save_Note';
+import CC_Btn_Search from '@salesforce/label/c.CC_Btn_Search';
 
 export default class Rp_NotesTab extends LightningElement {
     
     //get custom label
     label = {
         RH_RP_No_Item_To_Display,
+        RH_RP_Comments,
+        RH_RP_Add_Comments,
+        RH_RP_Clear,
+        RH_RP_Save_Note,
+        CC_Btn_Search,
     };
 
     //Variable declaration
