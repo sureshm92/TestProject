@@ -272,7 +272,7 @@
 }
 
 .THIS .smallName {
-    width: auto;
+    width: 150px;;
 }
 .THIS .smallNameRTL {
     width: fit-content;
