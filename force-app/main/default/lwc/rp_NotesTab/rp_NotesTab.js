@@ -20,7 +20,7 @@ export default class Rp_NotesTab extends LightningElement {
         RH_RP_Add_Comments,
         RH_RP_Clear,
         RH_RP_Save_Note,
-        CC_Btn_Search,
+        CC_Btn_Search
     };
 
     //Variable declaration
