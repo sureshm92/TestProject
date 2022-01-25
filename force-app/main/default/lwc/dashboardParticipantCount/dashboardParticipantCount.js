@@ -12,6 +12,7 @@ import SendInviteSuccessMsg from '@salesforce/label/c.Send_Invite_Success_Msg';
 import getParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantInvitationDashboard';
 import getLoggedParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantLoginDashboard';
 import getNotYetInvitedParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetInvitedDetails';
+import getNotYetLoginParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetLogInDetails';
 import sendInvites from '@salesforce/apex/DashboardParticipantCount.sendInviteToNotInvitedParticipants';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class DashboardParticipantCount extends LightningElement {
@@ -28,11 +29,14 @@ export default class DashboardParticipantCount extends LightningElement {
     secondBarLabel='';
     participantText = '';
     buttonText = '';
+    ModalRender='';
     participantsCountResponse;
     error;
     loading = false;
     popupLoading = false;
     isParticipantModalOpen = false;
+    isParticipantModalOpenlogin = false;
+
     disableButton = false;
     selectedPEList = [];
 
@@ -54,9 +58,13 @@ export default class DashboardParticipantCount extends LightningElement {
         if(this.isInvitationDashboard === 'true') {
             this.dashboardTitle = this.label.PPInvitationStatusTitle;
             this.buttonText = this.label.SendInvitestoNotYetInvited;
+            this.ModalRender=this.retrieveNotInvitedParticipants();
+
         } else {
             this.dashboardTitle = this.label.PPLoginStatusTitle;
             this.buttonText = this.label.ViewParticipantsNotYetLoggedIn;
+            this.ModalRender= this.retrieveNotLoginParticipants();
+
         }    
         this.fetchDashboardValues();        
     }
@@ -117,14 +125,36 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     openParticipantModal() {
-        this.isParticipantModalOpen = true;
         this.popupLoading = true; 
         this.disableButton = true;
-        this.retrieveNotInvitedParticipants();
+        if(this.isInvitationDashboard === 'true') {
+            this.retrieveNotInvitedParticipants();
+            this.isParticipantModalOpen = true;
+          
+        } else{        
+            this.retrieveNotLoginParticipants();
+            this.isParticipantModalOpenlogin=true;
+        }
+        this.popupLoading = true; 
+        this.disableButton = true;
     }
 
     retrieveNotInvitedParticipants() {          
         getNotYetInvitedParticipants({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
+        .then(result => {
+            const cloneResult = [...result];          
+            cloneResult.sort(this.compareParticipantName);
+            this.peList=cloneResult;            
+            this.popupLoading = false; 
+        })
+        .catch(error => {  
+            this.error = error;                    
+            this.popupLoading = false;                
+        });
+         
+    }
+    retrieveNotLoginParticipants() {          
+        getNotYetLoginParticipants({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
         .then(result => {
             const cloneResult = [...result];          
             cloneResult.sort(this.compareParticipantName);
@@ -142,7 +172,11 @@ export default class DashboardParticipantCount extends LightningElement {
     closeParticipantModal() {
         this.peList = [];
         this.selectedPEList = [];
-        this.isParticipantModalOpen = false;
+        if(this.isInvitationDashboard === 'true') {
+            this.isParticipantModalOpen = false;
+        } else {
+            this.isParticipantModalOpenlogin = false;
+        }
     }
     
 
