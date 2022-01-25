@@ -42,7 +42,7 @@ public with sharing class ECOAService {
             lstRequest.add(objMsgReq);
             
             HttpCallout remoteCall = new HttpCallout(
-             '',
+             null,
              'POST',
              headerMap, 
              JSON.serializePretty(lstRequest),
