@@ -35,3 +35,17 @@ update userList;
 8. Uncheck Require email confirmations for email address changes (applies to users in Experience Builder sites)
 
 Go to Setup -> Identity Verification -> Uncheck Require email confirmations for email address changes (applies to users in Experience Builder sites)
+
+
+Step 9 ) Post Deployment Step for Physician Outreach (9.1-9.5)
+
+    Step 9.1) Setup -> Search for All Sites -> Click on Builder of IQVIA Referral Hub -> Click on the Setting icon (fourth icon in left) -> Click on theme and click on configure tab -> Scroll down click on new Theme Layout Button -> Type GuestTheme in the Name -> Select GuestUserThemeLayout and click save
+
+    Step 9.2) Setup -> Search for All Sites -> Click on Builder of IQVIA Referral Hub	-> Click on the setting icon in Top Left Corner ->Click on New Page , Select Standard Page -> 	Click on New Blank Page -> Select Empty Layout and Click Next -> In the Name , put inviteRP (be careful regarding case-sensitive of the chracters) -> In thr URL, it will get same name automaticaly (If not copy paste the same) -> In the API Name enter inviteRP -> Click Create
+
+    Step 9.3) After completion of First Step -> click on the setting of new created page -> In the Page access , select Public ->
+        Scroll down and check the checkbox Override the default theme layout for this page -> and select Guest Theme in the checkbox.
+
+    Step 9.4) After step 3, click on the component icon (First icon in the left) -> Search for HCPInvite_new -> Drag and drop the component in the blank space of the page (Where you can see the Column1)  
+
+    Step 9.5) Publish the community.  

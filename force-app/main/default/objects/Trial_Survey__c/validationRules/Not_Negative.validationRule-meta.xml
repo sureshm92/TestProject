@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+   <fullName>Not_Negative</fullName>
+   <active>true</active>
+   <errorConditionFormula>OR(
+AND
+   (NOT( ISBLANK( Reminder_in_days_before_the_end_date__c ) ),
+    Reminder_in_days_before_the_end_date__c &lt; 0
+   ),
+AND
+   (NOT( ISBLANK( Active_After_Days__c ) ),
+    Active_After_Days__c &lt; 0
+   ),
+AND
+   (NOT( ISBLANK( Expires_After_Days__c ) ),
+    Expires_After_Days__c &lt; 0
+   )
+)</errorConditionFormula>
+   <errorMessage>Please enter zero or positive values for number fields</errorMessage>
+</ValidationRule>

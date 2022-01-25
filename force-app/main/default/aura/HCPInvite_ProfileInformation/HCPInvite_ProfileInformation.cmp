@@ -1,0 +1,360 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"
+                controller="HCPInviteControllerNew" extends="c:CommunityContext" 
+                Description="HCPInvite_ProfileInformation">
+    
+    <aura:attribute name="passwrd" type="String" />
+    <aura:attribute name="cnfrmPasswrd" type="String" />
+    <aura:attribute name="UserName" type="String" />
+    <aura:attribute name="btnDisabled" type="Boolean" default="true" />
+    <aura:attribute name="isError" type="Boolean" default="false" />
+    <aura:attribute name="userId" type="String" />
+    <aura:attribute name="Title" type="List" default="Mr.,Miss" />
+    <aura:attribute name="contact" type="Object" />
+    <aura:attribute name="User" type="Object" />
+    <aura:attribute name="contactSectionData" type="Object" />
+    <aura:attribute name="personWrapper" type="Object" />
+    <aura:attribute name="prefixList" type="List" />
+    <aura:attribute name="ContactUserWrapperData" type="Object" />
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"  />
+    <aura:attribute name="countriesLVList" type="LabelValueItem[]" />
+    <aura:attribute name="ErrorMessage" type="String" default="" />
+    <aura:attribute name="password" type="String" />
+    <aura:attribute name="Cnfrmpassword" type="String" />
+    <aura:attribute name="PreviousPassword" type="String" description="using when user is coming back from terms n cndtns"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="HCPInviteEvt" type="c:HCPInviteEvent" />
+    <!-- <aura:registerEvent name="appEvent" type="c:HCPInviteEvent"/> --> 
+    
+    
+    <div style="background-color: #f8f9fb;"> 
+        <div class="hcp-block" >
+            <c:RRSpinner size="medium" aura:id="spinner" fixed="true" />
+            <div class="main-header">{!$Label.c.PG_Login_H_Profile_Information}</div>
+            <!-- contact Header-->
+            <div class="section-header" style="margin-left: 1rem;">{!$Label.c.PG_Login_H_Login_Information}</div>
+            <aura:if isTrue="{!v.isError}">
+                <div class="lg-error-alert">
+                    <aura:unescapedHtml value="{!v.ErrorMessage}" />      
+                </div>
+                
+            </aura:if>
+            <c:HCPInvite_UpdatePassword 
+                                        password = "{!v.ContactUserWrapperData.strPassword}"
+                                        Cnfrmpassword="{!v.ContactUserWrapperData.strConfrmPassword}"
+                                        UserName = "{#v.UserName}"
+                                        />
+            <div style="margin-left: 1rem;">
+                <div class="section-header">
+                    {!$Label.c.PG_Login_H_Contact_Information}
+                </div>
+                <div class="section-description">
+                    {!$Label.c.PG_Login_T_Please_Contact_Us}
+                </div>
+            </div>
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="3" smallDeviceSize="12" largeDeviceSize="2">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Title}
+                    </div>
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.prefixList}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.Salutation}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                class="widthclass" />
+                    
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem class="rr-form-element" size="12" padding="around-small" mediumDeviceSize="6" smallDeviceSize="12" largeDeviceSize="3">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
+                    </div>  
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.FirstName}"
+                                     label=""
+                                     name="" 
+                                     onchange="{!c.onChangeInput}"
+                                     />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="6" smallDeviceSize="12" largeDeviceSize="2">
+                    <div class="label moblmargn">
+                        {!$Label.c.PG_AS_F_Middle_name} 
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.MiddleName}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="6" smallDeviceSize="12" largeDeviceSize="3">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.LastName}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="3" smallDeviceSize="12" largeDeviceSize="2">
+                    <div class="label moblmargn">
+                        {!$Label.c.PG_AS_F_Suffix}
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.Suffix}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     />
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="3" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_Name}
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.Account.Name}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     /> 
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="6" smallDeviceSize="12" largeDeviceSize="8">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_Address_Line}
+                    </div> 
+                    <lightning:textarea 
+                                        placeholder=""
+                                        value="{!v.ContactUserWrapperData.objCurrentContact.MailingStreet}"
+                                        label=""
+                                        name=""
+                                        onchange="{!c.onChangeInput}"
+                                        /> 
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_City}
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.MailingCity}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     /> 
+                </lightning:layoutItem>
+                <!--State-->
+                <lightning:layoutItem size="12" class="rr-form-element"  padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_State}
+                    </div> 
+                    
+                    <c:rrSelect
+                                options="{!v.statesLVList}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.MailingStateCode}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                disabled="{!empty(v.statesLVList)}"
+                                />
+                </lightning:layoutItem>
+                <!--Country-->
+                <lightning:layoutItem size="12" class="rr-form-element"  padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_Country}
+                    </div> 
+                    
+                    <c:rrSelect
+                                options="{!v.countriesLVList}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.MailingCountryCode}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                onchange="{!c.doCountryCodeChanged}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <!--Zipcode Details-->
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>	{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}
+                    </div>
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.MailingPostalCode}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     /> 
+                </lightning:layoutItem>
+                <!--Phone-->
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Institute_Phone_Number}
+                    </div> 
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.Phone}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     /> 
+                </lightning:layoutItem>
+                <!--Fax-->
+                <lightning:layoutItem size="12" class="rr-form-element" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Institute_Fax_Number}
+                    </div> 
+                    <lightning:input
+                                     type="text"
+                                     placeholder=""
+                                     value="{!v.ContactUserWrapperData.objCurrentContact.Fax}"
+                                     label=""
+                                     name=""
+                                     onchange="{!c.onChangeInput}"
+                                     /> 
+                </lightning:layoutItem>
+            </lightning:layout> 
+            <!--Language Header-->
+            <div style="margin-left: 1rem;padding-top:2.5rem">
+                <div class="section-header">
+                    {!$Label.c.PG_Login_H_Language_Options}
+                </div>
+                <div class="section-description">
+                    {!$Label.c.PG_Login_H_Language_Description}
+                </div>
+            </div>
+            <!--Language Option-->
+            
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Preferred_Language}
+                        <span>
+                            <lightning:helptext
+                                                content="{!$Label.c.PG_AS_F_Preferred_Language_Help_Text}"
+                                                />
+                        </span>
+                    </div>
+                    <!-- <lightning:combobox name="Title"  label="" 
+                                     value="{!v.Contact.salutation}" placeholder=" " options="{! v.ContactUserWrapperData.languages }"
+                                     onchange="{! c.doCheckFields }"/> -->
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.languages}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.Language__c}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                useSentenceFont="{!false}"
+                                
+                                />
+                    
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4"> 
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_2nd_Choice_Language}
+                        <span>
+                            <lightning:helptext
+                                                content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"
+                                                />
+                        </span>
+                    </div>
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.optionalLanguages}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.Second_Choice_Language__c}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                useSentenceFont="{!false}"
+                                
+                                />
+                </lightning:layoutItem>
+                <!--Fax-->
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_3rd_Choice_Language}
+                        <span>
+                            <lightning:helptext
+                                                content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"
+                                                />
+                        </span>
+                    </div>
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.optionalLanguages}"
+                                value="{!v.ContactUserWrapperData.objCurrentContact.Third_Choice_Language__c}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                useSentenceFont="{!false}"
+                                
+                                />
+                </lightning:layoutItem>
+            </lightning:layout> 
+            
+            <!--Date Format Header-->
+            <div style="margin-left: 1rem; padding-top:2.5rem">
+                <div class="section-header">{!$Label.c.PG_Login_H_Date_Format}</div> 
+            </div>
+            <!--Date Format Options-->
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Preferred_Timezone}
+                    </div>
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.timezones}"
+                                value="{!v.ContactUserWrapperData.ObjCurrentUser.TimeZoneSidKey}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                useSentenceFont="{!false}"
+                                
+                                />
+                </lightning:layoutItem>
+                <!--Local for date format-->
+                <lightning:layoutItem size="12" padding="around-small" mediumDeviceSize="4" smallDeviceSize="12" largeDeviceSize="4">
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Locale_For_Date_Format}
+                    </div> 
+                    <c:rrSelect
+                                options="{!v.ContactUserWrapperData.locales}"
+                                value="{!v.ContactUserWrapperData.ObjCurrentUser.LocaleSidKey}"
+                                setValueAsSelected="true"
+                                class="label-field-space widthclass"
+                                useSentenceFont="{!false}"
+                                
+                                />
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="cp-save-btn-container">
+                
+                <lightning:button   variant="Brand" label="{!$Label.c.PG_Login_BTN_Save_And_Continue}" title="{!$Label.c.PG_Login_BTN_Save_And_Continue}"
+                                  onclick="{! c.handleSaveBtn }" class="apollo-btn btnClass"/>
+            </div> 
+            <div class="cp-info-titile" style="color: #000; text-align: center">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
+            <div style="height: 80px"></div>
+        </div>  
+        <div class="footer">
+            <div class="rr-width-limiter side-padding">
+                <div class="copyright">{!$Label.c.Footer_T_Copyright}</div>
+            </div>
+        </div> 
+    </div> 
+</aura:component>

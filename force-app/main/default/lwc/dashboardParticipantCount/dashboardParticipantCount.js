@@ -8,9 +8,11 @@ import PPLoginStatusTitle from '@salesforce/label/c.Site_DB_Patient_Portal_Login
 import CountOfParticipants from '@salesforce/label/c.Site_DB_Participants';
 import SendInvitestoNotYetInvited from '@salesforce/label/c.Site_DB_Send_Invites_to_Not_Yet_Invited';
 import ViewParticipantsNotYetLoggedIn from '@salesforce/label/c.Site_DB_View_Participants_Not_Yet_Logged_In';
+import SendInviteSuccessMsg from '@salesforce/label/c.Send_Invite_Success_Msg';
 import getParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantInvitationDashboard';
 import getLoggedParticipantCount from '@salesforce/apex/DashboardParticipantCount.participantLoginDashboard';
 import getNotYetInvitedParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetInvitedDetails';
+import getNotYetLoginParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetLogInDetails';
 import sendInvites from '@salesforce/apex/DashboardParticipantCount.sendInviteToNotInvitedParticipants';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class DashboardParticipantCount extends LightningElement {
@@ -27,11 +29,14 @@ export default class DashboardParticipantCount extends LightningElement {
     secondBarLabel='';
     participantText = '';
     buttonText = '';
+    ModalRender='';
     participantsCountResponse;
     error;
     loading = false;
     popupLoading = false;
     isParticipantModalOpen = false;
+    isParticipantModalOpenlogin = false;
+
     disableButton = false;
     selectedPEList = [];
 
@@ -44,7 +49,8 @@ export default class DashboardParticipantCount extends LightningElement {
         ViewParticipantsNotYetLoggedIn,
         PPLogin,
         PPNotYetLogin,
-        PPLoginStatusTitle
+        PPLoginStatusTitle,
+        SendInviteSuccessMsg
     };
 	  
 
@@ -52,9 +58,13 @@ export default class DashboardParticipantCount extends LightningElement {
         if(this.isInvitationDashboard === 'true') {
             this.dashboardTitle = this.label.PPInvitationStatusTitle;
             this.buttonText = this.label.SendInvitestoNotYetInvited;
+            this.ModalRender=this.retrieveNotInvitedParticipants();
+
         } else {
             this.dashboardTitle = this.label.PPLoginStatusTitle;
             this.buttonText = this.label.ViewParticipantsNotYetLoggedIn;
+            this.ModalRender= this.retrieveNotLoginParticipants();
+
         }    
         this.fetchDashboardValues();        
     }
@@ -115,14 +125,36 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     openParticipantModal() {
-        this.isParticipantModalOpen = true;
         this.popupLoading = true; 
         this.disableButton = true;
-        this.retrieveNotInvitedParticipants();
+        if(this.isInvitationDashboard === 'true') {
+            this.retrieveNotInvitedParticipants();
+            this.isParticipantModalOpen = true;
+          
+        } else{        
+            this.retrieveNotLoginParticipants();
+            this.isParticipantModalOpenlogin=true;
+        }
+        this.popupLoading = true; 
+        this.disableButton = true;
     }
 
     retrieveNotInvitedParticipants() {          
         getNotYetInvitedParticipants({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
+        .then(result => {
+            const cloneResult = [...result];          
+            cloneResult.sort(this.compareParticipantName);
+            this.peList=cloneResult;            
+            this.popupLoading = false; 
+        })
+        .catch(error => {  
+            this.error = error;                    
+            this.popupLoading = false;                
+        });
+         
+    }
+    retrieveNotLoginParticipants() {          
+        getNotYetLoginParticipants({ pIid: this.selectedPI,ctpId: this.selectedCTP })            
         .then(result => {
             const cloneResult = [...result];          
             cloneResult.sort(this.compareParticipantName);
@@ -140,7 +172,11 @@ export default class DashboardParticipantCount extends LightningElement {
     closeParticipantModal() {
         this.peList = [];
         this.selectedPEList = [];
-        this.isParticipantModalOpen = false;
+        if(this.isInvitationDashboard === 'true') {
+            this.isParticipantModalOpen = false;
+        } else {
+            this.isParticipantModalOpenlogin = false;
+        }
     }
     
 
@@ -199,11 +235,12 @@ export default class DashboardParticipantCount extends LightningElement {
 
     sendInvitesToApex(finalPEList) {
         this.popupLoading = true; 
-        sendInvites({ participantJson: JSON.stringify(finalPEList) })            
+        sendInvites({ participantJson: JSON.stringify(finalPEList), ctpId: this.selectedCTP })            
         .then(result => {
             this.popupLoading = false;
-            let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
-            this.showNotification('success',messsage,'success');
+            let message = this.labelFormat(SendInviteSuccessMsg,finalPEList.length);
+            //let messsage = '['+finalPEList.length+'] Invite(s) to Patient Portal sent! Dashboard may take several minutes to update.';
+            this.showNotification('success',message,'success');
             this.closeParticipantModal();
         })
         .catch(error => {  
@@ -213,6 +250,12 @@ export default class DashboardParticipantCount extends LightningElement {
             this.closeParticipantModal();
         });
         
+    }
+
+    labelFormat(stringToFormat, ...formattingArguments) {
+        if (typeof stringToFormat !== 'string') throw new Error('\'stringToFormat\' must be a String');
+        return stringToFormat.replace(/{(\d+)}/gm, (match, index) =>
+            (formattingArguments[index] === undefined ? '' : `${formattingArguments[index]}`));
     }
 
     showNotification(title,message,variant) {
@@ -225,12 +268,13 @@ export default class DashboardParticipantCount extends LightningElement {
     }
     selectAll() {
         this.popupLoading = true;
-        this.disableButton = false;
+        this.disableButton = true;
         let allRows = this.peList;
         this.selectedPEList = [];
         for (var i = 0; i < allRows.length; i++) {
             let row = Object.assign({}, allRows[i]);  
             row.isChecked = true;
+            this.disableButton = false;
             let targetId = row.datasetId;
             let target = this.template.querySelector(`[data-id="${targetId}"]`);
             target.checked = true;
