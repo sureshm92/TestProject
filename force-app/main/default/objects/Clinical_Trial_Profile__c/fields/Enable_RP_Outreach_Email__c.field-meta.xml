@@ -3,7 +3,7 @@
     <fullName>Enable_RP_Outreach_Email__c</fullName>
     <defaultValue>true</defaultValue>
     <externalId>false</externalId>
-    <label>Enable RP Outreach Email</label>
+    <label>Enable Patient Outreach Email</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
