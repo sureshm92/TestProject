@@ -27,7 +27,7 @@ public with sharing class ECOAService {
     }
 
     public static Map<String, Config_API_Param__mdt> apiParamsMap;
-
+	//private MessageSiteRequest objMsgReq;
     static {
         apiParamsMap = new Map<String, Config_API_Param__mdt>();
         for (Config_API_Param__mdt mdt : [
@@ -39,15 +39,54 @@ public with sharing class ECOAService {
         }
         System.debug('apiParamsMap::' + apiParamsMap);
     }
-
-    public static List<ECOAService.CreateSubjectResponse> subjectResponse(String responseBody) {
-        list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
-                responseBody,
-                list<ECOAService.CreateSubjectResponse>.class
-            );
-            return subResponseWrap;
+    public static void createSite(List<Study_Site__c> siteList) {
+        Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
+        list<string> locales = new List<String>();
+        List<SObject> sObjectsList = new List<SObject>();
+        locales.add('en');
+        for (Study_Site__c siteObj : siteList) {
+            Map<String, String> headerMap = new Map<String, String>{
+                'Content-Type' => 'application/json'
+                
+            };		 
+            
+            list<MessageSiteRequest> lstRequest=new list<MessageSiteRequest>();    
+            MessageSiteRequest objMsgReq=new MessageSiteRequest();
+            objMsgReq.name=siteObj.Id;
+            objMsgReq.description=siteObj.Name;
+            objMsgReq.locales=(new list<String>{'en'});
+            objMsgReq.studyGuid=siteObj.Clinical_Trial_Profile__r.Study_GUID__c;
+            objMsgReq.orgGuid=apiParamsMap.get(ORG_GUID).ParamValue__c;
+            lstRequest.add(objMsgReq);
+            
+            HttpCallout remoteCall = new HttpCallout(
+             null,
+             'POST',
+             headerMap, 
+             JSON.serializePretty(lstRequest),
+             ECOAService.class
+             );
+            remoteCall.setEndPointURL('callout:ECOAIntegration/sites');
+            remoteCall.setAutoLogInsert(false);
+            String respBody = (String) remoteCall.execute();
+            if (remoteCall.log.Success__c) {
+                
+                list<ECOAService.MessageSiteResponseWrapper> responseWrapper = parseResponseBody(respBody);
+                String siteGuid = responseWrapper[0].siteGuid;
+                siteObj.ECOA_Site_Guid__c=siteGuid;
+				sObjectsList.add(siteObj);
+                system.debug('siteGuid--' + siteGuid);
+            }
+            if (remoteCall.log != null) {
+                        sObjectsList.add(remoteCall.log);
+            }
+              
+        }
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
+        }
     }
-
     public static void createSubject(List<Participant_Enrollment__c> peList) {
         List<Id> contactIds = new List<Id>();
         List<Id> ctpIds = new List<Id>();
@@ -202,6 +241,35 @@ public with sharing class ECOAService {
         if (sObjectsList.size() > 0) {
             sObjectsList.sort();
             Database.upsert(sObjectsList, false);
+        }
+    }
+    
+    
+    class MessageSiteResponseWrapper {
+        public String statusMessage;
+        public String siteName;
+        public String siteGuid;
+                
+    }
+
+   
+    class MessageSiteRequest{
+        public String name;
+        public String description;
+       	public List<String> locales;
+        public string countryCode;
+        public String orgGuid;
+        public String studyGuid;
+    }
+    public static list<ECOAService.MessageSiteResponseWrapper> parseResponseBody(String responseBody) {
+        try {
+            list<ECOAService.MessageSiteResponseWrapper> msgResponseWrap = (list<ECOAService.MessageSiteResponseWrapper>) JSON.deserialize(
+                responseBody,
+                list<ECOAService.MessageSiteResponseWrapper>.class
+            );
+            return msgResponseWrap;
+        } catch (JSONException e) {
+            return new list<MessageSiteResponseWrapper>();
         }
     }
 }
