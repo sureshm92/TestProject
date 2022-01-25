@@ -507,7 +507,7 @@
         <shortDescription>About the Study</shortDescription>
         <value>About the Study</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Abort_Batch_UpsertEprParticipantAndPE</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -824,13 +824,6 @@
         <value>Action Required</value>
     </labels>
     <labels>
-        <fullName>Active_on_status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Active on status</shortDescription>
-        <value>Active on status filed cannot be blank</value>
-    </labels>
-    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1014,7 +1007,7 @@
         <protected>true</protected>
         <shortDescription>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
         <value>Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants).</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Attestation_Confirmation_Message</fullName>
         <language>en_US</language>
@@ -1044,7 +1037,7 @@
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>BATCH_RUNNING</fullName>
         <categories>BATCH_RUNNING</categories>
         <language>en_US</language>
@@ -1675,19 +1668,19 @@
         <shortDescription>trialSearch_me</shortDescription>
         <value>Me</value>
     </labels>
-	<labels>
-        <fullName>ts_end_date_not_blank</fullName>
+    <labels>
+        <fullName>TS_InActive_Status_Error</fullName>
         <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ts end date not blank</shortDescription>
-        <value>End date cannot be blank</value>
+        <protected>true</protected>
+        <shortDescription>TS_InActive_Status_Error</shortDescription>
+        <value>Trial Survey is not available for editing of InActive records. Create a new one instead.</value>
     </labels>
     <labels>
-        <fullName>ts_start_date_not_blank</fullName>
+        <fullName>TS_NegativeNumberError</fullName>
         <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ts start date not blank</shortDescription>
-        <value>Start date cannot be blank</value>
+        <protected>true</protected>
+        <shortDescription>TS_NegativeNumberError</shortDescription>
+        <value>You can only enter positive numeric values.</value>
     </labels>
     <labels>
         <fullName>ts_success_msg</fullName>
@@ -1704,12 +1697,12 @@
         <value>Gender</value>
     </labels>
     <labels>
-	<fullName>Send_info_for</fullName>
-	<language>en_US</language>
-	<protected>false</protected>
-	<shortDescription>Send Information for</shortDescription>
-	<value>Send Information for</value>
-</labels>
+        <fullName>Send_info_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send Information for</shortDescription>
+        <value>Send Information for</value>
+    </labels>
     <labels>
         <fullName>BTN_Send</fullName>
         <language>en_US</language>
@@ -3675,7 +3668,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Cancel_Scheduled_Visit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5920,7 +5913,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Header Available</shortDescription>
         <value>New visit data is available to view</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Id</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7726,7 +7719,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <shortDescription>Fulfilled</shortDescription>
         <value>Fulfilled</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Gather_Share_Know</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9190,7 +9183,7 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Import_Patient_Template_Link</shortDescription>
         <value>https://fun-nosoftware-4733-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=01554000001U88V</value>
-   </labels>
+    </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
@@ -9255,7 +9248,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Initial_Visit_modified</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9590,13 +9583,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set monthly task for these dates.</value>
-    </labels>
-	<labels>
-        <fullName>no_of_days_before_survey_expire</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>no of days before survey expire</shortDescription>
-        <value>Number of days before survey expires cannot be blank</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -13903,7 +13889,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG MPS L Referrals overall</shortDescription>
         <value>Referrals overall</value>
     </labels>
-	  <labels>
+    <labels>
         <fullName>Patient_Status_Exclude_For_Referring</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14281,7 +14267,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
         <value>Back to My participants</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Primary</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16584,7 +16570,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18329,7 +18315,7 @@ communications using the toggles below.</value>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Proceed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18623,7 +18609,7 @@ communications using the toggles below.</value>
         <shortDescription>RH Email Invalid Error</shortDescription>
         <value>You have entered an invalid format</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RPR_Actions</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19173,7 +19159,7 @@ communications using the toggles below.</value>
         <shortDescription>RSN Study Site on hold</shortDescription>
         <value>Study Site on hold</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>RPR_Clear_All</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19291,6 +19277,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH_Proceed_to_tab</shortDescription>
         <value>are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ProfileInfoErrorMsz</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ProfileInfoErrorMsz</shortDescription>
+        <value>You must enter a value</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
@@ -19467,14 +19460,14 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Delegate Cancel Record</shortDescription>
         <value>Cancel Record</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_RP_Outreach_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Outreach Patient</shortDescription>
         <value>Send Patient Outreach</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_RP_Add_a_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19657,46 +19650,46 @@ communications using the toggles below.</value>
         <value>Include the selected patients for referring to a study</value>
     </labels>
     <labels>
-        <fullName>RH_RP_Export_downloadable_log</fullName> 
+        <fullName>RH_RP_Export_downloadable_log</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Export_downloadable log</shortDescription>
         <value>Export a downloadable log of the selected patients.</value>
     </labels>
     <labels>
-            <fullName>RH_RP_Export_to_excel</fullName>
-            <language>en_US</language>
-            <protected>true</protected>
-            <shortDescription>RH_RP_Export to excel</shortDescription>
-            <value>Export to Excel</value>
+        <fullName>RH_RP_Export_to_excel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Export to excel</shortDescription>
+        <value>Export to Excel</value>
     </labels>
     <labels>
-            <fullName>RH_RP_Outreach_Email</fullName>
-            <language>en_US</language>
-            <protected>true</protected>
-            <shortDescription>RH_RP_Outreach Email</shortDescription>
-            <value>Outreach Email</value>
+        <fullName>RH_RP_Outreach_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Outreach Email</shortDescription>
+        <value>Outreach Email</value>
     </labels>
     <labels>
-            <fullName>RH_RP_Bulk_Action</fullName>
-            <language>en_US</language>
-            <protected>true</protected>
-            <shortDescription>RH_RP_Bulk Action</shortDescription>
-            <value>Select what bulk action you would like to perform</value>
+        <fullName>RH_RP_Bulk_Action</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Bulk Action</shortDescription>
+        <value>Select what bulk action you would like to perform</value>
     </labels>
     <labels>
-            <fullName>RH_RP_OutreachEmail</fullName>
-            <language>en_US</language>
-            <protected>true</protected>
-            <shortDescription>RH_RP_OutreachEmail</shortDescription>
-            <value>Initiate a request to send an outreach email to the selected patients.</value>
+        <fullName>RH_RP_OutreachEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_OutreachEmail</shortDescription>
+        <value>Initiate a request to send an outreach email to the selected patients.</value>
     </labels>
     <labels>
-            <fullName>RH_RP_Patients_Selected</fullName>
-            <language>en_US</language>
-            <protected>true</protected>
-            <shortDescription>RH_RP_Patients_Selected</shortDescription>
-            <value>Patients Selected</value>
+        <fullName>RH_RP_Patients_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Patients_Selected</shortDescription>
+        <value>Patients Selected</value>
     </labels>
     <labels>
         <fullName>RH_RP_Include_Record</fullName>
@@ -20146,7 +20139,7 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Bulk Excluded Successfully</shortDescription>
         <value>These patients have been successfully excluded.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>RH_RP_Bulk_included_successfully</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20362,14 +20355,14 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RPR_Consent</shortDescription>
         <value>Consent</value>
-   </labels>
+    </labels>
     <labels>
         <fullName>RPR_State</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RPR_State</shortDescription>
         <value>State/Province</value>
-   </labels>
+    </labels>
     <labels>
         <fullName>Report_Participant_Status</fullName>
         <language>en_US</language>
@@ -21352,7 +21345,7 @@ communications using the toggles below.</value>
         <shortDescription>Send Emails Checkbox on PE Info</shortDescription>
         <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>State_Country</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21380,7 +21373,7 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>Send_IPREmailReport_Body</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22581,7 +22574,7 @@ communications using the toggles below.</value>
         <shortDescription>Total Cholesterol Description</shortDescription>
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>TOTAL_PE_WITHOUT_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22594,7 +22587,7 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>TOTAL_PE_WITHOUT_VP_LIMIT</shortDescription>
         <value>There are more than ##PEs participants with no visit plan attached.</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Total_protein</fullName>
         <language>en_US</language>
@@ -23569,7 +23562,7 @@ communications using the toggles below.</value>
         <shortDescription>empty visits</shortDescription>
         <value>there are no planned visits yet</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>monthly_survey_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23589,13 +23582,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>patients</shortDescription>
         <value>patients</value>
-    </labels>
-	<labels>
-        <fullName>reminder_days_for_daily</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>reminder days for daily</shortDescription>
-        <value>Reminder days should be 0 or blank for daily recurrence</value>
     </labels>
     <labels>
         <fullName>search_results</fullName>
@@ -23649,7 +23635,7 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>weekly_survey_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23663,7 +23649,7 @@ communications using the toggles below.</value>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set weekly task for these dates.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>yearly_survey_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23680,8 +23666,8 @@ communications using the toggles below.</value>
     <labels>
         <fullName>Select_Alternative_Type</fullName>
         <language>en_US</language>
-      <protected>true</protected>
-      <shortDescription>Select Alternative Type</shortDescription>
+        <protected>true</protected>
+        <shortDescription>Select Alternative Type</shortDescription>
         <value>Select Alternative Type</value>
     </labels>
     <labels>
