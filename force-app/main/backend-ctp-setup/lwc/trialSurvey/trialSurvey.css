@@ -11,3 +11,9 @@
 	margin-top: -16px;
     margin-bottom: -23px;
 }
+.slds-modal__header {
+    padding: 6px 0 6px 0;
+}
+.margin-grid-top {
+    margin-top: 10px;
+}
