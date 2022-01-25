@@ -8,7 +8,8 @@
 .THIS .ssp-label {
     letter-spacing: 0;
     align-self: center;
-    width:99px;
+    /*added by Sai ganesh*/
+     width:99px;
 }
 
 .THIS .ssp-content {
@@ -19,17 +20,19 @@
 
 .THIS .ssp-select {
     position: relative;
+    /*Added By Ganesh width:200*/
     width: 220px;
     margin-top: -3px;
-    /*margin-left: -16px;*/
+    /*cmtd by ganesh
+    margin-left: -16px;*/
 }
 
 .THIS .ssp-selectRTL {
     position: relative;
     width: 200px;
     margin-top: -3px;
-  /* @noflip */  margin-left: 9px;
-   /* @noflip */  margin-right: -25px;
+  /* @noflip */  margin-left: 6px;
+   /* @noflip */ /*margin-right: -27px;*/
 }
 
 .THIS .ssp-button-search {
@@ -42,12 +45,13 @@
 
 .THIS .ssp-sort-list {
     width: 220px;
-   /* margin-left: 20px;
+    /* comtd by ganesh
+   margin-left: 20px;
     padding-left: 20px;*/
 }
 .THIS .ssp-sort-listRTL {
-    width: 67%;
-  /* @noflip */  margin-right: 30px;
+    /*width: 67%;
+  /* @noflip */  /*margin-right: 30px;*/
 }
 
 .THIS .ssp-search {
@@ -118,7 +122,5 @@
         
     .THIS.ssp-header {
     	margin-bottom: 30px;        
-    }
-        
-    
+    }   
 }

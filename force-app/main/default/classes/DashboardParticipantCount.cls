@@ -110,7 +110,7 @@ public without sharing class DashboardParticipantCount {
             Map<Id,List<Id>> invitedDelegateParticipantMap = new Map<Id,List<Id>>();
             Map<Id,Id> invitedParticipantMap = new Map<Id,Id>();
             List<Id> contactIdList = new List<Id>();
-            Set<Id> contactIdSet;
+            Set<Id> contactIdSet = new set<Id>();
             Map<Id,Id> contactUserMap = new Map<Id,Id>();
             Integer loggeduser = 0;
             Integer notLoggedUser = 0;
@@ -163,55 +163,62 @@ public without sharing class DashboardParticipantCount {
                 contactIdSet = new set<Id>(contactIdList);
             }
             
+            if(!contactIdSet.isEmpty()) {
             //Fetch Users Who are LoggedIn
-            Set<Id> contactLoggeduserSet = fetchUsersLoggedIn(contactIdSet);
-            Set<Id> perParticipantsinvLoggedIds = new set<Id>();
-            
-            
-            //Process PER records
-            for(Id participantId:invitedParticipantMap.keyset()) {
-                //contactIdList.add(contactId);
-                Id contactId = invitedParticipantMap.get(participantId);
-                if(contactLoggeduserSet.contains(contactId)) {
-                    loggeduser++;   
-                    perParticipantsinvLoggedIds.add(participantId);                 
-                }else {
-                    if(!invitedDelegateParticipantMap.containsKey(participantId)) {
-                        notLoggedUser++;
+                String whereClause = 'AND IsCommunityUserRegistered__c = true';
+                Set<Id> contactLoggeduserSet = fetchUsersLoggedIn(contactIdSet,whereClause);
+                Set<Id> perParticipantsinvLoggedIds = new set<Id>();
+                
+                
+                //Process PER records
+                for(Id participantId:invitedParticipantMap.keyset()) {
+                    //contactIdList.add(contactId);
+                    Id contactId = invitedParticipantMap.get(participantId);
+                    if(contactLoggeduserSet.contains(contactId)) {
+                        loggeduser++;   
+                        perParticipantsinvLoggedIds.add(participantId);                 
+                    }else {
+                        if(!invitedDelegateParticipantMap.containsKey(participantId)) {
+                            notLoggedUser++;
+                        }
                     }
                 }
-            }
-            
-            //Process Delegate Records
-            //for(List<Id> contactIds:invitedDelegateParticipantMap.values()) {
-            for(Id participantId : invitedDelegateParticipantMap.keyset()) {
-                List<Id> contactIds = new List<Id>();
-                contactIds = invitedDelegateParticipantMap.get(participantId);
-                Integer count = 0;
-                for(Id contactId:contactIds) {
-                    if(contactLoggeduserSet.contains(contactId)) {
-                        if(!perParticipantsinvLoggedIds.contains(participantId)) {
-                             loggeduser++;
-                             break;
-                        }
-                     } else {
-                         count++;
-                     }                  
-                }
-                if(count > 0 && count == contactIds.size() && !perParticipantsinvLoggedIds.contains(participantId)) {
-                    notLoggedUser++;
+                
+                //Process Delegate Records
+                //for(List<Id> contactIds:invitedDelegateParticipantMap.values()) {
+                for(Id participantId : invitedDelegateParticipantMap.keyset()) {
+                    List<Id> contactIds = new List<Id>();
+                    contactIds = invitedDelegateParticipantMap.get(participantId);
+                    Integer count = 0;
+                    for(Id contactId:contactIds) {
+                        if(contactLoggeduserSet.contains(contactId)) {
+                            if(!perParticipantsinvLoggedIds.contains(participantId)) {
+                                loggeduser++;
+                                break;
+                            }
+                        } else {
+                            count++;
+                        }                  
+                    }
+                    if(count > 0 && count == contactIds.size() && !perParticipantsinvLoggedIds.contains(participantId)) {
+                        notLoggedUser++;
+                    }
                 }
             }
             List<Id> totalCountIdList = new List<Id>();
             totalCountIdList.addAll(invitedDelegateParticipantMap.keyset());
             totalCountIdList.addAll(invitedParticipantMap.keySet());
-            Set<Id> totalCountIdSet;
+            Set<Id> totalCountIdSet = new set<Id>();
             
             //Convert List to set
             if(totalCountIdList.size() > 0) {
                 totalCountIdSet = new set<Id>(totalCountIdList);
             }
-            totalCount = totalCountIdSet.size();
+            if(!totalCountIdSet.isEmpty()) {
+                totalCount = totalCountIdSet.size();
+            } else {
+                totalCount = 0;
+            }
 			//totalCount = invitedDelegateParticipantMap.keyset().size() + invitedParticipantMap.keySet().size();	
 			resList.add(
                 prepareBarItem(
@@ -238,12 +245,15 @@ public without sharing class DashboardParticipantCount {
         }
     }
 	
-	private static Set<Id> fetchUsersLoggedIn(Set<Id> contactIds) {
+	private static Set<Id> fetchUsersLoggedIn(Set<Id> contactIds, String whereClause) {
 		Set<Id> contactLoggeduserSet = new Set<Id>();
+        String query = 'SELECT Id,isActive,ContactId,IsCommunityUserRegistered__c FROM USER'
+                +' WHERE ContactId IN: contactIds ' + whereClause;
 		
-		List<User> userList = [SELECT Id,isActive,ContactId,IsCommunityUserRegistered__c 
+        List<User> userList = Database.query(query);
+		/*List<User> userList = [SELECT Id,isActive,ContactId,IsCommunityUserRegistered__c 
                                	FROM User 
-                               	WHERE IsCommunityUserRegistered__c = true AND contactId IN : contactIds];
+                               	WHERE IsCommunityUserRegistered__c = true AND contactId IN : contactIds];*/
 		for(User userRec: userList) {
 			contactLoggeduserSet.add(userRec.contactId);	
 		}
@@ -263,7 +273,7 @@ public without sharing class DashboardParticipantCount {
     
     private static List<Participant__c> fetchParticipantRecords(List<Id> participantIds, String whereClause) {
         String query = 'SELECT Id,Last_Name__c,First_Name__c,(SELECT Id, Participant__c,Status__c,Primary_Delegate__c,Contact__c,Participant_delegate__r.First_Name__c,'
-                +'Participant_delegate__r.Last_Name__c,Participant_delegate__c,isInviteToPP__c,Participant_delegate__r.Email__c'
+                +'Participant_delegate__r.Last_Name__c,Participant_delegate__c,isInviteToPP__c,Participant_delegate__r.Email__c,Participant__r.First_Name__c,Participant__r.Last_Name__c'
                 +' FROM Participants__r'
                 +' '+whereClause+') FROM Participant__c WHERE Id IN: participantIds';
         return Database.query(query);        
@@ -336,7 +346,7 @@ public without sharing class DashboardParticipantCount {
     }
 
     @AuraEnabled
-    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson) {
+    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson, Id ctpId) {
 
         List<ParticipantDetails> participantDetails = (List<ParticipantDetails>)JSON.deserialize(participantJson,List<ParticipantDetails>.class);
         Map<String,String> resMap = new Map<String,String>();
@@ -351,7 +361,7 @@ public without sharing class DashboardParticipantCount {
                 }
             }
             if(!participantIds.isEmpty()) {
-                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds);
+                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId);
                 Database.executeBatch(participantBatch);
             }
 
@@ -377,5 +387,89 @@ public without sharing class DashboardParticipantCount {
             perIds.add(per.Id);
         }
         ListViewParticipantController.createUserForPatientProtal(perIds,true);*/
+    }
+
+    @AuraEnabled
+    public static List<ParticipantDetails> fetchParticipantsNotYetLogInDetails(Id pIid,Id ctpId) {
+        try {
+            List<ParticipantDetails> resList = new List<ParticipantDetails>();
+            List<Id> participantIds = new List<Id>();
+            List<Participant__c> participantList = new List<Participant__c>();
+            Map<Id,Id> participantContactMap = new Map<Id,Id>();
+            Map<Id,Participant__c> participantMap = new Map<Id,Participant__c>();
+            Map<Id,Patient_Delegate__c> participantDelMap = new Map<Id,Patient_Delegate__c>();
+
+            String perWhereClause = ' AND study_Site__r.Study_Site_Type__c != \'Virtual\' AND study_Site__r.Study_Site_Type__c != \'Hybrid\' AND study_Site__r.Suppress_Participant_Emails__c=false';  
+            perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
+            perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__c =\''+ String.escapeSingleQuotes(ctpId)+'\' AND Study_Site__r.Principal_Investigator__c = \''+String.escapeSingleQuotes(piId)+'\'';
+            
+            List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause, new List<Id>());
+            for(Participant_Enrollment__c per : perList) {
+                ParticipantDetails parDetail = new ParticipantDetails();
+                participantIds.add(per.Participant__c);
+                if(per.Invited_To_PP_Date__c != null && per.Participant__r.Email__c != null && per.Participant__c != null && per.Participant__r.Adult__c) { // If Adult
+                    participantContactMap.put(per.Participant__c,per.Participant_Contact__c);
+                    Participant__c part = new Participant__c(Id =per.Participant__c,
+                                                            First_Name__c=per.Participant__r.First_Name__c,
+                                                            Last_Name__c = per.Participant__r.Last_Name__c );
+                    participantMap.put(per.Participant__c,part);
+                } 
+                
+            }
+
+            if(participantIds.size() > 0) {                
+                participantList = DashboardParticipantCount.fetchParticipantRecords(participantIds,'');
+
+                for(Participant__c participant:participantList) {
+                    List<Patient_Delegate__c> delegateList = new List<Patient_Delegate__c>();
+                    delegateList = participant.Participants__r;
+                    for(Patient_Delegate__c pd:delegateList) {
+                        ParticipantDetails parDetail = new ParticipantDetails();
+                        if(pd.isInviteToPP__c && participant.Id != null && pd.Participant_delegate__r.Email__c != null) {
+                            participantContactMap.put(pd.Participant_delegate__c,pd.Contact__c);
+                            participantDelMap.put(pd.Participant__c,pd);
+                        }
+                    }
+                }
+
+            }
+            Set<Id> usersNotLogged = new Set<Id>();
+            if(!participantContactMap.isEmpty()) {
+                String whereClause = 'AND IsCommunityUserRegistered__c = false';
+                Set<Id> contactIds = new Set<Id>(participantContactMap.values());
+                usersNotLogged = fetchUsersLoggedIn(contactIds,whereClause);
+            }
+
+            if(!usersNotLogged.isEmpty()) {
+                for(Id participantId:participantContactMap.keySet()){
+                    ParticipantDetails parDetail = new ParticipantDetails();
+                    if(usersNotLogged.contains(participantContactMap.get(participantId))) {
+                        if(participantMap.get(participantId) != null) {
+                            parDetail.participantId = participantId;
+                            parDetail.participantName = participantMap.get(participantId).First_Name__c+' '+participantMap.get(participantId).Last_Name__c;
+                            parDetail.isChecked = false;
+                            parDetail.datasetId = participantId;
+                            resList.add(parDetail);
+                        } else if(participantDelMap.get(participantId) != null) {
+                            Patient_Delegate__c pd = participantDelMap.get(participantId);
+                            parDetail.participantId = pd.participant__c;
+                            parDetail.participantName = pd.participant__r.First_Name__c+' '+pd.participant__r.Last_Name__c;
+                            parDetail.delegateId = participantId;
+                            parDetail.delegateParticipantName = pd.Participant_delegate__r.First_Name__c+' '+pd.Participant_delegate__r.Last_Name__c;
+                            parDetail.isChecked = false;
+                            parDetail.datasetId = (String)pd.participant__c+(String)participantId;
+                            resList.add(parDetail);
+                        }
+
+                    }
+                }
+
+            }
+
+            return resList;
+
+        } catch(Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 }
