@@ -48,10 +48,6 @@
                                 </div>
                             </td>
                             <td>
-                                <aura:if isTrue="{!task.Status == 'In Progress'}">
-                                    {!$Label.c.In_Progress}
-                                </aura:if>
-                                <aura:if isTrue="{!task.Status != 'In Progress'}">
                                     <aura:if isTrue="{!task.Activity_Datetime__c}">
                                         <!--<ui:outputDate value="{!task.Activity_Datetime__c}"/>-->
                                         <lightning:formattedDateTime
@@ -65,7 +61,6 @@
                                     <aura:if isTrue="{!!task.Activity_Datetime__c}">
                                         {!$Label.c.None}
                                     </aura:if>
-                                </aura:if>
                             </td>
                         </tr>
                     </aura:iteration>
