@@ -346,7 +346,7 @@ public without sharing class DashboardParticipantCount {
     }
 
     @AuraEnabled
-    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson) {
+    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson, Id ctpId) {
 
         List<ParticipantDetails> participantDetails = (List<ParticipantDetails>)JSON.deserialize(participantJson,List<ParticipantDetails>.class);
         Map<String,String> resMap = new Map<String,String>();
@@ -361,7 +361,7 @@ public without sharing class DashboardParticipantCount {
                 }
             }
             if(!participantIds.isEmpty()) {
-                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds);
+                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId);
                 Database.executeBatch(participantBatch);
             }
 
