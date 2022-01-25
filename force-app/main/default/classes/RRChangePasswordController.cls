@@ -389,20 +389,36 @@ public without sharing class RRChangePasswordController {
             ApexPages.getMessages().clear(); // Messages can't be cleared this way! Redirect page.
             Map<String, String> countryCodeByNameMap = new Map<String, String>();
             Map<String, String> stateCodeByNameMap = new Map<String, String>();
+            Map<String,Map<String, String>> countryCodeByStateCodeByNameMap = new Map<String,Map<String, String>>();
             List<RH_State_Code_By_Country_Name__mdt> stateCodeByCountryList = [
                 SELECT
                     RH_Country_Name__r.Country_Name__c,
                     RH_Country_Name__r.Country_Code__c,
+                	RH_Country_Name__r.IsVisible__c,
                     State_Code__c,
-                    State_Name__c
+                    State_Name__c,
+                	IsVisible__c
                 FROM RH_State_Code_By_Country_Name__mdt
             ];
             for (RH_State_Code_By_Country_Name__mdt objMetadata : stateCodeByCountryList) {
-                if (!String.isBlank(objMetadata.RH_Country_Name__r.Country_Code__c)) {
+                if (!String.isBlank(objMetadata.RH_Country_Name__r.Country_Code__c) 
+                    && objMetadata.IsVisible__c == true && objMetadata.RH_Country_Name__r.IsVisible__c == true) {
                     countryCodeByNameMap.put(
                         objMetadata.RH_Country_Name__r.Country_Code__c,
                         objMetadata.RH_Country_Name__r.Country_Name__c
                     );
+                    if (!String.isBlank(objMetadata.State_Code__c)) {                    
+                        if(countryCodeByStateCodeByNameMap.containsKey(objMetadata.RH_Country_Name__r.Country_Code__c)){
+                                countryCodeByStateCodeByNameMap.get(objMetadata.RH_Country_Name__r.Country_Code__c)
+                                    .put(objMetadata.State_Code__c, objMetadata.State_Name__c);
+                            
+                        }else{
+                            Map<String,String> stateCodeAndNameTemp = new Map<String,String>();
+                            stateCodeAndNameTemp.put(objMetadata.State_Code__c, objMetadata.State_Name__c);
+                            countryCodeByStateCodeByNameMap.put(
+                                objMetadata.RH_Country_Name__r.Country_Code__c,stateCodeAndNameTemp);
+                        }  
+                    }          
                 }
                 if (!String.isBlank(objMetadata.State_Code__c)) {
                     stateCodeByNameMap.put(objMetadata.State_Code__c, objMetadata.State_Name__c);
@@ -424,7 +440,7 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByNameMap.get(participant.Mailing_Country_Code__c));
                 participant.Mailing_State__c = (noState
                     ? null
-                    : stateCodeByNameMap.get(participant.Mailing_State_Code__c));
+                    : countryCodeByStateCodeByNameMap.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c));
                 if (isDelegate) {
                     participant.Birth_Year__c = birthYear;
                 }
@@ -465,7 +481,7 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByNameMap.get(contact.MailingCountryCode));
                 contact.MailingState = (noState
                     ? null
-                    : stateCodeByNameMap.get(contact.MailingStateCode));
+                    : countryCodeByStateCodeByNameMap.get(contact.MailingCountryCode).get(contact.MailingStateCode));
 
                 if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                     Account newClinic = new Account(
