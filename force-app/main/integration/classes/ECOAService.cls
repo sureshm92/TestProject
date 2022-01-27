@@ -7,7 +7,67 @@ public with sharing class ECOAService {
     public static final String AUTHORIZATION_KEY = 'Authorization_Key';
     public static final String END_POINT_URL = 'EndPoint';
     public static final String ORG_GUID = 'OrgGuid';
+    public static final String ALGORITHM = 'Algorithm';
+    public static final String ISSUER_GUID = 'IssuerGuid';
+    public static final String AUD = 'Environment';
+    public static final String ACTOR_TYPE = 'ActorType';
+    public static final String SCHEDULE = 'eCOASchedule';
+    public static final String DIARY_URL = 'DiaryURL';
+    public static final String PVT_KEY = 'PrivateKey';
+    public static final string TOKEN_TYPE = 'JWT';
+    public static final String ALGO_NAME = 'rsa-sha256';
 
+    public static Map<String, Config_API_Param__mdt> apiParamsMap;
+    public static final Map<String, List<String>> dataTypeTokenHeader = new Map<String, List<String>>{
+        'String' => new List<String>{ 'alg', 'typ' }
+    };
+    public static final Map<String, List<String>> dataTypeTokenBody = new Map<String, List<String>>{
+        'String' => new List<String>{
+            'iss',
+            'sub',
+            'aud',
+            'ecoa:study_guid',
+            'ecoa:actor_type',
+            'ecoa:actor_id',
+            'ecoa:schedule'
+        },
+        'LongNumber' => new List<String>{ 'iat', 'exp' }
+    };
+    static {
+        apiParamsMap = new Map<String, Config_API_Param__mdt>();
+        for (Config_API_Param__mdt mdt : [
+            SELECT DeveloperName, ParamValue__c
+            FROM Config_API_Param__mdt
+            WHERE ConfigAPI__r.DeveloperName = :ECOA_CONFIG_NAME
+        ]) {
+            apiParamsMap.put(mdt.DeveloperName, mdt);
+        }
+        System.debug('apiParamsMap::' + apiParamsMap);
+    }
+    //---Wrappers-------------------
+    class MessageSiteResponseWrapper {
+        public String statusMessage;
+        public String siteName;
+        public String siteGuid;
+    }
+
+    class MessageSiteRequest {
+        public String name;
+        public String description;
+        public List<String> locales;
+        public string countryCode;
+        public String orgGuid;
+        public String studyGuid;
+
+        public Address address;
+    }
+    class Address {
+        public String street;
+        public String City;
+        public String state;
+        public String Country;
+        public String PostalCode;
+    }
     public class CreateSubjectResponse {
         @AuraEnabled
         public String ecoaResponseID;
@@ -23,19 +83,6 @@ public with sharing class ECOAService {
         public String statusMessage;
     }
 
-    public static Map<String, Config_API_Param__mdt> apiParamsMap;
-    //private MessageSiteRequest objMsgReq;
-    static {
-        apiParamsMap = new Map<String, Config_API_Param__mdt>();
-        for (Config_API_Param__mdt mdt : [
-            SELECT DeveloperName, ParamValue__c
-            FROM Config_API_Param__mdt
-            WHERE ConfigAPI__r.DeveloperName = :ECOA_CONFIG_NAME
-        ]) {
-            apiParamsMap.put(mdt.DeveloperName, mdt);
-        }
-        System.debug('apiParamsMap::' + apiParamsMap);
-    }
     public static void createSite(List<Study_Site__c> siteList) {
         Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
         list<string> locales = new List<String>();
@@ -91,13 +138,6 @@ public with sharing class ECOAService {
             sObjectsList.sort();
             Database.upsert(sObjectsList, false);
         }
-    }
-    public static List<ECOAService.CreateSubjectResponse> subjectResponse(String responseBody) {
-        list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
-            responseBody,
-            list<ECOAService.CreateSubjectResponse>.class
-        );
-        return subResponseWrap;
     }
     public static void createSubject(List<Participant_Enrollment__c> peList) {
         List<Id> contactIds = new List<Id>();
@@ -179,7 +219,7 @@ public with sharing class ECOAService {
                     String respBody = (String) remoteCall.execute();
 
                     if (remoteCall.log.Success__c) {
-                        List<ECOAService.CreateSubjectResponse> newSubjectInfo = subjectResponse(
+                        List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
                             respBody
                         );
                         peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
@@ -257,30 +297,64 @@ public with sharing class ECOAService {
             Database.upsert(sObjectsList, false);
         }
     }
+    public static List<ECOAService.CreateSubjectResponse> getSubjectResponse(String responseBody) {
+        list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
+            responseBody,
+            list<ECOAService.CreateSubjectResponse>.class
+        );
+        return subResponseWrap;
+    }
+    public static String getJWTToken() {
+        String jwtToken;
+        String subjectGUID;
+        String studyGUID;
+        String endpoint = apiParamsMap.get(DIARY_URL).ParamValue__c;
+        String payload;
+        String verifySign;
+        String pvtKey = apiParamsMap.get(PVT_KEY).Param_Value_Long__c.replace('\n', '');
+        String pubKey;
+        String header;
+        Long rightNow = (dateTime.now().getTime() / 1000) + 1;
+        Blob privateKey = EncodingUtil.base64Decode(pvtKey);
 
-    class MessageSiteResponseWrapper {
-        public String statusMessage;
-        public String siteName;
-        public String siteGuid;
+        if (ParticipantContext.getCurrentPEId() != null) {
+            studyGUID = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Study_GUID__c;
+            subjectGUID = ParticipantContext.getCurrentPE().Subject_GUID__c;
+        }
+        Map<String, Object> tokenHeaderValueMap = new Map<String, Object>{
+            'alg' => apiParamsMap.get(ALGORITHM).ParamValue__c,
+            'typ' => 'JWT'
+        };
+
+        Map<String, Object> tokenBodyValueMap = new Map<String, Object>{
+            'iss' => apiParamsMap.get(ISSUER_GUID).ParamValue__c,
+            'sub' => ('guid:' + subjectGUID),
+            'aud' => apiParamsMap.get(AUD).ParamValue__c,
+            'iat' => rightNow,
+            'exp' => (rightNow + 36000),
+            'ecoa:study_guid' => studyGUID,
+            'ecoa:actor_type' => apiParamsMap.get(ACTOR_TYPE).ParamValue__c,
+            'ecoa:actor_id' => ('guid:' + subjectGUID),
+            'ecoa:schedule' => apiParamsMap.get(SCHEDULE).ParamValue__c
+        };
+
+        header = HttpCallout.base64UrlEncode(
+            Blob.valueOf(
+                HttpCallout.constructJSONReq(tokenHeaderValueMap, dataTypeTokenHeader, false)
+            )
+        );
+        payload = HttpCallout.base64UrlEncode(
+            Blob.valueOf(HttpCallout.constructJSONReq(tokenBodyValueMap, dataTypeTokenBody, false))
+        );
+
+        String jwtTemp = header + '.' + payload;
+        Blob sign = Crypto.sign(ALGO_NAME, Blob.valueOf(jwtTemp), privateKey);
+
+        String output = EncodingUtil.base64Encode(sign);
+        jwtToken = jwtTemp + '.' + output;
+        return endpoint + jwtToken;
     }
 
-    class MessageSiteRequest {
-        public String name;
-        public String description;
-        public List<String> locales;
-        public string countryCode;
-        public String orgGuid;
-        public String studyGuid;
-
-        public Address address;
-    }
-    class Address {
-        public String street;
-        public String City;
-        public String state;
-        public String Country;
-        public String PostalCode;
-    }
     public static list<ECOAService.MessageSiteResponseWrapper> parseResponseBody(
         String responseBody
     ) {
