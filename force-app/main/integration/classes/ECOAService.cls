@@ -195,13 +195,49 @@ public with sharing class ECOAService {
             }
             allowedCallouts--;
         }
+        disableTriggers();
+
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
+        }
+    }
+
+    public static void disableTriggers() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
 
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+            ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
@@ -210,13 +246,13 @@ public with sharing class ECOAService {
             ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+            ParticipantEnrollmentTriggerHandler.SetParticipantStatusHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+            ParticipantEnrollmentTriggerHandler.UpdatePEHistoryOnAutoAcceptedHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
@@ -231,31 +267,14 @@ public with sharing class ECOAService {
             ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.CreateNotificationHandler.class
+            ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+            ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
         );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateECOASubject.class
-        );
-
-        if (sObjectsList.size() > 0) {
-            sObjectsList.sort();
-            Database.upsert(sObjectsList, false);
-        }
     }
 
     class MessageSiteResponseWrapper {
