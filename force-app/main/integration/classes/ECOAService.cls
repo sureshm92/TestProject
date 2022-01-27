@@ -160,6 +160,7 @@ public with sharing class ECOAService {
                         'eproRuleSetGuid' => studySchedulesList[0].EproRuleSetGuid__c,
                         'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
                         'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
+                        'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
                         'loginType' => 'COGNITO'
                     };
                     requestMapList.add(requestMap);
