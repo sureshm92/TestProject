@@ -24,7 +24,7 @@ public class HttpCallout extends RemoteCall {
         String methodType,
         Map<String, String> headerMap,
         String jsonReqBody,
-        Type classType
+        System.Type classType
     ) {
         this.endPointURL = 'callout:' + endPointURL;
         this.httpMethod = methodType;
