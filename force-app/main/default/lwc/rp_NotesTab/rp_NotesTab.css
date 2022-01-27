@@ -63,11 +63,10 @@
 }
 
 .note-button {
-    padding-left: 64px;
+    padding-left: 30px;
 }
 
-.slds-size_1-of-2 {
-
+.notebutton {
   width   : auto; 
   padding : 10px;
 }
@@ -141,3 +140,4 @@
       right: 0;
     }
   }
+  
