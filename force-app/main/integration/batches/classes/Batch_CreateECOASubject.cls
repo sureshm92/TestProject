@@ -18,7 +18,8 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                     Participant__r.Email__c,
                     Clinical_Trial_Profile__c,
                     Clinical_Trial_Profile__r.Study_Version_GUID__c,
-                    Clinical_Trial_Profile__r.Study_GUID__c
+                    Clinical_Trial_Profile__r.Study_GUID__c,
+                    Study_Site__r.ECOA_Site_Guid__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Subject_GUID__c = NULL
@@ -26,6 +27,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                     AND Participant_Status__c IN :peEnrollmentStatus
                     AND Clinical_Trial_Profile__r.Study_GUID__c != NULL
                     AND Clinical_Trial_Profile__r.Study_Version_GUID__c != NULL
+                    AND Study_Site__r.ECOA_Site_Guid__c != NULL
             ]
         );
     }
