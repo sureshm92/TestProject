@@ -139,13 +139,6 @@ public with sharing class ECOAService {
             Database.upsert(sObjectsList, false);
         }
     }
-    public static List<ECOAService.CreateSubjectResponse> subjectResponse(String responseBody) {
-        list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
-            responseBody,
-            list<ECOAService.CreateSubjectResponse>.class
-        );
-        return subResponseWrap;
-    }
     public static void createSubject(List<Participant_Enrollment__c> peList) {
         List<Id> contactIds = new List<Id>();
         List<Id> ctpIds = new List<Id>();
@@ -226,7 +219,7 @@ public with sharing class ECOAService {
                     String respBody = (String) remoteCall.execute();
 
                     if (remoteCall.log.Success__c) {
-                        List<ECOAService.CreateSubjectResponse> newSubjectInfo = subjectResponse(
+                        List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
                             respBody
                         );
                         peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
@@ -304,7 +297,13 @@ public with sharing class ECOAService {
             Database.upsert(sObjectsList, false);
         }
     }
-
+    public static List<ECOAService.CreateSubjectResponse> getSubjectResponse(String responseBody) {
+        list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
+            responseBody,
+            list<ECOAService.CreateSubjectResponse>.class
+        );
+        return subResponseWrap;
+    }
     public static String getJWTToken() {
         String jwtToken;
         String subjectGUID;
