@@ -36,6 +36,5 @@ private class Test_TrialSurveyContainerController {
         );
         insert tsAllSee;
         TrialSurveyContainerController.getRecordTypeNameById(tsAllSee.RecordTypeId);
-        TrialSurveyContainerController.getRecordTypeNameAndId(tsAllSee.id);
   }
 }
