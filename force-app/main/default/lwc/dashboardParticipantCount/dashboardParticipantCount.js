@@ -202,14 +202,17 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     doRecordSelection(event) {    
-
+        if(this.selectedPEList.length>0){
+            this.disableButton = false;
+         }else{
+            this.disableButton = true;
+            }
         for (var i = 0; i < this.peList.length; i++) {
             let row = Object.assign({}, this.peList[i]);   
             let selectedRow = event.target.dataset.id;
             if(row.datasetId === selectedRow) {
                 if(event.target.checked) {                    
-                    row.isChecked = true;
-                    this.disableButton = false;
+                    row.isChecked = true                  
                     this.selectedPEList.push(row);
                 } else {
                     for(let j = 0; j < this.selectedPEList.length; j++) {
