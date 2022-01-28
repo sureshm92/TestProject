@@ -5,14 +5,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Site DB Model Title</shortDescription>
-        <value>Participants Not Yet Logged In</value>
+        <value>Select Participants to Invite</value>
     </labels>
     <labels>
         <fullName>Site_DB_Model_Login_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Site_DB_Model_Login_Title</shortDescription>
-        <value>Select Participants to Invite</value>
+        <value>Participants Not Yet Logged In</value>
     </labels>
     <labels>
         <fullName>Send_Invite_Success_Msg</fullName>
