@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Site_DB_Model_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB Model Title</shortDescription>
+        <value>Participants Not Yet Logged In</value>
+    </labels>
+    <labels>
+        <fullName>Site_DB_Model_Login_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site_DB_Model_Login_Title</shortDescription>
+        <value>Select Participants to Invite</value>
+    </labels>
+    <labels>
         <fullName>Send_Invite_Success_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19279,6 +19293,13 @@ communications using the toggles below.</value>
         <value>are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
+        <fullName>RH_ProfileInfoErrorMsz</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ProfileInfoErrorMsz</shortDescription>
+        <value>You must enter a value</value>
+    </labels>
+    <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23705,4 +23726,5 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Save Note</shortDescription>
         <value>Save Note</value>
     </labels>
+    
 </CustomLabels>
