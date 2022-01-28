@@ -1,5 +1,5 @@
 @isTest
-private class Test_ecoaDiariesController {
+private class Test_ECOADiariesController {
     static user thisUser;   
     @testSetup
     static void setUp(){
