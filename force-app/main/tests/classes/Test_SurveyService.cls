@@ -94,11 +94,9 @@ private class Test_SurveyService {
             Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Expires_After_Days__c = 5,
-            Reminder_Schedule__c = schedule.Id,
             Survey__c = survey.get(0).Id,
             Whose_response_needed__c = 'Patient only'
         );
-
         insert ts;
         insert SurveyService.getInstance()
             .generateInvitation(
