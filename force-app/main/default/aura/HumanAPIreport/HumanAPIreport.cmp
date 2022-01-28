@@ -102,7 +102,7 @@
                 </div>
               </aura:iteration>
             </div>
-            <div class="slds-col slds-size--4-of-12 slds-p-top_medium slds-p-bottom_medium">
+            <div class="slds-col slds-size--4-of-12 slds-p-top_medium slds-p-bottom_medium medRecBtn">
               <span style="float: right">
                 <lightning:button
                   class="apollo-btn primary slds-button--neutral"
