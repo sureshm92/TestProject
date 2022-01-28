@@ -50,7 +50,7 @@
         </footer>
     <!-- Send Invites to Not Yet Invited Popup -->
         <template if:true={isParticipantModalOpen}>
-            <c-popup-l-w-c show-modal=true onclose={closeParticipantModal} header2=true header-value2="Select Participants to Invite" 
+            <c-popup-l-w-c show-modal=true onclose={closeParticipantModal} header2=true header-value2={label.InviteModalTitle} 
             modalsize="small" style="width: 40%;border-radius: 3px;">
                 <div slot="body" class="processBody">                    
                     <div class="slds-form-element" style="padding-left: 1rem;">
@@ -119,7 +119,7 @@
 
    <!-- View Participants Not Yet Logged In Popup -->
         <template if:true={isParticipantModalOpenlogin}>
-        <c-popup-l-w-c show-modal=true onclose={closeParticipantModal} header2=true header-value2="Participant Not Yet Logged In" 
+        <c-popup-l-w-c show-modal=true onclose={closeParticipantModal} header2=true header-value2={label.LoginModalTitle} 
         modalsize="small" style="width: 40%;border-radius: 3px;">
             <div slot="body" class="processBody">                    
                 <div class="slds-form-element" style="padding-left: 1rem;">

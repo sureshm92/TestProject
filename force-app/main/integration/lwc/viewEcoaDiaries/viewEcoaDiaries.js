@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
-import loadDiary from '@salesforce/apex/ecoaDiariesController.getToken';
+import loadDiary from '@salesforce/apex/ECOADiariesController.getToken';
 
 export default class ViewEcoaDiaries extends LightningElement {
     @track ecoaUrl;
