@@ -218,7 +218,7 @@ public with sharing class ECOAService {
                     Map<String, String> requestMap = new Map<String, String>{
                         'username' => peObj.Id,
                         //'email' => peObj.Participant__r.Email__c,
-                        'timezone' => userObj.TimeZoneSidKey,
+                        'timezone' => timeZoneVal,
                         'subjectId' => peObj.Id,
                         'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
                         'studyVersionGuid' => peObj.Clinical_Trial_Profile__r.Study_Version_GUID__c,
