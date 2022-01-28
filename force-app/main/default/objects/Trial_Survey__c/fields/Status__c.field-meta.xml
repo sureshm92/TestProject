@@ -19,7 +19,7 @@
             <value>
                 <fullName>InActive</fullName>
                 <default>false</default>
-                <label>InActive</label>
+                <label>Inactive</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -29,251 +29,249 @@
                     </header>
                     <!-- Modal/Popup Box LWC body starts here -->
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <lightning-card>
-                            <div class="slds-grid">
-                                <Template if:true={isrecordtype}>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                field-name="RecordTypeId"
-                                                value={recordTypeId}
-                                                disabled="true"
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </Template>
-                                <Template if:false={isrecordtype}>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                field-name="RecordTypeId"
-                                                disabled="true"
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </Template>
-                                <Template if:true={isctpId}>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                field-name="Clinical_Trial_Profile__c"
-                                                value={ctpId}
-                                                disabled="true"
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </Template>
-                                <Template if:false={isctpId}>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                field-name="Clinical_Trial_Profile__c"
-                                                disabled="true"
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </Template>
-                            </div>
-                            <div class="slds-grid">
-                                <template if:true={isEdit}>
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                            <p>
-                                                <lightning-input-field
-                                                    field-name="Status__c"
-                                                    required="true"
-                                                ></lightning-input-field>
-                                            </p>
-                                        </div>
-                                </template>
-                            </div>
-                            <div class="slds-grid">
+                        <div class="slds-grid margin-grid-top">
+                            <Template if:true={isrecordtype}>
                                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                     <p>
                                         <lightning-input-field
-                                            field-name="Survey__c"
+                                            field-name="RecordTypeId"
+                                            value={recordTypeId}
+                                            disabled="true"
                                         ></lightning-input-field>
                                     </p>
                                 </div>
+                            </Template>
+                            <Template if:false={isrecordtype}>
                                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                     <p>
                                         <lightning-input-field
-                                            field-name="Is_Midpoint__c"
+                                            field-name="RecordTypeId"
+                                            disabled="true"
                                         ></lightning-input-field>
                                     </p>
                                 </div>
+                            </Template>
+                            <Template if:true={isctpId}>
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            field-name="Clinical_Trial_Profile__c"
+                                            value={ctpId}
+                                            disabled="true"
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                            </Template>
+                            <Template if:false={isctpId}>
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            field-name="Clinical_Trial_Profile__c"
+                                            disabled="true"
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                            </Template>
+                        </div>
+                        <div class="slds-grid">
+                            <template if:true={isEdit}>
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            field-name="Status__c"
+                                            required="true"
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                <p>
+                                    <lightning-input-field
+                                        field-name="Survey__c"
+                                    ></lightning-input-field>
+                                </p>
                             </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                <p>
+                                    <lightning-input-field
+                                        field-name="Is_Midpoint__c"
+                                    ></lightning-input-field>
+                                </p>
+                            </div>
+                        </div>
 
-                            <!-- Modal fields starts here for Status Based Trial Survey -->
-                            <Template if:true={isStatusBasedTrialSurvey}>
-                                <div class="slds-grid">
+                        <!-- Modal fields starts here for Status Based Trial Survey -->
+                        <Template if:true={isStatusBasedTrialSurvey}>
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            required="true"
+                                            field-name="Active_On_Status__c"
+                                            disabled={activeOnStatusDisabled}
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                                <template if:false={isRecurrenceSurvey}>
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                         <p>
                                             <lightning-input-field
+                                                class="expAftDays"
+                                                onchange={isNumberKey}
                                                 required="true"
-                                                field-name="Active_On_Status__c"
-                                                disabled={activeOnStatusDisabled}
+                                                field-name="Expires_After_Days__c"
                                             ></lightning-input-field>
                                         </p>
                                     </div>
-                                    <template if:false={isRecurrenceSurvey}>
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                            <p>
-                                                <lightning-input-field
-                                                    class="expAftDays"
-                                                    onchange={isNumberKey}
-                                                    required="true"
-                                                    field-name="Expires_After_Days__c"
-                                                ></lightning-input-field>
-                                            </p>
-                                        </div>
-                                   </template>
-                                  <template if:true={isRecurrenceSurvey}>
+                                </template>
+                                <template if:true={isRecurrenceSurvey}>
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                         <p>
                                             <lightning-input-field
                                                 field-name="Expires_After_Days__c"
-                                                disabled="true"  
+                                                disabled="true"
                                             ></lightning-input-field>
                                         </p>
                                     </div>
-                                   </template>
-                                </div>
-                                <div class="slds-grid">
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                field-name="Active_After_Days__c"
-                                                onchange={isNumberKey}
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </div>
-                            </Template>
-                            <!-- Modal fields starts here for Time Based Trial Survey -->
-                            <Template if:false={isStatusBasedTrialSurvey}>
-                                <div class="slds-grid">
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                required="true"
-                                                field-name="Survey_start_date__c"
-                                                disabled={startDateDisabled}
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                required="true"
-                                                field-name="Survey_end_date__c"
-                                                disabled={endDateDisabled}
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
-                                </div>
-                            </Template>
-                            <div class="slds-grid">
-                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                    <p>
-                                        <lightning-input-field
-                                            class="remDate"
-                                            disabled={reminderDisabled}
-                                            onchange={isNumberKey}
-                                            field-name="Reminder_in_days_before_the_end_date__c"
-                                        ></lightning-input-field>
-                                    </p>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                    <p>
-                                        <lightning-input-field
-                                            field-name="Whose_response_needed__c"
-                                            disabled={whoseResponseNeededDisabled}
-                                        ></lightning-input-field>
-                                    </p>
-                                </div>
+                                </template>
                             </div>
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                     <p>
                                         <lightning-input-field
-                                            field-name="Is_Recurrence_Survey__c"
-                                            disabled={recurringSurveyDisabled}
-                                            onchange={handleCheckBoxChange}
+                                            field-name="Active_After_Days__c"
+                                            onchange={isNumberKey}
                                         ></lightning-input-field>
                                     </p>
                                 </div>
-                                <template if:true={isRecurrenceSurvey}>
+                            </div>
+                        </Template>
+                        <!-- Modal fields starts here for Time Based Trial Survey -->
+                        <Template if:false={isStatusBasedTrialSurvey}>
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            required="true"
+                                            field-name="Survey_start_date__c"
+                                            disabled={startDateDisabled}
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            required="true"
+                                            field-name="Survey_end_date__c"
+                                            disabled={endDateDisabled}
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                            </div>
+                        </Template>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                <p>
+                                    <lightning-input-field
+                                        class="remDate"
+                                        disabled={reminderDisabled}
+                                        onchange={isNumberKey}
+                                        field-name="Reminder_in_days_before_the_end_date__c"
+                                    ></lightning-input-field>
+                                </p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                <p>
+                                    <lightning-input-field
+                                        field-name="Whose_response_needed__c"
+                                        disabled={whoseResponseNeededDisabled}
+                                    ></lightning-input-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                <p>
+                                    <lightning-input-field
+                                        field-name="Is_Recurrence_Survey__c"
+                                        disabled={recurringSurveyDisabled}
+                                        onchange={handleCheckBoxChange}
+                                    ></lightning-input-field>
+                                </p>
+                            </div>
+                            <template if:true={isRecurrenceSurvey}>
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                    <p>
+                                        <lightning-input-field
+                                            required={isRecurrenceSurvey}
+                                            field-name="Recurrence_Frequency__c"
+                                            onchange={handleFrequencyChange}
+                                        ></lightning-input-field>
+                                    </p>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="slds-grid">
+                            <template if:true={isRecurrenceSurvey}>
+                                <template if:true={isStatusBasedTrialSurvey}>
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                         <p>
                                             <lightning-input-field
                                                 required={isRecurrenceSurvey}
-                                                field-name="Recurrence_Frequency__c"
-                                                onchange={handleFrequencyChange}
+                                                field-name="Number_of_occurrences__c"
+                                                onchange={isNumberKey}
                                             ></lightning-input-field>
                                         </p>
                                     </div>
                                 </template>
-                            </div>
-                            <div class="slds-grid">
+                            </template>
+                        </div>
+                        <!-- fields to be displayed only for time based for edit - start-->
+                        <template if:true={isEdit}>
+                            <template if:false={isStatusBasedTrialSurvey}>
                                 <template if:true={isRecurrenceSurvey}>
-                                    <template if:true={isStatusBasedTrialSurvey}>
+                                    <div class="slds-grid">
                                         <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                             <p>
                                                 <lightning-input-field
-                                                    required={isRecurrenceSurvey}
-                                                    field-name="Number_of_occurrences__c"
-                                                    onchange={isNumberKey}
+                                                    field-name="Next_Occurrence_Date__c"
+                                                    disabled="true"
                                                 ></lightning-input-field>
                                             </p>
                                         </div>
-                                    </template>
-                                </template>
-                            </div>
-                            <!-- fields to be displayed only for time based for edit - start-->
-                            <template if:true={isEdit}>
-                                <template if:false={isStatusBasedTrialSurvey}>
-                                    <template if:true={isRecurrenceSurvey}>
-                                        <div class="slds-grid">
-                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                                <p>
-                                                    <lightning-input-field
-                                                        field-name="Next_Occurrence_Date__c"
-                                                        disabled="true"
-                                                    ></lightning-input-field>
-                                                </p>
-                                            </div>
-                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                                <p>
-                                                    <lightning-input-field
-                                                        field-name="Next_Occurrence_Reminder__c"
-                                                        disabled="true"
-                                                    ></lightning-input-field>
-                                                </p>
-                                            </div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                            <p>
+                                                <lightning-input-field
+                                                    field-name="Next_Occurrence_Reminder__c"
+                                                    disabled="true"
+                                                ></lightning-input-field>
+                                            </p>
                                         </div>
-                                        <div class="slds-grid">
-                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                                <p>
-                                                    <lightning-input-field
-                                                        field-name="Last_Occurrence_Date__c"
-                                                        disabled="true"
-                                                    ></lightning-input-field>
-                                                </p>
-                                            </div>
-                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                                <p>
-                                                    <lightning-input-field
-                                                        field-name="Last_Occurrence_Reminder__c"
-                                                        disabled="true"
-                                                    ></lightning-input-field>
-                                                </p>
-                                            </div>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                            <p>
+                                                <lightning-input-field
+                                                    field-name="Last_Occurrence_Date__c"
+                                                    disabled="true"
+                                                ></lightning-input-field>
+                                            </p>
                                         </div>
-                                    </template>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                            <p>
+                                                <lightning-input-field
+                                                    field-name="Last_Occurrence_Reminder__c"
+                                                    disabled="true"
+                                                ></lightning-input-field>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </template>
                             </template>
-                            <!-- fields to be displayed only for time based for edit - end-->
-                        </lightning-card>
+                        </template>
+                        <!-- fields to be displayed only for time based for edit - end-->
                     </div>
                     <!-- Modal/Popup Box LWC footer starts here -->
                     <footer class="slds-modal__footer">

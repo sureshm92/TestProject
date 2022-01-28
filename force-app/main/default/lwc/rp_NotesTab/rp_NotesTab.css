@@ -63,8 +63,14 @@
 }
 
 .note-button {
-    padding-left: 64px;
+    padding-left: 30px;
 }
+
+.notebutton {
+  width   : auto; 
+  padding : 10px;
+}
+
 :host {
     --sds-c-textarea-sizing-min-height: 200px;
  }
@@ -134,3 +140,4 @@
       right: 0;
     }
   }
+  
