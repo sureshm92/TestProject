@@ -190,8 +190,8 @@ public with sharing class ECOAService {
                     };
                     List<Map<String, String>> requestMapList = new List<Map<String, String>>();
                     Map<String, String> requestMap = new Map<String, String>{
-                        'username' => peObj.Participant__r.Email__c,
-                        'email' => peObj.Participant__r.Email__c,
+                        'username' => peObj.Id,
+                        //'email' => peObj.Participant__r.Email__c,
                         'timezone' => userObj.TimeZoneSidKey,
                         'subjectId' => peObj.Id,
                         'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
@@ -201,7 +201,9 @@ public with sharing class ECOAService {
                         'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
                         'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
                         'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
-                        'loginType' => 'COGNITO'
+                        'loginType' => 'SSO',
+                        'loginSsoId' => peObj.Id,
+                        'loginSsoIssuerGuid' => apiParamsMap.get(ISSUER_GUID).ParamValue__c
                     };
                     requestMapList.add(requestMap);
                     HttpCallout remoteCall = new HttpCallout(
