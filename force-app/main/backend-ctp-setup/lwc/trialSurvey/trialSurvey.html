@@ -29,7 +29,7 @@
                     </header>
                     <!-- Modal/Popup Box LWC body starts here -->
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <div class="slds-grid margin-grid-top">
+                        <div class="slds-grid">
                             <Template if:true={isrecordtype}>
                                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                     <p>
@@ -233,7 +233,9 @@
                             <template if:false={isStatusBasedTrialSurvey}>
                                 <template if:true={isRecurrenceSurvey}>
                                     <div class="slds-grid">
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                        <div
+                                            class="slds-col slds-size_1-of-2 slds-p-horizontal--small"
+                                        >
                                             <p>
                                                 <lightning-input-field
                                                     field-name="Next_Occurrence_Date__c"
@@ -241,7 +243,9 @@
                                                 ></lightning-input-field>
                                             </p>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                        <div
+                                            class="slds-col slds-size_1-of-2 slds-p-horizontal--small"
+                                        >
                                             <p>
                                                 <lightning-input-field
                                                     field-name="Next_Occurrence_Reminder__c"
@@ -251,7 +255,9 @@
                                         </div>
                                     </div>
                                     <div class="slds-grid">
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                        <div
+                                            class="slds-col slds-size_1-of-2 slds-p-horizontal--small"
+                                        >
                                             <p>
                                                 <lightning-input-field
                                                     field-name="Last_Occurrence_Date__c"
@@ -259,7 +265,9 @@
                                                 ></lightning-input-field>
                                             </p>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                        <div
+                                            class="slds-col slds-size_1-of-2 slds-p-horizontal--small"
+                                        >
                                             <p>
                                                 <lightning-input-field
                                                     field-name="Last_Occurrence_Reminder__c"

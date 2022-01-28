@@ -146,10 +146,23 @@ public with sharing class ECOAService {
         // List<Participant_Enrollment__c> pesToUpdate = new List<Participant_Enrollment__c>();
 
         Map<Id, User> userContactIdMap = new Map<Id, User>();
+        Map<Id, Id> primarydelegateContactMap = new Map<Id, Id>();
+
         Map<Id, List<ECOA_Study_Schedule__c>> ctpScheduleMap = new Map<Id, List<ECOA_Study_Schedule__c>>();
         for (Participant_Enrollment__c peObj : peList) {
             contactIds.add(peObj.Participant_Contact__c);
             ctpIds.add(peObj.Clinical_Trial_Profile__c);
+        }
+        List<Patient_Delegate__c> patientdelegatesList = [
+            SELECT Contact__c, Participant__r.Contact__c
+            FROM Patient_Delegate__c
+            WHERE Participant__r.Contact__c IN :contactIds AND Primary_Delegate__c = TRUE
+        ];
+        for (Patient_Delegate__c pd : patientdelegatesList) {
+            primarydelegateContactMap.put(pd.Participant__r.Contact__c, pd.Contact__c);
+            if (!contactIds.contains(pd.Contact__c)) {
+                contactIds.add(pd.Contact__c);
+            }
         }
         List<User> participantUsers = [
             SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
@@ -180,7 +193,9 @@ public with sharing class ECOAService {
                 if (allowedCallouts <= 0) {
                     break;
                 }
+                String timeZoneVal = '';
                 User userObj = userContactIdMap.get(peObj.Participant_Contact__c);
+                User delegateUserObj;
                 List<ECOA_Study_Schedule__c> studySchedulesList = ctpScheduleMap.get(
                     peObj.Clinical_Trial_Profile__c
                 );
@@ -188,11 +203,22 @@ public with sharing class ECOAService {
                     Map<String, String> headerMap = new Map<String, String>{
                         'Content-Type' => 'application/json'
                     };
+                    if (userObj != null) {
+                        timeZoneVal = userObj.TimeZoneSidKey;
+                    } else {
+                        Id delegatecontactId = primarydelegateContactMap.get(
+                            peObj.Participant_Contact__c
+                        );
+                        delegateUserObj = userContactIdMap.get(delegatecontactId);
+                        if (delegateUserObj != null) {
+                            timeZoneVal = delegateUserObj.TimeZoneSidKey;
+                        }
+                    }
                     List<Map<String, String>> requestMapList = new List<Map<String, String>>();
                     Map<String, String> requestMap = new Map<String, String>{
-                        'username' => peObj.Participant__r.Email__c,
-                        'email' => peObj.Participant__r.Email__c,
-                        'timezone' => userObj.TimeZoneSidKey,
+                        'username' => peObj.Id,
+                        //'email' => peObj.Participant__r.Email__c,
+                        'timezone' => timeZoneVal,
                         'subjectId' => peObj.Id,
                         'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
                         'studyVersionGuid' => peObj.Clinical_Trial_Profile__r.Study_Version_GUID__c,
@@ -201,7 +227,9 @@ public with sharing class ECOAService {
                         'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
                         'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
                         'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
-                        'loginType' => 'COGNITO'
+                        'loginType' => 'SSO',
+                        'loginSsoId' => peObj.Id,
+                        'loginSsoIssuerGuid' => apiParamsMap.get(ISSUER_GUID).ParamValue__c
                     };
                     requestMapList.add(requestMap);
                     HttpCallout remoteCall = new HttpCallout(
@@ -235,13 +263,49 @@ public with sharing class ECOAService {
             }
             allowedCallouts--;
         }
+        disableTriggers();
+
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
+        }
+    }
+
+    public static void disableTriggers() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
 
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+            ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
@@ -250,13 +314,13 @@ public with sharing class ECOAService {
             ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+            ParticipantEnrollmentTriggerHandler.SetParticipantStatusHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+            ParticipantEnrollmentTriggerHandler.UpdatePEHistoryOnAutoAcceptedHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
@@ -271,31 +335,14 @@ public with sharing class ECOAService {
             ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.CreateNotificationHandler.class
+            ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+            ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
         );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateECOASubject.class
-        );
-
-        if (sObjectsList.size() > 0) {
-            sObjectsList.sort();
-            Database.upsert(sObjectsList, false);
-        }
     }
     public static List<ECOAService.CreateSubjectResponse> getSubjectResponse(String responseBody) {
         list<ECOAService.CreateSubjectResponse> subResponseWrap = (list<ECOAService.CreateSubjectResponse>) JSON.deserialize(
