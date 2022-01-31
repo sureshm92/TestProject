@@ -7,6 +7,8 @@
     <aura:attribute name="isBtnDisabled" type="Boolean" default="true" />
     <aura:attribute name="isError" type="Boolean" default="false" />
     
+    <aura:attribute name="BatchTryCounter" type="Integer" default= "0" />
+    
     <aura:attribute name="isNotDuplicate" type="Boolean" default="false" />
     <aura:attribute name="CommunityUrl" type="String" />
     
