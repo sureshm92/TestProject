@@ -69,7 +69,7 @@ public class HCPInviteControllerNew_Test {
         testLead.Facility_Classification__c = 'Hospital';
         testLead.HCP_Referral_Source__c = 'ACOE Data';
         //testLead.Lead_CTE__c = 'Some text';
-        
+
         testLead.Contact_Method_Preference__c = 'Call';
         testLead.POC_First_Name__c = 'POC';
         testLead.POC_Last_Name__c = 'HelloTest';
@@ -166,11 +166,20 @@ public class HCPInviteControllerNew_Test {
         User objAdminUser = [SELECT ID FROM User where Email = 'adminuser@test.com'];
         System.assertEquals(false, testLead.isConverted);
          Test.startTest();
+        User objUser;
         system.runAs(objAdminUser){
          String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
+            Id defaultPermissionSet = [SELECT Id FROM PermissionSet WHERE 
+                                   Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                                   LIMIT 1 ] .Id;
+           objUser   = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
+        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = defaultPermissionSet,
+                                                                   AssigneeId = objUser.ID);
+        insert psa; 
         }
-        User objUser = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
+       
+        test.stopTest();  
         Contact ObjContact = [SELECT Name,email from contact where id=:objUser.ContactId];
         HCPInviteControllerNew.GetContactUserWrapper objWrapper = new HCPInviteControllerNew.GetContactUserWrapper();
         objWrapper.objCurrentContact = ObjContact;
@@ -178,7 +187,7 @@ public class HCPInviteControllerNew_Test {
         objWrapper.strPassword = 'vicky@1234';
         objWrapper.strConfrmPassword = 'vicky@1234';
         HCPInviteControllerNew.saveUserData(JSON.serialize(objWrapper),true);
-        test.stopTest(); 
+         
     }
     
      @isTest
@@ -189,8 +198,7 @@ public class HCPInviteControllerNew_Test {
          Test.startTest();
         
          String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
-                                                      ,testLead.PostalCode,testLead.Id);
-        
+                                                      ,testLead.PostalCode,testLead.Id);  
         User objUser = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
         Contact ObjContact = [SELECT Name,email from contact where id=:objUser.ContactId];
         HCPInviteControllerNew.GetContactUserWrapper objWrapper = new HCPInviteControllerNew.GetContactUserWrapper();
@@ -198,7 +206,12 @@ public class HCPInviteControllerNew_Test {
         objWrapper.ObjCurrentUser = objUser;
         objWrapper.strPassword = 'vicky@1234';
         objWrapper.strConfrmPassword = 'vicky@1234';
+        try{
         HCPInviteControllerNew.saveUserData(JSON.serialize(objWrapper),true);
+        }
+        catch(Exception ex){
+            system.debug('>>exception >>'+ex.getMessage());
+        }
         test.stopTest(); 
     }
     
