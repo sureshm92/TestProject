@@ -20,6 +20,7 @@
     <permissionSets>PP_Toggle_Feature_Delta_View</permissionSets>
     <permissionSets>PP_Travel_Vendors_View</permissionSets>
     <permissionSets>PP_Trial_Surveys_View</permissionSets>
+    <permissionSets>PP_Trial_Surveys_Edit</permissionSets>
     <permissionSets>PP_Visits_Configuration_View</permissionSets>
     <permissionSets>PP_Visits_Results_Sharing_View</permissionSets>
     <status>Updated</status>
