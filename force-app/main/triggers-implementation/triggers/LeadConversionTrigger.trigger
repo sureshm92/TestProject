@@ -5,6 +5,7 @@ trigger LeadConversionTrigger on Lead(after update) {
     WHERE Id = :userinfo.getProfileid()
     LIMIT 1
   ];
+  String pname = p.name;
   if (
     Trigger.isAfter &&
     Trigger.isUpdate &&
