@@ -67,16 +67,11 @@ private class Test_LeadConversion {
         testLead.Status = 'New';
         testLead.Company = 'HelloTest Lead Comp';
         testLead.Tax_ID__c = '111111';
-        testLead.Degree__c = 'Doctorate';
         testLead.Facility_Type__c = 'Medical Group';
         testLead.Facility_Classification__c = 'Hospital';
         testLead.HCP_Referral_Source__c = 'ACOE Data';
         //testLead.Lead_CTE__c = 'Some text';
-        testLead.OneKey_Code__c = '1234567';
-        testLead.OneKey_ID__c = '1234567';
-        testLead.Preferred_Reimbursement_Currency__c = 'USD';
-        testLead.Previous_Trial_Experience__c = 'Yes';
-        testLead.Specialty__c = 'Cardiovascular Disease';
+        
         testLead.Contact_Method_Preference__c = 'Call';
         testLead.POC_First_Name__c = 'POC';
         testLead.POC_Last_Name__c = 'HelloTest';
