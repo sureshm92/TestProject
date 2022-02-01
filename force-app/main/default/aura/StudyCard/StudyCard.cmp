@@ -163,7 +163,7 @@
                                 var="action"
                                 indexVar="actionIndex"
                                 >
-                    <aura:if isTrue="{!(action.id == 'refer')}"> 
+                    <aura:if isTrue="{!(action.id == 'refer')}">
                         <button
                                     class="apollo-btn secondary"
                                     disabled="true"

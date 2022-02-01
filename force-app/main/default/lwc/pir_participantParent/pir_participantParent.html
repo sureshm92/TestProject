@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-grid slds-wrap no-p-mobile">
+        <div onclick={mobileViewToggle} class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+            <div class="pgHead showDesktop slds-p-bottom_small slds-p-left_x-small slds-p-top_small">
+                <lightning-icon icon-name="utility:home" size="small" alternative-text="Home"></lightning-icon>
+                &nbsp;&nbsp;<lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text=">"></lightning-icon>
+                &nbsp;&nbsp;My Participants
+            </div>
+            <div class="hideDesktop hideMobile D">
+                <div class="pgHeadMob slds-p-left_xx-small">
+                    <span style="font-size: 25px;font-weight: 800;">&#8249;</span>
+                    &nbsp;&nbsp;Participant List
+                </div>
+            </div>
+
+        </div>
+        <div class="boxShadow maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
+                <span>
+                    <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
+                </span>
+            </div>
+            <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
+                <div>
+                    <c-pir_participant-header onhandlespinner={handleSpinner}></c-pir_participant-header>
+                </div>
+                <!--<div class="section-padding">
+                        <lightning-tabset>
+                            <lightning-tab label="Status Details">
+                                    <c-pir_participant-Status-Details></c-pir_participant-Status-Details>
+                            </lightning-tab>
+                            <lightning-tab label=" Participant Details">
+                                  Participant Details
+                            </lightning-tab>
+                            <lightning-tab label=" Sharing Options">
+                                 Sharing Options
+                            </lightning-tab>
+                            <lightning-tab label="Medical Information">
+                                  Medical Information
+                            </lightning-tab>
+                        </lightning-tabset>
+                </div>-->
+                <template if:true={isLoaded}>
+                    <div class="">
+                        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                    </div>
+                </template>  
+            </div>
+        </div>
+        <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
+                <template if:true={totalRecord}>
+                    <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
+                </template>
+            </div>
+            <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-align_absolute-center D">
+                SAVE
+            </div>
+        </div>
+    </div>
+    
+</template>

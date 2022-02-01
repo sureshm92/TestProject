@@ -48,7 +48,7 @@
                                 </div>
                             </td>
                             <td>
-                                <aura:if isTrue="{!task.Activity_Datetime__c}">
+                                    <aura:if isTrue="{!task.Activity_Datetime__c}">
                                         <!--<ui:outputDate value="{!task.Activity_Datetime__c}"/>-->
                                         <lightning:formattedDateTime
                                             value="{!task.Activity_Datetime__c}"
@@ -60,7 +60,7 @@
                                     </aura:if>
                                     <aura:if isTrue="{!!task.Activity_Datetime__c}">
                                         {!$Label.c.None}
-                                </aura:if>
+                                    </aura:if>
                             </td>
                         </tr>
                     </aura:iteration>
