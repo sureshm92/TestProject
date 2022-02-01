@@ -29,7 +29,6 @@ public without sharing class rpPatientOutreachController {
                                                      PI_Contact__r.MailingCountry, PI_Contact__r.MailingPostalCode, PI_Contact__r.MailingAddress,PI_Contact__r.MailingStreet,
                                                      Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
-
                                                      FROM Participant_Enrollment__c 
                                                      WHERE Id IN : listOfPeIds]; 
 
@@ -37,7 +36,8 @@ public without sharing class rpPatientOutreachController {
         for(Participant_Enrollment__c peRec : peDetails){
             String peRecValidationMsgs = '';
             Boolean isError = false;
-            if(!peRec.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c){
+            if(!peRec.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c || String.isBlank(peRec.Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c)
+                || String.isBlank(peRec.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c)){
                 peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Outreach not Supported';
                 isError = true;
             }
