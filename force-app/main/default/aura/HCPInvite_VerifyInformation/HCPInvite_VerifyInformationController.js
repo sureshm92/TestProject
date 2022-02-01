@@ -10,10 +10,12 @@
             strLeadId: leadId
         }); 
         action.setCallback(this,function(response){ 
-            var getReturnValue = response.getReturnValue();
-            if(getReturnValue != 'false')
-            {
-                cmp.set('v.CommunityUrl',getReturnValue);
+            var getReturnValue = response.getReturnValue();  
+			var networkCommUrl = getReturnValue.networkUrl;
+			var isDuplicateLead =  getReturnValue.isDuplicateLead;  
+            cmp.set('v.CommunityUrl',networkCommUrl);
+            if(isDuplicateLead != 'false')
+            {   
                 cmp.set('v.isNotDuplicate',false);
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
@@ -28,7 +30,7 @@
                 },5000)
                 toastEvent.fire();
             }
-            else{
+            else{ 
                 cmp.find('spinner').hide();
                 cmp.set('v.isNotDuplicate',true);
             }
