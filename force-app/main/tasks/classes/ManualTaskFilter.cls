@@ -178,7 +178,7 @@ public without sharing class ManualTaskFilter {
         if (isPlatformLevel && String.isNotBlank(visibility))
             return getContactsWithParticipantIds(visibility);
         
-        /* Study-level tasks  PEH-4365*/
+        /* Study-level tasks, added for delegate PEH-4365*/
         
         Map<Id, List<Participant_Enrollment__c>> sObjectsByContact = new Map<Id, List<SObject>>();
         set<id>extractDelegateId = new set<id>();

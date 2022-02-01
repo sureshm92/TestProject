@@ -15,6 +15,8 @@ import getNotYetInvitedParticipants from '@salesforce/apex/DashboardParticipantC
 import getNotYetLoginParticipants from '@salesforce/apex/DashboardParticipantCount.fetchParticipantsNotYetLogInDetails';
 import sendInvites from '@salesforce/apex/DashboardParticipantCount.sendInviteToNotInvitedParticipants';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import LoginModalTitle from '@salesforce/label/c.Site_DB_Model_Login_Title';
+import InviteModalTitle from '@salesforce/label/c.Site_DB_Model_Title';
 export default class DashboardParticipantCount extends LightningElement {
     @api selectedCTP;
     @api selectedPI;
@@ -50,7 +52,9 @@ export default class DashboardParticipantCount extends LightningElement {
         PPLogin,
         PPNotYetLogin,
         PPLoginStatusTitle,
-        SendInviteSuccessMsg
+        SendInviteSuccessMsg,
+        LoginModalTitle,
+        InviteModalTitle
     };
 	  
 
@@ -198,14 +202,17 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     doRecordSelection(event) {    
-
+        if(this.selectedPEList.length>0){
+            this.disableButton = false;
+         }else{
+            this.disableButton = true;
+            }
         for (var i = 0; i < this.peList.length; i++) {
             let row = Object.assign({}, this.peList[i]);   
             let selectedRow = event.target.dataset.id;
             if(row.datasetId === selectedRow) {
                 if(event.target.checked) {                    
-                    row.isChecked = true;
-                    this.disableButton = false;
+                    row.isChecked = true                  
                     this.selectedPEList.push(row);
                 } else {
                     for(let j = 0; j < this.selectedPEList.length; j++) {
