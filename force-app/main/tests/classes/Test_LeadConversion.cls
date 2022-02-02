@@ -67,7 +67,6 @@ private class Test_LeadConversion {
         testLead.Status = 'New';
         testLead.Company = 'HelloTest Lead Comp';
         testLead.Tax_ID__c = '111111';
-        testLead.Facility_Type__c = 'Medical Group';
         testLead.Facility_Classification__c = 'Hospital';
         testLead.HCP_Referral_Source__c = 'ACOE Data';
         //testLead.Lead_CTE__c = 'Some text';
