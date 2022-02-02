@@ -73,7 +73,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showRefer = false;
     @api disabledSaveButton = false;
     @api isaccessLevelthree = false;
-    showOutreachButton = true;
+    disabledOutreachButton = false;
     @api isRTL;
     label = {
         RH_RP_Primary_Delegate,
@@ -252,10 +252,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                     this.medicalreviewConfigured = false;
                 }
 
-                if (this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c && this.peRecordList[0].peRecord.Outreach_Email_Status__c == undefined) {
-                    this.showOutreachButton = true;
+                if (!this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c || this.peRecordList[0].peRecord.Outreach_Email_Status__c != undefined 
+                    || this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c == undefined || this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c == undefined
+                    || this.peRecordList[0].accessLevel == "Level 2" || this.peRecordList[0].accessLevel == "Level 3") {
+                    this.disabledOutreachButton = true;
                 } else {
-                    this.showOutreachButton = false;
+                    this.disabledOutreachButton = false;
                 }
 
                 this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
