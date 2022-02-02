@@ -104,8 +104,8 @@ public class HCPInviteControllerNew_Test {
         lc.setDoNotCreateOpportunity(true);
         lc.setConvertedStatus('Qualified and Send Invitation');
         Database.LeadConvertResult lcr = Database.convertLead(lc);
-        String strLead = HCPInviteControllerNew.checkDuplicateLead(testLead.ID);
-        System.assert(strLead != 'false');
+        HCPInviteControllerNew.networkUrl_DuplicateDate netwrkDetails = HCPInviteControllerNew.checkDuplicateLead(testLead.ID);
+        System.assert(netwrkDetails.isDuplicateLead != 'false');
         HCPInviteControllerNew.PortalDetails objHCPInvite = HCPInviteControllerNew.getPortalTermsDetail();
         System.assert(objHCPInvite.strCommunityDetails != Null);
         test.stopTest(); 
