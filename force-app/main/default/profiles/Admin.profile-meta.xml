@@ -8444,11 +8444,6 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
-        <field>RH_Biomarker__c.Participant_Enrollment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
         <field>RH_Biomarker__c.Referral__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8465,11 +8460,6 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Vendor_Source__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>Biomarker_Result__c.Biomarker__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
