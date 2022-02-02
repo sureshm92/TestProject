@@ -1,4 +1,4 @@
-public with sharing class CreateBiomarkerRecords {
+public without sharing class CreateBiomarkerRecords {
     public CreateBiomarkerRecords() {
 
     }
