@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-02-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class DashboardParticipantCount {
     public DashboardParticipantCount() {
 
@@ -320,19 +327,26 @@ public without sharing class DashboardParticipantCount {
             if(participantIds.size() > 0) {                
                 participantList = DashboardParticipantCount.fetchParticipantRecords(participantIds,'');
 
+                Set<String> patientDelUniqueSet = new Set<String>();
                 for(Participant__c participant:participantList) {
                     List<Patient_Delegate__c> delegateList = new List<Patient_Delegate__c>();
                     delegateList = participant.Participants__r;
                     for(Patient_Delegate__c pd:delegateList) {
                         ParticipantDetails parDetail = new ParticipantDetails();
                         if(!pd.isInviteToPP__c && participant.Id != null && pd.Participant_delegate__r.Email__c != null) {
-                            parDetail.participantId = participant.Id;
-                            parDetail.participantName = participant.First_Name__c+' '+participant.Last_Name__c;
-                            parDetail.delegateId = pd.Participant_delegate__c;
-                            parDetail.delegateParticipantName = pd.Participant_delegate__r.First_Name__c+' '+pd.Participant_delegate__r.Last_Name__c;
-                            parDetail.isChecked = false;
-                            parDetail.datasetId = (String)participant.Id+(String)pd.Participant_delegate__c;
-                            resList.add(parDetail);
+                            // Unique Key for Patient Delegate record for a participant.
+                            String uniquePDKey = participant.Id + pd.Participant_delegate__r.First_Name__c + pd.Participant_delegate__r.Last_Name__c + pd.Participant_delegate__r.Email__c; 
+                            //populate Unique PD record for a Participant. 
+                            if(!patientDelUniqueSet.contains(uniquePDKey)){
+                                parDetail.participantId = participant.Id;
+                                parDetail.participantName = participant.First_Name__c+' '+participant.Last_Name__c;
+                                parDetail.delegateId = pd.Participant_delegate__c;
+                                parDetail.delegateParticipantName = pd.Participant_delegate__r.First_Name__c+' '+pd.Participant_delegate__r.Last_Name__c;
+                                parDetail.isChecked = false;
+                                parDetail.datasetId = (String)participant.Id+(String)pd.Participant_delegate__c;
+                                resList.add(parDetail);
+                                patientDelUniqueSet.add(uniquePDKey);
+                            }
                         }
                     }
                 }
