@@ -15,7 +15,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <interviewLabel>CreateBiomarkerRecords {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CreateBiomarkerRecords</label>
     <processMetadataValues>
