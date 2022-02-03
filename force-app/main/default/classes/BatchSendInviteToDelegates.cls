@@ -1,10 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 02-03-2022
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
 public without sharing class BatchSendInviteToDelegates implements Database.Batchable<SObject>, Database.Stateful {
     public List<Id> delParticipantIds = new List<Id>();
 
