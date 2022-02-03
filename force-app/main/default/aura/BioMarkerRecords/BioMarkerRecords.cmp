@@ -11,11 +11,11 @@
     <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
             <div class="slds-grid">
-                <div class="slds-col slds-size--8-of-12">
+                <div class="slds-col slds-size--6-of-12 slds-large-size_8-of-12">
            			 <span>BioMarkers</span>
          		</div>
                  
-                <div class="slds-col slds-size--4-of-12  slds-p-bottom_medium slds-p-right_large assesmentDate">
+                <div class="slds-col slds-size--6-of-12 slds-large-size_4-of-12  slds-p-bottom_medium slds-p-right_large assesmentDate">
                     <span style="float: right">
                           <div class="label">
                                Assessment Date
@@ -33,7 +33,7 @@
              <aura:if isTrue="{!v.biomarkerRecords}">
                 <div class="slds-grid slds-wrap slds-p-left_small slds-p-bottom_large">
                     <aura:iteration items="{!v.biomarkerRecords}" var="bioMark" >
-                        <div class="slds-col slds-size--3-of-12">
+                        <div class="slds-col slds-size--6-of-12 slds-large-size_3-of-12">
                             <div class="biomarkKey">{!bioMark.key}</div>
                             <div class="biomarkValue">{!bioMark.value}</div>
                     </div>  
