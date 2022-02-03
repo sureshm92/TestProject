@@ -22,7 +22,6 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         List<Id> delParticipantIds = new List<Id>();
         List<Id> contactIds = new List<Id>();
         List<Patient_Delegate__c> pdListToUpdate = new List<Patient_Delegate__c>();
-        Set<Id> patientDelegateContIdSet = new Set<Id>();
         Map<id,Id> contIdToCreateUserMap = New Map<id,Id>();
         for(Participant__c par: scope) {
             delParticipantIds.add(par.Id);
@@ -84,7 +83,7 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
     /**
     * @description: Thios method Verifies if the patient Delegate has user record created or not. If not then create user record for them
     * @author: Krishna kumar Mahto | 02-03-2022 
-    * @param: patientDelegateContIdSet 
+    * @param: contIdToCreateUserMap 
     * @return: Void
     **/ 
     public static Void checkifPatientDelHasUser (Map<id,Id> contIdToCreateUserMap) {
