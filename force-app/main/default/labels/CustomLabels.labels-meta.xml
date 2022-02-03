@@ -23563,6 +23563,13 @@ communications using the toggles below.</value>
         <value>Cannot set yearly task for these dates.</value>
     </labels>
     <labels>
+        <fullName>Patient_not_in_ecoa</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient_not_in_ecoa</shortDescription>
+        <value>Patient not registered in eCOA</value>
+    </labels>
+    <labels>
         <fullName>Yes</fullName>
         <language>en_US</language>
         <protected>false</protected>
