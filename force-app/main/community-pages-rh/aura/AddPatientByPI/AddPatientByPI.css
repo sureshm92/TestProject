@@ -42,7 +42,7 @@
 
 .THIS .rr-error
 {
-     color: rgb(194, 57, 52);
+     color: rgb(234, 0, 30);
 }
 
 .THIS .ap-section-title {
@@ -170,4 +170,11 @@
     font-size: 16px;
     color: #000000;
     font-weight: 500;
+}
+
+.THIS .chErr{
+    outline: 2px solid red;
+}
+.THIS select.rr-select-error, .THIS .rr-select-error select {
+    border: 2px solid rgb(234, 0, 30) !important;
 }
