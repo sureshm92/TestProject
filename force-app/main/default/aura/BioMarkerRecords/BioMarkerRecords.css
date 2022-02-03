@@ -1,0 +1,13 @@
+.THIS .biomarkValue{
+    font-weight : 300;
+}
+
+.THIS .assesmentDate{
+   font-weight : 400;
+}
+
+@media only screen and (max-width: 480px){
+    .THIS .assesmentDate{
+        padding-right : 0;
+     }
+}

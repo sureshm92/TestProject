@@ -26,7 +26,7 @@
                 });
                 cmp.find('spinner').hide();
                 window.setTimeout(function(){
-                    window.open(getReturnValue,'_self');
+                    window.open(networkCommUrl,'_self');
                 },5000)
                 toastEvent.fire();
             }

@@ -7,6 +7,13 @@
     max-width: 700px;
     margin: auto;
 }
+.subjectMessage {
+    font-size: 17px;
+    font-weight: 600;
+    color: red;
+    text-align: center;
+    margin: auto;
+}
 .container {
     padding: 2% 2% 1% 5%;
     font-size: 13px;
