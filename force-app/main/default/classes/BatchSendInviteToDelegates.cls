@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-03-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class BatchSendInviteToDelegates implements Database.Batchable<SObject>, Database.Stateful {
     public List<Id> delParticipantIds = new List<Id>();
 
@@ -15,7 +22,7 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         List<Id> delParticipantIds = new List<Id>();
         List<Id> contactIds = new List<Id>();
         List<Patient_Delegate__c> pdListToUpdate = new List<Patient_Delegate__c>();
-        Map<id,Id> contIdToCreateUserMap = New Map<id,Id>();
+        Map<Id,Id> contIdToCreateUserMap = New Map<Id,Id>();
         for(Participant__c par: scope) {
             delParticipantIds.add(par.Id);
         }
