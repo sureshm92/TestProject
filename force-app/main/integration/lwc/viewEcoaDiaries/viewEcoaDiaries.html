@@ -3,20 +3,29 @@
         <nav role="navigation" aria-label="Breadcrumbs">
             <ol class="slds-breadcrumb slds-list_horizontal slds-wrap">
                 <li class="slds-breadcrumb__item">
-                    <a style="color: #666666" href="/s/">Home</a>
+                    <a style="color: #666666" href="/s/">{labels.homeLablel}</a>
                 </li>
                 <li style="padding-left: 1%" class="slds-breadcrumb__item">
-                    <p style="color: black; font-weight: 600">eDiaries</p>
+                    <p style="color: black; font-weight: 600">{labels.ediaries}</p>
                 </li>
             </ol>
         </nav>
     </div>
     <div>
-        <p class="ediariy">eDiaries</p>
+        <p class="ediariy">{labels.ediaries}</p>
     </div>
-    <div class="widthLimiter">
-        <iframe src={ecoaUrl} frameborder="0" height="700px" width="100%"></iframe>
-    </div>
+
+    <template if:true={subjectAvailable}>
+        <div class="widthLimiter">
+            <iframe src={ecoaUrl} frameborder="0" height="700px" width="100%"></iframe>
+        </div>
+    </template>
+
+    <template if:false={subjectAvailable}>
+        <div class="subjectMessage">
+            <p>{labels.patientNotRegistered}</p>
+        </div>
+    </template>
     <!--<div if:true={isLoading}>
         <lightning-spinner
             variant="brand"

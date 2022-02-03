@@ -7,4 +7,12 @@ public class ECOADiariesController {
             throw new AuraHandledException(ex.getMessage());
         }
     }
+    @AuraEnabled
+    public static String getSubjectGuid() {
+        try {
+            return ECOAService.getSubjectGuid();
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage());
+        }
+    }
 }
