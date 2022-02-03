@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-03-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class BatchSendInviteToDelegates implements Database.Batchable<SObject>, Database.Stateful {
     public List<Id> delParticipantIds = new List<Id>();
 
@@ -15,13 +22,24 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         List<Id> delParticipantIds = new List<Id>();
         List<Id> contactIds = new List<Id>();
         List<Patient_Delegate__c> pdListToUpdate = new List<Patient_Delegate__c>();
+        Set<Id> patientDelegateContIdSet = new Set<Id>();
+        Map<id,Id> contIdToCreateUserMap = New Map<id,Id>();
         for(Participant__c par: scope) {
             delParticipantIds.add(par.Id);
         }
         List<Patient_delegate__c> pdList = [SELECT Contact__c,Participant_Delegate__c,Status__c,isInviteToPP__c,Participant__c
             FROM Patient_Delegate__c 
             WHERE Participant_Delegate__c IN : delParticipantIds];
-
+        
+        //Store the patient delegate contact ids. 
+        for(Patient_Delegate__c pd:pdList) {
+            contIdToCreateUserMap.put(pd.Contact__c,null);
+        }
+        //check if Patient Delegate has user Record. if not create user for them. 
+        if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
+            checkifPatientDelHasUser(contIdToCreateUserMap);
+        }
+		//Update the status of the patient Delegate records to active. 
         for(Patient_Delegate__c pd:pdList) {
             if(pd.contact__c != null && !pd.isInviteToPP__c && pd.Participant__c != null) {
                 contactIds.add(pd.Contact__c);
@@ -33,7 +51,7 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
 
         Database.update(pdListToUpdate);
 
-
+    
         /*if(contactIds != null){
             particpantUser = [SELECT ID, Email, ContactId FROM User WHERE ContactId IN :contactIds];
         }
@@ -61,6 +79,27 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
                 delegateUser
             );
         }*/
+    }
+
+    /**
+    * @description: Thios method Verifies if the patient Delegate has user record created or not. If not then create user record for them
+    * @author: Krishna kumar Mahto | 02-03-2022 
+    * @param: patientDelegateContIdSet 
+    * @return: Void
+    **/ 
+    public static Void checkifPatientDelHasUser (Map<id,Id> contIdToCreateUserMap) {
+        //Check if Patient Delegate has user record or not
+        for(User u: [SELECT Id, ContactId FROM User WHERE ContactId = :contIdToCreateUserMap.keySet()]){
+            //Remove the contactid from map if user is already created for them. 
+            if(contIdToCreateUserMap.containskey(u.ContactId)){
+                contIdToCreateUserMap.remove(u.ContactId);
+            }
+        }
+        //Create Patient Delegate's user record
+        if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()) {
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                .createParticipantUsers(contIdToCreateUserMap);
+        }
     }
 
     public void finish(Database.BatchableContext BC) {
