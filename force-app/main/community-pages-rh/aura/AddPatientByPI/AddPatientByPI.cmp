@@ -339,12 +339,8 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
-<<<<<<< HEAD
-                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                    <abbr lightning-input_input="" title="required" class="slds-required">*</abbr>
-=======
                                 <div class="slds-checkbox slds-checkbox-custom" data-gtm="checkbox_Permit_IQVIA_Connect">
->>>>>>> origin/INT12
+                                    <abbr lightning-input_input="" title="required" class="slds-required">*</abbr>
                                     <input
                                         type="checkbox"
                                         aura:id="checkbox-Contact"                                        
