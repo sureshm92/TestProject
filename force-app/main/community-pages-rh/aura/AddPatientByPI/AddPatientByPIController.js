@@ -49,6 +49,37 @@
         }
     },
     
+    checkMandatory: function (component, event, helper) {
+        var formInputs =  component.find("dataDiv1").find({instancesOf : "lightning:select"});
+        var formInputs2 = component.find("dataDiv1").find({instancesOf : "lightning:input"});
+
+        for(var i = 0; i < formInputs.length; i++){
+            if(!formInputs[i].get("v.disabled"))
+                formInputs[i].showHelpMessageIfInvalid();
+        }
+        for(var i = 0; i < formInputs2.length; i++){
+            if(!formInputs2[i].get("v.disabled"))
+                formInputs2[i].showHelpMessageIfInvalid();
+        }
+        var delegateParticipant = component.get('v.participantDelegate');
+        var selectYr = component.find("yearField");
+        if(selectYr){
+            helper.checkGuardianAge(component, event, helper);
+        }
+        var conCheck = component.find("checkbox-Contact");
+        if(!document.getElementById("checkbox-unique-id-76").checked){
+            document.getElementById("cnLabel").classList.add("chErr");
+            document.getElementById("cnLabelErr").classList.remove("slds-hide");
+        }
+        var toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            mode: 'sticky',
+            message: $A.get("$Label.c.addParticipantFillMandatory"),
+            type : 'error'
+        });
+        toastEvent.fire();
+    },
+    
     doCheckYearOfBith: function (component, event, helper) {
         helper.checkGuardianAge(component, event, helper);
     },
@@ -59,7 +90,10 @@
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-            communityService.navigateToHome();
+            // communityService.navigateToHome();
+            var urlEvent = $A.get("e.force:navigateToURL");
+            urlEvent.setParams({ "url": "/my-referrals" });  
+            urlEvent.fire(); 
         });
     },
 
@@ -131,6 +165,14 @@
     },
 
     doContact: function (component) {
+        if(!document.getElementById("checkbox-unique-id-76").checked){
+            document.getElementById("cnLabel").classList.add("chErr");
+            document.getElementById("cnLabelErr").classList.remove("slds-hide");
+        }
+        else{
+            document.getElementById("cnLabel").classList.remove("chErr");
+            document.getElementById("cnLabelErr").classList.add("slds-hide");
+        }
         component.set('v.doContact', !component.get('v.doContact'));
         if (!component.get('v.doContact')) {
             component.set('v.createUsers', false);

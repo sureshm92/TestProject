@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">    
+    <labels>
+        <fullName>addParticipantFillMandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
+        <value>Please review the form for required fields</value>
+    </labels>
     <labels>
         <fullName>Site_DB_View_Participants_Not_Yet_Logged_In</fullName>
         <language>en_US</language>
