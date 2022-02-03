@@ -65,16 +65,11 @@ public class HCPInviteControllerNew_Test {
         testLead.Status = 'New';
         testLead.Company = 'HelloTest Lead Comp';
         testLead.Tax_ID__c = '111111';
-        testLead.Degree__c = 'Doctorate';
         testLead.Facility_Type__c = 'Medical Group';
         testLead.Facility_Classification__c = 'Hospital';
         testLead.HCP_Referral_Source__c = 'ACOE Data';
         //testLead.Lead_CTE__c = 'Some text';
-        testLead.OneKey_Code__c = '1234567';
-        testLead.OneKey_ID__c = '1234567';
-        testLead.Preferred_Reimbursement_Currency__c = 'USD';
-        testLead.Previous_Trial_Experience__c = 'Yes';
-        testLead.Specialty__c = 'Cardiovascular Disease';
+
         testLead.Contact_Method_Preference__c = 'Call';
         testLead.POC_First_Name__c = 'POC';
         testLead.POC_Last_Name__c = 'HelloTest';
@@ -92,9 +87,7 @@ public class HCPInviteControllerNew_Test {
         objLead.PostalCode = '99111';
         objLead.Email = 'test@testHcp.com';
         objLead.Company = 'NewCompany';
-        objLead.OneKey_Code__c = '91121';
         objLead.Tax_ID__c = '56565';
-        objLead.OneKey_ID__c = '1100991';
          objLead.Protocol_Number__c = 'tt123456789';
         objLead.Study_Site_Number__c = '1234567';
         lstLead.add(objLead);
@@ -122,11 +115,11 @@ public class HCPInviteControllerNew_Test {
     public static void testValidateConvertLead(){
         Lead testLead = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
          Test.startTest();
-         String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+        HCPInviteControllerNew.leadBatchWrapper objwrapper  = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
         Lead testLeadAfterConvert = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
         System.assertEquals(true, testLeadAfterConvert.isConverted);
-        System.assert(strData != 'UserAlreadyThere');
+        System.assert(objwrapper.LeadDataMessage != 'UserAlreadyThere');
         
         test.stopTest(); 
     } 
@@ -146,11 +139,11 @@ public class HCPInviteControllerNew_Test {
          Lead testLead_2 = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE FirstName='testFirstName' LIMIT 1];
         
          Test.startTest();
-        String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+        HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
-         String strData_2 = HCPInviteControllerNew.validateAndConvertLead(testLead_2.firstname,testLead_2.LastName
+         HCPInviteControllerNew.leadBatchWrapper objwrapper2 = HCPInviteControllerNew.validateAndConvertLead(testLead_2.firstname,testLead_2.LastName
                                                       ,testLead_2.PostalCode,testLead_2.Id); 
-        System.assert(strData_2 == 'UserAlreadyThere');
+        System.assert(objwrapper2.LeadDataMessage == 'UserAlreadyThere');
         
         test.stopTest(); 
     }  
@@ -160,7 +153,7 @@ public class HCPInviteControllerNew_Test {
         Lead testLead = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
         System.assertEquals(false, testLead.isConverted);
          Test.startTest();
-         String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+         HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
         User objUser = [SELECT ID FROM User where UserName='test@testhcp.com' LIMIT 1];
         HCPInviteControllerNew.checkPassword(objUser.id,'test@123','test@1234');
@@ -173,11 +166,20 @@ public class HCPInviteControllerNew_Test {
         User objAdminUser = [SELECT ID FROM User where Email = 'adminuser@test.com'];
         System.assertEquals(false, testLead.isConverted);
          Test.startTest();
+        User objUser;
         system.runAs(objAdminUser){
-         String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+         HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
+            Id defaultPermissionSet = [SELECT Id FROM PermissionSet WHERE 
+                                   Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                                   LIMIT 1 ] .Id;
+           objUser   = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
+        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = defaultPermissionSet,
+                                                                   AssigneeId = objUser.ID);
+        insert psa; 
         }
-        User objUser = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
+       
+        test.stopTest();  
         Contact ObjContact = [SELECT Name,email from contact where id=:objUser.ContactId];
         HCPInviteControllerNew.GetContactUserWrapper objWrapper = new HCPInviteControllerNew.GetContactUserWrapper();
         objWrapper.objCurrentContact = ObjContact;
@@ -185,7 +187,7 @@ public class HCPInviteControllerNew_Test {
         objWrapper.strPassword = 'vicky@1234';
         objWrapper.strConfrmPassword = 'vicky@1234';
         HCPInviteControllerNew.saveUserData(JSON.serialize(objWrapper),true);
-        test.stopTest(); 
+         
     }
     
      @isTest
@@ -195,9 +197,8 @@ public class HCPInviteControllerNew_Test {
         System.assertEquals(false, testLead.isConverted);
          Test.startTest();
         
-         String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
-                                                      ,testLead.PostalCode,testLead.Id);
-        
+         HCPInviteControllerNew.leadBatchWrapper objBatchwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+                                                      ,testLead.PostalCode,testLead.Id);  
         User objUser = [SELECT ID,contactId FROM User where UserName='test@testhcp.com' LIMIT 1];
         Contact ObjContact = [SELECT Name,email from contact where id=:objUser.ContactId];
         HCPInviteControllerNew.GetContactUserWrapper objWrapper = new HCPInviteControllerNew.GetContactUserWrapper();
@@ -205,7 +206,12 @@ public class HCPInviteControllerNew_Test {
         objWrapper.ObjCurrentUser = objUser;
         objWrapper.strPassword = 'vicky@1234';
         objWrapper.strConfrmPassword = 'vicky@1234';
+        try{
         HCPInviteControllerNew.saveUserData(JSON.serialize(objWrapper),true);
+        }
+        catch(Exception ex){
+            system.debug('>>exception >>'+ex.getMessage());
+        }
         test.stopTest(); 
     }
     
@@ -214,10 +220,35 @@ public class HCPInviteControllerNew_Test {
         Lead testLead = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
         System.assertEquals(false, testLead.isConverted);
          Test.startTest();
-         String strData = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+         HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
                                                       ,testLead.PostalCode,testLead.Id);
         User objUser = [SELECT ID FROM User where UserName='test@testhcp.com' LIMIT 1];
         HCPInviteControllerNew.getInitUserDetails(objUser.id);
+        test.stopTest(); 
+    }
+    
+     @isTest
+    public static void testBatchStatus(){
+        Lead testLead = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
+        System.assertEquals(false, testLead.isConverted);
+         Test.startTest();
+         HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+                                                      ,testLead.PostalCode,testLead.Id);
+         
+        HCPInviteControllerNew.batchWrapper  objBatchWrapper = HCPInviteControllerNew.getBatchStatus(objwrapper.BatchId,0);
+        System.assert(objBatchWrapper.batchCount > 0);
+        test.stopTest(); 
+    }
+    
+    @isTest
+    public static void testLeadNotfound(){
+        Lead testLead = [SELECT ID,FirstName,LastName,PostalCode,isConverted FROM LEAD WHERE POC_Email__c = 'POC@test.com' LIMIT 1];
+        System.assertEquals(false, testLead.isConverted);
+         Test.startTest();
+         HCPInviteControllerNew.leadBatchWrapper objwrapper = HCPInviteControllerNew.validateAndConvertLead(testLead.firstname,testLead.LastName
+                                                      ,'981282772',testLead.Id);
+         
+        System.assert(objwrapper.LeadDataMessage == 'DataNotFound');
         test.stopTest(); 
     }
     

@@ -295,6 +295,8 @@
             var attestCheckbox = component.find('checkBoxAttestation');
             attestCheckbox.setCustomValidity('');
             attestCheckbox.reportValidity('');
+            var selectYr = component.find("yearField").find("selectList");
+            $A.util.addClass(selectYr, "rr-select-error");
             spinner.hide();
         }else{	
             component.set('v.yobBlankErrMsg', false);
@@ -310,6 +312,8 @@
                     if(isAdultDelegate){
                         component.set('v.isAdultDel', true);
                         component.set('v.delNotAdultErrMsg', false);
+                        var selectYr = component.find("yearField").find("selectList");
+                        $A.util.removeClass(selectYr, "rr-select-error");
                     }else{
                         component.set('v.isAdultDel', false); 
                         component.set('v.attestAge', false);
@@ -317,6 +321,8 @@
                         var attestCheckbox = component.find('checkBoxAttestation');
                         attestCheckbox.setCustomValidity('');
                         attestCheckbox.reportValidity('');
+                        var selectYr = component.find("yearField").find("selectList");
+                        $A.util.addClass(selectYr, "rr-select-error");
                     }
                     
                     helper.checkFields(component, event, helper, true);
