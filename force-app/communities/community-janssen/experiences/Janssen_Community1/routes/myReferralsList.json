@@ -1,11 +1,11 @@
 {
-    "activeViewId": "167ecd1e-2b0d-4955-8125-decfc5397578",
-    "appPageId": "5bf37374-2b32-4433-ad3c-73208f1ef38a",
-    "id": "317f4f43-f7ea-4d7b-9e52-a40ef2f776e8",
-    "configurationTags": [],
-    "label": "My Referrals List",
-    "pageAccess": "UseParent",
-    "routeType": "custom-my-referrals-list",
-    "type": "route",
-    "urlPrefix": "my-referrals-list"
+  "activeViewId" : "167ecd1e-2b0d-4955-8125-decfc5397578",
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "configurationTags" : [ ],
+  "id" : "317f4f43-f7ea-4d7b-9e52-a40ef2f776e8",
+  "label" : "My Referrals List",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-referrals-list",
+  "type" : "route",
+  "urlPrefix" : "my-referrals-list"
 }

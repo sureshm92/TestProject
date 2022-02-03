@@ -34,43 +34,64 @@
       );
     },
   
-    requestRecords: function (component, event, helper) {
-      if (component.get("v.pe").Participant__r.Email__c != null) {
+    requestRecords: function (component, event, helper) { 
         component.find("spinner").show();
         communityService.executeAction(
           component,
           "requestMedicalRecords",
           {
-            humanId: component.get("v.pe").Human_Id__c,
-            uniqueId: component.get("v.pe").Unique_HumanId__c,
-            email: component.get("v.pe").Participant__r.Email__c,
-            peId: component.get("v.pe").Id
+            peId: component.get("v.pe").Id,
+            ParticipantId : component.get("v.pe").Participant__c,
           },
           function (returnvalue) {
-            var toastEvent = $A.get("e.force:showToast");
-            toastEvent.setParams({
-              title: "Requested Successfully",
-              type: "success",
-              message:
-                "We have notified the patient to authorize medical vendor(s)"
-            });
-            toastEvent.fire();
-            helper.getRequestHistory(component, event, helper);
+              switch (returnvalue) {
+                  case 'true': {
+                          var toastEvent = $A.get("e.force:showToast");
+                          toastEvent.setParams({
+                              title: "Requested Successfully",
+                              type: "success",
+                              message: $A.get('$Label.c.RH_MedicalRetrive_Succces') 
+                          });
+                          toastEvent.fire();
+                          helper.getRequestHistory(component, event, helper);
+              			  break;
+                      }
+                  case 'EmailError' : {
+                          var toastEvent = $A.get("e.force:showToast");
+                          toastEvent.setParams({
+                              title: "Requested Not Completed",
+                              type: "Error",
+                              message: $A.get('$Label.c.RH_MedicalRetrieve_EmailError') 
+                          });
+                          toastEvent.fire();
+        				       break;
+                      }
+                  case 'EmailNotCorrect' : {
+                          var toastEvent = $A.get("e.force:showToast");
+                          toastEvent.setParams({
+                              title: "Requested Not Completed",
+                              type: "Error",
+                              message: $A.get('$Label.c.RH_HumanAPIEmailError') 
+                          });
+                          toastEvent.fire();
+						            break;
+                      }
+                  default : {
+                          var toastEvent = $A.get("e.force:showToast");
+                          toastEvent.setParams({
+                              title: "Requested Not Completed",
+                              type: "Error",
+                              message: $A.get('$Label.c.RH_HumanAPIError') 
+                          });
+                          toastEvent.fire();
+                      }
+               }
           },
           null,
           function () {
             component.find("spinner").hide();
           }
         );
-      } else {
-        var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-          title: "Requested Not Completed",
-          type: "Error",
-          message: "Please Update Participant's Email first"
-        });
-        toastEvent.fire();
-      }
     }
   });
   

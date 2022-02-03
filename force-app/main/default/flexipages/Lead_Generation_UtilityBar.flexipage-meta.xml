@@ -1,12 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>notes:utilityBarNoteList</componentName>
+                <identifier>notes_utilityBarNoteList</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>console:history</componentName>
+                <identifier>console_history</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>utilityItems</name>
         <type>Region</type>
-    <itemInstances><componentInstance>
-            <componentName>notes:utilityBarNoteList</componentName>
-        </componentInstance></itemInstances><itemInstances><componentInstance>
-            <componentName>console:history</componentName>
-        </componentInstance></itemInstances></flexiPageRegions>
+    </flexiPageRegions>
     <masterLabel>Lead Generation UtilityBar</masterLabel>
     <template>
         <name>one:utilityBarTemplateDesktop</name>

@@ -8,7 +8,7 @@ public class Test_ProfilePictureController {
         Test.startTest();
 
         System.runAs(testDataInstance.participantUser) {
-            ProfilePictureController.getProfilePicture(UserInfo.getUserId());
+            ProfilePictureController.getProfilePicture(UserInfo.getUserId(),CommunityService.USER_MODE_PARTICIPANT);
             ProfilePictureController.saveAttachment(
                 UserInfo.getUserId(),
                 'some.jpg',

@@ -1,0 +1,6 @@
+<aura:event type="COMPONENT" description="Event template">
+    <aura:attribute name="UserName" type="String"/>
+    <aura:attribute name="UserId" type="String"/>
+    <aura:attribute name="componentCalled" type="String"/>
+    <aura:attribute name="contactUserWrapper" type="String"/> <!--This will be used in terms and conditions mp when user click back button to show all information again-->
+</aura:event>

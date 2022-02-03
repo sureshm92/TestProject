@@ -17,7 +17,8 @@ public without sharing class NotificationService {
 
     static public List<String> notificationWithoutPermissions = new List<String>{
         NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+        NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE,
+        NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
     };
 
     static public List<String> notificationTypeFirstEmail = new List<String>{

@@ -9,7 +9,8 @@ This component is only for the HCP User Mode -->
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
 
     <aura:attribute name="userMode" type="String" required="true" />
-
+    <aura:attribute name="getuserMode" type="String" required="true" />
+	<aura:attribute name="RPuserMode" type="String" required="true" />
     <aura:attribute name="personWrapper" type="Object" />
     <aura:attribute name="contact" type="Contact" />
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />

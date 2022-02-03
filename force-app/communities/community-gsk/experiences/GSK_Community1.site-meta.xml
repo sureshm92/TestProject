@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>  
+<?xml version="1.0" encoding="UTF-8"?>
 <ExperienceBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>GSK Community</label>
     <type>ChatterNetworkPicasso</type>
+    <urlPathPrefix>gsk/s</urlPathPrefix>
 </ExperienceBundle>

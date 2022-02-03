@@ -22,8 +22,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Terms And Conditions"
       },
       "componentName" : "forceCommunity:seoAssistant",

@@ -11,7 +11,7 @@
     "components" : [ {
       "componentAttributes" : {
         "additionalReasonDescription" : "Please try using the navigation to find what you're looking for.",
-        "errorNumber" : 404,
+        "errorNumber" : "404",
         "header" : "Oops! You have encountered the",
         "reason" : "Why?",
         "reasonDescription" : "Because we can’t seem to find the page you are looking for. It is either unavailable or may no longer exist.",
@@ -33,8 +33,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Error"
       },
       "componentName" : "forceCommunity:seoAssistant",

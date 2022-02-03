@@ -157,6 +157,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateECOASubject</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateNewRPDelegates</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -852,6 +856,10 @@
         <apexClass>HCPEnrollmentService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>HCPInviteControllerNew</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <classAccesses>
         <apexClass>HCPEnrollmentTriggerHandler</apexClass>
         <enabled>true</enabled>
@@ -2090,6 +2098,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>User.IsCommunityUserRegistered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>

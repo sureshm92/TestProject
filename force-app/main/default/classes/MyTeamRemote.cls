@@ -9,7 +9,7 @@ public without sharing class MyTeamRemote {
     private static final String HAS_DELEGATE_LEVELS = 'True';
     private static final String HAS_NOT_DELEGATE_LEVELS = 'False';
     private static final String OLD_VALUES_DELEGATE_LEVELS = 'OldMap';
-    
+    private static final List<String> fields = new List<String>{'Id', 'Email', 'FirstName', 'LastName', 'Name', 'Language__c', 'Library_Primary_Language__c', 'Full_Name__c', 'Salutation', 'Suffix', 'HCP_Opt_In_Referral_Status_Emails__c'};
     
      @AuraEnabled
     public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
@@ -271,7 +271,9 @@ public without sharing class MyTeamRemote {
         if (useProvidedContacts) {
             delegateContacts = delegatesToProcess;
         } else {
-            delegateContacts = CommunityService.getContacts(delegateIds);
+            /*RH-5680*/
+            //delegateContacts = CommunityService.getContacts(delegateIds);
+            delegateContacts = CommunityService.getContactsWithFields(delegateIds, fields);
             Map<Id, Contact> delegateContactMap = new Map<Id, Contact>(delegateContacts);
             for (Participant__c participant : [
                 SELECT Contact__c, First_Name__c, Last_Name__c
@@ -463,7 +465,7 @@ public without sharing class MyTeamRemote {
     public static void saveDelegateLevelChanges(String userMode, String delegate, String parentId) {
         Savepoint sp = Database.setSavepoint();
         Boolean newss = false;
-
+        
         try {
             DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(
                 delegate,
@@ -487,7 +489,7 @@ public without sharing class MyTeamRemote {
                         ConId.add(dw.delegateContact.Id);
                         SiteId.add(delegateRecord.enrollmentOrStudySiteId);
                     }
-                }
+                }            
                 //To check existing data present or not
                 lstss = [
                     SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
@@ -527,8 +529,9 @@ public without sharing class MyTeamRemote {
                     DelegateService.updateDelegatePermissionSetsPI(dw.delegateContact);
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
+                    isHCP = true;     
                 }
-
+                
                 if (lstss.size() > 0 || lstUsr.size() > 0 || isHCP) {
                     if (
                         (hasDelegateLevels ||
@@ -623,20 +626,22 @@ public without sharing class MyTeamRemote {
                 }
             }
         } else if (userMode == CommunityService.USER_MODE_HCP) {
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = delegateContact.Id,
-                    WhatId__c = delegateContact.Id,
-                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
-                )
-            );
+            if(delegateContact.HCP_Opt_In_Referral_Status_Emails__c){
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = delegateContact.Id,
+                        WhatId__c = delegateContact.Id,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
+                    )
+                );
+            }
+            
         }
-
         if (notifications != null) {
             insert notifications;
         }
     }
-
+    
     private static void sendEmailNotificationWelcome(Contact delegateContact) {
         Map<Id, String> toSendNotificationMap = new Map<Id, String>();
         toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);

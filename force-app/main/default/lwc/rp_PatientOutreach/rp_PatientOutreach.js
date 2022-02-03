@@ -3,8 +3,10 @@ import fetchOutreachInfo from "@salesforce/apex/rpPatientOutreachController.fetc
 import peBulkValidate from "@salesforce/apex/rpPatientOutreachController.peBulkValidate";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getPatientInfo from "@salesforce/apex/rpPatientOutreachController.getPatientInfo";
+import PP_SendBtn from "@salesforce/label/c.PP_SendBtn";
 
 export default class Rp_PatientOutreach extends LightningElement {
+  PP_SendBtn = PP_SendBtn;
   @api peIds;
   studies = [];
   studyInfoMap = {};
@@ -115,7 +117,7 @@ export default class Rp_PatientOutreach extends LightningElement {
         getPatientInfo({
           peId: this.peIds
         }).then((res) => {
-          this.closeUploadModal();
+         // this.closeUploadModal();
 					//	this.validation = false;
 						
           this.showNotification(

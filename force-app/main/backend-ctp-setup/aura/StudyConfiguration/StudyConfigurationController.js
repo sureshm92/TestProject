@@ -13,11 +13,15 @@
             function (initData) {
                 component.set('v.ctp', initData.ctp);
                 component.set('v.delay_days', initData.ctp.Delayed_No_Of_Days__c);
+                component.set('v.study_guid', initData.ctp.Study_GUID__c);
+                component.set('v.study_version_guid', initData.ctp.Study_Version_GUID__c);
                 component.set('v.user_has_permission', initData.user_has_permission);
                 component.set('v.noVisitPlansMessage', initData.noVisitPlansMessage);
                 component.find('spinner').hide();
             }
         );
+        component.set('v.study_guid_error',$A.get("$Label.c.Study_GUID_Error_Message"));
+        component.set('v.study_version_guid_error',$A.get("$Label.c.Study_Version_GUID_Error_Message"));
     },
 
     savePostEnrollment: function (component, event, helper) {

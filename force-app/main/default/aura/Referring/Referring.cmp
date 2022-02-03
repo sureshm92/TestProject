@@ -1177,7 +1177,7 @@
                                                     </div>
                                                     <div
                                                          class="rr-form-element slds-no-label"
-                                                         style="margin-top: 20px"
+                                                         style="margin-top: 20px;margin-left:-0.5rem;"
                                                          >
                                                         <div class="rr-cb-container">
                                                             <lightning:input

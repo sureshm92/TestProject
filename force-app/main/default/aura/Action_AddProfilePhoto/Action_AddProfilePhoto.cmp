@@ -19,7 +19,7 @@
     <aura:attribute name="recordId" type="Id" />
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
     <aura:attribute name="toggleButton" type="Boolean" default="false" />
-
+    <aura:attribute name="userMode" type="String" required="true" />
     <aura:attribute name="username" type="String" />
     <aura:attribute name="pictureSrc" type="String" />
     <aura:attribute name="isDelegate" type="Boolean" default="false" />

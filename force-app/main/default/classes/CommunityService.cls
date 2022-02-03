@@ -456,6 +456,14 @@ public without sharing class CommunityService {
         ];
     }
 
+    public static List<Contact> getContactsWithFields(Set<Id> contactIds, List<String> fields) {
+
+        String queryString = 'SELECT ' + 
+            					String.join(fields, ',') + 
+            				' FROM Contact WHERE Id IN: contactIds FOR UPDATE';
+        return Database.query(queryString);
+    }
+    
     private static String getAvailableUserName(String email) {
         List<String> names = new List<String>();
         names.add(email);

@@ -43,8 +43,8 @@
 
 .THIS .visit-plan .slds-form-element__label {
     display: block;
-    margin-top: -24px;
-    margin-left: 26px;
+    margin-top: 0px;
+	margin-left: 10px;
 }
 
 .THIS .column-btn a {

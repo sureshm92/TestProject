@@ -18,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Mobile Pdf Viewer"
       },
       "componentName" : "forceCommunity:seoAssistant",

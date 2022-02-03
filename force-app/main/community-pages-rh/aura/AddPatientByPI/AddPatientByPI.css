@@ -162,6 +162,10 @@
     display: inline-flex;
 }
 
+.THIS .slds-checkbox-custom .slds-checkbox__label{
+    display: inline-table;
+}
+
 .THIS .delegateAttest{
     font-size: 16px;
     color: #000000;

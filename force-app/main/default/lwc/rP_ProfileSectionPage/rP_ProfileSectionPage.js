@@ -37,6 +37,7 @@ import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
 import { loadScript } from 'lightning/platformResourceLoader';
 import RH_RP_Patient from '@salesforce/label/c.Patient';
 import RH_RP_Primary_Delegate from '@salesforce/label/c.Primary_Delegate';
+import RH_RP_Notes from '@salesforce/label/c.Notes';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
     @api usermode;
@@ -72,10 +73,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showRefer = false;
     @api disabledSaveButton = false;
     @api isaccessLevelthree = false;
+    showOutreachButton = true;
     @api isRTL;
     label = {
         RH_RP_Primary_Delegate,
         RH_RP_Patient,
+        RH_RP_Notes,
         RH_RP_Exclude,
         RH_RP_Include,
         RH_RP_Exclude_From_Referring,
@@ -103,6 +106,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         RH_RP_has_been_included,
         RH_RP_Outreach_Email
     };
+
 
     showmedicalreview() {
         this.medicalReview = !this.medicalReview;
@@ -246,6 +250,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                     this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
                 } else {
                     this.medicalreviewConfigured = false;
+                }
+
+                if (this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c && this.peRecordList[0].peRecord.Outreach_Email_Status__c == undefined) {
+                    this.showOutreachButton = true;
+                } else {
+                    this.showOutreachButton = false;
                 }
 
                 this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);

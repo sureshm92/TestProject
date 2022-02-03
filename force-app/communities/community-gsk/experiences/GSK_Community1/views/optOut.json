@@ -26,8 +26,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Opt Out"
       },
       "componentName" : "forceCommunity:seoAssistant",

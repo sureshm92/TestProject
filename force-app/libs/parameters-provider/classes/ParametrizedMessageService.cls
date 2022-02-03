@@ -76,6 +76,11 @@ public without sharing class ParametrizedMessageService {
                 } else {
                     valueStr = (value != null ? value : '') + '';
                 }
+                if (paramName == 'Taskdate') {
+                    if (valueStr == '') {
+                        valueStr = System.Label.Not_Available;
+                    }
+                }
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;

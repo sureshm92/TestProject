@@ -65,7 +65,13 @@ public without sharing class SurveyService {
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId, Date partDate, TimeZone usertz) {
+    public SurveyInvitation generateInvitation(
+        Trial_Survey__c ts,
+        Id peId,
+        Id communityId,
+        Date partDate,
+        TimeZone usertz
+    ) {
         SurveyInvitation invitation = new SurveyInvitation(
             CommunityId = communityId,
             Is_Midpoint__c = ts.Is_Midpoint__c,
@@ -78,45 +84,54 @@ public without sharing class SurveyService {
             IsTrialSurvey__c = true
         );
 
-            Date today ;
-            if(partDate!=null){
-                today = partDate;
+        Date today;
+        if (partDate != null) {
+            today = partDate;
+        } else {
+            today = System.today();
+        }
+        Date endDate = today;
+        Time eodTime = Time.newInstance(23, 59, 0, 0);
+        if (ts.Is_Recurrence_Survey__c) {
+            if (ts.Recurrence_Frequency__c == 'Weekly') {
+                endDate = today.addDays(6);
+            } else if (ts.Recurrence_Frequency__c == 'Monthly') {
+                endDate = today.addMonths(1).addDays(-1);
+            } else if (ts.Recurrence_Frequency__c == 'Yearly') {
+                endDate = today.addYears(1).addDays(-1);
             }
-            else{
-                today = System.today();
+            if (ts.Survey_end_date__c != null && endDate > ts.Survey_end_date__c) {
+                endDate = ts.Survey_end_date__c;
             }
-        	Time eodTime = Time.newInstance(23, 59, 0, 0);
-            if(ts.Is_Recurrence_Survey__c){
-                if(ts.Recurrence_Frequency__c == 'Weekly'){
-                    today = today.addDays(6);
-                }
-                else if(ts.Recurrence_Frequency__c == 'Monthly'){
-                    today = today.addMonths(1).addDays(-1);
-                }
-                else if(ts.Recurrence_Frequency__c == 'Yearly'){
-                    today = today.addYears(1).addDays(-1);
-                }
-                if(ts.Survey_end_date__c != null && today>ts.Survey_end_date__c){
-                    today = ts.Survey_end_date__c;
-                }
+        } else {
+            if (ts.Expires_After_Days__c != null) {
+                endDate = today.addDays((Integer) ts.Expires_After_Days__c);
+            } else {
+                endDate = ts.Survey_end_date__c;
             }
-            else{
-                if(ts.Expires_After_Days__c != null){
-                    today = today.addDays((Integer) ts.Expires_After_Days__c);
-                 }
-                 else{
-                     today = ts.Survey_end_date__c;
-                 }
-            }
-        	
-        	Integer offsetSeconds = 0;
-            if(userTZ != null){
-                offsetSeconds = userTZ.getOffset(today) / 1000;
-            }
-            Datetime expiry = Datetime.newInstanceGmt(today, eodTime)
+        }
+        Integer days;
+        Date reminderDate;
+        Time remTime;
+        if (ts.Reminder_in_days_before_the_end_date__c != null) {
+            days = Integer.valueOf(ts.Reminder_in_days_before_the_end_date__c);
+            reminderDate = endDate.addDays(-days);
+            remTime = Time.newInstance(9, 30, 0, 0);
+        }
+
+        Integer offsetSeconds = 0;
+        if (userTZ != null) {
+            offsetSeconds = userTZ.getOffset(endDate) / 1000;
+        }
+        Datetime expiry = Datetime.newInstanceGmt(endDate, eodTime).addSeconds(-offsetSeconds);
+        invitation.ExpireDateTime__c = expiry;
+        if (reminderDate != null && reminderDate >= today) {
+            Datetime reminderDatetime = Datetime.newInstanceGmt(reminderDate, remTime)
                 .addSeconds(-offsetSeconds);
-        	invitation.ExpireDateTime__c = expiry;
-       return invitation;
+            invitation.ReminderDateTime__c = reminderDatetime;
+        }
+
+        return invitation;
     }
 
     public SurveyInvitation generateInvitation(

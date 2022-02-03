@@ -25,7 +25,7 @@ public abstract class RemoteCall {
     protected abstract Object parseResponse(String responseBody);
 
     public Object execute() {
-        System.debug('endPointURL::::'+endPointURL);
+        System.debug('endPointURL::::' + endPointURL);
         if (endPointURL == null)
             throw new RemoteCallException('Endpoint URL can not be null');
         System.debug('METHOD: ' + httpMethod + ', ENDPOINT: ' + endPointURL);
@@ -35,7 +35,7 @@ public abstract class RemoteCall {
         req.setEndpoint(endPointURL);
         for (String headerName : headersMap.keySet()) {
             req.setHeader(headerName, headersMap.get(headerName));
-            System.debug('headerName::::'+headerName+'value::::'+headersMap.get(headerName));
+            System.debug('headerName::::' + headerName + 'value::::' + headersMap.get(headerName));
         }
         req.setTimeout(timeout);
         Datetime requestDT = Datetime.now();
@@ -80,12 +80,17 @@ public abstract class RemoteCall {
                 log.Response_Body__c = res.getBody()
                     .mid(0, IntegrationLog__c.Response_Body__c.getDescribe().length);
             }
-            if (res.getStatusCode() == 200 || res.getStatusCode() == 201) {
+            if (
+                res.getStatusCode() == 200 ||
+                res.getStatusCode() == 201 ||
+                res.getStatusCode() == 202
+            ) {
                 log.Success__c = true;
             } else {
                 log.Error_Message__c = res.getStatus();
             }
             System.debug('RESPONSE STATUS: ' + res.getStatusCode() + ' ' + res.getStatus());
+            System.debug(res.getBody());
             return parseResponse(res.getBody());
         } catch (Exception e) {
             responseDT = Datetime.now();

@@ -3,8 +3,8 @@
  */
 
 public without sharing class TaskService {
-    public static Map<Id, String> invitationsVisibleTemp = new Map<Id, String>(); 
-    public static Boolean createSurveyTaskforDelOnly =false; 
+    public static Map<Id, String> invitationsVisibleTemp = new Map<Id, String>();
+    public static Boolean createSurveyTaskforDelOnly = false;
     public class TaskServiceException extends Exception {
     }
 
@@ -90,7 +90,7 @@ public without sharing class TaskService {
         return getTasksCommon(filter, null);
     }
 
-    public List<Task> getTasksCommon(String filter, String sortOrder) { 
+    public List<Task> getTasksCommon(String filter, String sortOrder) {
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
 
@@ -122,14 +122,15 @@ public without sharing class TaskService {
                     '\'' +
                     delegatesVisibility +
                     ')';
-            }else if(ParticipantContext.getCurrentContact()!=null){ //Added for Minor Participant's Delegates
+            } else if (ParticipantContext.getCurrentContact() != null) {
+                //Added for Minor Participant's Delegates
                 commonFilter =
-                '(' +
-                'Owner_Contact__c = \'' +
-                ParticipantContext.getCurrentContact().Id +
-                '\'' +
-                delegatesVisibility +
-                ')';
+                    '(' +
+                    'Owner_Contact__c = \'' +
+                    ParticipantContext.getCurrentContact().Id +
+                    '\'' +
+                    delegatesVisibility +
+                    ')';
             }
         } else {
             // TODO Depricated (all delegates decoupled now)
@@ -158,11 +159,11 @@ public without sharing class TaskService {
         List<Task> tasks;
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
-             tasks = (List<Task>) DatabaseService.query(
+            tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
                 Task.getSObjectType(),
                 commonFilter
-            ); 
+            );
         } else {
             tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
@@ -248,8 +249,9 @@ public without sharing class TaskService {
     }
 
     public List<Task> getOpenTasks() {
-        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));        																			
-        String filter = getOpenTasksFilter()+ ' AND (Start_Date__c=null OR Start_Date__c <= TODAY)';
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
+        String filter =
+            getOpenTasksFilter() + ' AND (Start_Date__c=null OR Start_Date__c <= TODAY)';
         return getTasksCommon(filter, OPEN_TASKS_ORDER);
     }
 
@@ -257,9 +259,9 @@ public without sharing class TaskService {
         List<Task> tasks = getOpenTasks();
         List<Task> resTasks = new List<Task>();
         for (Integer i = 0; i < tasks.size(); i++) {
-            if( tasks[i].Activity_Datetime__c != NULL){
+            if (tasks[i].Activity_Datetime__c != null) {
                 tasks[i].Activity_Datetime__c = tasks[i].Activity_Datetime__c.date();
-             }
+            }
             resTasks.add(tasks[i]);
             if (i >= 4)
                 break;
@@ -270,10 +272,13 @@ public without sharing class TaskService {
 
     public String getOpenTasksFilter() {
         List<String> statusFilter = new List<String>{ TASK_STATUS_OPEN, TASK_STATUS_IN_PROGRESS };
-            String filter = DatabaseService.fieldInValues('Status', statusFilter) + ' AND ' + DatabaseService.fieldNotEqual('Task_Type__c', 'Visit');
+        String filter =
+            DatabaseService.fieldInValues('Status', statusFilter) +
+            ' AND ' +
+            DatabaseService.fieldNotEqual('Task_Type__c', 'Visit');
         return filter;
     }
-   
+
     public Task getTask(Id taskId) {
         List<Task> tasks = getTasksCommon(' Id = \'' + taskId + '\' ');
         if (tasks.size() == 0)
@@ -298,23 +303,25 @@ public without sharing class TaskService {
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
     }
-    //This method will be called to recall the createSurveyTasks method to create survey task for delegate  
+    //This method will be called to recall the createSurveyTasks method to create survey task for delegate
     //for which survey tasks didn't get created in first attempt due to unavailability of delegate record as
     //Delegate records gets created after PER record creation and this method gets fired in PER Insert/update
     //This Scenario will only incounter when we create partcipant with delegate and Trial survey task creation gets fired while insert only.
-    public static void createSurveyTasksforDelegate(Map<Id, String> invitationsVisible, Boolean isCalledFromAsyncMethod) { 
+    public static void createSurveyTasksforDelegate(
+        Map<Id, String> invitationsVisible,
+        Boolean isCalledFromAsyncMethod
+    ) {
         taskService.createSurveyTaskforDelOnly = true;
-        if(isCalledFromAsyncMethod){
+        if (isCalledFromAsyncMethod) {
             TaskService.getInstance().createSurveyTasks(invitationsVisible);
-        }else{
+        } else {
             //Calling Async Method to avoid 101 SOQL limit exception
             TaskService.createSurveyTasksAsync(invitationsVisible);
         }
-        
     }
-    
+
     @future
-    public static void createSurveyTasksAsync(Map<Id, String> invitationsVisible) { 
+    public static void createSurveyTasksAsync(Map<Id, String> invitationsVisible) {
         taskService.createSurveyTaskforDelOnly = true;
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
@@ -323,6 +330,7 @@ public without sharing class TaskService {
             SELECT
                 Id,
                 ExpireDateTime__c,
+                ReminderDateTime__c,
                 Participant_Enrollment__r.Participant_Contact__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Reminder_Schedule__c,
@@ -335,15 +343,15 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
-         List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
-        for (SurveyInvitation inv : surveyInvitation){
-            if(inv.Participant_Enrollment__r.Participant_Contact__c != null){
+        List<Patient_Delegate__c> patientDelegates = new List<Patient_Delegate__c>();
+        for (SurveyInvitation inv : surveyInvitation) {
+            if (inv.Participant_Enrollment__r.Participant_Contact__c != null) {
                 contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
             }
         }
-            
-        if(!contactIds.isEmpty()){
-              patientDelegates = [
+
+        if (!contactIds.isEmpty()) {
+            patientDelegates = [
                 SELECT Id, Contact__c, Participant__r.Contact__c
                 FROM Patient_Delegate__c
                 WHERE Participant__r.Contact__c IN :contactIds
@@ -386,14 +394,20 @@ public without sharing class TaskService {
                 }
                 when 'Each Delegate' {
                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
-                    if(patientDelContactIds.IsEmpty()){
-                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
+                    if (patientDelContactIds.IsEmpty()) {
+                        TaskService.invitationsVisibleTemp.put(
+                            inv.id,
+                            invitationsVisible.get(inv.id)
+                        );
                     }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null){
-                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
+                        if (delContactUser.get(pdId) == null) {
+                            TaskService.invitationsVisibleTemp.put(
+                                inv.id,
+                                invitationsVisible.get(inv.id)
+                            );
                             continue;
-                        }   
+                        }
 
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
@@ -404,19 +418,25 @@ public without sharing class TaskService {
                 }
                 when 'Patient and each Delegate' {
                     //Skip creating task for Participant if this method is recalled to create task for delegate only.
-                    if(!TaskService.createSurveyTaskforDelOnly){ 
+                    if (!TaskService.createSurveyTaskforDelOnly) {
                         tmpConfigs.add(new TaskConfig(partUserId, partContactId));
                     }
-                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
-                    if(patientDelContactIds.IsEmpty()){
-                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
+                    //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
+                    if (patientDelContactIds.IsEmpty()) {
+                        TaskService.invitationsVisibleTemp.put(
+                            inv.id,
+                            invitationsVisible.get(inv.id)
+                        );
                     }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null){
-                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
+                        if (delContactUser.get(pdId) == null) {
+                            TaskService.invitationsVisibleTemp.put(
+                                inv.id,
+                                invitationsVisible.get(inv.id)
+                            );
                             continue;
                         }
-                            
+
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
                             : null;
@@ -445,20 +465,23 @@ public without sharing class TaskService {
                     if (userTZ == null)
                         continue;
 
-                        Datetime userDatetime = DateTimeConverterUtil.getUserDT(
-                            Datetime.now().dateGMT(),  
-                            Datetime.now().timeGmt(),  
-                            userTZ
-                        );
-					tsc.startDate = userDatetime.dateGMT();
+                    Datetime userDatetime = DateTimeConverterUtil.getUserDT(
+                        Datetime.now().dateGMT(),
+                        Datetime.now().timeGmt(),
+                        userTZ
+                    );
+                    tsc.startDate = userDatetime.dateGMT();
                     if (inv.ExpireDateTime__c != null) {
                         tsc.activityDate = inv.ExpireDateTime__c;
-                    }
-
+                    } //for bug 4722
                     if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                         Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
                         tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
                         tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                    }
+                    if (inv.ReminderDateTime__c != null) {
+                        tsc.reminderDatetime = inv.ReminderDateTime__c;
+                        tsc.reminderGMT = inv.ReminderDateTime__c;
                     }
                 }
 
@@ -554,9 +577,9 @@ public without sharing class TaskService {
     }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
-        List<User> users = new List<User> ();
-        if(!contactIds.isEmpty()) {
-          users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
+        List<User> users = new List<User>();
+        if (!contactIds.isEmpty()) {
+            users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
         }
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
         for (User u : users)

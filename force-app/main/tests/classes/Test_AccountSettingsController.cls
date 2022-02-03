@@ -68,9 +68,9 @@ private class Test_AccountSettingsController {
                 JSON.serialize(testData.participant)
             );
             AccountSettingsController.updateContact(JSON.serialize(con));
-            AccountSettingsController.changeEmail('aaa@bbb.com');
+            AccountSettingsController.changeEmail('aaa@bbb.com',CommunityService.USER_MODE_PARTICIPANT);
             AccountSettingsController.changePassword('123', '123', '321');
-            AccountSettingsController.changeOptInEmail(true, true, true, true);
+            AccountSettingsController.changeOptInEmail(true, true, true, true,CommunityService.USER_MODE_PARTICIPANT);
             AccountSettingsController.changeOptInCookies(false, false);
             AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
@@ -82,7 +82,7 @@ private class Test_AccountSettingsController {
                 AccountSettingsController.AccountData.class
             );
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
-            AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS());
+            AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS(),CommunityService.USER_MODE_PARTICIPANT);
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));

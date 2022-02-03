@@ -107,6 +107,9 @@
                                 communityService.setTrialMatchVisible(
                                     userVisibility.trialMatchVisible
                                 );
+                                communityService.setEDiaryVisible(
+                                    userVisibility.eDiaryVisible
+                                );
                                 component.getEvent('onModeChange').fire();
                                 component.find('pubsub').fireEvent('reload');
                             }

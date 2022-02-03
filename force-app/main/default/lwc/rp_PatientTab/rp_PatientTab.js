@@ -471,7 +471,7 @@ export default class Rp_PatientTab extends LightningElement {
         this.validationList = [];
         let checkCondition = [];
 
-        if (this.patientrecord[0].isRequired) {
+        /*if (this.patientrecord[0].isRequired) {
             this.requiredfieldforMinor.forEach(item => {
                 this.removeCustomFieldValidation(item);
             });
@@ -480,7 +480,7 @@ export default class Rp_PatientTab extends LightningElement {
             this.requiredFieldForAdult.forEach(item => {
                 this.removeCustomFieldValidation(item);
             });
-        }
+        }*/
         checkCondition = this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
 
         for (let i = 0; i < checkCondition.length; i++) {
