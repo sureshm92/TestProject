@@ -23567,7 +23567,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Patient_not_in_ecoa</shortDescription>
-        <value>Patient not registered in eCOA</value>
+        <value>Patient is not registered in eCOA</value>
     </labels>
     <labels>
         <fullName>Yes</fullName>
