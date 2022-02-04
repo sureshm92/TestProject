@@ -434,7 +434,8 @@ public without sharing class DashboardParticipantCount {
                         ParticipantDetails parDetail = new ParticipantDetails();
                         if(pd.isInviteToPP__c && participant.Id != null && pd.Participant_delegate__r.Email__c != null) {
                             participantContactMap.put(pd.Participant_delegate__c,pd.Contact__c);
-                            participantDelMap.put(pd.Participant__c,pd);
+                            //participantDelMap.put(pd.Participant__c,pd);
+                            participantDelMap.put(pd.Participant_delegate__c,pd);
                         }
                     }
                 }
@@ -472,7 +473,6 @@ public without sharing class DashboardParticipantCount {
                 }
 
             }
-
             return resList;
 
         } catch(Exception e) {
