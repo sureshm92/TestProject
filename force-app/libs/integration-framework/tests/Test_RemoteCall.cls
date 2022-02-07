@@ -8,9 +8,9 @@ private class Test_RemoteCall {
         public TestedRemoteCall() {
             this.endPointURL = 'https://th-apex-http-callout.herokuapp.com/animals';
             this.httpMethod = METHOD_POST;
-            this.headersMap.putAll(new Map<String, String>{
-                    'Content-Type' => 'application/json;charset=UTF-8'
-            });
+            this.headersMap.putAll(
+                new Map<String, String>{ 'Content-Type' => 'application/json;charset=UTF-8' }
+            );
         }
 
         public override Type getType() {
@@ -33,7 +33,7 @@ private class Test_RemoteCall {
 
         Test.startTest();
         Object res = remoteCall.execute();
-        String expectedValue = '{"animals": ["majestic badger", "fluffy bunny", "scary bear", "chicken", "mighty moose"]}';
+        String expectedValue = '{ "applicationId": "90a75d33b4fb4e2da5ef354fc063d572", "requestId": "03c61dd5-3846-4cfd-8a6d-b7a311967200", "result": [ { "toNumber": "+187893434", "status": { "deliveryStatus": "SUCCESSFUL", "statusCode": 200, "statusMessage": "MessageId: ut0ehaifvdfkcho0sqff41c6bkvh25oodcnb98g0", "messageId": "ut0ehaifvdfkcho0sqff41c6bkvh25oodcnb98g0" } } ] }';
         Test.stopTest();
         System.assertEquals(expectedValue, res);
     }
