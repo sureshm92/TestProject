@@ -263,7 +263,8 @@ public without sharing class DashboardParticipantCount {
     public static List<Participant_Enrollment__c> fetchPerRecords(String whereClause,List<Id> participantIds) { 
         
         String query = 'SELECT Id,Invited_To_PP_Date__c,Participant__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,'
-            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c'
+            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c,'
+            +'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c'
             +' FROM Participant_Enrollment__c'
             +' WHERE Study_Site__c != NULL'
             +' '+whereClause
@@ -360,6 +361,9 @@ public without sharing class DashboardParticipantCount {
         try {
             List<Id> participantIds = new List<Id>();
             List<Id> delegateParticipntIds = new List<Id>();
+            Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
+            ctpDetails = fetchStudyDetails(ctpId);
+
             for(ParticipantDetails parDetail:participantDetails) {
                 if(parDetail.delegateId != null) {
                         delegateParticipntIds.add(parDetail.delegateId);
@@ -373,7 +377,7 @@ public without sharing class DashboardParticipantCount {
             }
 
             if(!delegateParticipntIds.isEmpty()) {
-                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds);
+                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds,ctpDetails);
                 Database.executeBatch(delegateBatch);
             }
             resMap.put('message','Success');
@@ -381,19 +385,11 @@ public without sharing class DashboardParticipantCount {
         } catch(Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+       
+    }
 
-        /*for(ParticipantDetails parDetail:ParticipantDetails) {
-           
-            participantIds.add(parDetail.participantId);
-           
-        }
-        String perWhereClause = ' AND Participant__c IN :participantIds';
-        List<String> perIds = new List<String>();
-        List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause,participantIds);
-        for(Participant_Enrollment__c per:perList) {
-            perIds.add(per.Id);
-        }
-        ListViewParticipantController.createUserForPatientProtal(perIds,true);*/
+    public static Clinical_Trial_Profile__c fetchStudyDetails(Id ctpId) {
+        return([SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
     }
 
     @AuraEnabled
@@ -404,7 +400,7 @@ public without sharing class DashboardParticipantCount {
             List<Participant__c> participantList = new List<Participant__c>();
             Map<Id,Id> participantContactMap = new Map<Id,Id>();
             Map<Id,Participant__c> participantMap = new Map<Id,Participant__c>();
-            Map<Id,Patient_Delegate__c> participantDelMap = new Map<Id,Patient_Delegate__c>();
+            Map<Id,Patient_Delegate__c> participantDelMap = new Map<Id,Patient_Delegate__c>();           
 
             String perWhereClause = ' AND study_Site__r.Study_Site_Type__c != \'Virtual\' AND study_Site__r.Study_Site_Type__c != \'Hybrid\' AND study_Site__r.Suppress_Participant_Emails__c=false';  
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
