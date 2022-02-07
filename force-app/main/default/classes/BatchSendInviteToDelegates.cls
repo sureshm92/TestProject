@@ -29,9 +29,11 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         for(Patient_Delegate__c pd:pdList) {
             contIdToCreateUserMap.put(pd.Contact__c,null);
         }
-        //check if Patient Delegate has user Record. if not create user for them. 
-        if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
-            checkifPatientDelHasUser(contIdToCreateUserMap);
+        if(ctpDetails.CommunityTemplate__c != 'Janssen') {
+            //check if Patient Delegate has user Record. if not create user for them. 
+            if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
+                checkifPatientDelHasUser(contIdToCreateUserMap);
+            }
         }
 		//Update the status of the patient Delegate records to active. 
         for(Patient_Delegate__c pd:pdList) {
