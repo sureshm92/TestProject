@@ -37,7 +37,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Status__c</field>
+                <field>BiomarkerVendorReachoutStatus__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
