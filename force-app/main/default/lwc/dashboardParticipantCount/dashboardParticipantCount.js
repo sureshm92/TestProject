@@ -202,11 +202,7 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     doRecordSelection(event) {    
-        if(this.selectedPEList.length>0){
-            this.disableButton = false;
-         }else{
-            this.disableButton = true;
-            }
+
         for (var i = 0; i < this.peList.length; i++) {
             let row = Object.assign({}, this.peList[i]);   
             let selectedRow = event.target.dataset.id;
@@ -224,6 +220,11 @@ export default class DashboardParticipantCount extends LightningElement {
                 }          
                 
             }
+        }
+        if(this.selectedPEList.length>0){
+            this.disableButton = false;
+        }else{
+            this.disableButton = true;
         }
     }
 
