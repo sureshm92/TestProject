@@ -1,8 +1,10 @@
 public without sharing class BatchSendInviteToDelegates implements Database.Batchable<SObject>, Database.Stateful {
     public List<Id> delParticipantIds = new List<Id>();
+    public Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
 
-    public BatchSendInviteToDelegates(List<Id> delParticipantIds) {
+    public BatchSendInviteToDelegates(List<Id> delParticipantIds, Clinical_Trial_Profile__c ctpDetails) {
         this.delParticipantIds = delParticipantIds;
+        this.ctpDetails = ctpDetails;
     }
 
     public Database.QueryLocator start(Database.BatchableContext BC) {
@@ -27,18 +29,28 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         for(Patient_Delegate__c pd:pdList) {
             contIdToCreateUserMap.put(pd.Contact__c,null);
         }
-        //check if Patient Delegate has user Record. if not create user for them. 
-        if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
-            checkifPatientDelHasUser(contIdToCreateUserMap);
+        if(ctpDetails.CommunityTemplate__c != 'Janssen') {
+            //check if Patient Delegate has user Record. if not create user for them. 
+            if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
+                checkifPatientDelHasUser(contIdToCreateUserMap);
+            }
         }
 		//Update the status of the patient Delegate records to active. 
         for(Patient_Delegate__c pd:pdList) {
             if(pd.contact__c != null && !pd.isInviteToPP__c && pd.Participant__c != null) {
                 contactIds.add(pd.Contact__c);
                 pd.Status__c = 'Active';
-                pd.isInviteToPP__c = true;
+                if(ctpDetails.CommunityTemplate__c != 'Janssen') {
+                    pd.isInviteToPP__c = true;
+                }
                 pdListToUpdate.add(pd);
             }
+        }
+
+        if(ctpDetails.CommunityTemplate__c != 'Janssen') {
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
         }
 
         Database.update(pdListToUpdate);
