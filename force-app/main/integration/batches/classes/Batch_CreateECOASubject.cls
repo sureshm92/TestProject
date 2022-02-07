@@ -6,7 +6,8 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
         List<String> peEnrollmentStatus = new List<String>{
             PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED,
             PEStatusState.PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
-            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+            PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
         };
         return Database.getQueryLocator(
             [
