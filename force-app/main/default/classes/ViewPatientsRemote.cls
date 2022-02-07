@@ -165,7 +165,7 @@ public without sharing class ViewPatientsRemote {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_IQVIA_to_contact_about_study__c',
         'Site_Communication_Preference__c',
-        'Invited_To_PP_Date__c'   
+        'Invited_To_PP_Date__c'    
     };
 
     @AuraEnabled
@@ -869,15 +869,15 @@ public without sharing class ViewPatientsRemote {
            FOVTime.add('');
            }
            lstPERs.add(per);
-            String initialVisitScheduleTime = String.ValueOf(
-            per.Initial_visit_scheduled_time__c
+           String initialVisitScheduleTime = String.ValueOf(
+                per.Initial_visit_scheduled_time__c
             );
             if (initialVisitScheduleTime != '' && initialVisitScheduleTime != null) {
-            initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
+                initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
             }else{
-            initialVisitScheduleTime='';
+                initialVisitScheduleTime='';
             }
-            wprc.add(new WrapRecords(per,initialVisitScheduleTime));
+           wprc.add(new WrapRecords(per,initialVisitScheduleTime));
         }
 
 
