@@ -7724,7 +7724,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Powered by IQVIA © 2020. All rights reserved.</value>
+        <value>Powered by IQVIA © 2022. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>Fulfilled</fullName>
