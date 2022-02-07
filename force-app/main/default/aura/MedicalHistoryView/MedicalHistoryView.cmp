@@ -99,5 +99,8 @@ Created by Sumit S-->
             <c:HumanAPIreport pe="{!v.pe}" isSiteEnabledforHAPI="{!v.isSiteEnabledforHAPI}"/>
         </div>
     </aura:if>
+    <div class="slds-m-top_large">
+        <c:BioMarkerRecords pe="{!v.pe}"  />
+    </div>
     
 </aura:component>
