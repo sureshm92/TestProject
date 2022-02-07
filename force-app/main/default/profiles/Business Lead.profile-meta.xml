@@ -2680,7 +2680,7 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
-        <field>RH_Biomarker__c.Status__c</field>
+        <field>RH_Biomarker__c.BiomarkerVendorReachoutStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
@@ -2701,6 +2701,16 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Biomarker_Result__c.Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.BiomarkerVendorReachoutStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <objectPermissions>
