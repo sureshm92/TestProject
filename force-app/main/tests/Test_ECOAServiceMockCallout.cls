@@ -1,0 +1,59 @@
+@IsTest
+public with sharing class Test_ECOAServiceMockCallout implements HttpCalloutMock {
+    public HttpResponse respond(HttpRequest request) {
+        HttpResponse response = new HttpResponse();
+        if (request.getEndpoint().endsWith('callout:ECOAIntegration/subjects')) {
+            String jsonBody =
+                '{' +
+                '"username": "rk27@gm.com",' +
+                '"timezone": "America/New_York",' +
+                '"subjectId": "0034058",' +
+                '"studyGuid": "study_4b57a711-1668-4f82-85d4-3064de20284a",' +
+                '"orgGuid":"org_35b5645b-22ca-4cbc-8d29-986e7ea9a5d2",' +
+                '"studyVersionGuid": "version_898a520c-4e2e-4efb-881a-4fa2be9e25f1",' +
+                '"subjectLocale": "en",' +
+                '"eproRuleSetGuid": "rule_set_c578bd4e-8afd-4ad5-b950-292eb82e9697",' +
+                '"clinroRuleSetGuid": "rule_set_d28abfc7-9bf8-4977-9036-4727911fb10b",' +
+                '"loginType": "SSO",' +
+                '"loginSsoId" : "rk27@gm.com",' +
+                '"loginSsoIssuerGuid" : "issuer_0e932ae8-0871-4bf2-b86c-6e060a770d42"' +
+                '}';
+
+            response.setBody(jsonBody);
+            response.setStatusCode(200);
+            return response;
+        } else if (request.getEndpoint().endsWith('callout:ECOAIntegration/sites')) {
+            String jsonBody =
+                '[' +
+                '{' +
+                '"name": "Site0025",' +
+                '"studyGuid": "study_4b57a711-1668-4f82-85d4-3064de20284a",' +
+                '"orgGuid": "org_35b5645b-22ca-4cbc-8d29-986e7ea9a5d2",' +
+                '"description": "site03",' +
+                '"address": {' +
+                '"test address": "123"},' +
+                '"normalizedAddress": "012345",' +
+                '"locales": [' +
+                '"en"],' +
+                '"countryCode": "US"},' +
+                '{"name": "Site026",' +
+                '"studyGuid": "study_4b57a711-1668-4f82-85d4-3064de20284a",' +
+                '"orgGuid": "org_35b5645b-22ca-4cbc-8d29-986e7ea9a5d2",' +
+                '"description": "site03",' +
+                '"address": {' +
+                '"test address": "123"},' +
+                '"normalizedAddress": "012345",' +
+                '"locales": [' +
+                '"en"],' +
+                '"countryCode": "US"' +
+                '}' +
+                ']';
+            response.setBody(jsonBody);
+            response.setStatusCode(200);
+            return response;
+        } else {
+            response.setStatusCode(400);
+            return response;
+        }
+    }
+}
