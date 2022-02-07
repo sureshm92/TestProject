@@ -57,7 +57,7 @@ public without sharing class CreateBiomarkerRecords {
             if(permap.containsKey(parsedDataMap.get(rec.Id).referral_id)) {
                 headerRec.Participant_Enrollment__c = permap.get(parsedDataMap.get(rec.Id).referral_id).Id;
             }
-            headerRec.Status__c = rec.Status__c;
+            headerRec.BiomarkerVendorReachoutStatus__c = rec.BiomarkerVendorReachoutStatus__c;
             headerRec.Vendor_Source__c = rec.Vendor_Source__c;
             headerRec.Referral_Auto_Dialer_Consent__c = parsedDataMap.get(rec.Id).referral_auto_dialer_consent;
             headersToBeInserted.add(headerRec);

@@ -18575,6 +18575,20 @@ communications using the toggles below.</value>
         <value>and</value>
     </labels>
     <labels>
+        <fullName>RH_BiomarkerSection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerSection</shortDescription>
+        <value>BioMarkers</value>
+    </labels>
+    <labels>
+        <fullName>RH_BiomarkerAssesmentDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerAssesmentDate</shortDescription>
+        <value>Assessment Date</value>
+    </labels>
+    <labels>
         <fullName>RH_ApplyFilters</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19844,6 +19858,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Overview for</shortDescription>
         <value>Overview for</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Adult_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Adult_Yes</shortDescription>
+        <value>For Adult legal status should be Yes</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Minor_No</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Minor_Yes</shortDescription>
+        <value>For minor legal status should be No</value>
     </labels>
     <labels>
         <fullName>RH_RP_Page</fullName>
