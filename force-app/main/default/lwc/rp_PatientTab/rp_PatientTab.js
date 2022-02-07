@@ -60,6 +60,8 @@ import RH_RP_Delegate_Information_is_mandatory from '@salesforce/label/c.RH_RP_D
 import RH_RP_Legal_status_warning_message from '@salesforce/label/c.RH_RP_Legal_status_warning_message';
 import RH_RP_success_message from '@salesforce/label/c.RH_RP_success_message';
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
+import RH_RP_Legal_status_Warning_Minor_No from '@salesforce/label/c.RH_RP_Legal_status_Warning_Minor_No';
+import RH_RP_Legal_status_Warning_Adult_Yes from '@salesforce/label/c.RH_RP_Legal_status_Warning_Adult_Yes';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
@@ -148,7 +150,10 @@ export default class Rp_PatientTab extends LightningElement {
         RH_RP_Delegate_Information_is_mandatory,
         RH_RP_Legal_status_warning_message,
         RH_RP_success_message,
-        RH_RP_Record_Saved_Successfully
+        RH_RP_Record_Saved_Successfully,
+        RH_RP_Legal_status_Warning_Adult_Yes,
+        RH_RP_Legal_status_Warning_Minor_No
+
     };
 
     requiredFieldForAdult = ['PatientID', 'EmailID', 'FirstName', 'BirthYear', 'LastName', 'Country', 'PatientAuthStatus', 'LegalStatus'];
@@ -352,15 +357,16 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Patient_Auth__c = event.target.value;
         }
         else if (event.target.dataset.value === 'LegalStatus') {
-            this.checkPatientAge();
-            if (this.patientrecord[0].isRequired) {
-                event.target.value = 'Yes'
-                record.peRecord.Legal_Status__c = event.target.value
-            }
-            else {
-                event.target.value = 'No'
-                record.peRecord.Legal_Status__c = event.target.value;
-            }
+            // if (this.patientrecord[0].isRequired) {
+            //     event.target.value = 'Yes'
+            //     record.peRecord.Legal_Status__c = event.target.value;
+            // }
+            // else {
+            //     event.target.value = 'No'
+            //     record.peRecord.Legal_Status__c = event.target.value;
+            // }
+            record.peRecord.Legal_Status__c = event.target.value;
+            //this.checkPatientAge();
         }
         else if (event.target.dataset.value === 'IsEmail') {
             record.peRecord.Is_Email__c = event.target.checked;
@@ -382,6 +388,7 @@ export default class Rp_PatientTab extends LightningElement {
             && this.patientrecord[0].peRecord.Participant_Name__c != ''
             && this.patientrecord[0].peRecord.Patient_ID__c != ''
             && this.patientrecord[0].peRecord.Patient_ID__c != null
+            && this.patientrecord[0].peRecord.Legal_Status__c != null 
         ) {
             this.disabledsavebutton = false;
         }
@@ -444,7 +451,7 @@ export default class Rp_PatientTab extends LightningElement {
                     this.patientrecord[0].isRequired = false;
                     this.patientrecord[0].isMinor = true;
                     this.isMinor = true;
-                    this.patientrecord[0].peRecord.Legal_Status__c = 'No';
+                    this.patientrecord[0].peRecord.Legal_Status__c = 'No'; 
                     this.patientrecord[0].peRecord.Email__c = '';
                     this.patientrecord[0].peRecord.Phone__c = '';
                     this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';
@@ -452,13 +459,13 @@ export default class Rp_PatientTab extends LightningElement {
                     this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';
                     this.removeCustomFieldValidation('EmailID');
                     this.removeCustomFieldValidation('PhoneNumber');
-                    this.removeCustomFieldValidation('PhoneType');
+                    //this.removeCustomFieldValidation('PhoneType');
                 }
                 else {
-                    this.patientrecord[0].isRequired = true;
+                    this.patientrecord[0].isRequired = true;  
                     this.patientrecord[0].isMinor = false;
                     this.isMinor = false;
-                    this.patientrecord[0].peRecord.Legal_Status__c = 'Yes';
+                    this.patientrecord[0].peRecord.Legal_Status__c = 'Yes'; 
                 }
             })
             .catch((error) => {
@@ -508,6 +515,11 @@ export default class Rp_PatientTab extends LightningElement {
                     .then((result) => {
                         if (result == 'DuplicatePatientId') {
                             this.showErrorToast(this.label.RH_RP_Duplicate_Record_Found + ' ' + JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
+                        }else if(result == 'Minor' && legalStatus == 'Yes'){
+                            this.showErrorToast(this.label.RH_RP_Legal_status_Warning_Minor_No);
+                        }
+                        else if(result != 'Minor' && result != 'Validation Passed' && legalStatus == 'No'){
+                            this.showErrorToast(this.label.RH_RP_Legal_status_Warning_Adult_Yes);
                         }
                         else if (result == 'Minor') {
                             this.showErrorToast(this.label.RH_RP_Delegate_Information_is_mandatory);

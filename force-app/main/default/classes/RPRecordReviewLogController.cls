@@ -301,6 +301,10 @@ public without sharing class RPRecordReviewLogController {
                 else if(legalStatus == 'Yes') {
                     return 'LegalStatus';
                 }
+            } else if(isAdult == 'true') {
+                 if(legalStatus == 'No') {
+                    return 'LegalStatus';
+                }
             }
             return 'Validation Passed';
 
