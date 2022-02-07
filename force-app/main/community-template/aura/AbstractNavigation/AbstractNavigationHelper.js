@@ -133,7 +133,7 @@
             'e-diaries': {
                 page: 'e-diaries',
                 label: $A.get('$Label.c.Navigation_eDiary'),
-                icon: 'icon-envelope'
+                icon: 'icon-e-diaries'
             },
 
             'trial-match': {
