@@ -54,12 +54,10 @@
         var formInputs2 = component.find("dataDiv1").find({instancesOf : "lightning:input"});
 
         for(var i = 0; i < formInputs.length; i++){
-            if(!formInputs[i].get("v.disabled"))
-                formInputs[i].showHelpMessageIfInvalid();
+            formInputs[i].showHelpMessageIfInvalid();
         }
         for(var i = 0; i < formInputs2.length; i++){
-            if(!formInputs2[i].get("v.disabled"))
-                formInputs2[i].showHelpMessageIfInvalid();
+           formInputs2[i].showHelpMessageIfInvalid();
         }
         var delegateParticipant = component.get('v.participantDelegate');
         var selectYr = component.find("yearField");
@@ -71,10 +69,12 @@
             document.getElementById("cnLabel").classList.add("chErr");
             document.getElementById("cnLabelErr").classList.remove("slds-hide");
         }
+        let editForm = component.find('editForm');
+        editForm.resetDateInput();
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
             mode: 'sticky',
-            message: $A.get("$Label.c.addParticipantFillMandatory"),
+            message: $A.get("$Label.c.PIR_addParticipantFillMandatory"),
             type : 'error'
         });
         toastEvent.fire();
