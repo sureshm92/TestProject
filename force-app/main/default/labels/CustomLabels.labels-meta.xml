@@ -18575,6 +18575,20 @@ communications using the toggles below.</value>
         <value>and</value>
     </labels>
     <labels>
+        <fullName>RH_BiomarkerSection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerSection</shortDescription>
+        <value>BioMarkers</value>
+    </labels>
+    <labels>
+        <fullName>RH_BiomarkerAssesmentDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerAssesmentDate</shortDescription>
+        <value>Assessment Date</value>
+    </labels>
+    <labels>
         <fullName>RH_ApplyFilters</fullName>
         <language>en_US</language>
         <protected>false</protected>
