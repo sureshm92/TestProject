@@ -429,6 +429,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BioMarkerRecordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CaseCreator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
