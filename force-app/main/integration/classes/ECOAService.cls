@@ -351,6 +351,12 @@ public with sharing class ECOAService {
         );
         return subResponseWrap;
     }
+    public static String getSubjectGuid() {
+        if (ParticipantContext.getCurrentPEId() != null) {
+            return ParticipantContext.getCurrentPE().Subject_GUID__c;
+        }
+        return '';
+    }
     public static String getJWTToken() {
         String jwtToken;
         String subjectGUID;
