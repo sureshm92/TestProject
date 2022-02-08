@@ -186,7 +186,7 @@ public without sharing class ContactTriggerHandler {
             for (Participant__c participant : participants)
                 participantsByContactMap.put(participant.Contact__c, participant);
             //prepare users map:
-            List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN :newList];
+            List<User> users = [SELECT Id,Email,LanguageLocaleKey,ContactId FROM User WHERE ContactId IN :newList];
             Map<Id, User> usersByContactMap = new Map<Id, User>();
             for (User user : users)
                 usersByContactMap.put(user.ContactId, user);
@@ -203,10 +203,19 @@ public without sharing class ContactTriggerHandler {
                         participantsForUpdate.add(participant);
                     }
                     User user = usersByContactMap.get(cnt.Id);
-                    if (user != null) {
-                        user.Email = cnt.Email;
-                        user.LanguageLocaleKey = cnt.Language__c;
-                        usersForUpdate.add(user);
+                    Boolean isUpdateNeeded = false;
+                    if (user != null) {                       
+                        if(user.Email != cnt.Email){
+                            user.Email = cnt.Email;
+                            isUpdateNeeded = true;
+                        }
+                        if(user.LanguageLocaleKey != cnt.Language__c){
+                            user.LanguageLocaleKey = cnt.Language__c;
+                            isUpdateNeeded = true;
+                        }
+                        if(isUpdateNeeded){
+                            usersForUpdate.add(user);
+                        }
                     }
                 }
             }
