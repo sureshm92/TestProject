@@ -43,19 +43,12 @@
         <connector>
             <targetReference>CreateBiomarkerRecords</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
-            <field>Integration_Status__c</field>
+            <field>Completed__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Success</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Integration_Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Failed</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Integration_Biomarker__c</object>
