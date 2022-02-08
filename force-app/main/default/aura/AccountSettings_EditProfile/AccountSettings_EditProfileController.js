@@ -139,7 +139,7 @@
             'changeEmail',
             {
                 newEmail: newEmail,
-				userMode: component.get('v.userMode')
+                userMode: component.get('v.userMode')
             },
             function (returnValue) {
                 component.set('v.currentEmail', newEmail);
@@ -199,7 +199,7 @@
                 hcpOptInPatientEmail: initData.myContact.HCP_Opt_In_Patient_Status_Emails__c,
                 hcpOptInStudyEmail: initData.myContact.HCP_Opt_In_Study_Emails__c,
                 hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c,
-				userMode: component.get('v.userMode')
+                userMode: component.get('v.userMode')
             },
             function () {}
         );
@@ -212,7 +212,7 @@
             'changeOptInSMS',
             {
                 participantOptInStatusSMS: optInSMS,
-				userMode: component.get('v.userMode')
+                userMode: component.get('v.userMode')
             },
             function () {
                 let smsOptIn = optInSMS;
@@ -505,7 +505,7 @@
                 'changeEmail',
                 {
                     newEmail: newEmail,
-					userMode: component.get('v.userMode')
+                    userMode: component.get('v.userMode')
                 },
                 function (returnValue) {
                     component.set('v.currentEmail', newEmail);

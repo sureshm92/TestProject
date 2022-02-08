@@ -263,7 +263,8 @@ public without sharing class DashboardParticipantCount {
     public static List<Participant_Enrollment__c> fetchPerRecords(String whereClause,List<Id> participantIds) { 
         
         String query = 'SELECT Id,Invited_To_PP_Date__c,Participant__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,'
-            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c'
+            +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c,'
+            +'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c'
             +' FROM Participant_Enrollment__c'
             +' WHERE Study_Site__c != NULL'
             +' '+whereClause
@@ -320,19 +321,26 @@ public without sharing class DashboardParticipantCount {
             if(participantIds.size() > 0) {                
                 participantList = DashboardParticipantCount.fetchParticipantRecords(participantIds,'');
 
+                Set<String> patientDelUniqueSet = new Set<String>();
                 for(Participant__c participant:participantList) {
                     List<Patient_Delegate__c> delegateList = new List<Patient_Delegate__c>();
                     delegateList = participant.Participants__r;
                     for(Patient_Delegate__c pd:delegateList) {
                         ParticipantDetails parDetail = new ParticipantDetails();
                         if(!pd.isInviteToPP__c && participant.Id != null && pd.Participant_delegate__r.Email__c != null) {
-                            parDetail.participantId = participant.Id;
-                            parDetail.participantName = participant.First_Name__c+' '+participant.Last_Name__c;
-                            parDetail.delegateId = pd.Participant_delegate__c;
-                            parDetail.delegateParticipantName = pd.Participant_delegate__r.First_Name__c+' '+pd.Participant_delegate__r.Last_Name__c;
-                            parDetail.isChecked = false;
-                            parDetail.datasetId = (String)participant.Id+(String)pd.Participant_delegate__c;
-                            resList.add(parDetail);
+                            // Unique Key for Patient Delegate record for a participant.
+                            String uniquePDKey = participant.Id + pd.Participant_delegate__r.First_Name__c + pd.Participant_delegate__r.Last_Name__c + pd.Participant_delegate__r.Email__c; 
+                            //populate Unique PD record for a Participant. 
+                            if(!patientDelUniqueSet.contains(uniquePDKey)){
+                                parDetail.participantId = participant.Id;
+                                parDetail.participantName = participant.First_Name__c+' '+participant.Last_Name__c;
+                                parDetail.delegateId = pd.Participant_delegate__c;
+                                parDetail.delegateParticipantName = pd.Participant_delegate__r.First_Name__c+' '+pd.Participant_delegate__r.Last_Name__c;
+                                parDetail.isChecked = false;
+                                parDetail.datasetId = (String)participant.Id+(String)pd.Participant_delegate__c;
+                                resList.add(parDetail);
+                                patientDelUniqueSet.add(uniquePDKey);
+                            }
                         }
                     }
                 }
@@ -346,13 +354,16 @@ public without sharing class DashboardParticipantCount {
     }
 
     @AuraEnabled
-    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson) {
+    public static Map<String,String> sendInviteToNotInvitedParticipants(String participantJson, Id ctpId) {
 
         List<ParticipantDetails> participantDetails = (List<ParticipantDetails>)JSON.deserialize(participantJson,List<ParticipantDetails>.class);
         Map<String,String> resMap = new Map<String,String>();
         try {
             List<Id> participantIds = new List<Id>();
             List<Id> delegateParticipntIds = new List<Id>();
+            Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
+            ctpDetails = fetchStudyDetails(ctpId);
+
             for(ParticipantDetails parDetail:participantDetails) {
                 if(parDetail.delegateId != null) {
                         delegateParticipntIds.add(parDetail.delegateId);
@@ -361,12 +372,12 @@ public without sharing class DashboardParticipantCount {
                 }
             }
             if(!participantIds.isEmpty()) {
-                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds);
+                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId);
                 Database.executeBatch(participantBatch);
             }
 
             if(!delegateParticipntIds.isEmpty()) {
-                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds);
+                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds,ctpDetails);
                 Database.executeBatch(delegateBatch);
             }
             resMap.put('message','Success');
@@ -374,19 +385,11 @@ public without sharing class DashboardParticipantCount {
         } catch(Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+       
+    }
 
-        /*for(ParticipantDetails parDetail:ParticipantDetails) {
-           
-            participantIds.add(parDetail.participantId);
-           
-        }
-        String perWhereClause = ' AND Participant__c IN :participantIds';
-        List<String> perIds = new List<String>();
-        List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause,participantIds);
-        for(Participant_Enrollment__c per:perList) {
-            perIds.add(per.Id);
-        }
-        ListViewParticipantController.createUserForPatientProtal(perIds,true);*/
+    public static Clinical_Trial_Profile__c fetchStudyDetails(Id ctpId) {
+        return([SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
     }
 
     @AuraEnabled
@@ -397,7 +400,7 @@ public without sharing class DashboardParticipantCount {
             List<Participant__c> participantList = new List<Participant__c>();
             Map<Id,Id> participantContactMap = new Map<Id,Id>();
             Map<Id,Participant__c> participantMap = new Map<Id,Participant__c>();
-            Map<Id,Patient_Delegate__c> participantDelMap = new Map<Id,Patient_Delegate__c>();
+            Map<Id,Patient_Delegate__c> participantDelMap = new Map<Id,Patient_Delegate__c>();           
 
             String perWhereClause = ' AND study_Site__r.Study_Site_Type__c != \'Virtual\' AND study_Site__r.Study_Site_Type__c != \'Hybrid\' AND study_Site__r.Suppress_Participant_Emails__c=false';  
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
@@ -427,7 +430,8 @@ public without sharing class DashboardParticipantCount {
                         ParticipantDetails parDetail = new ParticipantDetails();
                         if(pd.isInviteToPP__c && participant.Id != null && pd.Participant_delegate__r.Email__c != null) {
                             participantContactMap.put(pd.Participant_delegate__c,pd.Contact__c);
-                            participantDelMap.put(pd.Participant__c,pd);
+                            //participantDelMap.put(pd.Participant__c,pd);
+                            participantDelMap.put(pd.Participant_delegate__c,pd);
                         }
                     }
                 }
@@ -465,7 +469,6 @@ public without sharing class DashboardParticipantCount {
                 }
 
             }
-
             return resList;
 
         } catch(Exception e) {

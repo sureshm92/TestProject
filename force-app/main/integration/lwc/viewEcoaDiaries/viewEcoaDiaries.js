@@ -1,23 +1,46 @@
 import { LightningElement, track, api } from 'lwc';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
-import loadDiary from '@salesforce/apex/ecoaDiariesController.getToken';
+import loadDiary from '@salesforce/apex/ECOADiariesController.getToken';
+import getSubjectGuid from '@salesforce/apex/ECOADiariesController.getSubjectGuid';
+import ediaries from '@salesforce/label/c.Navigation_eDiary';
+import homeLablel from '@salesforce/label/c.Navigation_Home';
+import patientNotRegistered from '@salesforce/label/c.Patient_not_in_ecoa';
 
 export default class ViewEcoaDiaries extends LightningElement {
     @track ecoaUrl;
+    @track subjectAvailable = true;
+    labels = {
+        ediaries,
+        homeLablel,
+        patientNotRegistered
+    };
     //@track isLoading;
     connectedCallback() {
         //this.isLoading = true;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
-                let ppGetter = loadDiary()
+                console.log('obj::' + communityService.getCurrentCommunityMode().currentPE);
+                let subjectGuid = getSubjectGuid()
                     .then((result) => {
-                        //this.isLoading = false;
-                        this.ecoaUrl = result;
+                        console.log('Subject GUID::' + result);
+                        if (result) {
+                            let ppGetter = loadDiary()
+                                .then((result) => {
+                                    this.subjectAvailable = true;
+                                    this.ecoaUrl = result;
+                                })
+                                .catch(function (error) {
+                                    console.error('Error: ' + JSON.stringify(error));
+                                    //this.isLoading = false;
+                                });
+                        } else {
+                            console.log('else' + result);
+                            this.subjectAvailable = false;
+                        }
                     })
                     .catch(function (error) {
                         console.error('Error: ' + JSON.stringify(error));
-                        //this.isLoading = false;
                     });
             })
             .catch((error) => {

@@ -1,15 +1,45 @@
 public without sharing class HCPInviteControllerNew {
     
     
+    public class leadBatchWrapper{
+        @AuraEnabled
+        public string LeadDataMessage;
+        @AuraEnabled
+        public string BatchId; 
+        
+    }
+    
+     public class batchWrapper{
+        @AuraEnabled 
+        public string batchcurrentStatus;
+        @AuraEnabled
+        public Integer batchCount;
+    }
+    
+    public class networkUrl_DuplicateDate
+    {
+        @AuraEnabled
+        public String isDuplicateLead;
+        @AuraEnabled
+        Public String networkUrl;
+    }
+    
+    
     @AuraEnabled
-    public static String checkDuplicateLead	(String strLeadId){
+    public static networkUrl_DuplicateDate checkDuplicateLead	(String strLeadId){
         List<Lead> lstLead = [SELECT ID,isconverted from Lead where Id=:strLeadId];
+        Network myNetwork = [SELECT Id FROM Network WHERE Name ='IQVIA Referral Hub' ];
+        
+        networkUrl_DuplicateDate objWrapper = new networkUrl_DuplicateDate();
+        objWrapper.networkUrl = Network.getLoginUrl(myNetwork.id);
         if(!lstLead.isEmpty() && lstLead[0].isConverted){
-            Network myNetwork = [SELECT Id FROM Network WHERE Name ='IQVIA Referral Hub' ];
-            return Network.getLoginUrl(myNetwork.id);
+            objWrapper.isDuplicateLead = 'true';
+             return objWrapper; 
         }    
-        else
-            return 'false';
+        else{
+            objWrapper.isDuplicateLead = 'false';
+            return objWrapper;
+        }
     }  
     
     @AuraEnabled
@@ -36,24 +66,28 @@ public without sharing class HCPInviteControllerNew {
     }
     
     @AuraEnabled
-    public static String validateAndConvertLead(String strFirstName,String strLastName,
+    public static leadBatchWrapper validateAndConvertLead(String strFirstName,String strLastName,
                                                 String strPostalCode,String strLeadId)
     {
         List<Lead> lstLead = new List<Lead> ();
         Id id = null;
         String strUserName='';
         List<User> userList = new List<User> ();
+        leadBatchWrapper objLeadWrapper = new leadBatchWrapper();
         
-        lstLead = [SELECT Accepts_Reimbursement_for_Referral__c,Address,AnnualRevenue,City,Company,Contact_Method_Preference__c,ConvertedAccountId,ConvertedContactId,ConvertedDate,ConvertedOpportunityId,Converted_to_HCP__c,Country,CountryCode,CreatedById,CreatedDate,Days_since_last_activity__c,Degrees_of_Separation__c,Degree__c,Description,Distance_Type__c,Distance__c,DoNotCall,Email,EmailBouncedDate,EmailBouncedReason,Facility_Classification__c,Facility_Type_Description__c,Facility_Type__c,Fax,FirstName,GeocodeAccuracy,HasOptedOutOfEmail,HasOptedOutOfFax,HCP_Referral_Source__c,Id,IndividualId,Industry,Invited_by_PI__c,IsConverted,IsDeleted,IsUnreadByOwner,Jigsaw,JigsawContactId,Language__c,LastActivityDate,LastModifiedById,LastModifiedDate,LastName,LastReferencedDate,LastTransferDate,LastViewedDate,Latitude,LeadSource,Longitude,MasterRecordId,MiddleName,MobilePhone,Name,NumberOfEmployees,OneKey_Code__c,OneKey_ID__c,Org_ID__c,Other_Address__c,Override_Email__c,Override_Phone__c,OwnerId,PartnerAccountId,Patient_Count__c,Phone,PhotoUrl,PI_Last_Name__c,POC_Email__c,POC_First_Name__c,POC_Last_Name__c,POC_Phone__c,POC_Type_Description__c,POC_Type__c,PostalCode,Preferred_Reimbursement_Currency__c,Previous_Trial_Experience__c,Pre_Screened_and_Did_Not_Qualify_Count__c,Pre_Screened_Count__c,Project_Code__c,Protocol_Number__c,Provider_ID__c,Rating,RecordTypeId,Salutation,Specialty__c,State,StateCode,Status,Street,Study_Code_Name__c,Study_Name__c,Study_Site_Number__c,Study_Site__c,Suffix,SystemModstamp,Tax_ID__c,Title,Trials_in_Last_12_Months__c,Trials_in_Last_36_Months__c,Unqualified_Description__c,Unqualified_Reason__c,Virtual_PI_Contact__c,Website 
-                   FROM Lead 
-                   Where FirstName=: strFirstName
-                   AND  LastName =:strLastName 
-                   AND PostalCode =: strPostalCode 
-                   AND id =:strLeadId 
-                   AND IsConverted = false 
-                   AND Status = 'New' LIMIT 1]; 
-        if(lstLead.isEmpty()){  
-            return 'DataNotFound';
+        lstLead =  [SELECT Address,City,Company,Contact_Method_Preference__c,ConvertedAccountId,ConvertedContactId,ConvertedDate,ConvertedOpportunityId,Converted_to_HCP__c,Country,CountryCode,CreatedDate,Description,DoNotCall,Email,Facility_Classification__c,Fax,FirstName,GeocodeAccuracy,HasOptedOutOfEmail,HCP_Referral_Source__c,Id,IndividualId,Industry,Invited_by_PI__c,IsConverted,IsDeleted,IsUnreadByOwner,Jigsaw,JigsawContactId,Language__c,LastActivityDate,LastModifiedById,LastName,LastViewedDate,LeadSource,Longitude,MiddleName,MobilePhone,Name,OneKey_Code__c,Other_Address__c,Override_Phone__c,OwnerId,Patient_Count__c,Phone,PhotoUrl,POC_Email__c,POC_First_Name__c,POC_Last_Name__c,POC_Phone__c,POC_Type_Description__c,POC_Type__c,PostalCode,Previous_Trial_Experience__c,Pre_Screened_and_Did_Not_Qualify_Count__c,Pre_Screened_Count__c,Protocol_Number__c,Provider_ID__c,Rating,Salutation,State,StateCode,Status,Street,Study_Code_Name__c,Study_Name__c,Study_Site_Number__c,Study_Site__c,Suffix,Tax_ID__c,Title,Trials_in_Last_12_Months__c,Degrees_Of_Separation__c
+                                    FROM Lead
+
+                                    Where FirstName=: strFirstName
+                                    AND  LastName =:strLastName 
+                                    AND PostalCode =: strPostalCode 
+                                    AND id =:strLeadId 
+                                    AND IsConverted = false 
+                                    AND Status = 'New' LIMIT 1]; 
+        if(lstLead.isEmpty()){ 
+            objLeadWrapper.LeadDataMessage = 'DataNotFound';
+            objLeadWrapper.BatchId  = '';
+            return objLeadWrapper;
         }
         else{
             Id ExistingContactId = Null;
@@ -80,7 +114,7 @@ public without sharing class HCPInviteControllerNew {
             Database.LeadConvertResult lcr = Database.convertLead(lc);
             System.debug('########## ' +lcr);
             if(lcr.isSuccess()){
-                List<Lead> convertedLead = [SELECT Accepts_Reimbursement_for_Referral__c,Address,AnnualRevenue,City,Company,Contact_Method_Preference__c,ConvertedAccountId,ConvertedContactId,ConvertedDate,ConvertedOpportunityId,Converted_to_HCP__c,Country,CountryCode,CreatedById,CreatedDate,Days_since_last_activity__c,Degrees_of_Separation__c,Degree__c,Description,Distance_Type__c,Distance__c,DoNotCall,Email,EmailBouncedDate,EmailBouncedReason,Facility_Classification__c,Facility_Type_Description__c,Facility_Type__c,Fax,FirstName,GeocodeAccuracy,HasOptedOutOfEmail,HasOptedOutOfFax,HCP_Referral_Source__c,Id,IndividualId,Industry,Invited_by_PI__c,IsConverted,IsDeleted,IsUnreadByOwner,Jigsaw,JigsawContactId,Language__c,LastActivityDate,LastModifiedById,LastModifiedDate,LastName,LastReferencedDate,LastTransferDate,LastViewedDate,Latitude,LeadSource,Longitude,MasterRecordId,MiddleName,MobilePhone,Name,NumberOfEmployees,OneKey_Code__c,OneKey_ID__c,Org_ID__c,Other_Address__c,Override_Email__c,Override_Phone__c,OwnerId,PartnerAccountId,Patient_Count__c,Phone,PhotoUrl,PI_Last_Name__c,POC_Email__c,POC_First_Name__c,POC_Last_Name__c,POC_Phone__c,POC_Type_Description__c,POC_Type__c,PostalCode,Preferred_Reimbursement_Currency__c,Previous_Trial_Experience__c,Pre_Screened_and_Did_Not_Qualify_Count__c,Pre_Screened_Count__c,Project_Code__c,Protocol_Number__c,Provider_ID__c,Rating,RecordTypeId,Salutation,Specialty__c,State,StateCode,Status,Street,Study_Code_Name__c,Study_Name__c,Study_Site_Number__c,Study_Site__c,Suffix,SystemModstamp,Tax_ID__c,Title,Trials_in_Last_12_Months__c,Trials_in_Last_36_Months__c,Unqualified_Description__c,Unqualified_Reason__c,Virtual_PI_Contact__c,Website 
+                List<Lead> convertedLead =  [SELECT Address,City,Company,Contact_Method_Preference__c,ConvertedAccountId,ConvertedContactId,ConvertedDate,ConvertedOpportunityId,Converted_to_HCP__c,Country,CountryCode,CreatedDate,Description,DoNotCall,Email,Facility_Classification__c,Fax,FirstName,GeocodeAccuracy,HasOptedOutOfEmail,HCP_Referral_Source__c,Id,IndividualId,Industry,Invited_by_PI__c,IsConverted,IsDeleted,IsUnreadByOwner,Jigsaw,JigsawContactId,Language__c,LastActivityDate,LastModifiedById,LastName,LastViewedDate,LeadSource,Longitude,MiddleName,MobilePhone,Name,OneKey_Code__c,Other_Address__c,Override_Phone__c,OwnerId,Patient_Count__c,Phone,PhotoUrl,POC_Email__c,POC_First_Name__c,POC_Last_Name__c,POC_Phone__c,POC_Type_Description__c,POC_Type__c,PostalCode,Previous_Trial_Experience__c,Pre_Screened_and_Did_Not_Qualify_Count__c,Pre_Screened_Count__c,Protocol_Number__c,Provider_ID__c,Rating,Salutation,State,StateCode,Status,Street,Study_Code_Name__c,Study_Name__c,Study_Site_Number__c,Study_Site__c,Suffix,Tax_ID__c,Title,Trials_in_Last_12_Months__c,Degrees_Of_Separation__c
                                             FROM Lead 
                                             Where Id = : lstLead[0].id];
                 
@@ -103,14 +137,39 @@ public without sharing class HCPInviteControllerNew {
                     
                     System.debug('####### conId: ' + conId);
                     
-                    userList = [SELECT Id,username FROM User WHERE ContactId =: conID Limit 1];
+                    userList = [SELECT Id,username,ContactId FROM User WHERE ContactId =: conID Limit 1];
                     system.debug('>>userList>>'+userList);
                     System.debug('####### id: ' + id); 
                 }
             }
-            return  lstExistingUser.isEmpty() ? JSON.serialize(userList[0]) : 'UserAlreadyThere';
+            Id CurrentBatchId ; 
+            if(lstExistingUser.isEmpty()){
+                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                actionAssignContactPermissions.addPermission(
+                        userList[0].ContactId,
+                        CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                    );
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                CurrentBatchId = database.executeBatch(new Batch_ProcessActionSetupObjects(),10);
+            }
+            objLeadWrapper.LeadDataMessage = lstExistingUser.isEmpty() ? JSON.serialize(userList[0]) : 'UserAlreadyThere';
+            objLeadWrapper.BatchId = CurrentBatchId;
+            return  objLeadWrapper;
             // return   JSON.serialize(userList[0]) ;
         }  
+    }
+    
+   
+    /*this method will check the status of batch*/ 
+    @AuraEnabled 
+    public static batchWrapper getBatchStatus(String strBatchId, Integer batchCount){
+        batchWrapper objWrapper = new batchWrapper();
+        
+        AsyncApexJob strPermissionSet = [SELECT Status,id FROM AsyncApexJob WHERE ID =:strBatchId];
+         objWrapper.batchcurrentStatus = strPermissionSet.status;
+        objWrapper.batchCount = batchCount + 1;
+        return objWrapper;
+        
     }
     
     
