@@ -2,7 +2,8 @@ public without sharing class rpPatientOutreachController {
     @AuraEnabled(cacheable=false)                          
     public static list<Clinical_Trial_Profile__c> fetchOutreachInfo(list<string> peIds) {
         set<Clinical_Trial_Profile__c> studies = new set<Clinical_Trial_Profile__c>();
-        for(Participant_Enrollment__c pe : [select  Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c, Clinical_Trial_Profile__r.Patient_Outreach_Info__c FROM Participant_Enrollment__c where id in : peids]){
+        for(Participant_Enrollment__c pe : [select  Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c, Clinical_Trial_Profile__r.Patient_Outreach_Info__c FROM Participant_Enrollment__c where id in : peids
+        and Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c = true]){
             studies.add(new Clinical_Trial_Profile__c(id=pe.Clinical_Trial_Profile__c,Study_Code_Name__c=pe.Clinical_Trial_Profile__r.Study_Code_Name__c, Patient_Outreach_Info__c=pe.Clinical_Trial_Profile__r.Patient_Outreach_Info__c ));
         }
         return  new list<Clinical_Trial_Profile__c>(studies);
@@ -29,7 +30,6 @@ public without sharing class rpPatientOutreachController {
                                                      PI_Contact__r.MailingCountry, PI_Contact__r.MailingPostalCode, PI_Contact__r.MailingAddress,PI_Contact__r.MailingStreet,
                                                      Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
-
                                                      FROM Participant_Enrollment__c 
                                                      WHERE Id IN : listOfPeIds]; 
 
@@ -37,7 +37,8 @@ public without sharing class rpPatientOutreachController {
         for(Participant_Enrollment__c peRec : peDetails){
             String peRecValidationMsgs = '';
             Boolean isError = false;
-            if(!peRec.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c){
+            if(!peRec.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c || String.isBlank(peRec.Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c)
+                || String.isBlank(peRec.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c)){
                 peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Outreach not Supported';
                 isError = true;
             }

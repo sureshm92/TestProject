@@ -10,10 +10,12 @@
             strLeadId: leadId
         }); 
         action.setCallback(this,function(response){ 
-            var getReturnValue = response.getReturnValue();
-            if(getReturnValue != 'false')
-            {
-                cmp.set('v.CommunityUrl',getReturnValue);
+            var getReturnValue = response.getReturnValue();  
+			var networkCommUrl = getReturnValue.networkUrl;
+			var isDuplicateLead =  getReturnValue.isDuplicateLead;  
+            cmp.set('v.CommunityUrl',networkCommUrl);
+            if(isDuplicateLead != 'false')
+            {   
                 cmp.set('v.isNotDuplicate',false);
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
@@ -24,11 +26,11 @@
                 });
                 cmp.find('spinner').hide();
                 window.setTimeout(function(){
-                    window.open(getReturnValue,'_self');
+                    window.open(networkCommUrl,'_self');
                 },5000)
                 toastEvent.fire();
             }
-            else{
+            else{ 
                 cmp.find('spinner').hide();
                 cmp.set('v.isNotDuplicate',true);
             }
@@ -56,58 +58,6 @@
     },
     
     checkLeadDetails : function (cmp, evt, helper) {
-        cmp.find('spinner').show();
-        cmp.set("v.isBtnDisabled", true);
-        cmp.set("v.isError", false);
-        
-        var action = cmp.get("c.validateAndConvertLead");
-        action.setParams({
-            strFirstName: cmp.get("v.FirstName"),
-            strLastName: cmp.get("v.LastName"),
-            strPostalCode: cmp.get("v.postalCode"),
-            strLeadId: cmp.get("v.leadId"),
-        });
-        action.setCallback(this, function (response) {
-            var getResponse = response.getState();
-            var getReturnValue = response.getReturnValue();
-            if (getResponse === "SUCCESS") {
-                console.log(">>>getReturnValue>>" + getReturnValue);
-                if (!getReturnValue.startsWith("DataNotFound")) {
-                    if(getReturnValue.startsWith("UserAlreadyThere")){
-                        var toastEvent = $A.get("e.force:showToast");
-                        toastEvent.setParams({
-                            "title": "Warning",
-                            "message": $A.get('$Label.c.RH_UserAlreadyRegister_Error') ,
-                            "type" : 'warning',
-                            "duration":' 4000',
-                        });
-                        
-                        window.setTimeout(function(){
-                            cmp.find('spinner').hide();
-                            window.open(cmp.get('v.CommunityUrl'),'_self');
-                            
-                        },5000)
-                        toastEvent.fire();
-                    }
-                    else{
-                        var parseReturnValue = JSON.parse(getReturnValue);
-                        var inviteEvt = cmp.getEvent("HCPInviteEvt"); 
-                        inviteEvt.setParams({
-                            "UserName" :  parseReturnValue.Username,
-                             "UserId" :   parseReturnValue.Id,
-                            "componentCalled" : "verifyInfo"
-                        });
-                        cmp.find('spinner').hide();
-                        inviteEvt.fire();
-                    } 
-                } 
-                else {
-                    cmp.set("v.isError", true);
-                    cmp.set("v.isBtnDisabled", false);
-                    cmp.find('spinner').hide();
-                }
-            }
-        });
-        $A.enqueueAction(action);
+		helper.checkLeadinfo(cmp,evt,helper);
     },
 });

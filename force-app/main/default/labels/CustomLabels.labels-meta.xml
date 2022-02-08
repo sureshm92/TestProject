@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Site_DB_Model_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB Model Title</shortDescription>
+        <value>Select Participants to Invite</value>
+    </labels>
+    <labels>
+        <fullName>Site_DB_Model_Login_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site_DB_Model_Login_Title</shortDescription>
+        <value>Participants Not Yet Logged In</value>
+    </labels>
+    <labels>
         <fullName>Send_Invite_Success_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7710,7 +7724,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Powered by IQVIA © 2020. All rights reserved.</value>
+        <value>Powered by IQVIA © 2022. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>Fulfilled</fullName>
@@ -18561,6 +18575,20 @@ communications using the toggles below.</value>
         <value>and</value>
     </labels>
     <labels>
+        <fullName>RH_BiomarkerSection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerSection</shortDescription>
+        <value>BioMarkers</value>
+    </labels>
+    <labels>
+        <fullName>RH_BiomarkerAssesmentDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerAssesmentDate</shortDescription>
+        <value>Assessment Date</value>
+    </labels>
+    <labels>
         <fullName>RH_ApplyFilters</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19830,6 +19858,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Overview for</shortDescription>
         <value>Overview for</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Adult_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Adult_Yes</shortDescription>
+        <value>For Adult legal status should be Yes</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Minor_No</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Minor_Yes</shortDescription>
+        <value>For minor legal status should be No</value>
     </labels>
     <labels>
         <fullName>RH_RP_Page</fullName>
@@ -23549,6 +23591,13 @@ communications using the toggles below.</value>
         <value>Cannot set yearly task for these dates.</value>
     </labels>
     <labels>
+        <fullName>Patient_not_in_ecoa</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient_not_in_ecoa</shortDescription>
+        <value>Patient is not registered in eCOA</value>
+    </labels>
+    <labels>
         <fullName>Yes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23712,4 +23761,5 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Save Note</shortDescription>
         <value>Save Note</value>
     </labels>
+    
 </CustomLabels>

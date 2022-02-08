@@ -365,6 +365,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BioMarkerRecordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -848,6 +852,10 @@
         <apexClass>HCPEnrollmentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>HCPInviteControllerNew</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <classAccesses>
         <apexClass>HCPTrialBuilder</apexClass>
         <enabled>true</enabled>
