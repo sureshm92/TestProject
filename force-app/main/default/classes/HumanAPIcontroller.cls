@@ -46,6 +46,7 @@ public with sharing class HumanAPIcontroller {
 	public String language;
 	public String country;
 	public String salutation;
+  Public String protocolId; 
 	 
     }
 
@@ -275,7 +276,7 @@ public with sharing class HumanAPIcontroller {
       
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
                                          ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
-                                         ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c 
+                                         ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c,Clinical_Trial_Profile__r.Protocol_ID__c
                                           ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation 
                                           from Participant_Enrollment__c Where ID=:peId];
       String email = objPER.Participant__r.Email__c;
@@ -331,6 +332,8 @@ public with sharing class HumanAPIcontroller {
       objWrapper.language = strPILanguage;
       objWrapper.country = COUNTRY_CODE_BY_NAME_MAP_Mdt.containskey(objPER.Participant__r.Country__c) ? COUNTRY_CODE_BY_NAME_MAP_Mdt.get(objPER.Participant__r.Country__c) : objPER.Participant__r.Country__c;
       objWrapper.pIname = userinfo.getName();
+      objWrapper.protocolId = objPER.Clinical_Trial_Profile__r.Protocol_ID__c;
+      
       
       
     if (humanId == null) {
