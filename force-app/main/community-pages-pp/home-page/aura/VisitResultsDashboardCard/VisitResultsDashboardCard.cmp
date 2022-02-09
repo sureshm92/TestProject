@@ -61,7 +61,7 @@
                     {!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}
                 </div>
                 <div
-                    class="{!if(v.isRTL, 'visit-results-containerRTL', 'visit-results-container')}"
+                class="{!if(v.isRTL , 'visit-results-containerRTL','visit-results-container ') + if(v.userLang=='ru','visit-results-container bio-russ-lang-suprt','')}">
                 >
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="{!if(v.isRTL, 'visit-results-itemRTL', 'visit-results-item')}">
