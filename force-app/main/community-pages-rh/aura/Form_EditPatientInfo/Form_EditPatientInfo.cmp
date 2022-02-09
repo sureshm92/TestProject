@@ -54,7 +54,7 @@
     <aura:attribute name="isBulkImport" type="Boolean"/>
     <aura:attribute name="isBulkImportOld" type="Boolean"/>
     <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean"/>
-    <aura:attribute name="resetDate" type="Boolean"/>
+    <aura:attribute name="resetDate" type="Boolean" default="true"/>
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="emailDelegate" type="String" />
     
