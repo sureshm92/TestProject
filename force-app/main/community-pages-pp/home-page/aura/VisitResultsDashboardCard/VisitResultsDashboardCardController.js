@@ -1,6 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         if (communityService.isInitialized()) {
+            component.set('v.userLang', communityService.getLanguage());
             communityService.executeAction(
                 component,
                 'getVisitResultWrappersForDashboard',
