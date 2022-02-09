@@ -333,6 +333,7 @@ public with sharing class HumanAPIcontroller {
       objWrapper.country = COUNTRY_CODE_BY_NAME_MAP_Mdt.containskey(objPER.Participant__r.Country__c) ? COUNTRY_CODE_BY_NAME_MAP_Mdt.get(objPER.Participant__r.Country__c) : objPER.Participant__r.Country__c;
       objWrapper.pIname = userinfo.getName();
       objWrapper.protocolId = objPER.Clinical_Trial_Profile__r.Protocol_ID__c;
+      objWrapper.salutation = objPER.PI_Contact__r.Salutation;
       
       
       
