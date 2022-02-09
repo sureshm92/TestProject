@@ -61,7 +61,7 @@
     display: flex;
     padding: 15px 2px;
     justify-content: space-between;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .THIS .visit-results-item {
@@ -193,4 +193,9 @@
     .THIS .visit-results-containerRTL {
         display: unset !important;
     }
+}
+.THIS .bio-russ-lang-suprt {
+    padding-left: 2.5rem;
+    overflow-x: auto;
+    
 }
