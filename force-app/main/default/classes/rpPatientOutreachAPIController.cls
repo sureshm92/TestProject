@@ -19,6 +19,7 @@ public without sharing class rpPatientOutreachAPIController {
         public String createdDate;
         public String indication;
         public RpDetailsWrapper rpDetails;
+        public String protocolId;
     }
     public class RpDetailsWrapper {
         public String rpName;
@@ -65,6 +66,7 @@ public without sharing class rpPatientOutreachAPIController {
         outreachWrapper.statusCode =  '';
         outreachWrapper.createdDate =  String.Valueof(per.createdDate);
         outreachWrapper.indication = per.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c;
+        outreachWrapper.protocolId = per.Clinical_Trial_Profile__r.Protocol_ID__c;
 
         RpDetailsWrapper rpRecord = new RpDetailsWrapper();
         rpRecord.rpName = per.PI_Contact__r.Name;
