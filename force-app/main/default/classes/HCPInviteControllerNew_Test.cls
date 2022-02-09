@@ -54,7 +54,7 @@ public class HCPInviteControllerNew_Test {
             EmailEncodingKey = 'UTF-8',
             LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US'
-        );
+    );
         insert U;
         
         List<Lead> lstLead = new List<Lead> ();
@@ -65,7 +65,6 @@ public class HCPInviteControllerNew_Test {
         testLead.Status = 'New';
         testLead.Company = 'HelloTest Lead Comp';
         testLead.Tax_ID__c = '111111';
-        testLead.Facility_Type__c = 'Medical Group';
         testLead.Facility_Classification__c = 'Hospital';
         testLead.HCP_Referral_Source__c = 'ACOE Data';
         //testLead.Lead_CTE__c = 'Some text';
@@ -104,8 +103,8 @@ public class HCPInviteControllerNew_Test {
         lc.setDoNotCreateOpportunity(true);
         lc.setConvertedStatus('Qualified and Send Invitation');
         Database.LeadConvertResult lcr = Database.convertLead(lc);
-        String strLead = HCPInviteControllerNew.checkDuplicateLead(testLead.ID);
-        System.assert(strLead != 'false');
+        HCPInviteControllerNew.networkUrl_DuplicateDate netwrkDetails = HCPInviteControllerNew.checkDuplicateLead(testLead.ID);
+        System.assert(netwrkDetails.isDuplicateLead != 'false');
         HCPInviteControllerNew.PortalDetails objHCPInvite = HCPInviteControllerNew.getPortalTermsDetail();
         System.assert(objHCPInvite.strCommunityDetails != Null);
         test.stopTest(); 

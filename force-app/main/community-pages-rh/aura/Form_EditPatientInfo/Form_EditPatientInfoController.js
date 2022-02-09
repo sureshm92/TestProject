@@ -41,6 +41,13 @@
        
     },
 
+    doRefreshDateInput: function (component, event, helper) {
+        if(!component.get('v.participant.Adult__c')){            
+            component.set('v.resetDate', false);
+            component.set('v.resetDate', true);
+        }
+    },
+    
     doClearValidity: function (component, event, hepler) {
         console.log('clearValidity start');
 
