@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Site_DB_Batch_Size</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB Batch Size</shortDescription>
+    <labels>
         <fullName>Site_DB_Model_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
