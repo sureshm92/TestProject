@@ -28,7 +28,7 @@ public without sharing class rpPatientOutreachController {
                                                      Primary_Delegate_Last_Name__c,CreatedDate,Mailing_Country_Code__c,
                                                      PI_Contact__r.Name,PI_Contact__r.Phone,PI_Contact__r.Language__c,PI_Contact__r.Email,PI_Contact__r.MailingCity,PI_Contact__r.MailingState,
                                                      PI_Contact__r.MailingCountry, PI_Contact__r.MailingPostalCode, PI_Contact__r.MailingAddress,PI_Contact__r.MailingStreet,
-                                                     Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
+                                                     Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,Clinical_Trial_Profile__r.Protocol_ID__c,
                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
                                                      FROM Participant_Enrollment__c 
                                                      WHERE Id IN : listOfPeIds]; 

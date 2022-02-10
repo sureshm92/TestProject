@@ -12,13 +12,13 @@
         <div class="headerdiv">
             <div class="slds-grid">
                 <div class="slds-col slds-size--6-of-12 slds-large-size_8-of-12">
-           			 <span>BioMarkers</span>
+           			 <span>{!$Label.c.RH_BiomarkerSection}</span>
          		</div>
                  
                 <div class="slds-col slds-size--6-of-12 slds-large-size_4-of-12  slds-p-bottom_medium slds-p-right_large assesmentDate">
                     <span style="float: right">
                           <div class="label">
-                               Assessment Date
+                            {!$Label.c.RH_BiomarkerAssesmentDate}
                           </div>
                           <c:rrSelect
                                       options="{!v.AssessedDate}"
@@ -40,7 +40,7 @@
                     </aura:iteration>
                 </div>
                 <aura:set attribute="else">
-                    No records to display.
+                    {!$Label.c.No_records_to_display}
                 </aura:set>
              </aura:if>
 
