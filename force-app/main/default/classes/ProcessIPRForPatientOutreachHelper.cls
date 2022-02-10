@@ -33,8 +33,16 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                 REFNamePERIdMap.put(per.Name,per.Id);
             }
         }
+        list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
+
+        for(Integration_Patient_Referral__c ipr: iprRPMap.values()){
+            if(REFNamePERIdMap.get(ipr.UTM_campaignName__c) == null){
+                ipr.Batch_consideration__c = 'Completed';
+                ipr.Error_Message__c = 'Patient Record not found for Patient Outreach';
+                iprListToUpdate.add(ipr);
+            }
+        }
         
-      
         //SS Map
         List<Study_Site__c> ssList = [
             SELECT
@@ -208,7 +216,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
 
             if (ss != null){
                 Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c);
-                 objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignSource__c);
+                 objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
                  objPE.Participant_Name__c = ipr.firstName__c;
                  objPE.Participant_Surname__c = ipr.lastName__c;
                  peList.add(objPE);
@@ -219,7 +227,6 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
        List<Database.SaveResult> saveResults = Database.update(peList, false);
         
         Set<Id> participantsWithoutErrors = new Set<Id>();
-        list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
