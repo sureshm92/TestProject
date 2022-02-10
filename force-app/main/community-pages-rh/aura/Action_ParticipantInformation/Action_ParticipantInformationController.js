@@ -34,7 +34,7 @@
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
                 helper.getInvitedDate(component,event,helper);
-            }
+            }   
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
 			
