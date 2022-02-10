@@ -89,6 +89,7 @@
                             component.set('v.pe', returnValue.enrollment);
                             component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.isSiteEnabledforHAPI', returnValue.isSiteEnabledforHAPI);
+                            component.set('v.isBioMarkerAvailable',returnValue.isBioMarkerAvailable);
                             component.set('v.init', true);
                             component.set(
                                 'v.isEmail',
