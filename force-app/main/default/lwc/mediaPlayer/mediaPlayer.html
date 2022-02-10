@@ -1,0 +1,15 @@
+<template>
+
+    <template if:true={videotype}>
+        <video style="height:100%; width:100%" controls="controls">
+            <source src={url} type="video/mp4" />
+        </video>
+    </template>
+
+    <template if:true={audiotype}>
+        <audio controls="controls" autoplay controlslist="nodownload">
+            <source src={url} type="audio/wav"/>
+        </audio>
+    </template>
+
+</template>
