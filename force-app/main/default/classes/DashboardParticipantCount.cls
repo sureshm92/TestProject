@@ -362,7 +362,7 @@ public without sharing class DashboardParticipantCount {
             List<Id> participantIds = new List<Id>();
             List<Id> delegateParticipntIds = new List<Id>();
             Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
-            ctpDetails = fetchStudyDetails(ctpId);
+            //ctpDetails = fetchStudyDetails(ctpId);
 
             for(ParticipantDetails parDetail:participantDetails) {
                 if(parDetail.delegateId != null) {
@@ -372,14 +372,15 @@ public without sharing class DashboardParticipantCount {
                 }
             }
             if(!participantIds.isEmpty()) {
-                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId);
-                Database.executeBatch(participantBatch);
+                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId,delegateParticipntIds);
+                Database.executeBatch(participantBatch,50);
             }
 
-            if(!delegateParticipntIds.isEmpty()) {
+            /*if(!delegateParticipntIds.isEmpty()) {
+                sleep(2000);
                 BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds,ctpDetails);
-                Database.executeBatch(delegateBatch);
-            }
+                Database.executeBatch(delegateBatch,30);
+            }*/
             resMap.put('message','Success');
             return resMap;
         } catch(Exception e) {
@@ -475,4 +476,5 @@ public without sharing class DashboardParticipantCount {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
 }
