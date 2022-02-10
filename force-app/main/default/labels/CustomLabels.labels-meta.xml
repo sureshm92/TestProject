@@ -5,6 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Site DB Batch Size</shortDescription>
+    </labels>
     <labels>
         <fullName>Site_DB_Model_Title</fullName>
         <language>en_US</language>
