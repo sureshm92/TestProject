@@ -62,7 +62,7 @@
                 </div>
                 <div
                 class="{!if(v.isRTL , 'visit-results-containerRTL','visit-results-container ') + if(v.userLang=='ru','visit-results-container bio-russ-lang-suprt','')}">
-                >
+                
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="{!if(v.isRTL, 'visit-results-itemRTL', 'visit-results-item')}">
                             <span class="visit-result-item-value"

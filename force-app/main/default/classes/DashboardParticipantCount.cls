@@ -362,7 +362,7 @@ public without sharing class DashboardParticipantCount {
             List<Id> participantIds = new List<Id>();
             List<Id> delegateParticipntIds = new List<Id>();
             Clinical_Trial_Profile__c ctpDetails = new Clinical_Trial_Profile__c();
-            ctpDetails = fetchStudyDetails(ctpId);
+            //ctpDetails = fetchStudyDetails(ctpId);
 
             for(ParticipantDetails parDetail:participantDetails) {
                 if(parDetail.delegateId != null) {
@@ -372,13 +372,9 @@ public without sharing class DashboardParticipantCount {
                 }
             }
             if(!participantIds.isEmpty()) {
-                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId);
-                Database.executeBatch(participantBatch);
-            }
-
-            if(!delegateParticipntIds.isEmpty()) {
-                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds,ctpDetails);
-                Database.executeBatch(delegateBatch);
+                BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId,delegateParticipntIds);
+                Integer batchSize = Integer.valueof(Label.Site_DB_Batch_Size.trim());
+                Database.executeBatch(participantBatch,batchSize);
             }
             resMap.put('message','Success');
             return resMap;
@@ -475,4 +471,5 @@ public without sharing class DashboardParticipantCount {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
 }

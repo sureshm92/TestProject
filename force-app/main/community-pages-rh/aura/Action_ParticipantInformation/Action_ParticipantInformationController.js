@@ -34,7 +34,7 @@
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
                 helper.getInvitedDate(component,event,helper);
-            }
+            }   
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
 			
@@ -89,6 +89,7 @@
                             component.set('v.pe', returnValue.enrollment);
                             component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.isSiteEnabledforHAPI', returnValue.isSiteEnabledforHAPI);
+                            component.set('v.isBioMarkerAvailable',returnValue.isBioMarkerAvailable);
                             component.set('v.init', true);
                             component.set(
                                 'v.isEmail',

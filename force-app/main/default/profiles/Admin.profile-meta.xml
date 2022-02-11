@@ -8428,7 +8428,12 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
-        <field>RH_Biomarker__c.Assessed_On__c</field>
+        <field>Integration_Biomarker__c.Assessed_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Biomarker_Error__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
