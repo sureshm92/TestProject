@@ -2717,6 +2717,11 @@
         <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Biomarker_Error__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
