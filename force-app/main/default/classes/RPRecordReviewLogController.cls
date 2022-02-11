@@ -147,12 +147,12 @@ public without sharing class RPRecordReviewLogController {
                         if(isAdult =='true') {
                             //Minor
                             peProfileSectionWrapperList[0].isRequired = false;
-                            pe.Legal_Status__c = 'No';
+                            //pe.Legal_Status__c = 'No';
                             peProfileSectionWrapperList[0].isMinor = true;
                         }
                         else{
                             peProfileSectionWrapperList[0].isRequired = true;
-                            pe.Legal_Status__c = 'Yes';
+                            //pe.Legal_Status__c = 'Yes';
                             peProfileSectionWrapperList[0].isMinor = false;
                         }
                     }
@@ -299,6 +299,10 @@ public without sharing class RPRecordReviewLogController {
                     return 'Minor';
                 }
                 else if(legalStatus == 'Yes') {
+                    return 'LegalStatus';
+                }
+            } else if(isAdult == 'true') {
+                 if(legalStatus == 'No') {
                     return 'LegalStatus';
                 }
             }

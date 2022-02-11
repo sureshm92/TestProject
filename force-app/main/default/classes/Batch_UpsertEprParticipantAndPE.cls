@@ -45,20 +45,53 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Set<Id> duplicatePatientsSet = new Set<Id>();
         List<String> uniqueIPRList = new List<String>();
         List<String> uniqueDelList = new List<String>();
+        Map<String,Integration_Patient_Referral__c> iprRPMap = new Map<String,Integration_Patient_Referral__c>();
         List<Integration_Patient_Referral__c> scope = new List<Integration_Patient_Referral__c>();
+        //For Patient Outreach Flow
+        List<String> patientOutrachProtocolIds = new List<String>();
+        List<String> patientOutrachSSNumbersList = new List<String>();
+        Map<String, Integration_Patient_Referral__c> patientOutrachNewMap = new Map<String, Integration_Patient_Referral__c>();
+
         for (Integration_Patient_Referral__c ipr : initialScope) {
             if(!uniqueIPRList.contains(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c)){
                 if(!uniqueDelList.contains(ipr.Delegate_Email_Address__c) || ipr.Delegate_Email_Address__c== null){
-                    ipr.Batch_consideration__c = 'Completed';
-                    protocolIds.add(ipr.protocolId__c);
-                    ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
-                    newMap.put(ipr.referralID__c, ipr);
-                    scope.add(ipr);
+                    //ipr.Batch_consideration__c = 'Completed';
+                    //protocolIds.add(ipr.protocolId__c);
+                    //ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+                    //newMap.put(ipr.referralID__c, ipr);
+                    //scope.add(ipr);
                     if(ipr.Delegate_Email_Address__c != null) uniqueDelList.add(ipr.Delegate_Email_Address__c);
                     uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
+                    //Store IPR records which are coming from Patient outreach
+                    if(!String.isBlank(ipr.UTM_campaignName__c) && ipr.UTM_campaignName__c.startsWith('REF')) {
+                        ipr.Batch_consideration__c = 'Completed';
+                        patientOutrachProtocolIds.add(ipr.protocolId__c);
+                        patientOutrachSSNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+                        patientOutrachNewMap.put(ipr.referralID__c, ipr);
+                        iprRPMap.put(ipr.UTM_campaignName__c,ipr);
+                    }
+                    else {
+                        ipr.Batch_consideration__c = 'Completed';
+                        protocolIds.add(ipr.protocolId__c);
+                        ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+                        newMap.put(ipr.referralID__c, ipr);
+                        scope.add(ipr);
+                    }
                 }
             }
         }
+
+        //Process IPR sepratly based on PER records which comes from patient outreach and alreday present in the RH
+        if(!iprRPMap.isEmpty()) {
+            ProcessIPRForPatientOutreachHelper.processIPRForPatientOutreach(
+                iprRPMap,
+                tempAccount,
+                patientOutrachProtocolIds,
+                patientOutrachSSNumbersList,
+                patientOutrachNewMap
+            );
+        }
+
         //SS Map
         List<Study_Site__c> ssList = [
             SELECT
@@ -119,6 +152,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                
             }
         }
+
         //Duplicates check and upsert participant
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
             newParticipantsMap.values()
@@ -231,7 +265,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
         }
         List<String> PEErrorMsg = new List<String>();
-        List<Database.SaveResult> saveResults = Database.insert(peList, false);
+       List<Database.SaveResult> saveResults = Database.insert(peList, false);
+        
         Set<Id> participantsWithoutErrors = new Set<Id>();
         list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {
@@ -551,7 +586,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
 		}     
         
     }
-    
+
     public void finish(Database.BatchableContext bc) {
         //delete the temporary account
         try{

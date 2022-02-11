@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Site_DB_Batch_Size</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB Batch Size</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Model_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7724,7 +7731,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Powered by IQVIA © 2020. All rights reserved.</value>
+        <value>Powered by IQVIA © 2022. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>Fulfilled</fullName>
@@ -18575,6 +18582,20 @@ communications using the toggles below.</value>
         <value>and</value>
     </labels>
     <labels>
+        <fullName>RH_BiomarkerSection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerSection</shortDescription>
+        <value>BioMarkers</value>
+    </labels>
+    <labels>
+        <fullName>RH_BiomarkerAssesmentDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BiomarkerAssesmentDate</shortDescription>
+        <value>Assessment Date</value>
+    </labels>
+    <labels>
         <fullName>RH_ApplyFilters</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19844,6 +19865,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Overview for</shortDescription>
         <value>Overview for</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Adult_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Adult_Yes</shortDescription>
+        <value>For Adult legal status should be Yes</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_Warning_Minor_No</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RP_Legal_status_Warning_Minor_Yes</shortDescription>
+        <value>For minor legal status should be No</value>
     </labels>
     <labels>
         <fullName>RH_RP_Page</fullName>
@@ -23732,6 +23767,41 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Save Note</shortDescription>
         <value>Save Note</value>
+    </labels>
+    <labels>
+        <fullName>Biomarker_Assessment_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarker_Assessment_Date</shortDescription>
+        <value>Assessment Date</value>
+    </labels>
+    <labels>
+        <fullName>Biomarker_Media_Player</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarker Media Player</shortDescription>
+        <value>Media Player</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarkers_Header</shortDescription>
+        <value>Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_No_records_to_display</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Biomarkers  No records to display</shortDescription>
+        <value>No records to display.</value>
+    </labels>
+    <labels>
+        <fullName>Media_file_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media file Header</shortDescription>
+        <value>Media file</value>
     </labels>
     
 </CustomLabels>

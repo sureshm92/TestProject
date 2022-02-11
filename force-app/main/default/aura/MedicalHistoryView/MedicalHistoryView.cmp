@@ -15,6 +15,7 @@ Created by Sumit S-->
     <aura:attribute name="containsFile" type="boolean" default="false"/>
     <aura:attribute name="isSiteEnabledforHAPI" type="Boolean" default="false"/>
     <aura:attribute name="isFromPrint" type="Boolean" default="false"/>
+    <aura:attribute name="isBioMarkerAvailable" type="Boolean" default="false" />
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:if isTrue="{!v.containsFile}">
@@ -97,6 +98,11 @@ Created by Sumit S-->
     <aura:if isTrue="{!and(v.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.isSiteEnabledforHAPI)}">
         <div>
             <c:HumanAPIreport pe="{!v.pe}" isSiteEnabledforHAPI="{!v.isSiteEnabledforHAPI}"/>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.isBioMarkerAvailable}">
+        <div class="slds-m-top_large">
+            <c:BioMarkerRecords pe="{!v.pe}"  />
         </div>
     </aura:if>
     

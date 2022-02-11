@@ -12,24 +12,28 @@
         <div class="headerdiv">
             <div class="slds-grid">
                 <div class="slds-col slds-size--6-of-12 slds-large-size_8-of-12">
-           			 <span>BioMarkers</span>
+           			 <span>{!$Label.c.Biomarkers_Header}</span>
          		</div>
-                 
-                <div class="slds-col slds-size--6-of-12 slds-large-size_4-of-12  slds-p-bottom_medium slds-p-right_large assesmentDate">
-                    <span style="float: right">
-                          <div class="label">
-                               Assessment Date
-                          </div>
-                          <c:rrSelect
-                                      options="{!v.AssessedDate}"
-                                      value="{!v.AssesedDateSelected}"
-                                      onchange="{!c.updateBiomarkerData}"
-                                      useSentenceFont="false" 
-                                    />
-                          
-                      </span>
-                  </div>
              </div>
+             <div class="slds-grid">
+             <div class="slds-col slds-size--6-of-12 slds-large-size_12-of-12  slds-p-bottom_medium slds-p-right_large assesmentDate">
+                <span style="float: right">
+
+                    <div class="label">
+                        {!$Label.c.Biomarker_Assessment_Date}
+                    </div>
+                    <c:rrSelect
+                                options="{!v.AssessedDate}"
+                                value="{!v.AssesedDateSelected}"
+                                onchange="{!c.updateBiomarkerData}"
+                                useSentenceFont="false" 
+                            />
+                    </span>
+              </div>
+            </div>
+            <div class="slds-p-bottom_large">
+            	 <c:mediaFile recordId="{!v.perRecordId}"></c:mediaFile>
+            </div>
              <aura:if isTrue="{!v.biomarkerRecords}">
                 <div class="slds-grid slds-wrap slds-p-left_small slds-p-bottom_large">
                     <aura:iteration items="{!v.biomarkerRecords}" var="bioMark" >
@@ -40,7 +44,7 @@
                     </aura:iteration>
                 </div>
                 <aura:set attribute="else">
-                    No records to display.
+                    {!$Label.c.Biomarkers_No_records_to_display}
                 </aura:set>
              </aura:if>
 

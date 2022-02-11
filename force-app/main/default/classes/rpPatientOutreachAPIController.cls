@@ -19,6 +19,7 @@ public without sharing class rpPatientOutreachAPIController {
         public String createdDate;
         public String indication;
         public RpDetailsWrapper rpDetails;
+        public String protocolId;
     }
     public class RpDetailsWrapper {
         public String rpName;
@@ -60,24 +61,25 @@ public without sharing class rpPatientOutreachAPIController {
         outreachWrapper.studyURL = per.Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c;
         outreachWrapper.studySiteName = per.Study_Name__c;
         outreachWrapper.condition = per.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c;
-        String languageStr = per.PI_Contact__r.Language__c;
+        String languageStr = per.HCP_Contact_HCPEnroll__r.Language__c;
         outreachWrapper.language =  languageStr.substring(0,2);
         outreachWrapper.statusCode =  '';
         outreachWrapper.createdDate =  String.Valueof(per.createdDate);
         outreachWrapper.indication = per.Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c;
+        outreachWrapper.protocolId = per.Clinical_Trial_Profile__r.Protocol_ID__c;
 
         RpDetailsWrapper rpRecord = new RpDetailsWrapper();
-        rpRecord.rpName = per.PI_Contact__r.Name;
-        rpRecord.rpTelephone = per.PI_Contact__r.Phone;
-        rpRecord.rpEmail = per.PI_Contact__r.Email;
+        rpRecord.rpName = per.HCP_Contact_HCPEnroll__r.Name;
+        rpRecord.rpTelephone = per.HCP_Contact_HCPEnroll__r.Phone;
+        rpRecord.rpEmail = per.HCP_Contact_HCPEnroll__r.Email;
 
         RpAddressWrapper rpAddressRecord = new RpAddressWrapper();
-        rpAddressRecord.rpAddressLine1 = per.PI_Contact__r.MailingStreet;//String.Valueof(per.PI_Contact__r.MailingAddress);
+        rpAddressRecord.rpAddressLine1 = per.HCP_Contact_HCPEnroll__r.MailingStreet;//String.Valueof(per.PI_Contact__r.MailingAddress);
         rpAddressRecord.rpAddressLine2 =  '';
-        rpAddressRecord.rpZip = per.PI_Contact__r.MailingPostalCode;
-        rpAddressRecord.rpCity = per.PI_Contact__r.MailingCity;
-        rpAddressRecord.rpCountry = per.PI_Contact__r.MailingCountry;
-        rpAddressRecord.rpState = per.PI_Contact__r.MailingState;
+        rpAddressRecord.rpZip = per.HCP_Contact_HCPEnroll__r.MailingPostalCode;
+        rpAddressRecord.rpCity = per.HCP_Contact_HCPEnroll__r.MailingCity;
+        rpAddressRecord.rpCountry = per.HCP_Contact_HCPEnroll__r.MailingCountry;
+        rpAddressRecord.rpState = per.HCP_Contact_HCPEnroll__r.MailingState;
         rpRecord.rpAddress = rpAddressRecord;
         outreachWrapper.RpDetails = rpRecord;
         return outreachWrapper;
