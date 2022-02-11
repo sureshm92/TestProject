@@ -45,7 +45,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Integration_Status__c</field>
+                <field>Biomarker_Error__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

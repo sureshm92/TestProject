@@ -1,11 +1,14 @@
 public without sharing class CreateBiomarkerRecords {
+    private static String PER_NOTAVAILABLE = 'PER Record is Invalid';
     public CreateBiomarkerRecords() {
 
     }
     @InvocableMethod(label='Insert Biomarker Records' description='Inserts Biomarker header and raleted records.' category= 'Integration_Biomarker__c')
     public static void saveBiomarkerRecords(List<Integration_Biomarker__c> stagingRecords) {
+             
+        Boolean isUpdateIntegrationBiomarker = false;
         try {
-            List<RH_Biomarker__c> headersToBeInserted = new List<RH_Biomarker__c>();
+            
             List<String> perReferrals = new List<String>();
             Map<Id,DataJSON> parsedDataMap = new Map<Id,DataJSON>();
             Map<Id,List<ResultJSON>> parsedResultMap = new Map<Id,List<ResultJSON>>();
@@ -15,6 +18,7 @@ public without sharing class CreateBiomarkerRecords {
             Map<String,Participant_Enrollment__c> permap = new Map<String,Participant_Enrollment__c>();
             Map<Id,List<ContentDocumentLink>> contentDocumentLinkMapDetails = new Map<Id,List<ContentDocumentLink>>();
             List<ContentDocumentLink> contentLinkList = new List<ContentDocumentLink>();
+            List<RH_Biomarker__c> headersToBeInserted = new List<RH_Biomarker__c>();
 
             for(Integration_Biomarker__c rec: stagingRecords) {
                 //RH_Biomarker__c headerRec = new RH_Biomarker__c();
@@ -56,11 +60,14 @@ public without sharing class CreateBiomarkerRecords {
                 headerRec.Integration_Biomarker__c = rec.Id;
                 if(permap.containsKey(parsedDataMap.get(rec.Id).referral_id)) {
                     headerRec.Participant_Enrollment__c = permap.get(parsedDataMap.get(rec.Id).referral_id).Id;
+                } else {
+                    isUpdateIntegrationBiomarker = true;
+                    rec.Biomarker_Error__c = PER_NOTAVAILABLE;
                 }
                 headerRec.BiomarkerVendorReachoutStatus__c = rec.BiomarkerVendorReachoutStatus__c;
                 headerRec.Vendor_Source__c = rec.Vendor_Source__c;
                 headerRec.Referral_Auto_Dialer_Consent__c = parsedDataMap.get(rec.Id).referral_auto_dialer_consent;
-                headersToBeInserted.add(headerRec);
+                headersToBeInserted.add(headerRec);                
             }
 
             if(!headersToBeInserted.isEmpty()) {
@@ -78,17 +85,9 @@ public without sharing class CreateBiomarkerRecords {
                             resultDetail.Key__c = result.key;
                             resultDetail.Value__c = result.value;
                             resultDetail.Type__c = 'Data';
-                            resultList.add(resultDetail);
+                            resultList.add(resultDetail);                            
                         }
                     }
-
-                    /*if(contentDocumentLinkMap.containsKey(biomarkRec.Integration_Biomarker__c)) {
-                        ContentDocumentLink contentLink = new ContentDocumentLink();
-                        contentLink.LinkedEntityId = biomarkRec.Id;
-                        contentLink.ContentDocumentId = contentDocumentLinkMap.get(biomarkRec.Integration_Biomarker__c).ContentDocumentId;
-                        contentLink.ShareType = 'V';
-                        contentLinkList.add(contentLink);
-                    }*/
                     if(contentDocumentLinkMapDetails.containsKey(biomarkRec.Integration_Biomarker__c)) {
                         List<ContentDocumentLink> contentList = contentDocumentLinkMapDetails.get(biomarkRec.Integration_Biomarker__c);
                         for(ContentDocumentLink cdl:contentList) {
@@ -107,15 +106,35 @@ public without sharing class CreateBiomarkerRecords {
             }
 
             if(!resultList.isEmpty()) {
-                database.insert(resultList);
+                Database.insert(resultList);
+            }
+
+            List<Integration_Biomarker__c> integrationRecordsToBeUpdated = new List<Integration_Biomarker__c>();
+            if(!isUpdateIntegrationBiomarker) {
+                for(Integration_Biomarker__c rec: stagingRecords) {
+                    if(String.isNotBlank(rec.Biomarker_Error__c)) {
+                        integrationRecordsToBeUpdated.add(rec);
+                    }
+                }
+
+            }
+
+            if(!integrationRecordsToBeUpdated.isEmpty()) {
+                Database.update(integrationRecordsToBeUpdated);
             }
         } catch(Exception ex) {
+            System.debug('Exception Caught'+ex.getMessage());
+            IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+            objIntegrationLog.Request_Type__c = 'BiomarkerRecordsCreation';
+            objIntegrationLog.Function_Name__c = 'CreateBioMarkerRecords.saveBiomarkerRecords';
+            objIntegrationLog.Error_Message__c = ex.getMessage();
 
+            insert objIntegrationLog;
         }
         
     }
 
-    private static DataJSON parseDataJSON(String dataJson) {
+    public static DataJSON parseDataJSON(String dataJson) {
         DataJSON parsedData = new DataJSON();
         parsedData = (DataJSON)JSON.deserialize(dataJson,DataJSON.class);
         return parsedData;
@@ -138,8 +157,8 @@ public without sharing class CreateBiomarkerRecords {
     private static Map<String,Participant_Enrollment__c> fetchPERRecords(List<String> perReferrals) {
         Map<String,Participant_Enrollment__c> perMap = new Map<String,Participant_Enrollment__c>();
 
-        for(Participant_Enrollment__c per: [SELECT Id,Referral_ID__c FROM Participant_Enrollment__c WHERE Referral_ID__c IN:perReferrals]) {
-            perMap.put(per.Name,per);
+        for(Participant_Enrollment__c per: [SELECT Id,Referral_ID__c,Name FROM Participant_Enrollment__c WHERE Referral_ID__c IN:perReferrals]) {
+            perMap.put(per.Referral_ID__c,per);
         }
 
         return perMap;
