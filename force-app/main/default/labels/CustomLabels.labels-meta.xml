@@ -10162,14 +10162,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17716,7 +17716,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new survey awaiting your feedback. Log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
