@@ -63,12 +63,12 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     if(ipr.Delegate_Email_Address__c != null) uniqueDelList.add(ipr.Delegate_Email_Address__c);
                     uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
                     //Store IPR records which are coming from Patient outreach
-                    if(!String.isBlank(ipr.UTM_campaignSource__c)) {
+                    if(!String.isBlank(ipr.UTM_campaignName__c) && ipr.UTM_campaignName__c.startsWith('REF')) {
                         ipr.Batch_consideration__c = 'Completed';
                         patientOutrachProtocolIds.add(ipr.protocolId__c);
                         patientOutrachSSNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
                         patientOutrachNewMap.put(ipr.referralID__c, ipr);
-                        iprRPMap.put(ipr.UTM_campaignSource__c,ipr);
+                        iprRPMap.put(ipr.UTM_campaignName__c,ipr);
                     }
                     else {
                         ipr.Batch_consideration__c = 'Completed';
