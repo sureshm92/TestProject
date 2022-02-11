@@ -33,7 +33,8 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
         ctpDetails = DashboardParticipantCount.fetchStudyDetails(ctpId);
         if(!delegateParticipantIds.isEmpty()) {            
             BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipantIds,ctpDetails);
-            Database.executeBatch(delegateBatch,50);
+            Integer batchSize = Integer.valueof(Label.Site_DB_Batch_Size.trim());
+            Database.executeBatch(delegateBatch,batchSize);
         }
     }
 }
