@@ -19048,6 +19048,22 @@ communications using the toggles below.</value>
         <value>PI/Site staff country is not the same as Site country</value>
     </labels>
     <labels>
+        <fullName>RH_Physician_Welcome_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Physician_Welcome_Body</shortDescription>
+        <value>We are happy to inform you that your registration in the IQVIA Referral Hub was successful.
+
+            This will allow you to use Referral Hub’s participant referral and status tracking capabilities. You will also be able to find other clinical research studies that are available and refer patients to nearby study sites.</value>
+    </labels>
+    <labels>
+        <fullName>rh_physician_email_subject_Initial</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rh_physician_email_subject_Initial</shortDescription>
+        <value>You are successfully registered in Referral Hub</value>
+    </labels>
+    <labels>
         <fullName>RH_Reset</fullName>
         <language>en_US</language>
         <protected>false</protected>
