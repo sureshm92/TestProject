@@ -15,12 +15,6 @@ export default class MediaFile extends LightningElement {
     @api recordId;
     showTable = true;
     
-    columnsList = [
-        { label: 'File name', fieldName: 'name', type: 'text'},
-        { label: 'Type', fieldName: 'type', type: 'text'},
-        { label : 'Action', type: 'button-icon', typeAttributes: { iconName: 'utility:play', name:'play', title: 'Action', iconAlternativeText: 'Play' }}
-    ];
-    
     connectedCallback(){
         this.fileRecords();
     }
@@ -42,15 +36,15 @@ export default class MediaFile extends LightningElement {
     }
 
     playFile(event){
-        var action = event.detail.action.name;
-        var row = event.detail.row;
-
-        if(action === 'play') {
-            console.log('Play file: ' + JSON.stringify(row));
-            this.mediaFile = row;
-            this.showModal = true;
-        }
+        var urlMap =  event.target.dataset.value;
+        this.mediaFiles.forEach(item => {
+            if(item.url == urlMap){
+                this.mediaFile = item;
+            }
+        });
+        this.showModal = true;
     }
+
     closeModal() {
         this.showModal = false;
         this.mediaFile = null;
