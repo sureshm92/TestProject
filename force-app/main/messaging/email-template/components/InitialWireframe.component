@@ -109,6 +109,7 @@
     </c:EmailWireframe>
 
     <!-- PI Delegate -->
+    
     <c:EmailWireframe rendered="{!userMode == 'PI Delegate'}"
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
@@ -125,6 +126,7 @@
     </c:EmailWireframe>
 
     <!-- HCP -->
+     
     <c:EmailWireframe rendered="{!userMode == 'HCP'}"
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
@@ -135,10 +137,15 @@
                       specificEmailProvider="{!specificProvider}"
                       >
         <!-- Inner body -->
+         <apex:outputPanel rendered="{!!Physcian}">
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_HCP}"/>
-        
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
-    </c:EmailWireframe>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!Physcian}">
+             <c:Paragraph emailLabel="{!$Label.RH_Physician_Welcome_Body}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}" buttonURL="{!CommunityUrl}"/>
+        </apex:outputPanel>
+    </c:EmailWireframe> 
 
     <c:EmailWireframe rendered="{!userMode == 'HCP Health Care Provider'}"
                       recipientId="{!recordId}"

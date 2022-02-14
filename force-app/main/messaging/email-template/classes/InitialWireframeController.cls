@@ -17,6 +17,18 @@ global without sharing class InitialWireframeController {
         return getTemplateInitial().whatId;
     }
 
+    
+    public Boolean getPhyscian(){
+        User objUser = [SELECT ID,ContactId from User Where Id=:recordId];
+        Contact objCon = [SELECT ID,Suppress_Physician_Outreach_Email__c FROM Contact Where Id=:objUser.ContactId];
+        return objCon.Suppress_Physician_Outreach_Email__c; 
+    }  
+    
+    public String getCommunityUrl(){
+        Network myNetwork = [SELECT Id FROM Network WHERE Name ='IQVIA Referral Hub' ];
+        return Network.getLoginUrl(myNetwork.id);
+    }
+
     public String getStudySiteType() {
         return getTemplateInitial().studySiteType;
     }
