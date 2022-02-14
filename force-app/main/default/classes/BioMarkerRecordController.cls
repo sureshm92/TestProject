@@ -18,7 +18,6 @@ public  without sharing  class BioMarkerRecordController {
             this.value =value;
         }
     } 
-    
 
     @AuraEnabled
     public static bioMarkerWrapper getAssessedDateForPE(Id perId){ 
@@ -65,11 +64,22 @@ public  without sharing  class BioMarkerRecordController {
         @AuraEnabled public string name;
         @AuraEnabled public string url;
         @AuraEnabled public string type;
+        @AuraEnabled public string FileExtension;
     }
+
     static Map<String,String> fileExtensionToTypeMap = new Map<String,String>{
         'MP4' => 'Video',
         'MP3' => 'Audio',
-        'WAV' => 'Audio'
+        'WAV' => 'Audio',
+        'JPEG' => 'Image',
+        'JPG' => 'Image',
+        'PNG' => 'Image',
+        'GIF' => 'Image'
+       /* 'EXCEL_X' => 'File',
+        'POWER_POINT_X' => 'File',
+        'PDF' => 'File',
+        'WORD_X' => 'File',
+        'LOG' => 'File'*/
     }; 
     
     @AuraEnabled
@@ -80,7 +90,6 @@ public  without sharing  class BioMarkerRecordController {
             Ids.add(ip.id);
         }
         
-        String BASE_URL =  System.Url.getOrgDomainUrl().toExternalForm()  +'/sfc/servlet.shepherd/document/download/';
         mediaFileWrapper[] mediaFileList = new mediaFileWrapper[]{};
         Set<id> ContentDocumentIds = new Set<id>();
         for(ContentDocumentLink cdl :  [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN: Ids]){
@@ -92,12 +101,18 @@ public  without sharing  class BioMarkerRecordController {
             WHERE Id IN :ContentDocumentIds
               AND FileType IN :fileExtensionToTypeMap.keySet()
         ];
-        
+
         for(ContentDocument cd : contentDocList){
             mediaFileWrapper file = new mediaFileWrapper();
             file.name=cd.Title;
-            file.url=BASE_URL+cd.Id;
+            if(cd.FileType == 'MP4' || cd.FileType == 'MP3' || cd.FileType == 'WAV'){
+                file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id+'?operationContext=S1';
+            }
+            else {
+                file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id;
+            }
             file.type = fileExtensionToTypeMap.get(cd.FileType);
+            file.FileExtension = cd.FileExtension;
             mediaFileList.add(file);
         }
         return mediaFileList;
