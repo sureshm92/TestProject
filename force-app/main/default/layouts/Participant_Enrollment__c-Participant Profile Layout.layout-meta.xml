@@ -115,11 +115,11 @@
                 <behavior>Edit</behavior>
                 <field>isAuthorized__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Have_you_Documented_the_Discussion__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Discussion_Documented_Date__c</field>
             </layoutItems>
@@ -180,6 +180,34 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Attestation__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RequestedMedicalRecords__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Mailing_State_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Mailing_Country_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Outreach_Email_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Outreach_Mail_Sent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ParticipantNoShow__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -636,6 +664,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Assessed_On__c</fields>
+        <fields>Integration_Biomarker__c</fields>
+        <relatedList>RH_Biomarker__c.Participant_Enrollment__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>Token__c.Participant_Enrollment__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -644,7 +678,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h63000002b8tj</masterLabel>
+        <masterLabel>00h1I000002zidy</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

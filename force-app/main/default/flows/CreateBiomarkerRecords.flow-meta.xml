@@ -51,6 +51,13 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>Biomarker_Error__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <object>Integration_Biomarker__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

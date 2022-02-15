@@ -60,7 +60,7 @@
 .THIS .visit-results-container {
     display: flex;
     padding: 15px 2px;
-    justify-content: space-between;
+    justify-content: space-evenly;
     overflow-x: auto;
 }
 

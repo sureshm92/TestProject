@@ -26,8 +26,8 @@ public without sharing class rpPatientOutreachController {
         List<Participant_Enrollment__c> peDetails = [SELECT id,Name,Patient_ID__c, Participant_Name__c, Participant_Surname__c, Email__c,Study_Name__c, 
                                                      Legal_Status__c, YOB__c, Patient_Auth__c,Outreach_Email_Status__c,Primary_Delegate_Email__c,Primary_Delegate_First_Name__c,
                                                      Primary_Delegate_Last_Name__c,CreatedDate,Mailing_Country_Code__c,
-                                                     PI_Contact__r.Name,PI_Contact__r.Phone,PI_Contact__r.Language__c,PI_Contact__r.Email,PI_Contact__r.MailingCity,PI_Contact__r.MailingState,
-                                                     PI_Contact__r.MailingCountry, PI_Contact__r.MailingPostalCode, PI_Contact__r.MailingAddress,PI_Contact__r.MailingStreet,
+                                                     HCP_Contact_HCPEnroll__r.Name,HCP_Contact_HCPEnroll__r.Phone,HCP_Contact_HCPEnroll__r.Language__c,HCP_Contact_HCPEnroll__r.Email,HCP_Contact_HCPEnroll__r.MailingCity,HCP_Contact_HCPEnroll__r.MailingState,
+                                                     HCP_Contact_HCPEnroll__r.MailingCountry, HCP_Contact_HCPEnroll__r.MailingPostalCode, HCP_Contact_HCPEnroll__r.MailingAddress,HCP_Contact_HCPEnroll__r.MailingStreet,
                                                      Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,Clinical_Trial_Profile__r.Protocol_ID__c,
                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
                                                      FROM Participant_Enrollment__c 
