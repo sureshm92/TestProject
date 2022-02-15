@@ -1,119 +1,145 @@
 public without sharing class CreateBiomarkerRecords {
+    private static String PER_NOTAVAILABLE = 'PER Record is Invalid';
     public CreateBiomarkerRecords() {
 
     }
     @InvocableMethod(label='Insert Biomarker Records' description='Inserts Biomarker header and raleted records.' category= 'Integration_Biomarker__c')
     public static void saveBiomarkerRecords(List<Integration_Biomarker__c> stagingRecords) {
-        System.debug('List<List<Integration_Biomarker__c>>:'+stagingRecords);
-        List<RH_Biomarker__c> headersToBeInserted = new List<RH_Biomarker__c>();
-        List<String> perReferrals = new List<String>();
-        Map<Id,DataJSON> parsedDataMap = new Map<Id,DataJSON>();
-        Map<Id,List<ResultJSON>> parsedResultMap = new Map<Id,List<ResultJSON>>();
-        Map<Id,List<ResultJSON>> parsedFileMap = new Map<Id,List<ResultJSON>>();
-        List<Biomarker_Result__c> resultList = new List<Biomarker_Result__c>();
-        List<Id> integrationBiomarkerIds = new List<Id>();
-        Map<String,Participant_Enrollment__c> permap = new Map<String,Participant_Enrollment__c>();
-        Map<Id,List<ContentDocumentLink>> contentDocumentLinkMapDetails = new Map<Id,List<ContentDocumentLink>>();
-        List<ContentDocumentLink> contentLinkList = new List<ContentDocumentLink>();
-
-        for(Integration_Biomarker__c rec: stagingRecords) {
-            //RH_Biomarker__c headerRec = new RH_Biomarker__c();
-            String dataJson;
-            integrationBiomarkerIds.add(rec.Id);
-            if(String.isNotBlank(rec.Data_JSON1__c)) {
-                dataJson = rec.Data_JSON1__c;
-            } 
-            if(String.isNotBlank(rec.Data_JSON2__c)) {
-                dataJson += rec.Data_JSON2__c;
-            }
-            if(String.isNotBlank(dataJson)) { // parse data Json
-                parsedDataMap.put(rec.Id,parseDataJSON(dataJson));
-                perReferrals.add(parsedDataMap.get(rec.Id).referral_id);
-            }
-            String resultJson;
-            if(String.isNotBlank(rec.Result_JSON1__c)) {
-                resultJson = rec.Result_JSON1__c;
-            }
-            if(String.isNotBlank(rec.Result_JSON2__c)) {
-                resultJson += rec.Result_JSON2__c;
-            }
-
-            if(String.isNotBlank(resultJson)) { // parse Result Json
-                parsedResultMap.put(rec.Id,parseResultJSON(resultJson));
-            }
-        }
-
-        
-        if(!perReferrals.isEmpty()) {
-            permap = fetchPERRecords(perReferrals);
-        }
-
-        for(Integration_Biomarker__c rec: stagingRecords) {
-            RH_Biomarker__c headerRec = new RH_Biomarker__c();
-            headerRec.Assessed_On__c = rec.Assessed_On__c;
-            headerRec.Assessed_on_datetime__c = headerRec.Assessed_On__c .format('yyyy/MM/dd hh:mm a');
-            headerRec.Error_Message__c = rec.Error_Message__c;
-            headerRec.Integration_Biomarker__c = rec.Id;
-            if(permap.containsKey(parsedDataMap.get(rec.Id).referral_id)) {
-                headerRec.Participant_Enrollment__c = permap.get(parsedDataMap.get(rec.Id).referral_id).Id;
-            }
-            headerRec.BiomarkerVendorReachoutStatus__c = rec.BiomarkerVendorReachoutStatus__c;
-            headerRec.Vendor_Source__c = rec.Vendor_Source__c;
-            headerRec.Referral_Auto_Dialer_Consent__c = parsedDataMap.get(rec.Id).referral_auto_dialer_consent;
-            headersToBeInserted.add(headerRec);
-        }
-
-        if(!headersToBeInserted.isEmpty()) {
-
-            Database.insert(headersToBeInserted);
-            //Fetch Files attached to Integration records
-            contentDocumentLinkMapDetails = fetchContentLink(integrationBiomarkerIds);
+             
+        Boolean isUpdateIntegrationBiomarker = false;
+        try {
             
-            for(RH_Biomarker__c biomarkRec: headersToBeInserted) {
-                
-                if(parsedResultMap.containsKey(biomarkRec.Integration_Biomarker__c)) {
-                    for(ResultJSON result:parsedResultMap.get(biomarkRec.Integration_Biomarker__c) ) {
-                        Biomarker_Result__c resultDetail = new Biomarker_Result__c();
-                        resultDetail.Biomarker__c = biomarkRec.Id;
-                        resultDetail.Key__c = result.key;
-                        resultDetail.Value__c = result.value;
-                        resultDetail.Type__c = 'Data';
-                        resultList.add(resultDetail);
+            List<String> perReferrals = new List<String>();
+            Map<Id,DataJSON> parsedDataMap = new Map<Id,DataJSON>();
+            Map<Id,List<ResultJSON>> parsedResultMap = new Map<Id,List<ResultJSON>>();
+            Map<Id,List<ResultJSON>> parsedFileMap = new Map<Id,List<ResultJSON>>();
+            List<Biomarker_Result__c> resultList = new List<Biomarker_Result__c>();
+            List<Id> integrationBiomarkerIds = new List<Id>();
+            Map<String,Participant_Enrollment__c> permap = new Map<String,Participant_Enrollment__c>();
+            Map<Id,List<ContentDocumentLink>> contentDocumentLinkMapDetails = new Map<Id,List<ContentDocumentLink>>();
+            List<ContentDocumentLink> contentLinkList = new List<ContentDocumentLink>();
+            List<RH_Biomarker__c> headersToBeInserted = new List<RH_Biomarker__c>();
+
+            for(Integration_Biomarker__c rec: stagingRecords) {
+                //RH_Biomarker__c headerRec = new RH_Biomarker__c();
+                String dataJson;
+                integrationBiomarkerIds.add(rec.Id);
+                if(String.isNotBlank(rec.Data_JSON1__c)) {
+                    dataJson = rec.Data_JSON1__c;
+                } 
+                if(String.isNotBlank(rec.Data_JSON2__c)) {
+                    dataJson += rec.Data_JSON2__c;
+                }
+                if(String.isNotBlank(dataJson)) { // parse data Json
+                    parsedDataMap.put(rec.Id,parseDataJSON(dataJson));
+                    if(String.isNotBlank(parsedDataMap.get(rec.Id).referral_id)) {
+                        perReferrals.add(parsedDataMap.get(rec.Id).referral_id);
                     }
                 }
+                String resultJson;
+                if(String.isNotBlank(rec.Result_JSON1__c)) {
+                    resultJson = rec.Result_JSON1__c;
+                }
+                if(String.isNotBlank(rec.Result_JSON2__c)) {
+                    resultJson += rec.Result_JSON2__c;
+                }
 
-                /*if(contentDocumentLinkMap.containsKey(biomarkRec.Integration_Biomarker__c)) {
-                    ContentDocumentLink contentLink = new ContentDocumentLink();
-                    contentLink.LinkedEntityId = biomarkRec.Id;
-                    contentLink.ContentDocumentId = contentDocumentLinkMap.get(biomarkRec.Integration_Biomarker__c).ContentDocumentId;
-                    contentLink.ShareType = 'V';
-                    contentLinkList.add(contentLink);
-                }*/
-                if(contentDocumentLinkMapDetails.containsKey(biomarkRec.Integration_Biomarker__c)) {
-                    List<ContentDocumentLink> contentList = contentDocumentLinkMapDetails.get(biomarkRec.Integration_Biomarker__c);
-                    for(ContentDocumentLink cdl:contentList) {
-                        ContentDocumentLink contentLink = new ContentDocumentLink();
-                        contentLink.LinkedEntityId = biomarkRec.Id;
-                        contentLink.ContentDocumentId = cdl.ContentDocumentId;
-                        contentLink.ShareType = 'V';
-                        contentLinkList.add(contentLink);
+                if(String.isNotBlank(resultJson)) { // parse Result Json
+                    parsedResultMap.put(rec.Id,parseResultJSON(resultJson));
+                }
+            }
+
+            
+            if(!perReferrals.isEmpty()) {
+                permap = fetchPERRecords(perReferrals);
+            }
+
+            for(Integration_Biomarker__c rec: stagingRecords) {
+                RH_Biomarker__c headerRec = new RH_Biomarker__c();
+                headerRec.Assessed_On__c = rec.Assessed_On__c;
+                headerRec.Assessed_on_datetime__c = headerRec.Assessed_On__c .format('yyyy/MM/dd hh:mm a');
+                headerRec.Error_Message__c = rec.Error_Message__c;
+                headerRec.Integration_Biomarker__c = rec.Id;
+                if(permap.containsKey(parsedDataMap.get(rec.Id).referral_id)) {
+                    headerRec.Participant_Enrollment__c = permap.get(parsedDataMap.get(rec.Id).referral_id).Id;
+                } else {
+                    isUpdateIntegrationBiomarker = true;
+                    rec.Biomarker_Error__c = PER_NOTAVAILABLE;
+                }
+                headerRec.BiomarkerVendorReachoutStatus__c = rec.BiomarkerVendorReachoutStatus__c;
+                headerRec.Vendor_Source__c = rec.Vendor_Source__c;
+                headerRec.Referral_Auto_Dialer_Consent__c = parsedDataMap.get(rec.Id).referral_auto_dialer_consent;
+                if(String.isNotBlank(headerRec.Participant_Enrollment__c)) {
+                    headersToBeInserted.add(headerRec);                
+                }
+            }
+
+            if(!headersToBeInserted.isEmpty()) {
+
+                Database.insert(headersToBeInserted);
+                //Fetch Files attached to Integration records
+                contentDocumentLinkMapDetails = fetchContentLink(integrationBiomarkerIds);
+                
+                for(RH_Biomarker__c biomarkRec: headersToBeInserted) {
+                    
+                    if(parsedResultMap.containsKey(biomarkRec.Integration_Biomarker__c)) {
+                        for(ResultJSON result:parsedResultMap.get(biomarkRec.Integration_Biomarker__c) ) {
+                            Biomarker_Result__c resultDetail = new Biomarker_Result__c();
+                            resultDetail.Biomarker__c = biomarkRec.Id;
+                            resultDetail.Key__c = result.key;
+                            resultDetail.Value__c = result.value;
+                            resultDetail.Type__c = 'Data';
+                            resultList.add(resultDetail);                            
+                        }
+                    }
+                    if(contentDocumentLinkMapDetails.containsKey(biomarkRec.Integration_Biomarker__c)) {
+                        List<ContentDocumentLink> contentList = contentDocumentLinkMapDetails.get(biomarkRec.Integration_Biomarker__c);
+                        for(ContentDocumentLink cdl:contentList) {
+                            ContentDocumentLink contentLink = new ContentDocumentLink();
+                            contentLink.LinkedEntityId = biomarkRec.Id;
+                            contentLink.ContentDocumentId = cdl.ContentDocumentId;
+                            contentLink.ShareType = 'V';
+                            contentLink.Visibility = 'AllUsers';
+                            contentLinkList.add(contentLink);
+                        }
                     }
                 }
             }
-        }
 
-        if(!contentLinkList.isEmpty()) {
-            Database.insert(contentLinkList);
-        }
+            if(!contentLinkList.isEmpty()) {
+                Database.insert(contentLinkList);
+            }
 
-        if(!resultList.isEmpty()) {
-            database.insert(resultList);
-        }
+            if(!resultList.isEmpty()) {
+                Database.insert(resultList);
+            }
 
+            List<Integration_Biomarker__c> integrationRecordsToBeUpdated = new List<Integration_Biomarker__c>();
+            if(isUpdateIntegrationBiomarker) {
+                for(Integration_Biomarker__c rec: stagingRecords) {
+                    if(String.isNotBlank(rec.Biomarker_Error__c)) {
+                        integrationRecordsToBeUpdated.add(rec);
+                    }
+                }
+
+            }
+
+            if(!integrationRecordsToBeUpdated.isEmpty()) {
+                Database.update(integrationRecordsToBeUpdated);
+            }
+        } catch(Exception ex) {
+            System.debug('Exception Caught'+ex.getMessage());
+            IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+            objIntegrationLog.Request_Type__c = 'BiomarkerRecordsCreation';
+            objIntegrationLog.Function_Name__c = 'CreateBioMarkerRecords.saveBiomarkerRecords';
+            objIntegrationLog.Error_Message__c = ex.getMessage();
+
+            insert objIntegrationLog;
+        }
         
     }
 
-    private static DataJSON parseDataJSON(String dataJson) {
+    public static DataJSON parseDataJSON(String dataJson) {
         DataJSON parsedData = new DataJSON();
         parsedData = (DataJSON)JSON.deserialize(dataJson,DataJSON.class);
         return parsedData;
@@ -135,9 +161,11 @@ public without sharing class CreateBiomarkerRecords {
 
     private static Map<String,Participant_Enrollment__c> fetchPERRecords(List<String> perReferrals) {
         Map<String,Participant_Enrollment__c> perMap = new Map<String,Participant_Enrollment__c>();
-
-        for(Participant_Enrollment__c per: [SELECT Id,Name FROM Participant_Enrollment__c WHERE Name IN:perReferrals]) {
-            perMap.put(per.Name,per);
+        System.debug('perReferrals:'+perReferrals);        
+        if(perReferrals.size() > 0) {
+            for(Participant_Enrollment__c per: [SELECT Id,Referral_ID__c,Name FROM Participant_Enrollment__c WHERE Referral_ID__c IN:perReferrals]) {
+                perMap.put(per.Referral_ID__c,per);
+            }
         }
 
         return perMap;

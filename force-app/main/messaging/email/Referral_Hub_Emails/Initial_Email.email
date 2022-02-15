@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!IF(recipient.Contact.userCommunityMode__c=='Participant', $Label.Email_Subject_Initial_New, $Label.Email_Subject_Initial)}"
+<messaging:emailTemplate subject="{!IF(recipient.Suppress_Physician_Outreach_Email__c, $Label.rh_physician_email_subject_Initial, IF(recipient.Contact.userCommunityMode__c=='Participant', $Label.Email_Subject_Initial_New, $Label.Email_Subject_Initial))}"
                          recipientType="User"
                          language="{!recipient.LanguageLocaleKey}">
 
