@@ -117,6 +117,9 @@ public without sharing class HCPInviteControllerNew {
                 List<Lead> convertedLead =  [SELECT Address,City,Company,Contact_Method_Preference__c,ConvertedAccountId,ConvertedContactId,ConvertedDate,ConvertedOpportunityId,Converted_to_HCP__c,Country,CountryCode,CreatedDate,Description,DoNotCall,Email,Facility_Classification__c,Fax,FirstName,GeocodeAccuracy,HasOptedOutOfEmail,HCP_Referral_Source__c,Id,IndividualId,Industry,Invited_by_PI__c,IsConverted,IsDeleted,IsUnreadByOwner,Jigsaw,JigsawContactId,Language__c,LastActivityDate,LastModifiedById,LastName,LastViewedDate,LeadSource,Longitude,MiddleName,MobilePhone,Name,OneKey_Code__c,Other_Address__c,Override_Phone__c,OwnerId,Patient_Count__c,Phone,PhotoUrl,POC_Email__c,POC_First_Name__c,POC_Last_Name__c,POC_Phone__c,POC_Type_Description__c,POC_Type__c,PostalCode,Previous_Trial_Experience__c,Pre_Screened_and_Did_Not_Qualify_Count__c,Pre_Screened_Count__c,Protocol_Number__c,Provider_ID__c,Rating,Salutation,State,StateCode,Status,Street,Study_Code_Name__c,Study_Name__c,Study_Site_Number__c,Study_Site__c,Suffix,Tax_ID__c,Title,Trials_in_Last_12_Months__c,Degrees_Of_Separation__c
                                             FROM Lead 
                                             Where Id = : lstLead[0].id];
+                Contact objContact = new Contact(Id=convertedLead[0].ConvertedContactId,
+                                                Suppress_Physician_Outreach_Email__c = True);
+                update objContact; 
                 
                 // create HCP_Enrollment__c records on lead conversion
                 if(lstHCPEnrollmentExisting.isEmpty()){

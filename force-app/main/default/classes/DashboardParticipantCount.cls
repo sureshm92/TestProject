@@ -371,7 +371,7 @@ public without sharing class DashboardParticipantCount {
                         participantIds.add(parDetail.participantId);
                 }
             }
-            if(!participantIds.isEmpty()) {
+            if(!participantIds.isEmpty() || !delegateParticipntIds.isEmpty()) {
                 BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId,delegateParticipntIds);
                 Integer batchSize = Integer.valueof(Label.Site_DB_Batch_Size.trim());
                 Database.executeBatch(participantBatch,batchSize);
