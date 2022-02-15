@@ -259,6 +259,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         return invitationMap;
     }
 
+    @TestVisible
     private void updateTrialSurvey(Trial_Survey__c ts) {
         Integer days;
         if (ts.Reminder_in_days_before_the_end_date__c != null) {
