@@ -371,16 +371,11 @@ public without sharing class DashboardParticipantCount {
                         participantIds.add(parDetail.participantId);
                 }
             }
-            if(!participantIds.isEmpty()) {
+            if(!participantIds.isEmpty() || !delegateParticipntIds.isEmpty()) {
                 BatchSendInviteToPP participantBatch = new BatchSendInviteToPP(participantIds,ctpId,delegateParticipntIds);
-                Database.executeBatch(participantBatch,50);
+                Integer batchSize = Integer.valueof(Label.Site_DB_Batch_Size.trim());
+                Database.executeBatch(participantBatch,batchSize);
             }
-
-            /*if(!delegateParticipntIds.isEmpty()) {
-                sleep(2000);
-                BatchSendInviteToDelegates delegateBatch = new BatchSendInviteToDelegates(delegateParticipntIds,ctpDetails);
-                Database.executeBatch(delegateBatch,30);
-            }*/
             resMap.put('message','Success');
             return resMap;
         } catch(Exception e) {
