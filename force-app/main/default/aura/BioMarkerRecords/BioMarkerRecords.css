@@ -2,6 +2,10 @@
     font-weight : 300;
 }
 
+.THIS .biomarkKey{
+    font-weight: bold;
+}
+
 .THIS .assesmentDate{
    font-weight : 400;
 }
