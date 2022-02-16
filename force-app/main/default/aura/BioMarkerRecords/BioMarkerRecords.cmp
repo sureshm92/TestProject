@@ -12,7 +12,7 @@
         <div class="headerdiv">
             <div class="slds-grid">
                 <div class="slds-col slds-size--6-of-12 slds-large-size_4-of-12">
-           			 <span>{!$Label.c.Biomarkers_Header}</span>
+           			 <span class="title-label">{!$Label.c.Biomarkers_Header}</span>
          		</div>
                  <div class="slds-col slds-size--6-of-12 slds-large-size_8-of-12 assesmentDate">
                     <span style="float: right">
@@ -29,7 +29,7 @@
                  </div>
             </div>
             <div class="slds-p-bottom_large">
-            	 <c:mediaFile recordId="{!v.perRecordId}"></c:mediaFile>
+            	 <c:mediaFile aura:id="mediaId1" recordId="{!v.perRecordId}" AssesedDate="{!v.AssesedDateSelected}"></c:mediaFile>
             </div>
              <aura:if isTrue="{!v.biomarkerRecords}">
                 <div class="slds-grid slds-wrap slds-p-left_small slds-p-bottom_large">
