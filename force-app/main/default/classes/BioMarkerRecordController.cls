@@ -83,8 +83,9 @@ public  without sharing  class BioMarkerRecordController {
     }; 
     
     @AuraEnabled
-    public static mediaFileWrapper[] getRelatedMediaFiles(string perId){
-        list<RH_Biomarker__c> lstRHBioMarker = [SELECT ID FROM RH_Biomarker__c  Where Participant_Enrollment__c =: perId];
+    public static mediaFileWrapper[] getRelatedMediaFiles(String perId, String AssesedDate){
+        list<RH_Biomarker__c> lstRHBioMarker = [SELECT ID FROM RH_Biomarker__c  Where
+            Assessed_on_datetime__c =:AssesedDate and Participant_Enrollment__c =: perId];
         Set<Id> Ids= new Set<Id>();
         for(RH_Biomarker__c ip: lstRHBioMarker){
             Ids.add(ip.id);
