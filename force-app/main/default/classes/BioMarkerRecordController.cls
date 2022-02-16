@@ -74,7 +74,9 @@ public  without sharing  class BioMarkerRecordController {
         'JPEG' => 'Image',
         'JPG' => 'Image',
         'PNG' => 'Image',
-        'GIF' => 'Image'
+        'GIF' => 'Image',
+        'AAC' => 'Audio',
+        'M4A' => 'Audio'
        /* 'EXCEL_X' => 'File',
         'POWER_POINT_X' => 'File',
         'PDF' => 'File',
@@ -106,7 +108,7 @@ public  without sharing  class BioMarkerRecordController {
         for(ContentDocument cd : contentDocList){
             mediaFileWrapper file = new mediaFileWrapper();
             file.name=cd.Title;
-            if(cd.FileType == 'MP4' || cd.FileType == 'MP3' || cd.FileType == 'WAV'){
+            if(cd.FileType == 'MP4' || cd.FileType == 'MP3' || cd.FileType == 'WAV' || cd.FileType == 'AAC' || cd.FileType == 'M4A'){
                 file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id+'?operationContext=S1';
             }
             else {
