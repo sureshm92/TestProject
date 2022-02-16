@@ -8,21 +8,19 @@ export default class MediaFile extends LightningElement {
         Media_file_Header,
         Biomarker_Media_Player
     }
-
+    @api AssesedDate;
     mediaFiles;
     showModal = false;
     mediaFile;
     @api recordId;
     showTable = true;
     
-    connectedCallback(){
-        this.fileRecords();
-    }
-
-    fileRecords(){
-        getRelatedMediaFiles({perId: this.recordId})
+    @api
+    fileRecords(recordId,AssesedDate){
+        getRelatedMediaFiles({perId: recordId,AssesedDate: AssesedDate})
         .then(result => {
             this.mediaFiles = result;
+            console.log(AssesedDate);
             if(this.mediaFiles.length == 0){
                 this.showTable = false;
             }
