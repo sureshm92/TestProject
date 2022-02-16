@@ -21,7 +21,9 @@
         component.set('v.pe', pe);
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
-        component.set('v.needsGuardian', false);
+        component.set('v.needsGuardian', false);         
+        component.set('v.delNotAdultErrMsg',false);
+        component.set('v.yobBlankErrMsg',false);
         component.set('v.emailInstance', '');
         if (component.find('checkbox-delegate')) {
             component.find('checkbox-delegate').getElement().checked = false;
@@ -252,7 +254,10 @@
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
                 if (isNeedGuardian != component.get('v.needsGuardian')) {
                     component.set('v.needsGuardian', isNeedGuardian);
-
+                    if(!isNeedGuardian){            
+                        component.set('v.delNotAdultErrMsg',false);
+                        component.set('v.yobBlankErrMsg',false);
+                    }
                     let editForm = component.find('editForm');
                     editForm.checkFields();
 
