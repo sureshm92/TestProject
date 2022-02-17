@@ -47,7 +47,7 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
             }
         }
 
-        if(ctpDetails.CommunityTemplate__c != 'Janssen') {
+        if(ctpDetails.CommunityTemplate__c == 'Janssen') {
             TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );

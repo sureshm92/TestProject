@@ -32,7 +32,9 @@ public without sharing class CreateBiomarkerRecords {
                 }
                 if(String.isNotBlank(dataJson)) { // parse data Json
                     parsedDataMap.put(rec.Id,parseDataJSON(dataJson));
-                    perReferrals.add(parsedDataMap.get(rec.Id).referral_id);
+                    if(String.isNotBlank(parsedDataMap.get(rec.Id).referral_id)) {
+                        perReferrals.add(parsedDataMap.get(rec.Id).referral_id);
+                    }
                 }
                 String resultJson;
                 if(String.isNotBlank(rec.Result_JSON1__c)) {
@@ -67,7 +69,9 @@ public without sharing class CreateBiomarkerRecords {
                 headerRec.BiomarkerVendorReachoutStatus__c = rec.BiomarkerVendorReachoutStatus__c;
                 headerRec.Vendor_Source__c = rec.Vendor_Source__c;
                 headerRec.Referral_Auto_Dialer_Consent__c = parsedDataMap.get(rec.Id).referral_auto_dialer_consent;
-                headersToBeInserted.add(headerRec);                
+                if(String.isNotBlank(headerRec.Participant_Enrollment__c)) {
+                    headersToBeInserted.add(headerRec);                
+                }
             }
 
             if(!headersToBeInserted.isEmpty()) {
@@ -95,6 +99,7 @@ public without sharing class CreateBiomarkerRecords {
                             contentLink.LinkedEntityId = biomarkRec.Id;
                             contentLink.ContentDocumentId = cdl.ContentDocumentId;
                             contentLink.ShareType = 'V';
+                            contentLink.Visibility = 'AllUsers';
                             contentLinkList.add(contentLink);
                         }
                     }
@@ -110,7 +115,7 @@ public without sharing class CreateBiomarkerRecords {
             }
 
             List<Integration_Biomarker__c> integrationRecordsToBeUpdated = new List<Integration_Biomarker__c>();
-            if(!isUpdateIntegrationBiomarker) {
+            if(isUpdateIntegrationBiomarker) {
                 for(Integration_Biomarker__c rec: stagingRecords) {
                     if(String.isNotBlank(rec.Biomarker_Error__c)) {
                         integrationRecordsToBeUpdated.add(rec);
@@ -156,9 +161,11 @@ public without sharing class CreateBiomarkerRecords {
 
     private static Map<String,Participant_Enrollment__c> fetchPERRecords(List<String> perReferrals) {
         Map<String,Participant_Enrollment__c> perMap = new Map<String,Participant_Enrollment__c>();
-
-        for(Participant_Enrollment__c per: [SELECT Id,Referral_ID__c,Name FROM Participant_Enrollment__c WHERE Referral_ID__c IN:perReferrals]) {
-            perMap.put(per.Referral_ID__c,per);
+        System.debug('perReferrals:'+perReferrals);        
+        if(perReferrals.size() > 0) {
+            for(Participant_Enrollment__c per: [SELECT Id,Referral_ID__c,Name FROM Participant_Enrollment__c WHERE Referral_ID__c IN:perReferrals]) {
+                perMap.put(per.Referral_ID__c,per);
+            }
         }
 
         return perMap;

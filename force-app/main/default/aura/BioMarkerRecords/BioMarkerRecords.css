@@ -2,8 +2,20 @@
     font-weight : 300;
 }
 
+.THIS .biomarkKey{
+    font-weight: bold;
+}
+
 .THIS .assesmentDate{
    font-weight : 400;
+}
+
+.THIS .title-label{
+    color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 16px;
+	font-weight: bold;
+
 }
 
 @media only screen and (max-width: 480px){
