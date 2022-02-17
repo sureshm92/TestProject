@@ -50,7 +50,6 @@ private class Test_Batch_CreateECOASubject {
         obj.getType();
         obj.getRecommendedRelaunchInterval();
         obj.getRecommendedScopeSize();
-        ECOAService.getJWTToken();
         Test.stopTest();
     }
 }
