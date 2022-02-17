@@ -147,7 +147,8 @@ public without sharing class ParticipantDuplicateService {
                 ZIP_Code__c,
                 Adult__c,
                 Mailing_Zip_Postal_Code__c,
-                Preferred_Contact_Time__c
+                Preferred_Contact_Time__c,
+                Middle_Name__c, Nickname__c, Suffix__c, Gender__c, Phone_Type__c, Alternative_Phone_Number__c, Mailing_State__c, Mailing_Country__c, Mailing_Country_Code__c, Mailing_State_Code__c, Mailing_City__c, Mailing_Street__c, Preferred_Language__c, BMI__c
             FROM Participant__c
             WHERE
                 Email__c IN :emails
@@ -182,7 +183,8 @@ public without sharing class ParticipantDuplicateService {
                     ZIP_Code__c,
                     Adult__c,
                     Mailing_Zip_Postal_Code__c,
-                    Preferred_Contact_Time__c
+                    Preferred_Contact_Time__c,
+                    Middle_Name__c, Nickname__c, Suffix__c, Gender__c, Phone_Type__c, Alternative_Phone_Number__c, Mailing_State__c, Mailing_Country__c, Mailing_Country_Code__c, Mailing_State_Code__c, Mailing_City__c, Mailing_Street__c, Preferred_Language__c, BMI__c
                 FROM Participant__c
                 WHERE
                     Email__c IN :delegatesEmail
@@ -334,7 +336,8 @@ public without sharing class ParticipantDuplicateService {
                 Secondary_Source__c,
                 ZIP_Code__c,
                 Adult__c,
-                Mailing_Zip_Postal_Code__c
+                Mailing_Zip_Postal_Code__c,
+                Middle_Name__c, Nickname__c, Suffix__c, Gender__c, Phone_Type__c, Alternative_Phone_Number__c, Mailing_State__c, Mailing_Country__c, Mailing_Country_Code__c, Mailing_State_Code__c, Mailing_City__c, Mailing_Street__c, Preferred_Language__c, BMI__c
             FROM Participant__c
             WHERE Contact__c IN :delegatesContactIs
         ];
