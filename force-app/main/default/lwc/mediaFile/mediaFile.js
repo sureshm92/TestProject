@@ -8,27 +8,19 @@ export default class MediaFile extends LightningElement {
         Media_file_Header,
         Biomarker_Media_Player
     }
-
+    @api AssesedDate;
     mediaFiles;
     showModal = false;
     mediaFile;
     @api recordId;
     showTable = true;
     
-    columnsList = [
-        { label: 'File name', fieldName: 'name', type: 'text'},
-        { label: 'Type', fieldName: 'type', type: 'text'},
-        { label : 'Action', type: 'button-icon', typeAttributes: { iconName: 'utility:play', name:'play', title: 'Action', iconAlternativeText: 'Play' }}
-    ];
-    
-    connectedCallback(){
-        this.fileRecords();
-    }
-
-    fileRecords(){
-        getRelatedMediaFiles({perId: this.recordId})
+    @api
+    fileRecords(recordId,AssesedDate){
+        getRelatedMediaFiles({perId: recordId,AssesedDate: AssesedDate})
         .then(result => {
             this.mediaFiles = result;
+            console.log(AssesedDate);
             if(this.mediaFiles.length == 0){
                 this.showTable = false;
             }
@@ -42,15 +34,15 @@ export default class MediaFile extends LightningElement {
     }
 
     playFile(event){
-        var action = event.detail.action.name;
-        var row = event.detail.row;
-
-        if(action === 'play') {
-            console.log('Play file: ' + JSON.stringify(row));
-            this.mediaFile = row;
-            this.showModal = true;
-        }
+        var urlMap =  event.target.dataset.value;
+        this.mediaFiles.forEach(item => {
+            if(item.url == urlMap){
+                this.mediaFile = item;
+            }
+        });
+        this.showModal = true;
     }
+
     closeModal() {
         this.showModal = false;
         this.mediaFile = null;

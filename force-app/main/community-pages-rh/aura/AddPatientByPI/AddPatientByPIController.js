@@ -59,7 +59,6 @@
         for(var i = 0; i < formInputs2.length; i++){
            formInputs2[i].showHelpMessageIfInvalid();
         }
-        var delegateParticipant = component.get('v.participantDelegate');
         var selectYr = component.find("yearField");
         if(selectYr){
             helper.checkGuardianAge(component, event, helper);
@@ -73,13 +72,13 @@
         editForm.resetDateInput();
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
-            mode: 'sticky',
+            mode: 'dismissible',
             message: $A.get("$Label.c.PIR_addParticipantFillMandatory"),
             type : 'error'
         });
         toastEvent.fire();
-    },
-    
+    },  
+
     doCheckYearOfBith: function (component, event, helper) {
         helper.checkGuardianAge(component, event, helper);
     },
@@ -130,6 +129,11 @@
         if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
             component.set('v.createUsers',false);
         }
+        if(!participant.Health_care_proxy_is_needed__c){            
+            component.set('v.delNotAdultErrMsg',false);
+            component.set('v.yobBlankErrMsg',false);
+        }
+
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
             console.log('editForm checkFields');
