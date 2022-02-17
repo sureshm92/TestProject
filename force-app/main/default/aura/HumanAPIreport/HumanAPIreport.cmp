@@ -106,7 +106,7 @@
               <span style="float: right">
                 <lightning:button
                   class="apollo-btn primary slds-button--neutral"
-                  onclick="{!c.requestRecords}"
+                  onclick="{!c.requestRecords}" 
                   >{!$Label.c.RH_RequestMedicalBtn}</lightning:button
                 >
               </span>

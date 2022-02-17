@@ -10169,14 +10169,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17723,7 +17723,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new survey awaiting your feedback. Log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
@@ -19053,6 +19053,22 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
         <value>PI/Site staff country is not the same as Site country</value>
+    </labels>
+    <labels>
+        <fullName>RH_Physician_Welcome_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Physician_Welcome_Body</shortDescription>
+        <value>We are happy to inform you that your registration in the IQVIA Referral Hub was successful.
+
+            This will allow you to use Referral Hub’s participant referral and status tracking capabilities. You will also be able to find other clinical research studies that are available and refer patients to nearby study sites.</value>
+    </labels>
+    <labels>
+        <fullName>rh_physician_email_subject_Initial</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rh_physician_email_subject_Initial</shortDescription>
+        <value>You are successfully registered in Referral Hub</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>
@@ -23836,7 +23852,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Media file Header</shortDescription>
-        <value>Media file</value>
+        <value>Media File List</value>
     </labels>
     
 </CustomLabels>
