@@ -49,6 +49,36 @@
         }
     },
     
+    checkMandatory: function (component, event, helper) {
+        var formInputs =  component.find("dataDiv1").find({instancesOf : "lightning:select"});
+        var formInputs2 = component.find("dataDiv1").find({instancesOf : "lightning:input"});
+
+        for(var i = 0; i < formInputs.length; i++){
+            formInputs[i].showHelpMessageIfInvalid();
+        }
+        for(var i = 0; i < formInputs2.length; i++){
+           formInputs2[i].showHelpMessageIfInvalid();
+        }
+        var selectYr = component.find("yearField");
+        if(selectYr){
+            helper.checkGuardianAge(component, event, helper);
+        }
+        var conCheck = component.find("checkbox-Contact");
+        if(!document.getElementById("checkbox-unique-id-76").checked){
+            document.getElementById("cnLabel").classList.add("chErr");
+            document.getElementById("cnLabelErr").classList.remove("slds-hide");
+        }
+        let editForm = component.find('editForm');
+        editForm.resetDateInput();
+        var toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            mode: 'dismissible',
+            message: $A.get("$Label.c.PIR_addParticipantFillMandatory"),
+            type : 'error'
+        });
+        toastEvent.fire();
+    },  
+
     doCheckYearOfBith: function (component, event, helper) {
         helper.checkGuardianAge(component, event, helper);
     },
@@ -59,7 +89,10 @@
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-            communityService.navigateToHome();
+            // communityService.navigateToHome();
+            var urlEvent = $A.get("e.force:navigateToURL");
+            urlEvent.setParams({ "url": "/my-referrals" });  
+            urlEvent.fire(); 
         });
     },
 
@@ -96,6 +129,11 @@
         if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
             component.set('v.createUsers',false);
         }
+        if(!participant.Health_care_proxy_is_needed__c){            
+            component.set('v.delNotAdultErrMsg',false);
+            component.set('v.yobBlankErrMsg',false);
+        }
+
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
             console.log('editForm checkFields');
@@ -131,6 +169,14 @@
     },
 
     doContact: function (component) {
+        if(!document.getElementById("checkbox-unique-id-76").checked){
+            document.getElementById("cnLabel").classList.add("chErr");
+            document.getElementById("cnLabelErr").classList.remove("slds-hide");
+        }
+        else{
+            document.getElementById("cnLabel").classList.remove("chErr");
+            document.getElementById("cnLabelErr").classList.add("slds-hide");
+        }
         component.set('v.doContact', !component.get('v.doContact'));
         if (!component.get('v.doContact')) {
             component.set('v.createUsers', false);

@@ -1,0 +1,3 @@
+
+1. Go to setup > Search and click on "All Sites" > Open builder for "IQVIA Referral Hub" > navigate to page "My Referrals" > the delete any existing components on the page > open page properties and change the page layout to pir_OneColumnLayout > now drag "pir_participantParent" to coloumn1 section of the page > now "Publish the changes". 
+2. Go to setup > Search and click on "All Sites" > Open builder for "Janssen Community" > navigate to page "My Referrals" > the delete any existing components on the page > open page properties and change the page layout to pir_OneColumnLayout > now drag "pir_participantParent" to coloumn1 section of the page > now "Publish the changes". 
