@@ -78,7 +78,7 @@
             style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}"
         >
             <div class="ap-top-info">{! '* ' + $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
-            <div class="rr-white-panel padding">
+            <div class="rr-white-panel padding fieldsDiv" tabindex="0">
                 <c:Form_EditPatientInfo
                     aura:id="editForm"
                     fromAddParticipantPage="true"
