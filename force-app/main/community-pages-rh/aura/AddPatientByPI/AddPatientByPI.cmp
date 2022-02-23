@@ -78,7 +78,7 @@
             style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}"
         >
             <div class="ap-top-info">{! '* ' + $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
-            <div class="rr-white-panel padding fieldsDiv" tabindex="0">
+            <div class="rr-white-panel padding">
                 <c:Form_EditPatientInfo
                     aura:id="editForm"
                     fromAddParticipantPage="true"
@@ -603,7 +603,7 @@
             <div class="ap-bottom-info"></div>
             <div class="ap-buttons">
                 <button
-                    class="apollo-btn tertiary custom-cancel"
+                    class="apollo-btn tertiary custom-cancel cb"
                     onclick="{!c.doCancel}"
                     style="{!if(v.isRTL == true, 'margin-left: 20px;', '')}"
                 >

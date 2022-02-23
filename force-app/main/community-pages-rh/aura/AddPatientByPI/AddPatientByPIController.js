@@ -78,7 +78,7 @@
         });
         toastEvent.fire();
         const myTimeout = setTimeout(function(){
-            var mainDiv =  document.getElementsByClassName("fieldsDiv");
+            var mainDiv =  document.getElementsByClassName("cb");
             mainDiv[0].focus();
         }, 50);
     },  
@@ -98,7 +98,7 @@
             urlEvent.setParams({ "url": "/my-referrals" });  
             urlEvent.fire(); 
             const myTimeout = setTimeout(function(){
-                var mainDiv =  document.getElementsByClassName("fieldsDiv");
+                var mainDiv =  document.getElementsByClassName("cb");
                 mainDiv[0].focus();
             }, 50);
         });
