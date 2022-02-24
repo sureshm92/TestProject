@@ -10,11 +10,11 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public string refId;
     @AuraEnabled
-    public string studyName;
+    public string studyName; 
     @AuraEnabled
-    public string siteName;
+    public string siteName; 
     @AuraEnabled
-    public string participantPhone;
+    public string participantPhone;  
     @AuraEnabled
     public string source;
     @AuraEnabled
@@ -31,6 +31,8 @@ public without sharing class PIR_HomepageController {
     public Id studyId;
     @AuraEnabled
     public Decimal perCounter;
+    @AuraEnabled
+    public String participantId;
   }
 
   public class ListViewReturnWrapper {
@@ -74,6 +76,7 @@ public without sharing class PIR_HomepageController {
       status.add('Screening Passed');
       status.add('Screening In Progress');
       status.add('Screening Passed');
+      status.add('Screening Failed');
       status.add('Screening In Progress - Wash Out Period');
       status.add('Ready to Screen');
       status.add('Enrollment Success');
@@ -88,6 +91,12 @@ public without sharing class PIR_HomepageController {
       status.add('Withdrew Consent After Screening');
       status.add('Enrollment Failed');
       status.add('Randomization Failed');
+      status.add('Randomization Success');
+      status.add('Treatment Period Started');
+      status.add('Follow-Up Period Started');
+      status.add('Participation Complete');
+      status.add('Trial Complete');
+      status.add('Declined Final Consent');
       if (totalCount == -1) {
         if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
@@ -187,10 +196,10 @@ public without sharing class PIR_HomepageController {
       if(lst.Participant__r.Phone__c != null){
          wrap.participantPhone = lst.Participant__r.Phone__c;
       }else{
-        List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
-        patientDelegate = [Select Id,Primary_Delegate__c,Contact__c,Contact__r.Phone,Participant__c from Patient_Delegate__c where Participant__c =:lst.Participant__c AND Primary_Delegate__c=True limit 1];
-        if(patientDelegate != null && !patientDelegate.isEmpty()){
-        wrap.participantPhone = patientDelegate[0].Contact__r.Phone;}else{wrap.participantPhone ='';}
+          List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
+          patientDelegate = [Select Id,Primary_Delegate__c,Contact__c,Contact__r.Phone,Participant__c from Patient_Delegate__c where Participant__c =:lst.Participant__c AND Primary_Delegate__c=True limit 1];
+          if(patientDelegate != null && !patientDelegate.isEmpty()){
+          wrap.participantPhone = patientDelegate[0].Contact__r.Phone;}else{wrap.participantPhone ='';}
       }
       if(lst.Referral_Source__c == System.Label.RH_HCP && lst.HCP__c != null)
       {
@@ -209,6 +218,7 @@ public without sharing class PIR_HomepageController {
       wrap.studyId = lst.Clinical_Trial_Profile__c;
       wrap.perCounter = lst.PerCounter__c;
       wrap.actionReq = lst.Participant__r.Emancipation_in_progress__c;
+      wrap.participantId = lst.Participant__c;
 
       listViewWrapper.add(wrap);
     }
@@ -247,6 +257,7 @@ public without sharing class PIR_HomepageController {
     status.add('Withdrew Consent After Screening');
     status.add('Enrollment Failed');
     status.add('Randomization Failed');
+    status.add('Declined Final Consent');
       
     List<Participant_Enrollment__c> perList = [
       SELECT
@@ -528,6 +539,30 @@ public without sharing class PIR_HomepageController {
       throw new AuraHandledException(e.getMessage() +
         '\n' +
         e.getStackTraceString());
+    }
+  }
+
+  @AuraEnabled
+  public static Map<Id, String> getStudyAccessLevel(){
+    try {
+      Map<Id, String>  piStudiesAccessLevel = new Map<Id, String>();
+      List<Site_Staff__c> piStaffs = [SELECT Id, Study_Site__c, Study_Site__r.Principal_Investigator__c, Study_Site__r.Clinical_Trial_Profile__c,
+            Delegate_Level__c, clinical_Trial_Profile__c, Site_Contact__c, is_Invited__c FROM Site_Staff__c
+        WHERE  (Site_Contact__c = :CommunityService.getUserContact().Id
+            OR Study_Site__r.Principal_Investigator__c = :CommunityService.getUserContact().Id)
+            AND is_Invited__c = TRUE];
+      system.debug('>>>pistaff>>'+piStaffs);
+        for (Site_Staff__c siteStaff : piStaffs) {
+            if (siteStaff.Site_Contact__c == CommunityService.getUserContact().Id) { 
+                piStudiesAccessLevel.put(siteStaff.Study_Site__c, siteStaff.Delegate_Level__c); 
+            } 
+          }
+          system.debug('>>>retrnvalue piStudiesAccessLevel>>'+piStudiesAccessLevel);
+          return piStudiesAccessLevel;
+      
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage()); 
+        
     }
   }
 

@@ -11357,6 +11357,188 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New Outreach Created Successfully !</value>
     </labels>
     <labels>
+        <fullName>PIR_Call_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Call Back</shortDescription>
+        <value>Call Back</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Declined_Practitioner</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Declined Practitioner</shortDescription>
+        <value>Declined Practitioner</value>
+    </labels>
+    <labels>
+        <fullName>PIR_In_Wash_Out_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_In Wash Out Period</shortDescription>
+        <value>Screening In Progress - Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Not_Ready_to_Schedule</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Not Ready to Schedule</shortDescription>
+        <value>Not Ready to Schedule</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Childcare_Issues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Childcare Issues</shortDescription>
+        <value>Childcare Issues</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Declined</shortDescription>
+        <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Did_Not_Attend_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Did Not Attend Appointment</shortDescription>
+        <value>Did Not Attend Appointment</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Did_Not_Meet_Inclusion_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Did_Not_Meet_Inclusion_Exclusion_Criteria</shortDescription>
+        <value>Did Not Meet Inclusion/Exclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Didnt_Meet_Pre_Screening_Eligibility</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Didn&apos;t Meet Pre-Screening Eligibility</shortDescription>
+        <value>Didn&apos;t Meet Pre-Screening Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Does_Not_Meet_Eligibility_Criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Does Not Meet Eligibility Criteria</shortDescription>
+        <value>Does Not Meet Eligibility Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Inadequate_Documentation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Inadequate Documentation</shortDescription>
+        <value>Inadequate Documentation</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Left_a_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Left a Message</shortDescription>
+        <value>Left a Message</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Other</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Other</shortDescription>
+        <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>PIR_PI_Decision</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_PI Decision</shortDescription>
+        <value>PI Decision</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Participant_Not_Interested</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Participant Not Interested</shortDescription>
+        <value>Participant Not Interested</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Participation_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participation_Complete</shortDescription>
+        <value>Participation Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Protocol_Concerns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Protocol Concerns</shortDescription>
+        <value>Protocol Concerns</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Transportation_Issues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Transportation_Issues</shortDescription>
+        <value>Transportation Issues</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Trial_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Trial Complete</shortDescription>
+        <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Visit_Out_Of_Window</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Visit Out Of Window</shortDescription>
+        <value>Visit Out Of Window</value>
+    </labels>
+    <labels>
+        <fullName>PIR_addParticipantFillMandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
+        <value>Please review the form for required fields</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pre_screen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pre-screen</shortDescription>
+        <value>Pre-screen</value>
+    </labels>
+    <labels>
+        <fullName>RH_Referred_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Referred by</shortDescription>
+        <value>Referred by</value>
+    </labels>
+    <labels>
+        <fullName>RH_Send_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Send to DCT Platform</shortDescription>
+        <value>Send to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sent_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Sent to DCT Platform</shortDescription>
+        <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>pir_Received_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Received_History</shortDescription>
+        <value>Received History</value>
+    </labels>
+    <labels>
         <fullName>PD_Description</fullName>
         <language>en_US</language>
         <protected>true</protected>

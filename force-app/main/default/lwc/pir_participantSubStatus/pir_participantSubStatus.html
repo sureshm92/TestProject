@@ -1,3 +1,12 @@
 <template>
-    
+    <button onclick={changeStatusGroup} disabled={checkGroupMode} class="slds-button slds-button_neutral step-btn" key={currentItem}>
+        <div class="step-status-img">
+            <img class="status-img" src={checkGroupIcon}/>
+        </div>
+        <div class="step-info">
+            <div class="step-title text-wrap-btn" title={checkGroupName}>{checkGroupName}</div>
+            <div class="step-status text-wrap-btn" title={checkGroupStatus}>{checkGroupStatus} </div>
+            <div class="step-status"> <lightning-formatted-date-time value={groupdate} ></lightning-formatted-date-time></div>
+        </div>
+    </button> 
 </template>
