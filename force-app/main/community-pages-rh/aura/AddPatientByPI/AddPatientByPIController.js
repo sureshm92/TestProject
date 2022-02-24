@@ -76,10 +76,11 @@
             message: $A.get("$Label.c.PIR_addParticipantFillMandatory"),
             type : 'error'
         });
+        var mainDiv =  document.getElementsByClassName("fieldsDiv");
+        mainDiv[0].focus();           
         toastEvent.fire();
         const myTimeout = setTimeout(function(){
-            var mainDiv =  document.getElementsByClassName("cb");
-            mainDiv[0].focus();
+            mainDiv[0].focus();           
         }, 50);
     },  
 
@@ -106,6 +107,8 @@
 
     doSaveAndNew: function (component, event, helper) {
         helper.createParticipant(component, function () {
+            var mainDiv =  document.getElementsByClassName("fieldsDiv");
+            mainDiv[0].focus();
             helper.initData(component);
             helper.setDelegate(component);
             component.find('editForm').refreshEmailInput();

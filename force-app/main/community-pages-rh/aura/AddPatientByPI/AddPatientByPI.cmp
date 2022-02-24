@@ -603,7 +603,7 @@
             <div class="ap-bottom-info"></div>
             <div class="ap-buttons">
                 <button
-                    class="apollo-btn tertiary custom-cancel cb"
+                    class="apollo-btn tertiary custom-cancel"
                     onclick="{!c.doCancel}"
                     style="{!if(v.isRTL == true, 'margin-left: 20px;', '')}"
                 >
