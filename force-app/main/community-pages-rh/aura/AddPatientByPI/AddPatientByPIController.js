@@ -77,6 +77,10 @@
             type : 'error'
         });
         toastEvent.fire();
+        const myTimeout = setTimeout(function(){
+            var mainDiv =  document.getElementsByClassName("cb");
+            mainDiv[0].focus();
+        }, 50);
     },  
 
     doCheckYearOfBith: function (component, event, helper) {
@@ -93,6 +97,10 @@
             var urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({ "url": "/my-referrals" });  
             urlEvent.fire(); 
+            const myTimeout = setTimeout(function(){
+                var mainDiv =  document.getElementsByClassName("cb");
+                mainDiv[0].focus();
+            }, 50);
         });
     },
 
