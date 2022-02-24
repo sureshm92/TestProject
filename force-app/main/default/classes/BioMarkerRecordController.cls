@@ -68,15 +68,17 @@ public  without sharing  class BioMarkerRecordController {
     }
 
     static Map<String,String> fileExtensionToTypeMap = new Map<String,String>{
-        'MP4' => 'Video',
-        'MP3' => 'Audio',
-        'WAV' => 'Audio',
-        'JPEG' => 'Image',
-        'JPG' => 'Image',
-        'PNG' => 'Image',
-        'GIF' => 'Image',
-        'AAC' => 'Audio',
-        'M4A' => 'Audio'
+        'mp4' => 'Video',
+        'mkv' => 'Video',
+        'mp3' => 'Audio',
+        'wav' => 'Audio',
+        'aac' => 'Audio',
+        'm4a' => 'Audio',
+        'jpeg' => 'Image',
+        'jpg' => 'Image',
+        'png' => 'Image',
+        'gif' => 'Image',        
+        'bmp' => 'Image'       
        /* 'EXCEL_X' => 'File',
         'POWER_POINT_X' => 'File',
         'PDF' => 'File',
@@ -102,19 +104,22 @@ public  without sharing  class BioMarkerRecordController {
             SELECT Id,Title,FileType,FileExtension 
             FROM ContentDocument 
             WHERE Id IN :ContentDocumentIds
-              AND FileType IN :fileExtensionToTypeMap.keySet()
+              AND FileExtension IN :fileExtensionToTypeMap.keySet()
         ];
 
         for(ContentDocument cd : contentDocList){
             mediaFileWrapper file = new mediaFileWrapper();
             file.name=cd.Title;
-            if(cd.FileType == 'MP4' || cd.FileType == 'MP3' || cd.FileType == 'WAV' || cd.FileType == 'AAC' || cd.FileType == 'M4A'){
+            if(cd.FileExtension == 'mp4' || cd.FileExtension == 'mp3' || cd.FileExtension == 'wav' || cd.FileExtension == 'aac' || cd.FileExtension == 'm4a' ||
+                cd.FileExtension == 'mkv'){
                 file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id+'?operationContext=S1';
-            }
+            }            
             else {
                 file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id;
             }
-            file.type = fileExtensionToTypeMap.get(cd.FileType);
+
+            file.type = fileExtensionToTypeMap.get(cd.FileExtension);
+           
             file.FileExtension = cd.FileExtension;
             mediaFileList.add(file);
         }

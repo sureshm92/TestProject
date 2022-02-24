@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="header">
-            <div class="rr-width-limiter side-padding">
+            <div class="rr-width-limiter side-padding fieldsDiv" tabindex="0">
                 <div class="sub-title">{!v.smallTitle}</div>
                 <div class="title">{!v.bigTitle}</div>
             </div>

@@ -22,7 +22,11 @@ private class Test_ECOADiariesController {
         } catch (Exception ex) {
             system.debug('line number:' + ex.getLineNumber());
         }
-
+        try {
+            ECOADiariesController.getSubjectGuid();
+        } catch (Exception ex) {
+            system.debug('line number:' + ex.getLineNumber());
+        }
         Test.StopTest();
     }
 }

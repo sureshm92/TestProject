@@ -147,3 +147,6 @@
     max-height: 77px;
     overflow: auto;
 }
+.THIS .fieldsDiv:focus-visible {
+    outline: none;
+}

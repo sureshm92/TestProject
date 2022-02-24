@@ -31,6 +31,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
+    public class UpdateParticipantInitialVisit extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            disablePESH(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+        
+    }
 
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
@@ -923,5 +929,35 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
           }                   
         
     }
+    public static void disablePESH(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap)
+    {
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
+        for (Participant_Enrollment__c per : newList) {
+            if ((per.Initial_visit_scheduled_date__c != oldMap.get(per.Id).Initial_visit_scheduled_date__c 
+                 || per.Initial_visit_scheduled_time__c != oldMap.get(per.Id).Initial_visit_scheduled_time__c
+                 || per.Initial_visit_occurred_flag__c != oldMap.get(per.Id).Initial_visit_occurred_flag__c)
+                &&
+                ((per.Initial_visit_scheduled_date__c == Null && per.Initial_visit_occurred_flag__c == False)||
+                 per.ParticipantNoShow__c == True)) {
+                     per.Participant_Status__c = 'Successfully Contacted';
+                     peList.add(per);
+                 }    
+        }
+        for(Participant_Enrollment_Status_History__c pesh : [SELECT Id, Disabled_PESH__c, Status_Order__c FROM 
+                                                             Participant_Enrollment_Status_History__c WHERE
+                                                             ParticipantEnrollment__c IN: peList]){
+                                                                 if(pesh.Status_Order__c > 3){
+                                                                     pesh.Disabled_PESH__c = True;
+                                                                     peshList.add(pesh);
+                                                                 }
+                                                             }
+        if(!peshList.isEmpty()){
+            update peshList;
+        }
+        
+    }   
     
 }
