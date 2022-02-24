@@ -11357,6 +11357,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New Outreach Created Successfully !</value>
     </labels>
     <labels>
+        <fullName>PIR_Call_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Call Back</shortDescription>
+        <value>Call Back</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Declined_Practitioner</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Declined Practitioner</shortDescription>
+        <value>Declined Practitioner</value>
+    </labels>
+    <labels>
+        <fullName>PIR_In_Wash_Out_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_In Wash Out Period</shortDescription>
+        <value>Screening In Progress - Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Not_Ready_to_Schedule</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Not Ready to Schedule</shortDescription>
+        <value>Not Ready to Schedule</value>
+    </labels>
+    <labels>
         <fullName>PIR_Childcare_Issues</fullName>
         <language>en_US</language>
         <protected>false</protected>
