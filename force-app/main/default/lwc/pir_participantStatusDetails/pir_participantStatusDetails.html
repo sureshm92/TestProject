@@ -1,0 +1,56 @@
+<template>  
+    <template if:false={showStatus}>
+        <div class="slds-m-around_large">
+            <template if:false={showStatus} class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+            </template> 
+        </div>
+    </template>
+        <div class="slds-m-around_large">
+            <template if:true={saveSpinner} class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+            </template> 
+        </div>
+      <div class="slds-grid slds-wrap statusdetail vertical-scroll">
+        <template if:true={showStatus}>
+            <template if:true={showBubbleMap}>
+                <div class="bubblechart">
+                    <c-pir_participant-Bubble-Map pathdetails={bubbleMapDetails}></c-pir_participant-Bubble-Map> 
+                </div>             
+            </template>
+        </template>
+        <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3 slds-p-horizontal--medium col-padding C">       
+            <div class="list">
+            <template if:true={showStatus}>
+                <template for:each={peCardDetails} for:item="currentItem" for:index="index">
+                        <c-pir_participant-Sub-Status groupname={currentItem.groupName}
+                                                  groupstatus={currentItem.groupStatus}
+                                                  groupdate={currentItem.groupDate}
+                                                  groupicon={currentItem.groupIcon}
+                                                  index={index}
+                                                  key={currentItem}
+                                                  non_enrollment_reason={reason}
+                                                  onstatuschange={hanldeStatusChange}>
+                    </c-pir_participant-Sub-Status>
+                </template>
+            </template>
+            </div>  
+        </div>
+        <div class="slds-col slds-max-small-size_1-of-1 slds-size--2-of-3 hideMobile D">
+            <div class="hideDesktopView">
+                <div onclick={mobileViewToggle} class="pgHeadMob slds-p-left--xx-small">
+                    <img class="backArrow" src={backArrow}/>                  
+                        Back
+                </div>
+            </div>
+           <template if:true={showStatus}> 
+                <c-pir_participant-sub-status-fields pe_record={per} isfinalconsentrequired={isFinalConsentRequired} initialvisitsctime={initialVisitScheduledTime} isinitialvisitpresent={isInitialVisitsPresent} 
+                                                    grpicons={groupIcons} isinitialvisit={isInitialVisitRequired} outcome-to-reason-map={outcomeToReasonMap}  currentitems={selectedPeStatus} 
+                                                    groupname={groupnme} isvprequired={isVisitPlanRequired} plan={selectedPlan}  visitplanoptions={visitPlan} peid={selectedPE_ID}
+                                                    onsaved={doSelectedPI}  onvalidatesavebutton={handleSaveButton} onrecordsave={doShowSpinneronSave}
+                                                    currentuserdate={userDate} outcome-values={outcomeValue} onstatusdetailsvaluechange={doCallParent} oncallparticipantstatusdetail={doCallEvent} set-opt={showStatus}>
+                 </c-pir_participant-Sub-Status-Fields > 
+           </template> 
+        </div>       
+    </div>
+</template>

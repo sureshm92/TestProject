@@ -54,7 +54,7 @@
     <aura:attribute name="isBulkImport" type="Boolean"/>
     <aura:attribute name="isBulkImportOld" type="Boolean"/>
     <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean"/>
-    
+    <aura:attribute name="resetDate" type="Boolean" default="true"/>
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="emailDelegate" type="String" />
     
@@ -81,6 +81,7 @@
     <aura:method name="createDataStamp" action="{!c.doCreateDataStamp}" access="public" />
     <aura:method name="refreshView" action="{!c.doRefreshView}" access="public" />
     <aura:method name="refreshEmailInput" action="{!c.doRefreshEmailInput}" access="public" />
+    <aura:method name="resetDateInput" action="{!c.doRefreshDateInput}" access="public" />
     
     <c:RRSpinner aura:id="spinner" size="medium"  fixed="true" />
     
@@ -580,7 +581,8 @@
                                 >{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
                         <!-- REF-3070  Added disabled-->
-                        <c:rrSelect
+                        <aura:if isTrue="{!v.resetDate}">
+                            <c:rrSelect
                                     options="{!v.formData.phoneTypeLVList}"
                                     value="{!v.participant.Phone_Type__c}"
                                     placeholder="{!$Label.c.PG_AC_Select}"
@@ -588,6 +590,7 @@
                                     disabled="{!!v.participant.Adult__c}"
                                     onchange="{!c.doCheckFields}"
                                     />
+                        </aura:if>
                     </div>
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
