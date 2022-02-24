@@ -1,0 +1,70 @@
+.slds-button+.slds-button {
+    margin-left: 0;
+}
+.slds-button:focus {
+    text-decoration: none;
+}
+.step-btn{
+    width: 100%;
+    min-height: 60px;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+    padding: 6px 16px;
+}
+.step-btn:hover{
+    background-color: #eef5ff;
+    border-color: #297dfd;
+    color: #297dfd;
+    transition: .25s;
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+}
+.step-btn:focus{
+    background-color: #eef5ff;
+    border-color: #297dfd;
+    color: #297dfd;
+    transition: .25s;
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+}
+.step-btn:disabled {
+    opacity: .5;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.status-img{
+    min-width: 18px;
+    min-height: 18px;
+    border-radius: 50%;
+    line-height: 1;
+    margin-right: 20px;
+}
+.step-info{
+    text-align: left;
+}
+.step-title{
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+.text-wrap-btn{
+    white-space: nowrap; 
+    width: 155px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+  }
+.step-status{
+    color: #595959;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+@media (max-device-width: 767px) { 
+    .text-wrap-btn{
+        overflow: unset;
+      }
+      .step-status{ 
+        line-height: 13px;
+        margin-bottom: 3px;
+    }  
+}
