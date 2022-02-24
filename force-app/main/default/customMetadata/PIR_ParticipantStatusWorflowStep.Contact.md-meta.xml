@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PWS_Contact_Name</label>
+    <protected>false</protected>
+    <values>
+        <field>Additional_Notes_for_Satuses__c</field>
+        <value xsi:type="xsd:string">;Received;Ready to Contact;Pre-review Passed;Pre-review Failed;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;</value>
+    </values>
+    <values>
+        <field>Default_Description__c</field>
+        <value xsi:type="xsd:string">Not Contacted Yet</value>
+    </values>
+    <values>
+        <field>Failure_Criteria__c</field>
+        <value xsi:type="xsd:string">Pre-review Failed;Contacted - Not Suitable;Unable to Reach</value>
+    </values>
+    <values>
+        <field>History_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>In_progress_criteria__c</field>
+        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Contact Attempted;Received;</value>
+    </values>
+    <values>
+        <field>List_of_Statuses__c</field>
+        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Pre-review Failed;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;</value>
+    </values>
+    <values>
+        <field>Name__c</field>
+        <value xsi:type="xsd:string">PWS_Contact_Name</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Success_Criteria__c</field>
+        <value xsi:type="xsd:string">Successfully Contacted</value>
+    </values>
+</CustomMetadata>
