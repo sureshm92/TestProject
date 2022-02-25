@@ -214,17 +214,19 @@ public without sharing class PIR_StatusDetailController {
     for (PIR_ParticipantStatusWorflowStep__mdt mdt : pirMetadata) {
       System.debug('mdt.Label: ' + mdt.Label);
       System.debug('mdt.Order__c: ' + mdt.Order__c);
+      System.debug('Integer.valueof(mdt.Order__c): ' + Integer.valueof(mdt.Order__c));
+      Integer mdtOrder = Integer.valueof(mdt.Order__c);
       StatusDetailGroup wrap = new StatusDetailGroup();
       wrap.perId = per[0].Id;
       wrap.groupName = mdt.Name__c;
       wrap.groupStatus = mdt.Default_Description__c;
-      if (orderToPeshMap.containsKey(mdt.Order__c)) {
-        wrap.groupStatus = orderToPeshMap.get(mdt.Order__c).Status_Label__c;
-        wrap.groupReason = orderToPeshMap.get(mdt.Order__c).Reason__c;
-        wrap.groupDate = orderToPeshMap.get(mdt.Order__c).CreatedDate;
+      if (orderToPeshMap.containsKey(mdtOrder)) {
+        wrap.groupStatus = orderToPeshMap.get(mdtOrder).Status_Label__c;
+        wrap.groupReason = orderToPeshMap.get(mdtOrder).Reason__c;
+        wrap.groupDate = orderToPeshMap.get(mdtOrder).CreatedDate;
         wrap.groupIcon = getGroupIcon(
           mdt,
-          orderToPeshMap.get(mdt.Order__c).Status__c
+          orderToPeshMap.get(mdtOrder).Status__c
         );
       }
 
@@ -254,13 +256,13 @@ public without sharing class PIR_StatusDetailController {
       }
 
       if (
-        mdt.Order__c == nxtOrder &&
+        mdtOrder == nxtOrder &&
         mdt.Label != 'PWS_Initial_Visit_Card_Name'
       ) {
         System.debug('###in nxt order ' + nxtOrder);
         wrap.groupIcon = getGroupIcon(
           mdt,
-          orderToPeshMap.get(mdt.Order__c - 1).Status__c
+          orderToPeshMap.get(mdtOrder - 1).Status__c
         );
       }
 
