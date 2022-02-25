@@ -612,10 +612,20 @@ export default class Pir_participantSubStatusFields extends LightningElement {
                 value: opts[i].value
               });
             } else {
-              trans_opts.push({
-                label: this.utilLabels[opts[i].label],
-                value: opts[i].value
-              });
+                if(opts[i].label === "Declined_Final_Consent"){
+                  if(this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c){
+                      trans_opts.push({
+                        label: this.utilLabels[opts[i].label],
+                        value: opts[i].value
+                      });
+                  }
+              }
+              else{
+                    trans_opts.push({
+                      label: this.utilLabels[opts[i].label],
+                      value: opts[i].value
+                    }); 
+                  }
             }
           }
         } 
@@ -645,8 +655,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
                     label: this.utilLabels[opts[i].label],
                     value: opts[i].value
                   }); 
-             }
-          }
+                }
+            }
         }
     }
     
