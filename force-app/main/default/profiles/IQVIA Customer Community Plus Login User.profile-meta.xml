@@ -1517,6 +1517,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIR_StatusDetailController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RemoteCall_SendSMS</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4939,6 +4943,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment_Status_History__c.Status_Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment_Status_History__c.Status_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment_Status_History__c.Backward_Bulk_Update__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
