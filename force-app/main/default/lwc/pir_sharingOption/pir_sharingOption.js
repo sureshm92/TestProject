@@ -18,8 +18,7 @@ export default class Pir_sharingOption extends LightningElement {
     handleChange(e) {
         this.value = e.detail.value;
     }
-    @api 
-    selectedPE;
+    @api selectedPE;
     healthcareProviders = [];
     delegates = [];
     yob = [];
@@ -30,24 +29,23 @@ export default class Pir_sharingOption extends LightningElement {
     
 
     connectedCallback(){
-        console.log('>>connected call back called>>'+this.selectedPE);
-        this.fetchInitialDetails();
-
+        //console.log('>>connected call back called>>'+this.selectedPE);
+        //this.fetchInitialDetails();
     }
 
     @api
     fetchInitialDetails() {  
-        console.log('>>fecth details called>>'); 
-       
+        console.log('>>fecth details called>>');
+        this.resetFormElements();
         this.getParticipantDetails();
-        this.getInitialData();
-       
-        //this.loading = false;
-        this.template.querySelector("c-pir_sharing-form").resetDelegateList();
-        this.template.querySelector("c-pir_sharing-form").isAddDelegates = false;        
-        this.template.querySelector("c-pir_sharing-form").peDetails = this.selectedPE;
-        loading = false;
-        
+    }
+
+    resetFormElements() {
+        this.delegates = [];    
+        this.healthcareProviders=[];
+        this.isAddDelegates = false;
+        this.ishcpAddDelegates = false;
+        this.yob=[];
     }
 
     getParticipantDetails() {
@@ -60,6 +58,7 @@ export default class Pir_sharingOption extends LightningElement {
                 console.log('ParticipantData:'+JSON.stringify(result));
                // this.template.querySelector("c-pir_sharing-form").participantObject = result;
                 this.participantObject = result;
+                this.getInitialData();
                 this.loading = false;
                 
             })
@@ -88,19 +87,11 @@ export default class Pir_sharingOption extends LightningElement {
             for (let i = 0; i < del.length; i++) {
                 del[i].sObjectType = 'Object';
             }
-            //if(del.length > 0) {
-                this.delegates = del;
-                this.isAddDelegates = true;
-            //}
-            //if(hcp.length > 0) {
-                this.healthcareProviders = hcp;
-                this.ishcpAddDelegates = true;
-            
-
-            //this.template.querySelector("c-pir_sharing-form").updateExistingDelegates();
-            //this.template.querySelector("c-pir_sharing-form").updateExistingHCPDelegates();
-
-            this.loading = false;
+            this.delegates = del;
+            this.isAddDelegates = true;
+            this.healthcareProviders = hcp;
+            this.ishcpAddDelegates = true;
+            this.yob = result.yearOfBirth;
            
         })
         .catch((error) => {

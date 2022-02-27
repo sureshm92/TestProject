@@ -26,7 +26,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isExistingDelegate = false;
     connectDisconnect = false;
     isHCPDelegate = false;
-    
+    gridCss='';
 
     get options() {
         return [
@@ -34,7 +34,7 @@ export default class Pir_sharingFormFields extends LightningElement {
             { label: '2021', value: '2021' },
             { label: '2020', value: '2020' },
             { label: '2019', value: '2019' },
-            { label: '1999', value: '1999' }
+            { label: '1999', value: '1999' }           
           
         ];
     }
@@ -54,13 +54,16 @@ export default class Pir_sharingFormFields extends LightningElement {
         }).catch((error) => {
              console.log('Error: ' + error);
         });
-        console.log('this.participantObject:'+JSON.stringify(this.participantObject));
         if(this.sharingObject.sObjectType === 'Object'){
+            //options = eval(this.yob);
             this.isHCPDelegate = true;
             this.isHCPDelegate = false;
             if(this.sharingObject.delegateId) {
                 this.isExistingDelegate = true;
+                this.gridCss='slds-p-around_small';    
+
             } else {
+                this.gridCss='delegate-bg slds-p-around_small';
                 this.isExistingDelegate = false;
             }
             if(this.sharingObject.status) {
@@ -73,9 +76,11 @@ export default class Pir_sharingFormFields extends LightningElement {
         } else {
             this.isHCPDelegate = true;
             if(this.sharingObject.Id) {
-                this.isExistingDelegate = true;
+                this.isExistingDelegate = true;                
+                this.gridCss='slds-p-around_small';
             } else {
-                this.isExistingDelegate = false;
+                this.isExistingDelegate = false;                
+                this.gridCss='delegate-bg slds-p-around_small';
             }
             if(this.sharingObject.Status__c) {
                 if(this.sharingObject.Status__c === 'Invited' && this.isExistingDelegate) {

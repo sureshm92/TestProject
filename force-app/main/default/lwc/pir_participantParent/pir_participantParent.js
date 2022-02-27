@@ -158,10 +158,8 @@ export default class Pir_participantParent extends LightningElement {
       this.isModalOpen = true;   
     }else{
       console.log('>>in sharing else>>');
-      this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
-      console.log('>>line 161>>>')
+      //this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
       this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails(); 
-      console.log('>>1622>>');
       this.selectedTab = "Sharing Options";
       
     }

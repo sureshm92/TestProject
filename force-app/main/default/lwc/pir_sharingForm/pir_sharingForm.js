@@ -14,7 +14,8 @@ export default class Pir_sharingOptionForm extends LightningElement {
     @api isHCPDelegate;
     buttonLabel;
 
-    connectedCallback(){
+    connectedCallback() {
+        this.resetDelegateList();
         if(this.targetObject === 'delegate') {
             this.buttonLabel = 'Add Delegate';
         } else {
@@ -56,12 +57,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
             }
         }
         console.log('this.addDelegateList:'+JSON.stringify(this.addDelegateList));
-    }
-
-    @api
-    updateExistingHCPDelegates() {
-
-
     }
 
     addDelegateFormFields() {

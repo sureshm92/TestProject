@@ -1,179 +1,182 @@
 <template>
    <template if:false={isHCPDelegate}>
-    <div class="slds-grid slds-wrap slds-gutters" >
-
-      <template if:true={loading}>
-            <lightning-spinner
-               alternative-text="Loading"
-               size="small"
-            ></lightning-spinner>
-      </template>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll">
-           <lightning-input 
-               type="email" 
-               label="Delegate's email address" 
-               title="Delegate's email address" 
-               required=""
-               onchange={checkFields} 
-               value={sharingObject.email}
-               data-name='email'
-               class="validate"
-               onblur={checkDelegateDuplicate}
-               disabled={isExistingDelegate}>
-            </lightning-input>
-            <!--value={sharingObject.email}-->
-        </div>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small">
-           <div class="slds-grid slds-wrap slds-gutters">
-              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                 <lightning-input 
-                     type="text" 
-                     label="Delegate's first name" 
-                     title="Delegate's first name" 
-                     required="" 
-                     value={sharingObject.firstName}                     
+      <div class={gridCss} >
+         <div class="slds-grid slds-wrap slds-gutters" >
+            <template if:true={loading}>
+                  <lightning-spinner
+                     alternative-text="Loading"
+                     size="small"
+                  ></lightning-spinner>
+            </template>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll">
+               <lightning-input 
+                     type="email" 
+                     label="Delegate's email address" 
+                     title="Delegate's email address" 
+                     required=""
                      onchange={checkFields} 
-                     data-name='firstName'
+                     value={sharingObject.email}
+                     data-name='email'
                      class="validate"
                      onblur={checkDelegateDuplicate}
                      disabled={isExistingDelegate}>
                   </lightning-input>
-                  <!--value={sharingObject.firstName}-->
-              </div>
-              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                 <lightning-input 
-                     type="text" 
-                     label="Delegate's last name" 
-                     title="Delegate's last name" 
-                     value={sharingObject.lastName}
-                     required="" 
-                     onchange={checkFields} 
-                     data-name='lastName'
-                     class="validate"
-                     onblur={checkDelegateDuplicate}
-                     disabled={isExistingDelegate}>
-                  </lightning-input>
+                  <!--value={sharingObject.email}-->
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small">
+               <div class="slds-grid slds-wrap slds-gutters">
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
+                     <lightning-input 
+                           type="text" 
+                           label="Delegate's first name" 
+                           title="Delegate's first name" 
+                           required="" 
+                           value={sharingObject.firstName}                     
+                           onchange={checkFields} 
+                           data-name='firstName'
+                           class="validate"
+                           onblur={checkDelegateDuplicate}
+                           disabled={isExistingDelegate}>
+                        </lightning-input>
+                        <!--value={sharingObject.firstName}-->
+                  </div>
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
+                     <lightning-input 
+                           type="text" 
+                           label="Delegate's last name" 
+                           title="Delegate's last name" 
+                           value={sharingObject.lastName}
+                           required="" 
+                           onchange={checkFields} 
+                           data-name='lastName'
+                           class="validate"
+                           onblur={checkDelegateDuplicate}
+                           disabled={isExistingDelegate}>
+                        </lightning-input>
+                        
+                        <!--value={sharingObject.lastName}-->
+                  </div>
+               </div>
+            </div>
+            <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium" if:false={isExistingDelegate}>
+               <lightning-combobox
+                  name="progress"
+                  label="Year of Birth"
+                  placeholder="--"
+                  options={options}                  
+                  onchange={checkDelegateAgeHandler}
+                  required
+                  data-name='yob'
+                  class="validate"
+                  dropdown-alignment="bottom-left"
+                  ></lightning-combobox>
+                  <!--value={sharingObject.Birth_Year__c}-->
                   
-                  <!--value={sharingObject.lastName}-->
-              </div>
-           </div>
-        </div>
-        <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium" if:false={isExistingDelegate}>
-           <lightning-combobox
-              name="progress"
-              label="Year of Birth"
-              placeholder="--"
-              options={options}
-              onchange={checkDelegateAgeHandler}
-              required
-              data-name='yob'
-              class="validate"
-            ></lightning-combobox>
-            <!--value={sharingObject.Birth_Year__c}-->
-              
-        </div>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top" if:false={isExistingDelegate}>
-           <lightning-input 
-               type="checkbox" 
-               class="validate checkbox-text" 
-               label="I certify that the patient's delegate/caregiver is over the age of legal majority for their state/country" 
-               name="input2" 
-               required 
-               data-name="attestCheckbox"
-               disabled={isAdultDelegate}
-               onchange={checkFields}
-               >
-               
-            </lightning-input>
-        </div>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:false={isExistingDelegate}>
-           <button class="slds-button apollo-btn secondary connect-patient-btn" disabled={isValid} data-name='connect' onclick={ConnectDelegate}>                                                              
-               {label.ConnectPatient}
-           </button>
-        </div>
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
-         <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
-            {connectDisconnect}
-         </button>
-      </div>
-      <div if:true={isDuplicateDelegate}>
-         <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
-      </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top" if:false={isExistingDelegate}>
+               <lightning-input 
+                     type="checkbox" 
+                     class="validate checkbox-text" 
+                     label="I certify that the patient's delegate/caregiver is over the age of legal majority for their state/country" 
+                     name="input2" 
+                     required 
+                     data-name="attestCheckbox"
+                     disabled={isAdultDelegate}
+                     onchange={checkFields}
+                     >
+                     
+                  </lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:false={isExistingDelegate}>
+               <button class="slds-button apollo-btn secondary connect-patient-btn" disabled={isValid} data-name='connect' onclick={ConnectDelegate}>                                                              
+                     {label.ConnectPatient}
+               </button>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
+               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
+                  {connectDisconnect}
+               </button>
+            </div>
+            <div if:true={isDuplicateDelegate}>
+               <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
+            </div>
+         </div>
      </div>
    </template>
-   <template if:true={isHCPDelegate}>
-      <div class="slds-grid slds-wrap slds-gutters" >
+   <template if:true={isHCPDelegate}>      
+      <div class={gridCss}>
+         <div class="slds-grid slds-wrap slds-gutters" >
 
-         <template if:true={loading}>
-               <lightning-spinner
-                  alternative-text="Loading"
-                  size="small"
-               ></lightning-spinner>
-         </template>
-           <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll">
-              <lightning-input 
-                  type="email" 
-                  label="Provider's email address" 
-                  title="Provider's email address" 
-                  required=""
-                  onchange={checkFields} 
-                  value={sharingObject.Email__c}
-                  data-name='email'
-                  class="validate"
-                  onblur={checkDelegateDuplicate}
-                  disabled={isExistingDelegate}>
-               </lightning-input>
-               <!--value={sharingObject.email}-->
-           </div>
-           <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small">
-              <div class="slds-grid slds-wrap slds-gutters">
-                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                    <lightning-input 
-                        type="text" 
-                        label="Provider's first name" 
-                        title="Provider's first name" 
-                        required="" 
-                        value={sharingObject.First_Name__c}                     
-                        onchange={checkFields} 
-                        data-name='firstName'
-                        class="validate"
-                        onblur={checkDelegateDuplicate}
-                        disabled={isExistingDelegate}>
-                     </lightning-input>
-                     <!--value={sharingObject.firstName}-->
-                 </div>
-                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                    <lightning-input 
-                        type="text" 
-                        label="Provider's last name" 
-                        title="Provider's last name" 
-                        value={sharingObject.Last_Name__c}
-                        required="" 
-                        onchange={checkFields} 
-                        data-name='lastName'
-                        class="validate"
-                        onblur={checkDelegateDuplicate}
-                        disabled={isExistingDelegate}>
-                     </lightning-input>
-                     
-                     <!--value={sharingObject.lastName}-->
-                 </div>
-              </div>
-           </div>
-           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:false={isExistingDelegate}>
-              <button class="slds-button apollo-btn secondary connect-patient-btn" disabled={isValid} data-name='connect' onclick={ConnectDelegate}>                                                              
-                  {label.ConnectPatient}
-              </button>
-           </div>
-           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
-            <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
-               {connectDisconnect}
-            </button>
+            <template if:true={loading}>
+                  <lightning-spinner
+                     alternative-text="Loading"
+                     size="small"
+                  ></lightning-spinner>
+            </template>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll">
+               <lightning-input 
+                     type="email" 
+                     label="Provider's email address" 
+                     title="Provider's email address" 
+                     required=""
+                     onchange={checkFields} 
+                     value={sharingObject.Email__c}
+                     data-name='email'
+                     class="validate"
+                     onblur={checkDelegateDuplicate}
+                     disabled={isExistingDelegate}>
+                  </lightning-input>
+                  <!--value={sharingObject.email}-->
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small">
+               <div class="slds-grid slds-wrap slds-gutters">
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
+                     <lightning-input 
+                           type="text" 
+                           label="Provider's first name" 
+                           title="Provider's first name" 
+                           required="" 
+                           value={sharingObject.First_Name__c}                     
+                           onchange={checkFields} 
+                           data-name='firstName'
+                           class="validate"
+                           onblur={checkDelegateDuplicate}
+                           disabled={isExistingDelegate}>
+                        </lightning-input>
+                        <!--value={sharingObject.firstName}-->
+                  </div>
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
+                     <lightning-input 
+                           type="text" 
+                           label="Provider's last name" 
+                           title="Provider's last name" 
+                           value={sharingObject.Last_Name__c}
+                           required="" 
+                           onchange={checkFields} 
+                           data-name='lastName'
+                           class="validate"
+                           onblur={checkDelegateDuplicate}
+                           disabled={isExistingDelegate}>
+                        </lightning-input>
+                        
+                        <!--value={sharingObject.lastName}-->
+                  </div>
+               </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:false={isExistingDelegate}>
+               <button class="slds-button apollo-btn secondary connect-patient-btn" disabled={isValid} data-name='connect' onclick={ConnectDelegate}>                                                              
+                     {label.ConnectPatient}
+               </button>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
+               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
+                  {connectDisconnect}
+               </button>
+            </div>
+            <div if:true={isDuplicateDelegate}>
+               <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
+            </div>
          </div>
-         <div if:true={isDuplicateDelegate}>
-            <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
-         </div>
-        </div>
-
+      </div>
    </template>
 </template>
