@@ -1607,13 +1607,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       let visitPln = 'null';
       if(this.participantrecord.Visit_Plan__c){
         visitPln = this.participantrecord.Visit_Plan__c;
-        console.log('vp:'+visitPln);
       }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
       doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
         .then((result) => {
-          console.log("--SUCCESS--");
           this.showSuccessToast("Record Saved Successfully");
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
