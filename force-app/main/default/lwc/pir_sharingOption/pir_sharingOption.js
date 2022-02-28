@@ -26,16 +26,15 @@ export default class Pir_sharingOption extends LightningElement {
     participantObject;
     isHCPDelegates;
     isAddDelegates;
+    yobOptions=[];
     
 
     connectedCallback(){
-        //console.log('>>connected call back called>>'+this.selectedPE);
-        //this.fetchInitialDetails();
+        this.fetchInitialDetails();
     }
 
     @api
     fetchInitialDetails() {  
-        console.log('>>fecth details called>>');
         this.resetFormElements();
         this.getParticipantDetails();
     }
@@ -54,36 +53,28 @@ export default class Pir_sharingOption extends LightningElement {
         }
         getParticipantData({perId:this.selectedPE.id})
             .then((result) => {
-               
-                console.log('ParticipantData:'+JSON.stringify(result));
-               // this.template.querySelector("c-pir_sharing-form").participantObject = result;
                 this.participantObject = result;
                 this.getInitialData();
                 this.loading = false;
                 
             })
             .catch((error) => {
-                //this.error = error;
                 console.log(error);
                 this.loading = false;
             });
     }
 
     getInitialData() {
-        console.log('>>init detail called>>');
         if(!this.loading) {
             this.loading = true;
         }
         getInitData({ peId: this.selectedPE.id, participantId: this.selectedPE.participantId })
         .then((result) => {
-           
-            console.log('Result:'+JSON.stringify(result));
             let hcp = result.healthcareProviders;
             for (let i = 0; i < hcp.length; i++) {
                 hcp[i].sObjectType = 'Healthcare_Provider__c';
             }
             let del = result.listWrapp;
-            console.log(JSON.stringify(result.listWrapp));
             for (let i = 0; i < del.length; i++) {
                 del[i].sObjectType = 'Object';
             }
@@ -92,14 +83,23 @@ export default class Pir_sharingOption extends LightningElement {
             this.healthcareProviders = hcp;
             this.ishcpAddDelegates = true;
             this.yob = result.yearOfBirth;
-           
         })
         .catch((error) => {
-            //this.error = error;
             console.log(error);
             this.loading = false;
-            //this.showErrorToast(JSON.stringify(error.body.message));
         });
+    }
+
+    editYob() {
+       
+        if(this.yob) {
+            let options = [];
+            for(let option in this.yob){
+                options.push({ label: this.yob[option].label, value: this.yob[option].value });
+            }
+            this.yobOptions = options;
+        }
+
     }
 
     refreshDelegates() {
