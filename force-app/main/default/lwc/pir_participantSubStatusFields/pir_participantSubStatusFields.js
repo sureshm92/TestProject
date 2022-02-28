@@ -47,7 +47,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.participantrecord.Site_Communication_Preference__c =
         event.target.checked;
     } else if (event.target.dataset.value === "Reason") {
-      if(event.target.value == null){
+      if(event.target.value == null || event.target.value == ' '){
         this.participantrecord.Non_Enrollment_Reason__c = '';
         this.selectedreason = '';
         if (this.selectedOutcomeIV == "Declined_Consent") {
