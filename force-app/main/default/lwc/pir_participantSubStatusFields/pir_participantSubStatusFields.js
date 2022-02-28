@@ -1604,11 +1604,14 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if (tdyDt < occuredDt) {
       this.showErrorToast("Initial Visit Attended Date cannot be future date");
     } else {
+      let visitPln = 'null';
+      if(this.participantrecord.Visit_Plan__c){
+        visitPln = this.participantrecord.Visit_Plan__c;
+      }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
-      doSaveStatusDetails({ perRecord: this.participantrecord })
+      doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
         .then((result) => {
-          console.log("--SUCCESS--");
           this.showSuccessToast("Record Saved Successfully");
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
