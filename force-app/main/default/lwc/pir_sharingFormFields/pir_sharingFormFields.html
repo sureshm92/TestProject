@@ -63,14 +63,17 @@
                   name="progress"
                   label="Year of Birth"
                   placeholder="--"
-                  options={options}                  
-                  onchange={checkDelegateAgeHandler}
+                  options={yobOptions}                  
                   required
                   data-name='yob'
-                  class="validate"
+                  class="validate"                  
+                  value={sharingObject.Birth_Year__c}
                   dropdown-alignment="bottom-left"
+                  onchange={checkDelegateAgeHandler}
                   ></lightning-combobox>
-                  <!--value={sharingObject.Birth_Year__c}-->
+                  <!--value={sharingObject.Birth_Year__c}
+                  
+               -->
                   
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top" if:false={isExistingDelegate}>
@@ -96,9 +99,11 @@
                <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
                   {connectDisconnect}
                </button>
-            </div>
-            <div if:true={isDuplicateDelegate}>
-               <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
+            </div>           
+            <div class="duplicatemsg">
+               <template if:true={isDuplicateDelegate}> 
+                  <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
+               </template>
             </div>
          </div>
      </div>
@@ -139,11 +144,10 @@
                            value={sharingObject.First_Name__c}                     
                            onchange={checkFields} 
                            data-name='firstName'
-                           class="validate"
-                           onblur={checkDelegateDuplicate}
-                           disabled={isExistingDelegate}>
+                           class="validate"                           
+                           disabled={isDisabled}>
                         </lightning-input>
-                        <!--value={sharingObject.firstName}-->
+                        <!--value={sharingObject.firstName}onblur={checkDelegateDuplicate}-->
                   </div>
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
                      <lightning-input 
@@ -154,12 +158,11 @@
                            required="" 
                            onchange={checkFields} 
                            data-name='lastName'
-                           class="validate"
-                           onblur={checkDelegateDuplicate}
-                           disabled={isExistingDelegate}>
+                           class="validate"                           
+                           disabled={isDisabled}>
                         </lightning-input>
                         
-                        <!--value={sharingObject.lastName}-->
+                        <!--value={sharingObject.lastName} onblur={checkDelegateDuplicate}-->
                   </div>
                </div>
             </div>
@@ -173,9 +176,19 @@
                   {connectDisconnect}
                </button>
             </div>
-            <div if:true={isDuplicateDelegate}>
-               <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
-            </div>
+            <template if:true={isDuplicateDelegate}>
+               <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12" >
+                  <div class="slds-align_absolute-center slds-m-top_xx-small">
+                     <a
+                     href="/s/help"
+                     target="_blank"
+                     class="rr-link"
+                     >Did you expect a different provider? Let us know.
+                     </a>
+                  </div>
+               </div>
+            </template>
+
          </div>
       </div>
    </template>
