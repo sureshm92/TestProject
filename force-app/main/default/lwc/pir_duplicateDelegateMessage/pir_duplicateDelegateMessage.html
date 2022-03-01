@@ -1,18 +1,14 @@
 <template>
-    <div class="slds-grid slds-wrap delegate-alert-message slds-grid--vertical-align-center">
-        <div class="alert-icon-margin" style="margin-right: 16px">
-            <!--<img src="{!$Resource.icon_statusAlertOrange}" class="status-alert-icon" />-->
+    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_medium slds-m-bottom_x-small">
+        <div class="slds-button sharing-error">                     
+             <img class="err-img" src={imgSrc}/>                      
+          <div class="err-info">
+             <div class="step-text">
+                <span>{duplicateInfo.email}</span>
+                <span>{duplicateMessage}</span>
+             </div>                  
+          </div>
         </div>
-        <div class="slds-col slds-size--11-of-12">
-            <div class="slds-grid slds-wrap">
-                <div class="slds-col slds-size_12-of-12 alert-text">
-                    <span>{duplicateInfo.email}</span>
-                    <span>{duplicateMessage}</span>
-
-                </div>
-            </div>
-        </div>
-
     </div>
     
 </template>

@@ -56,7 +56,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 this.isHCPAddDelegates = true;
             }
         }
-        console.log('this.addDelegateList:'+JSON.stringify(this.addDelegateList));
     }
 
     addDelegateFormFields() {
@@ -73,7 +72,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 delegateList.push(delegateObj);
                 this.addDelegateList = [...this.addDelegateList, ...delegateList];
             }
-            //this.addDelegateList = delegateList;
             if( this.addDelegateList.length >= 0) {            
                 this.isAddDelegates = true;     
                 this.isHCPDelegate = false;  

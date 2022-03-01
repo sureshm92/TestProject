@@ -43,4 +43,14 @@ public with sharing class PIR_SharingOptionsController {
             WHERE Id = :perId LIMIT 1
         ]);
     }
+    
+    @AuraEnabled
+    public static List<LabelValueItem> fetchYearOfBirth(){
+        try {
+            List<LabelValueItem> yearList = RPRecordReviewLogHelper.getYear();
+            return yearList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }
