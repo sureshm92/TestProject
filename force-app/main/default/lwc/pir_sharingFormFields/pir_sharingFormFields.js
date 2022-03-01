@@ -368,10 +368,19 @@ export default class Pir_sharingFormFields extends LightningElement {
     }
 
     stopSharing() {
-        if(this.sharingObject.status == 'Active') {
-            this.doDisconnect();
+        if(this.sharingObject.sObjectType === 'Object') {
+            if(this.sharingObject.status === 'Active') {
+                this.doDisconnect();
+            } else {
+                this.ConnectDelegate();
+            }
         } else {
-            this.ConnectDelegate();
+
+            if(this.sharingObject.Status__c === 'Invited') {
+                this.doDisconnect();
+            } else {
+                this.ConnectDelegate();
+            }
         }
 
     }
@@ -386,7 +395,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         }
         disconnect(params)
         .then((result) => {
-            this.isDuplicateDelegate = result.isDuplicateDelegate;
+            //this.isDuplicateDelegate = result.isDuplicateDelegate;
             this.refreshComponent();
             this.loading = false; 
         })
