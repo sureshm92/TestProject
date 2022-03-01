@@ -1330,7 +1330,7 @@ public without sharing class PIR_StatusDetailController {
   }
   @AuraEnabled
   public static Boolean doSaveStatusDetails(
-    Participant_Enrollment__c perRecord
+    Participant_Enrollment__c perRecord, String visitPlan
   ) {
     Map<String,String> initReasonMap = new Map<String,String>{
                                                             'PIR_Other' => 'Other',
@@ -1384,11 +1384,13 @@ public without sharing class PIR_StatusDetailController {
       'Unable to Reach',
       'Successfully Contacted'
     };
-   
     try {
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
+      }
+      if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
+        perRecord.Visit_Plan__c = visitPlan;
       }
       update perRecord;
 
