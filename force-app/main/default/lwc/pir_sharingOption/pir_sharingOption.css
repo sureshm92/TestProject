@@ -25,7 +25,7 @@
     color: #000000;
     font-size: 16px;
     font-weight: 600;
-    line-height: 17px;
+    line-height: 17px;    
 }
 .step-card-text{
     font-size: 14px;
@@ -74,5 +74,11 @@
     }
     .check-box-m-top{
         margin-top: 0;
+    }
+    .step-card-title{
+        padding:0 10px;   
+    }
+    .step-card-text{
+        padding:0 10px;
     }
 }
