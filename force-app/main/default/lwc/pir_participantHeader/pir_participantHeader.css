@@ -189,14 +189,14 @@ and (-webkit-min-device-pixel-ratio: 1) {
   /* --------END Top --------------- */
   .tooltip .tooltiptextBottom {
     visibility: hidden;
-    width: 210px;
+    width: auto;
     background-color: #444444;
     color: #fff;
-    font-size: 14px;
-    line-height: 24px;
+    font-size: 13px;
+    line-height: 18px;
     text-align: left;
     border-radius: 6px;
-    padding: 10px 12px;
+    padding: 8px 10px;
     position: absolute;
     z-index: 1;
     top: 150%;
