@@ -163,10 +163,10 @@ and (-webkit-min-device-pixel-ratio: 1) {
     background-color: #444444;
     color: #fff;
     text-align: center;
-    font-size: 12px;
-    line-height: 15px;
+    font-size: 13px;
+    line-height: 18px;
     border-radius: 6px;
-    padding: 3px 5px;
+    padding: 8px 10px;
     position: absolute;
     z-index: 1;
     bottom: 100%;
