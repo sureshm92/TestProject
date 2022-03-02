@@ -331,14 +331,8 @@ export default class Pir_sharingFormFields extends LightningElement {
             participantId: null
         })
         .then((result) => {
-            
-            this.isDuplicateDelegate = result.isDuplicateDelegate;
-            if(result.isDuplicateDelegate) {
-                this.duplicateDelegateInfo = result;
-                var dupcomp = this.template.querySelector('.duplicatemsg');
-                dupcomp.scrollIntoView();
-            }
-            if(this.sharingObject != 'Object') {
+            if(this.sharingObject.sObjectType != 'Object') {
+                this.isDuplicateDelegate = result.isDuplicateDelegate;
                 this.isDuplicateDelegate = result.isDuplicate;
                 if(result.isDuplicate) {                    
                     let obj={};
@@ -348,6 +342,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.sharingObject = mergedObj; 
                     this.isDisabled = true; 
                     this.isValid = true;
+                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    dupcomp.scrollIntoView();
                 } else {
                     let obj={};
                     let mergedObj = {};
@@ -356,6 +352,14 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.sharingObject = mergedObj; 
                     this.isDisabled = false; 
                     this.isValid = true;
+                }
+            } else {
+                this.duplicateDelegateInfo = false;
+                if(result.isDuplicateDelegate) {
+                    this.duplicateDelegateInfo = result.isDuplicateDelegate;
+                    this.duplicateDelegateInfo = result;
+                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    dupcomp.scrollIntoView();
                 }
             }
             this.loading = false; 
