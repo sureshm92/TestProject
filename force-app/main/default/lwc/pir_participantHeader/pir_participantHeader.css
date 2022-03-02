@@ -1,5 +1,5 @@
 .destop-top-padding{
-    margin-top:1rem;
+    /* margin-top:1rem; */
     display:inline-flex;
     align-items:center;
 }
@@ -57,7 +57,7 @@
 }
 .per-study-details{
     height: 20px;
-    width: 652px;
+    width: 300px;
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 14px;
@@ -152,3 +152,69 @@ and (-webkit-min-device-pixel-ratio: 1) {
         zoom: 0.6;
     }
 }
+/*  Tooltip for Text length overflow  */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+  }
+.tooltip .tooltiptextTop {
+    visibility: hidden;
+    width: auto;
+    background-color: #444444;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+    border-radius: 6px;
+    padding: 3px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  .tooltip .tooltiptextTop::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 7px;
+      border-style: solid;
+      border-color: #444444 transparent transparent transparent;
+  }
+  .tooltip:hover .tooltiptextTop {
+    visibility: visible;
+  }
+  /* --------END Top --------------- */
+  .tooltip .tooltiptextBottom {
+    visibility: hidden;
+    width: 210px;
+    background-color: #444444;
+    color: #fff;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 12px;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltip .tooltiptextBottom::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent #444444 transparent;
+  }
+  
+  .tooltip:hover .tooltiptextBottom {
+    visibility: visible;
+  }

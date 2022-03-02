@@ -96,6 +96,9 @@ export default class Pir_participantList extends LightningElement {
                 this.noRecords = true;
             }
             for(var i=0 ; i<result.listViewWrapper.length;i++){
+                this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
+                if(i>4)
+                    this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
                 this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
                 this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
             }
@@ -120,10 +123,10 @@ export default class Pir_participantList extends LightningElement {
         });
     }
     setKeyAction(){
-        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {     
-            var name = event.key;    
+        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                  
+            var name = event.key; 
             if((name=='ArrowDown' || name=='ArrowUp')){
-                this.keypress = true;                 
+                this.keypress = true;    
                 this.keyScope = 'down';  
                 event.preventDefault();
                 event.stopPropagation();
