@@ -1,4 +1,4 @@
-# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
+## List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
 # More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
 #
 
@@ -39,7 +39,7 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/main/tools/staticresources/*
 
 #Uncomment during full package deployment
-force-app/main/default/staticresources/WalkMeCommunity*
+#force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
 #force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
