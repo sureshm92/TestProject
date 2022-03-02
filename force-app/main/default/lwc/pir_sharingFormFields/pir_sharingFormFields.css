@@ -1,0 +1,16 @@
+.delegate-bg{
+    background-color:#F2F2F2;
+    margin-top: 10px;
+}
+.rr-link {
+    color: #297dfd;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;    
+}
+.rr-link:hover {
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+}
+

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>PIR_SharingOptionsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5329,6 +5333,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment_Status_History__c.Status_Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment_Status_History__c.Status_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment_Status_History__c.Backward_Bulk_Update__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

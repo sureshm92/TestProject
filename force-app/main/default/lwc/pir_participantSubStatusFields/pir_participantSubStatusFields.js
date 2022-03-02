@@ -47,7 +47,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.participantrecord.Site_Communication_Preference__c =
         event.target.checked;
     } else if (event.target.dataset.value === "Reason") {
-      if(event.target.value == null){
+      if(event.target.value == null || event.target.value == ' '){
         this.participantrecord.Non_Enrollment_Reason__c = '';
         this.selectedreason = '';
         if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -612,10 +612,20 @@ export default class Pir_participantSubStatusFields extends LightningElement {
                 value: opts[i].value
               });
             } else {
-              trans_opts.push({
-                label: this.utilLabels[opts[i].label],
-                value: opts[i].value
-              });
+                if(opts[i].label === "Declined_Final_Consent"){
+                  if(this.pe_record.Clinical_Trial_Profile__r.Final_Consent_Required__c){
+                      trans_opts.push({
+                        label: this.utilLabels[opts[i].label],
+                        value: opts[i].value
+                      });
+                  }
+              }
+              else{
+                    trans_opts.push({
+                      label: this.utilLabels[opts[i].label],
+                      value: opts[i].value
+                    }); 
+                  }
             }
           }
         } 
@@ -645,8 +655,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
                     label: this.utilLabels[opts[i].label],
                     value: opts[i].value
                   }); 
-             }
-          }
+                }
+            }
         }
     }
     
@@ -1594,11 +1604,14 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if (tdyDt < occuredDt) {
       this.showErrorToast("Initial Visit Attended Date cannot be future date");
     } else {
+      let visitPln = 'null';
+      if(this.participantrecord.Visit_Plan__c){
+        visitPln = this.participantrecord.Visit_Plan__c;
+      }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
-      doSaveStatusDetails({ perRecord: this.participantrecord })
+      doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
         .then((result) => {
-          console.log("--SUCCESS--");
           this.showSuccessToast("Record Saved Successfully");
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);

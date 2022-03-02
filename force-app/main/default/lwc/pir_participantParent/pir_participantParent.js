@@ -65,6 +65,7 @@ export default class Pir_participantParent extends LightningElement {
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
+    this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
     this.discardTab = false;
     this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
@@ -150,14 +151,17 @@ export default class Pir_participantParent extends LightningElement {
       }
   }
   handleSharingTab() {
+    console.log('>>in sharing112>>'+JSON.stringify(this.selectedPE));
     if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
       this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
       this.selectedTab = "Sharing Options";
       this.isModalOpen = true;   
     }else{
-      this.template.querySelector("c-pir_sharing-option").selectedPE =this.selectedPE;
-      this.template.querySelector("c-pir_sharing-option").fetchInitialDetails(); 
+      console.log('>>in sharing else>>');
+      //this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
+      this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails(); 
       this.selectedTab = "Sharing Options";
+      
     }
  }
  handleMedicalTab() {
