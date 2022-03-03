@@ -74,6 +74,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     } else if (event.target.dataset.value === "InitialVisitTime") {
       this.participantrecord.Initial_visit_scheduled_time__c =
         event.target.value;
+        this.customButtonValidation();
     } else if (event.target.dataset.value === "additionalNotes") {
       this.additionalNote = event.target.value;
       this.customButtonValidation();
@@ -1068,6 +1069,15 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         btnValidationSuccess = false;
         validationList.push(btnValidationSuccess);
       }
+    }
+
+    //7.
+    if(this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000'){
+      btnValidationSuccess = false;
+      validationList.push(btnValidationSuccess);
+    }else{
+      btnValidationSuccess = true;
+      validationList.push(btnValidationSuccess);
     }
 
     if (validationList.includes(false)) {
