@@ -17,6 +17,8 @@
                 component.set('v.study_version_guid', initData.ctp.Study_Version_GUID__c);
                 component.set('v.user_has_permission', initData.user_has_permission);
                 component.set('v.noVisitPlansMessage', initData.noVisitPlansMessage);
+                
+                
                 component.find('spinner').hide();
             }
         );

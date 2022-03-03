@@ -2,3 +2,10 @@
     background-color:#F2F2F2;
     margin-top: 10px;
 }
+.delegate-btn{
+    font-size: 1rem;
+    min-height: 40px;
+    font-weight: 600;
+    border: transparent;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}

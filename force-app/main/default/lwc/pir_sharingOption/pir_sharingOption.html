@@ -1,6 +1,6 @@
 <template>
     <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 sharing-option vertical-scroll">
-      <div class="slds-m-around_large">
+      <div>
          <template if:true={loading} class="slds-is-relative">
              <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
          </template> 
@@ -10,7 +10,7 @@
              <div class="step-card-title slds-m-bottom_x-small">
                 Delegates 
              </div>
-             <div class="step-card-text slds-m-bottom_medium">
+             <div class="step-card-text">
                 Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only 
                 be entered with the participant's explicit permission. Upon registration, the delegate will be 
                 able to view the participant information available via the Patient Portal, when applicable.    
@@ -34,7 +34,7 @@
              <div class="step-card-title slds-m-bottom_x-small">
                 Other Providers
              </div>
-             <div class="step-card-text slds-m-bottom_medium">
+             <div class="step-card-text">
                 You should only invite a participant's provider with the participant's explicit permission. Upon registration, the provider will be able to track a participant's status.
              </div>
              <c-pir_sharing-form 
