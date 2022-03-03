@@ -129,7 +129,7 @@
                             />
                         </aura:if>
                         <aura:if
-                            isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}"
+                            isTrue="{!and(v.participantState.isPremium, v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c)}"
                         >
                             <c:UpcomingVisitsPreviewPanel isRTL="{!v.isRTL}" />
                         </aura:if>
@@ -182,7 +182,7 @@
                                 />
                             </aura:if>
                             <aura:if
-                                isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}"
+                                isTrue="{!and(v.participantState.isPremium, v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c)}"
                             >
                                 <c:UpcomingVisitsPreviewPanel isRTL="{!v.isRTL}" />
                             </aura:if>

@@ -203,7 +203,8 @@ public without sharing class ParticipantService {
                 FROM Patient_Visit__c
                 WHERE Participant_Enrollment__c = :participantState.pe.Id
             ];
-            return !patientVisit.isEmpty();
+            Boolean VisitEnabled=participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
+            return (!patientVisit.isEmpty() && VisitEnabled) ;
         }
         return false;
     }
