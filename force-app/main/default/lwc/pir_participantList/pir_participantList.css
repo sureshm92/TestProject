@@ -95,7 +95,7 @@
 /*  Tooltip for Text length overflow  */
 .tooltip {
     position: relative;
-    display: inline-flex;
+    /* display: inline-flex; */
   }
   
   .tooltip .tooltiptextBottom {
