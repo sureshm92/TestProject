@@ -236,7 +236,11 @@ public without sharing class PIR_StatusDetailController {
           isInitialVisitAttended && !isConsentFalse
         ) {
           wrap.groupIcon = SUCCESS;
-          wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
+          if(per[0].Initial_visit_occurred_date__c != Null){
+              wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
+          }else{
+              wrap.groupDate = Null;
+          }
         }
       }
 
