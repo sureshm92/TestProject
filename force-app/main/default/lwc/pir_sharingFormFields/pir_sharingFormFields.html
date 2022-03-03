@@ -58,7 +58,7 @@
                   </div>
                </div>
             </div>
-            <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium" if:false={isExistingDelegate}>
+            <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12" if:false={isExistingDelegate}>
                <lightning-combobox
                   name="progress"
                   label="Year of Birth"
@@ -101,7 +101,7 @@
                </button>
             </div>           
             <div class="duplicatemsg">
-               <template if:true={duplicateDelegateInfo}> 
+               <template if:true={isDuplicateDelegate}> 
                   <c-pir_duplicate-delegate-message duplicate-info={duplicateDelegateInfo}></c-pir_duplicate-delegate-message>
                </template>
             </div>
@@ -176,18 +176,20 @@
                   {connectDisconnect}
                </button>
             </div>
-            <template if:true={isDuplicateDelegate}>
-               <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12" >
-                  <div class="slds-align_absolute-center slds-m-top_xx-small">
-                     <a
-                     href="/s/help"
-                     target="_blank"
-                     class="rr-link"
-                     >Did you expect a different provider? Let us know.
-                     </a>
+            <div class="duplicatemsg">
+               <template if:true={isDuplicateDelegate}>
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12" >
+                     <div class="slds-align_absolute-center slds-m-top_xx-small">
+                        <a
+                        href="/s/help"
+                        target="_blank"
+                        class="rr-link"
+                        >Did you expect a different provider? Let us know.
+                        </a>
+                     </div>
                   </div>
-               </div>
-            </template>
+               </template>
+         </div>
 
          </div>
       </div>

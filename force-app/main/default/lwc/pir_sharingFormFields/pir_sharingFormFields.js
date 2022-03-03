@@ -71,7 +71,7 @@ export default class Pir_sharingFormFields extends LightningElement {
             this.isHCPDelegate = false;
             if(this.sharingObject.delegateId) {
                 this.isExistingDelegate = true;
-                this.gridCss='slds-p-around_small';    
+                this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';    
 
             } else {
                 this.gridCss='delegate-bg slds-p-around_small';
@@ -89,7 +89,7 @@ export default class Pir_sharingFormFields extends LightningElement {
             if(this.sharingObject.Id) {
                 this.isExistingDelegate = true;   
                 this.isDisabled = true;             
-                this.gridCss='slds-p-around_small';
+                this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';
             } else {
                 this.isExistingDelegate = false; 
                 this.isDisabled = false;                 
@@ -114,7 +114,11 @@ export default class Pir_sharingFormFields extends LightningElement {
             if(this.sharingObject.sObjectType === 'Object') {
                 obj = {"email": event.detail.value.trim()};
             } else {
-                obj = {"Email__c": event.detail.value.trim()};
+                if(this.isDisabled) {                
+                    obj = {"First_Name__c": '',"Last_Name__c":'',"Email__c": event.detail.value.trim()};
+                } else {
+                    obj = {"Email__c": event.detail.value.trim()};
+                }
             }
             mergedObj = { ...this.sharingObject, ...obj };
             this.sharingObject = mergedObj;
@@ -198,7 +202,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 this.isValid = true;
             }
         } else {
-            if(isValidCount == 0) {//validation successfull
+            if(isValidCount == 0 && !this.isDisabled) {//validation successfull
                 this.isValid = false;
             } else {
                 this.isValid = true;
@@ -331,16 +335,9 @@ export default class Pir_sharingFormFields extends LightningElement {
             participantId: null
         })
         .then((result) => {
-            
-            this.isDuplicateDelegate = result.isDuplicateDelegate;
-            if(result.isDuplicateDelegate) {
-                this.duplicateDelegateInfo = result;
-                var dupcomp = this.template.querySelector('.duplicatemsg');
-                dupcomp.scrollIntoView();
-            }
-            if(this.sharingObject != 'Object') {
-                this.isDuplicateDelegate = result.isDuplicate;
-                if(result.isDuplicate) {                    
+            if (result.firstName) {
+                if(this.sharingObject.sObjectType != 'Object') {
+                    this.isDuplicateDelegate = true;                                    
                     let obj={};
                     let mergedObj = {};
                     obj = {"First_Name__c": result.firstName,"Last_Name__c":result.lastName};
@@ -348,7 +345,17 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.sharingObject = mergedObj; 
                     this.isDisabled = true; 
                     this.isValid = true;
-                } else {
+                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    dupcomp.scrollIntoView();                    
+                } else { 
+                    this.isDuplicateDelegate = true;              
+                    this.duplicateDelegateInfo = result;                    
+                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    dupcomp.scrollIntoView();                    
+                }
+            } else {
+                this.isDuplicateDelegate = false;
+                if(this.sharingObject.sObjectType != 'Object') {
                     let obj={};
                     let mergedObj = {};
                     obj = {"First_Name__c": '',"Last_Name__c":''};
@@ -357,6 +364,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.isDisabled = false; 
                     this.isValid = true;
                 }
+                
             }
             this.loading = false; 
         })

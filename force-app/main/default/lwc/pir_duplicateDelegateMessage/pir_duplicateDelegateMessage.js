@@ -10,15 +10,13 @@ export default class Pir_duplicateDelegateMessage extends LightningElement {
         Duplicatelabel
     }
 
-    connectedCallback() {
-        if(this.duplicateInfo.isDuplicateDelegate) {       
-            this.imgSrc = myResource;     
-            let msg = this.label.Duplicatelabel;
-            msg = msg.replace(new RegExp('##firstName', 'g'), this.duplicateInfo.firstName);
-            msg = msg.replace('##lastName', this.duplicateInfo.lastName);
+    connectedCallback() {    
+        this.imgSrc = myResource;     
+        let msg = this.label.Duplicatelabel;
+        msg = msg.replace(new RegExp('##firstName', 'g'), this.duplicateInfo.firstName);
+        msg = msg.replace('##lastName', this.duplicateInfo.lastName);
 
-            this.duplicateMessage = msg;
-        }
+        this.duplicateMessage = msg;
 
     }
 
