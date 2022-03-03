@@ -275,19 +275,6 @@
                         </aura:if>
                         <!-- eCOA toggle ends-->
                     </div>
-
-                    <div class="global-element">
-                        <lightning:input
-                            type="toggle"
-                            label="Study Visit Details"
-                            name="StudyVisitDetails"
-                            onchange="{!c.saveCTP}"
-                            checked="{!v.ctp.Visits_are_Available__c}"
-                            variant="label-hidden"
-                            default="true"
-                        />
-                        <div style="margin-left: 10px">Study Visit Details</div>
-                    </div>
                 </div>
                 <aura:if isTrue="{!v.user_has_permission == 'View'}">
                     <div class="overlay"></div>
