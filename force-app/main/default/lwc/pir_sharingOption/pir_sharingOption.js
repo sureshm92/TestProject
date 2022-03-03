@@ -89,19 +89,6 @@ export default class Pir_sharingOption extends LightningElement {
             this.loading = false;
         });
     }
-
-    editYob() {
-       
-        if(this.yob) {
-            let options = [];
-            for(let option in this.yob){
-                options.push({ label: this.yob[option].label, value: this.yob[option].value });
-            }
-            this.yobOptions = options;
-        }
-
-    }
-
     refreshDelegates() {
         this.fetchInitialDetails();
 
