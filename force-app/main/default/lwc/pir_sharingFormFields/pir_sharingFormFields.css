@@ -1,6 +1,6 @@
 .delegate-bg{
     background-color:#F2F2F2;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 .rr-link {
     color: #297dfd;
@@ -13,4 +13,25 @@
     background-color: #eef5ff;
     transition: .25s;
 }
+.delegate-border{
+    border: 1px solid #E9E9E9;
+    box-shadow: var(--sds-c-card-shadow,0 0 1px 0 rgba(0,0,0,.1));
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+}
+.duplicatemsg{
+    width:100%;
+}
+@media (max-device-width: 767px) {
+    .delegate-bg{
+        margin-top: 15px;
+    }
+    .connect-patient-btn{
+        width: 100%;
+    }
+    .stop-sharing-btn{
+        width: 100%;
+    }
+
+ }
+
 
