@@ -5,6 +5,9 @@
 .list-card:focus-visible {
     outline: none;
 }
+.card-content{
+    min-height: 40px;
+}
 .noRecords {
     margin-left: 5rem;
     font-family: 'Proxima Nova';
@@ -24,25 +27,30 @@
     color: #999999;
     font-size: 14px;
     letter-spacing: 0;
-    line-height: 16px;
+    line-height: 18px;
 }
 .flags{
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 11px;
 }
+.flags span{min-height: 18px;}
 .actionReq{  color: #FF9300; padding-right: 0.5rem; }
 .priority{ color: #9E54B0; padding-right: 0.5rem; }
 .risk{ color: #DF216D; padding-right: 0.5rem;}
-.breakW{overflow-wrap: break-word;}
+.breakW{
+    overflow-wrap: break-word; 
+    line-height: 20px;
+    padding-bottom: 2px;
+}
 .flags img{
-    height: 11px;
+    height: 14px;
     background-color: rgba(158,84,176,0.08);
     border-radius: 50%;
     display: inline-block;
     border-width: 131px;
     padding: 1.5px;
+    margin: 2px 0px 4px 0px;  
 }
 .wait{
     top: 28vh;
@@ -52,7 +60,7 @@
 .flags .actionReq span{ background-color: rgba(255,147,0,0.08); }
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
-.list-card{ cursor:pointer;}
+.list-card{ cursor:pointer; padding-top: 3px; padding-bottom: 0;}
 .overflowSet{height: 47vh; overflow: auto;}
 
 ::-webkit-scrollbar {
@@ -75,7 +83,7 @@
     }
 }
 @media all and (max-width: 48em) {
-    .overflowSet{height: unset; }
+    .overflowSet{height: unset;overflow: unset; }
     .filterIconButton{
         height: 40px;
     }
@@ -84,3 +92,71 @@
     .selected{background:white;}
     
 }
+/*  Tooltip for Text length overflow  */
+.tooltip {
+    position: relative;
+    /* display: inline-flex; */
+  }
+  
+  .tooltip .tooltiptextBottom {
+    visibility: hidden;
+    width: 210px;
+    background-color: #444444;
+    color: #fff;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 12px;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 34%;
+    margin-left: -60px;
+  }
+  
+  .tooltip .tooltiptextBottom::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent #444444 transparent;
+  }
+  
+  .tooltip:hover .tooltiptextBottom {
+    visibility: visible;
+  }
+/* --------END Bottom --------------- */
+.tooltip .tooltiptextTop {
+    visibility: hidden;
+    width: 210px;
+    background-color: #444444;
+    color: #fff;
+    text-align: left;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 6px;
+    padding: 10px 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 34%;
+    margin-left: -60px;
+  }
+  .tooltip .tooltiptextTop::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 7px;
+      border-style: solid;
+      border-color: #444444 transparent transparent transparent;
+  }
+  .tooltip:hover .tooltiptextTop {
+    visibility: visible;
+  }
+  /* --------END Top --------------- */

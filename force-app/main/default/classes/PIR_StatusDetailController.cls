@@ -183,13 +183,6 @@ public without sharing class PIR_StatusDetailController {
       }
     }
 
-    for (Decimal d : orderToPeshMap.keyset()) {
-      System.debug('d: ' + d);
-      System.debug('orderToPeshMap: ' + orderToPeshMap.get(d));
-    }
-
-    System.debug('nxtOrder: ' + nxtOrder);
-
     String notInFinalStep = ((per[0]
         .Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c ==
       'Enrollment')
@@ -206,30 +199,26 @@ public without sharing class PIR_StatusDetailController {
     }
 
     query = query + filter + order;
-    System.debug('query: ' + query);
     List<PIR_ParticipantStatusWorflowStep__mdt> pirMetadata = Database.query(
       query
     );
-    System.debug('pirMetadata: ' + pirMetadata);
     for (PIR_ParticipantStatusWorflowStep__mdt mdt : pirMetadata) {
-      System.debug('mdt.Label: ' + mdt.Label);
-      System.debug('mdt.Order__c: ' + mdt.Order__c);
+      Integer mdtOrder = Integer.valueof(mdt.Order__c);
       StatusDetailGroup wrap = new StatusDetailGroup();
       wrap.perId = per[0].Id;
       wrap.groupName = mdt.Name__c;
       wrap.groupStatus = mdt.Default_Description__c;
-      if (orderToPeshMap.containsKey(mdt.Order__c)) {
-        wrap.groupStatus = orderToPeshMap.get(mdt.Order__c).Status_Label__c;
-        wrap.groupReason = orderToPeshMap.get(mdt.Order__c).Reason__c;
-        wrap.groupDate = orderToPeshMap.get(mdt.Order__c).CreatedDate;
+      if (orderToPeshMap.containsKey(mdtOrder)) {
+        wrap.groupStatus = orderToPeshMap.get(mdtOrder).Status_Label__c;
+        wrap.groupReason = orderToPeshMap.get(mdtOrder).Reason__c;
+        wrap.groupDate = orderToPeshMap.get(mdtOrder).CreatedDate;
         wrap.groupIcon = getGroupIcon(
           mdt,
-          orderToPeshMap.get(mdt.Order__c).Status__c
+          orderToPeshMap.get(mdtOrder).Status__c
         );
       }
 
       if (wrapperList.size() > 1) {
-        System.debug('wrapperList[1].groupName: ' + wrapperList[1].groupName);
         if (
           wrapperList[1].groupIcon == SUCCESS &&
           mdt.Label == 'PWS_Initial_Visit_Card_Name' &&
@@ -241,33 +230,28 @@ public without sharing class PIR_StatusDetailController {
           )
         ) {
           wrap.groupIcon = INPROGRESS;
-          System.debug('inIf: ');
         } else if (
           wrapperList[1].groupIcon == SUCCESS &&
           mdt.Label == 'PWS_Initial_Visit_Card_Name' &&
           isInitialVisitAttended && !isConsentFalse
         ) {
           wrap.groupIcon = SUCCESS;
-          wrap.groupDate = per[0].Initial_visit_occurred_date__c;
-          System.debug('inelse: ');
+          wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
         }
       }
 
       if (
-        mdt.Order__c == nxtOrder &&
+        mdtOrder == nxtOrder &&
         mdt.Label != 'PWS_Initial_Visit_Card_Name'
       ) {
-        System.debug('###in nxt order ' + nxtOrder);
         wrap.groupIcon = getGroupIcon(
           mdt,
-          orderToPeshMap.get(mdt.Order__c - 1).Status__c
+          orderToPeshMap.get(mdtOrder - 1).Status__c
         );
       }
 
       wrapperList.add(wrap);
     }
-
-    System.debug('wrapperList: ' + wrapperList);
     return wrapperList;
   }
 
@@ -291,12 +275,6 @@ public without sharing class PIR_StatusDetailController {
     if (mdt.Failure_Criteria__c != null) {
       failureList = mdt.Failure_Criteria__c.split(';');
     }
-    System.debug('mdt.Label: getGroupIcon ' + mdt.Label);
-    System.debug('perStatus: ' + perStatus);
-    System.debug('######## perStatus: ' + perStatus);
-    System.debug('######## sucessList: ' + sucessList);
-    System.debug('######## inProgressList: ' + inProgressList);
-    System.debug('######## failureList: ' + failureList);
 
     if (sucessList.contains(perStatus)) {
       iconName = SUCCESS;
@@ -346,7 +324,6 @@ public without sharing class PIR_StatusDetailController {
     }
     wrap_reasonmap.outcomeWithReason = outcomeToReasonMap;
     wrap_reasonmap.outcomeWithValue = outcomeValues;
-    System.debug('outcomeToReasonMap: ' + outcomeToReasonMap);
 
     return wrap_reasonmap;
   }
@@ -378,7 +355,6 @@ public without sharing class PIR_StatusDetailController {
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
-    system.debug(perList);
     PerDetailsWrap perDetails = new PerDetailsWrap();
     perDetails.per = perList;
     perDetails.visitPlansList = getVisitPlansLVList(perList.Study_Site__c);
@@ -1354,7 +1330,7 @@ public without sharing class PIR_StatusDetailController {
   }
   @AuraEnabled
   public static Boolean doSaveStatusDetails(
-    Participant_Enrollment__c perRecord
+    Participant_Enrollment__c perRecord, String visitPlan
   ) {
     Map<String,String> initReasonMap = new Map<String,String>{
                                                             'PIR_Other' => 'Other',
@@ -1408,16 +1384,13 @@ public without sharing class PIR_StatusDetailController {
       'Unable to Reach',
       'Successfully Contacted'
     };
-    System.debug(
-      'perRecord.Participant_Status__c: ' + perRecord.Participant_Status__c
-    );
-     System.debug(
-      'perRecord:****' + perRecord
-    );
     try {
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
+      }
+      if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
+        perRecord.Visit_Plan__c = visitPlan;
       }
       update perRecord;
 
@@ -1483,12 +1456,8 @@ public without sharing class PIR_StatusDetailController {
       }
     } catch (Exception e) {
       bol = false;
-      System.debug('e.getMessage(): ' + e.getMessage());
-      System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
       throw new AuraHandledException(e.getMessage());
     }
-
-    System.debug('################### : ');
     return bol;
   }
 

@@ -46,9 +46,7 @@
             </div>
         </aura:if>
         <div class="slds-grid slds-wrap slds-gutters">
-            <div
-                class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1"
-            >
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                 <div class="mt-button-container">
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <button
@@ -69,6 +67,12 @@
                         </aura:set>
                     </aura:if>
                 </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1"
+            >
                 <div class="delegate-info-table-container">
                     <c:DelegateLevelInfoTable userMode="{!v.userMode}" />
                 </div>
@@ -81,7 +85,7 @@
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel"
                     >
-                        <div class="mt-button-container ">
+                        <div class="mt-button-container">
                             <aura:if isTrue="{!v.userMode != 'Participant'}">
                                 <button
                                     class="apollo-btn primary mt-button showMobile buttonMargin"

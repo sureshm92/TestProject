@@ -3701,7 +3701,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cancel Scheduled Visit</shortDescription>
-        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+        <value>Cancel Scheduled Visit?</value>
     </labels>
     <labels>
         <fullName>CancelfovWarning</fullName>
@@ -17961,7 +17961,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Contact_History_Title</shortDescription>
-        <value>Contact History:</value>
+        <value>Contact History</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Name</fullName>
@@ -18010,7 +18010,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Eligibility_History_Title</shortDescription>
-        <value>Eligibility History:</value>
+        <value>Eligibility History</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Name</fullName>
@@ -18038,7 +18038,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Enrolled_History_Title</shortDescription>
-        <value>Enrollment History:</value>
+        <value>Enrollment History</value>
     </labels>
     <labels>
         <fullName>PWS_Enrolled_Name</fullName>
@@ -18073,7 +18073,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
-        <value>Inital Visit History:</value>
+        <value>Inital Visit History</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_Name</fullName>
@@ -18157,7 +18157,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Randomization_History_Title</shortDescription>
-        <value>Randomization History:</value>
+        <value>Randomization History</value>
     </labels>
     <labels>
         <fullName>PWS_Randomization_Name</fullName>
@@ -18213,7 +18213,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Screening_History_Title</shortDescription>
-        <value>Screening History:</value>
+        <value>Screening History</value>
     </labels>
     <labels>
         <fullName>PWS_Screening_Name</fullName>

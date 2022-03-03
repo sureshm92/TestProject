@@ -30,11 +30,10 @@
                                     <c-pir_participant-Status-Details onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
                             </lightning-tab> 
                             <lightning-tab label="Participant Details" value="Participant Details" onactive={handleParticipantTab} class="no-padding">
-                                <!--<c-pir_participant-detail></c-pir_participant-detail>-->
+                               <!-- <c-pir_participant-detail></c-pir_participant-detail>-->
                             </lightning-tab>
-                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">
-                                <!--<c-pir_sharing-option pe={selectedPE}></c-pir_sharing-option>-->
-                                <!--<c-sharingoption></c-sharingoption>-->
+                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
+                                <c-pir_sharing-option selected-p-e = {selectedPE}></c-pir_sharing-option>
                             </lightning-tab>
                             <template if:true={isMedicalHistryAccess}> 
                                 <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
