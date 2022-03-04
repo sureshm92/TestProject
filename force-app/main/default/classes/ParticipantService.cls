@@ -165,6 +165,7 @@ public without sharing class ParticipantService {
                         }
                     } else if (
                         //if  both Pre Consent as well as  Consent through enrollment/randomization togglles are On
+                        //TODO: Check with Pankaj/Pari if we need this condition also, coz this is not mentioned in JIRA ????????????????????????????
                         participantState.ctp.Received_Until_Consent_Is_Available__c == true &&
                         participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c == true
                     ) {

@@ -288,7 +288,7 @@ public without sharing class PEStatusState {
     public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
     public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
 
-    //Pre Enrollment status group:
+    //Pre Enrollment status group :
     public static final List<String> PE_STATUS_GROUP_PRE_ENROLLMENT = new List<String>{
         PE_STATUS_RECEIVED,
         PE_STATUS_CONTACT_ATTEMPTED,

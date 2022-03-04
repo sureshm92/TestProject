@@ -476,4 +476,4 @@
          <c:ParticipantIRBChecker peId="{!v.studyDetail.pe.Id}" />
      </aura:if>
  </div>
-</aura:component>
+</aura:component> 
