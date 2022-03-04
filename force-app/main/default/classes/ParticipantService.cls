@@ -150,7 +150,7 @@ public without sharing class ParticipantService {
                         }
                     } else if (!boolPreConsent && boolEnrolledConsent) {
                         if (
-                            PEStatusState.PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE.contains(
+                            PEStatusState.PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE.contains(
                                 participantState.pe.Participant_Status__c
                             )
                         ) {
