@@ -9,13 +9,11 @@
 >
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object" />
-    <aura:attribute name="showMedicalCard" type="Boolean" default="true"/>
+    <aura:attribute name="showMedicalCard" type="Boolean" default="true" />
     <aura:attribute name="showTrialSearch" type="Boolean" default="false" access="private" />
     <aura:attribute name="initialized" type="Boolean" />
-    <aura:attribute name="hasAuthorized" type="Boolean"/>
-    <aura:attribute name="showPastStudies" type="Boolean"/>
-
-    
+    <aura:attribute name="hasAuthorized" type="Boolean" />
+    <aura:attribute name="showPastStudies" type="Boolean" />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -82,7 +80,7 @@
                                                 src="{!$Resource.PH_logo + '/iqvia.png'}"
                                             />
                                         </aura:if>
-                                        <aura:if 
+                                        <aura:if
                                             isTrue="{!equals(v.participantState.communityName, 'GSK Community')}"
                                         >
                                             <img
@@ -109,7 +107,7 @@
                             </aura:if>
 
                             <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, or(v.participantState.value == 'PARTICIPANT',and(v.participantState.value == 'REFERRAL',or(v.participantState.pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c,v.participantState.pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c)))))}"
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, or(v.participantState.value == 'PARTICIPANT',and(v.participantState.value == 'REFERRAL',or(v.participantState.showTravelCardInPreEnrollment)))))}"
                             >
                                 <div class="slds-col">
                                     <c:TravelSupportPanel isRTL="{!v.isRTL}" />
@@ -118,7 +116,6 @@
                             <div class="slds-col">
                                 <c:RelevantLinks />
                             </div>
-                            
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
