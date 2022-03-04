@@ -22,7 +22,7 @@ public without sharing class ParticipantService {
         public Clinical_Trial_Profile__c ctp;
         @AuraEnabled
         public Participant__c participant;
-        @AuraEnabled 
+        @AuraEnabled
         public List<Medical_Record_Vendor__c> medicalVendors;
         @AuraEnabled
         public Id currentUserId;
@@ -47,6 +47,8 @@ public without sharing class ParticipantService {
         @AuraEnabled
         public Boolean isTravelSupportEnabled;
         public Boolean showVisitsInPreTrial;
+        @AuraEnabled
+        public Boolean showTravelCardInPreEnrollment;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -59,6 +61,7 @@ public without sharing class ParticipantService {
             communityName = '';
             isVisitPathEnabled = false;
             isTravelSupportEnabled = false;
+            showTravelCardInPreEnrollment = false;
         }
     }
 
@@ -108,7 +111,9 @@ public without sharing class ParticipantService {
                     IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id)
                 );
                 participantState.showTerms = showTerms();
-                participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(participantState.pe.Study_Site__c);
+                participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
+                    participantState.pe.Study_Site__c
+                );
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 participantState.isVisitPathEnabled = participantState.ctp.Visit_Schedule_Is_Available__c;
                 participantState.isTravelSupportEnabled = participantState.ctp.Travel_Vendor_Is_Available__c;
@@ -131,8 +136,35 @@ public without sharing class ParticipantService {
                     /**PEH-525 START*/
                     //participantState.showVisits = showVisits();
                     participantState.showVisitsInPreTrial = showVisits();
-					/**PEH-525 END*/
-
+                    /**PEH-525 END*/
+                    Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
+                    Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
+                    //if Pre Consent is on and  Consent through enrollment/randomization is Off
+                    if (boolPreConsent && !boolEnrolledConsent) {
+                        if (
+                            PEStatusState.PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE.contains(
+                                participantState.pe.Participant_Status__c
+                            )
+                        ) {
+                            participantState.showTravelCardInPreEnrollment = true;
+                        }
+                    } else if (!boolPreConsent && boolEnrolledConsent) {
+                        if (
+                            PEStatusState.PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE.contains(
+                                participantState.pe.Participant_Status__c
+                            )
+                        ) {
+                            participantState.showTravelCardInPreEnrollment = true;
+                        }
+                    } else if (boolPreConsent && boolEnrolledConsent) {
+                        if (
+                            PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(
+                                participantState.pe.Participant_Status__c
+                            )
+                        ) {
+                            participantState.showTravelCardInPreEnrollment = true;
+                        }
+                    }
                 }
             }
         } else {
@@ -151,40 +183,40 @@ public without sharing class ParticipantService {
     }
 
     public static Participant__c getParticipant(Id sourceId) {
-        if(sourceId != Null){
-        List<Participant__c> participants = [
-            SELECT
-                Id,
-                First_Name__c,
-                Last_Name__c,
-                Middle_Name__c,
-                Full_Name__c,
-                Date_of_Birth__c,
-                Birth_Year__c,
-                Gender__c,
-                Email__c,
-                Phone__c,
-                Phone_Type__c,
-                Status__c,
-                Balance__c,
-                Pending_Payments__c,
-                Mailing_State__c,
-                Mailing_City__c,
-                Mailing_State_Code__c,
-                Mailing_Country__c,
-                Mailing_Country_Code__c,
-                Mailing_Zip_Postal_Code__c,
-                Contact__c,
-                Conditions__c,
-                Contact__r.Current_Participant_Enrollment__c,
-                Contact__r.Visit_Results_OptIn__c,
-                Contact__r.Participant_Opt_In_Status_Emails__c,
-                Marketing_Flag__c
-            FROM Participant__c
-            WHERE Contact__c = :sourceId OR Id = :sourceId
-        ];
-        if (participants.size() > 0)
-            return participants[0];
+        if (sourceId != null) {
+            List<Participant__c> participants = [
+                SELECT
+                    Id,
+                    First_Name__c,
+                    Last_Name__c,
+                    Middle_Name__c,
+                    Full_Name__c,
+                    Date_of_Birth__c,
+                    Birth_Year__c,
+                    Gender__c,
+                    Email__c,
+                    Phone__c,
+                    Phone_Type__c,
+                    Status__c,
+                    Balance__c,
+                    Pending_Payments__c,
+                    Mailing_State__c,
+                    Mailing_City__c,
+                    Mailing_State_Code__c,
+                    Mailing_Country__c,
+                    Mailing_Country_Code__c,
+                    Mailing_Zip_Postal_Code__c,
+                    Contact__c,
+                    Conditions__c,
+                    Contact__r.Current_Participant_Enrollment__c,
+                    Contact__r.Visit_Results_OptIn__c,
+                    Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Marketing_Flag__c
+                FROM Participant__c
+                WHERE Contact__c = :sourceId OR Id = :sourceId
+            ];
+            if (participants.size() > 0)
+                return participants[0];
         }
         return null;
     }
@@ -203,8 +235,8 @@ public without sharing class ParticipantService {
                 FROM Patient_Visit__c
                 WHERE Participant_Enrollment__c = :participantState.pe.Id
             ];
-            Boolean VisitEnabled=participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
-            return (!patientVisit.isEmpty() && VisitEnabled) ;
+            Boolean VisitEnabled = participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
+            return (!patientVisit.isEmpty() && VisitEnabled);
         }
         return false;
     }
@@ -221,9 +253,9 @@ public without sharing class ParticipantService {
     @TestVisible
     private String getWelcomeMessage() {
         String userName;
-        List<Participant__c> participants = new List<Participant__c> ();
-        if(String.isNotBlank(CommunityService.getInstance().getCurrentContactId())){
-              participants = [
+        List<Participant__c> participants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            participants = [
                 SELECT Full_Name__c
                 FROM Participant__c
                 WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
@@ -267,7 +299,6 @@ public without sharing class ParticipantService {
             participantWithDelegate
         );
 
-        
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
@@ -287,10 +318,10 @@ public without sharing class ParticipantService {
                 }
                 update existingContact;
             }
-             system.debug('>>beforeInsertPart>'+limits.getQueries());
+            system.debug('>>beforeInsertPart>' + limits.getQueries());
             insert participant;
         }
-        system.debug('>>AfterInsertPart>'+limits.getQueries());
+        system.debug('>>AfterInsertPart>' + limits.getQueries());
         if (pe != null) {
             pe.Participant__c = participant.Id;
             if (pe.Participant_Name__c == null)
@@ -298,9 +329,9 @@ public without sharing class ParticipantService {
             if (pe.Participant_Surname__c == null)
                 pe.Participant_Surname__c = participant.Last_Name__c;
             try {
-                 system.debug('>>BeforeUpsertPE>'+limits.getQueries());
+                system.debug('>>BeforeUpsertPE>' + limits.getQueries());
                 DatabaseService.getInstance().upsertToDB(pe);
-                system.debug('>>aFTERUpsertPE>'+limits.getQueries());
+                system.debug('>>aFTERUpsertPE>' + limits.getQueries());
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
                 if (errorMsg.contains('DUPLICATE')) {
@@ -342,20 +373,20 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
     }
-    
+
     public static List<LabelValueItem> getYearofBirthList() {
         List<LabelValueItem> yearOfBirth = new List<LabelValueItem>();
         Integer currentYear = System.Today().year();
         Integer firstYear = currentYear - 150;
-        if(!UserContext.isParticipant()){
-                    yearOfBirth.add(new LabelValueItem('', ''));
+        if (!UserContext.isParticipant()) {
+            yearOfBirth.add(new LabelValueItem('', ''));
         }
-        for(Integer i= currentYear; i >= firstYear; i--){
+        for (Integer i = currentYear; i >= firstYear; i--) {
             yearOfBirth.add(new LabelValueItem(String.valueOf(i), String.valueOf(i)));
-        }        
+        }
         return yearOfBirth;
     }
-    
+
     public static List<LabelValueItem> getPrefixList() {
         List<LabelValueItem> prefix = new List<LabelValueItem>();
         prefix.add(new LabelValueItem(Label.PP_Prefix_Mr, 'Mr.'));

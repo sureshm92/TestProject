@@ -16,6 +16,7 @@ public with sharing class TrialDetail {
     public List<StudyTab> tabs;
     public List<ResourceService.ResourceWrapper> resources;
     public String communityName;
+    public Boolean showTravelCardInPreEnrollment;
     public List<StudyActions.Action> shareActions = new List<StudyActions.Action>{
         new StudyActions.Action(
             StudyActions.ACT_SHARE_EMAIL,
