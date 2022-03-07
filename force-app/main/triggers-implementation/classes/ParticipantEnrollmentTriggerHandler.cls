@@ -702,20 +702,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     peIdInPreEnrollmentStatusStudySiteMap.put(pe.Id, pe.Study_Site__c);
                 }
             }
-            /* //Get the Particiapant Enrollments where status got changed to qualify the Pre Enrollment Visits Completion.
-            if (
-                oldMap != null &&
-                pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c
-            ) {
-                if (
-                    PEStatusState.PE_STATUS_GROUP_FOR_COMPLETING_PRE_ENROLL_VISITS.contains(
-                        pe.Participant_Status__c
-                    )
-                ) {
-                    peIdsToCompletePreEnrollVisits.Add(pe.Id);
-                }
-            } 
-            */
         }
 
         Set<Id> ctpIds = new Set<Id>();
@@ -808,13 +794,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 peIdInPreEnrollmentStatusStudySiteMap
             );
         }
-
-        /* // Logic to complete the status of the Pre Enrollment Visits based on the PER status and Pre Enrollment Toggles On/Off at CTP.
-        if (peIdsToCompletePreEnrollVisits != null && !peIdsToCompletePreEnrollVisits.isEmpty()) {
-            * write logic to complete the pre Enrollment Visits.
-            * considered in PreEnrollmentPatientVisitServie class
-        }
-        */
     }
 
     @TestVisible
