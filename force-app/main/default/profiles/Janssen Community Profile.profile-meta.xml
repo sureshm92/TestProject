@@ -2082,25 +2082,21 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Comorbidities__c.Comorbidity</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+   
     <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Comorbidities__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Participant__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2123,5 +2119,10 @@
         <tab>CC_Staff__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Comorbidities__c.Comorbidity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <userLicense>Guest User License</userLicense>
 </Profile>

@@ -2107,17 +2107,17 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Comorbidities__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Participant__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2550,4 +2550,13 @@
         <tab>Call_Dispositions__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    <tabVisibilities>
+        <tab>Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+
+    <tabVisibilities>
+            <tab>Participant_Comorbidities__c</tab>
+            <visibility>DefaultOn</visibility>
+        </tabVisibilities>
 </Profile>

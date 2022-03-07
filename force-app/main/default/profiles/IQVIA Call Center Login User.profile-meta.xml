@@ -2094,11 +2094,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Comorbidities__c.Comorbidity</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
 	<fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
@@ -7950,6 +7945,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -7994,9 +7993,14 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Participant_Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Participant_Enrollment_Status_History__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    
     <tabVisibilities>
         <tab>Participant_Enrollment__c</tab>
         <visibility>Hidden</visibility>

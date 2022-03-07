@@ -2106,11 +2106,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Comorbidities__c.Comorbidity</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
 	<fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
@@ -2214,17 +2209,17 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Comorbidities__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Participant__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2873,12 +2868,21 @@
         <object>Integration_Biomarker__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Comorbidities__c.Comorbidity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Comorbidities__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
      <tabVisibilities>
@@ -2895,6 +2899,10 @@
     </tabVisibilities>
 	<tabVisibilities>
         <tab>Integration_Biomarker__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Participant_Comorbidities__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
 </Profile>

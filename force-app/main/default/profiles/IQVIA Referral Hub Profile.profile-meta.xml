@@ -2093,11 +2093,7 @@
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Comorbidities__c.Comorbidity</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+    
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Suppress_Physician_Outreach_Email__c</field>
