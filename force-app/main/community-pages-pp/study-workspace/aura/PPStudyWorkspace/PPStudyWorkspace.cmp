@@ -138,13 +138,13 @@
                                             >
                                                 <div style="position: relative">
                                                     <!--  <aura:if isTrue="{!action.id != 'share'}">
-                                                          <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
-                                                                  disabled="{!action.disabled}" id="{!action.id}"
-                                                                  onclick="{!c.doAction}" title="{!action.disableReason}">
-                                                              <c:RRIcon iconName="{!action.iconName}"/>
-                                                              {!action.label}
-                                                          </button>
-                                                      </aura:if> -->
+                                                       <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                               disabled="{!action.disabled}" id="{!action.id}"
+                                                               onclick="{!c.doAction}" title="{!action.disableReason}">
+                                                           <c:RRIcon iconName="{!action.iconName}"/>
+                                                           {!action.label}
+                                                       </button>
+                                                   </aura:if> -->
                                                     <aura:if
                                                         isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}"
                                                     >
@@ -438,9 +438,7 @@
                         isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}"
                     >
                         <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
-                            <aura:if
-                                isTrue="{!or(v.studyDetail.trial.Enrolled_Or_Randomized_Consent_Available__c,v.studyDetail.trial.Received_Until_Consent_Is_Available__c)}"
-                            >
+                            <aura:if isTrue="{!v.studyDetail.trial.showTravelCardInPreEnrollment}">
                                 <c:TravelSupportDetails />
                             </aura:if>
                             <aura:set attribute="else">
