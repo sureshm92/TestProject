@@ -29,25 +29,25 @@ public with sharing class HumanAPIcontroller {
     
     public class RH_MulesoftWrapper {
 
-	public String salesforce_Id;
-	public String enrollmentName;
-	public String humanId;
-	public String participantFullName;
-	public String participantFirstName;
-	public String participantLastName;
-	public String participantEmail;
-	public String studySiteName;
-	public String studyCodeName;
-	public String uniqueHumanId;
-	public String primaryDelegateEmail;
-	public String primaryDelegateFirstName;
-	public String primaryDelegateLastName;
-	public String pIname;
-	public String language;
-	public String country;
-	public String salutation;
+    public String salesforce_Id;
+    public String enrollmentName;
+    public String humanId;
+    public String participantFullName;
+    public String participantFirstName;
+    public String participantLastName;
+    public String participantEmail;
+    public String studySiteName;
+    public String studyCodeName;
+    public String uniqueHumanId;
+    public String primaryDelegateEmail;
+    public String primaryDelegateFirstName;
+    public String primaryDelegateLastName;
+    public String pIname;
+    public String language;
+    public String country;
+    public String salutation;
   Public String protocolId; 
-	 
+     
     }
 
   public class ResponseWrapperReportListOrganization {
@@ -186,9 +186,9 @@ public with sharing class HumanAPIcontroller {
   }
     
   public class HumanAPIErrorWrapper{
-    public Integer statusCode;	 
-    public String error;	 
-    public String message;	  
+    public Integer statusCode;   
+    public String error;     
+    public String message;    
    }
 
   @AuraEnabled
@@ -259,6 +259,7 @@ public with sharing class HumanAPIcontroller {
       }
 
       System.debug('##### wrap: ' + wrap);
+       
       return wrap;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -277,7 +278,8 @@ public with sharing class HumanAPIcontroller {
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
                                          ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
                                          ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c,Clinical_Trial_Profile__r.Protocol_ID__c
-                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation 
+                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation,Study_Site__r.Principal_Investigator__r.Name,
+                                          Permit_Mail_Email_contact_for_this_study__c   
                                           from Participant_Enrollment__c Where ID=:peId];
       String email = objPER.Participant__r.Email__c;
       Boolean isAdult = objPER.Participant__r.Adult__c;
@@ -291,7 +293,11 @@ public with sharing class HumanAPIcontroller {
             }
         }  
       Participant__c objParticipantDelegate;
-    	 
+      
+      if(!objPER.Permit_Mail_Email_contact_for_this_study__c){
+          return 'NoPermitEmail';
+      }
+         
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 
                                                         Where Participant__c =:ParticipantId AND Primary_Delegate__c = True LIMIT 1];
@@ -331,7 +337,7 @@ public with sharing class HumanAPIcontroller {
       objWrapper.primaryDelegateLastName = objParticipantDelegate != Null ? objParticipantDelegate.Last_Name__c : '' ; 
       objWrapper.language = strPILanguage;
       objWrapper.country = COUNTRY_CODE_BY_NAME_MAP_Mdt.containskey(objPER.Participant__r.Country__c) ? COUNTRY_CODE_BY_NAME_MAP_Mdt.get(objPER.Participant__r.Country__c) : objPER.Participant__r.Country__c;
-      objWrapper.pIname = userinfo.getName();
+      objWrapper.pIname = objPER.Study_Site__r.Principal_Investigator__r.Name;
       objWrapper.protocolId = objPER.Clinical_Trial_Profile__r.Protocol_ID__c;
       objWrapper.salutation = objPER.PI_Contact__r.Salutation;
       
@@ -390,7 +396,7 @@ public with sharing class HumanAPIcontroller {
           );
            objWrapper.humanId = humanId;
             lstMulesoftWrapper.add(objWrapper);
-        	String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+            String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
             sendDataToMule(strHuman_RH_Data);
           update p;
           //call mulesoft api to inform SFMC
