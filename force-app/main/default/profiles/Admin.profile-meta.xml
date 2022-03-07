@@ -1138,6 +1138,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PreEnrollmentPatientVisitServie</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreatePreEnrollVistsForExtngPERs</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PatientVisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -8274,6 +8282,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Plan__c.Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Plan__c.Is_Pre_Enrollment_Visit_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
