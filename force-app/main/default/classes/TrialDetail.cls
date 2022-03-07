@@ -11,6 +11,7 @@ public with sharing class TrialDetail {
     public Study_Site__c studySite; //for PI mode
     public HCP_Enrollment__c hcpe; //for HCP mode
     public Participant_Enrollment__c pe; //for Participant;
+    public string participantstate;
     public List<StudyActions.Action> studyBottomBarActions;
     public Map<String, StudyActions.Action> actions;
     public List<StudyTab> tabs;
