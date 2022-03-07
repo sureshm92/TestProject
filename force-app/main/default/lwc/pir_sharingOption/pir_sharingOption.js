@@ -1,20 +1,13 @@
 import { LightningElement, api, wire } from "lwc";
 import getInitData from '@salesforce/apex/ReferHealthcareProviderRemote.getInitData';
 import getParticipantData from '@salesforce/apex/PIR_SharingOptionsController.fetchParticipantData';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class Pir_sharingOption extends LightningElement {
     
     value = [];
     datafetchsuccess = false;
-    get options() {
-        return [
-            { label: '2022', value: '2022' },
-            { label: '2021', value: '2021' },
-            { label: '2020', value: '2020' },
-            { label: '2019', value: '2019' },
-          
-        ];
-    }
     handleChange(e) {
         this.value = e.detail.value;
     }
@@ -26,16 +19,19 @@ export default class Pir_sharingOption extends LightningElement {
     participantObject;
     isHCPDelegates;
     isAddDelegates;
+    yobOptions=[];
+    rpList = [];
+    communityTemplate;
+    isDisplayProviders = false;
     
 
     connectedCallback(){
-        //console.log('>>connected call back called>>'+this.selectedPE);
-        //this.fetchInitialDetails();
+        this.fetchInitialDetails();
     }
 
     @api
     fetchInitialDetails() {  
-        console.log('>>fecth details called>>');
+        this.getCommunityInfo();
         this.resetFormElements();
         this.getParticipantDetails();
     }
@@ -45,7 +41,18 @@ export default class Pir_sharingOption extends LightningElement {
         this.healthcareProviders=[];
         this.isAddDelegates = false;
         this.ishcpAddDelegates = false;
+        this.rpList = [];
+        this.isrpContact = false;
         this.yob=[];
+    }
+
+    getCommunityInfo() {
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+        }).catch((error) => {
+             console.log('Error: ' + error);
+        });
     }
 
     getParticipantDetails() {
@@ -54,54 +61,56 @@ export default class Pir_sharingOption extends LightningElement {
         }
         getParticipantData({perId:this.selectedPE.id})
             .then((result) => {
-               
-                console.log('ParticipantData:'+JSON.stringify(result));
-               // this.template.querySelector("c-pir_sharing-form").participantObject = result;
-                this.participantObject = result;
+                this.participantObject = result;                        
                 this.getInitialData();
                 this.loading = false;
                 
             })
             .catch((error) => {
-                //this.error = error;
                 console.log(error);
                 this.loading = false;
             });
     }
 
     getInitialData() {
-        console.log('>>init detail called>>');
         if(!this.loading) {
             this.loading = true;
         }
         getInitData({ peId: this.selectedPE.id, participantId: this.selectedPE.participantId })
         .then((result) => {
-           
-            console.log('Result:'+JSON.stringify(result));
             let hcp = result.healthcareProviders;
             for (let i = 0; i < hcp.length; i++) {
                 hcp[i].sObjectType = 'Healthcare_Provider__c';
             }
             let del = result.listWrapp;
-            console.log(JSON.stringify(result.listWrapp));
             for (let i = 0; i < del.length; i++) {
                 del[i].sObjectType = 'Object';
             }
+            if(this.participantObject.HCP__r) {
+                let obj = {};
+                let mergedObj = {};
+                obj = {"sObjectType": 'Contact'};
+                mergedObj = { ...this.participantObject.HCP__r.HCP_Contact__r, ...obj };
+                this.rpList.push(mergedObj);
+                this.isrpContact = true;
+                console.log('this.rpList:'+JSON.stringify(this.rpList));
+            }   
             this.delegates = del;
             this.isAddDelegates = true;
             this.healthcareProviders = hcp;
             this.ishcpAddDelegates = true;
             this.yob = result.yearOfBirth;
-           
+            if(this.communityTemplate != 'Janssen') {
+                this.isDisplayProviders = true;
+            } else {
+                this.isDisplayProviders = false;
+            }
         })
         .catch((error) => {
-            //this.error = error;
             console.log(error);
             this.loading = false;
-            //this.showErrorToast(JSON.stringify(error.body.message));
         });
     }
-
     refreshDelegates() {
         this.fetchInitialDetails();
 

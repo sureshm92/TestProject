@@ -1,0 +1,12 @@
+.divpadding {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+    font-size: 14px;
+}
+
+.maindiv {
+    padding-left: 10px;
+}

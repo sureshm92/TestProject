@@ -64,6 +64,7 @@
                 },
                 function (returnValue) {
                     var trialDetail = JSON.parse(returnValue);
+                    component.set('v.isshowTravelCardInPreEnrollment',JSON.parse(trialDetail.participantstate).showTravelCardInPreEnrollment);
                     if (!trialDetail.showVisits) visitMode = 'TravelSupportDetails';
                     //find tab
                     var selectedTabId = trialDetail.tabs[0].id;

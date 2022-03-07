@@ -106,7 +106,7 @@
                             <lightning-input type="time" data-value="InitialVisitTime" onchange={changeInputValue}
                                 value={participantrecord.Initial_visit_scheduled_time__c}
                                 label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time}
-                                title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} placeholder="">
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} min="05:00:00.000Z" max="23:45:00.000Z" placeholder="">
                             </lightning-input>
                         </div>
                     </template>
@@ -183,7 +183,7 @@
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-input type="time" value={participantrecord.Initial_visit_scheduled_time__c}
                             data-value="InitialVisitTime" label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time}
-                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} onchange={changeInputValue}>
+                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} min="05:00:00.000Z" max="23:45:00.000Z" onchange={changeInputValue}>
                         </lightning-input>
                     </div>
                     <div

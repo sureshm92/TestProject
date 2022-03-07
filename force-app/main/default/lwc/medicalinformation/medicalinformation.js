@@ -1,0 +1,704 @@
+import { LightningElement, api, track } from "lwc";
+import pirResources from "@salesforce/resourceUrl/pirResources";
+
+import getPEDetails from "@salesforce/apex/MedicalHistryTabController.getPEDetails";
+import getMedicalHistory from "@salesforce/apex/MedicalHistryTabController.getMedicalHistory";
+import saveParticipantData from "@salesforce/apex/MedicalHistryTabController.saveParticipantData";
+import fetchfilterbiomarkerResult from "@salesforce/apex/MedicalHistryTabController.fetchfilterbiomarkerResult";
+import requestAuthorizeMedicalRecords from "@salesforce/apex/MedicalHistryTabController.requestAuthorizeMedicalRecords";
+import getEnrollmentRequestHistory from "@salesforce/apex/MedicalHistryTabController.getEnrollmentRequestHistory";
+
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+
+import Medical_Preview_Error_Message from "@salesforce/label/c.Medical_Preview_Error_Message";
+import RH_MedicalRetrive_Succces from "@salesforce/label/c.RH_MedicalRetrive_Succces";
+import RH_MedicalRetrieve_EmailError from "@salesforce/label/c.RH_MedicalRetrieve_EmailError";
+import RH_HumanAPIEmailError from "@salesforce/label/c.RH_HumanAPIEmailError";
+import RH_MedicalRecordAuthorized from "@salesforce/label/c.RH_MedicalRecordAuthorized";
+import RH_HumanAPIError from "@salesforce/label/c.RH_HumanAPIError";
+import pir_Medical_General from "@salesforce/label/c.pir_Medical_General";
+import pir_Medical_Search_Commorbidity from "@salesforce/label/c.pir_Medical_Search_Commorbidity";
+import pir_MedicalHistory from "@salesforce/label/c.pir_MedicalHistory";
+import Biomarkers_Header from "@salesforce/label/c.Biomarkers_Header";
+import RH_MedicalRecordProvider from "@salesforce/label/c.RH_MedicalRecordProvider";
+import pir_Assesment_Date_Time from "@salesforce/label/c.pir_Assesment_Date_Time";
+import pir_Screener from "@salesforce/label/c.pir_Screener";
+import High_Risk from "@salesforce/label/c.High_Risk";
+import High_Priority from "@salesforce/label/c.High_Priority";
+import BMI from "@salesforce/label/c.BMI";
+import RH_Comorbidities from "@salesforce/label/c.RH_Comorbidities";
+import Participant_Medical_History from "@salesforce/label/c.Participant_Medical_History";
+import BulkImport_File_Name from "@salesforce/label/c.BulkImport_File_Name";
+import No_records_to_display from "@salesforce/label/c.No_records_to_display";
+import RH_RequestMedicalBtn from "@salesforce/label/c.RH_RequestMedicalBtn";
+import pir_MedicalImport_header from "@salesforce/label/c.pir_MedicalImport_header";
+import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
+import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
+
+import LOCALE from "@salesforce/i18n/locale";
+
+export default class Medicalinformation extends LightningElement {
+  upload = pirResources + "/pirResources/icons/upload.svg";
+  download = pirResources + "/pirResources/icons/download.svg";
+
+  label = {
+    High_Risk,
+    High_Priority,
+    BMI,
+    RH_Comorbidities,
+    Participant_Medical_History,
+    pir_Medical_General,
+    pir_Medical_Search_Commorbidity,
+    pir_MedicalHistory,
+    Biomarkers_Header,
+    RH_MedicalRecordProvider,
+    pir_Assesment_Date_Time,
+    pir_Screener,
+    BulkImport_File_Name,
+    No_records_to_display,
+    Medical_Preview_Error_Message,
+    RH_MedicalRetrive_Succces,
+    RH_MedicalRetrieve_EmailError,
+    RH_HumanAPIEmailError,
+    RH_HumanAPIError,
+    RH_MedicalRecordAuthorized,
+    RH_RequestMedicalBtn,
+    pir_MedicalImport_header,
+    pir_BMI_Error,
+    pir_BmiHelptext
+  };
+
+  @api selectedPe;
+  @api returnpervalue;
+  value = [];
+  isMedicalDataLoaded = false;
+  medicalHistoryRecord;
+  openfileUrl;
+  openmodel;
+  filterasseseddatetime;
+  isbiomarkerResultAvail = false;
+  bioMarkerResultData;
+  isReportAvailable;
+  highlightsReport;
+  detailedReport;
+  lstEnrollmenthistry;
+  decodeResult;
+  decodeResultGizmo;
+  loadSurvey;
+  isRequestHistrySuccess;
+  ismodelPopup = false;
+  isfileAvailable = false;
+  isFilesRetrieved;
+  filterRecord;
+  isComorbidityLoad = true;
+  commorbityshowresult;
+  fileName;
+  fileDownloadLink;
+  lstCommorbitiesToInsert = [];
+  lstCommorbitiesToDelete = [];
+  lstExistingCommorbidity;
+
+  connectedCallback() {
+    console.log(">>vonnectted medical");
+    this.doSelectedPI();
+  }
+
+  @api
+  doSelectedPI() {
+    console.log(">>do select pi medical>>");
+    this.loadSurvey = false;
+    this.isMedicalDataLoaded = false;
+    this.openmodel = false;
+    this.filterasseseddatetime = [];
+    this.isbiomarkerResultAvail = false;
+    this.bioMarkerResultData = [];
+    this.highlightsReport = '';
+    this.detailedReport = '';
+    this.ismodelPopup = false;
+    this. isfileAvailable = false;
+    this.filterRecord = null;
+    this.isComorbidityLoad = true;
+    this.commorbityshowresult = false;
+
+
+    getPEDetails({ peid: this.selectedPe })
+      .then((result) => {
+        console.log(">>>result>>" + JSON.stringify(result));
+        this.lstCommorbitiesToInsert = [];
+        this.lstCommorbitiesToDelete = [];
+        this.lstExistingCommorbidity = [];
+        this.returnpervalue = result;
+        this.lstExistingCommorbidity = result.lstComorbidities;
+        let detailedReportTemp = [];
+
+        const options = {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          hour12: false,
+        };
+
+        if (result.MedicalreportList && result.MedicalreportList.reportList) {
+          for (var i = 0; i < result.MedicalreportList.reportList.length; i++) {
+            if (
+              result.MedicalreportList.reportList[i].reportName ==
+              "Highlights Report"
+            ) {
+              this.highlightsReport = result.MedicalreportList.reportList[i];
+            } else {
+              let dt_report = new Date(
+                result.MedicalreportList.reportList[i].createdAt
+              );
+              result.MedicalreportList.reportList[i].createdAt =
+                new Intl.DateTimeFormat(LOCALE, options).format(dt_report);
+              detailedReportTemp.push(result.MedicalreportList.reportList[i]);
+            }
+          }
+          this.detailedReport = detailedReportTemp;
+          this.isReportAvailable = true;
+        } else {
+          this.isReportAvailable = false;
+          this.lstEnrollmenthistry = result.lstParticipantEnrollmentHstry;
+        }
+        if (result.citizenRecords) {
+          this.medicalHistoryRecord = result.citizenRecords;
+          this.isfileAvailable = true;
+          for (
+            var i = 0;
+            i < this.medicalHistoryRecord.attachments.length;
+            i++
+          ) {
+            let dt = new Date(
+              this.medicalHistoryRecord.attachments[i].CreatedDate
+            );
+            this.medicalHistoryRecord.attachments[i].CreatedDate =
+              new Intl.DateTimeFormat(LOCALE, options).format(dt);
+          }
+        }
+
+        if (result.biomarkerdata && result.biomarkerdata.dateTimeLabelValue) {
+          this.filterasseseddatetime =
+            result.biomarkerdata.dateTimeLabelValue[0].value;
+          if (result.biomarkerdata.mapBiomarkerKeyValue) {
+            if (result.biomarkerdata.mapBiomarkerKeyValue.length != 0)
+              this.isbiomarkerResultAvail = true;
+            this.bioMarkerResultData =
+              result.biomarkerdata.mapBiomarkerKeyValue;
+          }
+        }
+        if (result.booldisplaygizmo) {
+          this.formatgizmoresponse();
+        }
+       
+        this.loadSurvey = true;
+        this.isMedicalDataLoaded = true;
+        this.isFilesRetrieved = true;
+        this.isRequestHistrySuccess = true;
+      })
+      .catch((error) => {
+        console.log(">>error sime>>>" + JSON.stringify(error));
+        console.log(">>error>>>" + error);
+      });
+  }
+  /*Method for HighRisk and High Priority */
+  handlevalueupdate(event) {
+    let fieldType = event.target.type;
+    let field = event.target.name;
+    if (fieldType === "checkbox") {
+      this.returnpervalue[field] = event.target.checked;
+    } else {
+      this.returnpervalue[field] = event.target.value;
+    }
+    const validateMedicalsavebtn = new CustomEvent(
+      "validatemedicalsavebutton",
+      {
+        detail: true,
+      }
+    );
+    this.dispatchEvent(validateMedicalsavebtn);
+  }
+
+  DownloadFile(event) {
+    this.fileDownloadLink =
+      this.medicalHistoryRecord.baseURL +
+      "/sfc/servlet.shepherd/document/download/" +
+      event.currentTarget.dataset.id +
+      "?operationContext=S1";
+  }
+
+  /* get the filter record of commordity*/
+  @api
+  getFilterRecord(event) {
+    this.filterRecord = null;
+    this.commorbityshowresult = false;
+    if (event.target.value.length > 2) {
+      this.commorbityshowresult = true;
+      let allcommorbities = this.returnpervalue.lstAllComorbidities;
+      let filterrecord = allcommorbities.filter((commo) =>
+        commo.Comorbidity_Name__c.toLowerCase().includes(
+          event.target.value.toLowerCase()
+        )
+      );
+      this.filterRecord = filterrecord;
+    }
+  }
+  /*hide the search result */
+  hideFilterRecord() {
+    window.clearTimeout(this.delayTimeout);
+    this.delayTimeout = setTimeout(this.toggleCB.bind(this), 500);
+  }
+  temptg = true;
+  toggleCB() {
+    if (this.temptg) {
+      this.commorbityshowresult = false;
+      this.template.querySelector(
+        'lightning-input[data-name="searchcomm"]'
+      ).value = null;
+    }
+    this.temptg = true;
+  }
+
+  /*This method will called when we select any comorbidity and update the list of insertion or deletion of commorbidity */
+  @api
+  onSelect(event) {
+    this.temptg = false;
+    if (event.currentTarget.dataset.key) {
+      var index = this.filterRecord.findIndex(
+        (x) => x.Id === event.currentTarget.dataset.key
+      );
+      var existingCommordityIndex = this.lstExistingCommorbidity.findIndex(
+        (x) => x.Id === event.currentTarget.dataset.key
+      );
+      let DeleteCommordityIndex = -1;
+      if (this.lstCommorbitiesToDelete)
+        DeleteCommordityIndex = this.lstCommorbitiesToDelete.findIndex(
+          (x) => x.Id === event.currentTarget.dataset.key
+        );
+      if (index != -1) {
+        this.commorbityshowresult = false;
+        this.returnpervalue.lstComorbidities.push(this.filterRecord[index]);
+        this.returnpervalue.lstAllComorbidities =
+          this.returnpervalue.lstAllComorbidities.filter(
+            (commo) =>
+              commo.Comorbidity_Name__c.toLowerCase() !=
+              this.filterRecord[index].Comorbidity_Name__c.toLowerCase()
+          );
+        if (existingCommordityIndex != -1) {
+          if (DeleteCommordityIndex != -1) {
+            this.lstCommorbitiesToDelete = this.lstCommorbitiesToDelete.filter(
+              (commo) =>
+                commo.Comorbidity_Name__c.toLowerCase() !=
+                this.filterRecord[index].Comorbidity_Name__c.toLowerCase()
+            );
+          }
+        } else {
+          this.lstCommorbitiesToInsert.push(this.filterRecord[index]);
+        }
+
+        this.template.querySelector(
+          'lightning-input[data-name="searchcomm"]'
+        ).value = null;
+        this.filterRecord = null;
+      }
+      //event to enable the save button handled in pir_participantstatusDetail
+      const validateMedicalsavebtn = new CustomEvent(
+        "validatemedicalsavebutton",
+        {
+          detail: true,
+        }
+      );
+      this.dispatchEvent(validateMedicalsavebtn);
+    }
+  }
+  /*This method will called when we remove any comorbidity and update the list of insertion or deletion of commorbidity */
+  @api
+  removecomorbidity(event) {
+    this.isComorbidityLoad = false;
+    if (event.currentTarget.dataset.key) {
+      var index = this.returnpervalue.lstComorbidities.findIndex(
+        (x) => x.Id === event.currentTarget.dataset.key
+      );
+      console.log('>>index>>'+index);
+      var existingCommordityIndex = this.lstExistingCommorbidity.findIndex(
+        (x) => x.Id === event.currentTarget.dataset.key
+      );
+      console.log('>>existingCommordityIndex>>'+existingCommordityIndex);
+      let comorToInsertIndex = -1;
+      if (this.lstCommorbitiesToInsert)
+        comorToInsertIndex = this.lstCommorbitiesToInsert.findIndex(
+          (x) => x.Id === event.currentTarget.dataset.key
+        );
+        console.log('>>comorToInsertIndex>>'+comorToInsertIndex);    
+      if (index != -1) {
+        this.returnpervalue.lstAllComorbidities.push(
+          this.returnpervalue.lstComorbidities[index]
+        );
+        if (comorToInsertIndex != -1) {
+          this.lstCommorbitiesToInsert = this.lstCommorbitiesToInsert.filter(
+            (commo) =>
+              commo.Comorbidity_Name__c.toLowerCase() !=
+              this.returnpervalue.lstComorbidities[
+                index
+              ].Comorbidity_Name__c.toLowerCase()
+          );
+        } else if (existingCommordityIndex != -1) {
+          this.lstCommorbitiesToDelete.push(
+            this.returnpervalue.lstComorbidities[index]
+          );
+        }
+        this.returnpervalue.lstComorbidities =
+          this.returnpervalue.lstComorbidities.filter(
+            (commo) =>
+              commo.Comorbidity_Name__c.toLowerCase() !=
+              this.returnpervalue.lstComorbidities[
+                index
+              ].Comorbidity_Name__c.toLowerCase()
+          );
+        this.isComorbidityLoad = true;
+      }
+      console.log('>>lstCommorbitiesToDelete>>'+JSON.stringify(this.lstCommorbitiesToDelete));
+      //event to enable the save button handled in pir_participantstatusDetail
+      const validateMedicalsavebtn = new CustomEvent(
+        "validatemedicalsavebutton",
+        {
+          detail: true,
+        }
+      );
+      this.dispatchEvent(validateMedicalsavebtn);
+    }
+  }
+
+  @api
+  openModelpopup(event) {
+    if (event.currentTarget.dataset.content < 11534336) {
+      //In Bytes(in binary)
+      this.fileName =
+        event.currentTarget.dataset.name +
+        "." +
+        event.currentTarget.dataset.extension;
+      this.openfileUrl =
+        "/apex/MedicalHistoryPreviewVF?resourceId=" +
+        event.currentTarget.dataset.id;
+      this.openmodel = true;
+    } else {
+      this.openmodel = false;
+      const event = new ShowToastEvent({
+        title: "Error",
+        message: this.label.Medical_Preview_Error_Message,
+        variant: "warning",
+      });
+      this.dispatchEvent(event);
+    }
+  }
+
+  @api
+  renderModel(event) {
+    this.ismodelPopup = !this.ismodelPopup;
+    if (event.detail == "success") {
+      this.isFilesRetrieved = false;
+      getMedicalHistory({
+        cdls: null,
+        participantId: this.returnpervalue.selectedPER.Participant__c,
+      })
+        .then((result) => {
+          this.medicalHistoryRecord = result;
+          this.isfileAvailable = true;
+
+          const options = {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            hour12: false,
+          };
+
+          for (
+            var i = 0;
+            i < this.medicalHistoryRecord.attachments.length;
+            i++
+          ) {
+            let dt = new Date(
+              this.medicalHistoryRecord.attachments[i].CreatedDate
+            );
+            this.medicalHistoryRecord.attachments[i].CreatedDate =
+              new Intl.DateTimeFormat(LOCALE, options).format(dt);
+          }
+          this.isFilesRetrieved = true;
+        })
+        .catch((error) => {
+          this.isFilesRetrieved = true;
+          console.log(">>error in retrive files>>>" + JSON.stringify(error));
+        });
+    }
+  }
+
+  @api
+  updatefilterbiomarkerresult(event) {
+    this.isbiomarkerResultAvail = false;
+    fetchfilterbiomarkerResult({
+      strAssesDateTime: event.detail.value,
+      perId: this.selectedPe,
+    })
+      .then((result) => {
+        if (result.lstBiomarkerResultWrapper.length != 0) {
+          this.isbiomarkerResultAvail = true;
+        }
+        this.bioMarkerResultData = result.lstBiomarkerResultWrapper;
+      })
+      .catch((error) => {
+        console.log(">>errorbiomark>>>" + JSON.stringify(error));
+        this.isbiomarkerResultAvail = true;
+      });
+  }
+
+  @api
+  closeModal() {
+    this.openmodel = false;
+  }
+
+  @api
+  handleauthorze() {
+    this.isRequestHistrySuccess = false;
+    requestAuthorizeMedicalRecords({ perid: this.selectedPe })
+      .then((result) => {
+        switch (result.strRequestMedicalReturn) {
+          case "true": {
+            const event = new ShowToastEvent({
+              title: "Requested Successfully",
+              message: this.label.RH_MedicalRetrive_Succces,
+              variant: "success",
+            });
+            this.dispatchEvent(event);
+            getEnrollmentRequestHistory({ perid: this.selectedPe })
+              .then((result) => {
+                this.lstEnrollmenthistry = result;
+                this.isRequestHistrySuccess = true;
+              })
+              .catch((error) => {
+                console.log(">>error histry>>>" + JSON.stringify(error));
+                console.log(">>error histry>>>" + error);
+              });
+
+            break;
+          }
+          case "EmailError": {
+            const event = new ShowToastEvent({
+              title: "Requested Not Completed",
+              message: this.label.RH_MedicalRetrieve_EmailError,
+              variant: "Error",
+            });
+            this.dispatchEvent(event);
+            this.isRequestHistrySuccess = true;
+            break;
+          }
+          case "EmailNotCorrect": {
+            const event = new ShowToastEvent({
+              title: "Requested Not Completed",
+              message: this.label.RH_HumanAPIEmailError,
+              variant: "Error",
+            });
+            this.dispatchEvent(event);
+            this.isRequestHistrySuccess = true;
+            break;
+          }
+          default: {
+            const event = new ShowToastEvent({
+              title: "Requested Not Completed",
+              message: this.label.RH_HumanAPIError,
+              variant: "Error",
+            });
+            this.dispatchEvent(event);
+            this.isRequestHistrySuccess = true;
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(">>errorbiomark final hstry>>>" + JSON.stringify(error));
+        console.log(">>errorbiomark final hstry>>>" + error);
+      });
+  }
+
+  @api
+  formatgizmoresponse() {
+    this.decodeResult = false;
+    let GizmoResult = this.returnpervalue.strMRRSurveyResult;
+
+    if (!GizmoResult.includes("http")) {
+      var Base64 = {
+        _keyStr:
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        decode: function (e) {
+          var t = "";
+          var n, r, i;
+          var s, o, u, a;
+          var f = 0;
+          e = e.replace(/\\+\\+[++^A-Za-z0-9+/=]/g, "");
+          while (f < e.length) {
+            s = this._keyStr.indexOf(e.charAt(f++));
+            o = this._keyStr.indexOf(e.charAt(f++));
+            u = this._keyStr.indexOf(e.charAt(f++));
+            a = this._keyStr.indexOf(e.charAt(f++));
+            n = (s << 2) | (o >> 4);
+            r = ((o & 15) << 4) | (u >> 2);
+            i = ((u & 3) << 6) | a;
+            t = t + String.fromCharCode(n);
+            if (u != 64) {
+              t = t + String.fromCharCode(r);
+            }
+            if (a != 64) {
+              t = t + String.fromCharCode(i);
+            }
+          }
+          t = Base64._utf8_decode(t);
+          return t;
+        },
+        _utf8_decode: function (e) {
+          var t = "";
+          var n = 0;
+          var r = 0;
+          var c1 = 0;
+          var c2 = 0;
+          var c3 = 0;
+          while (n < e.length) {
+            r = e.charCodeAt(n);
+            if (r < 128) {
+              t += String.fromCharCode(r);
+              n++;
+            } else if (r > 191 && r < 224) {
+              c2 = e.charCodeAt(n + 1);
+              t += String.fromCharCode(((r & 31) << 6) | (c2 & 63));
+              n += 2;
+            } else {
+              c2 = e.charCodeAt(n + 1);
+              c3 = e.charCodeAt(n + 2);
+              t += String.fromCharCode(
+                ((r & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
+              );
+              n += 3;
+            }
+          }
+          return t;
+        },
+      };
+      var data = Base64.decode(GizmoResult).toString();
+      data = data.replace("<h1>", '<h1 class="hide-survey-header">');
+      console.log(">>data>>" + data);
+      this.decodeResultGizmo = data;
+      this.decodeResult = true;
+    }
+  }
+
+  //Accordian contact
+  toggleAccordian(event) {
+    this.template
+      .querySelectorAll("." + event.currentTarget.dataset.name)
+      .forEach(function (L) {
+        L.classList.toggle("slds-hide");
+      });
+    this.template
+      .querySelectorAll("." + event.currentTarget.dataset.name + "Bg")
+      .forEach(function (L) {
+        L.classList.toggle("bg-white");
+      });
+    if (event.currentTarget.dataset.name == "screenerOneAcc") {
+      console.log(">>coming in screner accordian");
+      this.template.querySelector(".screener").innerHTML =
+        this.decodeResultGizmo;
+      console.log(">>coming in screner accordian end>>");
+    }
+  }
+  @api
+  handlevalueupdateBMI(event) {
+    
+    var getBMIValue = event.target.value;
+   
+    var getSepartaeValue = getBMIValue.toString().split(".");
+    if (getSepartaeValue[1] && getSepartaeValue[1].length > 2) {
+      
+      event.target.value =  getSepartaeValue[0] + "." + getSepartaeValue[1].substr(0, 2);
+    }
+
+    this.returnpervalue.BMI = event.target.value;
+    const validateMedicalsavebtn = new CustomEvent(
+      "validatemedicalsavebutton",
+      {
+        detail: true,
+      }
+    );
+    this.dispatchEvent(validateMedicalsavebtn);
+  }
+
+  @api
+  dosaveMedicalInfo() {
+    console.log("save from medical called>>>" + this.returnpervalue.BMI);
+    console.log("save lstcommorInsert>>>" + JSON.stringify(this.lstCommorbitiesToInsert));
+    console.log("save lsrComorditDelete>>>" + JSON.stringify(this.lstCommorbitiesToDelete));
+    
+    this.isMedicalDataLoaded = false;
+    let BMIvalue = "";
+    if(this.returnpervalue.BMI) {
+    var getBMIValue = this.returnpervalue.BMI;
+    
+    var getSepartaeValue = getBMIValue.toString().split(".");
+    if (getSepartaeValue[0] && getSepartaeValue[0].length > 4) {
+        const event = new ShowToastEvent({
+            title: "Error",
+            message: this.label.pir_BMI_Error,
+            variant: "Error", 
+          });
+          this.isMedicalDataLoaded = true;
+          this.dispatchEvent(event);
+          return;
+    }
+    else{
+        BMIvalue = this.returnpervalue.BMI;
+    }
+   }
+
+    console.log(">>BMIvalue>>" + BMIvalue);
+    saveParticipantData({
+      strBMI: BMIvalue,
+      boolHighRisk: this.returnpervalue.HighRisk,
+      boolHighPrority: this.returnpervalue.Highpriority,
+      strComorbityToInsert: JSON.stringify(this.lstCommorbitiesToInsert),
+      strComorbiditiestoDelete: JSON.stringify(this.lstCommorbitiesToDelete),
+      PerId: this.selectedPe,
+    })
+      .then((result) => {
+
+        this.returnpervalue.BMI = result.BMI;
+        this.returnpervalue.HighRisk = result.HighRisk;
+        this.returnpervalue.Highpriority = result.Highpriority;
+        this.returnpervalue.lstComorbidities = result.lstComorbidities;
+        this.returnpervalue.lstAllComorbidities = result.lstAllComorbidities;
+        this.lstExistingCommorbidity = result.lstComorbidities;
+        this.lstCommorbitiesToInsert =[];
+        this.lstCommorbitiesToDelete =[];
+
+        this.isMedicalDataLoaded = true;
+        console.log(">>resut>>" + result);
+        const tabEvent = new CustomEvent("handletabs", {});
+        this.dispatchEvent(tabEvent);
+      })
+      .catch((error) => {
+        console.log(">>error in save>>>" + JSON.stringify(error));
+        let errorMessage = "";
+        if (error.body.message) {
+          errorMessage = error.body.message;
+        }
+        const event = new ShowToastEvent({
+          title: "Error",
+          message: errorMessage,
+          variant: "Error",
+          mode: "sticky",
+        });
+        this.dispatchEvent(event);
+        this.isMedicalDataLoaded = true;
+      });
+  }
+}

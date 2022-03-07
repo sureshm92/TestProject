@@ -11,6 +11,7 @@ public with sharing class PIR_SharingOptionsController {
        return([
              SELECT
                   Id,
+                  Show_Referring_Provider__c,
                   participant__c,
                   participant__r.Mailing_Country_Code__c,
                   participant__r.Mailing_State_Code__c,
@@ -38,9 +39,24 @@ public with sharing class PIR_SharingOptionsController {
                   Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                   Study_Site__r.Suppress_Participant_Emails__c,
                   Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                  Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                  Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                  HCP__c,
+                  HCP__r.HCP_Contact__c,
+                  HCP__r.HCP_Contact__r.FirstName,
+                  HCP__r.HCP_Contact__r.LastName,
+                  HCP__r.HCP_Contact__r.Email                  
             FROM Participant_Enrollment__c
             WHERE Id = :perId LIMIT 1
         ]);
+    }
+    
+    @AuraEnabled
+    public static List<LabelValueItem> fetchYearOfBirth(){
+        try {
+            List<LabelValueItem> yearList = RPRecordReviewLogHelper.getYear();
+            return yearList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 }

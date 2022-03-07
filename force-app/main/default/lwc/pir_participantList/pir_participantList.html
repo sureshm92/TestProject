@@ -56,15 +56,20 @@
                 <template for:each={participantList} for:item="p"  for:index="index">
                     <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
                         <div class="flags">
-                            <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>Action Requiered</span></template>
+                            <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>Action Required</span></template>
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>
                             <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>High Risk</span></template>
                         </div>
-                        <div class="slds-text-heading--small breakW">
-                            {p.firstName} {p.lastName}
-                        </div>
-                        <div class="subInfo slds-truncate" >
-                            {p.refId} - <span title={p.studyName}>{p.studyName}</span>
+                        <div class="card-content">
+                            <div class="slds-text-heading--small breakW">
+                                {p.firstName} {p.lastName}
+                            </div>
+                            <div class="tooltip">
+                                <div class="subInfo slds-truncate" >
+                                    {p.refId} - {p.studyName}
+                                </div>
+                                <span class={p.cs}>{p.studyName}</span>
+                            </div>
                         </div>
                     </div>
                 </template>

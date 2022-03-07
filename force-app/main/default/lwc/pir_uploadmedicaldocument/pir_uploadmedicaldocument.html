@@ -1,0 +1,68 @@
+<template>
+    <c-popup-l-w-c
+      show-modal=true
+      header2=true
+      onclose={closeUploadModal} 
+      header-value2={pir_MedicalImport_header}
+      closetitle ={pir_Delete_close}
+      modalsize="x_small">      
+   
+      <div slot="body" class="processBody"> 
+         <div class="slds-form-element modalBody">
+            <div class="slds-p-bottom--medium slds-p-top--medium">  
+                  <div class="fileName">{pir_MedicalImport_subHead}</div>
+                  <div class="fileHolder" data-id="browsediv">
+                     <input onchange={handleFilesChange} type="file" class="fileInput"></input>
+                     <div class="fileBox slds-grid slds-wrap">
+                        <div class="slds-size_full slds-align_absolute-center slds-p-top--small" > 
+                              <lightning-icon  icon-name="utility:upload" alternative-text="Upload" title="Upload"></lightning-icon>
+                        </div>
+                        <div class="slds-size_full slds-align_absolute-center uploadLabel">  
+                              {BulkImport_Drag_file_here_or} <span class="linkLabel">&nbsp;{BulkImport_browse}</span> 
+                        </div>
+                        <div class="slds-size_full slds-align_absolute-center uploadLabel "  style="font-style: italic;">  
+                              {MedicalImport_MaxSize}
+                        </div>
+                     </div>
+                  </div>
+                  <div>
+                    <template if:false={isDoneLoading} class="slds-is-relative">
+                        <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+                    </template>
+                     <template if:true={fileName}>
+                        <div class="slds-truncate fileName">{fileName} </div>
+                        <div class="slds-align--absolute-center">
+                              <div class="progressBar">
+                                 <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                    <span class="slds-progress-bar__value" style={progressWidth} ></span>
+                                 </div>
+                              </div>
+                              <div class="closeIcon">
+                                 <template if:true={enableDel}>
+                                    <span  onclick={deleteFiles}><lightning-icon icon-name="utility:close" alternative-text="Delete" title="Delete" size="xx-small"></lightning-icon></span>
+                              </template>
+                              </div>
+                        </div>
+                        
+                        <div>
+                              <span class="fileName">{fileRemaining}</span>
+                              <span class="fileName slds-float--right">{progress}%</span>
+                        </div>
+                     </template>
+                  </div>
+            </div>
+         </div>               
+
+         <span class="slds-float--right">
+            <template if:true={enableImport}>
+                  <button type="button" class="slds-button slds-button_brand saveButton leftMargin" onclick={closepopup}>{BTN_Save}</button>
+            </template>
+            <template if:false={enableImport}>
+                  <button type="button" class="slds-button slds-button_brand saveButton disabledB" >{BTN_Save}</button>
+            </template>
+         </span>
+         
+      </div>
+   </c-popup-l-w-c>
+ 
+</template>
