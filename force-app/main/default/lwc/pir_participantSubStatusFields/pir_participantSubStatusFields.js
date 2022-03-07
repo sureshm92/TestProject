@@ -1589,7 +1589,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     if(this.participantrecord.ParticipantNoShow__c){ 
       this.participantrecord.Participant_Status__c = 'Unable to Reach';
-      this.participantrecord.Non_Enrollment_Reason__c='Didn\'t Show For Initial Visit';
+      this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit';
     }
     console.log(
       "STATUS TO UPDATE-->" + this.participantrecord.Participant_Status__c
@@ -1664,7 +1664,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       title: Message,
       message: Message,
       variant: "success",
-      mode: "dismissable"
+      mode: "sticky"
     });
     this.dispatchEvent(evt);
   }
