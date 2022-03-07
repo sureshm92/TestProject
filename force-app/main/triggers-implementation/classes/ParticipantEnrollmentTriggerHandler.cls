@@ -942,6 +942,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 &&
                 ((per.Initial_visit_scheduled_date__c == Null && per.Initial_visit_occurred_flag__c == False)||
                  per.ParticipantNoShow__c == True)) {
+                    if(per.Status_Order__c > 3){
+                        per.Participant_Status__c = 'Successfully Contacted';   
+                      
+                   }
                      peList.add(per);
                  }    
         }

@@ -5335,9 +5335,14 @@
         <field>Participant_Enrollment_Status_History__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment_Status_History__c.Status_Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Status_Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
