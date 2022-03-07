@@ -34,6 +34,7 @@
     <aura:attribute name="isStudySitesTabInitialized" type="Boolean" />
     <aura:attribute name="isMRRTabInitialized" type="Boolean" />
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean" />
+    <aura:attribute name="isshowTravelCardInPreEnrollment" type="Boolean" default="false"/>
 
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private" />
@@ -438,7 +439,7 @@
                         isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}"
                     >
                         <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
-                            <aura:if isTrue="{!v.studyDetail.trial.showTravelCardInPreEnrollment}">
+                            <aura:if isTrue="{!v.isshowTravelCardInPreEnrollment}">
                                 <c:TravelSupportDetails />
                             </aura:if>
                             <aura:set attribute="else">
