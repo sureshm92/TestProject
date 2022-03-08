@@ -1381,6 +1381,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PreEnrollmentPatientVisitServie</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreatePreEnrollVistsForExtngPERs</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PatientVisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
