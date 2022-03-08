@@ -18531,6 +18531,13 @@ communications using the toggles below.</value>
         <shortDescription>Prefer not to say</shortDescription>
         <value>0- Prefer not to say</value>
     </labels>
+      <labels>
+        <fullName>Pre_Enrollment_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pre Enrollment Visit Plan</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
     <labels>
         <fullName>Preferred_Contact_Method</fullName>
         <categories>Media Outreach</categories>
