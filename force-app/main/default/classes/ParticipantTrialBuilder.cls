@@ -121,12 +121,16 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     defaultActions
                 )
             );
-
+            Boolean showVisit = participantState.showVisits;
+            Boolean shoVi =
+                participantState.showVisits && participantState.ctp.Visits_are_Available__c;
+            Boolean visitAvailable = showVisit && shoVi;
             /**PEH-525*/
             if (
                 participantState.isPremium &&
                 (participantState.showTravelCardInPreEnrollment ||
-                participantState.ctp.Travel_Vendor_Is_Available__c)
+                participantState.ctp.Travel_Vendor_Is_Available__c ||
+                visitAvailable)
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
