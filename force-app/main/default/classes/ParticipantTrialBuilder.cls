@@ -4,10 +4,12 @@
 
 public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
+    private string participantstate;
 
     public ParticipantTrialBuilder() {
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
         pe = ps.pe;
+        participantstate = JSON.serialize(ps);
         if (pe != null)
             setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
@@ -22,6 +24,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
         if (pe == null)
             return trialDetail;
         trialDetail.pe = pe;
+        trialDetail.participantstate = participantstate;
         Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
         idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
         List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
@@ -79,6 +82,8 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
+            Boolean shoVi =
+                participantState.showVisits && participantState.ctp.Visits_are_Available__c;
             if (
                 participantState.isPremium &&
                 (participantState.showVisits ||
@@ -120,7 +125,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             /**PEH-525*/
             if (
                 participantState.isPremium &&
-                (participantState.showVisitsinPreTrial ||
+                (participantState.showTravelCardInPreEnrollment ||
                 participantState.ctp.Travel_Vendor_Is_Available__c)
             ) {
                 tabs.add(

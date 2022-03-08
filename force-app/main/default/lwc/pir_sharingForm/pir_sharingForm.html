@@ -1,38 +1,39 @@
 <template>
-    <!--<div class="delegate-bg slds-p-around_small" >-->
-         <template for:each={addDelegateList} for:item="delegate">
-            <c-pir_sharing-form-fields 
-               key={delegate} 
-               yob={yob}
-               pe = {pe}
-               participant-object = {participantObject}
-               sharing-object = {delegate}
-               is-adult-delegate = "true"
-               is-valid="true">
-            </c-pir_sharing-form-fields>
-         </template>
-        <!-- slds-grid slds-wrap -->          
-    <!--</div>-->
-    <!--<div class="delegate-bg slds-p-around_small" >-->
-         <template for:each={addHCPDelegateList} for:item="delegate">
-            <c-pir_sharing-form-fields 
-               key={delegate} 
-               yob={yob}
-               pe = {pe}
-               participant-object = {participantObject}
-               sharing-object = {delegate}
-               is-adult-delegate = "true"
-               is-valid="true">
-            </c-pir_sharing-form-fields>
-         </template>
-        <!-- slds-grid slds-wrap -->          
-    <!--</div>-->
-     <!-- delegate-bg -->
+   <template for:each={addDelegateList} for:item="delegate" if:true={isAddDelegates}>
+      <c-pir_sharing-form-fields 
+         key={delegate}
+         pe = {pe}
+         participant-object = {participantObject}
+         sharing-object = {delegate}
+         is-adult-delegate = "true"
+         is-valid="true">
+      </c-pir_sharing-form-fields>
+   </template>
+   <template for:each={addDelegateList} for:item="delegate" if:true={isAddRp}>
+      <c-pir_sharing-form-fields 
+         key={delegate} 
+         pe = {pe}
+         participant-object = {participantObject}
+         sharing-object = {delegate}
+         is-adult-delegate = "true"
+         is-valid="true">
+      </c-pir_sharing-form-fields>
+   </template>
+   <template for:each={addDelegateList} for:item="delegate" if:true={isAddHcp}>
+      <c-pir_sharing-form-fields 
+         key={delegate} 
+         pe = {pe}
+         participant-object = {participantObject}
+         sharing-object = {delegate}
+         is-adult-delegate = "true"
+         is-valid="true">
+      </c-pir_sharing-form-fields>
+   </template>
   
-     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-m-bottom_large slds-p-around_none">
-        <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_large" onclick={addDelegateFormFields}>
-           <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
-           {buttonLabel}
-        </button>
-     </div>
+   <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-m-bottom_small slds-p-around_none" if:true={isDisplayAddButton}>
+      <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_large" onclick={addDelegateFormFields}>
+         <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
+         {buttonLabel}
+      </button>
+   </div>
 </template>

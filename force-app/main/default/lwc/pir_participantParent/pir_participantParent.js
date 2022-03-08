@@ -19,20 +19,25 @@ export default class Pir_participantParent extends LightningElement {
   @api selectedTab = "Status Details";  
   @api discardTab = false;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
+  disableMedicalSaveButton = true;
+  isMedicalTab ; 
+  isMedicalModalOpen = false;
+  isMedicalDetailChanged = false;
+  discardMedicalTab = false;
+
 
   connectedCallback() {
     getStudyAccessLevel()
       .then((result) => {
-        console.log(">>>result11>>" + JSON.stringify(result));
         this.lststudysiteaccesslevel = result;
-        console.log(">>>lststudysiteaccesslevel>>" + JSON.stringify(this.lststudysiteaccesslevel));
       })
       .catch((error) => {
         this.error = error;
       });
   }
   get isStatusDetail(){
-     if(this.selectedTab == "Status Details"){
+    console.log('selectedtab-->'+this.selectedTab);
+     if(this.selectedTab === "Status Details"){
        return true;
      }else{
          if(this.isModalOpen){
@@ -45,18 +50,14 @@ export default class Pir_participantParent extends LightningElement {
   selectedPI(event) {
     this.selectedPE = event.detail;
     this.isMedicalHistryAccess = true;
+    this.isMedicalDetailChanged = false;
     console.log("pe-parent" + JSON.stringify(this.selectedPE));
-    console.log('>>siteid>>'+this.selectedPE.siteId);
-    
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
     {
-       
-      console.log('>>coming iff>>');
       console.log('>>syudyaccess>>'+this.lststudysiteaccesslevel[this.selectedPE.siteId]);
       if(this.lststudysiteaccesslevel[this.selectedPE.siteId] == 'Level 3'){
-        this.isMedicalHistryAccess = false;
-        console.log('>>2nf id>>'); 
+        this.isMedicalHistryAccess = false; 
       } 
     } 
      
@@ -68,8 +69,10 @@ export default class Pir_participantParent extends LightningElement {
     this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
     this.discardTab = false;
     this.statusDetailValueChanged = false;
-    this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
+    this.template.querySelector("lightning-tabset").activeTabValue = "Status Details"; 
     this.selectedTab = "Status Details";
+    this.isMedicalTab = false;
+    
   }
   curentMobileView = "list";
   mobileViewToggle() { 
@@ -131,6 +134,13 @@ export default class Pir_participantParent extends LightningElement {
   checkvalidation(event) {
     this.disablebtn = event.detail;
   }
+
+
+  checkMedicalSaveBtn(event){
+    this.disableMedicalSaveButton = false;
+    this.isMedicalDetailChanged = true;
+    this.discardMedicalTab = false;
+  }
   checkStatusDetailChanges(event){ 
     this.statusDetailValueChanged = event.detail;
     if(event.detail){
@@ -138,43 +148,86 @@ export default class Pir_participantParent extends LightningElement {
     }
   }
   handleStatusTab(){
+    this.isMedicalTab = false;
+    if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
+     
+      this.selectedTab = "Status Details";
+      this.isMedicalModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Health Information";
+    }else{
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
+    
+    }
   }
   handleParticipantTab() {
+    this.isMedicalTab = false;
       if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
         this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
         this.selectedTab = "Participant Details";
         this.isModalOpen = true;
+      }else if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
+        
+        this.selectedTab = "Participant Details";
+        this.isMedicalModalOpen = true;
+        this.template.querySelector("lightning-tabset").activeTabValue = "Health Information";
       }else{
         this.selectedTab = "Participant Details";
       }
   }
   handleSharingTab() {
-    console.log('>>in sharing112>>'+JSON.stringify(this.selectedPE));
+    this.isMedicalTab = false;
     if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
       this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
       this.selectedTab = "Sharing Options";
       this.isModalOpen = true;   
+    }else if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
+      this.selectedTab = "Sharing Options";
+      this.isMedicalModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Health Information";
+     
+      
     }else{
-      console.log('>>in sharing else>>');
+      console.log('>>in sharing else>>');this.selectedTab = "Sharing Options";
+      console.log('stab1'+this.selectedTab);
       //this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
       this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails(); 
-      this.selectedTab = "Sharing Options";
+      
+      console.log('stab'+this.selectedTab);
+      
       
     }
  }
  handleMedicalTab() {
-  if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
+  console.log('stb-1->'+this.selectedTab);
+  if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) { 
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Health Information";
     this.isModalOpen = true;
+    this.isMedicalTab = false;
+  }else if(this.isMedicalModalOpen == false){ 
+    this.selectedTab = "Health Information"; 
+    console.log('stb-1->'+this.selectedTab);
+    this.isMedicalTab = true;
+    this.disableMedicalSaveButton = true;
+    this.template.querySelector("c-medicalinformation").doSelectedPI();  
+   
   }else{
-    this.template.querySelector("c-medicalinformation").selectedPe = this.selectedPE.id;
-    this.template.querySelector("c-medicalinformation").doSelectedPI();
-    this.selectedTab = "Health Information";
+    this.isMedicalTab = true;
+    this.disableMedicalSaveButton = true;
   }
  }
+
+ @api
+ doSaveMedical(){
+  this.isMedicalModalOpen = false;
+  this.isMedicalDetailChanged = false;
+  this.discardMedicalTab = false;
+  this.template.querySelector("c-medicalinformation").dosaveMedicalInfo();
+  this.disableMedicalSaveButton = true;
+ }
+
+
   handleDiscard(){
     this.discardTab = true;
     this.isModalOpen = false;
@@ -185,6 +238,19 @@ export default class Pir_participantParent extends LightningElement {
     this.selectedTab = "Status Details";
     this.isModalOpen = false;
   }
+  handleDiscardMedical(){
+    this.discardMedicalTab = true;
+    this.isMedicalModalOpen = false;
+    this.template.querySelector("c-medicalinformation").doSelectedPI();
+    this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
+  }
+
+  handleCloseModalMedical(){
+    this.selectedTab = "Health Information";
+    this.isMedicalModalOpen = false;
+  }
+
+
   handleTabs(){
     this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
   }

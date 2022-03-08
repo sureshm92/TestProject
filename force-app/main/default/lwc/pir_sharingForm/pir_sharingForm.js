@@ -12,7 +12,13 @@ export default class Pir_sharingOptionForm extends LightningElement {
     @api participantObject;
     @api targetObject;
     @api isHCPDelegate;
+    @api isRpContact;
+    @api addRpList;
     buttonLabel;
+    //isAddDelegate = false;
+    isAddRp = false;
+    isAddHcp = false;
+    isDisplayAddButton = true;
 
     connectedCallback() {
         this.resetDelegateList();
@@ -21,11 +27,17 @@ export default class Pir_sharingOptionForm extends LightningElement {
         } else {
             this.buttonLabel = 'Add Provider';
         }
+
+        if(this.targetObject === 'rp') {
+            this.isDisplayAddButton = false;
+        }
         this.updateExistingDelegates();
     }
 
     @api
     updateExistingDelegates() {
+        let delegateObj;
+        
         if(this.targetObject == 'delegate') {
             if(this.addDelegateList) {    
                 let mergedList = this.addDelegateList;           
@@ -35,35 +47,47 @@ export default class Pir_sharingOptionForm extends LightningElement {
                     mergedList[i] = mergedObj;
                 }
                 this.addDelegateList = mergedList;
-                this.isAddDelegates = false;
+                this.isAddDelegates = true;
+                /*this.isAddDelegates = false;
                 this.isHCPDelegate = true;
                 this.isAddDelegates = true;
-                this.isHCPDelegate = false;
+                this.isHCPDelegate = false;*/
             }
         }
         if(this.targetObject == 'hcp') {
-            if(this.addHCPDelegateList) {
-                let mergedList = this.addHCPDelegateList;
+            if(this.addDelegateList) {
+                let mergedList = this.addDelegateList;
                 for(let i=0; i<mergedList.length;i++) {
                     let obj = {"sObjectType": 'Healthcare_Provider__c'};
                     let mergedObj = { ...mergedList[i], ...obj };
                     mergedList[i] = mergedObj;
                 }
                 this.addHCPDelegateList = mergedList;
-                this.isHCPDelegate = false;
+                this.isAddHcp = true;
+                /*this.isHCPDelegate = false;
                 this.isHCPAddDelegates = false;
                 this.isHCPDelegate = true;
-                this.isHCPAddDelegates = true;
+                this.isHCPAddDelegates = true;*/
+            }
+        }
+        if(this.targetObject === 'rp') {
+            if(this.addDelegateList) {
+                let mergedList = this.addDelegateList;                
+                this.addRpList = mergedList;
+                this.isAddRp = true;
+                //this.isRpContact = true;
             }
         }
     }
 
     addDelegateFormFields() {
-        if(this.targetObject == 'delegate') {
-            this.isAddDelegates = false;
-            this.isHCPDelegate = true;
-            let delegateObj = {sObjectType:'Object'};
-            
+        let delegateObj;
+        if(this.targetObject == 'delegate') {          
+            delegateObj = {sObjectType:'Object'};
+        } else if(this.targetObject == 'hcp'){           
+            delegateObj = {sObjectType:'Healthcare_Provider__c'};
+        }
+        if(this.targetObject != 'rp') {
             if(!this.addDelegateList) {
                 this.addDelegateList= [];
                 this.addDelegateList.push(delegateObj)
@@ -72,36 +96,25 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 delegateList.push(delegateObj);
                 this.addDelegateList = [...this.addDelegateList, ...delegateList];
             }
-            if( this.addDelegateList.length >= 0) {            
-                this.isAddDelegates = true;     
-                this.isHCPDelegate = false;  
-            }
-        } else {
-            this.isHCPAddDelegates = false;
-            this.isHCPDelegate = false;
-            let hcpDelegateObj = {sObjectType:'Healthcare_Provider__c'};
+        }
 
-            if(!this.addHCPDelegateList) {
-                this.addHCPDelegateList= [];
-                this.addHCPDelegateList.push(hcpDelegateObj)
+        if( this.addDelegateList.length > 0) {
+            if(this.targetObject == 'delegate') {          
+                this.isAddDelegates = true;                
+            } else if(this.targetObject == 'hcp'){           
+                this.isAddHcp = true;
             } else {
-                let hcpDelegateList = [];
-                hcpDelegateList.push(hcpDelegateObj);
-                this.addHCPDelegateList = [...this.addHCPDelegateList, ...hcpDelegateList];
-            }
-
-            if( this.addHCPDelegateList.length >= 0) {            
-                this.isHCPAddDelegates = true;   
-                this.isHCPDelegate = true;     
+                this.isAddRp = true;
             }
         }
+        
     }
     
     @api resetDelegateList() {
         this.isAddDelegates = false;
-        this.addDelegateList = [];
-        this.isHCPAddDelegates = false;
-        this.addHCPDelegateList = [];
+        //this.addDelegateList = [];
+        this.isAddRp = false;
+        this.isAddHcp = false;
     }    
     
 }

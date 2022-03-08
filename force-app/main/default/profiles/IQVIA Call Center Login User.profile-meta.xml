@@ -4,6 +4,10 @@
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalHistryTabController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
      <classAccesses>
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
@@ -1327,6 +1331,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientVisitService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PreEnrollmentPatientVisitServie</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreatePreEnrollVistsForExtngPERs</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -7686,6 +7698,24 @@
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Participant_Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Call_Dispositions__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -7923,6 +7953,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -7967,9 +8001,14 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Participant_Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Participant_Enrollment_Status_History__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    
     <tabVisibilities>
         <tab>Participant_Enrollment__c</tab>
         <visibility>Hidden</visibility>

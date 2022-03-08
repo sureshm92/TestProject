@@ -237,7 +237,7 @@ public without sharing class PIR_StatusDetailController {
         ) {
           wrap.groupIcon = SUCCESS;
           if(per[0].Initial_visit_occurred_date__c != Null){
-              wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
+             wrap.groupDate = per[0].Initial_visit_occurred_date__c;
           }else{
               wrap.groupDate = Null;
           }
@@ -1355,6 +1355,7 @@ public without sharing class PIR_StatusDetailController {
                                                             'PIR_Did_Not_Attend_Appointment' => 'Did Not Attend Appointment',
                                                             'PWS_Picklist_Value_Protocol_Concerns' => 'Protocol Concerns',
                                                             'PIR_Visit_Out_Of_Window' => 'Visit Out Of Window',
+														                              	'Didnt Show For Initial Visit' => 'Didn\'t Show For Initial Visit',
                                                             '' => ''
                                                              };
     

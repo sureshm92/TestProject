@@ -10,7 +10,7 @@ import ConnectPatient from '@salesforce/label/c.HealthCare_Provider_Connect';
 import disconnect from '@salesforce/apex/ReferHealthcareProviderRemote.stopSharing';
 import inviteHP from '@salesforce/apex/ReferHealthcareProviderRemote.inviteHP';
 import yearOfBirth from '@salesforce/apex/PIR_SharingOptionsController.fetchYearOfBirth';
-
+import ConnectRP from '@salesforce/apex/ReferHealthcareProviderRemote.showOrHideProvider';
 export default class Pir_sharingFormFields extends LightningElement {
     @api yob;
     @api pe;
@@ -30,6 +30,10 @@ export default class Pir_sharingFormFields extends LightningElement {
     gridCss='';
     yobOptions=[];
     isDisabled = false;
+    isRpContact = false;
+    isDelegate = false;
+    isDisplayFormFields = false;
+    isDisplay = false;
 
     
     displayOptions1() {        
@@ -65,17 +69,28 @@ export default class Pir_sharingFormFields extends LightningElement {
         }).catch((error) => {
              console.log('Error: ' + error);
         });
-        if(this.sharingObject.sObjectType === 'Object'){
-           
-            this.isHCPDelegate = true;
-            this.isHCPDelegate = false;
+        this.loadinitialData();
+
+    }
+
+    loadinitialData() {
+        
+        if(this.sharingObject.sObjectType === 'Object') {
+            if(!this.isDelegate) {
+                this.isDelegate = true;
+            }
+
             if(this.sharingObject.delegateId) {
-                this.isExistingDelegate = true;
+                this.isExistingDelegate = true;                
+                this.isDisabled = true;                
                 this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';    
+                this.displayFormFields();
 
             } else {
                 this.gridCss='delegate-bg slds-p-around_small';
                 this.isExistingDelegate = false;
+                this.isDisplayFormFields = true;
+                this.displayFormFields();
             }
             if(this.sharingObject.status) {
                 if(this.sharingObject.status === 'Active' && this.isExistingDelegate) {
@@ -84,10 +99,13 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.connectDisconnect = this.label.ConnectPatient;
                 }
             }
-        } else {
-            this.isHCPDelegate = true;
+        } else if(this.sharingObject.sObjectType === 'Healthcare_Provider__c'){
+            
+            if(!this.isHCPDelegate) {
+                this.isHCPDelegate = true;
+            }
             if(this.sharingObject.Id) {
-                this.isExistingDelegate = true;   
+                this.isExistingDelegate = true;
                 this.isDisabled = true;             
                 this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';
             } else {
@@ -102,16 +120,43 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.connectDisconnect = this.label.ConnectPatient;
                 }
             }
+        } else {
+            if(this.participantObject.Show_Referring_Provider__c) {
+                this.connectDisconnect = this.label.StopSharing;
+            } else {
+                this.connectDisconnect = this.label.ConnectPatient;
+            }
+            if(!this.isRpContact) {
+                this.isRpContact = true;
+            }
+            if(this.sharingObject.Id) {
+                this.isExistingDelegate = true;
+                this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';
+            }
         }
+    }
 
+    displayFormFields() {
+        if(this.isExistingDelegate || this.isDisplayFormFields) {
+            this.isDisplay = true;
+        } else {
+            this.isDisplay = false;
+        }
     }
 
     checkFields(event) {
         let obj = {};
         let mergedObj = {};
         if(event.currentTarget.dataset.name === 'email') { 
-            let emailElement = this.template.querySelector('[data-name="email"]');
             if(this.sharingObject.sObjectType === 'Object') {
+                this.isDisplayFormFields = true;
+                this.displayFormFields();
+                if(this.sharingObject.Birth_Year__c) {
+                    this.sharingObject.Birth_Year__c = '';
+                    this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
+                    this.isAdultDelegate = true;
+                    this.isDisabled = false;
+                }
                 obj = {"email": event.detail.value.trim()};
             } else {
                 if(this.isDisabled) {                
@@ -194,10 +239,13 @@ export default class Pir_sharingFormFields extends LightningElement {
         });
 
         if(this.sharingObject.sObjectType === 'Object') {
-            
-            let checkbox = this.template.querySelector('[data-name="attestCheckbox"]').checked;
-            if(isValidCount == 0 && !this.isAdultDelegate && checkbox && !this.isDuplicateDelegate) {//validation successfull
-                this.isValid = false;
+            if(this.isDisplayFormFields && isValidCount == 0) {
+                this.isValid = true;
+            }else if(isValidCount == 0 && !this.isDisplayFormFields) {//validation successfull
+                let checkbox = this.template.querySelector('[data-name="attestCheckbox"]').checked;
+                if(!this.isAdultDelegate && checkbox && !this.isDuplicateDelegate) {
+                    this.isValid = false;
+                }
             } else {
                 this.isValid = true;
             }
@@ -217,6 +265,12 @@ export default class Pir_sharingFormFields extends LightningElement {
             let isDelegateInvited = false;
             let pe = this.participantObject.Study_Site__r;
             let participant = this.participantObject.Participant__r;
+            let dupObj;
+            if(this.duplicateDelegateInfo) {
+                dupObj = this.duplicateDelegateInfo.contactId ? JSON.stringify(this.duplicateDelegateInfo) : null;
+            } else {
+                dupObj = null;
+            }
             if (
                 pe.Study_Site__r != undefined &&
                 pe.Study_Site__r != null &&
@@ -236,7 +290,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 delegateContact: JSON.stringify(this.sharingObject),
                 delegateId: this.sharingObject.delegateId ? this.sharingObject.delegateId : null,
                 //ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
-                ddInfo: null,
+                ddInfo: dupObj,
                 createUser: isDelegateInvited,
                 YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : ''
             })
@@ -249,9 +303,27 @@ export default class Pir_sharingFormFields extends LightningElement {
                 console.log(error);                
                 this.loading = false;
             });
-        } else {
+        } else if(this.sharingObject.sObjectType == 'Healthcare_Provider__c'){
             this.connectHP();
+        } else {
+            this.connectRP();
         }
+    }
+
+    connectRP(){
+        this.loading = true;
+
+        ConnectRP({ 
+            peId: this.participantObject.Id
+        })
+        .then((result) => {
+            this.refreshComponent();
+            this.loading = false;
+        })
+        .catch((error) => {
+            console.log(error);            
+            this.loading = false;
+        });
     }
 
     connectHP() {
@@ -336,7 +408,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         })
         .then((result) => {
             if (result.firstName) {
-                if(this.sharingObject.sObjectType != 'Object') {
+                if(this.sharingObject.sObjectType === 'Healthcare_Provider__c') {
                     this.isDuplicateDelegate = true;                                    
                     let obj={};
                     let mergedObj = {};
@@ -347,7 +419,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.isValid = true;
                     var dupcomp = this.template.querySelector('.duplicatemsg');
                     dupcomp.scrollIntoView();                    
-                } else { 
+                } else if(this.sharingObject.sObjectType === 'Object'){ 
+                    this.isDisabled = true;
                     this.isDuplicateDelegate = true;              
                     this.duplicateDelegateInfo = result;                    
                     var dupcomp = this.template.querySelector('.duplicatemsg');
@@ -355,7 +428,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                 }
             } else {
                 this.isDuplicateDelegate = false;
-                if(this.sharingObject.sObjectType != 'Object') {
+               
+                if(this.sharingObject.sObjectType === 'Healthcare_Provider__c') {
                     let obj={};
                     let mergedObj = {};
                     obj = {"First_Name__c": '',"Last_Name__c":''};
@@ -363,6 +437,10 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.sharingObject = mergedObj; 
                     this.isDisabled = false; 
                     this.isValid = true;
+                }
+                if(this.sharingObject.sObjectType === 'Object'){
+                    this.isDisplayFormFields = false;
+                    this.displayFormFields();
                 }
                 
             }
@@ -375,6 +453,12 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     }
 
+    useDuplicateRecord() {
+        this.isDuplicateDelegate = false;
+        this.isValid = false;
+        console.log('this.sharingObject:'+JSON.stringify(this.sharingObject));
+    }
+
     stopSharing() {
         if(this.sharingObject.sObjectType === 'Object') {
             if(this.sharingObject.status === 'Active') {
@@ -382,13 +466,15 @@ export default class Pir_sharingFormFields extends LightningElement {
             } else {
                 this.ConnectDelegate();
             }
-        } else {
+        } else if(this.sharingObject.sObjectType == 'Healthcare_Provider__c'){
 
             if(this.sharingObject.Status__c === 'Invited') {
                 this.doDisconnect();
             } else {
                 this.ConnectDelegate();
             }
+        } else {
+            this.connectRP();
         }
 
     }
@@ -411,6 +497,10 @@ export default class Pir_sharingFormFields extends LightningElement {
             console.log(error);            
             this.loading = false;
         });
+
+    }
+
+    disconnectPatient(params) {
 
     }
 
