@@ -10,6 +10,7 @@ export default class Pir_participantSubStatus extends LightningElement {
   @api non_enrollment_reason = "";
   @api disabled = false;
   @track utilLabels = label;
+  @api consussessreason = '';
   checkIcon = pirResources + "/pirResources/icons/status-good.svg";
   minusIcon = pirResources + "/pirResources/icons/status-negative.svg";
   noneIcon = pirResources + "/pirResources/icons/circle.svg";
@@ -79,8 +80,14 @@ export default class Pir_participantSubStatus extends LightningElement {
     }
   }
   get checkGroupStatus() {
-    if (this.groupicon == "success") {
-      return "";
+    if (this.groupicon == "success"){
+          if(this.groupname == "PWS_Contact_Name"){
+              if(this.consussessreason){
+                return this.consussessreason;
+              }else{  return '';}
+          }else{
+            return "";
+          }
     } else if (this.groupicon == "failure") {
       if(this.non_enrollment_reason){
         return this.non_enrollment_reason;

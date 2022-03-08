@@ -12,7 +12,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
     @api peCardDetails;
     @api showBubbleMap = false;@api bubbleMapDetails;@api reason='';@api isInitialVisitRequired = false; @api isInitialVisitsPresent = false;
     @api per;@api initialVisitScheduledTime='';@api isFinalConsentRequired = false;@api isVisitPlanRequired = false;@api selectedPlan = '';
-    @api saveSpinner = false; @api userDate;
+    @api saveSpinner = false; @api userDate;@api contSuccessReason ='';
     count = 0;
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     minusIcon = pirResources+'/pirResources/icons/status-negative.svg';
@@ -173,6 +173,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             }
                             this.saveSpinner = false;
                             this.userDate = result.userDt;
+                            this.contSuccessReason = result.contSuccessReason;
                             const tabEvent = new CustomEvent("handletabs", {});
                             this.dispatchEvent(tabEvent);
                             }).catch(error => {

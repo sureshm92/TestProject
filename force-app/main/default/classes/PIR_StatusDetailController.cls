@@ -100,6 +100,8 @@ public without sharing class PIR_StatusDetailController {
     public List<BubbleMapDetails> BubbleMaps;
     @AuraEnabled
     public Date userDt;
+	@AuraEnabled
+    public String contSuccessReason;
   }
 
   public class BubbleMapDetails {
@@ -1190,6 +1192,7 @@ public without sharing class PIR_StatusDetailController {
   public static BubbleMapWrap getBubbleStatus(Id perId) {
     try {
       List<BubbleMapDetails> bubbledetails = new List<BubbleMapDetails>();
+	  List<Participant_Enrollment_Status_History__c> pesh = new List<Participant_Enrollment_Status_History__c>();
       Participant_Enrollment__c sobjPER = [
         SELECT Id, Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c
         FROM Participant_Enrollment__c
@@ -1283,6 +1286,12 @@ public without sharing class PIR_StatusDetailController {
         bubblewrp.BubbleMaps = bubbledetails;
       }
       bubblewrp.userDt = system.today();
+	  pesh = [Select Id,Status_Label__c,ParticipantEnrollment__c,Non_Enrollment_Reason__c from Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c =:perId AND Status_Label__c =: 'Successfully_Contacted' Order By LastModifiedDate Desc Limit 1];
+      if(pesh!=null && !pesh.isEmpty()) {
+          bubblewrp.contSuccessReason = pesh[0].Non_Enrollment_Reason__c;
+      }else{
+          bubblewrp.contSuccessReason = '';
+      }
       return bubblewrp;
     } catch (Exception e) {
       throw new AuraHandledException(
