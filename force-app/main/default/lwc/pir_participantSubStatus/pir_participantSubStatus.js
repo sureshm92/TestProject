@@ -49,6 +49,13 @@ export default class Pir_participantSubStatus extends LightningElement {
       return this.utilLabels[this.groupname];
     }
   }
+  get isInitialVisit(){
+      if(this.groupname == "PWS_Initial_Visit_Card_Name"){
+        return true;
+      }else{
+        return false;
+      }
+  }
   get checkGroupIcon() {
     if (this.groupicon == "success") {
       return this.checkIcon;
