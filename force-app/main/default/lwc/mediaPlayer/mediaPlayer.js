@@ -6,6 +6,8 @@ export default class MediaPlayer extends LightningElement {
     @api url;
     videotype;
     audiotype;
+    Imagetype;
+    Filetype;
     
     connectedCallback(){
         if(this.type =='Audio'){
@@ -14,29 +16,11 @@ export default class MediaPlayer extends LightningElement {
         else if(this.type =='Video'){
             this.videotype = this.type;
         }
-    }
-
-    @api
-    get isPlaying() {
-        const player = this.template.querySelector('audio');
-        return player !== null && player.paused === false;
-    }
-
-    @api
-    play() {
-        const player = this.template.querySelector('audio');
-        // the player might not be in the DOM just yet
-        if (player) {
-            player.play();
+        else if(this.type =='Image'){
+            this.Imagetype = this.type;
         }
-    }
-
-    @api
-    pause() {
-        const player = this.template.querySelector('audio');
-        if (player) {
-            // the player might not be in the DOM just yet
-            player.pause();
-        }
+      /*  else if(this.type =='File'){
+            this.Filetype = this.type;
+        }*/
     }
 }

@@ -1,0 +1,211 @@
+.vpi-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+ .width-basis {
+    flex-basis: auto;
+}
+
+ .vpi-state {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.vri-state-label {
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.slds-grid .vpi-state.current .vri-state-label:last-child {
+    font-weight: 400;
+}
+
+.vpi-line-div {
+    height: 22px;
+    border-top: 3px solid;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+ .vpi-line-div.neutral {
+    border-top-color: #b5b5b5;
+}
+
+ .vpi-line-div.success {
+    border-top-color: #00c221;
+}
+
+.vpi-path {
+    margin: 30px 0 5px;
+    padding: 0 15px;
+}
+ .vpi-path .vpi-state:first-child .vpi-line-div:first-child {
+    border-top-color: transparent;
+}
+
+ .vpi-path .vpi-state:last-child .vpi-line-div:last-child {
+    border-top-color: transparent;
+}
+
+ .state-ico-wrapper {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+ .state-ico-wrapperRTL {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    position: absolute;
+    top: -15px;
+   /* @noflip */ left: 100%;
+    line-height: 1;
+    margin-left:40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ .state-ico-wrapper .rr-icon-default {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    fill: white !important;
+    background-color: white;
+}
+ .state-ico-wrapperRTL .rr-icon-default {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    fill: white !important;
+    background-color: white;
+}
+
+ .vpi-state.current .state-ico-wrapper {
+    width: 21px;
+    height: 21px;
+    top: -14px;
+    left: -14px;
+}
+.vpi-state.current .state-ico-wrapperRTL {
+    width: 21px;
+    height: 21px;
+    top: -15px;
+    /* @noflip */ left: 100%;
+}
+
+.vpi-state.current .state-ico-wrapper .rr-icon-default {
+    width: 21px;
+    height: 21px;
+    padding: 0px;
+    background: white;
+}
+ .vpi-state.current .state-ico-wrapperRTL .rr-icon-default {
+    width: 21px;
+    height: 21px;
+    padding: 0px;
+    background: white;
+}
+
+.vpi-state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
+}
+
+ /* .vpi-state.success .state-ico-wrapper {
+    background-color: #00c221 !important;
+} */
+
+ .vpi-state.in_progress .state-ico-wrapper {
+    background-color: #005ff1 !important;
+}
+
+ .vpi-state.failure .state-ico-wrapper {
+    background-color: #e20000 !important;
+}
+ .vpi-state.neutral .state-ico-wrapperRTL {
+    background-color: #b5b5b5 !important;
+}
+
+.vpi-state.success .state-ico-wrapperRTL {
+    background-color: #00c221 !important;
+}
+
+ .vpi-state.in_progress .state-ico-wrapperRTL {
+    background-color: #005ff1 !important;
+}
+
+ .vpi-state.failure .state-ico-wrapperRTL {
+    background-color: #e20000 !important;
+}
+
+/* status names */
+
+.vpi-state.neutral .vri-state-label { 
+    color: #999;
+    font-size: 13px;
+}
+
+.vpi-state.success .vri-state-label {
+    color: #000;
+    font-size: 13px;
+}
+
+.vpi-state.in_progress .vri-state-label {
+    color: #000;
+    font-size: 13px;
+}
+
+.vpi-state.failure .vri-state-label {
+    color: #000;
+    font-size: 13px;
+}
+
+@media not print {
+ .vri-state-label {
+        display: none;
+    }
+     .vpi-state.neutral .cRRIcon {
+        display: none;
+    }
+}
+
+.vpi-state.current .vri-state-label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.THIS .vpi-path-panel .path-section {
+    padding: 0 0 10px;
+}
+
+@media all and (min-width: 1024px) {
+ .vri-state-label {
+        display: block;
+    }
+   .width-basis {
+        flex-basis: 0;
+    }
+
+   .state-ico-wrapper {
+        width: 21px;
+        height: 21px;
+        top: -14px;
+        left: -14px;
+    }
+
+    .state-ico-wrapper .rr-icon-default {
+        width: 21px;
+        height: 21px;
+        padding: 0px;
+    }
+}

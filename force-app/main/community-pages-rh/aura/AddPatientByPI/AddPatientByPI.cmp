@@ -308,8 +308,7 @@
                                             {!$Label.c.RH_DelegateAttestation}
                                         </div>
                                     </div>
-                                </div>
-                            </aura:if>
+                                </div>                            
                             <div class="slds-col slds-size--1-of-1 rr-error">
                                 <aura:if isTrue="{!v.yobBlankErrMsg}">
                                     {!$Label.c.PP_RequiredErrorMessage}
@@ -318,6 +317,7 @@
                                     {!$Label.c.RH_MinorDelegateErrMsg}
                                 </aura:if>
                             </div>
+                            </aura:if>
                             <!--<div class="slds-grid slds-wrap slds-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
                                     <div class="slds-col slds-size&#45;&#45;4-of-12">
                                         {!$Label.c.Delegate_Found}

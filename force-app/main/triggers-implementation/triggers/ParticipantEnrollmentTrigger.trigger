@@ -20,7 +20,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
     );
-    
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
@@ -51,6 +50,9 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     );
      TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+    );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
     );
 
 }

@@ -3701,7 +3701,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cancel Scheduled Visit</shortDescription>
-        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+        <value>Cancel Scheduled Visit?</value>
     </labels>
     <labels>
         <fullName>CancelfovWarning</fullName>
@@ -10169,14 +10169,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -11355,6 +11355,258 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Outreach Message</shortDescription>
         <value>New Outreach Created Successfully !</value>
+    </labels>
+    <labels>
+        <fullName>pir_Assesment_Date_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Assesment_Date_Time</shortDescription>
+        <value>Assessment Date and Time</value>
+    </labels>
+    <labels>
+        <fullName>pir_BMI_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_BMI_Error</shortDescription>
+        <value>BMI value is outside the valid range</value>
+    </labels>
+    <labels>
+        <fullName>pir_BmiHelptext</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_BmiHelptext</shortDescription>
+        <value>Allowable limit for BMI is 9999.99</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Call_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Call Back</shortDescription>
+        <value>Call Back</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Declined_Practitioner</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Declined Practitioner</shortDescription>
+        <value>Declined Practitioner</value>
+    </labels>
+    <labels>
+        <fullName>pir_Delete_close</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Delete_close</shortDescription>
+        <value>Delete and Close</value>
+    </labels>
+    <labels>
+        <fullName>PIR_In_Wash_Out_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_In Wash Out Period</shortDescription>
+        <value>Screening In Progress - Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>pir_Medical_General</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Medical_General</shortDescription>
+        <value>General</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalHistory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalHistory</shortDescription>
+        <value>Medical History</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalImport_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalImport_header</shortDescription>
+        <value>Upload Document</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalImport_subHead</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalImport_subHead</shortDescription>
+        <value>Document</value>
+    </labels>
+    <labels>
+        <fullName>pir_Medical_Search_Commorbidity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Medical_Search_Commorbidity</shortDescription>
+        <value>Search Comorbidities...</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Not_Ready_to_Schedule</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Not Ready to Schedule</shortDescription>
+        <value>Not Ready to Schedule</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Childcare_Issues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Childcare Issues</shortDescription>
+        <value>Childcare Issues</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Declined</shortDescription>
+        <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Did_Not_Attend_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Did Not Attend Appointment</shortDescription>
+        <value>Did Not Attend Appointment</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Did_Not_Meet_Inclusion_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Did_Not_Meet_Inclusion_Exclusion_Criteria</shortDescription>
+        <value>Did Not Meet Inclusion/Exclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Didnt_Meet_Pre_Screening_Eligibility</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Didn&apos;t Meet Pre-Screening Eligibility</shortDescription>
+        <value>Didn&apos;t Meet Pre-Screening Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Does_Not_Meet_Eligibility_Criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Does Not Meet Eligibility Criteria</shortDescription>
+        <value>Does Not Meet Eligibility Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Inadequate_Documentation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Inadequate Documentation</shortDescription>
+        <value>Inadequate Documentation</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Left_a_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Left a Message</shortDescription>
+        <value>Left a Message</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Other</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Other</shortDescription>
+        <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>PIR_PI_Decision</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_PI Decision</shortDescription>
+        <value>PI Decision</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Participant_Not_Interested</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Participant Not Interested</shortDescription>
+        <value>Participant Not Interested</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Participation_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participation_Complete</shortDescription>
+        <value>Participation Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Protocol_Concerns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Protocol Concerns</shortDescription>
+        <value>Protocol Concerns</value>
+    </labels>
+    <labels>
+        <fullName>pir_Screener</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Screener</shortDescription>
+        <value>Screener</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Transportation_Issues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Transportation_Issues</shortDescription>
+        <value>Transportation Issues</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Trial_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Trial Complete</shortDescription>
+        <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Visit_Out_Of_Window</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Visit Out Of Window</shortDescription>
+        <value>Visit Out Of Window</value>
+    </labels>
+    <labels>
+        <fullName>PIR_addParticipantFillMandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
+        <value>Please review the form for required fields</value>
+    </labels>
+    <labels>
+        <fullName>RH_Pre_screen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pre-screen</shortDescription>
+        <value>Pre-screen</value>
+    </labels>
+    <labels>
+        <fullName>RH_Referred_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Referred by</shortDescription>
+        <value>Referred by</value>
+    </labels>
+    <labels>
+        <fullName>RH_Send_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Send to DCT Platform</shortDescription>
+        <value>Send to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sent_to_DCT_Platform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Sent to DCT Platform</shortDescription>
+        <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>pir_Received_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Received_History</shortDescription>
+        <value>Received History</value>
     </labels>
     <labels>
         <fullName>PD_Description</fullName>
@@ -17723,7 +17975,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new survey awaiting your feedback. Log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
@@ -17779,7 +18031,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Contact_History_Title</shortDescription>
-        <value>Contact History:</value>
+        <value>Contact History</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Name</fullName>
@@ -17828,7 +18080,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Eligibility_History_Title</shortDescription>
-        <value>Eligibility History:</value>
+        <value>Eligibility History</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Name</fullName>
@@ -17856,7 +18108,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Enrolled_History_Title</shortDescription>
-        <value>Enrollment History:</value>
+        <value>Enrollment History</value>
     </labels>
     <labels>
         <fullName>PWS_Enrolled_Name</fullName>
@@ -17891,7 +18143,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
-        <value>Inital Visit History:</value>
+        <value>Inital Visit History</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_Name</fullName>
@@ -17975,7 +18227,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Randomization_History_Title</shortDescription>
-        <value>Randomization History:</value>
+        <value>Randomization History</value>
     </labels>
     <labels>
         <fullName>PWS_Randomization_Name</fullName>
@@ -18031,7 +18283,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Screening_History_Title</shortDescription>
-        <value>Screening History:</value>
+        <value>Screening History</value>
     </labels>
     <labels>
         <fullName>PWS_Screening_Name</fullName>
@@ -19053,6 +19305,22 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
         <value>PI/Site staff country is not the same as Site country</value>
+    </labels>
+    <labels>
+        <fullName>RH_Physician_Welcome_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Physician_Welcome_Body</shortDescription>
+        <value>We are happy to inform you that your registration in the IQVIA Referral Hub was successful.
+
+            This will allow you to use Referral Hub’s participant referral and status tracking capabilities. You will also be able to find other clinical research studies that are available and refer patients to nearby study sites.</value>
+    </labels>
+    <labels>
+        <fullName>rh_physician_email_subject_Initial</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rh_physician_email_subject_Initial</shortDescription>
+        <value>You are successfully registered in Referral Hub</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>
@@ -23825,6 +24093,13 @@ communications using the toggles below.</value>
         <value>Biomarkers</value>
     </labels>
     <labels>
+        <fullName>MedicalImport_MaxSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MedicalImport_MaxSize</shortDescription>
+        <value>Max size 4mb</value>
+    </labels>
+    <labels>
         <fullName>Biomarkers_No_records_to_display</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23836,7 +24111,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Media file Header</shortDescription>
-        <value>Media file</value>
+        <value>Media File List</value>
     </labels>
     
 </CustomLabels>

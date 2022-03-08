@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalHistryTabController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2090,9 +2094,29 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Comorbidities__c.Comorbidity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 	<fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Comorbidities__c.Comorbidity_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Comorbidities__c.Comorbidities__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Comorbidities__c.Participant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2103,6 +2127,21 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Participant_Delegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.ClinroRuleSetGuid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.EproRuleSetGuid__c</field>
         <readable>true</readable>
     </fieldPermissions>
       <fieldPermissions>
@@ -2411,7 +2450,34 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Participant_Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>LL_RH_event__e</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ECOA_Study_Schedule__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
 	 <objectPermissions>
@@ -2484,4 +2550,13 @@
         <tab>Call_Dispositions__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    <tabVisibilities>
+        <tab>Comorbidities__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+
+    <tabVisibilities>
+            <tab>Participant_Comorbidities__c</tab>
+            <visibility>DefaultOn</visibility>
+        </tabVisibilities>
 </Profile>

@@ -1,3 +1,902 @@
 <template>
-    
+    <template if:true={isReceived}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Received_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary ReceivedBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Received" aria-controls="referenceId-40" aria-expanded="true"
+                                                onclick={getReceivedHistorySection}>
+                                                <lightning-icon class="Received" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Received slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.pir_Received_History}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Received slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <p key={results}>
+                                                    <b class="history-item-title">{results.historyTitle}</b><span
+                                                        class="history-item-detail">
+                                                        &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                        <lightning-formatted-date-time value={results.detailDate}
+                                                            year="numeric" month="short" day="2-digit" hour="numeric"
+                                                            minute="numeric" time-zone="UTC">
+                                                        </lightning-formatted-date-time>
+                                                        &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                        {results.createdBy}</span>
+                                                </p>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Received End Details-->
+    </template>
+    <template if:true={isContact}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Contact_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <template if:true={isinitialvisit}>
+                        <div style="font-size: 14px"
+                            class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <b>{utilLabels.Successfully_Contacted}</b>&nbsp;
+                            {utilLabels.RH_And}&nbsp;
+                            <b>{utilLabels.Initial_Visit_Scheduled_Date_and_Time}</b>&nbsp;
+                            {utilLabels.RH_Proceed_to_tab}
+                        </div>
+                    </template>
+                    <template if:true={checkContactStatus}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="outcome" title={utilLabels.PG_ACPE_L_Outcome}
+                                label={utilLabels.PG_ACPE_L_Outcome} value={selectedOutcome}
+                                placeholder="Ready to Contact" options={outcomeoptions} onchange={outcomeHandleChange}>
+                            </lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="reason" title={utilLabels.PG_ACPE_L_Reason}
+                                label={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
+                                disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                onchange={changeInputValue}></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-textarea title={notesLabel} data-id={pe_record.Id} name="additionalNotes"
+                                data-value="additionalNotes" value={additionalNote} label={notesLabel}
+                                onchange={changeInputValue}>
+                            </lightning-textarea>
+                        </div>
+                    </template>
+                    <template if:true={isinitialvisit}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="date" data-value="InitialVisitDate" onchange={changeInputValue}
+                                value={participantrecord.Initial_visit_scheduled_date__c} class="inputfieldStatus"
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Date}
+                                label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Date} placeholder="">
+                            </lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="time" data-value="InitialVisitTime" onchange={changeInputValue}
+                                value={participantrecord.Initial_visit_scheduled_time__c}
+                                label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time}
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} min="05:00:00.000Z" max="23:45:00.000Z" placeholder="">
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <div class="sitepre_Checkbox">
+                        <lightning-input type="checkbox" variant="label-hidden"
+                            checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
+                            onchange={changeInputValue}></lightning-input>
+                    </div>
+                    <div class="sitepreferences" title={utilLabels.SitePreference}>{utilLabels.SitePreference}</div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary ContactBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Contact" aria-controls="referenceId-40" aria-expanded="true"
+                                                onclick={getContactHistorySection}>
+                                                <lightning-icon class="Contact" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Contact slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Contact_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Contact slds-hide" id="referenceId-45770">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <p key={results}>
+                                                    <b class="history-item-title">{results.title}</b><span
+                                                        class="history-item-detail">
+                                                        &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                        <lightning-formatted-date-time value={results.detailDate}
+                                                            year="numeric" month="short" day="2-digit" hour="numeric"
+                                                            minute="numeric" time-zone="UTC">
+                                                        </lightning-formatted-date-time>
+                                                        &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                        {results.createdBy}</span>
+                                                </p>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Contact End Details -->
+    </template>
+    <template if:true={isInitialvist}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Initial_Visit_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="date" value={participantrecord.Initial_visit_scheduled_date__c}
+                            data-value="InitialVisitDate" class="inputfieldStatus"
+                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Date}
+                            label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Date} onchange={changeInputValue}>
+                        </lightning-input>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="time" value={participantrecord.Initial_visit_scheduled_time__c}
+                            data-value="InitialVisitTime" label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time}
+                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} min="05:00:00.000Z" max="23:45:00.000Z" onchange={changeInputValue}>
+                        </lightning-input>
+                    </div>
+                    <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="Initial Visit Attended"
+                                label={utilLabels.FD_PE_Field_Initial_Visit_Attended}
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Attended} data-value="InitialVisitAttended"
+                                value={initialvisitattended} options={initialVisitAttended} onchange={changeInputValue}>
+                            </lightning-combobox>
+                    </div>
+                    <template if:true={isinitialvisitattended}>  
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="date" data-value="AttentedDate" onchange={changeInputValue}
+                                value={participantrecord.Initial_visit_occurred_date__c} class="inputfieldStatus"
+                                label={utilLabels.FD_PE_Field_Initial_Visit_Attended_Date}
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Attended_Date} disabled={disableAttendeddt}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <template if:false={isinitialvisitattended}>
+                        <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                         <div class="labels">
+                            <div class="textoverlap">
+                                {utilLabels.RH_ParticipantNoshow}
+                            </div>
+                        </div>
+                        <lightning-input type="checkbox" variant="label-hidden"
+                            checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
+                            onchange={changeInputValue} class="checkbox_alignment"></lightning-input> 
+                            <!--<lightning-input type="checkbox" label={utilLabels.RH_ParticipantNoshow} checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
+                            onchange={changeInputValue}></lightning-input>-->
+                            <!--<lightning-input checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
+                                onchange={changeInputValue} type="checkbox" label={utilLabels.RH_ParticipantNoshow}
+                                 style="padding-top:33px"
+                            ></lightning-input>-->
+                       </div>
+                    </template>    
+                    <template if:false={isinitialvisitattended}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="date" data-value="AttentedDate" onchange={changeInputValue}
+                                value={participantrecord.Initial_visit_occurred_date__c} class="inputfieldStatus"
+                                label={utilLabels.FD_PE_Field_Initial_Visit_Attended_Date}
+                                title={utilLabels.FD_PE_Field_Initial_Visit_Attended_Date} disabled={disableAttendeddt}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <div class="sitepre_Checkbox"> 
+                        <lightning-input type="checkbox" variant="label-hidden"
+                            checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
+                            onchange={changeInputValue}></lightning-input>
+                    </div>
+                    <div class="sitepreferences">{utilLabels.SitePreference}</div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium"
+                        style="padding-top: 10px">
+                        <div class="step-card-title">{utilLabels.FG_PE_Inf_Consent}</div>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.FD_PE_Field_Informed_Consent_Signed}
+                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed} data-value="Consent Signed"
+                            name='ConsentSigned' value={selectedOutcomeIV} options={outcomeoptions}
+                            placeholder={isconsentSignedPlaceholder} onchange={outcomeHandleChangeIV}
+                            disabled={isconsentSigned}></lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="date" value={participantrecord.Informed_Consent_Date__c}
+                            data-value="SignedDate" onchange={changeInputValue} class="inputfieldStatus"
+                            label={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date}
+                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date} disabled={consentSignedDate}
+                            required={signeddtRequiredIV}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.PG_ACPE_L_Reason} title={utilLabels.PG_ACPE_L_Reason}
+                            value={selectedreasonIV} disabled={reasonDisabled} data-value="Reason"
+                            placeholder={signedReasonPlaceHolder} options={reasoneoptions} onchange={changeInputValue}
+                            required={checkOutcome}>
+                        </lightning-combobox>
+                    </div>
+
+
+
+                    <!--<div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.FD_PE_Field_Informed_Consent_Signed}
+                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed} data-value="Consent Signed"
+                            name='ConsentSigned' value={selectedOutcomeIV} options={outcomeoptions}
+                            placeholder={isconsentSignedPlaceholder} onchange={outcomeHandleChangeIV}
+                            disabled={isconsentSigned}></lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="date" value={participantrecord.Informed_Consent_Date__c}
+                            data-value="SignedDate" onchange={changeInputValue} class="inputfieldStatus"
+                            label={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date}
+                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date} disabled={consentSignedDate}
+                            required={signeddtRequiredIV}>
+                        </lightning-input>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.PG_ACPE_L_Reason} title={utilLabels.PG_ACPE_L_Reason}
+                            value={selectedreasonIV} disabled={reasonDisabled} data-value="Reason"
+                            placeholder={signedReasonPlaceHolder} options={reasoneoptions} onchange={changeInputValue}
+                            required={checkOutcome}>
+                        </lightning-combobox>
+                    </div>-->
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <lightning-textarea data-id={pe_record.Id} name="additionalNotes" data-value="additionalNotesIV"
+                            value={additionalNoteIV} label={notesLabelIV} title={notesLabelIV}
+                            onchange={changeInputValue} required={notesRequiredIV} disabled={checkPerStatus}>
+                        </lightning-textarea>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <div class="step-card-title">{utilLabels.FG_PE_Wash_Out}</div>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                            title={utilLabels.FD_PE_Field_Wash_Out_Required} value={runinwashout}
+                            data-value="RunInWashOut" onchange={changeInputValue} options={runinoptions}>
+                        </lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_x-small">
+                        <lightning-input type="date" class="inputfieldStatus" data-value="RevisitDate"
+                            disabled={disableRevisitdt} label={utilLabels.FD_PE_Field_Revisit_Date}
+                            title={utilLabels.FD_PE_Field_Revisit_Date} onchange={changeInputValue} value={reVisitDt}>
+                        </lightning-input>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_xx-small">
+                        <lightning-input type="text" name="subjectID" data-value="screeningID"
+                            value={participantrecord.IVRS_IWRS__c} label={utilLabels.PG_AP_F_Screening_Subject_Id}
+                            title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary InitialVisitBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="InitialVisit" aria-controls="referenceId-40"
+                                                aria-expanded="true" onclick={getInitialVisitHistorySection}>
+                                                <lightning-icon class="InitialVisit" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="InitialVisit slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Initial_Visit_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small InitialVisit slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <p key={results}>
+                                                    <b class="history-item-title">{results.notes}</b><span
+                                                        class="history-item-detail">
+                                                        {results.notesDetails}</span>
+                                                </p>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Initial Visit End Details  -->
+    </template>
+    <template if:true={isEligibility}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Eligibility_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <template if:true={checkEligibilityStatus}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
+                                title={utilLabels.PG_ACPE_L_Outcome} value={selectedOutcome} options={outcomeoptions}
+                                placeholder="Not Selected" onchange={outcomeHandleChange}></lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                                title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
+                                disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                onchange={changeInputValue}></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-textarea data-id={pe_record.Id} name="additionalNotes"
+                                data-value="additionalNotes" value={additionalNote} label={notesLabel}
+                                title={notesLabel} onchange={changeInputValue}>
+                            </lightning-textarea>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary EligibilityBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Eligibility" aria-controls="referenceId-40"
+                                                aria-expanded="true" onclick={getEligibilityHistorySection}>
+                                                <lightning-icon class="Eligibility" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Eligibility slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Eligibility_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Eligibility slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <template if:false={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                            <lightning-formatted-date-time value={results.detailDate}
+                                                                year="numeric" month="short" day="2-digit"
+                                                                hour="numeric" minute="numeric" time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+                                                            &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                            {results.createdBy}</span>
+                                                    </p>
+                                                </template>
+                                                <template if:true={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            {results.noteDetails}</span>
+                                                    </p>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Eligibility End Details  -->
+    </template>
+    <template if:true={isScreening}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Screening_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <template if:true={checkScreeningStatus}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="ScreeningOutcome" label={utilLabels.PG_ACPE_L_Outcome}
+                                title={utilLabels.PG_ACPE_L_Outcome} data-value="ScreeningOutcome"
+                                value={selectedOutcome} placeholder={screeningPlaceholder} options={outcomeoptions}
+                                onchange={outcomeHandleChange} disabled={checkOldStatus}>
+                            </lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                                title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
+                                disabled={screeningReasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                onchange={changeInputValue}></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-textarea data-id={pe_record.Id} name="additionalNotes"
+                                data-value="additionalNotes" value={additionalNote} label={notesLabel}
+                                title={notesLabel} onchange={changeInputValue}>
+                            </lightning-textarea>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <div class="step-card-title">{utilLabels.FG_PE_Wash_Out}</div>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                            title={utilLabels.FD_PE_Field_Wash_Out_Required} value={runinwashout}
+                            data-value="RunInWashOut" onchange={changeInputValue} options={runinoptions}>
+                        </lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="date" class="inputfieldStatus" data-value="RevisitDate"
+                            disabled={disableRevisitdt} label={utilLabels.FD_PE_Field_Revisit_Date}
+                            title={utilLabels.FD_PE_Field_Revisit_Date} onchange={changeInputValue} value={reVisitDt}>
+                        </lightning-input>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-input type="text" data-value="screeningID" value={participantrecord.IVRS_IWRS__c}
+                            label={utilLabels.PG_AP_F_Screening_Subject_Id}
+                            title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary ScreeningBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Screening" aria-controls="referenceId-40"
+                                                aria-expanded="true" onclick={getScreeningHistorySection}>
+                                                <lightning-icon class="Screening" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Screening slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Screening_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Screening slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <template if:false={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                            <lightning-formatted-date-time value={results.detailDate}
+                                                                year="numeric" month="short" day="2-digit"
+                                                                hour="numeric" minute="numeric" time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+                                                            &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                            {results.createdBy}</span>
+                                                    </p>
+                                                </template>
+                                                <template if:true={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            {results.noteDetails}</span>
+                                                    </p>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Screening End Details  -->
+    </template>
+    <template if:true={isEnrolled}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Enrolled_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
+                            title={utilLabels.PG_ACPE_L_Outcome} placeholder="Not Selected" value={selectedOutcome}
+                            options={outcomeoptions} onchange={outcomeHandleChange}></lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                            title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
+                            disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                            onchange={changeInputValue}></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <lightning-textarea data-id={pe_record.Id} name="additionalNotes" data-value="additionalNotes"
+                            value={additionalNote} label={notesLabel} title={notesLabel} onchange={changeInputValue}>
+                        </lightning-textarea>
+                    </div>
+                    <template if:true={isOnlyVisitPlan}>
+                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" data-value="EnrollmentID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
+                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isOnlyFinalConsent}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
+                                onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
+                                title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
+                                style="padding-top:33px"></lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" data-value="EnrollmentID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
+                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentRequired}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
+                                onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
+                                title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
+                                style="padding-top:33px"></lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" data-value="EnrollmentID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
+                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentNotRequired}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" data-value="EnrollmentID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
+                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary EnrollmentBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Enrollment" aria-controls="referenceId-40"
+                                                aria-expanded="true" onclick={getEnrollmentHistorySection}>
+                                                <lightning-icon class="Enrollment" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Enrollment slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Enrolled_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Enrollment slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <template if:false={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                            <lightning-formatted-date-time value={results.detailDate}
+                                                                year="numeric" month="short" day="2-digit"
+                                                                hour="numeric" minute="numeric" time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+                                                            &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                            {results.createdBy}</span>
+                                                    </p>
+                                                </template>
+                                                <template if:true={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            {results.noteDetails}</span>
+                                                    </p>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Enrollment End Details  -->
+    </template>
+    <template if:true={isRandomized}>
+        <div class="details">
+            <div class="step-card-title slds-m-bottom_x-small">
+                {utilLabels.PWS_Randomization_Card_Name}
+            </div>
+            <div class="step-form">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
+                            title={utilLabels.PG_ACPE_L_Outcome} placeholder="Not Selected" value={selectedOutcome}
+                            options={outcomeoptions} onchange={outcomeHandleChange}></lightning-combobox>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                        <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                            title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
+                            disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                            onchange={changeInputValue}></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <lightning-textarea data-id={pe_record.Id} name="additionalNotes" data-value="additionalNotes"
+                            value={additionalNote} label={notesLabel} title={notesLabel} onchange={changeInputValue}>
+                        </lightning-textarea>
+                    </div>
+                    <template if:true={isOnlyVisitPlan}>
+                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
+                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isOnlyFinalConsent}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
+                                onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
+                                title={utilLabels.FD_PE_Field_Final_Consent} style="padding-top:33px"
+                                required={makerequiredfinalConsent}></lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
+                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentRequired}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
+                                name="FinalConsent" onchange={changeInputValue} type="checkbox"
+                                label={utilLabels.FD_PE_Field_Final_Consent}
+                                title={utilLabels.FD_PE_Field_Final_Consent} style="padding-top:33px"
+                                required={makerequiredfinalConsent}></lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
+                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentNotRequired}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
+                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section slds-is-open">
+                                    <div class="slds-accordion__summary EnrollmentBg">
+                                        <h2 class="slds-accordion__summary-heading">
+                                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                                data-name="Enrollment" aria-controls="referenceId-40"
+                                                aria-expanded="true" onclick={getEnrollmentHistorySection}>
+                                                <lightning-icon class="Enrollment" icon-name="utility:chevronright"
+                                                    size="xx-small" alternative-text="Home"></lightning-icon>
+                                                <lightning-icon class="Enrollment slds-hide"
+                                                    icon-name="utility:chevrondown" size="xx-small"
+                                                    alternative-text="Home"></lightning-icon>
+                                                <span
+                                                    class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{utilLabels.PWS_Randomization_History_Title}</span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-m-top_small Enrollment slds-hide">
+                                        <template if:true={historyNull}>
+                                            <div class="history-item-detail">{utilLabels.None}</div>
+                                        </template>
+                                        <template if:false={historyNull}>
+                                            <template for:each={historyResults} for:item="results" for:index="index">
+                                                <template if:false={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                            <lightning-formatted-date-time value={results.detailDate}
+                                                                year="numeric" month="short" day="2-digit"
+                                                                hour="numeric" minute="numeric" time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+                                                            &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                            {results.createdBy}</span>
+                                                    </p>
+                                                </template>
+                                                <template if:true={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            {results.noteDetails}</span>
+                                                    </p>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Randomization End Details  -->
+    </template>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open slds-modal slds-modal_small slds-fade-in-open">
+            <div class="slds-modal_small">
+                <div class="slds-modal__container model-small">
+                    <div class="slds-modal__content slds-p-bottom--medium" id="modal-content-id-1">
+                        <div class="bar"></div>
+                        <div class="slds-p-around_small">
+                            <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_large">
+                                <div
+                                    class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                                    <span class="title"> {utilLabels.Cancel_Scheduled_Visit} </span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12" style="cursor:pointer">
+                                    <div onclick={handleCloseModal}>
+                                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small">
+                                        </lightning-icon>
+                                        <span class="slds-assistive-text">Close</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <slot name="body">
+                                <p class="fovCancel">{utilLabels.CancelfovWarning} &nbsp;<strong>
+                                        <lightning-formatted-date-time
+                                            value={participantrecord.Initial_visit_scheduled_date__c}>
+                                        </lightning-formatted-date-time><template if:false={isfovNull}>, </template>
+                                        <lightning-formatted-time
+                                            value={participantrecord.Initial_visit_scheduled_time__c}>
+                                        </lightning-formatted-time>
+                                    </strong> {utilLabels.CancelfovWarnings} </p>
+                                <div class="button-section-center slds-m-top_large">
+                                    <button class="slds-button slds-button_neutral apollo-btn secondary"
+                                        onclick={handleCancelModal}> {utilLabels.BTN_Cancel}</button>
+                                    <button class="apollo-btn primary ipad-mode-btn slds-p-around_x-small"
+                                        onclick={handleProceedModal}> {utilLabels.Proceed} </button>
+                                </div>
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>

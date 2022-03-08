@@ -4,6 +4,10 @@
 	    <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalHistryTabController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
      <classAccesses>
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
@@ -2089,6 +2093,17 @@
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 
     <custom>true</custom> 
     <pageAccesses>

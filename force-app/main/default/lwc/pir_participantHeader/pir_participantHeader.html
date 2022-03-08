@@ -1,21 +1,30 @@
 <template>
     <div class="shadowbox shadowbox-mob"> 
-        <div class="slds-grid slds-wrap slds-p-around_x-small">
+        <div class="slds-grid slds-wrap slds-p-around_x-small slds-media_center">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 header-section header-section-mob">
                 <template if:true={peId}>
-                    <!--<div class="name-id-inline">
-                        <div class="per-header-name truncate-name" title={participantName}><b>{firstName}&nbsp;{lastName} </b></div>
-                        <div class="per-header-Refno ">&nbsp;({refNumber})</div>
-                    </div>-->
-                    <div class="per-header-name" title={participantName}>
-                        <b class="slds-truncate pername">{firstName}&nbsp;{lastName} </b> 
-                        <span class="per-header-Refno">&nbsp;({refNumber})</span>
+                    <div class="tooltip">  
+                        <div class="per-header-name" title="">                                          
+                            <b class="slds-truncate pername">{firstName}&nbsp;{lastName} </b>   
+                            <span class="tooltiptextBottom slds-align_absolute-center">{participantName}</span>                                             
+                            <span class="per-header-Refno">&nbsp;({refNumber})</span>                     
+                        </div>
                     </div>
                     <template if:true={phoneNumber}>
                        <p class="per-mobile slds-truncate">{phoneNumber}</p>
                     </template>
-                    <p class="per-study-details slds-truncate" title={studySiteName}>{studyName} - {siteName} </p>
-                    <p class="per-study-details slds-truncate" title={referredBy}>{label.RH_Referred_by} {referredBy} </p>
+                    <div class="tooltip"> 
+                        <div class="">
+                            <p class="per-study-details slds-truncate" title="">{studyName} - {siteName} </p>
+                            <span class="tooltiptextBottom slds-align_absolute-center">{studySiteName}</span>
+                        </div>                     
+                    </div>
+                    <div class="tooltip"> 
+                        <div class="">   
+                            <p class="per-study-details slds-truncate" title="">{label.RH_Referred_by} {referredBy} </p>
+                            <span class="tooltiptextBottom slds-align_absolute-center">{referredBy}</span>
+                        </div> 
+                    </div>    
                 </template>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 button-section">

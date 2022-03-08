@@ -1,0 +1,23 @@
+<template>
+    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_medium slds-m-bottom_x-small">
+        <div class="slds-button sharing-error">                     
+             <img class="err-img" src={imgSrc}/>                      
+          <div class="err-info">
+             <div class="step-text">
+                <span>{duplicateInfo.email}&nbsp;&nbsp;</span>
+                <span>{duplicateMessage}</span>
+                <div data-gtm="BTN_DDMessage" if:false={duplicateInfo.isDuplicateDelegate}>
+                  <button 
+                     class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_small slds-button slds-button_neutral" 
+                     data-name='connect'
+                     onclick={onClickHandler}>                                                              
+                     {label.UseEnteredEmailAddress}
+                  </button>
+                  
+              </div>
+             </div>                  
+          </div>
+        </div>
+    </div>
+    
+</template>

@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalHistryTabController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HumanAPIcontroller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2108,6 +2112,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate__c.isInviteToPP__c</field>
         <readable>true</readable>
@@ -2190,6 +2204,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Comorbidities__c.Comorbidity_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Comorbidities__c.Comorbidities__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Comorbidities__c.Participant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2728,6 +2757,24 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Participant_Comorbidities__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>LL_RH_event__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -2821,12 +2868,21 @@
         <object>Integration_Biomarker__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Comorbidities__c.Comorbidity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Comorbidities__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
      <tabVisibilities>
@@ -2843,6 +2899,10 @@
     </tabVisibilities>
 	<tabVisibilities>
         <tab>Integration_Biomarker__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Participant_Comorbidities__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
 </Profile>
