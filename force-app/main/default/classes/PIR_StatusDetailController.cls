@@ -100,7 +100,7 @@ public without sharing class PIR_StatusDetailController {
     public List<BubbleMapDetails> BubbleMaps;
     @AuraEnabled
     public Date userDt;
-	@AuraEnabled
+	  @AuraEnabled
     public String contSuccessReason;
   }
 
@@ -1286,7 +1286,7 @@ public without sharing class PIR_StatusDetailController {
         bubblewrp.BubbleMaps = bubbledetails;
       }
       bubblewrp.userDt = system.today();
-	  pesh = [Select Id,Status_Label__c,ParticipantEnrollment__c,Non_Enrollment_Reason__c from Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c =:perId AND Status_Label__c =: 'Successfully_Contacted' Order By LastModifiedDate Desc Limit 1];
+	     pesh = [Select Id,Status_Label__c,ParticipantEnrollment__c,Non_Enrollment_Reason__c from Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c =:perId AND Status_Label__c =: 'Successfully_Contacted' Order By LastModifiedDate Desc Limit 1];
       if(pesh!=null && !pesh.isEmpty()) {
           bubblewrp.contSuccessReason = pesh[0].Non_Enrollment_Reason__c;
       }else{

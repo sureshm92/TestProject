@@ -173,7 +173,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             }
                             this.saveSpinner = false;
                             this.userDate = result.userDt;
-                            this.contSuccessReason = result.contSuccessReason;
+                            this.contSuccessReason = result.contSuccessReason; 
                             const tabEvent = new CustomEvent("handletabs", {});
                             this.dispatchEvent(tabEvent);
                             }).catch(error => {

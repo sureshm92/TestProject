@@ -83,7 +83,7 @@ export default class Pir_participantSubStatus extends LightningElement {
     if (this.groupicon == "success"){
           if(this.groupname == "PWS_Contact_Name"){
               if(this.consussessreason){
-                return this.consussessreason;
+                return this.consussessreason; 
               }else{  return '';}
           }else{
             return "";
