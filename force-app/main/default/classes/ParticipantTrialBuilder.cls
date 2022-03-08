@@ -82,11 +82,12 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             tabs.add(
                 new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
             );
+            Boolean shoVi=participantState.showVisits && participantState.ctp.Visits_are_Available__c;
             if (
                 participantState.isPremium &&
-                (participantState.showVisits ||
-                (participantState.ctp.Received_Until_Consent_Is_Available__c ||
-                participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c))
+                (shoVi ||
+                participantState.showTravelCardInPreEnrollment
+                )
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
@@ -123,7 +124,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             /**PEH-525*/
             if (
                 participantState.isPremium &&
-                (participantState.showVisitsinPreTrial ||
+                (participantState.showTravelCardInPreEnrollment ||
                 participantState.ctp.Travel_Vendor_Is_Available__c)
             ) {
                 tabs.add(
