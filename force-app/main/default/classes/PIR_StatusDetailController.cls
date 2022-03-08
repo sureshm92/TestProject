@@ -237,7 +237,7 @@ public without sharing class PIR_StatusDetailController {
         ) {
           wrap.groupIcon = SUCCESS;
           if(per[0].Initial_visit_occurred_date__c != Null){
-              wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
+             wrap.groupDate = per[0].Initial_visit_occurred_date__c;
           }else{
               wrap.groupDate = Null;
           }
