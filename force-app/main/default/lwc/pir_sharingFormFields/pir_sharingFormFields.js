@@ -34,6 +34,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isDelegate = false;
     isDisplayFormFields = false;
     isDisplay = false;
+    @api delegateLevel;
 
     
     displayOptions1() {        
@@ -74,6 +75,11 @@ export default class Pir_sharingFormFields extends LightningElement {
     }
 
     loadinitialData() {
+        if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+            this.isValid = true;
+        } else {
+            this.isValid = false;
+        }
         
         if(this.sharingObject.sObjectType === 'Object') {
             if(!this.isDelegate) {
@@ -88,6 +94,7 @@ export default class Pir_sharingFormFields extends LightningElement {
 
             } else {
                 this.gridCss='delegate-bg slds-p-around_small';
+                this.isValid = true;
                 this.isExistingDelegate = false;
                 this.isDisplayFormFields = true;
                 this.displayFormFields();
@@ -109,6 +116,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 this.isDisabled = true;             
                 this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';
             } else {
+                this.isValid = true;
                 this.isExistingDelegate = false; 
                 this.isDisabled = false;                 
                 this.gridCss='delegate-bg slds-p-around_small';
@@ -129,7 +137,7 @@ export default class Pir_sharingFormFields extends LightningElement {
             if(!this.isRpContact) {
                 this.isRpContact = true;
             }
-            if(this.sharingObject.Id) {
+            if(this.sharingObject.Id) {                
                 this.isExistingDelegate = true;
                 this.gridCss='delegate-border slds-p-around_small slds-m-top_medium';
             }
@@ -155,8 +163,9 @@ export default class Pir_sharingFormFields extends LightningElement {
                     this.sharingObject.Birth_Year__c = '';
                     this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
                     this.isAdultDelegate = true;
-                    this.isDisabled = false;
+                    //this.isDisabled = false;
                 }
+                this.isDisabled = false;
                 obj = {"email": event.detail.value.trim()};
             } else {
                 if(this.isDisabled) {                
@@ -272,15 +281,15 @@ export default class Pir_sharingFormFields extends LightningElement {
                 dupObj = null;
             }
             if (
-                pe.Study_Site__r != undefined &&
-                pe.Study_Site__r != null &&
-                pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &&
-                pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &&
-                pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ==
+                pe != undefined &&
+                pe != null &&
+                pe.Study_Site_Type__c != 'Virtual' &&
+                pe.Study_Site_Type__c != 'Hybrid' &&
+                pe.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ==
                     false &&
-                pe.Study_Site__r.Suppress_Participant_Emails__c == false &&                
-                pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' && 
-                pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
+                pe.Suppress_Participant_Emails__c == false &&                
+                pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' && 
+                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
             ) {
                 isDelegateInvited = true;
             }
@@ -328,10 +337,16 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     connectHP() {
         this.loading = true;
+        let dupObj;
+        if(this.duplicateDelegateInfo) {
+            dupObj = !this.duplicateDelegateInfo.isDuplicate ? JSON.stringify(this.duplicateDelegateInfo) : null;
+        } else {
+            dupObj = null;
+        }
         inviteHP({ 
             peId: this.participantObject.Id,
             hp: JSON.stringify(this.sharingObject),            
-            ddInfo: null
+            ddInfo: dupObj
         })
         .then((result) => {
             this.refreshComponent();
@@ -416,7 +431,13 @@ export default class Pir_sharingFormFields extends LightningElement {
                     mergedObj = { ...this.sharingObject, ...obj };
                     this.sharingObject = mergedObj; 
                     this.isDisabled = true; 
-                    this.isValid = true;
+                    this.duplicateDelegateInfo = result;
+                    if(result.isDuplicate) {
+                        this.isValid = true;
+                    } else {
+                        this.isValid = false;
+                    }
+                    
                     var dupcomp = this.template.querySelector('.duplicatemsg');
                     dupcomp.scrollIntoView();                    
                 } else if(this.sharingObject.sObjectType === 'Object'){ 

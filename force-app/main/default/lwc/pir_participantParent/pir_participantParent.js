@@ -24,6 +24,7 @@ export default class Pir_participantParent extends LightningElement {
   isMedicalModalOpen = false;
   isMedicalDetailChanged = false;
   discardMedicalTab = false;
+  delegateLevel;
 
 
   connectedCallback() {
@@ -67,6 +68,7 @@ export default class Pir_participantParent extends LightningElement {
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
+    this.fetchAccessLevel();
     this.discardTab = false;
     this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details"; 
@@ -191,7 +193,8 @@ export default class Pir_participantParent extends LightningElement {
       console.log('>>in sharing else>>');this.selectedTab = "Sharing Options";
       console.log('stab1'+this.selectedTab);
       //this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
-      this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails(); 
+      this.fetchAccessLevel();
+      this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails();      
       
       console.log('stab'+this.selectedTab);
       
@@ -272,5 +275,13 @@ export default class Pir_participantParent extends LightningElement {
       mode: "dismissible",
     });
     this.dispatchEvent(evt);
+  }
+
+  fetchAccessLevel() {
+    if(this.lststudysiteaccesslevel && this.selectedPE) {
+        if(this.lststudysiteaccesslevel[this.selectedPE.siteId]) {
+          this.delegateLevel = this.lststudysiteaccesslevel[this.selectedPE.siteId];
+        }
+    }
   }
 }
