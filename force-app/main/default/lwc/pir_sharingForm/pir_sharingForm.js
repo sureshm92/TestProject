@@ -13,19 +13,25 @@ export default class Pir_sharingOptionForm extends LightningElement {
     @api targetObject;
     @api isHCPDelegate;
     @api isRpContact;
-    @api addRpList;
+    @api addRpList;   
+    @api delegateLevel;
     buttonLabel;
-    //isAddDelegate = false;
     isAddRp = false;
     isAddHcp = false;
     isDisplayAddButton = true;
 
     connectedCallback() {
-        this.resetDelegateList();
+        this.resetDelegateList();        
         if(this.targetObject === 'delegate') {
             this.buttonLabel = 'Add Delegate';
         } else {
             this.buttonLabel = 'Add Provider';
+        }
+
+        if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+            this.isDisplayAddButton = false;
+        } else {
+            this.isDisplayAddButton = true;
         }
 
         if(this.targetObject === 'rp') {
@@ -35,9 +41,7 @@ export default class Pir_sharingOptionForm extends LightningElement {
     }
 
     @api
-    updateExistingDelegates() {
-        let delegateObj;
-        
+    updateExistingDelegates() { 
         if(this.targetObject == 'delegate') {
             if(this.addDelegateList) {    
                 let mergedList = this.addDelegateList;           
@@ -48,10 +52,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 }
                 this.addDelegateList = mergedList;
                 this.isAddDelegates = true;
-                /*this.isAddDelegates = false;
-                this.isHCPDelegate = true;
-                this.isAddDelegates = true;
-                this.isHCPDelegate = false;*/
             }
         }
         if(this.targetObject == 'hcp') {
@@ -64,10 +64,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 }
                 this.addHCPDelegateList = mergedList;
                 this.isAddHcp = true;
-                /*this.isHCPDelegate = false;
-                this.isHCPAddDelegates = false;
-                this.isHCPDelegate = true;
-                this.isHCPAddDelegates = true;*/
             }
         }
         if(this.targetObject === 'rp') {
@@ -75,7 +71,6 @@ export default class Pir_sharingOptionForm extends LightningElement {
                 let mergedList = this.addDelegateList;                
                 this.addRpList = mergedList;
                 this.isAddRp = true;
-                //this.isRpContact = true;
             }
         }
     }
@@ -112,7 +107,9 @@ export default class Pir_sharingOptionForm extends LightningElement {
     
     @api resetDelegateList() {
         this.isAddDelegates = false;
-        //this.addDelegateList = [];
+        if(this.targetObject != 'rp') {
+            this.addDelegateList = [];
+        }
         this.isAddRp = false;
         this.isAddHcp = false;
     }    
