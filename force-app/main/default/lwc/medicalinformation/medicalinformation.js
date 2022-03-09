@@ -112,14 +112,13 @@ export default class Medicalinformation extends LightningElement {
     this.filterasseseddatetime = [];
     this.isbiomarkerResultAvail = false;
     this.bioMarkerResultData = [];
-    this.highlightsReport = '';
-    this.detailedReport = '';
+    this.highlightsReport = "";
+    this.detailedReport = "";
     this.ismodelPopup = false;
-    this. isfileAvailable = false;
+    this.isfileAvailable = false;
     this.filterRecord = null;
     this.isComorbidityLoad = true;
     this.commorbityshowresult = false;
-
 
     getPEDetails({ peid: this.selectedPe })
       .then((result) => {
@@ -174,6 +173,14 @@ export default class Medicalinformation extends LightningElement {
             let dt = new Date(
               this.medicalHistoryRecord.attachments[i].CreatedDate
             );
+            let flExtension =
+              this.medicalHistoryRecord.attachments[i].FileExtension;
+            let flTitle = this.medicalHistoryRecord.attachments[i].Title;
+            if (!flTitle.includes(flExtension)) {
+              this.medicalHistoryRecord.attachments[i].Title =
+                flTitle + "." + flExtension;
+              console.log(">>extension exist>>");
+            }
             this.medicalHistoryRecord.attachments[i].CreatedDate =
               new Intl.DateTimeFormat(LOCALE, options).format(dt);
           }
@@ -192,7 +199,7 @@ export default class Medicalinformation extends LightningElement {
         if (result.booldisplaygizmo) {
           this.formatgizmoresponse();
         }
-       
+
         this.loadSurvey = true;
         this.isMedicalDataLoaded = true;
         this.isFilesRetrieved = true;
@@ -321,17 +328,17 @@ export default class Medicalinformation extends LightningElement {
       var index = this.returnpervalue.lstComorbidities.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
       );
-      console.log('>>index>>'+index);
+      console.log(">>index>>" + index);
       var existingCommordityIndex = this.lstExistingCommorbidity.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
       );
-      console.log('>>existingCommordityIndex>>'+existingCommordityIndex);
+      console.log(">>existingCommordityIndex>>" + existingCommordityIndex);
       let comorToInsertIndex = -1;
       if (this.lstCommorbitiesToInsert)
         comorToInsertIndex = this.lstCommorbitiesToInsert.findIndex(
           (x) => x.Id === event.currentTarget.dataset.key
         );
-        console.log('>>comorToInsertIndex>>'+comorToInsertIndex);    
+      console.log(">>comorToInsertIndex>>" + comorToInsertIndex);
       if (index != -1) {
         this.returnpervalue.lstAllComorbidities.push(
           this.returnpervalue.lstComorbidities[index]
@@ -359,7 +366,10 @@ export default class Medicalinformation extends LightningElement {
           );
         this.isComorbidityLoad = true;
       }
-      console.log('>>lstCommorbitiesToDelete>>'+JSON.stringify(this.lstCommorbitiesToDelete));
+      console.log(
+        ">>lstCommorbitiesToDelete>>" +
+          JSON.stringify(this.lstCommorbitiesToDelete)
+      );
       //event to enable the save button handled in pir_participantstatusDetail
       const validateMedicalsavebtn = new CustomEvent(
         "validatemedicalsavebutton",
@@ -375,10 +385,9 @@ export default class Medicalinformation extends LightningElement {
   openModelpopup(event) {
     if (event.currentTarget.dataset.content < 11534336) {
       //In Bytes(in binary)
-      this.fileName =
-        event.currentTarget.dataset.name +
-        "." +
-        event.currentTarget.dataset.extension;
+      if (event.currentTarget.dataset.name)
+        this.fileName = event.currentTarget.dataset.name;
+
       this.openfileUrl =
         "/apex/MedicalHistoryPreviewVF?resourceId=" +
         event.currentTarget.dataset.id;
@@ -612,53 +621,95 @@ export default class Medicalinformation extends LightningElement {
       console.log(">>coming in screner accordian end>>");
     }
   }
-  @api
-  handlevalueupdateBMI(event) {
-    
-    var getBMIValue = event.target.value;
-   
-    var getSepartaeValue = getBMIValue.toString().split(".");
-    if (getSepartaeValue[1] && getSepartaeValue[1].length > 2) {
-      
-      event.target.value =  getSepartaeValue[0] + "." + getSepartaeValue[1].substr(0, 2);
-    }
 
-    this.returnpervalue.BMI = event.target.value;
-    const validateMedicalsavebtn = new CustomEvent(
-      "validatemedicalsavebutton",
-      {
-        detail: true,
+  handlevalueupdateBMI(event) {
+    var specialCharregex = /^(([0-9]{1,4})(\.[0-9]{1,2})?)$/;
+
+    var getBMI = event.target.value;
+    let isValueChanged = false;
+    const ShowErrorevent = new ShowToastEvent({
+      title: "Error",
+      message: this.label.pir_BMI_Error,
+      variant: "Error",
+    });
+
+    if (getBMI.trim()) {
+      if (!isNaN(getBMI)) {
+        let updatedBMI = getBMI;
+        let getSepartaeValue = updatedBMI.toString().split(".");
+        let IntegerPart = getSepartaeValue[0];
+        let decimalPart = getSepartaeValue[1];
+        if (IntegerPart) {
+          IntegerPart = IntegerPart.replace(/^0+/, "");
+          if (IntegerPart.length === 0) {
+            IntegerPart = "0";
+          }
+
+          updatedBMI = IntegerPart;
+          if (decimalPart) {
+            updatedBMI = IntegerPart + "." + decimalPart;
+            if (decimalPart.length > 2) {
+              updatedBMI = IntegerPart + "." + decimalPart.substr(0, 2);
+            }
+          }
+        }
+
+        if (specialCharregex.test(updatedBMI)) {
+          event.target.value = updatedBMI;
+          if (this.returnpervalue.BMI != updatedBMI) {
+            isValueChanged = true;
+          }
+          this.returnpervalue.BMI = updatedBMI;
+          if (isValueChanged) {
+            const validateMedicalsavebtn = new CustomEvent(
+              "validatemedicalsavebutton",
+              {
+                detail: true,
+              }
+            );
+            this.dispatchEvent(validateMedicalsavebtn);
+          }
+        } else {
+          const validateMedicalsavebtn = new CustomEvent(
+            "validatemedicalsavebutton",
+            {
+              detail: false,
+            }
+          );
+          this.dispatchEvent(validateMedicalsavebtn);
+          this.dispatchEvent(ShowErrorevent);
+          return;
+        }
+      } else {
+        const validateMedicalsavebtn = new CustomEvent(
+          "validatemedicalsavebutton",
+          {
+            detail: false,
+          }
+        );
+        this.dispatchEvent(validateMedicalsavebtn);
+        this.dispatchEvent(ShowErrorevent);
+        return;
       }
-    );
-    this.dispatchEvent(validateMedicalsavebtn);
+    } else if (this.returnpervalue.BMI) {
+      const validateMedicalsavebtn = new CustomEvent(
+        "validatemedicalsavebutton",
+        {
+          detail: true,
+        }
+      );
+      event.target.value = "";
+      this.dispatchEvent(validateMedicalsavebtn);
+    }
   }
 
   @api
   dosaveMedicalInfo() {
-    console.log("save from medical called>>>" + this.returnpervalue.BMI);
-    console.log("save lstcommorInsert>>>" + JSON.stringify(this.lstCommorbitiesToInsert));
-    console.log("save lsrComorditDelete>>>" + JSON.stringify(this.lstCommorbitiesToDelete));
-    
     this.isMedicalDataLoaded = false;
     let BMIvalue = "";
-    if(this.returnpervalue.BMI) {
-    var getBMIValue = this.returnpervalue.BMI;
-    
-    var getSepartaeValue = getBMIValue.toString().split(".");
-    if (getSepartaeValue[0] && getSepartaeValue[0].length > 4) {
-        const event = new ShowToastEvent({
-            title: "Error",
-            message: this.label.pir_BMI_Error,
-            variant: "Error", 
-          });
-          this.isMedicalDataLoaded = true;
-          this.dispatchEvent(event);
-          return;
+    if (this.returnpervalue.BMI) {
+      BMIvalue = this.returnpervalue.BMI;
     }
-    else{
-        BMIvalue = this.returnpervalue.BMI;
-    }
-   }
 
     console.log(">>BMIvalue>>" + BMIvalue);
     saveParticipantData({
@@ -670,15 +721,14 @@ export default class Medicalinformation extends LightningElement {
       PerId: this.selectedPe,
     })
       .then((result) => {
-
         this.returnpervalue.BMI = result.BMI;
         this.returnpervalue.HighRisk = result.HighRisk;
         this.returnpervalue.Highpriority = result.Highpriority;
         this.returnpervalue.lstComorbidities = result.lstComorbidities;
         this.returnpervalue.lstAllComorbidities = result.lstAllComorbidities;
         this.lstExistingCommorbidity = result.lstComorbidities;
-        this.lstCommorbitiesToInsert =[];
-        this.lstCommorbitiesToDelete =[];
+        this.lstCommorbitiesToInsert = [];
+        this.lstCommorbitiesToDelete = [];
 
         this.isMedicalDataLoaded = true;
         console.log(">>resut>>" + result);

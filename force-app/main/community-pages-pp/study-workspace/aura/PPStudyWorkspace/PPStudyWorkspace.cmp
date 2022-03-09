@@ -433,9 +433,13 @@
                     </aura:if>
 
                     <aura:if
-                        isTrue="{!and(v.studyDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.currentTab == 'tab-visits',v.visitMode == 'VisitDetails')}"
+                        isTrue="{!and(v.currentTab == 'tab-visits',v.visitMode == 'VisitDetails')}"
                     >
-                        <c:StudyVisits />
+                        <aura:if
+                            isTrue="{!v.studyDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c}"
+                        >
+                            <c:StudyVisits />
+                        </aura:if>
                     </aura:if>
                     <aura:if
                         isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}"

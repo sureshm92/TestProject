@@ -431,6 +431,13 @@ public without sharing class PEStatusState {
         PE_STATUS_READY_TO_SCREEN
     };
 
+    //Pre Enrollment status group for Completing the Pre Enrollment Visit Status.
+    public static final List<String> PE_STATUS_GROUP_FOR_COMPLETING_PRE_ENROLL_VISITS = new List<String>{
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_ENROLLMENT_SUCCESS,
+        PE_STATUS_RANDOMIZATION_SUCCESS
+    };
+
     static {
         PE_STATUS_GROUP_IN_PROGRESS_ALL = new List<String>();
         PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_IN_PROGRESS);
