@@ -124,7 +124,7 @@ public without sharing class MedicalHistryTabController {
         try {
              
             return [SELECT ID,Comorbidity_Name__c from Comorbidities__c Where Id IN
-                    (SELECT Comorbidities__c FROM Participant_Comorbidities__c Where Participant__c=:PartcipantId)];
+                    (SELECT Comorbidities__c FROM Participant_Comorbidities__c Where Participant__c=:PartcipantId) order by Comorbidity_Name__c ASC];
             
         } catch (Exception e) {
             return null;
