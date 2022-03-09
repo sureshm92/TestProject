@@ -23,30 +23,23 @@
                 class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-m-bottom_small"
               >
                 <div class="slds-form-element">
-                  <label
-                    class="slds-form-element__label BMIclass"
-                    for="text-input-id-75"
-                  >
-                    {label.BMI}
-                    <lightning-helptext
-                      class="info-icon bmihelptext"
-                      content={label.pir_BmiHelptext}
-                    ></lightning-helptext>
-                  </label>
-                  <div class="slds-form-element__control">
-                    <input
-                      type="number"
-                      id="text-input-id-75"
-                      placeholder=""
-                      name="BMI"
-                      class="slds-input"
-                      disabled={disableSrc}
-                      value={returnpervalue.BMI}
-                      onblur={handlevalueupdateBMI}
-                    />
-                  </div>
+                 <label
+                 class="slds-form-element__label BMIclass"
+                 for="text-input-id-75"
+               >
+                 {label.BMI}
+                 <lightning-helptext
+                   class="info-icon bmihelptext"
+                   content={label.pir_BmiHelptext}
+                 ></lightning-helptext>
+               </label>
+                  <div class="slds-form-element__control lgthninginput">
+                   <lightning-input type="text"   name="BMI" class="inputcmp"  value={returnpervalue.BMI} onblur={handlevalueupdateBMI} 
+                    >
+                  </lightning-input> 
+                  </div> 
+                  
                 </div>
-                <!-- <lightning-input type="number" label={label.BMI} name="BMI"  value={returnpervalue.BMI} onblur={handlevalueupdate}  ></lightning-input>  -->
               </div>
               <div
                 class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-large-size_2-of-12 slds-m-bottom_small"
@@ -287,7 +280,7 @@
                             data-extension={attach.FileExtension}
                             data-id={attach.Id}
                             data-content={attach.ContentSize}
-                            >{attach.Title}.{attach.FileExtension}</a
+                            >{attach.Title}</a
                           >
                         </div>
                         <div
@@ -328,7 +321,7 @@
                       <div
                         class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop"
                       >
-                        <div class="slds-modal__container">
+                        <div class="slds-modal__container setW">
                           <div class="slds-modal__header">
                             <b>{label.BulkImport_File_Name} : {fileName}</b>
                             <button
@@ -348,12 +341,12 @@
                           >
                             <!--  Write Your Content here  -->
                             <div
-                              class="slds-size--1-of-2 slds-large-size--1-of-2"
+                              class="slds-align_absolute-center"
                             >
                               <span>
                                 <iframe
                                   style="
-                                    min-width: 870px;
+                                    min-width: 57vw;
                                     height: 400px;
                                     z-index: -999;
                                   "

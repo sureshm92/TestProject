@@ -137,7 +137,7 @@ export default class Pir_participantParent extends LightningElement {
 
 
   checkMedicalSaveBtn(event){
-    this.disableMedicalSaveButton = false;
+    this.disableMedicalSaveButton = !event.detail;
     this.isMedicalDetailChanged = true;
     this.discardMedicalTab = false;
   }
