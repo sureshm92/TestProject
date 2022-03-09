@@ -10,14 +10,17 @@ import pir_MedicalImport_header from '@salesforce/label/c.pir_MedicalImport_head
 import pir_MedicalImport_subHead from '@salesforce/label/c.pir_MedicalImport_subHead';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import pir_Delete_close from '@salesforce/label/c.pir_Delete_close';
+import PIR_medicalAcceptedFile from '@salesforce/label/c.PIR_medicalAcceptedFile';
+import PIR_uploadFile_exced from '@salesforce/label/c.PIR_uploadFile_exced';
 import saveTheChunkFile from '@salesforce/apex/nonReferedBulkUpload.saveTheChunkFile'; 
  
 
 
 import deleteFile from '@salesforce/apex/nonReferedBulkUpload.deleteFile';
 
-const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
+const MAX_FILE_SIZE = 4000000; //2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 750000;//9000;//750000; max chunk size prog can handle 
+const MAX_FILE_SIZE_mb = 4;
  
 export default class Pir_uploadmedicaldocument extends LightningElement {
 
@@ -31,6 +34,8 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     pir_MedicalImport_header = pir_MedicalImport_header;
     pir_MedicalImport_subHead = pir_MedicalImport_subHead;
     pir_Delete_close = pir_Delete_close;
+    PIR_medicalAcceptedFile = PIR_medicalAcceptedFile;
+    PIR_uploadFile_exced = PIR_uploadFile_exced;
     progress = 0;
     progressWidth='width :0%';
     base = 1;
@@ -55,7 +60,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
            // this.template.querySelector('c-popup-l-w-c').querySelector('[data-id="browsedivClose"]').classList.add('disabledrag');
             //this.template.querySelector('[data-id="browsedivClose"]').classList.add('disabledrag');
-            console.log('>57>>');
+            console.log('>57>>'+JSON.stringify(event.target.files[0]));
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
             this.fileName = event.target.files[0].name;
@@ -71,20 +76,10 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     saveFile(){
         var fileCon = this.filesUploaded[0];
         this.fileSize = this.formatBytes(fileCon.size, 2);
-        if (fileCon.size > MAX_FILE_SIZE) {
-            let message = 'File size cannot exceed ' + MAX_FILE_SIZE + ' bytes.\n' + 'Selected file size: ' + fileCon.size;
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Error',
-                message: message,
-                variant: 'error'
-            }));
-            this.template.querySelector(".fileInput").value=null; 
-            this.template.querySelector(".fileInput").disabled = false;
-            this.fileName = '';
-            return;
-        }  
+        var fileSiezeMb = (fileCon.size / 1024 / 1024).toFixed(2);
+
         if (this.fileName.split('.')[1] != 'jpg' && this.fileName.split('.')[1] != 'pdf' && this.fileName.split('.')[1] != 'jpeg' && this.fileName.split('.')[1] != 'gif' && this.fileName.split('.')[1] != 'png') {
-            let message = 'Accepted format are jpg,pdf,jpeg,gif,png';
+            let message = PIR_medicalAcceptedFile;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
                 message: message,
@@ -93,9 +88,25 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.template.querySelector(".fileInput").value = null;
             this.template.querySelector(".fileInput").disabled = false;
             this.fileName = '';
-            
+            this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
             return;
         }
+
+        if (fileCon.size > MAX_FILE_SIZE) {
+           // let message = 'File size cannot exceed ' + MAX_FILE_SIZE_mb + ' MB.\n' + 'Selected file size: ' + fileSiezeMb + 'MB.';
+           let message = PIR_uploadFile_exced;
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error',
+                message: message,
+                variant: 'error'
+            }));
+            this.template.querySelector(".fileInput").value=null; 
+            this.template.querySelector(".fileInput").disabled = false;
+            this.fileName = '';
+            this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+            return;
+        }  
+       
         this.progressWidth='width :8%';
         this.progress = 8;
         this.base = Math.floor((CHUNK_SIZE/fileCon.size)*100);
@@ -149,7 +160,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
                 this.progressWidth = 'width :'+this.progress+'%;background-color: #00C221;';
                 this.isLoading = false;   
                 this.isFileAdded = true;  
-                this.template.querySelector('[data-id="browsedivClose"]').classList.remove('disabledrag');
+               // this.template.querySelector('[data-id="browsedivClose"]').classList.remove('disabledrag');
                  
          
             }

@@ -11406,6 +11406,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Screening In Progress - Wash Out Period</value>
     </labels>
     <labels>
+        <fullName>PIR_medicalAcceptedFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_medicalAcceptedFile</shortDescription>
+        <value>Accepted formats are .jpg, .pdf, .jpeg, .gif, .png</value>
+    </labels>
+    <labels>
         <fullName>pir_Medical_General</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11558,6 +11565,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Trial Complete</shortDescription>
         <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_uploadFile_exced</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_uploadFile_exced</shortDescription>
+        <value>The size for uploaded document is above 4 MB.</value>
     </labels>
     <labels>
         <fullName>PIR_Visit_Out_Of_Window</fullName>
@@ -24104,7 +24118,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MedicalImport_MaxSize</shortDescription>
-        <value>Max size 4mb</value>
+        <value>Max size 4MB</value>
     </labels>
     <labels>
         <fullName>Biomarkers_No_records_to_display</fullName>
