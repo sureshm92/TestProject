@@ -96,7 +96,7 @@
                </button>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
-               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
+               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing} disabled={isValid}>                                                              
                   {connectDisconnect}
                </button>
             </div>           
@@ -146,7 +146,7 @@
                            onchange={checkFields} 
                            data-name='firstName'
                            class="validate"                           
-                           disabled={isValid}>
+                           disabled={isExistingDelegate}>
                         </lightning-input>
                         <!--value={sharingObject.firstName}onblur={checkDelegateDuplicate}-->
                   </div>
@@ -160,7 +160,7 @@
                            onchange={checkFields} 
                            data-name='lastName'
                            class="validate"                           
-                           disabled={isValid}>
+                           disabled={isExistingDelegate}>
                         </lightning-input>
                         
                         <!--value={sharingObject.lastName} onblur={checkDelegateDuplicate}-->
@@ -173,7 +173,7 @@
                </button>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
-               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
+               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing} disabled={isValid}>                                                              
                   {connectDisconnect}
                </button>
             </div>           
@@ -246,10 +246,10 @@
                </button>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element" if:true={isExistingDelegate}>
-               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing}>                                                              
+               <button class="slds-button apollo-btn secondary connect-patient-btn" data-name='stop Sharing' onclick={stopSharing} disabled={isValid}>                                                              
                   {connectDisconnect}
                </button>
-            </div>
+            </div>   
             <div class="duplicatemsg">
                <template if:true={isDuplicateDelegate}>
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12" >

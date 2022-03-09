@@ -1,8 +1,9 @@
 import { LightningElement, api, wire } from "lwc";
 import getInitData from '@salesforce/apex/ReferHealthcareProviderRemote.getInitData';
 import getParticipantData from '@salesforce/apex/PIR_SharingOptionsController.fetchParticipantData';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
+//import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+//import { loadScript } from 'lightning/platformResourceLoader';
+import fetchStudyAccessLevel from '@salesforce/apex/PIR_HomepageController.getStudyAccessLevel'
 
 export default class Pir_sharingOption extends LightningElement {
     
@@ -22,7 +23,8 @@ export default class Pir_sharingOption extends LightningElement {
     yobOptions=[];
     rpList = [];
     communityTemplate;
-    isDisplayProviders = false;
+    isDisplayProviders = true;    
+    @api delegateLevel;
     
 
     connectedCallback(){
@@ -31,7 +33,6 @@ export default class Pir_sharingOption extends LightningElement {
 
     @api
     fetchInitialDetails() {  
-        this.getCommunityInfo();
         this.resetFormElements();
         this.getParticipantDetails();
     }
@@ -85,16 +86,7 @@ export default class Pir_sharingOption extends LightningElement {
             let del = result.listWrapp;
             for (let i = 0; i < del.length; i++) {
                 del[i].sObjectType = 'Object';
-            }
-            if(this.participantObject.HCP__r) {
-                let obj = {};
-                let mergedObj = {};
-                obj = {"sObjectType": 'Contact'};
-                mergedObj = { ...this.participantObject.HCP__r.HCP_Contact__r, ...obj };
-                this.rpList.push(mergedObj);
-                this.isrpContact = true;
-                console.log('this.rpList:'+JSON.stringify(this.rpList));
-            }   
+            }              
             this.delegates = del;
             this.isAddDelegates = true;
             this.healthcareProviders = hcp;
@@ -105,6 +97,15 @@ export default class Pir_sharingOption extends LightningElement {
             } else {
                 this.isDisplayProviders = false;
             }
+            if(this.participantObject.HCP__r) {
+                let obj = {};
+                let mergedObj = {};
+                obj = {"sObjectType": 'Contact'};
+                mergedObj = { ...this.participantObject.HCP__r.HCP_Contact__r, ...obj };
+                this.rpList.push(mergedObj);
+                this.isrpContact = true;
+                console.log('this.rpList:'+JSON.stringify(this.rpList));
+            } 
         })
         .catch((error) => {
             console.log(error);
@@ -114,6 +115,18 @@ export default class Pir_sharingOption extends LightningElement {
     refreshDelegates() {
         this.fetchInitialDetails();
 
+    }
+    fetchAccessLevel() {
+        if(this.studyAccess && this.participantObject) {
+            let studyId = this.participantObject.Study_Site__c;
+            for (var key in this.studyAccess) {
+                if (this.studyAccess.hasOwnProperty(key) && key === studyId) {
+                    this.delegateLevel = this.studyAccess[key];
+                    console.log(this.delegateLevel);
+                }
+            }
+            
+        }
     }
     
 

@@ -730,6 +730,14 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
 
+        const evt = new ShowToastEvent({
+          title: "Record Saved Successfully",
+          message: "Record Saved Successfully",
+          variant: "success",
+          mode: "dismissable"
+        });
+        this.dispatchEvent(evt);
+
         this.isMedicalDataLoaded = true;
         console.log(">>resut>>" + result);
         const tabEvent = new CustomEvent("handletabs", {});
