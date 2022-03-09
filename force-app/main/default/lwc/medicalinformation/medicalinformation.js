@@ -206,8 +206,12 @@ export default class Medicalinformation extends LightningElement {
         this.isRequestHistrySuccess = true;
       })
       .catch((error) => {
-        console.log(">>error sime>>>" + JSON.stringify(error));
+        console.log(">>error while retreive init>>>" + JSON.stringify(error));
         console.log(">>error>>>" + error);
+        this.isFilesRetrieved = true;
+        this.isMedicalDataLoaded = true;
+        this.isRequestHistrySuccess = true;
+        
       });
   }
   /*Method for HighRisk and High Priority */
@@ -489,6 +493,7 @@ export default class Medicalinformation extends LightningElement {
                 this.isRequestHistrySuccess = true;
               })
               .catch((error) => {
+                this.isRequestHistrySuccess = true;
                 console.log(">>error histry>>>" + JSON.stringify(error));
                 console.log(">>error histry>>>" + error);
               });
@@ -527,8 +532,9 @@ export default class Medicalinformation extends LightningElement {
         }
       })
       .catch((error) => {
-        console.log(">>errorbiomark final hstry>>>" + JSON.stringify(error));
-        console.log(">>errorbiomark final hstry>>>" + error);
+        this.isRequestHistrySuccess = true;
+        console.log(">>Error in sending request>>>" + JSON.stringify(error));
+        console.log(">>Error in sending request>>>" + error);
       });
   }
 
