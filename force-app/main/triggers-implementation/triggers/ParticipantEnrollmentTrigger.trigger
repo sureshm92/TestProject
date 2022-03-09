@@ -54,5 +54,8 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
 
 }
