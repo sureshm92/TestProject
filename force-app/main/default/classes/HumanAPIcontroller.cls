@@ -277,7 +277,7 @@ public with sharing class HumanAPIcontroller {
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
                                          ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
                                          ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c,Clinical_Trial_Profile__r.Protocol_ID__c
-                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation 
+                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation , Permit_Mail_Email_contact_for_this_study__c
                                           from Participant_Enrollment__c Where ID=:peId];
       String email = objPER.Participant__r.Email__c;
       Boolean isAdult = objPER.Participant__r.Adult__c;
@@ -291,6 +291,10 @@ public with sharing class HumanAPIcontroller {
             }
         }  
       Participant__c objParticipantDelegate;
+
+      if(!objPER.Permit_Mail_Email_contact_for_this_study__c){
+        return 'NoPermitEmail';
+    }
     	 
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 

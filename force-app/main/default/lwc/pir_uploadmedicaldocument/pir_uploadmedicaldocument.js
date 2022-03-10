@@ -63,7 +63,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             console.log('>57>>'+JSON.stringify(event.target.files[0]));
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
-            this.fileName = event.target.files[0].name;
+            this.fileName = event.target.files[0].name; 
             this.progress = 0;
             this.progressWidth='width :0%';
             this.base = 1;
@@ -77,8 +77,12 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
         var fileCon = this.filesUploaded[0];
         this.fileSize = this.formatBytes(fileCon.size, 2);
         var fileSiezeMb = (fileCon.size / 1024 / 1024).toFixed(2);
+        let extension_index = this.fileName.lastIndexOf('.');
+        let extension =   this.fileName.slice(extension_index + 1);
 
-        if (this.fileName.split('.')[1] != 'jpg' && this.fileName.split('.')[1] != 'pdf' && this.fileName.split('.')[1] != 'jpeg' && this.fileName.split('.')[1] != 'gif' && this.fileName.split('.')[1] != 'png') {
+        if (extension.toLowerCase() != 'jpg' && extension.toLowerCase() != 'pdf' && extension.toLowerCase() != 'jpeg' 
+            && extension.toLowerCase() != 'gif'  && extension.toLowerCase() != 'png')
+        {
             let message = PIR_medicalAcceptedFile;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
@@ -93,8 +97,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
         }
 
         if (fileCon.size > MAX_FILE_SIZE) {
-           // let message = 'File size cannot exceed ' + MAX_FILE_SIZE_mb + ' MB.\n' + 'Selected file size: ' + fileSiezeMb + 'MB.';
-           let message = PIR_uploadFile_exced;
+            let message = PIR_uploadFile_exced;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
                 message: message,

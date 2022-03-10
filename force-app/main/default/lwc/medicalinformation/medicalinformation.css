@@ -47,6 +47,9 @@
     position: absolute;
     top: 2px;
 }
+.mediafilecss{
+    margin-top:-25px;
+  }
 .icon-w-info {
     padding-left: 3px;
     /* position: absolute; */
@@ -179,7 +182,7 @@
     font-weight: 600;
 }
 .medical-sub-text {
-    padding-left: 30px;
+    padding-left: 12px;
     font-size: 14px;
     text-align: left;
 }
@@ -243,7 +246,7 @@ input[type='number'] {
     }
     .medical-sub-text {
         padding-left: 0;
-        text-align: center;
+        text-align: left;
     }
     .p-left-right {
         padding: 0;
@@ -272,4 +275,7 @@ input[type='number'] {
     .p-left-none {
         padding-left: var(--lwc-spacingSmall, 0.75rem);
     }
+    .mediafilecss{
+        margin-top:0px;
+      }
 }
