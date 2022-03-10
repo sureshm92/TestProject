@@ -2,13 +2,68 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>For giving the Edit access for Integration Patient Referral</description>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Promote_to_SH__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-	  <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Parent_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Assessed_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.BiomarkerVendorReachoutStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Biomarker_Error__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Data_JSON1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Data_JSON2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Integration_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Result_JSON1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Result_JSON2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+               <field>Clinical_Trial_Profile__c.Promote_to_SH__c</field>
+               <readable>false</readable>
+               </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Biomarker__c.Vendor_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -26,7 +81,7 @@
         <field>Integration_Patient_Referral__c.BMI__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Batch_consideration__c</field>
         <readable>true</readable>
@@ -51,7 +106,7 @@
         <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Is_retry_required__c</field>
         <readable>true</readable>
@@ -61,7 +116,7 @@
         <field>Integration_Patient_Referral__c.Participant_MobileNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Report_Count_Days__c</field>
         <readable>true</readable>
@@ -96,12 +151,12 @@
         <field>Participant_Enrollment__c.Initial_visit_scheduled_date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Initial_visit_scheduled_flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Initial_visit_scheduled_time__c</field>
         <readable>true</readable>
@@ -116,7 +171,7 @@
         <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.SubjectId__c</field>
         <readable>true</readable>
@@ -164,6 +219,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Integration_Biomarker__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Integration_Patient_Referral__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -185,4 +249,8 @@
         <object>Participant__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Integration_Biomarker__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

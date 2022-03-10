@@ -4,11 +4,16 @@
 	min-height: 50px; 
 	background-color: #eee; 
 	height: auto; 
-  } 
+  }  
 
 .title-label {
 	color: #000000;
 	font-family: "Proxima Nova";
 	font-size: 16px;
 	font-weight: bold;
+  }
+
+  .linkcss{
+	font-weight: 600;
+    margin-bottom: 3px;
   }

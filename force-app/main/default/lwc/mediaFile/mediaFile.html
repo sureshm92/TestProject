@@ -2,7 +2,7 @@
      <template if:true={showTable}>  
         <span class="title-label">{label.Media_file_Header} </span>
         <template for:each={mediaFiles} for:item="file">
-            <div key={file.id} ><a data-value={file.url} onclick={playFile}> {file.name}.{file.FileExtension}</a></div> 
+            <div key={file.id} ><a class="linkcss" data-value={file.url} onclick={playFile}> {file.name}.{file.FileExtension}</a></div> 
         </template>
     </template>
 

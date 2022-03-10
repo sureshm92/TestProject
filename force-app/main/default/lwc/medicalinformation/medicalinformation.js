@@ -34,6 +34,7 @@ import RH_RequestMedicalBtn from "@salesforce/label/c.RH_RequestMedicalBtn";
 import pir_MedicalImport_header from "@salesforce/label/c.pir_MedicalImport_header";
 import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
+import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -65,7 +66,8 @@ export default class Medicalinformation extends LightningElement {
     RH_RequestMedicalBtn,
     pir_MedicalImport_header,
     pir_BMI_Error,
-    pir_BmiHelptext
+    pir_BmiHelptext,
+    RH_MedicalRecords_NoPermitEmail
   };
 
   @api selectedPe;
@@ -97,6 +99,10 @@ export default class Medicalinformation extends LightningElement {
   lstCommorbitiesToInsert = [];
   lstCommorbitiesToDelete = [];
   lstExistingCommorbidity;
+  ismediaFileAvailable = false ;
+  lstmediafiles ; 
+  isBiomarkerRetriveSuccess = true;
+  
 
   connectedCallback() {
     console.log(">>vonnectted medical");
@@ -119,6 +125,8 @@ export default class Medicalinformation extends LightningElement {
     this.filterRecord = null;
     this.isComorbidityLoad = true;
     this.commorbityshowresult = false;
+    this.ismediaFileAvailable = false ;
+    this.lstmediafiles = [];
 
     getPEDetails({ peid: this.selectedPe })
       .then((result) => {
@@ -195,6 +203,11 @@ export default class Medicalinformation extends LightningElement {
             this.bioMarkerResultData =
               result.biomarkerdata.mapBiomarkerKeyValue;
           }
+          if(result.lstbioMarkerMediaFiles && result.lstbioMarkerMediaFiles.length != 0){
+            this.lstmediafiles = result.lstbioMarkerMediaFiles;
+            this.isbiomarkerResultAvail = true;
+            this.ismediaFileAvailable = true;
+          }
         }
         if (result.booldisplaygizmo) {
           this.formatgizmoresponse();
@@ -211,7 +224,7 @@ export default class Medicalinformation extends LightningElement {
         this.isFilesRetrieved = true;
         this.isMedicalDataLoaded = true;
         this.isRequestHistrySuccess = true;
-        
+
       });
   }
   /*Method for HighRisk and High Priority */
@@ -452,7 +465,9 @@ export default class Medicalinformation extends LightningElement {
 
   @api
   updatefilterbiomarkerresult(event) {
+    this.isBiomarkerRetriveSuccess = false;
     this.isbiomarkerResultAvail = false;
+    this.ismediaFileAvailable = false;
     fetchfilterbiomarkerResult({
       strAssesDateTime: event.detail.value,
       perId: this.selectedPe,
@@ -461,11 +476,19 @@ export default class Medicalinformation extends LightningElement {
         if (result.lstBiomarkerResultWrapper.length != 0) {
           this.isbiomarkerResultAvail = true;
         }
+        if(result.lstbioMarkerMediaFiles.length !=0)
+        {
+          this.isbiomarkerResultAvail = true;
+          this.ismediaFileAvailable = true;
+          this.lstmediafiles  = result.lstbioMarkerMediaFiles;
+        }
         this.bioMarkerResultData = result.lstBiomarkerResultWrapper;
+        this.isBiomarkerRetriveSuccess = true;
       })
       .catch((error) => {
         console.log(">>errorbiomark>>>" + JSON.stringify(error));
         this.isbiomarkerResultAvail = true;
+        this.isBiomarkerRetriveSuccess = true;
       });
   }
 
@@ -520,6 +543,16 @@ export default class Medicalinformation extends LightningElement {
             this.isRequestHistrySuccess = true;
             break;
           }
+          case 'NoPermitEmail' : {
+            const event = new ShowToastEvent({
+              title: "Requested Not Completed",
+              message: this.label.RH_MedicalRecords_NoPermitEmail,
+              variant: "Error",
+            });
+            this.dispatchEvent(event);
+            this.isRequestHistrySuccess = true;
+            break; 
+        }
           default: {
             const event = new ShowToastEvent({
               title: "Requested Not Completed",
@@ -532,9 +565,9 @@ export default class Medicalinformation extends LightningElement {
         }
       })
       .catch((error) => {
-        this.isRequestHistrySuccess = true;
         console.log(">>Error in sending request>>>" + JSON.stringify(error));
         console.log(">>Error in sending request>>>" + error);
+        this.isRequestHistrySuccess = true;
       });
   }
 
@@ -736,6 +769,7 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
 
+        
         const evt = new ShowToastEvent({
           title: "Record Saved Successfully",
           message: "Record Saved Successfully",
@@ -743,7 +777,6 @@ export default class Medicalinformation extends LightningElement {
           mode: "dismissable"
         });
         this.dispatchEvent(evt);
-
         this.isMedicalDataLoaded = true;
         console.log(">>resut>>" + result);
         const tabEvent = new CustomEvent("handletabs", {});
