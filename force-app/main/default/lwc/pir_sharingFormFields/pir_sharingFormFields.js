@@ -65,8 +65,6 @@ export default class Pir_sharingFormFields extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
-        }).then(() => {
-            this.fetchList(); 
         }).catch((error) => {
              console.log('Error: ' + error);
         });
@@ -159,12 +157,16 @@ export default class Pir_sharingFormFields extends LightningElement {
             if(this.sharingObject.sObjectType === 'Object') {
                 this.isDisplayFormFields = true;
                 this.displayFormFields();
+                if(this.duplicateDelegateInfo) {
+                    this.duplicateDelegateInfo = {};
+                    this.isDuplicateDelegate = false;
+                }
                 if(this.sharingObject.Birth_Year__c) {
                     this.sharingObject.Birth_Year__c = '';
                     this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
                     this.isAdultDelegate = true;
                     //this.isDisabled = false;
-                }
+                }                
                 this.isDisabled = false;
                 obj = {"email": event.detail.value.trim()};
             } else {
@@ -196,6 +198,12 @@ export default class Pir_sharingFormFields extends LightningElement {
             mergedObj = { ...this.sharingObject, ...obj };
             this.sharingObject = mergedObj;  
         }
+
+        if(event.currentTarget.dataset.name === 'attestCheckbox') {
+            let inputField = this.template.querySelector('[data-name="attestCheckbox"]');
+            inputField.reportValidity();
+        }
+
         this.validateForm();
     }
 
@@ -438,13 +446,13 @@ export default class Pir_sharingFormFields extends LightningElement {
                         this.isValid = false;
                     }
                     
-                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    let dupcomp = this.template.querySelector('.duplicatemsg');
                     dupcomp.scrollIntoView();                    
                 } else if(this.sharingObject.sObjectType === 'Object'){ 
                     this.isDisabled = true;
                     this.isDuplicateDelegate = true;              
                     this.duplicateDelegateInfo = result;                    
-                    var dupcomp = this.template.querySelector('.duplicatemsg');
+                    let dupcomp = this.template.querySelector('.duplicatemsg');
                     dupcomp.scrollIntoView();                    
                 }
             } else {
