@@ -134,7 +134,7 @@ public without sharing class ParticipantService {
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
-                    //participantState.showVisits = showVisits();
+                    participantState.showVisits = showVisits();
                     participantState.showVisitsInPreTrial = showVisits();
                     /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;

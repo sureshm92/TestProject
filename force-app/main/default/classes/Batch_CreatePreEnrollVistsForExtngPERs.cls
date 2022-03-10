@@ -10,7 +10,8 @@
  **/
 global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements Database.Batchable<SObject> {
     private Set<Id> ctpIds;
-    //TODO: use CTPID in query if it is launched from the CTP Trigger Handler.
+    private Set<Id> ssIds;
+
     global Batch_CreatePreEnrollVistsForExtngPERs() {
     }
 
@@ -18,6 +19,9 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
         this.ctpIds = ctpIds;
     }
 
+    global Batch_CreatePreEnrollVistsForExtngPERs(Set<Id> ssIds, Boolean isNewTravelVendor) {
+        this.ssIds = ssIds;
+    }
     //Start Method
     global Database.QueryLocator start(Database.BatchableContext BC) {
         List<String> peStatuses = PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT;
@@ -36,7 +40,10 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
             'FROM Patient_Visit__c ' +
             'WHERE Is_Pre_Enrollment_Patient_Visit__c = TRUE) ';
         if (ctpIds != null && !ctpIds.isEmpty()) {
-            queryString += 'AND Clinical_Trial_Profile__c IN :ctpIds';
+            queryString += 'AND Clinical_Trial_Profile__c IN :ctpIds ';
+        }
+        if (ssIds != null && !ssIds.isEmpty()) {
+            queryString += 'AND Study_Site__c IN :ssIds ';
         }
         return Database.getQueryLocator(queryString);
     }
@@ -63,7 +70,7 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
         }
         //Insert Pre Enrollment patient Visits.
         if (patentientVisitsToInsert != null && !patentientVisitsToInsert.isEmpty()) {
-            Database.insert(patentientVisitsToInsert, false); //TODO: Check what if any record gets failed.
+            Database.insert(patentientVisitsToInsert, false);
         }
     }
 
