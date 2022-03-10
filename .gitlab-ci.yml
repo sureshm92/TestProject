@@ -115,6 +115,12 @@ Validate:
 Deploy:
     #when: manual
     stage: Deploy
+    artifacts:
+     when: 
+     - always  
+     paths:
+     - $CI_PROJECT_DIR/res
+     expire_in: 1 week
     only:
       variables:
       - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
@@ -133,5 +139,5 @@ Deploy:
       - echo "${!CI_COMMIT_REF_NAME}" > sfdx-auth-url
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"
       - sfdx force:source:deploy -x package/package.xml -u $CI_COMMIT_REF_NAME -w 60
-      - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat human --outputdir $CI_PROJECT_DIR/result --codecoverage --classnames "CommunitiesSelfRegControllerTest"
+      - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat human --outputdir $CI_PROJECT_DIR/res --codecoverage --classnames "CommunitiesSelfRegControllerTest"
       - echo "Deploy success!"
