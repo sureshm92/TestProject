@@ -5,4 +5,3 @@ include:
 
 variables:
   currentenv: $CI_COMMIT_BRANCH
-
