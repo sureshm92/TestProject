@@ -234,9 +234,7 @@
                         </aura:if>
 
                         <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
-                            <aura:if
-                                isTrue="{!or(v.studyDetail.trial.showTravelCardInPreEnrollment)}"
-                            >
+                            <aura:if isTrue="{!or(v.isshowTravelCardInPreEnrollment)}">
                                 <button
                                     id="changeVisitMode"
                                     data-visit-mode="TravelSupportDetails"

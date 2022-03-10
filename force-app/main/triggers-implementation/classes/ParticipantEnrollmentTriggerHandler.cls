@@ -46,16 +46,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createPrimaryHistoryEntry(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        }
-
-        public override void afterInsert(List<SObject> newList) {
-            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
-        }
     }
 
     public class CompleteEnrollmentTasks extends TriggerHandler {
@@ -84,6 +74,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+    public class CreateMissingStatuses extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createPrimaryHistoryEntry(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+
+        public override void afterInsert(List<SObject> newList) {
+            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
         }
     }
 

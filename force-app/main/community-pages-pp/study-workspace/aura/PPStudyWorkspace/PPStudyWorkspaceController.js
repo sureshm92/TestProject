@@ -69,7 +69,7 @@
                         JSON.parse(trialDetail.participantstate).showTravelCardInPreEnrollment
                     );
                     if (
-                        !trialDetail.showVisits &&
+                        !trialDetail.showVisits ||
                         !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c
                     )
                         visitMode = 'TravelSupportDetails';
