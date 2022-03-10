@@ -205,6 +205,9 @@
     left: -25%;
     top: 50px;
 }
+.hide-survey-header {
+    display: none;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
