@@ -115,9 +115,7 @@ Validate:
 Deploy:
     #when: manual
     stage: Deploy
-    artifacts:
-     when: 
-     - always  
+    artifacts: 
      paths:
      - $CI_PROJECT_DIR/res
      expire_in: 1 week
