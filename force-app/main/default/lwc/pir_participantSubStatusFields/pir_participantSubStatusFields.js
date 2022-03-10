@@ -1554,9 +1554,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
 
   getSaved() {
-    console.log("<----Old Value--->");
-    console.log("per record" + JSON.stringify(this.pe_record));
-    // if(this.additionalNote != null && this.additionalNote !=''){
     if (this.statusChanged) {
       if ((this.additionalNote != "") & (this.additionalNote != null)) {
         this.participantrecord.Last_Status_Changed_Notes__c = this.additionalNote;
@@ -1570,7 +1567,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Last_Status_Changed_Additional_Notes__c = this.additionalNoteIV;
       }
     }
-    // }
     if (!this.statusChanged) {
       if(this.participantrecord.Participant_Status__c != "Ready to Screen"){
         delete this.participantrecord.Participant_Status__c;
@@ -1591,9 +1587,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.participantrecord.Participant_Status__c = 'Unable to Reach';
       this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit';
     }
-    console.log(
-      "STATUS TO UPDATE-->" + this.participantrecord.Participant_Status__c
-    );
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1607,12 +1601,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-
-    console.log("<----Save--->");
-    console.log(JSON.stringify(this.participantrecord));
-    console.log("Additional NOte-->" + this.additionalNote);
-    console.log("Additional NOteIV-->" + this.additionalNoteIV);
-    console.log("Selected Outcome-->" + this.selectedOutcome);
+    if(this.participantrecord.Participant_Status__c == "Declined Final Consent"){
+      this.participantrecord.Final_consent__c = false;
+    }
+   
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
