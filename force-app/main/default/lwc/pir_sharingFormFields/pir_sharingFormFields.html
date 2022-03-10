@@ -1,12 +1,9 @@
 <template>
    <template if:true={isDelegate}>
-      <div class={gridCss} >
-         <div class="slds-grid slds-wrap slds-gutters" >
-            <template if:true={loading}>
-                  <lightning-spinner
-                     alternative-text="Loading"
-                     size="small"
-                  ></lightning-spinner>
+      <div class={gridCss}>
+         <div class="slds-grid slds-wrap slds-gutters" >            
+            <template if:true={loading} class="slds-is-relative">
+               <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
             </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
                <lightning-input 
@@ -112,12 +109,8 @@
    <template if:true={isRpContact}>      
       <div class={gridCss}>
          <div class="slds-grid slds-wrap slds-gutters" >
-
-            <template if:true={loading}>
-                  <lightning-spinner
-                     alternative-text="Loading"
-                     size="small"
-                  ></lightning-spinner>
+            <template if:true={loading} class="slds-is-relative">
+               <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
             </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
                <lightning-input 
@@ -185,13 +178,9 @@
    <template if:true={isHCPDelegate}>      
       <div class={gridCss}>
          <div class="slds-grid slds-wrap slds-gutters" >
-
-            <template if:true={loading}>
-                  <lightning-spinner
-                     alternative-text="Loading"
-                     size="small"
-                  ></lightning-spinner>
-            </template>
+         <template if:true={loading} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+         </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
                <lightning-input 
                      type="email" 
