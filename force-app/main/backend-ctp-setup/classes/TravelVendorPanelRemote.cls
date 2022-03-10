@@ -115,7 +115,6 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     private static void save(List<StudySiteItem> studySiteItems) {
-        Set<Id> ssIdsToCreateInitialVisits = new Set<Id>();
         List<TravelVendorSettings__c> toDelete = new List<TravelVendorSettings__c>();
         List<TravelVendorSettings__c> toInsert = new List<TravelVendorSettings__c>();
         for (StudySiteItem ssItem : studySiteItems) {
@@ -129,25 +128,11 @@ public with sharing class TravelVendorPanelRemote {
                             TravelVendor__c = assigment.value
                         )
                     );
-                    ssIdsToCreateInitialVisits.Add(ssItem.ss.Id);
                 }
             }
         }
         delete toDelete;
-        try {
-            insert toInsert;
-
-            //Create Initial Patient Visit for existing Pre Enrolled participant when we configure Travel vendor for Study Site.
-            if (ssIdsToCreateInitialVisits != null && !ssIdsToCreateInitialVisits.isEmpty()) {
-                Batch_CreatePreEnrollVistsForExtngPERs objBatch = new Batch_CreatePreEnrollVistsForExtngPERs(
-                    ssIdsToCreateInitialVisits,
-                    true
-                );
-                Database.executeBatch(objBatch, 50);
-            }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
+        insert toInsert;
     }
 
     private static void saveFilter(StudySiteFilter filter) {
