@@ -335,7 +335,7 @@ public with sharing class HumanAPIcontroller {
       objWrapper.primaryDelegateLastName = objParticipantDelegate != Null ? objParticipantDelegate.Last_Name__c : '' ; 
       objWrapper.language = strPILanguage;
       objWrapper.country = COUNTRY_CODE_BY_NAME_MAP_Mdt.containskey(objPER.Participant__r.Country__c) ? COUNTRY_CODE_BY_NAME_MAP_Mdt.get(objPER.Participant__r.Country__c) : objPER.Participant__r.Country__c;
-      objWrapper.pIname = userinfo.getName();
+      objWrapper.pIname = objPER.Study_Site__r.Principal_Investigator__r.Name;
       objWrapper.protocolId = objPER.Clinical_Trial_Profile__r.Protocol_ID__c;
       objWrapper.salutation = objPER.PI_Contact__r.Salutation;
       
