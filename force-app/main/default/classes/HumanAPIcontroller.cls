@@ -335,10 +335,9 @@ public with sharing class HumanAPIcontroller {
       objWrapper.primaryDelegateLastName = objParticipantDelegate != Null ? objParticipantDelegate.Last_Name__c : '' ; 
       objWrapper.language = strPILanguage;
       objWrapper.country = COUNTRY_CODE_BY_NAME_MAP_Mdt.containskey(objPER.Participant__r.Country__c) ? COUNTRY_CODE_BY_NAME_MAP_Mdt.get(objPER.Participant__r.Country__c) : objPER.Participant__r.Country__c;
-      objWrapper.pIname = userinfo.getName();
+      objWrapper.pIname = objPER.Study_Site__r.Principal_Investigator__r.Name;
       objWrapper.protocolId = objPER.Clinical_Trial_Profile__r.Protocol_ID__c;
       objWrapper.salutation = objPER.PI_Contact__r.Salutation;
-      
       
       
     if (humanId == null) {
@@ -349,7 +348,6 @@ public with sharing class HumanAPIcontroller {
         FROM App_Credential__mdt
         WHERE DeveloperName = 'Human_API_Creds'
       ];
-
       if (appCreds.size() > 0) {
         clientId = appCreds[0].Client_Id__c;
         clientSecret = appCreds[0].Client_Secret__c;
@@ -395,6 +393,7 @@ public with sharing class HumanAPIcontroller {
            objWrapper.humanId = humanId;
             lstMulesoftWrapper.add(objWrapper);
         	String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+          system.debug('>strHuman_RH_Data>>'+strHuman_RH_Data);
             sendDataToMule(strHuman_RH_Data);
           update p;
           //call mulesoft api to inform SFMC
@@ -424,6 +423,7 @@ public with sharing class HumanAPIcontroller {
         objWrapper.humanId = objPER.Human_Id__c;
         lstMulesoftWrapper.add(objWrapper);
         String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+        system.debug('>strHuman_RH_Data>>'+strHuman_RH_Data);
         sendDataToMule(strHuman_RH_Data);
       update p;
       //call mulesoft api to inform SFMC
@@ -433,14 +433,15 @@ public with sharing class HumanAPIcontroller {
     
     public static void sendDataToMule(String strHumanRhData)
     {        
+       
         HTTP h = new HTTP();
         HTTPRequest r = new HTTPRequest();
         r.setEndpoint('callout:HumanAPI_MulesoftCnct');
         r.setHeader('Content-Type', 'application/json;charset=UTF-8');
         r.setMethod('POST');
         r.setbody(strHumanRhData);
+        r.setTimeout(120000);
         HTTPResponse resp = h.send(r);
-        
         //lOGGED THE Details in Integration Log Object
         IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
         objIntegrationLog.Request_Body__c = strHumanRhData;
