@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Pre_Enrollment_Patient_Visit__c</fullName>
+    <externalId>false</externalId>
+    <formula>Visit__r.Is_Pre_Enrollment_Visit__c</formula>
+    <label>Is Pre Enrollment Patient Visit</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

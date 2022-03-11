@@ -11357,6 +11357,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New Outreach Created Successfully !</value>
     </labels>
     <labels>
+        <fullName>pir_Assesment_Date_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Assesment_Date_Time</shortDescription>
+        <value>Assessment Date and Time</value>
+    </labels>
+    <labels>
+        <fullName>pir_BMI_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_BMI_Error</shortDescription>
+        <value>BMI value is outside the valid range</value>
+    </labels>
+    <labels>
+        <fullName>pir_BmiHelptext</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_BmiHelptext</shortDescription>
+        <value>Allowable limit for BMI is 9999.99</value>
+    </labels>
+    <labels>
         <fullName>PIR_Call_Back</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11371,11 +11392,60 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Declined Practitioner</value>
     </labels>
     <labels>
+        <fullName>pir_Delete_close</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Delete_close</shortDescription>
+        <value>Delete and Close</value>
+    </labels>
+    <labels>
         <fullName>PIR_In_Wash_Out_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_In Wash Out Period</shortDescription>
         <value>Screening In Progress - Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>PIR_medicalAcceptedFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_medicalAcceptedFile</shortDescription>
+        <value>Accepted formats are .jpg, .pdf, .jpeg, .gif, .png</value>
+    </labels>
+    <labels>
+        <fullName>pir_Medical_General</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Medical_General</shortDescription>
+        <value>General</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalHistory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalHistory</shortDescription>
+        <value>Medical History</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalImport_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalImport_header</shortDescription>
+        <value>Upload Document</value>
+    </labels>
+    <labels>
+        <fullName>pir_MedicalImport_subHead</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_MedicalImport_subHead</shortDescription>
+        <value>Document</value>
+    </labels>
+    <labels>
+        <fullName>pir_Medical_Search_Commorbidity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Medical_Search_Commorbidity</shortDescription>
+        <value>Search Comorbidities...</value>
     </labels>
     <labels>
         <fullName>PIR_Not_Ready_to_Schedule</fullName>
@@ -11476,6 +11546,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Protocol Concerns</value>
     </labels>
     <labels>
+        <fullName>pir_Screener</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Screener</shortDescription>
+        <value>Screener</value>
+    </labels>
+    <labels>
         <fullName>PIR_Transportation_Issues</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11488,6 +11565,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Trial Complete</shortDescription>
         <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_uploadFile_exced</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_uploadFile_exced</shortDescription>
+        <value>The size for uploaded document is above 4 MB.</value>
     </labels>
     <labels>
         <fullName>PIR_Visit_Out_Of_Window</fullName>
@@ -18461,6 +18545,13 @@ communications using the toggles below.</value>
         <shortDescription>Prefer not to say</shortDescription>
         <value>0- Prefer not to say</value>
     </labels>
+      <labels>
+        <fullName>Pre_Enrollment_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pre Enrollment Visit Plan</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
     <labels>
         <fullName>Preferred_Contact_Method</fullName>
         <categories>Media Outreach</categories>
@@ -19129,6 +19220,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH_Masked_IQVIA_User</shortDescription>
         <value>IQVIA</value>
+    </labels>
+    <labels>
+        <fullName>RH_MedicalRecords_NoPermitEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MedicalRecords_NoPermitEmail</shortDescription>
+        <value>Please check consent for email contact for the participant/caregiver on the Participant Details tab, and retry</value>
     </labels>
     <labels>
         <fullName>RH_RequestMedicalBtn</fullName>
@@ -24021,6 +24119,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Biomarkers_Header</shortDescription>
         <value>Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>MedicalImport_MaxSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MedicalImport_MaxSize</shortDescription>
+        <value>Max size 4MB</value>
     </labels>
     <labels>
         <fullName>Biomarkers_No_records_to_display</fullName>
