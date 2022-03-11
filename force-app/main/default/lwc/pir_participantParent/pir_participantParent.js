@@ -74,7 +74,7 @@ export default class Pir_participantParent extends LightningElement {
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details"; 
     this.selectedTab = "Status Details";
     this.isMedicalTab = false;
-    
+
   }
   curentMobileView = "list";
   mobileViewToggle() { 
@@ -139,8 +139,17 @@ export default class Pir_participantParent extends LightningElement {
 
 
   checkMedicalSaveBtn(event){
+    if(event.detail.isBMIError){ 
+      this.isMedicalDetailChanged = event.detail.isBMIError;
+      this.disableMedicalSaveButton = event.detail;
+
+    }
+    else { 
     this.disableMedicalSaveButton = !event.detail;
-    this.isMedicalDetailChanged = true;
+  this.isMedicalDetailChanged = event.detail;
+
+    }
+    
     this.discardMedicalTab = false;
   }
   checkStatusDetailChanges(event){ 
@@ -217,7 +226,7 @@ export default class Pir_participantParent extends LightningElement {
    
   }else{
     this.isMedicalTab = true;
-    this.disableMedicalSaveButton = true;
+   // this.disableMedicalSaveButton = true;
   }
  }
 
@@ -255,6 +264,7 @@ export default class Pir_participantParent extends LightningElement {
 
 
   handleTabs(){
+    console.log('>>selectedTab>>'+this.selectedTab);
     this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
   }
   @api
@@ -283,5 +293,6 @@ export default class Pir_participantParent extends LightningElement {
           this.delegateLevel = this.lststudysiteaccesslevel[this.selectedPE.siteId];
         }
     }
+    console.log('fetchAccessLevel:'+this.delegateLevel);
   }
 }

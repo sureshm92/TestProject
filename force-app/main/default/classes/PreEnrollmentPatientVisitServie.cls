@@ -168,7 +168,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                     FROM Visits__r
                 )
             FROM Visit_Plan__c
-            WHERE Name = :preEnrollmentVisitPlanName
+            WHERE Name = :preEnrollmentVisitPlanName AND Is_Pre_Enrollment_Visit_Plan__c = TRUE
         ][0];
 
         preEnrollVisit = PreEnrollVisitPlan.Visits__r;
@@ -200,6 +200,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
             WHERE
                 Participant_Enrollment__c IN :perIds
                 AND Visit__r.Visit_Plan__r.Name = :preEnrollmentVisitPlanName
+                AND Is_Pre_Enrollment_Patient_Visit__c = TRUE
         ];
 
         return existingPreEnrollPatientVisits;
