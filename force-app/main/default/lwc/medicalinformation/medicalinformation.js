@@ -284,7 +284,7 @@ export default class Medicalinformation extends LightningElement {
         {
           this.isHighPriorityChanged = true ;
         }
-    
+        this.returnpervalue.Highpriority = event.target.checked; 
     if(this.isBMIError)
     { 
       var BMIErrorParams = {isBMIError :true , disabledSave : false};
