@@ -49,6 +49,8 @@ public without sharing class ParticipantService {
         public Boolean showVisitsInPreTrial;
         @AuraEnabled
         public Boolean showTravelCardInPreEnrollment;
+        @AuraEnabled
+        public Boolean showNonInitialVisits;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -62,6 +64,7 @@ public without sharing class ParticipantService {
             isVisitPathEnabled = false;
             isTravelSupportEnabled = false;
             showTravelCardInPreEnrollment = false;
+            showNonInitialVisits=false;
         }
     }
 
@@ -131,11 +134,13 @@ public without sharing class ParticipantService {
                     participantState.showVisitsInPreTrial = participantState.showVisits;
                     /**PEH-525 END*/
                     participantState.showResults = showResults();
+                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
                     participantState.showVisits = showVisits();
                     participantState.showVisitsInPreTrial = showVisits();
+                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
                     /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
                     Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
@@ -240,7 +245,19 @@ public without sharing class ParticipantService {
         }
         return false;
     }
-
+	@TestVisible
+    private Boolean showNonInitialVisitsNew() {
+        if (participantState.pe != null) {
+            List<Patient_Visit__c> patientVisit = [
+                SELECT Id
+                FROM Patient_Visit__c
+                WHERE Participant_Enrollment__c = :participantState.pe.Id and Is_Pre_Enrollment_Patient_Visit__c=false
+            ];
+            
+            return (!patientVisit.isEmpty());
+        }
+        return false;
+    }
     @TestVisible
     private Boolean showResults() {
         Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(participantState.ctp.Id);
