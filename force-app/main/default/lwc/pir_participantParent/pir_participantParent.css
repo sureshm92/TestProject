@@ -123,6 +123,12 @@
 .hideDesktop{
         display: none;
 }
+.marginParticipant{
+    margin-top: 250px;
+}
+.button-padding{
+    padding:17px;
+}
 .section-padding{
     padding-left: 10px;
     padding-right: 16px;
@@ -159,11 +165,17 @@
         display: none;
     }
     .maxheight{
-        height: none;
+        max-height: 66vh;
+        overflow: overlay;
     }
     .boxShadow{
         box-shadow: none;
         border-radius: 0;
+    }
+    .savesticky{
+        height: 63px;
+        border: 1px solid #E9E9E9;
+        box-shadow: 0 2px 0px #e1e1e1; 
     } 
 }
 @media only screen
