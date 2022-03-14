@@ -153,7 +153,7 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToDelete = [];
         this.lstExistingCommorbidity = [];
         this.returnpervalue = result;
-        this.lstExistingCommorbidity = result.lstComorbidities;
+        this.lstExistingCommorbidity = JSON.parse(JSON.stringify(result.lstComorbidities));
         let detailedReportTemp = [];
         this.existingBMI = this.returnpervalue.BMI ;
         this.existingHighRisk = this.returnpervalue.HighRisk ;
