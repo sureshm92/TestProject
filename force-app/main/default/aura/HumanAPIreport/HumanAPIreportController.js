@@ -80,6 +80,7 @@
                   case 'NoPermitEmail' : {
                           var toastEvent = $A.get("e.force:showToast");
                           toastEvent.setParams({
+                              mode: 'sticky',
                               title: "Requested Not Completed",
                               type: "Error",
                               message: $A.get('$Label.c.RH_MedicalRecords_NoPermitEmail') 
