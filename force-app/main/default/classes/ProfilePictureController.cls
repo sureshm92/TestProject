@@ -20,13 +20,16 @@ public with sharing class ProfilePictureController {
         if (loggedInUserMode != USER_MODE_HCP && currentContact.userCommunityDelegateId__c != null) {
             currentContact = ContactService.getContact(currentContact.userCommunityDelegateId__c);
         }
-
-        return [
+        List<User> userPic = [
             SELECT Id, Name, FullPhotoUrl, SmallPhotoUrl
             FROM User
             WHERE ContactId = :currentContact.Id
-        ]
-        .SmallPhotoUrl;
+        ];
+        if(userPic !=null && !userPic.isEmpty()){
+            return userPic[0].SmallPhotoUrl;
+        }else{
+            return null;     
+        }
     }
 
     @AuraEnabled
