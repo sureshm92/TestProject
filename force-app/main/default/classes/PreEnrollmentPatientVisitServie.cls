@@ -265,7 +265,11 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
 
             if (preConcentToggle && !enrollRandomizeConsentToggle) {
                 //If "Pre-consent" toggles is on and "Consent through Enrolled/Randomized" toggles is Off at Visit Configuration at CTP.
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_READY_TO_SCREEN) {
+                if (
+                    PEStatusState.PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE.contains(
+                        pe.Participant_Status__c
+                    )
+                ) {
                     pv.Status__c = 'Completed';
                     preEnrollPatientVisitsToUpdate.Add(pv);
                 }
