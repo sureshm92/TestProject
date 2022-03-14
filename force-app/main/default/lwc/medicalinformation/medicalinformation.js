@@ -639,6 +639,7 @@ export default class Medicalinformation extends LightningElement {
               title: "Requested Not Completed",
               message: this.label.RH_MedicalRecords_NoPermitEmail,
               variant: "Error",
+              mode : "sticky",
             });
             this.dispatchEvent(event);
             this.isRequestHistrySuccess = true;
