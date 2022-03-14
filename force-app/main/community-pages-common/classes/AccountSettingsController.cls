@@ -125,15 +125,19 @@ public without sharing class AccountSettingsController {
                 userMode == 'HCP' ||
                 userMode == 'CC')
             ) {
-                initData.delegateUserName = [
+                List<User> delUsers = [
                     SELECT Id, Email, Name, Username, FullPhotoUrl
                     FROM User
-                    WHERE ContactId = :initData.myContact.Id
-                    LIMIT 1
+                    WHERE ContactId = :initData.myContact.Id 
                 ];
-                initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
-                    'profilephoto/005/F'
-                );
+                if(delUsers !=null && !delUsers.isEmpty()){
+                    initData.delegateUserName = delUsers[0];
+                }
+                if(initData.delegateUserName!=null){
+                    initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
+                        'profilephoto/005/F'
+                    );
+                }
             }
             return JSON.serialize(initData, false);
         } catch (Exception e) {
