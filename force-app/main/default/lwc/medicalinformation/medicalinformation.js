@@ -34,6 +34,7 @@ import RH_RequestMedicalBtn from "@salesforce/label/c.RH_RequestMedicalBtn";
 import pir_MedicalImport_header from "@salesforce/label/c.pir_MedicalImport_header";
 import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
+import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -65,7 +66,8 @@ export default class Medicalinformation extends LightningElement {
     RH_RequestMedicalBtn,
     pir_MedicalImport_header,
     pir_BMI_Error,
-    pir_BmiHelptext
+    pir_BmiHelptext,
+    RH_MedicalRecords_NoPermitEmail
   };
 
   @api selectedPe;
@@ -97,6 +99,21 @@ export default class Medicalinformation extends LightningElement {
   lstCommorbitiesToInsert = [];
   lstCommorbitiesToDelete = [];
   lstExistingCommorbidity;
+  ismediaFileAvailable = false ;
+  lstmediafiles ; 
+  isBiomarkerRetriveSuccess = true;
+  existingBMI ;
+  existingHighRisk ;
+  existinexistingHighPriority ;
+  isBmiValueChanged;
+  isHighRiskChanged;
+  isHighPriorityChanged;
+  isComorbidityyChanged = false;
+  isBMIError = false;
+
+  
+  
+  
 
   connectedCallback() {
     console.log(">>vonnectted medical");
@@ -119,6 +136,15 @@ export default class Medicalinformation extends LightningElement {
     this.filterRecord = null;
     this.isComorbidityLoad = true;
     this.commorbityshowresult = false;
+    this.ismediaFileAvailable = false ;
+    this.lstmediafiles = [];
+    this.isBmiValueChanged = false;
+    this.isHighRiskChanged = false;
+    this.isHighPriorityChanged = false;
+    this.isComorbidityyChanged = false;
+    this.isBMIError = false;
+
+    
 
     getPEDetails({ peid: this.selectedPe })
       .then((result) => {
@@ -129,6 +155,9 @@ export default class Medicalinformation extends LightningElement {
         this.returnpervalue = result;
         this.lstExistingCommorbidity = result.lstComorbidities;
         let detailedReportTemp = [];
+        this.existingBMI = this.returnpervalue.BMI ;
+        this.existingHighRisk = this.returnpervalue.HighRisk ;
+        this.existingHighPriority = this.returnpervalue.Highpriority ;
 
         const options = {
           year: "numeric",
@@ -195,6 +224,13 @@ export default class Medicalinformation extends LightningElement {
             this.bioMarkerResultData =
               result.biomarkerdata.mapBiomarkerKeyValue;
           }
+          console.log('>>biomarkermedia>'+JSON.stringify(result.lstbioMarkerMediaFiles));
+          
+          if(result.lstbioMarkerMediaFiles && result.lstbioMarkerMediaFiles.length != 0){
+            this.lstmediafiles = result.lstbioMarkerMediaFiles;
+            this.isbiomarkerResultAvail = true;
+            this.ismediaFileAvailable = true;
+          }
         }
         if (result.booldisplaygizmo) {
           this.formatgizmoresponse();
@@ -206,26 +242,65 @@ export default class Medicalinformation extends LightningElement {
         this.isRequestHistrySuccess = true;
       })
       .catch((error) => {
-        console.log(">>error sime>>>" + JSON.stringify(error));
+        console.log(">>error while retreive init>>>" + JSON.stringify(error));
         console.log(">>error>>>" + error);
+        this.isFilesRetrieved = true;
+        this.isMedicalDataLoaded = true;
+        this.isRequestHistrySuccess = true;
+
       });
   }
   /*Method for HighRisk and High Priority */
-  handlevalueupdate(event) {
-    let fieldType = event.target.type;
-    let field = event.target.name;
-    if (fieldType === "checkbox") {
-      this.returnpervalue[field] = event.target.checked;
-    } else {
-      this.returnpervalue[field] = event.target.value;
+  handlevalueupdateRisk(event) {
+    
+    this.isHighRiskChanged = false ;
+
+    if(event.target.checked != this.existingHighRisk)
+        {
+          this.isHighRiskChanged = true ;
+        }
+        this.returnpervalue.HighRisk = event.target.checked; 
+    if(this.isBMIError)
+    { 
+      var BMIErrorParams = {isBMIError :true , disabledSave : false};
+      this.fireSaveMedicalBtnEvnt(BMIErrorParams);
     }
-    const validateMedicalsavebtn = new CustomEvent(
-      "validatemedicalsavebutton",
-      {
-        detail: true,
-      }
-    );
-    this.dispatchEvent(validateMedicalsavebtn);
+
+    if( this.isBmiValueChanged || this.isHighRiskChanged  || this.isHighPriorityChanged || this.isComorbidityyChanged)
+    {
+      this.fireSaveMedicalBtnEvnt(true); 
+    }
+    else{ 
+      this.fireSaveMedicalBtnEvnt(false);
+    } 
+ 
+  }
+
+  handlevalueupdatePriority(event){
+
+    this.isHighPriorityChanged = false ;
+
+    if(event.target.checked != this.existingHighPriority)
+        {
+          this.isHighPriorityChanged = true ;
+        }
+        this.returnpervalue.Highpriority = event.target.checked; 
+    if(this.isBMIError)
+    { 
+      var BMIErrorParams = {isBMIError :true , disabledSave : false};
+      this.fireSaveMedicalBtnEvnt(BMIErrorParams);
+      
+    }
+
+    else if( this.isBmiValueChanged || this.isHighRiskChanged  || this.isHighPriorityChanged || this.isComorbidityyChanged)
+    {
+      this.fireSaveMedicalBtnEvnt(true); 
+    }
+    else{ 
+      this.fireSaveMedicalBtnEvnt(false);
+    }
+
+
   }
 
   DownloadFile(event) {
@@ -272,6 +347,7 @@ export default class Medicalinformation extends LightningElement {
   @api
   onSelect(event) {
     this.temptg = false;
+    this.isComorbidityyChanged = false;
     if (event.currentTarget.dataset.key) {
       var index = this.filterRecord.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
@@ -310,20 +386,40 @@ export default class Medicalinformation extends LightningElement {
         ).value = null;
         this.filterRecord = null;
       }
+
+      if(this.lstCommorbitiesToDelete.length != 0 || this.lstCommorbitiesToInsert.length != 0)
+        {
+        this.isComorbidityyChanged = true;
+        }
+      
+      if(this.isBMIError)
+    { 
+      var BMIErrorParams = {isBMIError :true , disabledSave : false};
+      this.fireSaveMedicalBtnEvnt(BMIErrorParams);
+    }
+
+    else if(this.isBmiValueChanged || this.isHighRiskChanged || this.isHighPriorityChanged || this.isComorbidityyChanged)
+        {
+        this.fireSaveMedicalBtnEvnt(true);
+        }
+      else { 
+      this.fireSaveMedicalBtnEvnt(false);
+      }
       //event to enable the save button handled in pir_participantstatusDetail
-      const validateMedicalsavebtn = new CustomEvent(
+     /* const validateMedicalsavebtn = new CustomEvent(
         "validatemedicalsavebutton",
         {
           detail: true,
         }
       );
-      this.dispatchEvent(validateMedicalsavebtn);
+      this.dispatchEvent(validateMedicalsavebtn); */
     }
   }
   /*This method will called when we remove any comorbidity and update the list of insertion or deletion of commorbidity */
   @api
   removecomorbidity(event) {
     this.isComorbidityLoad = false;
+    this.isComorbidityyChanged = false;
     if (event.currentTarget.dataset.key) {
       var index = this.returnpervalue.lstComorbidities.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
@@ -370,14 +466,25 @@ export default class Medicalinformation extends LightningElement {
         ">>lstCommorbitiesToDelete>>" +
           JSON.stringify(this.lstCommorbitiesToDelete)
       );
+      if(this.lstCommorbitiesToDelete.length != 0 || this.lstCommorbitiesToInsert.length != 0)
+      {
+        this.isComorbidityyChanged = true;
+      }
+      if(this.isBMIError)
+    { 
+      var BMIErrorParams = {isBMIError :true , disabledSave : false};
+      this.fireSaveMedicalBtnEvnt(BMIErrorParams);
+    }
+
+      else if(this.isBmiValueChanged || this.isHighRiskChanged || this.isHighPriorityChanged || this.isComorbidityyChanged)
+    {
+      this.fireSaveMedicalBtnEvnt(true);
+    }
+    else { 
+      this.fireSaveMedicalBtnEvnt(false);
+    }
+
       //event to enable the save button handled in pir_participantstatusDetail
-      const validateMedicalsavebtn = new CustomEvent(
-        "validatemedicalsavebutton",
-        {
-          detail: true,
-        }
-      );
-      this.dispatchEvent(validateMedicalsavebtn);
     }
   }
 
@@ -448,7 +555,9 @@ export default class Medicalinformation extends LightningElement {
 
   @api
   updatefilterbiomarkerresult(event) {
+    this.isBiomarkerRetriveSuccess = false;
     this.isbiomarkerResultAvail = false;
+    this.ismediaFileAvailable = false;
     fetchfilterbiomarkerResult({
       strAssesDateTime: event.detail.value,
       perId: this.selectedPe,
@@ -457,11 +566,20 @@ export default class Medicalinformation extends LightningElement {
         if (result.lstBiomarkerResultWrapper.length != 0) {
           this.isbiomarkerResultAvail = true;
         }
+        console.log('>>>result>>'+JSON.stringify(result));
+        if(result.lstbioMarkerMediaFiles.length !=0)
+        {
+          this.isbiomarkerResultAvail = true;
+          this.ismediaFileAvailable = true;
+          this.lstmediafiles  = result.lstbioMarkerMediaFiles;
+        }
         this.bioMarkerResultData = result.lstBiomarkerResultWrapper;
+        this.isBiomarkerRetriveSuccess = true;
       })
       .catch((error) => {
         console.log(">>errorbiomark>>>" + JSON.stringify(error));
         this.isbiomarkerResultAvail = true;
+        this.isBiomarkerRetriveSuccess = true;
       });
   }
 
@@ -489,6 +607,7 @@ export default class Medicalinformation extends LightningElement {
                 this.isRequestHistrySuccess = true;
               })
               .catch((error) => {
+                this.isRequestHistrySuccess = true;
                 console.log(">>error histry>>>" + JSON.stringify(error));
                 console.log(">>error histry>>>" + error);
               });
@@ -515,6 +634,16 @@ export default class Medicalinformation extends LightningElement {
             this.isRequestHistrySuccess = true;
             break;
           }
+          case 'NoPermitEmail' : {
+            const event = new ShowToastEvent({
+              title: "Requested Not Completed",
+              message: this.label.RH_MedicalRecords_NoPermitEmail,
+              variant: "Error",
+            });
+            this.dispatchEvent(event);
+            this.isRequestHistrySuccess = true;
+            break; 
+        }
           default: {
             const event = new ShowToastEvent({
               title: "Requested Not Completed",
@@ -527,8 +656,9 @@ export default class Medicalinformation extends LightningElement {
         }
       })
       .catch((error) => {
-        console.log(">>errorbiomark final hstry>>>" + JSON.stringify(error));
-        console.log(">>errorbiomark final hstry>>>" + error);
+        console.log(">>Error in sending request>>>" + JSON.stringify(error));
+        console.log(">>Error in sending request>>>" + error);
+        this.isRequestHistrySuccess = true;
       });
   }
 
@@ -536,7 +666,7 @@ export default class Medicalinformation extends LightningElement {
   formatgizmoresponse() {
     this.decodeResult = false;
     let GizmoResult = this.returnpervalue.strMRRSurveyResult;
-
+    
     if (!GizmoResult.includes("http")) {
       var Base64 = {
         _keyStr:
@@ -627,6 +757,8 @@ export default class Medicalinformation extends LightningElement {
 
     var getBMI = event.target.value;
     let isValueChanged = false;
+    this.isBmiValueChanged = false;
+    this.isBMIError = false;
     const ShowErrorevent = new ShowToastEvent({
       title: "Error",
       message: this.label.pir_BMI_Error,
@@ -656,51 +788,51 @@ export default class Medicalinformation extends LightningElement {
 
         if (specialCharregex.test(updatedBMI)) {
           event.target.value = updatedBMI;
-          if (this.returnpervalue.BMI != updatedBMI) {
-            isValueChanged = true;
+          if (updatedBMI != this.existingBMI) {
+                isValueChanged = true;
           }
           this.returnpervalue.BMI = updatedBMI;
-          if (isValueChanged) {
-            const validateMedicalsavebtn = new CustomEvent(
-              "validatemedicalsavebutton",
-              {
-                detail: true,
-              }
-            );
-            this.dispatchEvent(validateMedicalsavebtn);
-          }
-        } else {
-          const validateMedicalsavebtn = new CustomEvent(
-            "validatemedicalsavebutton",
-            {
-              detail: false,
-            }
-          );
-          this.dispatchEvent(validateMedicalsavebtn);
+        }  else {
+          this.isBMIError = true;
           this.dispatchEvent(ShowErrorevent);
-          return;
-        }
+         // return;
+        } 
       } else {
-        const validateMedicalsavebtn = new CustomEvent(
-          "validatemedicalsavebutton",
-          {
-            detail: false,
-          }
-        );
-        this.dispatchEvent(validateMedicalsavebtn);
+        this.isBMIError = true;
         this.dispatchEvent(ShowErrorevent);
-        return;
+        //return;
       }
-    } else if (this.returnpervalue.BMI) {
-      const validateMedicalsavebtn = new CustomEvent(
-        "validatemedicalsavebutton",
-        {
-          detail: true,
-        }
-      );
-      event.target.value = "";
-      this.dispatchEvent(validateMedicalsavebtn);
+    }  else if(this.existingBMI) {
+      isValueChanged = true;
+      event.target.value = '';
+    } 
+
+    if(this.isBMIError)
+    { 
+      var BMIErrorParams = {isBMIError :true , disabledSave : false};
+      this.fireSaveMedicalBtnEvnt(BMIErrorParams);
     }
+    else if(isValueChanged || this.isHighRiskChanged || this.isHighPriorityChanged || this.isComorbidityyChanged)
+    {
+      this.isBmiValueChanged = isValueChanged ;
+      this.fireSaveMedicalBtnEvnt(true);
+    }
+    else{
+
+      this.fireSaveMedicalBtnEvnt(false);
+
+    }
+  }
+
+
+  fireSaveMedicalBtnEvnt(boolcheckvaluechange){
+    const validateMedicalsavebtn = new CustomEvent(
+      "validatemedicalsavebutton",
+      {
+        detail: boolcheckvaluechange,
+      }
+    );
+    this.dispatchEvent(validateMedicalsavebtn);  
   }
 
   @api
@@ -730,6 +862,7 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
 
+        
         const evt = new ShowToastEvent({
           title: "Record Saved Successfully",
           message: "Record Saved Successfully",
@@ -737,7 +870,6 @@ export default class Medicalinformation extends LightningElement {
           mode: "dismissable"
         });
         this.dispatchEvent(evt);
-
         this.isMedicalDataLoaded = true;
         console.log(">>resut>>" + result);
         const tabEvent = new CustomEvent("handletabs", {});

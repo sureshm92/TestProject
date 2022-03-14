@@ -24,7 +24,15 @@ export default class Pir_participantParent extends LightningElement {
   isMedicalModalOpen = false;
   isMedicalDetailChanged = false;
   discardMedicalTab = false;
-  delegateLevel;
+  progressValue;
+  countValue=0;
+  cancelCheckbox;
+  removeParticipant=true;
+  isParticipantDetail=false;
+  dropdownLabel;
+  ondisableButton=true;
+  getSelectedbox=[];
+  openpopup=false;
 
 
   connectedCallback() {
@@ -52,6 +60,10 @@ export default class Pir_participantParent extends LightningElement {
     this.selectedPE = event.detail;
     this.isMedicalHistryAccess = true;
     this.isMedicalDetailChanged = false;
+    this.isDetailModalOpen = false;
+    this.isMedicalTab = false;
+    this.isParticipantDetail = false;
+    this.isDetailsUpdate = false;
     console.log("pe-parent" + JSON.stringify(this.selectedPE));
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
@@ -73,8 +85,6 @@ export default class Pir_participantParent extends LightningElement {
     this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details"; 
     this.selectedTab = "Status Details";
-    this.isMedicalTab = false;
-    
   }
   curentMobileView = "list";
   mobileViewToggle() { 
@@ -139,16 +149,66 @@ export default class Pir_participantParent extends LightningElement {
 
 
   checkMedicalSaveBtn(event){
+    if(event.detail.isBMIError){ 
+      this.isMedicalDetailChanged = event.detail.isBMIError;
+      this.disableMedicalSaveButton = event.detail;
+
+    }
+    else { 
     this.disableMedicalSaveButton = !event.detail;
-    this.isMedicalDetailChanged = true;
+  this.isMedicalDetailChanged = event.detail;
+
+    }
+    
     this.discardMedicalTab = false;
   }
+  //participant detail
+  disableDetailSaveButton =false;
+  isDetailsUpdate=false;
+  isDetailModalOpen=false;
+  discardDetailTab = false;
   checkStatusDetailChanges(event){ 
     this.statusDetailValueChanged = event.detail;
     if(event.detail){
       this.discardTab = false;
     }
   }
+  toggleDetailSave(event){
+    this.disableDetailSaveButton = !event.detail;
+  }
+  // doSaveDetail(){
+  //   this.template.querySelector("c-pir_participant-Detail").save();
+  // }
+  detailsUpdate(event){
+    this.isDetailsUpdate=false;
+    this.isDetailModalOpen=false;
+    this.discardDetailTab = false;
+    this.isDetailsUpdate = event.detail;
+  }
+  doSaveDetail(){
+    try{
+    this.isDetailsUpdate=false;
+    this.isDetailModalOpen=false;
+    this.discardDetailTab = false;
+    this.template.querySelector("c-pir_participant-Detail").save();
+    this.disableDetailSaveButton = true;
+    }catch(e){
+      console.log(e.message +'>>'+e.stack);
+    }
+ }
+ handleDiscardDetail(){
+    this.discardDetailTab = true;
+    this.isDetailModalOpen = false;    
+    this.isParticipantDetail = false;
+    this.template.querySelector("c-pir_participant-Detail").peid=this.selectedPE.id;
+    this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
+  }
+  handleCloseModalDetail(){
+    this.selectedTab = "Participant Details";
+    this.isDetailModalOpen = false;
+  }
+
+
   handleStatusTab(){
     this.isMedicalTab = false;
     if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
@@ -156,14 +216,22 @@ export default class Pir_participantParent extends LightningElement {
       this.selectedTab = "Status Details";
       this.isMedicalModalOpen = true;
       this.template.querySelector("lightning-tabset").activeTabValue = "Health Information";
+    }else if(this.isDetailsUpdate && !this.discardDetailTab){
+      this.selectedTab = "Status Details";
+      this.isDetailModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
     }else{
+      
+    this.isParticipantDetail = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
     
     }
   }
   handleParticipantTab() {
-    this.isMedicalTab = false;
+    if(!this.isDetailModalOpen){
+      this.isParticipantDetail = true;
+      this.isMedicalTab = false;
       if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
         this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
         this.selectedTab = "Participant Details";
@@ -176,6 +244,7 @@ export default class Pir_participantParent extends LightningElement {
       }else{
         this.selectedTab = "Participant Details";
       }
+    }
   }
   handleSharingTab() {
     this.isMedicalTab = false;
@@ -183,6 +252,10 @@ export default class Pir_participantParent extends LightningElement {
       this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
       this.selectedTab = "Sharing Options";
       this.isModalOpen = true;   
+    }else if(this.isDetailsUpdate && !this.discardDetailTab){
+      this.selectedTab = "Sharing Options";
+      this.isDetailModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
     }else if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
       this.selectedTab = "Sharing Options";
       this.isMedicalModalOpen = true;
@@ -192,6 +265,8 @@ export default class Pir_participantParent extends LightningElement {
     }else{
       console.log('>>in sharing else>>');this.selectedTab = "Sharing Options";
       console.log('stab1'+this.selectedTab);
+      this.isParticipantDetail = false;
+
       //this.template.querySelector("c-pir_sharing-Option").selectedPE =this.selectedPE;
       this.fetchAccessLevel();
       this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails();      
@@ -202,12 +277,15 @@ export default class Pir_participantParent extends LightningElement {
     }
  }
  handleMedicalTab() {
-  console.log('stb-1->'+this.selectedTab);
   if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) { 
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Health Information";
     this.isModalOpen = true;
     this.isMedicalTab = false;
+  }else if(this.isDetailsUpdate && !this.discardDetailTab){
+    this.selectedTab = "Health Information";
+    this.isDetailModalOpen = true;
+    this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
   }else if(this.isMedicalModalOpen == false){ 
     this.selectedTab = "Health Information"; 
     console.log('stb-1->'+this.selectedTab);
@@ -217,7 +295,8 @@ export default class Pir_participantParent extends LightningElement {
    
   }else{
     this.isMedicalTab = true;
-    this.disableMedicalSaveButton = true;
+    this.isParticipantDetail = false;
+    //this.disableMedicalSaveButton = true;
   }
  }
 
@@ -255,6 +334,8 @@ export default class Pir_participantParent extends LightningElement {
 
 
   handleTabs(){
+    console.log('>>selectedTab>>'+this.selectedTab);
+    this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
   }
   @api
@@ -282,6 +363,52 @@ export default class Pir_participantParent extends LightningElement {
         if(this.lststudysiteaccesslevel[this.selectedPE.siteId]) {
           this.delegateLevel = this.lststudysiteaccesslevel[this.selectedPE.siteId];
         }
+    }
+    console.log('fetchAccessLevel:'+this.delegateLevel);
+  }
+  hanldeProgressValueChange(event){
+    this.progressValue=event.detail;
+    console.log('this.progressValue',this.progressValue);
+  }
+  handleCount(event){
+    this.countValue=event.detail;
+    if(this.countValue> 0){
+      this.ondisableButton=false;
+    }
+    else{
+      this.ondisableButton=true;
+    }
+    console.log('this.countValue',this.countValue);
+  }
+  handleDropLabel(event){
+    this.dropdownLabel=event.detail;
+    
+    console.log('this.dropdownLabel',this.dropdownLabel);
+  }
+  handlepopup(event){
+    this.openpopup=event.detail;
+    
+    console.log('this.openpopup',this.openpopup);
+  }
+  onCancel(){
+    this.progressValue=false;
+    //this.selectedPI();
+    console.log('this.selectedPE',this.selectedPE);
+    this.cancelCheckbox=false;
+    console.log('this.cancelCheckbox',this.cancelCheckbox);
+    this.template.querySelector("c-pir_participant-list").hideCheckbox();
+    this.template.querySelector("c-pir_participant-list").fetchList();
+    this.removeParticipant=false;
+    this.countValue=0;
+    
+  }
+  
+  doAction(){
+    if(this.dropdownLabel=='Change Status'){
+    this.openpopup=true;
+    }
+    else{
+      this.openpopup=false;
     }
   }
 }

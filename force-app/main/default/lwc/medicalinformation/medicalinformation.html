@@ -23,6 +23,14 @@
                 class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-m-bottom_small"
               >
                 <div class="slds-form-element">
+                  <!-- <label class="slds-form-element__label" for="form-element-01"> {label.BMI} 
+                  <span class="tooltip"> 
+                    
+                        <lightning-icon icon-name="utility:info" size="xx-small" alternative-text="info" title="info" class="icon-w-info"></lightning-icon>
+                        <span class="tooltiptextTop">{label.pir_BmiHelptext}</span>
+                   
+                  </span>  
+                 </label> -->
                  <label
                  class="slds-form-element__label BMIclass"
                  for="text-input-id-75"
@@ -52,7 +60,7 @@
                   label=""
                   name="HighRisk"
                   checked={returnpervalue.HighRisk}
-                  onchange={handlevalueupdate}
+                  onchange={handlevalueupdateRisk}
                 ></lightning-input>
               </div>
               <div
@@ -66,7 +74,7 @@
                   label=""
                   name="Highpriority"
                   checked={returnpervalue.Highpriority}
-                  onchange={handlevalueupdate}
+                  onchange={handlevalueupdatePriority}
                 ></lightning-input>
               </div>
             </div>
@@ -512,6 +520,14 @@
                         </div>
                       </div>
                       <template if:true={isbiomarkerResultAvail}>
+                        <template if:true={ismediaFileAvailable}> 
+                          <div
+                          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_large mediafilecss"
+                          key={index}
+                        >
+                            <c-media-file show-table={ismediaFileAvailable} media-files={lstmediafiles}> </c-media-file>
+                          </div>
+                        </template>
                         <template
                           for:each={bioMarkerResultData}
                           for:item="biomarkerresult"
@@ -536,6 +552,16 @@
                           </p>
                         </div>
                       </template>
+                      <template
+                      if:false={isBiomarkerRetriveSuccess}
+                      class="slds-is-relative"
+                    >
+                      <lightning-spinner
+                        alternative-text="Loading..."
+                        variant="brand"
+                      >
+                      </lightning-spinner>
+                    </template>
                     </div>
                   </template>
                   <!-- Biomarker End -->

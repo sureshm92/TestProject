@@ -1,9 +1,8 @@
 import { LightningElement, api, wire } from "lwc";
 import getInitData from '@salesforce/apex/ReferHealthcareProviderRemote.getInitData';
 import getParticipantData from '@salesforce/apex/PIR_SharingOptionsController.fetchParticipantData';
-//import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-//import { loadScript } from 'lightning/platformResourceLoader';
-import fetchStudyAccessLevel from '@salesforce/apex/PIR_HomepageController.getStudyAccessLevel'
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class Pir_sharingOption extends LightningElement {
     
@@ -28,6 +27,12 @@ export default class Pir_sharingOption extends LightningElement {
     
 
     connectedCallback(){
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+        }).catch((error) => {
+             console.log('Error: ' + error);
+        });
         this.fetchInitialDetails();
     }
 

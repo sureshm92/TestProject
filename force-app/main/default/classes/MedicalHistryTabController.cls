@@ -26,6 +26,8 @@ public without sharing class MedicalHistryTabController {
         @AuraEnabled 
         public BioMarkerRecordController.bioMarkerWrapper biomarkerdata;  
         @AuraEnabled 
+        public List<BioMarkerRecordController.MediaFileWrapper> lstbioMarkerMediaFiles;  
+        @AuraEnabled 
         public List<BioMarkerRecordController.bioMarkerResultWrapper> lstBiomarkerResultWrapper ;  
         @AuraEnabled 
         public String strRequestMedicalReturn ; 
@@ -113,8 +115,12 @@ public without sharing class MedicalHistryTabController {
            
             //BioMarkerCheck
             objWrapper.biomarkerdata = BioMarkerRecordController.getAssessedDateForPE(objPer.Id);  
+            objWrapper.lstbioMarkerMediaFiles = new List<BioMarkerRecordController.MediaFileWrapper>(); 
             if(objWrapper.biomarkerdata.dateTimeLabelValue != Null && !objWrapper.biomarkerdata.dateTimeLabelValue.isEmpty()){
                 objWrapper.isBiomarkerAvailable = true;
+                if(String.isNotBlank(objWrapper.biomarkerdata.InitialValue)){
+                    objWrapper.lstbioMarkerMediaFiles  = BioMarkerRecordController.getRelatedMediaFiles(objPer.Id,objWrapper.biomarkerdata.InitialValue);
+                }
             }
         return  objWrapper;
     }
@@ -155,10 +161,11 @@ public without sharing class MedicalHistryTabController {
     }
 
     @AuraEnabled 
-    public static medicalHistryWrapper fetchfilterbiomarkerResult(String strAssesDateTime , Id perId)
+    public static medicalHistryWrapper fetchfilterbiomarkerResult(String strAssesDateTime , Id perId) 
     {
         medicalHistryWrapper objWrapper = new medicalHistryWrapper();
         objWrapper.lstBiomarkerResultWrapper  = BioMarkerRecordController.getFilterbiomarker(strAssesDateTime,perId);
+        objWrapper.lstbioMarkerMediaFiles = BioMarkerRecordController.getRelatedMediaFiles(perId,strAssesDateTime);
         return objWrapper ;
     }
     

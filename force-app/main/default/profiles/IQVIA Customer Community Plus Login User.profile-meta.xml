@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIR_ParticipantDetailController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PIR_SharingOptionsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2182,6 +2186,11 @@
     </classAccesses>
     <custom>true</custom>
     
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Ethnicity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
