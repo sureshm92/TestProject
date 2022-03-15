@@ -18,7 +18,7 @@ import saveTheChunkFile from '@salesforce/apex/nonReferedBulkUpload.saveTheChunk
 
 import deleteFile from '@salesforce/apex/nonReferedBulkUpload.deleteFile';
 
-const MAX_FILE_SIZE = 4000000; //2621440;// 4500000; max file size prog can handle
+const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 750000;//9000;//750000; max chunk size prog can handle 
 const MAX_FILE_SIZE_mb = 4;
  
