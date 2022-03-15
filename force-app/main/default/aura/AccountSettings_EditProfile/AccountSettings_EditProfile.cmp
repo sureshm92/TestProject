@@ -81,7 +81,7 @@
                         <div class="as-email-input slds-grid">
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                    <aura:if isTrue="{!v.isAdult}">
+                                    <aura:if isTrue="{!and(v.isAdult, v.userEmail)}">
                                         <c:Action_AddProfilePhoto
                                             username="{!v.userEmail}"
                                             recordId="{!v.userId}"
