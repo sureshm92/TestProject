@@ -153,7 +153,7 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToDelete = [];
         this.lstExistingCommorbidity = [];
         this.returnpervalue = result;
-        this.lstExistingCommorbidity = result.lstComorbidities;
+        this.lstExistingCommorbidity = JSON.parse(JSON.stringify(result.lstComorbidities));
         let detailedReportTemp = [];
         this.existingBMI = this.returnpervalue.BMI ;
         this.existingHighRisk = this.returnpervalue.HighRisk ;
@@ -639,6 +639,7 @@ export default class Medicalinformation extends LightningElement {
               title: "Requested Not Completed",
               message: this.label.RH_MedicalRecords_NoPermitEmail,
               variant: "Error",
+              mode : "sticky",
             });
             this.dispatchEvent(event);
             this.isRequestHistrySuccess = true;

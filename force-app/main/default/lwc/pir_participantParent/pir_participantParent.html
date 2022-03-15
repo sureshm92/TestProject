@@ -35,14 +35,14 @@
                              </template>
                            </lightning-tab>
                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
-                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel}></c-pir_sharing-option>
+                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges}></c-pir_sharing-option>
                            </lightning-tab>
                            <template if:true={isMedicalHistryAccess}> 
                                <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
                                    <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
-                           <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
+                        <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
                                <c-pir_participant-emancipated selected-p-e = {selectedPE}></c-pir_participant-emancipated>
                            </lightning-tab> -->
                        </lightning-tabset>
@@ -218,7 +218,7 @@
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
-                              <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={doSaveDetail}> Save </button>
+                              <button title="" class="slds-button apollo-btn primary btn-height save-btn"  disabled={disableDetailSaveButton} onclick={doSaveDetail}> Save </button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardDetail}> Discard</button>
                           </div>    
                         </div>
@@ -229,8 +229,12 @@
          </div>
       </div>
    </section>
-   <div class="slds-backdrop slds-backdrop_open"></div>  
+   <div class="slds-backdrop slds-backdrop_open"></div>
   </template>
-
+  <!--Sharing Options Modal-->
+  <template if:true={isSPModalOpen}>
+      <c-pir_notification-on-tab-change onnotificationevent={handleNotification}></c-pir_notification-on-tab-change>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
 
 </template>
