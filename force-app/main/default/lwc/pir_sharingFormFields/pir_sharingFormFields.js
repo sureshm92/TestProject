@@ -11,6 +11,15 @@ import disconnect from '@salesforce/apex/ReferHealthcareProviderRemote.stopShari
 import inviteHP from '@salesforce/apex/ReferHealthcareProviderRemote.inviteHP';
 import yearOfBirth from '@salesforce/apex/PIR_SharingOptionsController.fetchYearOfBirth';
 import ConnectRP from '@salesforce/apex/ReferHealthcareProviderRemote.showOrHideProvider';
+import DelegateEmailLabel from '@salesforce/label/c.HealthCare_Delegates_Email';
+import ProvidersEmailLabel from '@salesforce/label/c.HealthCare_Providers_Email';
+import DelegateFirstNameLabel from '@salesforce/label/c.HealthCare_Delegates_First_Name';
+import ProvidersFirstNameLabel from '@salesforce/label/c.HealthCare_Providers_First_Name';
+import DelegatelastnameLabel from '@salesforce/label/c.HealthCare_Delegates_Last_Name';
+import ProvidersLastnameLabel from '@salesforce/label/c.HealthCare_Providers_Last_Name';
+import YearOfBirth from '@salesforce/label/c.RH_YearofBirth';
+import DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
+import DifferentHealthCareProvider from '@salesforce/label/c.Different_HealthCare_Provider';
 export default class Pir_sharingFormFields extends LightningElement {
     @api yob;
     @api pe;
@@ -25,7 +34,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isDuplicateDelegate = false;
     duplicateDelegateInfo;
     isExistingDelegate = false;
-    connectDisconnect = false;
+    connectDisconnect;
     isHCPDelegate = false;
     gridCss='';
     yobOptions=[];
@@ -35,7 +44,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isDisplayFormFields = false;
     isDisplay = false;
     @api delegateLevel;
-
+    isSendNotification = false;
     
     displayOptions1() {        
         yearOfBirth()
@@ -57,7 +66,16 @@ export default class Pir_sharingFormFields extends LightningElement {
     label = {
         AttestedCheckboxError,
         ConnectPatient,
-        StopSharing
+        StopSharing,
+        DelegateEmailLabel,
+        ProvidersEmailLabel,
+        DelegateFirstNameLabel,
+        ProvidersFirstNameLabel,
+        DelegatelastnameLabel,
+        ProvidersLastnameLabel,
+        YearOfBirth,
+        DelegateAttestation,
+        DifferentHealthCareProvider
     }
 
     connectedCallback(){
@@ -376,7 +394,6 @@ export default class Pir_sharingFormFields extends LightningElement {
         let email = this.template.querySelector('[data-name="email"]');
         let firstname = this.template.querySelector('[data-name="firstName"]');
         let lastname = this.template.querySelector('[data-name="lastName"]');
-
        
         if(this.sharingObject.sObjectType == 'Object'){ 
             if(email.checkValidity() &&
@@ -413,11 +430,13 @@ export default class Pir_sharingFormFields extends LightningElement {
                 this.sharingObject.sObjectType == 'Healthcare_Provider__c'
             ) {
                 this.doCheckContact();
-        }
-            
+            }            
         }
 
-       
+        if(((email && email != '') || (firstname && firstname != '') || (lastname && lastname != '')) && !this.isSendNotification) { //fire an event to parent component
+            this.isSendNotification = true;
+            this.sendEditNotificationToParent();
+        }
     }
 
     doCheckContact() {
@@ -529,7 +548,8 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     }
 
-    disconnectPatient(params) {
+    sendEditNotificationToParent() {
+        this.dispatchEvent(new CustomEvent('formedit', { bubbles: true, composed: true,detail:{'isFormEdit':true} }));
 
     }
 
