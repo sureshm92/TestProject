@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">    
     <labels>
+        <fullName>PIR_Discard</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Discard</shortDescription>
+        <value>Discard</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Discard_Changes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Discard_Changes</shortDescription>
+        <value>Discard Changes?</value>
+    </labels>
+    <labels>
+        <fullName>PIR_PopupMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_PopupMessage</shortDescription>
+        <value>You have unsaved changes on this tab. If you continue, Your changes will be discarded.</value>
+    </labels>
+    <labels>
         <fullName>PIR_addParticipantFillMandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>
