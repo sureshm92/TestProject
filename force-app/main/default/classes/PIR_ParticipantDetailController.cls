@@ -221,12 +221,18 @@ public without sharing class PIR_ParticipantDetailController {
             Contact__c = peDeligate.Participant_Delegate__r.Contact__c
           );
           insert pdToupdateAfterInsertDuplicate;
-        }else {//if(delegateCriteria == 'deleteDelegate'){
+        }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
             Id = peDeligate.Id,
             Primary_Delegate__c = false
           );
           update pdToupdate;
+        }
+        else{
+          Participant__c piToUpdateDelegate = new Participant__c();
+          piToUpdateDelegate = peDeligate.Participant_Delegate__r;
+
+          update piToUpdateDelegate;
         }
       }
     } catch (Exception e) {
