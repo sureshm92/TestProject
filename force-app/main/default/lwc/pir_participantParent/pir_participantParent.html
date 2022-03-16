@@ -35,14 +35,14 @@
                              </template>
                            </lightning-tab>
                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
-                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges}></c-pir_sharing-option>
+                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
                            </lightning-tab>
                            <template if:true={isMedicalHistryAccess}> 
                                <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
                                    <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
-                        <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
+                           <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
                                <c-pir_participant-emancipated selected-p-e = {selectedPE}></c-pir_participant-emancipated>
                            </lightning-tab> -->
                        </lightning-tabset>
@@ -53,14 +53,15 @@
                    </div>
                </template>  
            </div>
-       </div>
-       <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
+         </div>
+       <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg"> 
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
                    <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
            </div>
            <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D savesticky">
+            <template if:false={isSharingTab}>
                <span>
                   <template if:true={isStatusDetail}> <!--only for status detail -->
                         <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableButton}  onclick={doSave}> Save  </button>
@@ -72,8 +73,9 @@
                      <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> Save </button>
                   </template>                  
                </span> 
+            </template>
            </div>
-       </div>
+        </div> 
    </div>
    <template if:true={isModalOpen}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
@@ -81,7 +83,7 @@
        <div class="slds-modal_small">
           <div class="slds-modal__container model-small">
              <div class="slds-modal__content" id="modal-content-id-1">
-                <div class="bar"></div>
+               <div class="bar"></div>
                 <div class="slds-p-around_large">
                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
@@ -229,7 +231,7 @@
          </div>
       </div>
    </section>
-   <div class="slds-backdrop slds-backdrop_open"></div>
+   <div class="slds-backdrop slds-backdrop_open"></div>  
   </template>
   <!--Sharing Options Modal-->
   <template if:true={isSPModalOpen}>

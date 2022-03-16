@@ -320,6 +320,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 isDelegateInvited = true;
             }
             this.loading = true;
+            this.toggleParentComponent();//disable parent component for navigation
             inviteDelegate({ 
                 participant: JSON.stringify(participant),
                 delegateContact: JSON.stringify(this.sharingObject),
@@ -332,11 +333,12 @@ export default class Pir_sharingFormFields extends LightningElement {
             .then((result) => {
                 this.refreshComponent();
                 this.loading = false;
-                    
+                this.toggleParentComponent(); 
             })
             .catch((error) => {
                 console.log(error);                
                 this.loading = false;
+                this.toggleParentComponent();
             });
         } else if(this.sharingObject.sObjectType == 'Healthcare_Provider__c'){
             this.connectHP();
@@ -347,22 +349,25 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     connectRP(){
         this.loading = true;
-
+        this.toggleParentComponent();
         ConnectRP({ 
             peId: this.participantObject.Id
         })
         .then((result) => {
             this.refreshComponent();
             this.loading = false;
+            this.toggleParentComponent();
         })
         .catch((error) => {
             console.log(error);            
             this.loading = false;
+            this.toggleParentComponent();
         });
     }
 
     connectHP() {
         this.loading = true;
+        this.toggleParentComponent();
         let dupObj;
         if(this.duplicateDelegateInfo) {
             dupObj = !this.duplicateDelegateInfo.isDuplicate ? JSON.stringify(this.duplicateDelegateInfo) : null;
@@ -377,10 +382,12 @@ export default class Pir_sharingFormFields extends LightningElement {
         .then((result) => {
             this.refreshComponent();
             this.loading = false;
+            this.toggleParentComponent();
         })
         .catch((error) => {
             console.log(error);            
             this.loading = false;
+            this.toggleParentComponent();
         });
 
     }
@@ -529,6 +536,7 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     doDisconnect() {
         this.loading = true;
+        this.toggleParentComponent();
         let params;
         if(this.sharingObject.sObjectType == 'Object') {
             params = {hpId:null, delegateId:this.sharingObject.delegateId};
@@ -540,10 +548,12 @@ export default class Pir_sharingFormFields extends LightningElement {
             //this.isDuplicateDelegate = result.isDuplicateDelegate;
             this.refreshComponent();
             this.loading = false; 
+            this.toggleParentComponent();
         })
         .catch((error) => {
             console.log(error);            
             this.loading = false;
+            this.toggleParentComponent();
         });
 
     }
@@ -551,6 +561,10 @@ export default class Pir_sharingFormFields extends LightningElement {
     sendEditNotificationToParent() {
         this.dispatchEvent(new CustomEvent('formedit', { bubbles: true, composed: true,detail:{'isFormEdit':true} }));
 
+    }
+
+    toggleParentComponent() {
+        this.dispatchEvent(new CustomEvent('toggleclick',{ bubbles: true, composed: true}));
     }
 
 }
