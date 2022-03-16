@@ -8,7 +8,7 @@
         spinner.show();
         var recId = communityService.getUrlParameter('id');
         var tabId = communityService.getUrlParameter('tab');
-        component.set('v.participantStateValue',communityService.getParticipantState());
+        component.set('v.participantStateValue', communityService.getParticipantState());
         if (tabId === undefined) tabId = 'tab-about-the-study'; //tab by default;
         var resourceMode = communityService.getUrlParameter('resourcemode');
         if (!resourceMode) resourceMode = 'Default';
@@ -64,7 +64,15 @@
                 },
                 function (returnValue) {
                     var trialDetail = JSON.parse(returnValue);
-                    if (!trialDetail.showVisits) visitMode = 'TravelSupportDetails';
+                    component.set(
+                        'v.isshowTravelCardInPreEnrollment',
+                        JSON.parse(trialDetail.participantstate).showTravelCardInPreEnrollment
+                    );
+                    if (
+                        !trialDetail.showVisits ||
+                        !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c
+                    )
+                        visitMode = 'TravelSupportDetails';
                     //find tab
                     var selectedTabId = trialDetail.tabs[0].id;
                     for (var i = 0; i < trialDetail.tabs.length; i++) {

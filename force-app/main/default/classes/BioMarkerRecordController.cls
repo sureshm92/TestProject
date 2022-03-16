@@ -4,7 +4,9 @@ public  without sharing  class BioMarkerRecordController {
         @AuraEnabled
         public List<bioMarkerResultWrapper> mapBiomarkerKeyValue;
         @AuraEnabled
-        public List<LabelValueItem> dateTimeLabelValue;        
+        public List<LabelValueItem> dateTimeLabelValue;  
+        public String InitialValue ;  
+
     }
 
     public class bioMarkerResultWrapper {
@@ -31,9 +33,10 @@ public  without sharing  class BioMarkerRecordController {
 
         if(!lstAssesedDateTime.isEmpty()){
             objBioMark.mapBiomarkerKeyValue=  getFilterbiomarker(lstAssesedDateTime[0].value, perId);
+            objBioMark.InitialValue = lstAssesedDateTime[0].value ; 
             objBioMark.dateTimeLabelValue = lstAssesedDateTime;
         }
-        return objBioMark;
+        return objBioMark; 
     }
 
     @AuraEnabled
@@ -46,6 +49,7 @@ public  without sharing  class BioMarkerRecordController {
         }
         
         bioMarkerWrapper objBioMark = new bioMarkerWrapper();
+        strAssesedDateTime = strAssesedDateTime.trim();
         list<RH_Biomarker__c> lstRHBioMarker = [SELECT ID FROM RH_Biomarker__c
                                                 Where  Assessed_on_datetime__c =:strAssesedDateTime and Participant_Enrollment__c =: perId];
 
@@ -87,15 +91,15 @@ public  without sharing  class BioMarkerRecordController {
     }; 
     
     @AuraEnabled
-    public static mediaFileWrapper[] getRelatedMediaFiles(String perId, String AssesedDate){
+    public static MediaFileWrapper[] getRelatedMediaFiles(String perId, String AssesedDate){
         list<RH_Biomarker__c> lstRHBioMarker = [SELECT ID FROM RH_Biomarker__c  Where
             Assessed_on_datetime__c =:AssesedDate and Participant_Enrollment__c =: perId];
         Set<Id> Ids= new Set<Id>();
         for(RH_Biomarker__c ip: lstRHBioMarker){
             Ids.add(ip.id);
         }
-        
-        mediaFileWrapper[] mediaFileList = new mediaFileWrapper[]{};
+
+        MediaFileWrapper[] mediaFileList = new MediaFileWrapper[]{};
         Set<id> ContentDocumentIds = new Set<id>();
         for(ContentDocumentLink cdl :  [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN: Ids]){
             ContentDocumentIds.add(cdl.contentdocumentId);
@@ -108,7 +112,7 @@ public  without sharing  class BioMarkerRecordController {
         ];
 
         for(ContentDocument cd : contentDocList){
-            mediaFileWrapper file = new mediaFileWrapper();
+            MediaFileWrapper file = new MediaFileWrapper();
             file.name=cd.Title;
             if(cd.FileExtension == 'mp4' || cd.FileExtension == 'mp3' || cd.FileExtension == 'wav' || cd.FileExtension == 'aac' || cd.FileExtension == 'm4a' ||
                 cd.FileExtension == 'mkv'){
@@ -117,12 +121,12 @@ public  without sharing  class BioMarkerRecordController {
             else {
                 file.url = '/sfc/servlet.shepherd/document/download/'+cd.Id;
             }
-
+            
             file.type = fileExtensionToTypeMap.get(cd.FileExtension);
            
             file.FileExtension = cd.FileExtension;
             mediaFileList.add(file);
-        }
+        } 
         return mediaFileList;
     }
 }
