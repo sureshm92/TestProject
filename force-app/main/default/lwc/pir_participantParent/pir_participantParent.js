@@ -316,6 +316,7 @@ export default class Pir_participantParent extends LightningElement {
     this.selectedTab = "Health Information"; 
     console.log('stb-1->'+this.selectedTab);
     this.isMedicalTab = true;
+    this.isParticipantDetail = false;
     this.disableMedicalSaveButton = true;
      this.isParticipantDetail = false;
     this.template.querySelector("c-medicalinformation").doSelectedPI();  
