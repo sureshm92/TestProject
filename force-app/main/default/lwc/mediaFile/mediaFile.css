@@ -7,13 +7,27 @@
   }  
 
 .title-label {
-	color: #000000;
+	/*color: #000000;
 	font-family: "Proxima Nova";
-	font-size: 16px;
-	font-weight: bold;
+	
+	font-weight: bold; */
+	font-size: 14px;
   }
 
   .linkcss{
 	font-weight: 600;
     margin-bottom: 3px;
+  }
+  .audiocss{ 
+	text-align: center;
+    width: 30%;
+  }
+
+  @media (max-device-width: 767px) {
+	  
+	.audiocss{ 
+		margin-left: 16px;
+		text-align: center;
+		width: 90%;
+	}
   }
