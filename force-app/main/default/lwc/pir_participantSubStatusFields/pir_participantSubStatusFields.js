@@ -756,6 +756,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.customFieldValidation("Consent Signed");
       this.customButtonValidation();
     }
+    if(this.selectedOutcome == "Unable_to_Reach"){
+      this.customButtonValidation();
+    }
     // this.customFieldValidation('RandomizationID');
     // this.customFieldValidation('FinalConsent');
     this.isdataChanged();
@@ -848,6 +851,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if(this.selectedOutcome == "Contacted_Not_Suitable" &&  this.selectedreason == ""){
           this.customButtonValidation(); 
           return this.utilLabels.PG_ACPE_L_Notes_Required;
+    }else if(this.selectedOutcome == "Unable_to_Reach" &&  this.selectedreason == ""){
+      this.customButtonValidation(); 
+      return this.utilLabels.PG_ACPE_L_Notes_Required;
     }else{
       if (this.notesNeeded.includes(this.selectedreason)) {
         this.customButtonValidation();
@@ -1061,7 +1067,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
 
     //6.
-    if(this.selectedOutcome == "Contacted_Not_Suitable"  &&  this.participantrecord.Non_Enrollment_Reason__c == ''){
+    if((this.selectedOutcome == "Contacted_Not_Suitable" || this.selectedOutcome == "Unable_to_Reach") &&  this.participantrecord.Non_Enrollment_Reason__c == ''){
       if (notes != null && notes != "" && notes.length != 0) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);

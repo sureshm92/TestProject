@@ -192,3 +192,6 @@ and (-webkit-min-device-pixel-ratio: 1) {
         line-height: 14px;
     } 
 }
+.disable-click{
+    pointer-events: none;
+}
