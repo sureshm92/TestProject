@@ -1,0 +1,155 @@
+.vertical-scroll{
+    height: 51vh;
+    overflow: auto;
+    padding: 0px 5px 0px 0px;
+    overflow-x: hidden;
+    margin-top: 10px;
+}
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+}
+/* Scrollbar Code End */
+.step-card-title{
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+}
+/* .slds-required {
+    color: var(--lwc-colorTextError,rgb(234, 0, 30));
+    margin: 0 var(--lwc-spacingXxxSmall,0.125rem);
+    float: right;
+} */
+.input-width{
+    width: 50%;
+}
+.input-label{
+    padding-top: 4px;
+    text-align: center;
+}
+.input-text{
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+.label-margin-top{
+    margin-top: 3px;
+}
+.information-text{
+    font-size: 16px;
+    color: black;
+}
+.info-icon{
+    margin-left: 2px;
+    position: absolute;
+    top: 2px;
+}
+.alert-box{
+    border: 2px solid #FF9300;
+    border-radius: 5px;
+    background: #fff7eb;
+    font-size: 16px;
+    color: #000000;
+    text-align: left;   
+}
+.alert-box h2{
+    font-weight: 600;
+}
+.alert-box a{
+    color: #297dfd;
+}
+
+@media (max-device-width: 767px) {
+    .input-width{
+        width: 100%;
+    }
+    .input-label{
+        text-align: left;
+    }
+    .input-text{
+        text-align: left;
+    }
+    .alert-box .alert-img{
+        width: 64px;
+    }
+}.eth .slds-no-flex{
+    width: 100%;
+}
+.eth .close-icon{
+    cursor: pointer;
+}
+.eth .slds-no-flex span{
+    float: right;
+    color: #0768fd;
+}
+.eth .slds-input{
+    height: auto;
+}
+.eth .selectedOption{
+    max-width: 93%;
+    overflow: hidden;
+    min-height: 32px;
+    /* white-space: nowrap; */
+}
+.eth .selectedValue{
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    margin-left: 5px;
+    color: black;
+    font-weight: 600;
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+}
+.eth .close-img{
+    cursor: pointer;
+    width: 14px;
+    margin-left: 5px;
+}
+.eth .slds-listbox__option-icon{
+    width: 6px;
+}
+.eth .slds-listbox_vertical .slds-listbox__option:hover{
+    background: #ecf3ff;
+}
+.eth .input-width{
+    height: 14px;
+    width: 14px;
+}
+.eth .slds-truncate{
+    width: 100%;
+    cursor: pointer;
+}
+.eth .text-for-check{
+    position: absolute;
+    padding-left: 7px;
+    font-size: 14px;
+    margin-top: -2px;
+    max-width: 84%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.eth .input-width:checked + .text-for-check {
+    font-weight: 600;
+}
+.eth input:focus {
+    box-shadow: none;
+}
+.eth .noclk{
+    pointer-events: none;
+    cursor: pointer;
+}
+.errmsg{
+    color: rgb(234, 0, 30);
+}

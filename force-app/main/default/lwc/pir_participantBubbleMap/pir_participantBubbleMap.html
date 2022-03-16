@@ -1,0 +1,48 @@
+<template>
+     <div class="slds-grid slds-gutters slds-m-bottom_large">
+        <div class="slds-col"> 
+            <div class="vpi-path-panel">
+                <div class="path-section">
+                    <div class="slds-grid vpi-path">
+                        <template for:each={pathdetails} for:item="bubble" for:index="index">
+                            <template if:true={bubble.isStatusPassed}>
+                                <div class={bubble.styleName_1} key={bubble}>
+                                    <div class="slds-grid">
+                                        <div class="slds-col width-basis vpi-line-div success"></div>
+                                        <div class={bubble.styleName}
+                                            style="position: relative;">
+                                            <div class="state-ico-wrapper">
+                                                <div class="step-status-img">
+                                                    <img class="rr-icon-default cRRIcon" src={checkIcon} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vri-state-label">{bubble.pathName}</div>
+                                    <div class="vri-state-label"></div> 
+                                </div>
+                            </template>
+                            <template if:false={bubble.isStatusPassed}>
+                                <div class={bubble.styleName_1} key={bubble}>
+                                    <div class="slds-grid">
+                                        <div class="slds-col width-basis vpi-line-div neutral"></div>
+                                        <div class={bubble.styleName}
+                                            style="position: relative;">
+                                            <div class="state-ico-wrapper">
+                                                <div class="step-status-img">
+                                                    <img class="rr-icon-default cRRIcon" src={noneIcon} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vri-state-label">{bubble.pathName}</div>
+                                    <div class="vri-state-label"></div>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</template>

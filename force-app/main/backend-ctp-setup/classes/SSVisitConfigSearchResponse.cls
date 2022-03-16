@@ -22,7 +22,7 @@ public without sharing class SSVisitConfigSearchResponse {
 
     private static List<LabelValueItem> getVisitPlans(String selectedVPIdsStr) {
         Map<Id, Visit_Plan__c> vpMap = new Map<Id, Visit_Plan__c>(
-            [SELECT Id, Name FROM Visit_Plan__c]
+            [SELECT Id, Name FROM Visit_Plan__c WHERE Is_Pre_Enrollment_Visit_Plan__c = FALSE]
         );
         List<Id> selectedVPIds = new List<Id>(vpMap.keySet());
         if (!String.isEmpty(selectedVPIdsStr))
@@ -69,8 +69,8 @@ public without sharing class SSVisitConfigSearchResponse {
                 ? ssVisitPlansBySSIdMap.get(ss.Id)
                 : new List<StudySiteVisitPlan__c>();
             item.emptyAssignments = ssVPList.isEmpty();
-            if(!ssVPList.isEmpty() && ssVPList.size()==1){
-             item.soleVisitPlan = ssVPList[0].Visit_Plan__c;   
+            if (!ssVPList.isEmpty() && ssVPList.size() == 1) {
+                item.soleVisitPlan = ssVPList[0].Visit_Plan__c;
             }
             for (LabelValueItem vp : visitPlans) {
                 Id ssVPId;
@@ -93,7 +93,7 @@ public without sharing class SSVisitConfigSearchResponse {
         List<StudySiteVisitPlan__c> studySiteVisitPlans = [
             SELECT Id, Visit_Plan__c, Study_Site__c
             FROM StudySiteVisitPlan__c
-            WHERE Study_Site__c IN :ssList
+            WHERE Study_Site__c IN :ssList AND Visit_Plan__r.Is_Pre_Enrollment_Visit_Plan__c = FALSE
         ];
         Map<Id, List<StudySiteVisitPlan__c>> vpListBySSIdMap = new Map<Id, List<StudySiteVisitPlan__c>>();
         for (StudySiteVisitPlan__c ssVP : studySiteVisitPlans) {

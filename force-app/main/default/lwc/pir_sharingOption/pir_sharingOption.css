@@ -1,0 +1,84 @@
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+}
+/* Scrollbar Code End */
+.vertical-scroll{
+    height: 48vh;
+    overflow: auto;
+    padding: 0px 5px 0px 0px;
+    overflow-x: hidden;
+    margin-top: 10px;
+}
+.sharing-p{
+    padding: 0 20px;
+}
+.step-card-title{
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 17px;    
+}
+.step-card-text{
+    font-size: 14px;
+    color: #000000;
+    font-weight: 600;
+}
+.delegate-btn{
+    font-size: 1rem;
+    min-height: 40px;
+    font-weight: 600;
+    border: transparent;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}
+.delegate-bg{
+    background-color:#F2F2F2;
+}
+.delegate-border{
+    border: 1px solid #E9E9E9;
+    box-shadow: var(--sds-c-card-shadow,0 0 1px 0 rgba(0,0,0,.1));
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+}
+.connect-patient-btn{
+    font-size: 14px;
+    border: transparent;
+    width: auto;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}
+.stop-sharing-btn{
+    font-size: 14px;
+}
+@media (max-device-width: 767px) {
+    .vertical-scroll{
+        height: auto;
+        overflow: unset;
+        padding: 0;
+        overflow-x: unset;
+    }
+    .sharing-p{
+        padding: 5px 5px;
+    }
+    .connect-patient-btn{
+        width: 100%;
+    }
+    .stop-sharing-btn{
+        width: 100%;
+    }
+    .check-box-m-top{
+        margin-top: 0;
+    }
+    .step-card-title{
+        padding:0 10px;   
+    }
+    .step-card-text{
+        padding:0 10px;
+    }
+}

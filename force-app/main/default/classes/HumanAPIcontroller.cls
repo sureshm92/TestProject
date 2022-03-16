@@ -278,8 +278,8 @@ public with sharing class HumanAPIcontroller {
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
                                          ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
                                          ,Clinical_Trial_Profile__r.Study_Code_Name__c,Unique_HumanId__c,Clinical_Trial_Profile__r.Protocol_ID__c
-                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation,Study_Site__r.Principal_Investigator__r.Name,
-                                          Permit_Mail_Email_contact_for_this_study__c   
+                                          ,PI_Contact__c,PI_Contact__r.language__c ,PI_Contact__r.Salutation , Permit_Mail_Email_contact_for_this_study__c
+                                          ,Study_Site__r.Principal_Investigator__r.Name
                                           from Participant_Enrollment__c Where ID=:peId];
       String email = objPER.Participant__r.Email__c;
       Boolean isAdult = objPER.Participant__r.Adult__c;
@@ -293,11 +293,11 @@ public with sharing class HumanAPIcontroller {
             }
         }  
       Participant__c objParticipantDelegate;
-      
+
       if(!objPER.Permit_Mail_Email_contact_for_this_study__c){
-          return 'NoPermitEmail';
-      }
-         
+        return 'NoPermitEmail';
+    }
+    	 
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate__c> lstPatientDelegate = [SELECT ID,Participant_Delegate__c From Patient_Delegate__c 
                                                         Where Participant__c =:ParticipantId AND Primary_Delegate__c = True LIMIT 1];
@@ -342,7 +342,6 @@ public with sharing class HumanAPIcontroller {
       objWrapper.salutation = objPER.PI_Contact__r.Salutation;
       
       
-      
     if (humanId == null) {
       String clientId;
       String clientSecret;
@@ -351,7 +350,6 @@ public with sharing class HumanAPIcontroller {
         FROM App_Credential__mdt
         WHERE DeveloperName = 'Human_API_Creds'
       ];
-
       if (appCreds.size() > 0) {
         clientId = appCreds[0].Client_Id__c;
         clientSecret = appCreds[0].Client_Secret__c;
@@ -396,7 +394,8 @@ public with sharing class HumanAPIcontroller {
           );
            objWrapper.humanId = humanId;
             lstMulesoftWrapper.add(objWrapper);
-            String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+        	String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+          system.debug('>strHuman_RH_Data>>'+strHuman_RH_Data);
             sendDataToMule(strHuman_RH_Data);
           update p;
           //call mulesoft api to inform SFMC
@@ -426,6 +425,7 @@ public with sharing class HumanAPIcontroller {
         objWrapper.humanId = objPER.Human_Id__c;
         lstMulesoftWrapper.add(objWrapper);
         String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
+        system.debug('>strHuman_RH_Data>>'+strHuman_RH_Data);
         sendDataToMule(strHuman_RH_Data);
       update p;
       //call mulesoft api to inform SFMC
@@ -435,14 +435,15 @@ public with sharing class HumanAPIcontroller {
     
     public static void sendDataToMule(String strHumanRhData)
     {        
+       
         HTTP h = new HTTP();
         HTTPRequest r = new HTTPRequest();
         r.setEndpoint('callout:HumanAPI_MulesoftCnct');
         r.setHeader('Content-Type', 'application/json;charset=UTF-8');
         r.setMethod('POST');
         r.setbody(strHumanRhData);
+        r.setTimeout(120000);
         HTTPResponse resp = h.send(r);
-        
         //lOGGED THE Details in Integration Log Object
         IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
         objIntegrationLog.Request_Body__c = strHumanRhData;

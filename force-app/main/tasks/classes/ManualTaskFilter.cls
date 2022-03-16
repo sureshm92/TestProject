@@ -187,7 +187,7 @@ public without sharing class ManualTaskFilter {
         Map<Id, List<Id>> studyDelegateOwnerMap = new Map<Id, List<Id>>();
         sObjectsByContact = getContactsWithPE();
         Map<Id, List<Id>> peIdsByContact = new Map<Id, List<Id>>();
-        List<Participant_Enrollment__c> participantEnrollmentLST = new List<Participant_Enrollment__c>();
+        //List<Participant_Enrollment__c> participantEnrollmentLST = new List<Participant_Enrollment__c>();
         for (Id id : sObjectsByContact.keySet()) {
             Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
                 sObjectsByContact.get(id)
