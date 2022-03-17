@@ -27,7 +27,11 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
     @TestVisible
     private static void createNearestLogOutNotification(List<Contact> contacts) {
         List<Participant_Enrollment__c> enrollments = [
-            SELECT Participant_Contact__c, Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+            SELECT
+                Id,
+                Participant_Contact__c,
+                Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
             FROM Participant_Enrollment__c
             WHERE
                 Participant_Contact__c IN :contacts
@@ -36,6 +40,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         ];
 
         Map<Id, Map<Id, Integer>> ctpWithLoggedByCnt = new Map<Id, Map<Id, Integer>>();
+        Map<String, Id> ctpIdContactIdVsPERMap = new Map<String, Id>();
         for (Participant_Enrollment__c enrollment : enrollments) {
             Id contactId = enrollment.Participant_Contact__c;
             if (!ctpWithLoggedByCnt.containsKey(contactId))
@@ -44,11 +49,17 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
             Integer daysNotification = (Integer) enrollment.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c;
             ctpWithLoggedByCnt.get(contactId)
                 .put(enrollment.Clinical_Trial_Profile__c, daysNotification);
+            String ctpIdContactIdKey =
+                enrollment.Clinical_Trial_Profile__c +
+                '_' +
+                enrollment.Participant_Contact__c;
+            ctpIdContactIdVsPERMap.put(ctpIdContactIdKey, enrollment.Id);
         }
 
         List<Contact> updateContacts = new List<Contact>();
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id contactId : ctpWithLoggedByCnt.keySet()) {
+            String ctpIdContactIdKey = '';
             Map<Id, Integer> daysByCtp = ctpWithLoggedByCnt.get(contactId);
             Id nearestCtp = (Id) daysByCtp.keySet().iterator().next();
             Integer nearestDay = daysByCtp.get(nearestCtp);
@@ -56,6 +67,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                 if (daysByCtp.get(ctpId) < nearestDay) {
                     nearestCtp = ctpId;
                     nearestDay = daysByCtp.get(ctpId);
+                    ctpIdContactIdKey = ctpId + '_' + contactId;
                 }
             }
 
@@ -68,7 +80,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
             notifications.add(
                 new Notification__c(
                     Recipient__c = contactId,
-                    WhatId__c = nearestCtp,
+                    WhatId__c = ctpIdContactIdVsPERMap.get(ctpIdContactIdKey),
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE
                 )
             );
