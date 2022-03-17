@@ -1,0 +1,64 @@
+<template>
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </template>
+    <div class="bg-delegate slds-p-around_medium slds-m-top_medium">
+        <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+            <div class="model-body-content">
+                {utilLabels.PG_Ref_L_Delegate_ensure_info_uptodate}
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
+            <lightning-input  type="email" 
+            label={utilLabels.PG_AS_F_Email_address} 
+            title={utilLabels.PG_AS_F_Email_address}
+            value={emailAddress}                     
+            onchange={checkFields} 
+            data-name="email"
+            data-value="email"
+            required="" disabled={isConnected}></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
+            <lightning-input type="text"
+             label={utilLabels.PG_AS_F_First_name}
+             title={utilLabels.PG_AS_F_First_name}
+             value={firstName}                     
+             onchange={checkFields} 
+             data-name="firstName"
+             data-value="firstName"
+             onblur={doCheckContact}
+             required="" disabled={isConnected}></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
+            <lightning-input type="text" 
+            label={utilLabels.PG_AS_F_Last_name}
+            title={utilLabels.PG_AS_F_Last_name}
+            value={lastName}                     
+            onchange={checkFields} 
+            data-name="lastName"
+            data-value="lastName"
+            onblur={doCheckContact}
+            required="" disabled={isConnected}></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
+            <template if:true={isConnected}>
+                <button class="slds-button apollo-btn secondary connect-patient-btn" title={utilLabels.HealthCare_Provider_Stop_Sharing} onclick={doDisConnect} disabled={doValid}>                                                              
+                    {utilLabels.HealthCare_Provider_Stop_Sharing}
+                </button>
+            </template>
+            <template if:false={isConnected}>
+                <button class="slds-button apollo-btn secondary connect-patient-btn" title={utilLabels.HealthCare_Provider_Connect} onclick={doConnect} disabled={doValid}>                                                              
+                    {utilLabels.HealthCare_Provider_Connect}
+                </button>
+            </template>
+        </div>
+        <template if:true={isDuplicate}>
+           <c-pir_participant-emancipated-duplicate-message
+             duplicate-info={duplicateDelegateInfo} onuseduplicaterecord={useDuplicateRecord}>
+           </c-pir_participant-emancipated-duplicate-message>
+        </template>
+        </div>
+    </div>
+</template>

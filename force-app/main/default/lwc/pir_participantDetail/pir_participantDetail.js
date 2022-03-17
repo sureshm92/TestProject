@@ -8,6 +8,7 @@ import getParticipantData from '@salesforce/apex/PIR_ParticipantDetailController
 import getCnData from '@salesforce/apex/PIR_ParticipantDetailController.getCnData';
 import doSaveParticipantDetails from '@salesforce/apex/PIR_ParticipantDetailController.doSaveParticipantDetails';
 import checkExisitingParticipant from '@salesforce/apex/ParticipantInformationRemote.checkExisitingParticipant';
+import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //Labels
 import Gender_Female from '@salesforce/label/c.Gender_Female';
@@ -47,9 +48,12 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_
 import Age from '@salesforce/label/c.Age';
 import RH_Ethnicity from '@salesforce/label/c.RH_Ethnicity';
 import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Preferred_Contact_Time';
-
+import This_Participant_has_reached_legal_age_of_emancipation from '@salesforce/label/c.This_Participant_has_reached_legal_age_of_emancipation';
+import BTN_Verify from '@salesforce/label/c.BTN_Verify';
+import PG_MT_T_Your_permissions_do_not_permit_this_action from '@salesforce/label/c.PG_MT_T_Your_permissions_do_not_permit_this_action';
 
 export default class Pir_participantDetail extends LightningElement {
+    @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
     @api 
     actionReq = false;
     notification = pirResources+'/pirResources/icons/bell.svg';
@@ -58,7 +62,7 @@ export default class Pir_participantDetail extends LightningElement {
     delegateMinor =false;
     disableEdit = false;
     fieldMap = new Map([["src" , "MRN_Id__c"],
-				["cnt" , "Permit_IQVIA_to_contact_about_study__c"],
+				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
 				["txtcnt" , "Permit_Voice_Text_contact_for_this_study__c"],
 				["pid" , "Id"],
@@ -132,7 +136,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.MMChange();
                     this.YYYYChange();
                 }
-                if(this.pd['pe']['Permit_IQVIA_to_contact_about_study__c']){
+                if(this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c']){
                     this.infoSharingValue.push('cnt');
                 }
                 if(this.pd['pe']['Permit_SMS_Text_for_this_study__c']){
@@ -167,10 +171,35 @@ export default class Pir_participantDetail extends LightningElement {
                 this.setReqPhone();
                 this.setReqDelegate();
                 this.initPd = JSON.parse(JSON.stringify(this.pd));
+            }).then(()=> {
+                getStudyAccessLevel()
+                .then((result) => {
+                   this.lststudysiteaccesslevel = result;
+                    if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
+                    {
+                       this.delegateLevels = this.lststudysiteaccesslevel[this.selectedPE.siteId];
+                    } 
+                }) 
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+    }
+    get checkDelegateLevels(){
+        if(this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2'){
+            return this.PG_MT_T_Your_permissions_do_not_permit_this_action;
+        }else{
+            return this.BTN_Verify;
+        }
+    }
+    handleClick(){
+        if(this.delegateLevels != 'Level 3' && this.delegateLevels != 'Level 2'){
+            this.template.querySelector('c-pir_participant-emancipated').doExecute();
+        }
+    }
+    handleEmancipation(event){
+        this.actionReq = false; 
+        this.peid = this.pd.pe.Id;
     }
     handleValChangeH(event){
         let val = event.target.value;
@@ -859,13 +888,13 @@ export default class Pir_participantDetail extends LightningElement {
     saving=false;
     @api
     save(){
-        console.log('test init '+JSON.stringify(this.initPd)); 
-        console.log('test final'+JSON.stringify(this.pd)); 
+        this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
         doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,delegateCriteria:this.delOp})
         .then(result => {
             console.log("updated");
+            this.dispatchEvent(new CustomEvent('toggleclick'));
             this.dispatchEvent(new CustomEvent('handletab'));
             this.peid = this.pd.pe.Id;
             const event = new ShowToastEvent({
@@ -939,4 +968,7 @@ export default class Pir_participantDetail extends LightningElement {
     Age=Age;
     RH_Ethnicity=RH_Ethnicity;
     PG_AP_F_Preferred_Contact_Time=PG_AP_F_Preferred_Contact_Time;
+    This_Participant_has_reached_legal_age_of_emancipation=This_Participant_has_reached_legal_age_of_emancipation;
+    BTN_Verify=BTN_Verify;
+    PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
 }

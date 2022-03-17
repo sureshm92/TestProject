@@ -11,17 +11,13 @@
                         <lightning-spinner alternative-text="Loading..." variant="brand">
                         </lightning-spinner>
                   </template>
-                  <div if:true={actionReq} class="slds-grid slds-wrap slds-gutters">       
+                  <div if:true={pd.pe.Participant__r.Emancipation_in_progress__c} class="slds-grid slds-wrap slds-gutters">       
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
                               <div class="slds-notify_alert alert-box" role="alert">                             
                                     <span class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
                                     <img class="alert-img" src={notification}/>
-                                    
                                     </span>
-                                    <h2>This participant has reached the legal age of emancipation. 
-                                          Please update and verify the participant details with the participant.
-                                          <a href="#">Verify</a>
-                                    </h2>                           
+                                    <h2>{This_Participant_has_reached_legal_age_of_emancipation} <a href="javascript:void(0);" onclick={handleClick} title={checkDelegateLevels} style="text-decoration:none">{BTN_Verify}</a></h2>                          
                               </div>
                         </div>                        
                   </div> <!--    Alert  End  --> 
@@ -277,5 +273,8 @@
                   </div> <!--    Participation Information  End  --> 
             
             </div>
+            <template if:true={pd.pe.Participant__r.Emancipation_in_progress__c}>
+                  <c-pir_participant-emancipated selected-p-e={selectedPE} onemancipation={handleEmancipation}></c-pir_participant-emancipated>
+            </template>
       </template>
 </template>

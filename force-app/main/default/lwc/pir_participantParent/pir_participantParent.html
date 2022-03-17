@@ -31,7 +31,7 @@
                            </lightning-tab> 
                            <lightning-tab label="Participant Details" value="Participant Details" onactive={handleParticipantTab} class="no-padding">
                               <template if:true={isParticipantDetail}>        
-                                 <c-pir_participant-detail action-req={selectedPE.actionReq} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
+                                 <c-pir_participant-detail action-req={selectedPE.actionReq} peid={selectedPE.id} selected-p-e={selectedPE} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
                              </template>
                            </lightning-tab>
                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
@@ -42,9 +42,6 @@
                                    <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
-                           <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
-                               <c-pir_participant-emancipated selected-p-e = {selectedPE}></c-pir_participant-emancipated>
-                           </lightning-tab> -->
                        </lightning-tabset>
                </div>
                <template if:true={isLoaded}>
