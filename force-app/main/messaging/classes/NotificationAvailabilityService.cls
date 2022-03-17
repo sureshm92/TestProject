@@ -338,7 +338,7 @@ public without sharing class NotificationAvailabilityService {
         return checkForNotification;
     }
 
-    public Boolean isAvailableForSMS(Id contactId, String whatId) {
+    public Boolean isAvailableForSMS(Id contactId, String whatId, Notification_Type__mdt notificationType) {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
@@ -351,7 +351,7 @@ public without sharing class NotificationAvailabilityService {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-            isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
+                isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
         }
         return isAvailable;
     }
