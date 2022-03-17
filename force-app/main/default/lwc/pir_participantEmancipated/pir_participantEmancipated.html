@@ -1,0 +1,495 @@
+<template>
+    <!--<lightning-button variant="base" label="Verify"  onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
+<template if:true={openModal}> 
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <template if:true={saving}>
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </template>
+        <div class="slds-modal__container mobile-view-model">
+           <div class="bar"></div>
+           <div class="slds-modal__header">
+              <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                 <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                    <span class="section-title">{utilLabels.SS_Confirm_and_Manage}</span> 
+                 </div>
+                 <div class="slds-col slds-size_1-of-12 model-close-icon">
+                    <div onclick={handleClose}>
+                       <lightning-icon icon-name="utility:close"
+                          alternative-text="close"
+                          size="small" ></lightning-icon>
+                       <span class="slds-assistive-text">Close</span>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="slds-modal__content slds-p-around_x-large emancipated-participant mobile-padding-view" id="modal-content-id-1">
+               <!-- Bubble Map Start--> 
+                <div class="slds-grid slds-gutters slds-m-bottom_large">
+                    <div class="slds-col"> 
+                        <div class="vpi-path-panel">
+                            <div class="path-section">
+                                <div class="slds-grid vpi-path">
+                                    <template for:each={pathdetails} for:item="bubble" for:index="index">
+                                        <template if:true={bubble.isStatusPassed}>
+                                            <div class={bubble.styleName} key={bubble}>
+                                                <div class="slds-grid">
+                                                    <div class={bubble.styleName1}></div>
+                                                    <div class={bubble.styleName2}
+                                                        style="position: relative;">
+                                                        <div class="state-ico-wrapper">
+                                                            <div class="step-status-img">
+                                                                <img class="rr-icon-default cRRIcon" src={checkIcon} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="vri-state-label">{bubble.pathName}</div>
+                                                <div class="vri-state-label"></div> 
+                                            </div>
+                                        </template>
+                                        <template if:false={bubble.isStatusPassed}>
+                                            <div class={bubble.styleName} key={bubble}>
+                                                <div class="slds-grid">
+                                                    <div class={bubble.styleName1}></div>
+                                                    <div class={bubble.styleName2}
+                                                        style="position: relative;">
+                                                        <div class="state-ico-wrapper">
+                                                            <div class="step-status-img">
+                                                                <img class="rr-icon-default cRRIcon" src={noneIcon} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="vri-state-label">{bubble.pathName}</div>
+                                                <div class="vri-state-label"></div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Bubble Map End -->
+                <template if:true={handleParticipantTab}>
+                            <div class="participant-information">
+                                <div class="model-body-title slds-m-bottom_small">
+                                    {utilLabels.BTN_Participant_Information}
+                                </div>
+                                <template if:true={showInvite}>
+                                    <div class="model-body-content slds-m-bottom_small">
+                                        {participantMsgWithName}
+                                     </div>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                                            <lightning-input type="radio" label={utilLabels.BTN_Invite} data-value="1" checked={checkInvite} name="invite" onchange={handleInvite} disabled={checkEligibility}></lightning-input>
+                                            <lightning-input type="radio" label={utilLabels.Do_Not_Invite} data-value="2" checked={checkNotInvite} name="dontinvite" onchange={handleInvite} disabled={checkEligibility}></lightning-input>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- invite radio button -->   
+                                <!-- participant's personal information Start -->
+                                <div class="model-body-content slds-m-bottom_small">
+                                    {utilLabels.PG_EMN_MSG_Update_Participant_Info}
+                                </div>
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                        <lightning-input type="text" label={utilLabels.PG_AS_F_First_name} title={utilLabels.PG_AS_F_First_name} data-value="FirstName" value={participant.First_Name__c} onchange={changeInputValue} name="fname" required></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                        <lightning-input type="text" label={utilLabels.PG_AS_F_Middle_name} title={utilLabels.PG_AS_F_Middle_name} value={participant.Middle_Name__c} onchange={changeInputValue} data-value="MiddleName" name="mname"></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" label={utilLabels.PG_AS_F_Last_name} title={utilLabels.PG_AS_F_Last_name} value={participant.Last_Name__c} onchange={changeInputValue} data-value="LastName" name="lname" required></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6 slds-large-size_1-of-6 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" label={utilLabels.PG_AS_F_Suffix} title={utilLabels.PG_AS_F_Suffix} value={participant.Suffix__c} onchange={changeInputValue} data-value="Suffix"></lightning-input>
+                                    </div>
+                                    <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" label={utilLabels.PG_AS_F_Nickname} title={utilLabels.PG_AS_F_Nickname} name="nickname" value={participant.Nickname__c} onchange={changeInputValue} data-value="Nickname"></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="date" name="input1" label={utilLabels.PG_AS_F_Date_of_Birth} title={utilLabels.PG_AS_F_Date_of_Birth} value={participant.Date_of_Birth__c} onchange={changeInputValue} data-value="DOB" placeholder="" required=""></lightning-input>
+                                    </div>
+                                    <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                    <lightning-combobox
+                                        name="Sex"
+                                        label={utilLabels.PG_AS_F_Gender}
+                                        title={utilLabels.PG_AS_F_Gender}
+                                        value={participant.Gender__c}
+                                        placeholder="--"
+                                        options={genderType}
+                                        onchange={changeInputValue} 
+                                        data-value="Sex"
+                                        required=""
+                                        ></lightning-combobox>
+                                    </div>
+                                </div>
+                                <!-- participant's personal information End -->  
+                                <!-- update participant's contact information Start -->
+                                <div class="model-body-content slds-m-top_medium slds-m-bottom_medium">
+                                    {utilLabels.PG_EMN_MSG_Update_Contact_Info}
+                                </div>
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" value={participant.Phone__c}  onchange={changeInputValue} 
+                                         data-value="PhoneNumber" label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} required=""></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <lightning-combobox
+                                        name="Phone Type"
+                                        label={utilLabels.PG_AP_F_Phone_Type}
+                                        value={participant.Phone_Type__c}
+                                        title={utilLabels.PG_AP_F_Phone_Type}
+                                        placeholder="Select..."
+                                        options={phoneType}
+                                        onchange={changeInputValue}
+                                        data-value="PhoneType"
+                                        required=""
+                                        ></lightning-combobox>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="email" onchange={changeInputValue} class="validate"
+                                         data-value="Email" value={participant.Email__c} title={utilLabels.PG_AS_F_Email_address} label={utilLabels.PG_AS_F_Email_address} required=""></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <lightning-combobox
+                                        name="Country"
+                                        label={utilLabels.PE_Country}
+                                        value={participant.Mailing_Country_Code__c}
+                                        title={utilLabels.PE_Country}
+                                        placeholder="--"
+                                        options={countryList}
+                                        onchange={changeInputValue}
+                                        data-value="Country"
+                                        required=""
+                                        ></lightning-combobox>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <lightning-combobox
+                                        name="State"
+                                        label={utilLabels.PE_State}
+                                        value={participant.Mailing_State_Code__c}
+                                        title={utilLabels.PE_State}
+                                        placeholder="Select..."
+                                        options={contactstates}
+                                        onchange={changeInputValue}
+                                        data-value="Province"
+                                        required={checkStatesList}
+                                        disabled={checkStates}
+                                        class="province"
+                                        ></lightning-combobox>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" onchange={changeInputValue}
+                                         data-value="PostalCode" value={participant.Mailing_Zip_Postal_Code__c} label={utilLabels.PG_AS_F_Zip_Postal_Code} title={utilLabels.PG_AS_F_Zip_Postal_Code} required=""></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                         <lightning-input type="text" onchange={changeInputValue}
+                                         data-value="AlternativePhoneNumber" value={participant.Alternative_Phone_Number__c} label={utilLabels.PG_AP_F_Alternative_Phone_Number}  title={utilLabels.PG_AP_F_Alternative_Phone_Number}></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    <lightning-combobox
+                                        name="Alternative Phone Type"
+                                        label={utilLabels.PG_AP_F_Alternative_Phone_Type}
+                                        value={participant.Alternative_Phone_Type__c}
+                                        title={utilLabels.PG_AP_F_Alternative_Phone_Type}
+                                        placeholder="--"
+                                        options={phoneType}
+                                        onchange={changeInputValue}
+                                        data-value="AlternativePhoneType"
+                                        disabled={getAltPhoneNumber}
+                                        ></lightning-combobox>
+                                    </div>
+                                </div>
+                                <!-- update participant's contact information End -->  
+                            </div> 
+                </template>
+              <!-- Participant Information End -->  
+              <!-- Delegate Information Start -->  
+                <template if:true={handleDelegateTab}>
+                    <div class="delegate-information">
+                        <div class="model-body-title slds-m-top_medium slds-m-bottom_medium">
+                            {utilLabels.PG_Ref_L_Delegate_Information}
+                        </div>
+                        <template for:each={delegates} for:item="delegateItem" for:index="index">
+                            <c-pir_participant-emancipated-delegate-list key={delegateItem}
+                                                                         phone-number={delegateItem.Phone__c}   
+                                                                         phone-type-value={delegateItem.Phone_Type__c} 
+                                                                         email={delegateItem.Email__c}
+                                                                         indexvalue={delegateItem.index} 
+                                                                         delegate-msg-with-name={delegateItem.continueDelegateMsg}  
+                                                                         phone-types={phoneType}  
+                                                                         continuedelegate={delegateItem.isCont}
+                                                                         ondatavaluechange={handleDataChangeOfDelegates}
+                              ></c-pir_participant-emancipated-delegate-list> 
+                       </template> 
+                        <!-- bg-delegate participant end-->
+                        <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
+                            <c-pir_participant-emancipated-delegate participantid={selectedPE.participantId} 
+                                                                    participants={participant}
+                                                                    siteid={siteid}
+                                                                    isvirtualsite={isvirtualsite}
+                                                                    key={delegatenew}
+                                                                    index-val ={delegatenew.indexNumber}
+                                                                    email-address ={delegatenew.em}
+                                                                    first-name ={delegatenew.fn}
+                                                                    last-name ={delegatenew.ln}
+                                                                    is-connected ={delegatenew.isConnected}
+                                                                    onprogressvaluechange={hanldeProgressValueChangeDelegates}
+                                                                     > </c-pir_participant-emancipated-delegate>
+                        </template>
+                        <!-- bg-delegate contact info ENd -->
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_x-small">
+                            <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_xx-small slds-m-top_medium" onclick={handleNewDelegate}>
+                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
+                                {utilLabels.Add_Delegate}
+                            </button>
+                            </div>
+                        </div>
+                        <!-- Add Delegate --> 
+                    </div>
+                   <!-- Delegate Information End -->
+                </template>
+                <template if:true={handleHealthCareTab}>
+                        <template if:true={loading}>
+                            <lightning-spinner alternative-text="Loading..." variant="brand">
+                            </lightning-spinner>
+                        </template>
+                        <!-- Healthcare Provider Information Start -->  
+                        <div class="healthcare-information">
+                            <div class="model-body-title slds-m-top_medium slds-m-bottom_medium">
+                                {utilLabels.BTN_HealthCare_Provider_Information}
+                            </div>
+                            <p class="delegate-text slds-m-bottom_medium">{utilLabels.BTN_Participant_Would_Like_Share_Info}</p>
+                              
+                                    <template for:each={hcpDelegates} for:item="hcp" for:index="index">
+                                                <c-pir_participant-emancipated-h-c-p-list  
+                                                first-name={hcp.First_Name__c}
+                                                last-name={hcp.Last_Name__c}
+                                                email={hcp.Email__c}
+                                                status={hcp.Status__c}
+                                                hp-id={hcp.Id}
+                                                perid={selectedPE.id}
+                                                hcpe-id={hcp.HCP_Enrollment__c}
+                                                key={hcp}
+                                            > 
+                                            </c-pir_participant-emancipated-h-c-p-list>
+                                    </template>
+                                    <template for:each={addHCPListNew} for:item="hcpnew" for:index="index">
+                                        <c-pir_participant-emancipated-h-c-p 
+                                            perid={selectedPE.id}  
+                                            key={hcpnew}
+                                            onupdatehcp={handleHCP}
+                                        > </c-pir_participant-emancipated-h-c-p>
+                                    </template>
+                                    <!-- bg-delegate contact info ENd -->
+                                    <template if:false={isJanssen}>
+                                        <div class="slds-grid slds-wrap slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_x-small">
+                                            <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_xx-small slds-m-top_medium" onclick={handleNewHCP}>
+                                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
+                                                {utilLabels.BTN_Add_Provider}
+                                            </button> 
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <!-- Add Delegate --> 
+                        </div>
+                </template>
+              <!-- Healthcare Provider Information End --> 
+              <template if:true={handleFinalTab}>
+                        <!-- Participant Information Start -->  
+                        <div class="delegate-information slds-m-top_medium">              
+                                <div class="bg-Participant slds-p-around_medium slds-m-bottom_medium">
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_10-of-12 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-bottom_medium">
+                                            <div class="model-body-title">
+                                                {utilLabels.BTN_Participant_Information}
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                                            <button class="slds-button slds-float_right">   
+                                                <lightning-icon icon-name="utility:edit" size="x-small" class="" onclick={handleParticipant}></lightning-icon>
+                                            </button>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                                            <div class="model-body-content slds-m-top_medium">
+                                                {participantName}
+                                            </div>
+                                            <div class="model-body-content slds-m-top_small">
+                                                <template if:true={inviteOptions}>
+                                                    {utilLabels.BTN_Invite}
+                                                </template>
+                                                <template if:false={inviteOptions}>
+                                                    {utilLabels.Do_Not_Invite}
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtitle slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AP_H_Patient_Details}
+                                            </div>
+                                        </div>    
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_8-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtitle slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AP_H_Patient_Contact_Information}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PG_L_Name}: {participant.First_Name__c} &nbsp; {participant.Last_Name__c}
+                                            </div>  
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PE_Phone_number}: {participant.Phone__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PE_Country}: {participant.Mailing_Country__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.RP_DOB_label}: {participant.Date_of_Birth__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AP_F_Phone_Type}: {participant.Phone_Type__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PE_State}: {participant.Mailing_State__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AS_F_Gender}: {participant.Gender__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AS_F_Email_address}: {participant.Email__c}
+                                            </div>
+                                        </div> 
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                            <div class="participant-subtext slds-m-bottom_x-smal">
+                                                {utilLabels.PG_AS_F_Zip_Postal_Code}:  {participant.Mailing_Zip_Postal_Code__c}
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div> <!-- bg-Participant  --> 
+                                <div class="bg-Participant slds-p-around_medium slds-m-bottom_medium slds-m-top_medium">
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_10-of-12 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-bottom_medium">
+                                            <div class="model-body-title">
+                                                {utilLabels.PG_Ref_L_Delegate_Information}
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                                            <button class="slds-button slds-float_right">   
+                                                <lightning-icon icon-name="utility:edit" size="x-small" onclick={handleDelegate}></lightning-icon>
+                                            </button>  
+                                        </div>
+                                        <template for:each={delegates} for:item="delegate" for:index="index">
+                                            <div key={delegate} class="slds-grid slds-wrap slds-gutters">
+                                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                                                        <div class="model-body-content slds-m-top_medium">
+                                                            {delegate.continueDelegateMsg}
+                                                        </div>
+                                                        <div class="model-body-content slds-m-top_small">
+                                                            {delegate.delegcont}
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                        <div class="participant-subtext slds-m-bottom_x-smal">
+                                                            {utilLabels.PG_L_Name}: {delegate.First_Name__c}&nbsp;{delegate.Last_Name__c}
+                                                        </div>
+                                                    </div> 
+                                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                        <div class="participant-subtext slds-m-bottom_x-smal">
+                                                            {utilLabels.PE_Phone_number}: {delegate.Phone__c}
+                                                        </div>
+                                                    </div> 
+                                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                        <div class="participant-subtext slds-m-bottom_x-smal">
+                                                            {utilLabels.PG_AP_F_Phone_Type}: {delegate.Phone_Type__c}
+                                                        </div>
+                                                    </div> 
+                                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                        <div class="participant-subtext slds-m-bottom_x-smal">
+                                                            {utilLabels.PG_AS_F_Email_address}: {delegate.Email__c}
+                                                        </div>
+                                                    </div> 
+                                            </div>
+                                        </template>
+                                        <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
+                                            <template if:true={delegatenew.isConnected}>
+                                                    <div key={delegatenew} class="slds-grid slds-wrap slds-gutters">
+                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                                                                    <div class="model-body-content slds-m-top_medium">
+                                                                        {delegatenew.continueDelegatenewMsg}
+                                                                    </div>
+                                                                    <div class="model-body-content slds-m-top_small">
+                                                                            {utilLabels.Continue}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                                    <div class="participant-subtext slds-m-bottom_x-smal">
+                                                                        {utilLabels.PG_L_Name}: {delegatenew.fn}&nbsp;{delegatenew.ln}
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
+                                                                    <div class="participant-subtext slds-m-bottom_x-smal">
+                                                                        {utilLabels.PG_AS_F_Email_address}: {delegatenew.em}
+                                                                    </div>
+                                                                </div> 
+                                                        </div>
+                                                </template>
+                                        </template>
+                                    </div>
+                                </div> <!-- bg-Participant  -->  
+                                
+                            </div> 
+                        <!-- Participant Information End --> 
+                </template>    
+           </div>
+           <!--  End Body Part -->    
+           <!-- Delegate Information End --> 
+           <div class="slds-modal__footer">
+              <div class="slds-grid slds-wrap slds-gutters">
+                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 checkbox-text">
+                     <template if:true={isParticipantTab}>
+                         <lightning-input type="checkbox" title={utilLabels.PG_Ref_L_Participant_require_optional_email} label={utilLabels.PG_Ref_L_Participant_require_optional_email} checked={participantContact.Consent_To_Inform_About_Study__c} onchange={handleConsent}  class="checkbox-padding slds-float_left" name="input1"></lightning-input>  
+                     </template>
+                     <template if:true={isLastTab}>
+                        <lightning-input type="checkbox" checked={finalAgree} onchange={handleagree} title={utilLabels.PG_Ref_L_Participant_require_agree} label={utilLabels.PG_Ref_L_Participant_require_agree}  class="checkbox-padding slds-float_left" name="input1"></lightning-input>  
+                    </template>
+                 </div>
+                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                     <template if:false={isLastTab}>
+                        <button title={utilLabels.BTN_Next} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small slds-float_right next-btn" onclick={handleNext} disabled={isValid}> {utilLabels.BTN_Next} </button>  
+                     </template>
+                     <template if:true={isLastTab}> 
+                        <button title={utilLabels.BTN_Save} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small slds-float_right next-btn" disabled={isAgreed} onclick={handleSave}>{utilLabels.BTN_Save} </button> 
+                     </template>                           
+                    <span>
+                    <button class="slds-button slds-button_neutral apollo-btn secondary btn_stretch back-btn" title={utilLabels.BTN_Back} disabled={checkTab} onclick={handleBack}> {utilLabels.BTN_Back}</button>   
+                    <button class="slds-button slds-button_neutral apollo-btn tertiary btn_stretch" onclick={handleClose} title={utilLabels.BTN_Cancel} aria-label="Cancel and close"> {utilLabels.BTN_Cancel}</button>                         
+                    </span>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open" role="presentation"></div> 
+       <!-- popup code Confirm and Manage Emancipated Participant's Access End -->
+    </template>
+</template>

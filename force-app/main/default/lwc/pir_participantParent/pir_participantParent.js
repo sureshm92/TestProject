@@ -233,7 +233,7 @@ export default class Pir_participantParent extends LightningElement {
       this.isSPModalOpen = true;
       this.template.querySelector("lightning-tabset").activeTabValue = "Sharing Options";
     }else{
-
+      this.isSharingTab = false;
     this.isParticipantDetail = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
@@ -259,6 +259,7 @@ export default class Pir_participantParent extends LightningElement {
         this.isParticipantDetail = false;
         this.template.querySelector("lightning-tabset").activeTabValue = "Sharing Options";        
       } else{
+        this.isSharingTab = false;
         this.selectedTab = "Participant Details";
       }
     }
@@ -315,10 +316,13 @@ export default class Pir_participantParent extends LightningElement {
     this.selectedTab = "Health Information"; 
     console.log('stb-1->'+this.selectedTab);
     this.isMedicalTab = true;
+    this.isParticipantDetail = false;
     this.disableMedicalSaveButton = true;
+     this.isParticipantDetail = false;
     this.template.querySelector("c-medicalinformation").doSelectedPI();  
    
   }else{
+    this.isSharingTab = false;
     this.isMedicalTab = true;
     this.isParticipantDetail = false;
     //this.disableMedicalSaveButton = true;
@@ -407,7 +411,6 @@ export default class Pir_participantParent extends LightningElement {
   }
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
-
     console.log('this.dropdownLabel',this.dropdownLabel);
   }
   handlepopup(event){
