@@ -351,12 +351,7 @@ public without sharing class NotificationAvailabilityService {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-
-            if(notificationType.IsStudyLevel__c){
-                isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c && pe.Participant_Opt_In_SMS__c;
-            }else{
                 isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
-            }
         }
         return isAvailable;
     }

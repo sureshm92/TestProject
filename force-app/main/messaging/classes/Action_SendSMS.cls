@@ -27,7 +27,6 @@ public with sharing class Action_SendSMS implements Action {
         public String awsSponsorName;
         public String awsStudy;
         public String studySiteId;
-        public String countrySponsorKey;
     }
     class MessagegResponseWrapper {
         public string applicationId;
@@ -54,7 +53,7 @@ public with sharing class Action_SendSMS implements Action {
         public String sponsorName;
         public String studyName;
         public String ctpTemplate;
-        public String countrySponsorKey;
+        public String studySiteId;
     }
 
     public Action_SendSMS(List<Notification__c> notifications) {
@@ -246,7 +245,7 @@ public with sharing class Action_SendSMS implements Action {
                     msgParam.pinPointProjectId = pinPointWrapperObj.studyPinpoint;
                     msgParam.awsSponsorName = pinPointWrapperObj.sponsorName;
                     msgParam.awsStudy = pinPointWrapperObj.studyName;
-                    msgParam.countrySponsorKey = pinPointWrapperObj.countrySponsorKey;
+                    msgParam.studySiteId = pinPointWrapperObj.studySiteId;
                     String shortCommunityName = '';
                     String url = '';
                     if (
@@ -422,6 +421,7 @@ public with sharing class Action_SendSMS implements Action {
                     Study_Site__r.Pin_Point_ProjectId__c,
                     Study_Site__r.From_Number__c,
                     Study_Site__c,
+                    Participant_Opt_In_SMS__c,
                     (
                         SELECT
                             Id,
@@ -430,7 +430,9 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode
+                            Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode,
+                            Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                            Participant_Enrollment__r.Study_Site__r.From_Number__c
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
                     )
@@ -496,27 +498,21 @@ public with sharing class Action_SendSMS implements Action {
                 String sponsorName;
                 String studyName;
                 String ctpTemplateName;
-                String countrySponsorKey;
+                String studySiteId;
                 Id whatId = Id.valueOf(notObj.WhatId__c);
 
+                Participant_Enrollment__c peOBJ = peIdMap.get(whatId);
                 String objType = String.valueOf(whatId.getSobjectType());
 
                 if (messageType.IsStudyLevel__c) {
                     isPlatformLevel = false;
-                    Participant_Enrollment__c peOBJ = peIdMap.get(whatId);
                     if (objType == 'Participant_Enrollment__c') {
-                        Participant_Enrollment__c peOBJ = peIdMap.get(whatId);
-                        //pinPoint = peOBJ.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
                         pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                         sponsorName = peOBJ.Clinical_Trial_Profile__r.Sponsor_AWS__c;
                         studyName = peOBJ.Clinical_Trial_Profile__r.Study_AWS__c;
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                        countrySponsorKey =
-                            peObj.Study_Site__r.site__r.BillingCountryCode +
-                            '_' +
-                            peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        studySiteId = peObj.Study_Site__c;
                     } else if (objType == 'Clinical_Trial_Profile__c') {
-                        //pinPoint = ctpMap.get(whatId).Pin_Point_ProjectId__c;
                         pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                         sponsorName = ctpMap.get(whatId).Sponsor_AWS__c;
                         studyName = ctpMap.get(whatId).Study_AWS__c;
@@ -526,10 +522,7 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__c per : contactIdPERMap.get(notObj.recipient__c)
                         ) {
                             if (per.Clinical_Trial_Profile__c == whatId) {
-                                countrySponsorKey =
-                                    per.Study_Site__r.site__r.BillingCountryCode +
-                                    '_' +
-                                    per.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                                studySiteId = per.Study_Site__c;
                                 break;
                             }
                         }
@@ -538,8 +531,6 @@ public with sharing class Action_SendSMS implements Action {
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant_Enrollment__c'
                         ) {
-                            /*pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
-                             .Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;*/
                             pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.Sponsor_AWS__c;
@@ -547,19 +538,14 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.Study_AWS__c;
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
-                            String countryCode = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Study_Site__r.site__r.BillingCountryCode;
-                            countrySponsorKey = countryCode + '_' + ctpTemplateName;
+                            studySiteId = peOBJ.Study_Site__c;
                         }
                     }
                 } else {
-                    Participant_Enrollment__c peOBJ = peIdMap.get(whatId);
                     if (objType == 'SurveyInvitation') {
                         if (surveyInvitationMap.get(whatId) != null) {
                             if (surveyInvitationMap.get(whatId).IsTrialSurvey__c) {
                                 isPlatformLevel = false;
-                                /* pinPoint = surveyInvitationMap.get(whatId)
-                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;*/
                                 pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                                 sponsorName = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c;
@@ -571,9 +557,7 @@ public with sharing class Action_SendSMS implements Action {
                                 ctpTemplateName = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                             }
-                            String countryCode = surveyInvitationMap.get(whatId)
-                                .Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode;
-                            countrySponsorKey = countryCode + '_' + ctpTemplateName;
+                            studySiteId = peOBJ.Study_Site__c;
                         }
                     } else if (objType == 'Task') {
                         if (
@@ -581,8 +565,6 @@ public with sharing class Action_SendSMS implements Action {
                             'Participant_Enrollment__c'
                         ) {
                             isPlatformLevel = false;
-                            /*pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
-                             .Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;*/
                             pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.Sponsor_AWS__c;
@@ -590,9 +572,7 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.Study_AWS__c;
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
-                            String countryCode = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Study_Site__r.site__r.BillingCountryCode;
-                            countrySponsorKey = countryCode + '_' + ctpTemplateName;
+                            studySiteId = peOBJ.Study_Site__c;
                         }
                         if (
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
@@ -618,31 +598,28 @@ public with sharing class Action_SendSMS implements Action {
                         }
                     }
                 }
-                PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
-                pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
-                pinpointWrapperObj.studyPinpoint = pinPoint;
-                pinpointWrapperObj.sponsorName = sponsorName;
-                pinpointWrapperObj.studyName = studyName;
-                pinpointWrapperObj.ctpTemplate = ctpTemplateName;
-                pinpointWrapperObj.countrySponsorKey = countrySponsorKey;
-                pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
+                boolean flag;
+                if (isPlatformLevel) {
+                    flag = true;
+                } else {
+                    if (peObj.Participant_Opt_In_SMS__c) {
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
+                    pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
+                    pinpointWrapperObj.studyPinpoint = pinPoint;
+                    pinpointWrapperObj.sponsorName = sponsorName;
+                    pinpointWrapperObj.studyName = studyName;
+                    pinpointWrapperObj.ctpTemplate = ctpTemplateName;
+                    pinpointWrapperObj.studySiteId = studySiteId;
+                    pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
+                }
             }
         }
         return pinPointWrapperMapObj;
     }
 
     //This method creates a map of from number for corresponding sponsor and country combination.
-    public Void createCountrySponsorFromNoMap(
-        Set<String> countryCodeSet,
-        Set<String> sponsorNameSet
-    ) {
-        for (Sponsor_Country_Code__c scc : [
-            SELECT id, Country__c, Sponsor_Name__c, From_Number__c
-            FROM Sponsor_Country_Code__c
-            WHERE Country__c IN :countryCodeSet AND Sponsor_Name__c IN :sponsorNameSet
-        ]) {
-            String countrySponsorKey = scc.Country__c + '_' + scc.Sponsor_Name__c;
-            countrySponsorFromNoMap.put(countrySponsorKey, scc.From_Number__c);
-        }
-    }
 }
