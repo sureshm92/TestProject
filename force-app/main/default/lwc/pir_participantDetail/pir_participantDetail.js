@@ -819,7 +819,10 @@ export default class Pir_participantDetail extends LightningElement {
     get notRefByPiHcp(){
         return (this.pd.pe.Referral_Source__c !="PI" && this.pd.pe.Referral_Source__c !="HCP") ;
     }
-    
+    get stype(){
+        return this.pd.pe.Referral_ID__c + ' ; ' + this.pd.pe.Source_Type__c;
+    }
+
     //save
     toggleSave(){
         if(this.disableEdit){
