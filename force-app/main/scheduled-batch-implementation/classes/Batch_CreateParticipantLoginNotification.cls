@@ -59,10 +59,10 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         List<Contact> updateContacts = new List<Contact>();
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id contactId : ctpWithLoggedByCnt.keySet()) {
-            String ctpIdContactIdKey = '';
             Map<Id, Integer> daysByCtp = ctpWithLoggedByCnt.get(contactId);
             Id nearestCtp = (Id) daysByCtp.keySet().iterator().next();
             Integer nearestDay = daysByCtp.get(nearestCtp);
+            String ctpIdContactIdKey = nearestCtp + '_' + contactId;
             for (Id ctpId : daysByCtp.keySet()) {
                 if (daysByCtp.get(ctpId) < nearestDay) {
                     nearestCtp = ctpId;
