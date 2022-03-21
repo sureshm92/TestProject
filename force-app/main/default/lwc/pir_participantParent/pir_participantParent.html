@@ -20,7 +20,7 @@
                    <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
                </span>
            </div>
-           <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
+           <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
                    <c-pir_participant-header onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail}></c-pir_participant-header>
                </div>
