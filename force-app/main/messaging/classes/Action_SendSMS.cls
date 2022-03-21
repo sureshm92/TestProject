@@ -641,6 +641,12 @@ public with sharing class Action_SendSMS implements Action {
                     pinpointWrapperObj.ctpTemplate = ctpTemplateName;
                     pinpointWrapperObj.studySiteId = studySiteId;
                     pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
+                } else {
+                    Notification_Target__mdt smsTarget = NotificationService.getNotificationTarget(
+                        notObj.Notification_Type__c,
+                        NotificationService.NOTIFICATION_TARGET_TYPE_SMS
+                    );
+                    sendResultService.setSkipped(notObj.Id, smsTarget.Target_Type__c);
                 }
             }
         }
