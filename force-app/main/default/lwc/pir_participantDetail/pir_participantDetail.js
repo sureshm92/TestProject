@@ -61,6 +61,7 @@ export default class Pir_participantDetail extends LightningElement {
     disableScreening = false;
     delegateMinor =false;
     disableEdit = false;
+    saveoffCount = 100;
     fieldMap = new Map([["src" , "MRN_Id__c"],
 				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
@@ -102,6 +103,7 @@ export default class Pir_participantDetail extends LightningElement {
         return this.pd;
     }
     set peid(value) {
+        this.saveoffCount = 100;
         this.pd=null;
         this.initPd=null;
         this.infoSharingValue = [];
@@ -210,7 +212,6 @@ export default class Pir_participantDetail extends LightningElement {
     handleValChange(event){
         let val = event.target.value;
         let tempval= val.trim();
-        console.log("temp"+tempval+"val")
         if(tempval ==''){
             event.target.value = tempval;
             val = tempval;
@@ -218,8 +219,9 @@ export default class Pir_participantDetail extends LightningElement {
         let lvl = event.target.dataset.lvl;
         let field =event.target.name;
         this.setVal(val,lvl,field);
-    }
+    }    
     setVal(val,lvl,field){
+        let toggleSaveButton = true;
         if(lvl=='1'){
             this.pd['pe'][this.fieldMap.get(field)]=val;    
         } else if(lvl=='2'){
@@ -232,6 +234,11 @@ export default class Pir_participantDetail extends LightningElement {
                 }               
             }               
         } else if(lvl=='3'){
+            if(field=="dfirstname"||field=="dlstname"||field=="demail"){
+                toggleSaveButton = false;
+                this.saveoffCount = 0;
+                this.dispatchEvent(new CustomEvent('enabledetailsave', {  detail: false}));
+            }
             this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)]=val;  
             if(field=="demail"){
                 this.setReqEmail();
@@ -267,7 +274,8 @@ export default class Pir_participantDetail extends LightningElement {
             }
             this.setReqDelegate();
         }
-        this.toggleSave();
+        if(toggleSaveButton)
+            this.toggleSave();
     }
     //ethinicity start
     setEth(){  
@@ -648,19 +656,13 @@ export default class Pir_participantDetail extends LightningElement {
         let initDel ;
         if(this.newDel==null){
             initDel = this.initPd.delegate.Participant_Delegate__r;
-            console.log("1");
-
         }
         else{
-            initDel = this.newDel;        
-            console.log(JSON.stringify(initDel));
-            console.log(JSON.stringify(this.pd['delegate']['Participant_Delegate__r']));
-
+            initDel = this.newDel;   
         }
         //check for delegate update
         delFields.forEach(function(field){
             if(this.fieldUpdate(initDel[this.fieldMap.get(field)],this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)])){
-                console.log("field"+field);
                 isDelUpdated = true;
             }            
             if(!this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)]){
@@ -671,8 +673,6 @@ export default class Pir_participantDetail extends LightningElement {
             }
             
         },this);
-        console.log("isDelUpdated" + isDelUpdated);
-        console.log("isAnyEmpty" + isAnyEmpty);
         if(isAnyEmpty){  
             this.showDelYear = false;
             this.delOp="";
@@ -822,7 +822,7 @@ export default class Pir_participantDetail extends LightningElement {
     get stype(){
         return this.pd.pe.Referral_ID__c + ' ; ' + this.pd.pe.Source_Type__c;
     }
-
+    
     //save
     toggleSave(){
         if(this.disableEdit){
@@ -830,11 +830,17 @@ export default class Pir_participantDetail extends LightningElement {
             this.dispatchEvent(new CustomEvent('detailupdate', {  detail: false}));
         }
         else{
-            this.dispatchEvent(new CustomEvent('enabledetailsave', {  detail: this.validate()}));
-            var upd = this.isUpdated();
-            var updates = (upd.isDelUpdated || upd.isPartUpdated || upd.isPeUpdated);
-            this.dispatchEvent(new CustomEvent('detailupdate', {  detail: updates}));
+            if(this.saveoffCount>3){
+                this.dispatchEvent(new CustomEvent('enabledetailsave', {  detail: this.validate()}));
+                var upd = this.isUpdated();
+                var updates = (upd.isDelUpdated || upd.isPartUpdated || upd.isPeUpdated);
+                this.dispatchEvent(new CustomEvent('detailupdate', {  detail: updates}));
+            }
+            else{
+                this.saveoffCount++;
+            }
         }
+        
     }
     validate(){
         if(this.showDupMsg || this.showUpdateMsg){
@@ -896,7 +902,6 @@ export default class Pir_participantDetail extends LightningElement {
         var updates = this.isUpdated();
         doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,delegateCriteria:this.delOp})
         .then(result => {
-            console.log("updated");
             this.dispatchEvent(new CustomEvent('toggleclick'));
             this.dispatchEvent(new CustomEvent('handletab'));
             this.peid = this.pd.pe.Id;
