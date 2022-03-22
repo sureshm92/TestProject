@@ -409,7 +409,7 @@ public without sharing class NotificationService {
                         );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
-                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
+                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c,notificationType)) {
                         if (
                             (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                             (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
