@@ -480,6 +480,10 @@ public with sharing class Action_SendSMS implements Action {
             ]
         );
 
+        NotificationResultService sendResultService = new NotificationResultService(
+            notificationsList
+        );
+
         for (Notification__c notObj : notificationsList) {
             if (notObj.WhatId__c != null) {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
@@ -647,6 +651,9 @@ public with sharing class Action_SendSMS implements Action {
                         NotificationService.NOTIFICATION_TARGET_TYPE_SMS
                     );
                     sendResultService.setSkipped(notObj.Id, smsTarget.Target_Type__c);
+
+                    //for updating records(updating status of notification and send results)
+                    sendResultService.updateResults();
                 }
             }
         }
