@@ -419,6 +419,8 @@ public with sharing class Action_SendSMS implements Action {
                     Study_Site__r.From_Number__c,
                     Study_Site__c,
                     Participant_Opt_In_SMS__c,
+                    Study_Site__r.Sponsor_AWS__c, //
+                    Study_Site__r.Study_AWS__c, //
                     (
                         SELECT
                             Id,
@@ -431,6 +433,8 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Study_Site__r.From_Number__c,
                             Participant_Enrollment__r.Study_Site__c,
+                            Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c, //
+                            Participant_Enrollment__r.Study_Site__r.Study_AWS__c, //
                             Participant_Enrollment__r.Participant_Opt_In_SMS__c
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
@@ -442,8 +446,8 @@ public with sharing class Action_SendSMS implements Action {
         for (Participant_Enrollment__c peObj : peIdMap.values()) {
             Clinical_Trial_Profile__c ctpObj = new Clinical_Trial_Profile__c();
             ctpObj.Pin_Point_ProjectId__c = peObj.Study_Site__r.Pin_Point_ProjectId__c;
-            ctpObj.Sponsor_AWS__c = peObj.Clinical_Trial_Profile__r.Sponsor_AWS__c;
-            ctpObj.Study_AWS__c = peObj.Clinical_Trial_Profile__r.Study_AWS__c;
+            ctpObj.Sponsor_AWS__c = peObj.Study_Site__r.Sponsor_AWS__c; //
+            ctpObj.Study_AWS__c = peObj.Study_Site__r.Study_AWS__c; //
             ctpObj.CommunityTemplate__c = peObj.Clinical_Trial_Profile__r.CommunityTemplate__c;
 
             ctpMap.put(peObj.Clinical_Trial_Profile__c, ctpObj);
@@ -501,8 +505,8 @@ public with sharing class Action_SendSMS implements Action {
                     if (objType == 'Participant_Enrollment__c') {
                         Participant_Enrollment__c peOBJ = peIdMap.get(whatId);
                         pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
-                        sponsorName = peOBJ.Clinical_Trial_Profile__r.Sponsor_AWS__c;
-                        studyName = peOBJ.Clinical_Trial_Profile__r.Study_AWS__c;
+                        sponsorName = peOBJ.Study_Site__r.Sponsor_AWS__c; //
+                        studyName = peOBJ.Study_Site__r.Study_AWS__c; //
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
                         isSMSAvailableForPER = peOBJ.Participant_Opt_In_SMS__c;
@@ -536,9 +540,9 @@ public with sharing class Action_SendSMS implements Action {
                             pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Clinical_Trial_Profile__r.Sponsor_AWS__c;
+                                .Study_Site__r.Sponsor_AWS__c; //
                             studyName = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Clinical_Trial_Profile__r.Study_AWS__c;
+                                .Study_Site__r.Study_AWS__c; //
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
@@ -559,9 +563,9 @@ public with sharing class Action_SendSMS implements Action {
                                 pinPoint = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
                                 sponsorName = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c;
+                                    .Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c; //
                                 studyName = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c;
+                                    .Participant_Enrollment__r.Study_Site__r.Study_AWS__c; //
                                 ctpTemplateName = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                                 studySiteId = surveyInvitationMap.get(whatId)
@@ -588,9 +592,9 @@ public with sharing class Action_SendSMS implements Action {
                             pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Clinical_Trial_Profile__r.Sponsor_AWS__c;
+                                .Study_Site__r.Sponsor_AWS__c; //
                             studyName = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Clinical_Trial_Profile__r.Study_AWS__c;
+                                .Study_Site__r.Study_AWS__c; //
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
