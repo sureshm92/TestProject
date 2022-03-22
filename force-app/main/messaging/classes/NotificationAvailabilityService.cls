@@ -338,7 +338,7 @@ public without sharing class NotificationAvailabilityService {
         return checkForNotification;
     }
 
-    public Boolean isAvailableForSMS(Id contactId, String whatId, Notification_Type__mdt notificationType) {
+    public Boolean isAvailableForSMS(Id contactId, String whatId) {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
