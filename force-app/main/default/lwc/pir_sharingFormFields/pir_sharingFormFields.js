@@ -91,13 +91,13 @@ export default class Pir_sharingFormFields extends LightningElement {
     }
 
     loadinitialData() {
-        if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
-            this.isValid = true;
-        } else {
-            this.isValid = false;
-        }
-        
         if(this.sharingObject.sObjectType === 'Object') {
+            if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+                this.isValid = true;
+            } else {
+                this.isValid = false;
+            }
+
             if(!this.isDelegate) {
                 this.isDelegate = true;
             }
@@ -123,7 +123,6 @@ export default class Pir_sharingFormFields extends LightningElement {
                 }
             }
         } else if(this.sharingObject.sObjectType === 'Healthcare_Provider__c'){
-            
             if(!this.isHCPDelegate) {
                 this.isHCPDelegate = true;
             }
@@ -140,11 +139,22 @@ export default class Pir_sharingFormFields extends LightningElement {
             if(this.sharingObject.Status__c) {
                 if(this.sharingObject.Status__c === 'Invited' && this.isExistingDelegate || this.isDuplicate) {
                     this.connectDisconnect = this.label.StopSharing;
+                    this.isValid = false;
                 } else if(this.sharingObject.Status__c === 'No Sharing' && this.isExistingDelegate) {
                     this.connectDisconnect = this.label.ConnectPatient;
+                    if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+                        this.isValid = true;
+                    } else {
+                        this.isValid = false;
+                    }
                 }
             }
         } else {
+            if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+                this.isValid = true;
+            } else {
+                this.isValid = false;
+            }
             if(this.participantObject.Show_Referring_Provider__c) {
                 this.connectDisconnect = this.label.StopSharing;
             } else {
