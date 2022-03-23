@@ -1,0 +1,46 @@
+<template>
+    <div class="bg-delegate slds-p-around_medium slds-m-bottom_medium">
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                <div class="model-body-content">
+                    {delegateMsgWithName}
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                <!-- <lightning-input type="radio" label={utilLabels.Continue} data-value="1"  name="Continue" checked={isContinue} onchange={handleContinue}></lightning-input>
+                <lightning-input type="radio" label={utilLabels.Do_Not_Continue} data-value="2" name="Do not continue" checked={isNotContinue} onchange={handleContinue} ></lightning-input> -->
+                <lightning-radio-group name={indexvalue}
+                label=""
+                options={options}
+                value={continuedelegate}
+                onchange={handleContinue}
+                data-value={indexvalue}
+                type="radio"></lightning-radio-group>   
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                <div class="model-body-content">
+                    {utilLabels.PG_Ref_L_Delegate_ensure_info_uptodate}
+                </div> 
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
+                <lightning-input type="text"  data-value="TelephoneNumber" onchange={checkFields} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}  label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} value={phoneNumber} required=""></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
+                <lightning-combobox
+                    name="Phone Type"
+                    label={utilLabels.PG_AS_F_Phone_Type}
+                    title={utilLabels.PG_AS_F_Phone_Type}
+                    value={phoneTypeValue}
+                    placeholder="--"
+                    options={phoneTypes}
+                    data-value="TelephoneType" 
+                    onchange={checkFields} 
+                    required=""
+                    ></lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
+                <lightning-input type="email" data-value="email" onchange={checkFields} title={utilLabels.PG_AS_F_Email_address}  label={utilLabels.PG_AS_F_Email_address} value={email} required=""></lightning-input>
+            </div>
+            </div>
+</div>
+</template>

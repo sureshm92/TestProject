@@ -117,6 +117,7 @@ export default class Pir_participantParent extends LightningElement {
   }
   //pagination
   totalRecord;
+  showZeroErr  = false;
   pageChanged(event) {
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
@@ -125,6 +126,9 @@ export default class Pir_participantParent extends LightningElement {
   }
   recCountUpdate(event) {
     this.totalRecord = event.detail;
+    if(this.totalRecord == 0){
+      this.showZeroErr = true;
+    }
   }
   handleSpinner(event) {
     this.isLoaded = event.detail;

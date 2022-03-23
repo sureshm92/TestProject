@@ -1,6 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Participant_Not_Logged_In}"
                          recipientType="Contact"
-                         relatedToType="Clinical_Trial_Profile__c"
+                         relatedToType="Participant_Enrollment__c"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>

@@ -126,8 +126,8 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         //messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
         //    .ParamValue__c;
         messageWrapper.notificationMetadata.fromNumber = msgParam.isPlatformLevel
-        ? apiParamsMap.get(FROM_NUMBER).ParamValue__c
-        : Action_SendSMS.countrySponsorFromNoMap.get(msgParam.countrySponsorKey);
+            ? apiParamsMap.get(FROM_NUMBER).ParamValue__c
+            : Action_SendSMS.studySiteToFromNoMap.get(msgParam.studySiteId);
 
         //  messageWrapper.notificationMetadata.ToNumber = msgParam.toNumber;
         ToNumber toNumberObj = new ToNumber();
