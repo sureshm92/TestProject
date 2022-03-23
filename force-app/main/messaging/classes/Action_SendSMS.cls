@@ -512,11 +512,10 @@ public with sharing class Action_SendSMS implements Action {
                         isSMSAvailableForPER = peOBJ.Participant_Opt_In_SMS__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                     } else if (objType == 'Clinical_Trial_Profile__c') {
-                        //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
-                        pinPoint = ctpMap.get(whatId).Pin_Point_ProjectId__c;
                         sponsorName = ctpMap.get(whatId).Sponsor_AWS__c;
                         studyName = ctpMap.get(whatId).Study_AWS__c;
                         ctpTemplateName = ctpMap.get(whatId).CommunityTemplate__c;
+
                         //Iterate over all the PERs for recipient and populate the countrySponsorKey for matching CTP with Notification whatId.
                         for (
                             Participant_Enrollment__c per : contactIdPERMap.get(notObj.recipient__c)
@@ -528,6 +527,8 @@ public with sharing class Action_SendSMS implements Action {
                                     studySiteId,
                                     per.Study_Site__r.From_Number__c
                                 );
+                                pinPoint = per.Study_Site__r.Pin_Point_ProjectId__c;
+
                                 break;
                             }
                         }
@@ -651,12 +652,12 @@ public with sharing class Action_SendSMS implements Action {
                         NotificationService.NOTIFICATION_TARGET_TYPE_SMS
                     );
                     sendResultService.setSkipped(notObj.Id, smsTarget.Target_Type__c);
-
-                    //for updating records(updating status of notification and send results)
-                    sendResultService.updateResults();
                 }
             }
         }
+        //for updating records(updating status of notification and send results)
+        sendResultService.updateResults();
+
         return pinPointWrapperMapObj;
     }
 }
