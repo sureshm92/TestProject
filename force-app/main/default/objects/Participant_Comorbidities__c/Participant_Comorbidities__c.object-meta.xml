@@ -154,10 +154,19 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <label>Participant Comorbidities</label>
+    <listViews>
+        <fullName>All_Participant_Comorbidities</fullName>
+        <columns>Comorbidities__c</columns>
+        <columns>Participant__c</columns>
+        <columns>NAME</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Participant Comorbidities</label>
+        <language>en_US</language>
+    </listViews>
     <nameField>
-        <encryptionScheme>None</encryptionScheme>
+        <displayFormat>CP-{00000}</displayFormat>
         <label>Participant Comorbidities Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Participant Comorbidities</pluralLabel>
     <searchLayouts></searchLayouts>
