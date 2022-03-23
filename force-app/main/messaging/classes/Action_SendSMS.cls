@@ -635,7 +635,7 @@ public with sharing class Action_SendSMS implements Action {
                     }
                 }
 
-                boolean skipSMS = false;
+                Boolean skipSMS = false;
                 //skip sms for study level notification if SMS is not opt in at PER level
                 if (!isPlatformLevel && !isSMSAvailableForPER) {
                     skipSMS = true;
