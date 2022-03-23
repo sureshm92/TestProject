@@ -654,6 +654,7 @@ export default class Pir_participantDetail extends LightningElement {
         var isNew =false;
         var show=false;
         let initDel ;
+        this.abortDup = false;
         if(this.newDel==null){
             initDel = this.initPd.delegate.Participant_Delegate__r;
         }
@@ -711,7 +712,10 @@ export default class Pir_participantDetail extends LightningElement {
                     this.newDupDel = null;
                 }
                 if(!isNew){  
-                    this.showUpdateMsg = !show;
+                    if(!this.abortDup){
+                        this.showUpdateMsg = !show;
+                    }
+                        
                 }
                 this.toggleSave();  
             })
@@ -723,13 +727,15 @@ export default class Pir_participantDetail extends LightningElement {
             this.showUpdateMsg = false;
             this.toggleSave();  
         }
-        this.toggleSave();        
+        this.toggleSave();      
     }catch(e){
         console.log(e.message);
         console.log(e.stack);
     }
     }
+    abortDup = false;
     useDuplicateRecord(){
+        this.abortDup = true;
         try{
         this.newDel = JSON.parse(JSON.stringify(this.newDupDel));
         this.pd.delegate.Id = '';
@@ -750,6 +756,7 @@ export default class Pir_participantDetail extends LightningElement {
     showDelYear = false;    
     createupdateDelegate(event){
         this.showUpdateMsg = false;  
+        this.abortDup = true;
         this.newDel={};
         this.newDel.Email__c = this.pd.delegate.Participant_Delegate__r.Email__c;
         this.newDel.Last_Name__c = this.pd.delegate.Participant_Delegate__r.Last_Name__c;
