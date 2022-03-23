@@ -758,12 +758,14 @@ export default class Pir_participantDetail extends LightningElement {
         this.showUpdateMsg = false;  
         this.abortDup = true;
         this.newDel={};
+        this.newDel.Id=this.pd.delegate.Participant_Delegate__r.Id;
         this.newDel.Email__c = this.pd.delegate.Participant_Delegate__r.Email__c;
         this.newDel.Last_Name__c = this.pd.delegate.Participant_Delegate__r.Last_Name__c;
         this.newDel.First_Name__c = this.pd.delegate.Participant_Delegate__r.First_Name__c;    
         this.newDel.Birth_Year__c = this.pd.delegate.Participant_Delegate__r.Birth_Year__c;    
         this.delOp = 'updateParticipant';
         if(event.detail=='insert'){
+            this.newDel.Id= null;
             this.pd.delegate.Participant_Delegate__r.Id=null;
             this.pd.delegate.Participant_Delegate__r.Attestation__c=false;
             this.pd.delegate.Participant_Delegate__r.Birth_Year__c='';
