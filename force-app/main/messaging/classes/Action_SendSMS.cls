@@ -513,7 +513,7 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = peOBJ.Study_Site__r.Study_AWS__c; //
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
-                        isSMSAvailableForPER = peOBJ.Participant_Opt_In_SMS__c;
+                        isSMSAvailableForPER = boolean.valueOf(peOBJ.Participant_Opt_In_SMS__c);
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                     } else if (objType == 'Clinical_Trial_Profile__c') {
                         //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
@@ -527,7 +527,9 @@ public with sharing class Action_SendSMS implements Action {
                         ) {
                             if (per.Clinical_Trial_Profile__c == whatId) {
                                 studySiteId = per.Study_Site__c;
-                                isSMSAvailableForPER = per.Participant_Opt_In_SMS__c;
+                                isSMSAvailableForPER = boolean.valueOf(
+                                    per.Participant_Opt_In_SMS__c
+                                );
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     per.Study_Site__r.From_Number__c
@@ -550,8 +552,9 @@ public with sharing class Action_SendSMS implements Action {
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
-                            isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Participant_Opt_In_SMS__c;
+                            isSMSAvailableForPER = boolean.valueOf(
+                                peIdMap.get(taskMap.get(whatId).WhatId).Participant_Opt_In_SMS__c
+                            );
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -574,8 +577,10 @@ public with sharing class Action_SendSMS implements Action {
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                                 studySiteId = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__c;
-                                isSMSAvailableForPER = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Participant_Opt_In_SMS__c;
+                                isSMSAvailableForPER = boolean.valueOf(
+                                    surveyInvitationMap.get(whatId)
+                                        .Participant_Enrollment__r.Participant_Opt_In_SMS__c
+                                );
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     surveyInvitationMap.get(whatId)
@@ -602,8 +607,9 @@ public with sharing class Action_SendSMS implements Action {
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
-                            isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Participant_Opt_In_SMS__c;
+                            isSMSAvailableForPER = boolean.valueOf(
+                                peIdMap.get(taskMap.get(whatId).WhatId).Participant_Opt_In_SMS__c
+                            );
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
