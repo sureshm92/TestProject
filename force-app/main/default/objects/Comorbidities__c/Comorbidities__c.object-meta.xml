@@ -149,11 +149,19 @@
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
-    <enableSearch>false</enableSearch>
+    <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <label>Comorbidities</label>
+    <listViews>
+        <fullName>All_Comorbidities</fullName>
+        <columns>NAME</columns>
+        <columns>Comorbidity_Name__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Comorbidities</label>
+        <language>en_US</language>
+    </listViews>
     <nameField>
         <displayFormat>C-{00000}</displayFormat>
         <label>Comorbidity</label>
