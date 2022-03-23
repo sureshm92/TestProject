@@ -680,7 +680,7 @@ export default class Pir_participantDetail extends LightningElement {
             isNew = false;
         }
         if(isDelUpdated && !isAnyEmpty){      
-            if(!initDel.Birth_Year__c){
+            if(!initDel.Id){
                 this.delOp= 'insertDelegate';
                 this.showDelYear = true;
                 isNew = true;
@@ -764,7 +764,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.newDel.Birth_Year__c = this.pd.delegate.Participant_Delegate__r.Birth_Year__c;    
         this.delOp = 'updateParticipant';
         if(event.detail=='insert'){
-            this.pd.delegate.Participant_Delegate__r.id='';
+            this.pd.delegate.Participant_Delegate__r.Id=null;
             this.pd.delegate.Participant_Delegate__r.Attestation__c=false;
             this.pd.delegate.Participant_Delegate__r.Birth_Year__c='';
             this.newDel.Birth_Year__c = null;
