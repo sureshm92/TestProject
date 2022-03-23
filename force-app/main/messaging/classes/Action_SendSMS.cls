@@ -418,7 +418,7 @@ public with sharing class Action_SendSMS implements Action {
                     Study_Site__r.Pin_Point_ProjectId__c,
                     Study_Site__r.From_Number__c,
                     Study_Site__c,
-                    Participant_Opt_In_SMS__c,
+                    Permit_SMS_Text_for_this_study__c,
                     (
                         SELECT
                             Id,
@@ -431,7 +431,7 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Study_Site__r.From_Number__c,
                             Participant_Enrollment__r.Study_Site__c,
-                            Participant_Enrollment__r.Participant_Opt_In_SMS__c
+                            Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
                     )
@@ -509,25 +509,26 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = peOBJ.Clinical_Trial_Profile__r.Study_AWS__c;
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
-                        isSMSAvailableForPER = peOBJ.Participant_Opt_In_SMS__c;
+                        isSMSAvailableForPER = peOBJ.Permit_SMS_Text_for_this_study__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                     } else if (objType == 'Clinical_Trial_Profile__c') {
-                        //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
-                        pinPoint = ctpMap.get(whatId).Pin_Point_ProjectId__c;
                         sponsorName = ctpMap.get(whatId).Sponsor_AWS__c;
                         studyName = ctpMap.get(whatId).Study_AWS__c;
                         ctpTemplateName = ctpMap.get(whatId).CommunityTemplate__c;
+
                         //Iterate over all the PERs for recipient and populate the countrySponsorKey for matching CTP with Notification whatId.
                         for (
                             Participant_Enrollment__c per : contactIdPERMap.get(notObj.recipient__c)
                         ) {
                             if (per.Clinical_Trial_Profile__c == whatId) {
                                 studySiteId = per.Study_Site__c;
-                                isSMSAvailableForPER = per.Participant_Opt_In_SMS__c;
+                                isSMSAvailableForPER = per.Permit_SMS_Text_for_this_study__c;
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     per.Study_Site__r.From_Number__c
                                 );
+                                pinPoint = per.Study_Site__r.Pin_Point_ProjectId__c;
+
                                 break;
                             }
                         }
@@ -547,7 +548,7 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
                             isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Participant_Opt_In_SMS__c;
+                                .Permit_SMS_Text_for_this_study__c;
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -571,7 +572,7 @@ public with sharing class Action_SendSMS implements Action {
                                 studySiteId = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__c;
                                 isSMSAvailableForPER = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Participant_Opt_In_SMS__c;
+                                    .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c;
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     surveyInvitationMap.get(whatId)
@@ -599,7 +600,7 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
                             isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Participant_Opt_In_SMS__c;
+                                .Permit_SMS_Text_for_this_study__c;
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -651,12 +652,12 @@ public with sharing class Action_SendSMS implements Action {
                         NotificationService.NOTIFICATION_TARGET_TYPE_SMS
                     );
                     sendResultService.setSkipped(notObj.Id, smsTarget.Target_Type__c);
-
-                    //for updating records(updating status of notification and send results)
-                    sendResultService.updateResults();
                 }
             }
         }
+        //for updating records(updating status of notification and send results)
+        sendResultService.updateResults();
+
         return pinPointWrapperMapObj;
     }
 }
