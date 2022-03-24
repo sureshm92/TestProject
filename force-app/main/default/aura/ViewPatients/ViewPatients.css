@@ -415,3 +415,7 @@
 .THIS .showOverview{
   display: block;
 }
+
+.THIS .slds-tabs_default__nav > li{
+  max-width:17rem !important;          
+}
