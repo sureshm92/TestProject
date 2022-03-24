@@ -60,7 +60,7 @@
 .flags .actionReq span{ background-color: rgba(255,147,0,0.08); }
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
-.list-card{ cursor:pointer; padding-top: 3px; padding-bottom: 0;}
+.list-card{ cursor:pointer; padding-top: 3px; }
 .overflowSet{height: 47vh; overflow: auto;}
 
 ::-webkit-scrollbar {

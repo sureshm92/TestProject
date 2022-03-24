@@ -428,7 +428,15 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE = new List<String>{
         PE_STATUS_SCREENING_IN_PROGRESS,
         PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
-        PE_STATUS_READY_TO_SCREEN
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_SCREENING_PASSED
+    };
+
+    //Pre Enrollment status group for Completing the Pre Enrollment Visit Status.
+    public static final List<String> PE_STATUS_GROUP_FOR_COMPLETING_PRE_ENROLL_VISITS = new List<String>{
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_ENROLLMENT_SUCCESS,
+        PE_STATUS_RANDOMIZATION_SUCCESS
     };
 
     static {
