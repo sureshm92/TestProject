@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap"  
-                             style="{!v.isRTL? 'width:100%;padding-left:7px; padding-right:2px': 'padding-left:0px;'}"
+                             style="{!v.isRTL? 'width:100%;padding-left:7px; padding-right:2px': 'padding-left:0px;'}">
                             
                             <lightning:input
                                              aura:id="locationAddress"
