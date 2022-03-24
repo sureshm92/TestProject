@@ -1875,6 +1875,11 @@
                 <isActive>false</isActive>
                 <label>vi_US</label>
             </value>
+            <value>
+                <fullName>en_NZ</fullName>
+                <default>false</default>
+                <label>en_NZ</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

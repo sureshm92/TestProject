@@ -9,11 +9,13 @@ export default class MediaFile extends LightningElement {
         Biomarker_Media_Player
     }
     @api AssesedDate;
+    @api
     mediaFiles;
     showModal = false;
     mediaFile;
     @api recordId;
-    showTable = true;
+    @api
+    showTable ;
     
     @api
     fileRecords(recordId,AssesedDate){

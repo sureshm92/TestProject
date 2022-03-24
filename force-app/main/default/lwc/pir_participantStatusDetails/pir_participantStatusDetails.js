@@ -12,7 +12,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
     @api peCardDetails;
     @api showBubbleMap = false;@api bubbleMapDetails;@api reason='';@api isInitialVisitRequired = false; @api isInitialVisitsPresent = false;
     @api per;@api initialVisitScheduledTime='';@api isFinalConsentRequired = false;@api isVisitPlanRequired = false;@api selectedPlan = '';
-    @api saveSpinner = false; @api userDate;
+    @api saveSpinner = false; @api userDate;@api contSuccessReason ='';
     count = 0;
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     minusIcon = pirResources+'/pirResources/icons/status-negative.svg';
@@ -133,7 +133,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                         }else{
                             this.reason = ' ';
                         }
-                        if(result.per.Initial_visit_scheduled_date__c && result.per.Initial_visit_scheduled_time__c){
+                        if(result.per.Initial_visit_scheduled_date__c && (result.per.Initial_visit_scheduled_time__c || result.per.Initial_visit_scheduled_time__c == 0)){
                             this.isInitialVisitsPresent = true;
                         }else{
                             this.isInitialVisitsPresent = false;
@@ -150,6 +150,10 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             mins = mins < 10 ? '0' + mins : mins;
                             this.initialVisitScheduledTime =  hrs+':' + mins + ':00.000Z';
                             this.per.Initial_visit_scheduled_time__c =  hrs+':' + mins + ':00.000Z';
+                        }
+                        if(result.per.Initial_visit_scheduled_time__c == 0){
+                            this.initialVisitScheduledTime =  '00:00:00.000';
+                            this.per.Initial_visit_scheduled_time__c = '00:00:00.000';
                         }
                     })
                     .then(() => {
@@ -169,6 +173,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             }
                             this.saveSpinner = false;
                             this.userDate = result.userDt;
+                            this.contSuccessReason = result.contSuccessReason; 
                             const tabEvent = new CustomEvent("handletabs", {});
                             this.dispatchEvent(tabEvent);
                             }).catch(error => {

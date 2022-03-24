@@ -183,7 +183,7 @@ public without sharing class PEStatusState {
     };
 
     //Add any new Status comes equivalent to below added statuses
-	public static final List<String> PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS = new List<String>{
+    public static final List<String> PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS = new List<String>{
         PE_STATUS_ENROLLMENT_SUCCESS,
         PE_STATUS_RANDOMIZATION_SUCCESS
     };
@@ -403,6 +403,40 @@ public without sharing class PEStatusState {
         PE_STATUS_TRIAL_COMPLETE => 9,
         PE_STATUS_DROP_OUT => 10,
         PE_STATUS_DECEASED => 11
+    };
+    //Pre Enrollment status group:
+    public static final List<String> PE_STATUS_GROUP_PRE_ENROLLMENT = new List<String>{
+        PE_STATUS_RECEIVED,
+        PE_STATUS_CONTACT_ATTEMPTED,
+        PE_STATUS_SUCCESSFULLY_CONTACTED,
+        PE_STATUS_PRE_REVIEW_PASSED,
+        PE_STATUS_SCREENING_PASSED,
+        PE_STATUS_SCREENING_IN_PROGRESS,
+        PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_ELIGIBILITY_PASSED
+    };
+    //Pre Enrollment status group for Pre-consent Toggle at CTP:
+    public static final List<String> PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE = new List<String>{
+        PE_STATUS_RECEIVED,
+        PE_STATUS_SUCCESSFULLY_CONTACTED,
+        PE_STATUS_PRE_REVIEW_PASSED,
+        PE_STATUS_CONTACT_ATTEMPTED,
+        PE_STATUS_ELIGIBILITY_PASSED
+    };
+    //Pre Enrollment status group for Consent through Enrolled/Randomized toggle at CTP:
+    public static final List<String> PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE = new List<String>{
+        PE_STATUS_SCREENING_IN_PROGRESS,
+        PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_SCREENING_PASSED
+    };
+
+    //Pre Enrollment status group for Completing the Pre Enrollment Visit Status.
+    public static final List<String> PE_STATUS_GROUP_FOR_COMPLETING_PRE_ENROLL_VISITS = new List<String>{
+        PE_STATUS_READY_TO_SCREEN,
+        PE_STATUS_ENROLLMENT_SUCCESS,
+        PE_STATUS_RANDOMIZATION_SUCCESS
     };
 
     static {

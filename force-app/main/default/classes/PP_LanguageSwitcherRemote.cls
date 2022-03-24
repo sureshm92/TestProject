@@ -40,14 +40,18 @@ public without sharing class PP_LanguageSwitcherRemote {
             system.debug('@@ in if ' + isMinor);
             User userdetail;
             if (!isMinor) {
-                userdetail = [
-                    SELECT ContactId,LocaleSidKey,LanguageLocaleKey,TimeZoneSidKey,Contact.Language__c,Contact.Second_Choice_Language__c,Contact.Third_Choice_Language__c,Contact.MailingCountry,Contact.MailingState FROM User WHERE contactId = :myContact.Id];
+							  
+                List<User> userdetails = [SELECT ContactId,LocaleSidKey,LanguageLocaleKey,TimeZoneSidKey,Contact.Language__c,Contact.Second_Choice_Language__c,Contact.Third_Choice_Language__c,Contact.MailingCountry,Contact.MailingState FROM User WHERE contactId = :myContact.Id];
+                if(userdetails !=null && !userdetails.isEmpty()){
+                    userdetail = userdetails[0];                    
+                }
+
             }
             //
 
             //initData.localeKey     = UserInfo.getLocale();
 
-            if (isMinor) {
+            if (isMinor || userdetail ==null) {
                 initData.languageKey = UserInfo.getLanguage();
                 initData.secondLangKey = myContact.Second_Choice_Language__c;
                 initData.thirdLangKey = myContact.Third_Choice_Language__c;
@@ -111,9 +115,14 @@ public without sharing class PP_LanguageSwitcherRemote {
             }
             system.debug('@@ isMinor' + isMinor);
             User userdetail;
+            List<User> userDetailsList;
             if (!isMinor)
-                userdetail = [SELECT id, LanguageLocaleKey, LocaleSidKey, Timezonesidkey, ContactId FROM User WHERE ContactId = :myContact.Id];
-            if (isMinor) {
+                userDetailsList = [SELECT id, LanguageLocaleKey, LocaleSidKey, Timezonesidkey, ContactId FROM User WHERE ContactId = :myContact.Id];
+            if(userDetailsList!=NULL && !userDetailsList.isEmpty()){
+                userdetail = userDetailsList[0];
+            }
+            
+            if (isMinor || userdetail==NULL) {
                 update new User(Id = userinfo.getUserId(),LanguageLocaleKey = languageKey,LocaleSidKey = localeKey,Timezonesidkey = timezoneKey);
                 system.debug('@@ in if');
             } else {
