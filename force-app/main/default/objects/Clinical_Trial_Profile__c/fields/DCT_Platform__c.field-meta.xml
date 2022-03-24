@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DCT_Platform__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>This field is dependent on the value of Promote to DCT</inlineHelpText>
+    <label>DCT Platform</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Promote_to_SH__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Study Hub</fullName>
+                <default>false</default>
+                <label>Study Hub</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Study Hub</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
