@@ -70,14 +70,14 @@
                             </div>
                         </div>
                         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap"  
-                             style="{!v.isRTL? 'margin-right: -23px;': 'padding-left:0px;'}">
+                             style="{!v.isRTL? 'width:100%;padding-left:7px; padding-right:2px': 'padding-left:0px;'}"
                             
                             <lightning:input
                                              aura:id="locationAddress"
                                              value="{!v.account.BillingStreet}"
                                              onblur="{!c.doTrimChanges}"
-                                             class="ss-lightning-input slds-col slds-size--1-of-2"
-                                             style="padding-left:1px;"
+                                             class="{!v.isRTL?'ss-lightning-input slds-col slds-size--1-of-2':'ss-lightning-input slds-col slds-size--1-of-2 street'}"
+                                             style="{!v.isRTL? 'width:50%;padding-left:9px; padding-right:0px': ''}"
                                              label="{!$Label.c.SS_Street_Address}"
                                              required="true"
                                              onchange="{!c.doCheckFields}"
@@ -87,8 +87,8 @@
                                              aura:id="locationCity"
                                              value="{!v.account.BillingCity}"
                                              onblur="{!c.doTrimChanges}"
-                                             class="ss-lightning-input slds-col slds-size--1-of-2"
-                                             style="padding-left:1px" 
+                                             class="{!v.isRTL?'ss-lightning-input slds-col slds-size--1-of-2':'ss-lightning-input slds-col slds-size--1-of-2 city'}"
+                                             style="{!v.isRTL? 'padding-left:5px; padding-right:2px': ''}" 
                                              label="{!$Label.c.SS_City}"
                                              required="true"
                                              onchange="{!c.doCheckFields}"
