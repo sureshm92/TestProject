@@ -342,16 +342,12 @@ public without sharing class NotificationAvailabilityService {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
-        isAvailable =
-            isAvailable &&
-            contact.Participant_Opt_In_Status_SMS__c &&
-            countryDialCodeMap.containsKey(contact.MailingCountryCode) &&
-            contact.Language__c.contains('en');
+        isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
         if (objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-                isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
+            isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
         }
         return isAvailable;
     }
