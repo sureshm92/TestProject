@@ -97,4 +97,8 @@ export default class Pir_participantPagination extends LightningElement {
             this.calculate();
         }
     }
+    @api goToStart(){
+        this.pageNumber= 1;        
+        this.calculate();        
+    }
 }
