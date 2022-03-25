@@ -36,8 +36,8 @@
     text-align: center;
 }
 .input-text{
-    padding-top: 10px;
-    font-weight: 600;
+    padding-top: 3px;
+    /* font-weight: 600; */
     font-size: 16px;
     text-align: center;
 }
