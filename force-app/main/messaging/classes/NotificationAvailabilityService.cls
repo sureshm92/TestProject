@@ -343,12 +343,6 @@ public without sharing class NotificationAvailabilityService {
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
         isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
-        if (objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
-                Id.valueOf(whatId)
-            );
-            isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
-        }
         return isAvailable;
     }
 
