@@ -8,7 +8,7 @@ public without sharing class PIR_ParticipantDetailController {
         SELECT
           id,
           MRN_Id__c,
-          Permit_IQVIA_to_contact_about_study__c,
+          Permit_Mail_Email_contact_for_this_study__c,
           Permit_SMS_Text_for_this_study__c,
           Permit_Voice_Text_contact_for_this_study__c,
           Referral_Source__c,
@@ -39,7 +39,8 @@ public without sharing class PIR_ParticipantDetailController {
           Participant__r.Mailing_State_Code__c,
           Participant__r.Mailing_Country__c,
           Participant__r.Mailing_Country_Code__c,
-          Participant__r.Mailing_Zip_Postal_Code__c
+          Participant__r.Mailing_Zip_Postal_Code__c,
+          Participant__r.Emancipation_in_progress__c
         FROM Participant_Enrollment__c
         WHERE id = :PEid
       ]
@@ -178,7 +179,7 @@ public without sharing class PIR_ParticipantDetailController {
       //Update Participant enrollment record
       if (isPeUpdated) {
         perToUpdate.Id = perRecord.Id;
-        perToUpdate.Permit_IQVIA_to_contact_about_study__c = perRecord.Permit_IQVIA_to_contact_about_study__c;
+        perToUpdate.Permit_Mail_Email_contact_for_this_study__c = perRecord.Permit_Mail_Email_contact_for_this_study__c;
         perToUpdate.Permit_SMS_Text_for_this_study__c = perRecord.Permit_SMS_Text_for_this_study__c;
         perToUpdate.Permit_Voice_Text_contact_for_this_study__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
         perToUpdate.MRN_Id__c = perRecord.MRN_Id__c;

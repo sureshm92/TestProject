@@ -76,6 +76,7 @@
                     <label class="ssp-label">{!$Label.c.PG_FP_L_Sort_by}</label>
                     <div class="{!v.isRTL? 'ssp-sort-listRTL':'ssp-sort-list'}">
                         <c:rrSelect
+                            class="width"
                             value="{!v.sortType}"
                             options="{!v.sortVariants}"
                             setValueAsSelected="{!v.setValueAsSelected}"

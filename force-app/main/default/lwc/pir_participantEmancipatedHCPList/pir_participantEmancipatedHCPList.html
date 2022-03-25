@@ -1,0 +1,29 @@
+<template>
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
+        <lightning-input type="email" label={label.HealthCare_Providers_Email} title={label.HealthCare_Providers_Email} value={email} disabled="true"></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
+        <lightning-input type="text" label={label.HealthCare_Providers_First_Name} title={label.HealthCare_Providers_First_Name} value={firstName} disabled="true"></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_x-small">
+        <lightning-input type="text" label={label.HealthCare_Providers_Last_Name} title={label.HealthCare_Providers_Last_Name} value={lastName} disabled="true"></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_x-small">
+        <template if:true={isInvited}>
+            <button class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_large" title={label.HealthCare_Provider_Stop_Sharing} onclick={doDisconnect}>                                                              
+                {label.HealthCare_Provider_Stop_Sharing}
+            </button>
+        </template>
+        <template if:false={isInvited}>
+            <button class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_large" title={label.HealthCare_Provider_Connect} onclick={doConnect}>                                                              
+                {label.HealthCare_Provider_Connect}
+            </button>
+        </template>
+        </div>
+    </div>
+</template>
