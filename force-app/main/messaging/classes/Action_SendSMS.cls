@@ -421,6 +421,7 @@ public with sharing class Action_SendSMS implements Action {
                     Study_Site__r.Sponsor_AWS__c,
                     Study_Site__r.Study_AWS__c,
                     Permit_SMS_Text_for_this_study__c,
+                    Study_Site__r.SMS_Are_Available__c,
                     (
                         SELECT
                             Id,
@@ -435,7 +436,8 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Study_Site__c,
                             Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
-                            Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c
+                            Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                            Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
                     )
@@ -509,7 +511,9 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = peOBJ.Study_Site__r.Study_AWS__c;
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
-                        isSMSAvailableForPER = peOBJ.Permit_SMS_Text_for_this_study__c;
+                        isSMSAvailableForPER =
+                            peOBJ.Permit_SMS_Text_for_this_study__c &&
+                            peOBJ.Study_Site__r.SMS_Are_Available__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                     } else if (objType == 'Clinical_Trial_Profile__c') {
                         sponsorName = ctpMap.get(whatId).Sponsor_AWS__c;
@@ -522,7 +526,9 @@ public with sharing class Action_SendSMS implements Action {
                         ) {
                             if (per.Clinical_Trial_Profile__c == whatId) {
                                 studySiteId = per.Study_Site__c;
-                                isSMSAvailableForPER = per.Permit_SMS_Text_for_this_study__c;
+                                isSMSAvailableForPER =
+                                    per.Permit_SMS_Text_for_this_study__c &&
+                                    per.Study_Site__r.SMS_Are_Available__c;
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     per.Study_Site__r.From_Number__c
@@ -537,7 +543,6 @@ public with sharing class Action_SendSMS implements Action {
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant_Enrollment__c'
                         ) {
-                            //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                             pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
@@ -547,8 +552,11 @@ public with sharing class Action_SendSMS implements Action {
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
-                            isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Permit_SMS_Text_for_this_study__c;
+                            isSMSAvailableForPER =
+                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                    .Permit_SMS_Text_for_this_study__c &&
+                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                    .Study_Site__r.SMS_Are_Available__c;
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -560,7 +568,6 @@ public with sharing class Action_SendSMS implements Action {
                         if (surveyInvitationMap.get(whatId) != null) {
                             if (surveyInvitationMap.get(whatId).IsTrialSurvey__c) {
                                 isPlatformLevel = false;
-                                //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                                 pinPoint = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
                                 sponsorName = surveyInvitationMap.get(whatId)
@@ -571,8 +578,11 @@ public with sharing class Action_SendSMS implements Action {
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                                 studySiteId = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__c;
-                                isSMSAvailableForPER = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c;
+                                isSMSAvailableForPER =
+                                    surveyInvitationMap.get(whatId)
+                                        .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                    surveyInvitationMap.get(whatId)
+                                        .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     surveyInvitationMap.get(whatId)
@@ -589,7 +599,6 @@ public with sharing class Action_SendSMS implements Action {
                             'Participant_Enrollment__c'
                         ) {
                             isPlatformLevel = false;
-                            //pinPoint = peOBJ.Study_Site__r.Pin_Point_ProjectId__c;
                             pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
@@ -599,8 +608,11 @@ public with sharing class Action_SendSMS implements Action {
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
-                            isSMSAvailableForPER = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Permit_SMS_Text_for_this_study__c;
+                            isSMSAvailableForPER =
+                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                    .Permit_SMS_Text_for_this_study__c &&
+                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                    .Study_Site__r.SMS_Are_Available__c;
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
