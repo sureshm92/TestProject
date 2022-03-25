@@ -484,10 +484,6 @@ public with sharing class Action_SendSMS implements Action {
             ]
         );
 
-        NotificationResultService sendResultService = new NotificationResultService(
-            notificationsList
-        );
-
         for (Notification__c notObj : notificationsList) {
             if (notObj.WhatId__c != null) {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
@@ -635,33 +631,21 @@ public with sharing class Action_SendSMS implements Action {
                     }
                 }
 
-                Boolean skipSMS = false;
-                //skip sms for study level notification if SMS is not opt in at PER level
-                if (!isPlatformLevel && !isSMSAvailableForPER) {
-                    skipSMS = true;
+                if (!isPlatformLevel && isSMSAvailableForPER) {
+                    NotificationService.studyLevelSMSSet.Add(notObj.Id);
+                } else if (isPlatformLevel) {
+                    NotificationService.platfomLevelSMSSet.Add(notObj.Id);
                 }
-
-                if (!skipSMS) {
-                    PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
-                    pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
-                    pinpointWrapperObj.studyPinpoint = pinPoint;
-                    pinpointWrapperObj.sponsorName = sponsorName;
-                    pinpointWrapperObj.studyName = studyName;
-                    pinpointWrapperObj.ctpTemplate = ctpTemplateName;
-                    pinpointWrapperObj.studySiteId = studySiteId;
-                    pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
-                } else {
-                    Notification_Target__mdt smsTarget = NotificationService.getNotificationTarget(
-                        notObj.Notification_Type__c,
-                        NotificationService.NOTIFICATION_TARGET_TYPE_SMS
-                    );
-                    sendResultService.setSkipped(notObj.Id, smsTarget.Target_Type__c);
-                }
+                PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
+                pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
+                pinpointWrapperObj.studyPinpoint = pinPoint;
+                pinpointWrapperObj.sponsorName = sponsorName;
+                pinpointWrapperObj.studyName = studyName;
+                pinpointWrapperObj.ctpTemplate = ctpTemplateName;
+                pinpointWrapperObj.studySiteId = studySiteId;
+                pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
             }
         }
-        //for updating records(updating status of notification and send results)
-        sendResultService.updateResults();
-
         return pinPointWrapperMapObj;
     }
 }
