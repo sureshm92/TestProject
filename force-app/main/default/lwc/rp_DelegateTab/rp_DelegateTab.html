@@ -62,31 +62,43 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree} 
-                                    label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true"
+                                <div class="tooltip">
+                                    <div class="textoverlap telephone">{label.RH_RP_Delegate_Phone_Type}</div>
+                                  <lightning-combobox disabled={isaccesslevelthree} 
+                                    variant="label-hidden" name="Phone Type" required="true"
                                     placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Primary_Delegate_Phone_Type__c}
                                     options={pe.delegatePhoneTypeList} data-value="DelPhoneType"
                                     data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
-                                </lightning-combobox>
+                                  </lightning-combobox>
+                                  <span>{label.RH_RP_Delegate_Phone_Type}</span>
+                                </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
-                                <lightning-input disabled={isaccesslevelthree} type="text"
-                                    label={label.RH_RP_Delegate_Alt_Phone_Number} name="PDAP"
+                                <div class="tooltip">
+                                    <div class="textoverlap">{label.RH_RP_Delegate_Alt_Phone_Number}</div>
+                                 <lightning-input disabled={isaccesslevelthree} type="text"
+                                    variant="label-hidden" name="PDAP"
                                     value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP"
                                     data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                                    <span>{label.RH_RP_Delegate_Alt_Phone_Number}</span>
+                                </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree}
-                                    label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT"
+                                <div class="tooltip">
+                                    <div class="textoverlap">{label.RH_RP_Delegate_Alt_Phone_Type}</div>
+                                 <lightning-combobox disabled={isaccesslevelthree}
+                                    variant="label-hidden" name="PDAT"
                                     placeholder={label.RH_RP_Select_Alternative_Type}
                                     value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}
                                     options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}
                                     onchange={changeInputValue} class="col-top">
-                                </lightning-combobox>
+                                 </lightning-combobox>
+                                 <span>{label.RH_RP_Delegate_Alt_Phone_Type}</span>
+                               </div>
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>

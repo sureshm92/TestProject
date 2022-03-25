@@ -117,6 +117,7 @@ export default class Pir_participantParent extends LightningElement {
   }
   //pagination
   totalRecord;
+  showZeroErr  = false;
   pageChanged(event) {
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
@@ -125,6 +126,9 @@ export default class Pir_participantParent extends LightningElement {
   }
   recCountUpdate(event) {
     this.totalRecord = event.detail;
+    if(this.totalRecord == 0){
+      this.showZeroErr = true;
+    }
   }
   handleSpinner(event) {
     this.isLoaded = event.detail;
@@ -233,7 +237,7 @@ export default class Pir_participantParent extends LightningElement {
       this.isSPModalOpen = true;
       this.template.querySelector("lightning-tabset").activeTabValue = "Sharing Options";
     }else{
-
+      this.isSharingTab = false;
     this.isParticipantDetail = false;
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Status Details";
@@ -259,6 +263,7 @@ export default class Pir_participantParent extends LightningElement {
         this.isParticipantDetail = false;
         this.template.querySelector("lightning-tabset").activeTabValue = "Sharing Options";        
       } else{
+        this.isSharingTab = false;
         this.selectedTab = "Participant Details";
       }
     }
@@ -315,10 +320,13 @@ export default class Pir_participantParent extends LightningElement {
     this.selectedTab = "Health Information"; 
     console.log('stb-1->'+this.selectedTab);
     this.isMedicalTab = true;
+    this.isParticipantDetail = false;
     this.disableMedicalSaveButton = true;
+     this.isParticipantDetail = false;
     this.template.querySelector("c-medicalinformation").doSelectedPI();  
    
   }else{
+    this.isSharingTab = false;
     this.isMedicalTab = true;
     this.isParticipantDetail = false;
     //this.disableMedicalSaveButton = true;
@@ -407,7 +415,6 @@ export default class Pir_participantParent extends LightningElement {
   }
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
-
     console.log('this.dropdownLabel',this.dropdownLabel);
   }
   handlepopup(event){

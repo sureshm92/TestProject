@@ -20,7 +20,7 @@
                    <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
                </span>
            </div>
-           <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
+           <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
                    <c-pir_participant-header onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail}></c-pir_participant-header>
                </div>
@@ -31,7 +31,7 @@
                            </lightning-tab> 
                            <lightning-tab label="Participant Details" value="Participant Details" onactive={handleParticipantTab} class="no-padding">
                               <template if:true={isParticipantDetail}>        
-                                 <c-pir_participant-detail action-req={selectedPE.actionReq} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
+                                 <c-pir_participant-detail action-req={selectedPE.actionReq} peid={selectedPE.id} selected-p-e={selectedPE} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
                              </template>
                            </lightning-tab>
                            <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
@@ -42,9 +42,6 @@
                                    <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
-                           <!-- <lightning-tab label="Emancipation" value="" class="no-padding">                                
-                               <c-pir_participant-emancipated selected-p-e = {selectedPE}></c-pir_participant-emancipated>
-                           </lightning-tab> -->
                        </lightning-tabset>
                </div>
                <template if:true={isLoaded}>
