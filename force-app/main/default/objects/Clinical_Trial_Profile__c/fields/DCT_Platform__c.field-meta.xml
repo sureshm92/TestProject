@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <inlineHelpText>This field is dependent on the value of Promote to DCT</inlineHelpText>
     <label>DCT Platform</label>
-    <required>true</required>
+    <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
