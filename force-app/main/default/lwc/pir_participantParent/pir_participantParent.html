@@ -17,9 +17,10 @@
        <div class="boxShadow maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <span>
-                   <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
+                   <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox}></c-pir_participant-list>
                </span>
            </div>
+		    <template if:false={progressValue}> 
            <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
                    <c-pir_participant-header onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail}></c-pir_participant-header>
@@ -50,14 +51,40 @@
                    </div>
                </template>  
            </div>
-         </div>
-       <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg"> 
+		    </template>
+       <template if:true={progressValue}> 
+           <template if:true={saving}>
+               <lightning-spinner alternative-text="Loading..." variant="brand">
+               </lightning-spinner>
+           </template>
+           <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 L slds-align_absolute-center" >
+                <div class="slds-grid slds-wrap slds-gutters ">
+                      <div class="user-detail">
+                        <img class="user-img slds-m-bottom_small" src={usericon}/>
+                        <h2 class="slds-text-heading_large slds-m-bottom_medium headertext"> {countValue} Participant(s) Selected </h2>
+                        <template if:false={exportItem}>
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
+                         </template>
+                         <template if:true={exportItem}>
+                           <button class="apollo-btn secondary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  > Export All</button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown "  disabled={exportDisable} > Export Selected </button> 
+                        </template>
+                        <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile btn-dropdown" onclick={onCancel}> Cancel  </button>
+
+                      </div>
+                </div>
+               
+            </div> 
+         </template>
+      </div>
+       <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" > 
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
                    <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
-           </div>
-           <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D savesticky">
+           </div>   
+		   <template if:false={progressValue}>
+           <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D savesticky">
             <template if:false={isSharingTab}>
                <span>
                   <template if:true={isStatusDetail}> <!--only for status detail -->
@@ -72,7 +99,14 @@
                </span> 
             </template>
            </div>
-        </div> 
+		    </template>
+          
+       <!-- <template if:true={progressValue}>
+            <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 save-btn-p D">
+               <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" onclick={onCancel}> Cancel  </button>
+            </div> 
+        </template>-->
+      </div>
    </div>
    <template if:true={isModalOpen}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
