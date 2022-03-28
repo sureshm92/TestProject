@@ -3,10 +3,36 @@
         <div class="slds-button sharing-error">                     
              <img class="err-img" src={imgSrc}/>                      
           <div class="err-info">
-             <div class="step-text">
-                <span>{duplicateInfo.email}&nbsp;&nbsp;</span>
+             <div if:false={isNotDupMsg} class="step-text">
+                <b>{duplicateInfo.email}&nbsp;</b>
                 <span>{duplicateMessage}</span>
-             </div>                  
+                <div data-gtm="BTN_DDMessage" if:false={duplicateInfo.isDuplicateDelegate}>
+                  <button 
+                     class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_small slds-button slds-button_neutral" 
+                     data-name='connect'
+                     onclick={onClickHandler}>                                                              
+                     {label.UseEnteredEmailAddress}
+                  </button>
+                  
+              </div>
+             </div>   
+             <div if:true={isNotDupMsg} class="step-text">  
+               <b> {label.updatelabel}</b>
+               <div data-gtm="BTN_DDMessage" >
+                  <button 
+                     class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_small slds-button slds-button_neutral" 
+                     data-name='connect'
+                     onclick={useExisting}>                                                              
+                     {label.BTN_Updating_Existing_Delegate}
+                  </button>
+                  <button 
+                     class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_small slds-button slds-button_neutral" 
+                     data-name='connect'
+                     onclick={createNew}>                                                              
+                     {label.BTN_Create_New_Delegate}
+                  </button>
+              </div>
+             </div>             
           </div>
         </div>
     </div>

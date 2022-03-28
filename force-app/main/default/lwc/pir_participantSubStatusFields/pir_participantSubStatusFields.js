@@ -756,6 +756,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.customFieldValidation("Consent Signed");
       this.customButtonValidation();
     }
+    if(this.selectedOutcome == "Unable_to_Reach"){
+      this.customButtonValidation();
+    }
     // this.customFieldValidation('RandomizationID');
     // this.customFieldValidation('FinalConsent');
     this.isdataChanged();
@@ -848,6 +851,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if(this.selectedOutcome == "Contacted_Not_Suitable" &&  this.selectedreason == ""){
           this.customButtonValidation(); 
           return this.utilLabels.PG_ACPE_L_Notes_Required;
+    }else if(this.selectedOutcome == "Unable_to_Reach" &&  this.selectedreason == ""){
+      this.customButtonValidation(); 
+      return this.utilLabels.PG_ACPE_L_Notes_Required;
     }else{
       if (this.notesNeeded.includes(this.selectedreason)) {
         this.customButtonValidation();
@@ -1061,7 +1067,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
 
     //6.
-    if(this.selectedOutcome == "Contacted_Not_Suitable"  &&  this.participantrecord.Non_Enrollment_Reason__c == ''){
+    if((this.selectedOutcome == "Contacted_Not_Suitable" || this.selectedOutcome == "Unable_to_Reach") &&  this.participantrecord.Non_Enrollment_Reason__c == ''){
       if (notes != null && notes != "" && notes.length != 0) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);
@@ -1554,9 +1560,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
 
   getSaved() {
-    console.log("<----Old Value--->");
-    console.log("per record" + JSON.stringify(this.pe_record));
-    // if(this.additionalNote != null && this.additionalNote !=''){
     if (this.statusChanged) {
       if ((this.additionalNote != "") & (this.additionalNote != null)) {
         this.participantrecord.Last_Status_Changed_Notes__c = this.additionalNote;
@@ -1570,7 +1573,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Last_Status_Changed_Additional_Notes__c = this.additionalNoteIV;
       }
     }
-    // }
     if (!this.statusChanged) {
       if(this.participantrecord.Participant_Status__c != "Ready to Screen"){
         delete this.participantrecord.Participant_Status__c;
@@ -1589,11 +1591,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     if(this.participantrecord.ParticipantNoShow__c){ 
       this.participantrecord.Participant_Status__c = 'Unable to Reach';
-      this.participantrecord.Non_Enrollment_Reason__c='Didn\'t Show For Initial Visit';
+      this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit';
     }
-    console.log(
-      "STATUS TO UPDATE-->" + this.participantrecord.Participant_Status__c
-    );
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1607,12 +1607,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-
-    console.log("<----Save--->");
-    console.log(JSON.stringify(this.participantrecord));
-    console.log("Additional NOte-->" + this.additionalNote);
-    console.log("Additional NOteIV-->" + this.additionalNoteIV);
-    console.log("Selected Outcome-->" + this.selectedOutcome);
+    if(this.participantrecord.Participant_Status__c == "Declined Final Consent"){
+      this.participantrecord.Final_consent__c = false;
+    }
+   
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
@@ -1664,7 +1662,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       title: Message,
       message: Message,
       variant: "success",
-      mode: "dismissable"
+      mode: "sticky"
     });
     this.dispatchEvent(evt);
   }

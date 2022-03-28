@@ -14,20 +14,30 @@ public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
         if (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT)
             templates.add(null);
         List<Participant_Enrollment__c> enrollments = [
-            SELECT Id, Referral_Source__c, Study_Site__r.Study_Site_Type__c
+            SELECT Id, Referral_Source__c, Study_Site__r.Study_Site_Type__c,Invited_to_PP_Date__c
             FROM Participant_Enrollment__c
             WHERE
                 Participant_Contact__c = :recipientContactId
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :templates
             ORDER BY CreatedDate DESC
         ];
+        Participant_Enrollment__c enrollment;        
         if (!enrollments.isEmpty()) {
-            whatId = enrollments.get(0).Id;
-            studySiteType = enrollments.get(0).Study_Site__r.Study_Site_Type__c;
+            for(Participant_Enrollment__c pe: enrollments){
+                if(pe.Invited_to_PP_Date__c !=null){
+                    enrollment = pe;
+                    break;
+                }
+            }
+            if(enrollment ==null){
+                enrollment = enrollments.get(0);
+            }
+            whatId = enrollment.Id;
+            studySiteType = enrollment.Study_Site__r.Study_Site_Type__c;
             parametersProviderName = 'Email_Template_Parameters_From_PE';
-            if (enrollments.get(0).Referral_Source__c == 'PI') {
+            if (enrollment.Referral_Source__c == 'PI') {
                 userMode = 'Participant referred by PI';
-            } else if (enrollments.get(0).Referral_Source__c == 'HCP') {
+            } else if (enrollment.Referral_Source__c == 'HCP') {
                 userMode = 'Participant referred by HCP';
             }
         }

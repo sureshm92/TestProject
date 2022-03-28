@@ -4,6 +4,9 @@
  */
 
 public without sharing class NotificationService {
+    public static Set<Id> platfomLevelSMSSet = new Set<Id>();
+    public static Set<Id> studyLevelSMSSet = new Set<Id>();
+
     static public List<String> participantStatusListForHCP = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED,
         PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
@@ -322,6 +325,9 @@ public without sharing class NotificationService {
         List<Notification__c> pushNotifications = new List<Notification__c>();
         NotificationResultService sendResultService = new NotificationResultService(notifications);
 
+        //Check if SMS is applicable to send for Study level notification.
+        Action_SendSMS obj = new Action_SendSMS(notifications);
+
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
@@ -409,7 +415,10 @@ public without sharing class NotificationService {
                         );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
-                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
+                    Boolean isSMSAvailableAtPlatformLevel =
+                        platfomLevelSMSSet.contains(n.Id) &&
+                        availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+                    if (isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id)) {
                         if (
                             (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                             (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&

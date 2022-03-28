@@ -100,6 +100,8 @@ public without sharing class PIR_StatusDetailController {
     public List<BubbleMapDetails> BubbleMaps;
     @AuraEnabled
     public Date userDt;
+    @AuraEnabled
+    public String contSuccessReason;
   }
 
   public class BubbleMapDetails {
@@ -237,7 +239,7 @@ public without sharing class PIR_StatusDetailController {
         ) {
           wrap.groupIcon = SUCCESS;
           if(per[0].Initial_visit_occurred_date__c != Null){
-              wrap.groupDate = getUTCDateTime(per[0].Initial_visit_occurred_date__c);
+             wrap.groupDate = per[0].Initial_visit_occurred_date__c;
           }else{
               wrap.groupDate = Null;
           }
@@ -815,7 +817,8 @@ public without sharing class PIR_StatusDetailController {
           Additional_Notes__c,
           CreatedBy.IsPortalEnabled,
           CreatedBy.contact.userCommunityMode__c,
-          Status_Label__c
+          Status_Label__c,
+          ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
         FROM Participant_Enrollment_Status_History__c
         WHERE
           ParticipantEnrollment__c = :pe
@@ -849,7 +852,11 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-            title = Label.Sent_to_Study_Hub;
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c){
+                  title = Label.Sent_to_Study_Hub;
+              }else{
+                  title = Label.Eligibility_Passed_Status_Value;
+              }
           } else {
             title = pesh.Status__c;
           }
@@ -1190,6 +1197,7 @@ public without sharing class PIR_StatusDetailController {
   public static BubbleMapWrap getBubbleStatus(Id perId) {
     try {
       List<BubbleMapDetails> bubbledetails = new List<BubbleMapDetails>();
+      List<Participant_Enrollment_Status_History__c> pesh = new List<Participant_Enrollment_Status_History__c>();
       Participant_Enrollment__c sobjPER = [
         SELECT Id, Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c
         FROM Participant_Enrollment__c
@@ -1283,6 +1291,12 @@ public without sharing class PIR_StatusDetailController {
         bubblewrp.BubbleMaps = bubbledetails;
       }
       bubblewrp.userDt = system.today();
+      pesh = [Select Id,Status_Label__c,ParticipantEnrollment__c,Non_Enrollment_Reason__c from Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c =:perId AND Status_Label__c =: 'Successfully_Contacted' Order By LastModifiedDate Desc Limit 1];
+      if(pesh!=null && !pesh.isEmpty()) {
+          bubblewrp.contSuccessReason = pesh[0].Non_Enrollment_Reason__c;
+      }else{
+          bubblewrp.contSuccessReason = '';
+      }
       return bubblewrp;
     } catch (Exception e) {
       throw new AuraHandledException(
@@ -1355,6 +1369,7 @@ public without sharing class PIR_StatusDetailController {
                                                             'PIR_Did_Not_Attend_Appointment' => 'Did Not Attend Appointment',
                                                             'PWS_Picklist_Value_Protocol_Concerns' => 'Protocol Concerns',
                                                             'PIR_Visit_Out_Of_Window' => 'Visit Out Of Window',
+                                                             'Didnt Show For Initial Visit' => 'Didn\'t Show For Initial Visit',
                                                             '' => ''
                                                              };
     

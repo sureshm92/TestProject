@@ -1,0 +1,48 @@
+<template>
+
+    <div class="maindiv">
+        <template if:true={isloaded}>
+          
+       
+        <div class="divpadding">  
+            <template if:true={surveyresponse.fr.Positive_for_COVID_19__c}>
+                {Label.CP_See_if_You_Qualify_Test_Positive} &nbsp;{Label.CP_Symptoms_Yes}
+            </template>
+            <template if:false={surveyresponse.fr.Positive_for_COVID_19__c}>
+                {Label.CP_See_if_You_Qualify_Test_Positive} &nbsp;{Label.CP_Symptoms_No}
+            </template>
+            
+        </div>
+        <div class="divpadding">
+            {Label.CP_Test_Date} &nbsp;{surveyresponse.fr.Covid_19_Test_Date__c}
+        </div> 
+
+        <div class="divpadding">
+            {Label.CP_Estimated_date_of_first_symptom}:
+            &nbsp;{surveyresponse.fr.Estimated_Date_of_first_symptom__c}
+        </div>
+        <div class="divpadding">
+            {Label.CP_Estimated_date_of_last_symptom}:
+            &nbsp;{surveyresponse.fr.Estimated_date_of_last_symptom__c}
+        </div>
+        <div class="divpadding">
+            {Label.CP_Outside_Organization_Label} - {surveyresponse.fr.Referral_Org__c}
+        </div>
+        <div class="divpadding">
+            {Label.CP_Referring_Organization} - {surveyresponse.fr.Other_Referral_Org__c}
+        </div> 
+    
+        <div class="divpadding">
+            {Label.CP_Test_Result} -
+            <a
+                href= {hrefSrc}
+                target="_blank"
+                download={filename}
+                >{filename}</a
+            >
+             <!--<a href="{!'/Covid19/servlet/servlet.FileDownload?file=' + v.surveyresponse.entries[0].Id}"></a>-->
+        </div> 
+    </template>
+    </div>
+
+</template>
