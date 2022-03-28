@@ -107,7 +107,54 @@ import PWS_Picklist_Value_Participant_Not_Interested from '@salesforce/label/c.P
 import PWS_Picklist_Value_Transportation_Issues from '@salesforce/label/c.PWS_Picklist_Value_Transportation_Issues';
 import PWS_Picklist_Value_Protocol_Concerns from '@salesforce/label/c.PWS_Picklist_Value_Protocol_Concerns';
 import PE_STATUS_ENROLLMENT_SUCCESS from '@salesforce/label/c.PE_STATUS_ENROLLMENT_SUCCESS';
-
+import BTN_Participant_Information from '@salesforce/label/c.BTN_Participant_Information';
+import PG_Ref_L_Participant_require_invitation from '@salesforce/label/c.PG_Ref_L_Participant_require_invitation';
+import PG_EMN_MSG_Update_Participant_Info from '@salesforce/label/c.PG_EMN_MSG_Update_Participant_Info';
+import PG_AS_F_First_name from '@salesforce/label/c.PG_AS_F_First_name';
+import PG_AS_F_Middle_name from '@salesforce/label/c.PG_AS_F_Middle_name';
+import PG_AS_F_Last_name from '@salesforce/label/c.PG_AS_F_Last_name';
+import PG_AS_F_Suffix from '@salesforce/label/c.PG_AS_F_Suffix';
+import PG_AS_F_Nickname from '@salesforce/label/c.PG_AS_F_Nickname';
+import PG_AS_F_Date_of_Birth from '@salesforce/label/c.PG_AS_F_Date_of_Birth';
+import PG_AS_F_Gender from '@salesforce/label/c.PG_AS_F_Gender';
+import PG_EMN_MSG_Update_Contact_Info from '@salesforce/label/c.PG_EMN_MSG_Update_Contact_Info';
+import PG_Ref_L_Primary_daytime_telephone_number from '@salesforce/label/c.PG_Ref_L_Primary_daytime_telephone_number';
+import PG_AP_F_Phone_Type from '@salesforce/label/c.PG_AP_F_Phone_Type';
+import PG_AS_F_Email_address from '@salesforce/label/c.PG_AS_F_Email_address';
+import PE_Country from '@salesforce/label/c.PE_Country';
+import PE_State from '@salesforce/label/c.PE_State';
+import PG_AS_F_Zip_Postal_Code from '@salesforce/label/c.PG_AS_F_Zip_Postal_Code';
+import PG_AP_F_Alternative_Phone_Number from '@salesforce/label/c.PG_AP_F_Alternative_Phone_Number';
+import PG_AP_F_Alternative_Phone_Type from '@salesforce/label/c.PG_AP_F_Alternative_Phone_Type';
+import SS_Confirm_and_Manage from '@salesforce/label/c.SS_Confirm_and_Manage';
+import BTN_Invite from '@salesforce/label/c.BTN_Invite';
+import Do_Not_Invite from '@salesforce/label/c.Do_Not_Invite';
+import PP_Participant from '@salesforce/label/c.PP_Participant';
+import PP_Delegate from '@salesforce/label/c.PP_Delegate';
+import PP_Provider_Access from '@salesforce/label/c.PP_Provider_Access';
+import PP_Review_and_Confirm from '@salesforce/label/c.PP_Review_and_Confirm';
+import PG_AP_H_Patient_Details from '@salesforce/label/c.PG_AP_H_Patient_Details';
+import PG_AP_H_Patient_Contact_Information from '@salesforce/label/c.PG_AP_H_Patient_Contact_Information';
+import PG_L_Name from '@salesforce/label/c.PG_L_Name';
+import PE_Phone_number from '@salesforce/label/c.PE_Phone_number';
+import RP_DOB_label from '@salesforce/label/c.RP_DOB_label';
+import PG_Ref_L_Delegate_Information from '@salesforce/label/c.PG_Ref_L_Delegate_Information';
+import PG_Ref_L_Delegate_ensure_info_uptodate from '@salesforce/label/c.PG_Ref_L_Delegate_ensure_info_uptodate';
+import PG_AS_F_Phone_Type from '@salesforce/label/c.PG_AS_F_Phone_Type';
+import PG_Ref_L_Delegate_continue_be_delegate from '@salesforce/label/c.PG_Ref_L_Delegate_continue_be_delegate';
+import Continue from '@salesforce/label/c.Continue';
+import Do_Not_Continue from '@salesforce/label/c.Do_Not_Continue';
+import PG_Ref_L_Participant_require_optional_email from '@salesforce/label/c.PG_Ref_L_Participant_require_optional_email';
+import PG_Ref_L_Participant_require_agree from '@salesforce/label/c.PG_Ref_L_Participant_require_agree';
+import Add_Delegate from '@salesforce/label/c.Add_Delegate';
+import HealthCare_Provider_Stop_Sharing from '@salesforce/label/c.HealthCare_Provider_Stop_Sharing';
+import HealthCare_Provider_Connect from '@salesforce/label/c.HealthCare_Provider_Connect';
+import BTN_HealthCare_Provider_Information from '@salesforce/label/c.BTN_HealthCare_Provider_Information';
+import BTN_Participant_Would_Like_Share_Info from '@salesforce/label/c.BTN_Participant_Would_Like_Share_Info';
+import BTN_Add_Provider from '@salesforce/label/c.BTN_Add_Provider';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import BTN_Next from '@salesforce/label/c.BTN_Next';
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 
     const label = {
         Received: Received,
@@ -217,6 +264,54 @@ import PE_STATUS_ENROLLMENT_SUCCESS from '@salesforce/label/c.PE_STATUS_ENROLLME
         PWS_Picklist_Value_Participant_Not_Interested:PWS_Picklist_Value_Participant_Not_Interested,
         PWS_Picklist_Value_Transportation_Issues:PWS_Picklist_Value_Transportation_Issues,
         PWS_Picklist_Value_Protocol_Concerns:PWS_Picklist_Value_Protocol_Concerns,
-        PE_STATUS_ENROLLMENT_SUCCESS:PE_STATUS_ENROLLMENT_SUCCESS 
+        PE_STATUS_ENROLLMENT_SUCCESS:PE_STATUS_ENROLLMENT_SUCCESS,
+        BTN_Participant_Information:BTN_Participant_Information,
+        PG_Ref_L_Participant_require_invitation:PG_Ref_L_Participant_require_invitation,
+        PG_EMN_MSG_Update_Participant_Info:PG_EMN_MSG_Update_Participant_Info,
+        PG_AS_F_First_name:PG_AS_F_First_name,
+        PG_AS_F_Middle_name:PG_AS_F_Middle_name,
+        PG_AS_F_Last_name:PG_AS_F_Last_name,
+        PG_AS_F_Suffix:PG_AS_F_Suffix,
+        PG_AS_F_Nickname:PG_AS_F_Nickname,
+        PG_AS_F_Date_of_Birth:PG_AS_F_Date_of_Birth,
+        PG_AS_F_Gender:PG_AS_F_Gender,
+        PG_EMN_MSG_Update_Contact_Info:PG_EMN_MSG_Update_Contact_Info,
+        PG_Ref_L_Primary_daytime_telephone_number:PG_Ref_L_Primary_daytime_telephone_number,
+        PG_AP_F_Phone_Type:PG_AP_F_Phone_Type,
+        PG_AS_F_Email_address:PG_AS_F_Email_address,
+        PE_Country:PE_Country,
+        PE_State:PE_State,
+        PG_AS_F_Zip_Postal_Code:PG_AS_F_Zip_Postal_Code,
+        PG_AP_F_Alternative_Phone_Number:PG_AP_F_Alternative_Phone_Number,
+        PG_AP_F_Alternative_Phone_Type:PG_AP_F_Alternative_Phone_Type,
+        SS_Confirm_and_Manage:SS_Confirm_and_Manage,
+        BTN_Invite:BTN_Invite,
+        Do_Not_Invite:Do_Not_Invite,
+        PP_Participant:PP_Participant,
+        PP_Delegate:PP_Delegate,
+        PP_Provider_Access:PP_Provider_Access,
+        PP_Review_and_Confirm:PP_Review_and_Confirm,
+        PG_AP_H_Patient_Details:PG_AP_H_Patient_Details,
+        PG_AP_H_Patient_Contact_Information:PG_AP_H_Patient_Contact_Information,
+        PG_L_Name:PG_L_Name,
+        PE_Phone_number:PE_Phone_number,
+        RP_DOB_label:RP_DOB_label,
+        PG_Ref_L_Delegate_Information:PG_Ref_L_Delegate_Information,
+        PG_Ref_L_Delegate_ensure_info_uptodate:PG_Ref_L_Delegate_ensure_info_uptodate,
+        PG_AS_F_Phone_Type:PG_AS_F_Phone_Type,
+        PG_Ref_L_Delegate_continue_be_delegate:PG_Ref_L_Delegate_continue_be_delegate,
+        Continue:Continue,
+        Do_Not_Continue:Do_Not_Continue,
+        PG_Ref_L_Participant_require_optional_email:PG_Ref_L_Participant_require_optional_email,
+        PG_Ref_L_Participant_require_agree:PG_Ref_L_Participant_require_agree,
+        Add_Delegate:Add_Delegate,
+        HealthCare_Provider_Stop_Sharing:HealthCare_Provider_Stop_Sharing,
+        HealthCare_Provider_Connect:HealthCare_Provider_Connect,
+        BTN_HealthCare_Provider_Information:BTN_HealthCare_Provider_Information,
+        BTN_Participant_Would_Like_Share_Info:BTN_Participant_Would_Like_Share_Info,
+        BTN_Add_Provider:BTN_Add_Provider,
+        BTN_Save:BTN_Save,
+        BTN_Next:BTN_Next,
+        BTN_Back:BTN_Back
     };
     export {label};

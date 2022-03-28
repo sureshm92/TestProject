@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component description="ParticipantCard">
+<aura:component description="ParticipantCard">
     <!-- attributes: -->
     <aura:attribute name="participantItem" type="ParticipantItem" />
     <aura:attribute name="actions" type="List" />
@@ -12,12 +12,14 @@
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isInvited" type="Boolean" />
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean" />
-    <aura:attribute name="sendToSH" type="Boolean"/>
-    <aura:attribute name="sendToSHDate" type="Object"/>
-    <aura:attribute name="sendToSHReason" type="String"/>
-    <aura:attribute name="refSourceName" type="String"/>
+    <aura:attribute name="sendToSH" type="Boolean" />
+    <aura:attribute name="sendToSHDate" type="Object" />
+    <aura:attribute name="sendToSHReason" type="String" />
+    <aura:attribute name="refSourceName" type="String" />
     <!-- component body: -->
-    <aura:if isTrue="{!or(v.participantItem.showParticipationSteps,v.participantItem.showVisitsinPreTrial)}">
+    <aura:if
+        isTrue="{!or(v.participantItem.showParticipationSteps,v.participantItem.showNonInitialVisits)}"
+    >
         <c:PSECard
             pe="{!v.participantItem.pe}"
             steps="{!v.participantItem.participationFlowSteps}"
@@ -28,8 +30,8 @@
             actions="{!v.actions}"
             isInvited="{!v.isInvited}"
             showVisits="{!v.participantItem.showVisits}"
-            sendToSHDate ="{!v.sendToSHDate}"     
-            refSourceName="{!v.refSourceName}"     
+            sendToSHDate="{!v.sendToSHDate}"
+            refSourceName="{!v.refSourceName}"
         />
         <aura:set attribute="else">
             <c:ViewPatientItem
@@ -41,7 +43,7 @@
                 isInvited="{!v.isInvited}"
                 sendToSH="{!v.sendToSH}"
                 sendToSHDate="{!v.sendToSHDate}"
-                refSourceName="{!v.refSourceName}"               
+                refSourceName="{!v.refSourceName}"
             />
         </aura:set>
     </aura:if>

@@ -11,14 +11,16 @@
                 if (a.id > b.id) return 1;
                 return 0;
             });
-            component.set('v.icons', iconNames);
+            //Hiding the Initial Visit Icon to be displayed under Visit configuratiion
+            let filteredIconNames = iconNames.filter( el => el.id !== "initial-visit" ); 
+            component.set('v.icons', filteredIconNames);
         });
 
         component.set('v.plan', {
             sobjectType: 'Visit_Plan__c'
         });
     },
-
+    
     doExecute: function (component, event, helper) {
         let params = event.getParam('arguments');
         component.set('v.callback', params.callback);

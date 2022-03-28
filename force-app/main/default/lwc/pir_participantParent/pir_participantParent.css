@@ -14,8 +14,13 @@
 }
 .boxShadow{
     box-shadow: 0 1px 2px silver;
-    border-radius: 4px;
+    border-radius: 0px;
 }
+.boxShadownone{
+    box-shadow: 0 0.5px 0px 0.5px silver;
+    border-radius: 0px;
+}
+
 .title {
     color: #000000;
     font-family: "Proxima Nova";
@@ -60,6 +65,17 @@
 .save-btn-p{
     text-align:right;
     padding: 12px 27px;
+}
+.participant-text{
+    font-size: 16px;
+    font-weight: 500;
+}
+.user-detail{
+    text-align: center;
+}
+.user-img{
+    width: 140px;
+    height: 160px;
 }
 @media (max-device-width: 767px) {
     .model-small{
@@ -123,6 +139,18 @@
 .hideDesktop{
         display: none;
 }
+.headertext{
+    font-size: 24px;
+    font-weight: 600;
+    color: #595959;
+}
+.btn-dropdown{
+    height: 40px;
+}
+
+.button-padding{
+    padding:17px;
+}
 .section-padding{
     padding-left: 10px;
     padding-right: 16px;
@@ -159,11 +187,17 @@
         display: none;
     }
     .maxheight{
-        height: none;
+        max-height: 66vh;
+        overflow: overlay;
     }
     .boxShadow{
         box-shadow: none;
         border-radius: 0;
+    }
+    .savesticky{
+        height: 63px;
+        border: 1px solid #E9E9E9;
+        box-shadow: 0 2px 0px #e1e1e1; 
     } 
 }
 @media only screen
@@ -179,4 +213,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
         margin: 5px 0 0px 5px;
         line-height: 14px;
     } 
+}
+.disable-click{
+    pointer-events: none;
 }

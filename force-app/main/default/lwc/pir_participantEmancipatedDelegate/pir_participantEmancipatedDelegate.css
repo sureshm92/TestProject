@@ -1,0 +1,156 @@
+/* Scrollbar Code End */
+/** pop code **/
+.next-btn{
+    float: right;
+    margin-left: 15px;
+}
+.back-btn{
+    float: right;
+    margin-left: 16px;
+}
+.tertiary{
+    padding: 7px 16px;
+}
+
+ .slds-modal__header{
+    text-align: left;
+    padding-bottom: 0;
+    border-bottom-color: transparent;
+    border-radius: 0;
+}
+.slds-modal__footer{
+    border-top-color: transparent;
+}
+.model-close-icon{
+    cursor: pointer;
+    margin-left: 35px;
+}
+ .section-title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    color: #000;
+}
+.bar {    
+    height: 10px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+} 
+.model-body-title{
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+    font-weight: 600;
+}
+.model-body-content{
+    font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: initial;
+    text-align: left;
+    font-weight: 400;
+    color: #000;
+}
+.bg-delegate{
+    background: #f6f7fb;
+    border: 0.1px solid;
+    border-color: lightgrey;
+}
+.delegate-text{
+    font-size: 14px;
+}
+.pad-right-none{
+    padding-right: 0;
+}
+.delegate-btn{
+    font-size: 1rem;
+    font-weight: 600;
+    border: transparent;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}
+.connect-patient-btn{
+    font-size: 1rem;
+    border: transparent;
+    height: 40px;
+    margin-top: 16px;
+    width: auto;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}
+.disable-bg{
+    background: #f9f9f9;
+}
+.bg-Participant{
+    background: #f6f7fb;
+}
+.participant-subtitle{
+    font-size: 16px;
+    font-weight: 600;
+}
+.participant-subtext{
+    font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: initial;
+    text-align: left;
+    font-weight: 400;
+}
+.checkbox-padding{
+    padding-left: 18px;
+}
+.hide-save{
+    display: none;
+}
+@media (max-device-width: 767px) {    
+    .mobile-view-model{
+        margin: 16px;
+        padding: 0px;
+        max-height: 92%;
+    }
+    .model-close-icon{
+        margin-left: 12px;
+    }  
+    .bar {    
+        height: 80px;
+    } 
+    .next-btn{
+        float: none;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+    .back-btn{
+        margin-left: 0;
+    }
+    .slds-modal__footer span{       
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .btn_stretch{
+        width: 45%;
+    }
+    .mobile-padding-view{
+        padding: 15px;
+    }
+    .checkbox-padding{
+        padding-left: 0;
+    }
+    .connect-patient-btn{
+        width: 100%;
+    }
+    .pad-right-none{
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    /* Scrollbar Code */
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #999999; 
+        border-radius: 4px;
+        cursor:pointer;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #858383;
+    }
+    
+}
