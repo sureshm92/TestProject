@@ -5,7 +5,7 @@
 public class TestData {
     public User piUser;
     public User hcpUser;
-    public User participantUser;
+    //public User participantUser;
     public User hcpDelUser;
     public User piDelUser;
     public User ccUser;
