@@ -1,8 +1,14 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire } from "lwc";
 import pirResources from "@salesforce/resourceUrl/pirResources";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
-import getStudyStudySite from "@salesforce/apex/PIR_HomepageController.getStudyStudySite";
+import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
+import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
+import RH_PP_Select_Study_Site from '@salesforce/label/c.RH_PP_Select_Study_Site';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import Continue from '@salesforce/label/c.Continue';
+import PG_VP_L_Study_site from '@salesforce/label/c.PG_VP_L_Study_site';
+import CC_Study from '@salesforce/label/c.CC_Study';
 import { NavigationMixin } from 'lightning/navigation';
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
@@ -19,6 +25,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api isMedicalHistryAccess = false;
   @api selectedTab = "Status Details";  
   @api discardTab = false;
+  @api addNewParticipant = false;
+  setList = true;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
   usericon= pirResources+'/pirResources/icons/user.svg';
   disableMedicalSaveButton = true;
@@ -42,57 +50,65 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studylist;
   studyToStudySite;
   studySiteList;
-  selectedStudy='';selectedSite='';saving = false;
-
-  connectedCallback() {
-    getStudyAccessLevel()
-      .then((result) => {
-        this.lststudysiteaccesslevel = result;
-      }).then(() => {
-          getStudyStudySite()
-            .then((result) => {
-              console.log('s'+JSON.stringify(result));
-                if (result.ctpMap) {
-                  var conts = result.ctpMap;
-                  let options = [];
-                  for (var key in conts) {
-                    options.push({ label: key, value: conts[key] });
-                  }
-                  this.studylist = options;
-                }
-                if (result.studySiteMap) {
-                  this.studyToStudySite = result.studySiteMap;
-                }
-              }).catch(error => {
-                 console.log(error);
-            });    
-      })
-      .catch((error) => {
+  selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
+  label = {
+    RH_PP_Add_New_Participant,
+    RH_PP_Select_Study_Site,
+    BTN_Cancel,
+    Continue,
+    PG_VP_L_Study_site,
+    CC_Study
+  };
+  // connectedCallback() {
+  //   getStudyAccessLevel()
+  //     .then((result) => {
+  //       this.lststudysiteaccesslevel = result;
+  //     })
+  //     .catch((error) => {
+  //       this.error = error;
+  //     });
+  // }
+  
+  @wire(getStudyAccessLevel)
+  wiredAccess({ error, data }) {
+    if (data) {
+        this.lststudysiteaccesslevel = data;
+    } else if (error) {
         this.error = error;
-      });
+    }
   }
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
     // console.log(picklist_Value);
+    var accesslevels = Object.keys(this.siteAccessLevels).length;
     var conts = this.studyToStudySite;
     let options = [];
+    var i = this.siteAccessLevels;
     for (var key in conts) {
       if (key == picklist_Value) {
           var temp = conts[key];
         for (var j in temp) {
-          options.push({ label: temp[j].Name, value: temp[j].Id });
+               if(accesslevels == 0){
+                  options.push({ label: temp[j].Name, value: temp[j].Id });
+               }else{
+                  var level = this.siteAccessLevels[temp[j].Id];
+                  if(level != 'Level 3' && level != 'Level 2'){
+                     options.push({ label: temp[j].Name, value: temp[j].Id });
+                  }
+               }
         }
       }
     }
     this.studySiteList = options;
     this.selectedSite = '';
+    this.studysiteaccess = false;
+
   }
   studysitehandleChange(event) {
     this.selectedSite = event.target.value;
   }
   get isStatusDetail(){
-    console.log('selectedtab-->'+this.selectedTab);
      if(this.selectedTab === "Status Details"){
        return true;
      }else{
@@ -470,11 +486,38 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.showErrorToast('Error');
     }
   }
-  exportItem=false;addParticipant=false;
+  exportItem=false;addParticipant=false;siteAccessLevels;
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
-      this.addParticipant = true;
+        this.addParticipant = true;
+        this.addNewParticipant = true;
+        this.siteAccessLevels='';
+        getStudyStudySiteDetails()
+        .then((result) => {
+            this.siteAccessLevels = result.siteAccessLevels;
+            var ctpListNoAccess = [];
+            var studySiteMap = result;
+            ctpListNoAccess = result.ctpNoAccess;
+            if (studySiteMap.ctpMap) {
+              var conts = studySiteMap.ctpMap;
+              let options = [];
+              for (var key in conts) {
+                if(!ctpListNoAccess.includes(conts[key])){ 
+                    options.push({ label: key, value: conts[key] });
+                }
+              }
+              this.studylist = options;
+            }
+            if (studySiteMap.studySiteMap) {
+              this.studyToStudySite = studySiteMap.studySiteMap;
+            }
+            this.addNewParticipant = false;
+            this.studysiteaccess = true;
+        }).catch(error => {
+          console.log(error);
+          this.addNewParticipant = false;
+        });    
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;
@@ -510,7 +553,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         },
         state: {
             'id' : this.selectedStudy,
-            'ssId': this.selectedSite
+            'ssId': this.selectedSite,
+            'participantVeiwRedirection': true
         }
     });
   }
@@ -530,13 +574,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.ondisableButton=true;
     this.exportDisable=true;
     this.template.querySelectorAll(".linenone").forEach(function (L) {
-      L.classList.remove("boxShadownone");
-  });
+        L.classList.remove("boxShadownone");
+    });
   
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
     this.removeParticipant=false;
     this.countValue=0;
     this.template.querySelector("c-pir_participant-pagination").goToStart();    
+  }
+  handleExportSelcted(event){
+    this.template.querySelector("c-pir_participant-list").handleExport();
   }
   handleresetparent(event){
     this.onCancel();
@@ -593,7 +640,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector(".pir-parent").classList.toggle("disable-click");
   }
   handleresetpagination(event){
-      this.totalRecord = event.detail.ttlcount;
+    this.initialLoad = true;
     this.template.querySelector("c-pir_participant-pagination").goToStart();
   }
 
