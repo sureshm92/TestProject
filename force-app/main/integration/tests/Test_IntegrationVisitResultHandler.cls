@@ -101,6 +101,7 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.STNRHI__c = 10;
         externalVisitResult.STUDYID__c = '10';
         externalVisitResult.IsDeletedInSDH__c = 'N';
+        externalVisitResult.VISITNUM__c = 4;
         insert externalVisitResult;
 
         service.updateVisitResults(new List<Integration_VisitResult__c>{ externalVisitResult });
@@ -115,6 +116,7 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.STNRHI__c = 11;
         externalVisitResult.STUDYID__c = '10';
         externalVisitResult.IsDeletedInSDH__c = 'N';
+        externalVisitResult.VISITNUM__c = 4;
         insert externalVisitResult;
 
         service.updateVisitResults(new List<Integration_VisitResult__c>{ externalVisitResult });
@@ -129,6 +131,7 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.STNRHI__c = 11;
         externalVisitResult.STUDYID__c = '10';
         externalVisitResult.IsDeletedInSDH__c = 'Y';
+        externalVisitResult.VISITNUM__c = 4;
         insert externalVisitResult;
 
         service.updateVisitResults(new List<Integration_VisitResult__c>{ externalVisitResult });
@@ -149,7 +152,8 @@ private class Test_IntegrationVisitResultHandler {
             Vital_or_Lab__c = 'Biomarker',
             STUDYID__c = '10',
             STRESN__c = 1,
-            IsDeletedInSDH__c = 'N'
+            IsDeletedInSDH__c = 'N',
+            VISITNUM__c = 4
         );
         insert externalVisitResult;
         service.updateVisitResults(new List<Integration_VisitResult__c>{ externalVisitResult });

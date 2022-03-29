@@ -1,0 +1,219 @@
+.filter-area{
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+    position: absolute;
+    width: 999px;
+    max-width: 89%;
+    z-index: 9999;
+    padding: 0 15px;
+}
+
+.filter-heading{
+    font-size: 14px;
+    color: #000000;
+    line-height: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding-top: 31px;
+    padding-left: 5px;
+}
+.info-text{
+    font-size: 12px;
+    color: #000000;
+    font-weight: 600;
+}
+.w-info-icon{
+   width: 2%;
+}
+.w-info-text{
+   width: 97%;
+}
+.p-left-none{
+    padding-left: 0;
+}
+.p-right-none{
+    padding-right: 0;
+}
+.m-top-date{
+    margin-top: -19px;
+}
+.w-Demographics{
+    padding-top: 23px;
+    width: 36%;
+    padding-right: 0px;
+}
+.filter-age{
+    text-align: left;
+    font-size: 14px;
+    padding-top: 6px;
+}
+.filter-date{
+    text-align: left;
+    font-size: 14px;
+    padding-top: 23px;
+}
+.p-left-demo{
+    padding-left: 15px;
+}
+.p-right-demo{
+    padding-right: 8px;
+}
+.m-left-demo{
+    margin-left: 0px;
+}
+.p-age-lr{
+    padding-left: 0;
+    padding-right: 8px;
+}
+.other-m-top{
+    margin-top: 28px;
+}
+.reset-btn{
+    font-size: 1rem;
+    min-height: 40px;
+    font-weight: 600;
+    border: transparent;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 0%);
+}
+.filter-btn{
+    font-size: 1rem;
+    min-height: 40px;
+    font-weight: 600; 
+}
+.w-high-risk{
+    width: 20%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.w-high-priority{
+    width: 22%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.w-comorbidities{
+    width: 25%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.w-initial-visit{
+    width: 28%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.w-date{
+    width: 47%;
+    padding-left: 0;
+}
+
+.w-to{
+    width: 6%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.w-scheduled-date{
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.slds-btn-right{
+    float: right;
+}
+@media (max-device-width: 767px) {
+    .filter-area{
+        width: 86.8%;
+        padding: 0 10px 20px 10px;
+        z-index: 9;
+        margin-left: var(--lwc-spacingXSmall,0.5rem);
+    }
+    .mobile-view{
+        height: 100px;
+    }
+    .w-info-icon{
+        width:3%;
+     }
+     .w-info-text{
+        width:90%;
+     }
+    .filter-heading{
+        padding-top: 0;
+        text-align: left;
+    }
+    .p-left-none{
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-Demographics{
+        width: 100%;
+    }
+    .filter-age{
+        text-align: left;
+    }
+    .p-age-lr{
+        padding-left: 6px;
+        padding-right:4px;
+    }
+    .p-left-age{
+        padding-left: 6px;
+    }
+    .p-right-age{
+        padding-right: 23px;
+    }
+    .cCustomThemeLayout .slds-input {
+        height: 32px;
+    }
+    .w-high-risk{
+        width: 50%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-high-priority{
+        width: 50%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-comorbidities{
+        width: 50%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-initial-visit{
+        width: 50%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-date{
+        width: 45%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: 0;
+    }
+    .w-date-right{
+        padding-left: 0;
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-to{
+        width: 10%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .w-scheduled-date{
+        width: 100%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .m-bottom-small{
+        margin-bottom: 8px;
+    }
+    .slds-btn-right{
+        float: unset;
+    }
+    .reset-btn{
+        width: 45%;
+    }
+    .filter-btn{
+        width: 49.8%;
+    }
+    .other-m-top{
+        margin-top: 15px;
+    }
+}

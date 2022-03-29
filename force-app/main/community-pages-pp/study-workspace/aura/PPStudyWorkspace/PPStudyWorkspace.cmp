@@ -34,6 +34,7 @@
     <aura:attribute name="isStudySitesTabInitialized" type="Boolean" />
     <aura:attribute name="isMRRTabInitialized" type="Boolean" />
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean" />
+    <aura:attribute name="isshowTravelCardInPreEnrollment" type="Boolean" default="false" />
 
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private" />
@@ -115,7 +116,7 @@
                                 <c:RRTabSet>
                                     <!-- tabs: -->
 
-                                        <aura:set attribute="floatPositionLeft">
+                                    <aura:set attribute="floatPositionLeft">
                                         <!--<div class="tabScroller">-->
                                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                                             <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
@@ -129,7 +130,6 @@
                                         <!--</div>-->
                                     </aura:set>
 
-
                                     <!-- action buttons: -->
                                     <aura:set attribute="floatPositionRight">
                                         <div class="actions-buttons">
@@ -139,13 +139,13 @@
                                             >
                                                 <div style="position: relative">
                                                     <!--  <aura:if isTrue="{!action.id != 'share'}">
-                                                          <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
-                                                                  disabled="{!action.disabled}" id="{!action.id}"
-                                                                  onclick="{!c.doAction}" title="{!action.disableReason}">
-                                                              <c:RRIcon iconName="{!action.iconName}"/>
-                                                              {!action.label}
-                                                          </button>
-                                                      </aura:if> -->
+                                                       <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                               disabled="{!action.disabled}" id="{!action.id}"
+                                                               onclick="{!c.doAction}" title="{!action.disableReason}">
+                                                           <c:RRIcon iconName="{!action.iconName}"/>
+                                                           {!action.label}
+                                                       </button>
+                                                   </aura:if> -->
                                                     <aura:if
                                                         isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}"
                                                     >
@@ -220,7 +220,9 @@
                     <div
                         class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}"
                     >
-                        <aura:if isTrue="{!v.studyDetail.showVisits}">
+                        <aura:if
+                            isTrue="{!and(v.studyDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.studyDetail.showVisits)}"
+                        >
                             <button
                                 id="changeVisitMode"
                                 data-visit-mode="VisitDetails"
@@ -230,31 +232,33 @@
                                 {!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}
                             </button>
                         </aura:if>
-                                    
-                            <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
-                              <aura:if isTrue="{!or(v.studyDetail.trial.Enrolled_Or_Randomized_Consent_Available__c,v.studyDetail.trial.Received_Until_Consent_Is_Available__c)}">
+
+                        <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
+                            <aura:if isTrue="{!or(v.isshowTravelCardInPreEnrollment)}">
                                 <button
-                                id="changeVisitMode"
-                                data-visit-mode="TravelSupportDetails"
-                                class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
-                                onclick="{!c.doAction}"
-                               >
-                                {!$Label.c.Home_Page_Travel_Support_Details_Tab}
-                            </button>
-                        </aura:if>                            
-                         <aura:set attribute="else">
-                            <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
-                            <button
-                                id="changeVisitMode"
-                                data-visit-mode="TravelSupportDetails"
-                                class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
-                                onclick="{!c.doAction}"
-                            >
-                                {!$Label.c.Home_Page_Travel_Support_Details_Tab}
-                            </button>
+                                    id="changeVisitMode"
+                                    data-visit-mode="TravelSupportDetails"
+                                    class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
+                                    onclick="{!c.doAction}"
+                                >
+                                    {!$Label.c.Home_Page_Travel_Support_Details_Tab}
+                                </button>
+                            </aura:if>
+                            <aura:set attribute="else">
+                                <aura:if
+                                    isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}"
+                                >
+                                    <button
+                                        id="changeVisitMode"
+                                        data-visit-mode="TravelSupportDetails"
+                                        class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
+                                        onclick="{!c.doAction}"
+                                    >
+                                        {!$Label.c.Home_Page_Travel_Support_Details_Tab}
+                                    </button>
+                                </aura:if>
+                            </aura:set>
                         </aura:if>
-                        </aura:set>
-                     </aura:if>
                     </div>
                     <div
                         class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}"
@@ -427,26 +431,29 @@
                     </aura:if>
 
                     <aura:if
-                        isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'VisitDetails')}"
+                        isTrue="{!and(v.currentTab == 'tab-visits',v.visitMode == 'VisitDetails')}"
                     >
-                        <c:StudyVisits />
+                        <aura:if
+                            isTrue="{!v.studyDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c}"
+                        >
+                            <c:StudyVisits />
+                        </aura:if>
                     </aura:if>
                     <aura:if
                         isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}"
                     >
                         <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
-                              <aura:if isTrue="{!or(v.studyDetail.trial.Enrolled_Or_Randomized_Consent_Available__c,v.studyDetail.trial.Received_Until_Consent_Is_Available__c)}">
-                                                       <c:TravelSupportDetails />
-
-                        </aura:if>                            
-                         <aura:set attribute="else">
-                            <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
-                                                  <c:TravelSupportDetails />
-
+                            <aura:if isTrue="{!v.isshowTravelCardInPreEnrollment}">
+                                <c:TravelSupportDetails />
+                            </aura:if>
+                            <aura:set attribute="else">
+                                <aura:if
+                                    isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}"
+                                >
+                                    <c:TravelSupportDetails />
+                                </aura:if>
+                            </aura:set>
                         </aura:if>
-                        </aura:set>
-                     </aura:if>
-
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">

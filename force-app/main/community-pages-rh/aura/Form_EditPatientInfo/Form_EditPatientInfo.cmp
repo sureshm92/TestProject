@@ -871,7 +871,10 @@
                             <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                                  >
-                                <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                 <div class="label tooltip">
+                                    <div class="textoverlapDaytimeTelephoneNumbe3">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                    <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</span> 
+                                   </div> 
                                 <c:rrSelect
                                             options="{!v.formData.phoneTypeLVList}"
                                             value="{!v.participant.Alternative_Phone_Type__c}"
