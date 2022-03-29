@@ -22,8 +22,6 @@
     <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>test-wqytsnevjolz@example.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>test-wqytsnevjolz@example.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>ability-business-7757-dev-ed-17f444c2987</subdomain>
     <urlPathPrefix>pp</urlPathPrefix>
