@@ -20540,6 +20540,20 @@ communications using the toggles below.</value>
         <shortDescription>RH RP legal status attest</shortDescription>
         <value>I have confirmed that this patient is of legal age.</value>
     </labels>
+     <labels>
+        <fullName>RH_PP_Add_New_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_PP_Add_New_Participant</shortDescription>
+        <value>Add New Participant</value>
+    </labels>
+     <labels>
+        <fullName>RH_PP_Select_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_PP_Select_Study_Site</shortDescription>
+        <value>Please select a Study and Study Site to continue.</value>
+    </labels>
     <labels>
         <fullName>RH_RP_of</fullName>
         <language>en_US</language>

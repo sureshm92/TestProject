@@ -12,11 +12,15 @@
 
     onClick: function (component, event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        //let mystudies = communityService.getUrlParameter('mystudies');
+        let participantVeiwRedirection = communityService.getUrlParameter('participantVeiwRedirection');
         if(patientVeiwRedirection){ 
               event.preventDefault();
             communityService.navigateToPage('my-patients');
              window.location.reload();
+        }else if(participantVeiwRedirection){
+            event.preventDefault();
+            communityService.navigateToPage('my-referrals');
+            window.location.reload();
         }else{
                 if (component.get('v.identifier')) {
                 if (!component.get('v.page')) {
