@@ -21813,7 +21813,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Sent to Study Hub</shortDescription>
-        <value>Sent to Study DCT</value>
+        <value>Sent to DCT</value>
     </labels>
     <labels>
         <fullName>September</fullName>
