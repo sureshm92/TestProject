@@ -22,13 +22,6 @@
         <value>You have unsaved changes on this tab. If you continue, Your changes will be discarded.</value>
     </labels>
     <labels>
-        <fullName>PIR_addParticipantFillMandatory</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
-        <value>Please review the form for required fields</value>
-    </labels>
-    <labels>
         <fullName>Site_DB_Batch_Size</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11609,20 +11602,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please review the form for required fields</value>
     </labels>
     <labels>
-        <fullName>RH_Pre_screen</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pre-screen</shortDescription>
-        <value>Pre-screen</value>
-    </labels>
-    <labels>
-        <fullName>RH_Referred_by</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Referred by</shortDescription>
-        <value>Referred by</value>
-    </labels>
-    <labels>
         <fullName>RH_Send_to_DCT_Platform</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20665,13 +20644,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH_Send to DCT Platform</shortDescription>
         <value>Send to DCT Platform</value>
-    </labels>
-    <labels>
-        <fullName>RH_Sent_to_DCT_Platform</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_Sent to DCT Platform</shortDescription>
-        <value>Sent to DCT Platform</value>
     </labels>
     <labels>
         <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
