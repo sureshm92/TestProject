@@ -19233,7 +19233,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_Masked_Display_IQVIA_User</shortDescription>
-        <value>- IQVIA</value>
+        <value>IQVIA</value>
     </labels>
     <labels>
         <fullName>RH_Masked_IQVIA_User</fullName>
@@ -21813,7 +21813,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Sent to Study Hub</shortDescription>
-        <value>Sent to Study Hub</value>
+        <value>Sent to Study DCT</value>
     </labels>
     <labels>
         <fullName>September</fullName>
