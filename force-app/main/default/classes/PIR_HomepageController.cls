@@ -196,16 +196,7 @@ public without sharing class PIR_HomepageController {
       status.add('Participation Complete');
       status.add('Trial Complete');
       status.add('Declined Final Consent'); */
-       Integer totalCountPP = [
-                  SELECT COUNT()
-                  FROM Participant_Enrollment__c
-                  WHERE
-                    Study_Site__c IN :siteIdlist
-                    AND Participant_Status__c IN :status
-                    AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !='Virtual' AND Study_Site__r.Study_Site_Type__c !='Hybrid' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE
-                    AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: system.Label.Janssen_Community_Template_Name
-                    AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                ];
+      
       if (totalCount == -1) {
         if(status.isEmpty()){
           status.add('Received');
@@ -265,6 +256,16 @@ public without sharing class PIR_HomepageController {
                     System.debug('totalCount: ' + totalCount);
           }
       }
+     Integer totalCountPP = [
+                  SELECT COUNT()
+                  FROM Participant_Enrollment__c
+                  WHERE
+                    Study_Site__c IN :siteIdlist
+                    AND Participant_Status__c IN :status
+                    AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !='Virtual' AND Study_Site__r.Study_Site_Type__c !='Hybrid' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE
+                    AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: system.Label.Janssen_Community_Template_Name
+                    AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                ];
       ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
 

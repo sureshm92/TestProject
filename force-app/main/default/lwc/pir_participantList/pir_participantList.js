@@ -86,12 +86,8 @@ export default class Pir_participantList extends LightningElement {
         if(this.isPPFiltered == true){
             this.isPPFiltered = false;
             this.totalRecordCount = -1;
+            this.isResetPagination = true; 
             this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-           
         }
         
     }
@@ -129,7 +125,8 @@ export default class Pir_participantList extends LightningElement {
         this.studyIdlist = [];
         this.studyIdlist.push(this.urlStudyId);
         this.siteIdlist = [];
-        this.siteIdlist.push(this.urlSiteId);        
+        this.siteIdlist.push(this.urlSiteId);   
+       
        }
         // loadScript(this, RR_COMMUNITY_JS)
         // .then(() => {
@@ -257,12 +254,8 @@ export default class Pir_participantList extends LightningElement {
             this.showSuccessToast(this.label.Records_sent_to_SH);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
+            this.isResetPagination = true;
             this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
             const selectedEvent = new CustomEvent("resetcount");
             this.dispatchEvent(selectedEvent); 
         })
@@ -279,14 +272,13 @@ export default class Pir_participantList extends LightningElement {
             this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
-            this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
-            const selectedEvent = new CustomEvent("resetcount");
-            this.dispatchEvent(selectedEvent); 
+            this.isResetPagination = true;
+             const gotofirstEvent = new CustomEvent("gotofirst");
+             this.dispatchEvent(gotofirstEvent); 
+             
+             const resetcountEvent = new CustomEvent("resetcount");
+             this.dispatchEvent(resetcountEvent); 
+            
         })
         .catch(error => {
             this.err = error;
@@ -433,12 +425,8 @@ export default class Pir_participantList extends LightningElement {
             this.isPPFiltered = true;
             this.saving = true;
             this.totalRecordCount = -1;
+            this.isResetPagination = true;
             this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
            
         }
         
@@ -467,7 +455,7 @@ export default class Pir_participantList extends LightningElement {
           const selectedEventnew = new CustomEvent("droplabel", {
             detail: this.dropDownLabel
           });
-          this.dispatchEvent(selectedEventnew);
+          this.dispatchEvent(selectedEventnew); 
     }
     opendropdown(event){
         
@@ -616,6 +604,7 @@ export default class Pir_participantList extends LightningElement {
         const selectEvent = new CustomEvent('resetparent', {
             detail: ''
         });
+        this.dispatchEvent(selectEvent);
     }
     resetPagination(){ //reset pagination after fetch list method is finished
         var ttlcount = this.totalRecordCount;

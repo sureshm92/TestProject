@@ -643,5 +643,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.initialLoad = true;
     this.template.querySelector("c-pir_participant-pagination").goToStart();
   }
+  settopageone(event){
+    //this.initialLoad = true;
+    this.template.querySelector("c-pir_participant-pagination").goToStart();
+  }
 
 }
