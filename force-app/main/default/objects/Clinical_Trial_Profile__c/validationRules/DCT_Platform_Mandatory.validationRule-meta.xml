@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DCT_Platform_Mandatory</fullName>
+    <active>true</active>
+    <description>Make DCT Platform mandatory when Promote to DCT is true</description>
+    <errorConditionFormula>AND( Promote_to_SH__c , TEXT( DCT_Platform__c ) == NULL)</errorConditionFormula>
+    <errorMessage>DCT Platform cannot be blank when Promote to DCT is checked</errorMessage>
+</ValidationRule>

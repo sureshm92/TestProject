@@ -4,6 +4,8 @@ import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import getPEData from '@salesforce/apex/PIR_HomepageController.getPEData';
 import updateParticipantDataSH from '@salesforce/apex/PIR_HomepageController.updateParticipantDataSH';
 import createUserForPatientProtal from '@salesforce/apex/PIR_HomepageController.createUserForPatientProtal';
+import PIR_Community_CSS from '@salesforce/resourceUrl/PIR_Community_CSS';
+import { loadStyle } from 'lightning/platformResourceLoader';
 import icon_printIcon from '@salesforce/resourceUrl/icon_printIcon';
 import inviteToPP from '@salesforce/label/c.BTN_Create_User_on_PE_Info';
 import preScreenParticipant from '@salesforce/label/c.BTN_Pre_Screen_Participant';
@@ -69,9 +71,9 @@ export default class Pir_participantHeader extends LightningElement {
     
 
 
-   /**connectedCallback() {
-        this.doSelectedPI();
-    }**/
+    connectedCallback() {
+        loadStyle(this, PIR_Community_CSS)
+    }
 
     @api
     doSelectedPI(){
@@ -87,7 +89,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.siteName = this.selectedPE.siteName;
         this.referredBy = this.selectedPE.source;
         this.studySiteName = this.selectedPE.studyName + ' - '+this.selectedPE.siteName;
-        this.participantName = this.selectedPE.firstName + ' ' + this.selectedPE.lastName + ' ' +'('+this.selectedPE.refId+')';
+        this.participantName = this.selectedPE.firstName + ' ' + this.selectedPE.lastName;// + ' ' +'('+this.selectedPE.refId+')';
         if(this.peId)
         {
              this.showPrinticon = true;
@@ -191,6 +193,7 @@ export default class Pir_participantHeader extends LightningElement {
     }
 
     get checkAction(){
+        console.log('chkaction'+this.showActionName);
         if(this.showActionName == "PP"){
             return true;
         }else{
@@ -261,6 +264,9 @@ export default class Pir_participantHeader extends LightningElement {
                 this.showActionbtnDisabled = true;
                 this.showActionlabel = this.label.RH_Sent_to_DCT_Platform; 
                 this.showActiondt = true; 
+                console.log('Trigger status detail sections');
+                const selectEventHeader = new CustomEvent('callparticipantparent', {});
+                this.dispatchEvent(selectEventHeader);
             })
             .catch((error) => {
                 this.showErrorToast(JSON.stringify(error.body.message));
