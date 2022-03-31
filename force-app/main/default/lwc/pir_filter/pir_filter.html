@@ -1,0 +1,206 @@
+<template>
+    
+    <div class="filter-area">  
+        <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+            <div class="slds-col slds-size_1-of-12 w-info-icon">
+                <lightning-icon icon-name="utility:info" size="x-small" alternative-text="search" title="search" class=""></lightning-icon>                      
+             </div>  
+             <div class="slds-col slds-size_11-of-12 w-info-text">
+                <div class="info-text">
+                     Use the ethnicity filtering feature to prioritize outreach to diverse Participants.
+                </div>
+             </div> 
+        </div>         
+        <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small">
+                <div class="filter-heading">
+                    Study Information
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                        <lightning-combobox
+                            name="Active/Inactive"
+                            label="Active/Inactive"
+                            value="Active"
+                            placeholder=""
+                            options={activeoptions}
+                            onchange={activehandleChange}
+                            ></lightning-combobox>
+                    </div>   
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                        <lightning-combobox
+                        name="Study"
+                        label="Study"
+                        value={defaultStudy}
+                        placeholder=""
+                        options={studylist}
+                        onchange={studyhandleChange}
+                        ></lightning-combobox>
+                </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                            <lightning-combobox
+                            name="StudySites"
+                            label="Study Sites"
+                            value={defaultSite}
+                            placeholder=""
+                            options={studySiteList}
+                            onchange={studysiteshandleChange}
+                            ></lightning-combobox>
+                    </div>  
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                            <lightning-combobox
+                            name="Status"
+                            label="Status"
+                            value={defaultStatus}
+                            placeholder=""
+                            options={statusoptions}
+                            onchange={statushandleChange}
+                            ></lightning-combobox>
+                    </div>  
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                            <lightning-combobox
+                            name="Source"
+                            label="Source"
+                            value=""
+                            placeholder=""
+                            options={sourceoptions}
+                            onchange={sourcehandleChange}
+                            ></lightning-combobox>
+                    </div>  
+                     
+                </div><!-- slds-grid-->
+            </div>
+        </div>  <!-- slds-grid study Information -->
+
+        <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">                   
+                   <div class="filter-heading">
+                        Demographics
+                    </div>                   
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  p-left-none w-Demographics">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_5-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12 m-bottom-small">
+                                 <p class="filter-age">Age is between</p>
+                             </div>   
+                             <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none p-right-demo p-age-lr">
+                                <div class="slds-form-element">                                 
+                                    <div class="slds-form-element__control">
+                                          <input type="text" id="text-input-id-68"  name="input1" class="slds-input input-width" />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="slds-col slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 m-bottom-small p-left-none p-left-age">
+                                <p class="filter-age">and</p>
+                            </div> 
+                            <div class="slds-col slds-size_4-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12 m-bottom-small p-left-none p-left-demo p-right-age">
+                                <div class="slds-form-element">                                 
+                                    <div class="slds-form-element__control">
+                                          <input type="text" id="text-input-id-69"  name="input1" class="slds-input input-width" />
+                                    </div>
+                                </div>
+                            </div> 
+                        </div><!-- slds-grid-->
+                    </div>  <!-- slds-col-->
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                        <lightning-combobox
+                        name="Ethnicity"
+                        label="Ethnicity"
+                        value=""
+                        placeholder=""
+                        options={ethnicityoptions}
+                        onchange={ethnicityhandleChange}
+                        ></lightning-combobox>
+                    </div> 
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none">
+                            <lightning-combobox
+                            name="Sex at Birth"
+                            label="Sex at Birth"
+                            value=""
+                            placeholder=""
+                            options={sexatbirthoptions}
+                            onchange={sexatbirthhandleChange}
+                            ></lightning-combobox>
+                    </div>   
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_2-of-12 slds-large-size_2-of-12 m-bottom-small p-left-none"> </div>                   
+                </div><!-- slds-grid-->
+            </div>
+        </div>  <!-- slds-grid study Information -->
+
+        <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                <div class="filter-heading">
+                    Others 
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12">                   
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_7-of-12">
+                        <div class="slds-grid slds-wrap slds-gutters">                           
+                            <div class="slds-col slds-size_1-of-2 w-high-risk other-m-top m-bottom-small">
+                                <lightning-input type="checkbox" label="High Risk" name="HighRisk"></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 w-high-priority other-m-top m-bottom-small">
+                                <lightning-input type="checkbox" label="High Priority" name="HighPriority"></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 w-comorbidities other-m-top m-bottom-small">
+                                <lightning-input type="checkbox" label="Comorbidities" name="Comorbidities"></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 w-initial-visit m-bottom-small">
+                                <lightning-combobox
+                                name="InitialVisit"
+                                label="Initial Visit"
+                                value=""
+                                placeholder=""
+                                options={initialvisitoptions}
+                                onchange={initialvisithandleChange}
+                                >
+                                </lightning-combobox>
+                            </div>
+                        </div><!-- slds-grid-->     
+                    </div>   <!-- slds-col -->  
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1 w-scheduled-date m-bottom-small">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for=""> 
+                                                Initial Visit Scheduled Date
+                                            </label>                
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_1-of-2 w-date m-top-date m-bottom-small">
+                                        <lightning-input type="date" name="date1" label="" placeholder="mm/dd/yyyy"></lightning-input> 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 w-to m-top-date m-bottom-small">
+                                        <p class="filter-date">to</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 w-date w-date-right m-top-date m-bottom-small">
+                                        <lightning-input type="date" name="date2" label="" placeholder="mm/dd/yyyy"></lightning-input> 
+                                    </div>
+                                </div>
+                            </div>                               
+                        </div>   
+                    </div>   <!-- slds-col -->                      
+                </div><!-- slds-grid-->         
+            </div>  <!-- slds-col --> 
+            
+        </div>  <!-- slds-grid Others  -->
+        <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium slds-m-bottom_large">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <div class="slds-btn-right">
+                    <button class="slds-button apollo-btn secondary reset-btn slds-p-around_x-medium" disabled> Reset </button>
+                    <button class="apollo-btn secondary ipad-mode-btn filter-btn slds-p-around_x-medium" onclick={applyFilter}> Apply Filter </button>
+                </div>    
+             </div> 
+        </div><!-- button --> 
+    </div> <!-- filter-area --> 
+
+</template>

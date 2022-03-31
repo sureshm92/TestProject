@@ -3,7 +3,12 @@ import getInitData from '@salesforce/apex/ReferHealthcareProviderRemote.getInitD
 import getParticipantData from '@salesforce/apex/PIR_SharingOptionsController.fetchParticipantData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
-
+import MessageForDelegates from '@salesforce/label/c.Message_For_Delegates';
+import MessageForDelegatesJansen from '@salesforce/label/c.Message_For_Delegates_Jansen';
+import MessageForProviders from '@salesforce/label/c.Message_For_Providers';
+import OtherProvidersHeader from '@salesforce/label/c.Other_Providers';
+import DelegatesHeader from '@salesforce/label/c.Delegates';
+import ReferringProviderHeader from '@salesforce/label/c.Referring_Provider';
 export default class Pir_sharingOption extends LightningElement {
     
     value = [];
@@ -24,12 +29,27 @@ export default class Pir_sharingOption extends LightningElement {
     communityTemplate;
     isDisplayProviders = true;    
     @api delegateLevel;
+    delegateLabel;
     
+    label = {
+        MessageForDelegates,
+        MessageForDelegatesJansen,
+        MessageForProviders,
+        OtherProvidersHeader,
+        DelegatesHeader,
+        ReferringProviderHeader
+    }
 
     connectedCallback(){
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+            if(this.communityTemplate != 'Janssen') {
+                this.delegateLabel = this.label.MessageForDelegates;
+            }else {
+                this.delegateLabel = this.label.MessageForDelegatesJansen;
+
+            }
         }).catch((error) => {
              console.log('Error: ' + error);
         });
@@ -56,6 +76,12 @@ export default class Pir_sharingOption extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+            if(this.communityTemplate != 'Janssen') {
+                this.delegateLabel = this.label.MessageForDelegates;
+            }else {
+                this.delegateLabel = this.label.MessageForDelegatesJansen;
+
+            }
         }).catch((error) => {
              console.log('Error: ' + error);
         });

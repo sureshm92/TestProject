@@ -23,22 +23,20 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         List<Patient_Visit__c> patentientVisitsToInsert = new List<Patient_Visit__c>();
 
         //Fetch Participant Enrollments with CPT toogle datas.
-        peWithCTPPreEnrollConsentIsOnMap = PreEnrollmentPatientVisitServie.getPreEnrollToggleDatafromCTPforPERs(
+        peWithCTPPreEnrollConsentIsOnMap = getPreEnrollToggleDatafromCTPforPERs(
             peIdInPreEnrollmentStatusStudySiteMap.Keyset()
         );
         if (
             peWithCTPPreEnrollConsentIsOnMap != null && !peWithCTPPreEnrollConsentIsOnMap.isEmpty()
         ) {
             //check Pre Enrollment Patient Visit Creation eligibility.
-            peEligibilityQualified = PreEnrollmentPatientVisitServie.checkPreEnrollmentVisitEligibility(
+            peEligibilityQualified = checkPreEnrollmentVisitEligibility(
                 peWithCTPPreEnrollConsentIsOnMap
             );
         }
         if (peEligibilityQualified != null && !peEligibilityQualified.isEmpty()) {
             //Create Pre Enrollment patient Visits record data.
-            patentientVisitsToInsert = PreEnrollmentPatientVisitServie.preparePreEnrollmentVisits(
-                peWithCTPPreEnrollConsentIsOnMap
-            );
+            patentientVisitsToInsert = preparePreEnrollmentVisits(peWithCTPPreEnrollConsentIsOnMap);
         }
         //Insert Pre Enrollment patient Visits.
         if (patentientVisitsToInsert != null && !patentientVisitsToInsert.isEmpty()) {
@@ -168,7 +166,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                     FROM Visits__r
                 )
             FROM Visit_Plan__c
-            WHERE Name = :preEnrollmentVisitPlanName
+            WHERE Name = :preEnrollmentVisitPlanName AND Is_Pre_Enrollment_Visit_Plan__c = TRUE
         ][0];
 
         preEnrollVisit = PreEnrollVisitPlan.Visits__r;
@@ -200,6 +198,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
             WHERE
                 Participant_Enrollment__c IN :perIds
                 AND Visit__r.Visit_Plan__r.Name = :preEnrollmentVisitPlanName
+                AND Is_Pre_Enrollment_Patient_Visit__c = TRUE
         ];
 
         return existingPreEnrollPatientVisits;
@@ -264,7 +263,11 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
 
             if (preConcentToggle && !enrollRandomizeConsentToggle) {
                 //If "Pre-consent" toggles is on and "Consent through Enrolled/Randomized" toggles is Off at Visit Configuration at CTP.
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_READY_TO_SCREEN) {
+                if (
+                    PEStatusState.PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE.contains(
+                        pe.Participant_Status__c
+                    )
+                ) {
                     pv.Status__c = 'Completed';
                     preEnrollPatientVisitsToUpdate.Add(pv);
                 }

@@ -145,6 +145,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIR_BulkActionController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_SendDelgtEmailForNewReferrals</apexClass>
         <enabled>true</enabled>
     </classAccesses>

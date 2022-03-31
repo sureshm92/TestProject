@@ -1,4 +1,6 @@
 import { api, LightningElement } from 'lwc';
+import BTNAddDelegate from '@salesforce/label/c.Add_Another_Delegate';
+import BTNAddProvider from '@salesforce/label/c.BTN_Add_Provider';
 
 export default class Pir_sharingOptionForm extends LightningElement {
     @api addDelegateList;
@@ -20,12 +22,17 @@ export default class Pir_sharingOptionForm extends LightningElement {
     isAddHcp = false;
     isDisplayAddButton = true;
 
+    label = {
+        BTNAddDelegate,
+        BTNAddProvider
+    }
+
     connectedCallback() {
         this.resetDelegateList();        
         if(this.targetObject === 'delegate') {
-            this.buttonLabel = 'Add Delegate';
+            this.buttonLabel = this.label.BTNAddDelegate;
         } else {
-            this.buttonLabel = 'Add Provider';
+            this.buttonLabel = this.label.BTNAddProvider;
         }
 
         if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
