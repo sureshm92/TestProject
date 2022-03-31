@@ -84,6 +84,11 @@
                 <default>false</default>
                 <label>Piper</label>
             </value>
+            <value>
+                <fullName>James Lind Care</fullName>
+                <default>false</default>
+                <label>James Lind Care</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

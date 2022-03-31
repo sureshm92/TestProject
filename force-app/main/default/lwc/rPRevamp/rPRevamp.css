@@ -26,6 +26,9 @@
     padding-right: 0;
 }
 
+.bulk-import{
+    line-height:21px !important;
+}
 
 .bulk-import-files {
     height: 30px;

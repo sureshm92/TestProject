@@ -28,7 +28,8 @@
 }
 
 .THIS .team-items-panel {
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
+    margin-top: -2rem;
 }
 @media all and (max-width: 767px) {
     .THIS .team-items-panel {
@@ -47,11 +48,11 @@
     margin-bottom: 20px;
 }
 
-@media all and (max-width: 500px) {
+/*@media all and (max-width: 500px) {
     .THIS .mt-button-container {
         margin-top: 2rem;
     }
-}
+}*/
 /*REF-4985*/
 .THIS .showMobile {
     display: none;
@@ -59,14 +60,17 @@
 .THIS .hideMobile {
     display: block;
 }
-.THIS .buttonMargin{
-    margin-bottom: 20px
+.THIS .buttonMargin {
+    margin-bottom: 20px;
 }
 @media all and (max-width: 768px) {
     .THIS .showMobile {
-        display: block;
+        display: none;
     }
     .THIS .hideMobile {
-        display: none;
+        display: block;
+    }
+    .THIS .team-items-panel {
+        margin-top: 2rem;
     }
 }
