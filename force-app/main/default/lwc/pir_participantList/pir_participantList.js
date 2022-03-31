@@ -426,8 +426,8 @@ export default class Pir_participantList extends LightningElement {
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
+            this.pageNumber = 1;
             this.fetchList();
-           
         }
         
         
