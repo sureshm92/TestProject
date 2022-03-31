@@ -1,5 +1,5 @@
 ({
-    callServerMethodOnPiChange: function (
+    callServerMethodOnPiChange: function(
         component,
         mthdName,
         usermode,
@@ -21,16 +21,17 @@
                 ctpId: selectedCTP,
                 action: piaction
             },
-            function (returnValue) {
+            function(returnValue) {
                 var responseData = JSON.parse(returnValue);
                 component.set('v.piData', responseData);
                 component.set('v.piCTPPicklist', responseData.piCTPPicklist);
                 var currentData = component.get('v.piData');
                 component.set('v.currentStudy', currentData.selectedCTP);
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
-                helper.showPPDashboard(component,helper,responseData);//RH-5163
-                if(component.get('v.isPPDashboard')) { //RH-5163
-                	component.find('invitationId').fetchDashboardValues();
+                helper.showPPDashboard(component, helper, responseData); //RH-5163
+                if (component.get('v.isPPDashboard')) {
+                    //RH-5163
+                    component.find('invitationId').fetchDashboardValues();
                     component.find('loggedId').fetchDashboardValues();
                 }
                 //var spinner = component.find('mainSpinner');
@@ -39,7 +40,7 @@
         );
     },
 
-    callServerMethodOnStudyChange: function (
+    callServerMethodOnStudyChange: function(
         component,
         mthdName,
         usermode,
@@ -61,16 +62,21 @@
                 ctpId: selectedCTP,
                 action: piaction
             },
-            function (returnValue) {
+            function(returnValue) {
                 var responseData = JSON.parse(returnValue);
                 component.set('v.piData', responseData);
                 component.set('v.piCTPPicklist', responseData.piCTPPicklist);
                 var currentData = component.get('v.piData');
-                component.set('v.currentPi', currentData.selectedPi);
+                /**RH-5538 */
+                let currentPiValue = component.get('v.currentPi');
+                if (currentPiValue == undefined || currentPiValue == null) {
+                    component.set('v.currentPi', currentData.selectedPi);
+                }
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
-                helper.showPPDashboard(component,helper,responseData);//RH-5163
-                if(component.get('v.isPPDashboard')) { //RH-5163
-                	component.find('invitationId').fetchDashboardValues();
+                helper.showPPDashboard(component, helper, responseData); //RH-5163
+                if (component.get('v.isPPDashboard')) {
+                    //RH-5163
+                    component.find('invitationId').fetchDashboardValues();
                     component.find('loggedId').fetchDashboardValues();
                 }
                 //var spinner = component.find('mainSpinner');
@@ -79,23 +85,25 @@
         );
     },
 
-    showParticipantsContactedDashboard: function (component, helper, piData) {
+    showParticipantsContactedDashboard: function(component, helper, piData) {
         if (piData.ContactedParticipantDataList == null) {
             component.set('v.isParticipantDisplay', false);
         } else {
             component.set('v.isParticipantDisplay', true);
         }
     },
-    
-    showPPDashboard: function(component, helper,piData) {
+
+    showPPDashboard: function(component, helper, piData) {
         let ctppEnableList = piData.piCTPPPEnablelist;
-        component.set('v.isPPDashboard',false);
-        for(let i in piData.piCTPPPEnablelist) {
-            if(piData.piCTPPPEnablelist[i].value === component.get('v.currentStudy') && piData.piCTPPPEnablelist[i].ppEnabled) {
-                component.set('v.isPPDashboard',true);
+        component.set('v.isPPDashboard', false);
+        for (let i in piData.piCTPPPEnablelist) {
+            if (
+                piData.piCTPPPEnablelist[i].value === component.get('v.currentStudy') &&
+                piData.piCTPPPEnablelist[i].ppEnabled
+            ) {
+                component.set('v.isPPDashboard', true);
                 break;
-            } 
+            }
         }
     }
-    
 });
