@@ -82,6 +82,68 @@ public with sharing class ECOAService {
         @AuraEnabled
         public String statusMessage;
     }
+    @Future(Callout=true)
+    public static void triggerEcoaEventAsync(Set<Id> pvIds) {
+        List<Map<String, String>> requestMapList = new List<Map<String, String>>();
+        for (Patient_Visit__c  pv : [Select Id,Completed_Date__c, Ecoa_Key__c,Participant_Enrollment__r.Subject_GUID__c,
+        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_GUID__c  from Patient_Visit__c where Id IN: pvIds]) {
+
+            Date dateToday = pv.Completed_Date__c;
+            String sMonth = String.valueof(dateToday.month());
+            String sDay = String.valueof(dateToday.day());
+            if(sMonth.length()==1){
+            sMonth = '0' + sMonth;
+            }
+            if(sDay.length()==1){
+            sDay = '0' + sDay;
+            }
+            String dateVal = String.valueof(dateToday.year())+'-' + sMonth+'-' + sDay ;
+
+            Map<String, String> ecoaEventMap = new Map<String, String>{
+                'studyGuid' => pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_GUID__c,
+                'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
+                'subjectGuid' => pv.Participant_Enrollment__r.Subject_GUID__c,
+                'date' => dateVal,
+                'dateKey' => pv.Ecoa_Key__c
+                };
+            requestMapList.add(ecoaEventMap);
+        }
+        if(requestMapList!=null && !requestMapList.isEmpty()){
+            try{
+                createEcoaEvent(requestMapList);
+            }catch(Exception e){
+                System.debug('Err');
+            }
+        }
+    }
+    public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
+        Map<String, String> headerMap = new Map<String, String>{
+            'Content-Type' => 'application/json'
+        };
+        List<SObject> sObjectsList = new List<SObject>();
+
+        HttpCallout remoteCall = new HttpCallout(
+            null,
+            'POST',
+            headerMap,
+            JSON.serializePretty(ecoaEventList),
+            ECOAService.class
+        );
+        remoteCall.setEndPointURL('callout:ECOAIntegration/subjects/eventdates');
+        String respBody = (String) remoteCall.execute();
+
+        if (remoteCall.log.Success__c) {
+            //perform on success
+        }
+        if (remoteCall.log != null) {
+            sObjectsList.add(remoteCall.log);
+        }
+
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
+        }
+    }
 
     public static void createSite(List<Study_Site__c> siteList) {
         Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
