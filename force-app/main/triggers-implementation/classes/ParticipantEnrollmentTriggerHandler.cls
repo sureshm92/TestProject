@@ -161,6 +161,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class EcoaEvents extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            CreateEcoaEvents(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -1093,6 +1102,23 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         if (!peshList.isEmpty()) {
             update peshList;
+        }
+    }
+
+    public static void CreateEcoaEvents(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        Set<Id> peIds = new Set<Id>();
+        if (newList != null) {
+            for (Participant_Enrollment__c per : newList) {
+                if (oldMap.get(per.Id).Participant_Status__c != per.Participant_Status__c) {
+                    peIds.add(per.Id);
+                }
+            }
+        }
+        if (!peIds.isEmpty()) {
+            ECOAService.perTriggerEcoaEventAsync(peIds);
         }
     }
 }
