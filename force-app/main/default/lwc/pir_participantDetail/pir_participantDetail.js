@@ -51,6 +51,18 @@ import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Prefe
 import This_Participant_has_reached_legal_age_of_emancipation from '@salesforce/label/c.This_Participant_has_reached_legal_age_of_emancipation';
 import BTN_Verify from '@salesforce/label/c.BTN_Verify';
 import PG_MT_T_Your_permissions_do_not_permit_this_action from '@salesforce/label/c.PG_MT_T_Your_permissions_do_not_permit_this_action';
+import January from '@salesforce/label/c.January'
+import February from '@salesforce/label/c.February'
+import March from '@salesforce/label/c.March'
+import April from '@salesforce/label/c.April'
+import May from '@salesforce/label/c.May'
+import June from '@salesforce/label/c.June'
+import July from '@salesforce/label/c.July'
+import August from '@salesforce/label/c.August'
+import September from '@salesforce/label/c.September'
+import October from '@salesforce/label/c.October'
+import November from '@salesforce/label/c.November'
+import December from '@salesforce/label/c.December'
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -398,18 +410,18 @@ export default class Pir_participantDetail extends LightningElement {
     get optionsMM() {
         var opt = [];
         // opt.push({label: '--', value:'--' });
-        opt.push({label: 'January', value:'01' });
-        opt.push({label: 'February', value:'02' });
-        opt.push({label: 'March', value:'03' });
-        opt.push({label: 'April', value:'04' });
-        opt.push({label: 'May', value:'05' });
-        opt.push({label: 'June', value:'06' });
-        opt.push({label: 'July', value:'07' });
-        opt.push({label: 'August', value:'08' });
-        opt.push({label: 'September', value:'09' });
-        opt.push({label: 'October', value:'10' });
-        opt.push({label: 'November', value:'11' });
-        opt.push({label: 'December', value:'12' });        
+        opt.push({label: January, value:'01' });
+        opt.push({label: February, value:'02' });
+        opt.push({label: March, value:'03' });
+        opt.push({label: April, value:'04' });
+        opt.push({label: May, value:'05' });
+        opt.push({label: June, value:'06' });
+        opt.push({label: July, value:'07' });
+        opt.push({label: August, value:'08' });
+        opt.push({label: September, value:'09' });
+        opt.push({label: October, value:'10' });
+        opt.push({label: November, value:'11' });
+        opt.push({label: December, value:'12' });       
         return opt;
     }
     get optionsYYYY() {
