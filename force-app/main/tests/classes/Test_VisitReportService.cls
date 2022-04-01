@@ -1,6 +1,6 @@
 /**
- * Created by dmytro.fedchyshyn on 01.08.2019.
- */
+* Created by dmytro.fedchyshyn on 01.08.2019.
+*/
 @IsTest
 private class Test_VisitReportService {
     @TestSetup
@@ -9,41 +9,55 @@ private class Test_VisitReportService {
         TestData.loadTestData();
         Test.stopTest();
     }
-
+    
     @IsTest
     static void integrationTest() {
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
-
+    
         Test.startTest();
         Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Include_Countries__c = true,
             Type__c = 'Calcium',
-            Sharing_Countries__c = 'US'
+            Sharing_Countries__c = 'US',
+            Custom_Tooltip__c='Tool tip'
         );
         insert vrts;
-
+        
+        Visit_Result_Type_Sharing__c vrts1 = new Visit_Result_Type_Sharing__c(
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Include_Countries__c = true,
+            Type__c = 'Other',
+            Sharing_Countries__c = 'US',
+            Custom_Tooltip__c='Tool tip'
+        );
+        insert vrts1;
+        
         testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
-
+        
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
-
+        
         List<Visit__c> visits = new List<Visit__c>();
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
-
+        
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(
             new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
-                Status__c = 'Completed',
+                Status__c = 'Completed',               
                 Completed_Date__c = Date.today(),
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
@@ -84,21 +98,62 @@ private class Test_VisitReportService {
                 Visit_Number__c = 4
             )
         );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(5).Id,
+                Visit_Number__c = 5
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(6).Id,
+                Visit_Number__c = 6
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(7).Id,
+                Visit_Number__c = 7
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(8).Id,
+                Visit_Number__c = 8
+            )
+        );
+        
         insert patientVisits;
-
+        Id recordTypeIdVisitRes = Schema.SObjectType.Visit_Result__c.getRecordTypeInfosByName().get(VisitReportService.VISIT_RES_RECORD_TYPE_BIO).getRecordTypeId();
+        
+        
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
         visitResults.add(
             new Visit_Result__c(
                 Actual_Value__c = 0.01,
                 Patient_Visit__c = patientVisits.get(0).Id,
-                Result_Type__c = 'Calcium'
+                Result_Type__c = 'Calcium',
+                RecordTypeId=recordTypeIdVisitRes
             )
         );
+        
         visitResults.add(
             new Visit_Result__c(
                 Actual_Value__c = 0.5,
                 Patient_Visit__c = patientVisits.get(3).Id,
-                Result_Type__c = 'Calcium'
+                Result_Type__c = 'Calcium'               
             )
         );
         visitResults.add(
@@ -108,13 +163,44 @@ private class Test_VisitReportService {
                 Result_Type__c = 'Calcium'
             )
         );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 0.8,
+                Patient_Visit__c = patientVisits.get(5).Id,
+                Result_Type__c = 'Other'
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 0.0,
+                Patient_Visit__c = patientVisits.get(6).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId=recordTypeIdVisitRes
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 1.0,
+                Patient_Visit__c = patientVisits.get(7).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId=recordTypeIdVisitRes
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = -1.0,
+                Patient_Visit__c = patientVisits.get(8).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId=recordTypeIdVisitRes
+            )
+        );
         insert visitResults;
-
+        
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
         update testData.pe;
-
+        
         VisitReportContainerRemote.ReportDataWrapper testReportDataWrapper;
-
+        
         System.runAs(testData.participantUser) {
             testReportDataWrapper = VisitReportContainerRemote.getReportDataWrappers(
                 testData.pe.Id
@@ -126,6 +212,6 @@ private class Test_VisitReportService {
             }
         }
         Test.stopTest();
-        System.assertEquals(3, testReportDataWrapper.dataTables[0].visitResultsWrapper.size());
+        System.assertEquals(6, testReportDataWrapper.dataTables[0].visitResultsWrapper.size());
     }
 }
