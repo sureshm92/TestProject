@@ -345,7 +345,8 @@ export default class Pir_participantDetail extends LightningElement {
         this.selectedEthinicity = this.selectedEthinicity.concat(tempList); 
         if(this.fcsEth)
             this.template.querySelector('.eBox').focus();  
-        this.fcsEth = true;     
+        this.fcsEth = true;    
+        this.toggleSave(); 
     }
     removeE(event){
         this.template.querySelector("input[value='"+event.currentTarget.dataset.id+"']").checked = false;
@@ -359,6 +360,7 @@ export default class Pir_participantDetail extends LightningElement {
         }
         this.selectedEthinicity = [];
         this.pd['pe']['Participant__r']['Ethnicity__c'] = "";
+        this.toggleSave();
     }
     //ethinicity end
 
@@ -397,7 +399,7 @@ export default class Pir_participantDetail extends LightningElement {
         var opt = [];
         // opt.push({label: '--', value:'--' });
         opt.push({label: 'January', value:'01' });
-        opt.push({label: 'Febuary', value:'02' });
+        opt.push({label: 'Feburary', value:'02' });
         opt.push({label: 'March', value:'03' });
         opt.push({label: 'April', value:'04' });
         opt.push({label: 'May', value:'05' });
