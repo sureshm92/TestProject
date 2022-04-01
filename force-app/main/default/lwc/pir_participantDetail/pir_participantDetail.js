@@ -399,7 +399,7 @@ export default class Pir_participantDetail extends LightningElement {
         var opt = [];
         // opt.push({label: '--', value:'--' });
         opt.push({label: 'January', value:'01' });
-        opt.push({label: 'Feburary', value:'02' });
+        opt.push({label: 'February', value:'02' });
         opt.push({label: 'March', value:'03' });
         opt.push({label: 'April', value:'04' });
         opt.push({label: 'May', value:'05' });
