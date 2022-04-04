@@ -407,7 +407,7 @@ public without sharing class PIR_StatusDetailController {
     }
   }
   @AuraEnabled
-  public static List<ContactHistoryWrap> getContactHistory(Id pe) {
+  public static List<ContactHistoryWrap> getContactHistory(Id pe,String groupName) {
     try {
       List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
       List<ContactHistoryWrap> wrapperList = new List<ContactHistoryWrap>();
@@ -691,11 +691,9 @@ public without sharing class PIR_StatusDetailController {
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 1) {
-          if (
-            pesh.Additional_Notes__c != null &&
-            pesh.Additional_Notes__c != '' &&
-            pesh.Status_Label__c != 'Successfully_Contacted'
-          ) {
+         if (groupName == 'PWS_Contact_Name' ? (pesh.Additional_Notes__c != null && pesh.Additional_Notes__c != '') : (pesh.Additional_Notes__c != null &&    pesh.Additional_Notes__c != '' &&
+             pesh.Status_Label__c != 'Successfully_Contacted')
+          ){
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
