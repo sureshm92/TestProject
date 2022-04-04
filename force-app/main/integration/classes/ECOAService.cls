@@ -83,69 +83,6 @@ public with sharing class ECOAService {
         public String statusMessage;
     }
 
-    @Future(Callout=true)
-    public static void perTriggerEcoaEventAsync(Set<Id> peIds) {
-        List<Map<String, String>> requestMapList = new List<Map<String, String>>();
-        for (Participant_Enrollment__c per : [
-            SELECT
-                Id,
-                Subject_GUID__c,
-                Clinical_Trial_Profile__r.Study_GUID__c,
-                Participant_Status__c
-            FROM Participant_Enrollment__c
-            WHERE Id IN :peIds
-        ]) {
-            if (
-                per.Clinical_Trial_Profile__r.Study_GUID__c != null &&
-                per.Subject_GUID__c != null &&
-                Config_API_Param__mdt.getInstance('OrgGuid').ParamValue__c != null
-            ) {
-                string dateKey = '';
-                if (
-                    per.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS ||
-                    per.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
-                    per.Participant_Status__c == PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED ||
-                    per.Participant_Status__c == PEStatusState.PE_STATUS_FOLLOW_UP_PERIOD_STARTED
-                ) {
-                    String statusInLowerCase = per.Participant_Status__c.toLowercase();
-                    List<String> statusStrList = statusInLowerCase.split(' ');
-                    dateKey = String.join(statusStrList, '_');
-
-                    String cMonth = String.valueof(date.Today().month());
-                    String cDay = String.valueof(date.Today().day());
-                    if (cMonth.length() == 1) {
-                        cMonth = '0' + cMonth;
-                    }
-                    if (cDay.length() == 1) {
-                        cDay = '0' + cDay;
-                    }
-                    String dateValue =
-                        String.valueof(date.Today().year()) +
-                        '-' +
-                        cMonth +
-                        '-' +
-                        cDay;
-
-                    Map<String, String> ecoaEventMap = new Map<String, String>{
-                        'studyGuid' => per.Clinical_Trial_Profile__r.Study_GUID__c,
-                        'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
-                        'subjectGuid' => per.Subject_GUID__c,
-                        'date' => dateValue,
-                        'dateKey' => dateKey
-                    };
-                    requestMapList.add(ecoaEventMap);
-                }
-            }
-            if (requestMapList != null && !requestMapList.isEmpty()) {
-                try {
-                    createEcoaEvent(requestMapList);
-                } catch (Exception e) {
-                    System.debug('Error--->' + e.getmessage());
-                }
-            }
-        }
-    }
-
     public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
         Map<String, String> headerMap = new Map<String, String>{
             'Content-Type' => 'application/json'
