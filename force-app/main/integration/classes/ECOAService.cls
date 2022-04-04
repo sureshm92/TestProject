@@ -36,7 +36,7 @@ public with sharing class ECOAService {
     static {
         apiParamsMap = new Map<String, Config_API_Param__mdt>();
         for (Config_API_Param__mdt mdt : [
-            SELECT DeveloperName, ParamValue__c,Param_Value_Long__c
+            SELECT DeveloperName, ParamValue__c, Param_Value_Long__c
             FROM Config_API_Param__mdt
             WHERE ConfigAPI__r.DeveloperName = :ECOA_CONFIG_NAME
         ]) {
@@ -83,6 +83,35 @@ public with sharing class ECOAService {
         public String statusMessage;
     }
     
+    public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
+        Map<String, String> headerMap = new Map<String, String>{
+            'Content-Type' => 'application/json'
+        };
+        List<SObject> sObjectsList = new List<SObject>();
+
+        HttpCallout remoteCall = new HttpCallout(
+            null,
+            'POST',
+            headerMap,
+            JSON.serializePretty(ecoaEventList),
+            ECOAService.class
+        );
+        remoteCall.setEndPointURL('callout:ECOAIntegration/subjects/eventdates');
+        String respBody = (String) remoteCall.execute();
+
+        if (remoteCall.log.Success__c) {
+            //perform on success
+        }
+        if (remoteCall.log != null) {
+            sObjectsList.add(remoteCall.log);
+        }
+
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
+        }
+    }
+
     public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
         Map<String, String> headerMap = new Map<String, String>{
             'Content-Type' => 'application/json'
@@ -433,10 +462,10 @@ public with sharing class ECOAService {
         Blob sign = Crypto.sign(ALGO_NAME, Blob.valueOf(jwtTemp), privateKey);
 
         String output = EncodingUtil.base64Encode(sign);
-        output = output.replace('+', '-'); 
-        output = output.replace('/', '_'); 
-        while ( output.endsWith('=')){ 
-            output = output.subString(0,output.length()-1); 
+        output = output.replace('+', '-');
+        output = output.replace('/', '_');
+        while (output.endsWith('=')) {
+            output = output.subString(0, output.length() - 1);
         }
         jwtToken = jwtTemp + '.' + output;
         return endpoint + jwtToken;
