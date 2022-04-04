@@ -19,7 +19,7 @@ public without sharing class SMSOptOutService {
         Set<Id> notificationIdSet = new Set<Id>();
         Set<Id> platformLevelSMSRecipientIdSet = new Set<Id>();
         Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
-        //Query the Send Result record based matching message Id field and create set of Notification Id related to each send Result.
+        //Query the Send Result record based on matching message Id field and create set of Notification Id related to each send Result.
         for (Send_Result__c sr : [
             SELECT Id, Notification__c
             FROM Send_Result__c
