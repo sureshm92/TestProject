@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="152px" height="24px" viewBox="0 0 152 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 7</title>
+    <g id="3---Ready-for-UI-🖥" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="16" line-spacing="24">
+        <g id="Group-7" fill="#FFFFFF">
+            <text id="IQVIA™" font-family="ProximaNova-Regular, Proxima Nova" font-weight="normal">
+                <tspan x="0" y="16">IQVIA™</tspan>
+            </text>
+            <text id="Patient-Portal" font-family="ProximaNova-Bold, Proxima Nova" font-weight="bold">
+                <tspan x="53" y="16">Patient Portal</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
