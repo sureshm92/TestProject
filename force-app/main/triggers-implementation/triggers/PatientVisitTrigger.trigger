@@ -11,4 +11,7 @@ trigger PatientVisitTrigger on Patient_Visit__c(
     after delete,
     after undelete
 ) {
+    TriggerHandlerExecutor.execute(
+        PatientVisitTriggerHandler.updateEcoaEvents.class
+    );
 }
