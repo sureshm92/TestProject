@@ -82,35 +82,6 @@ public with sharing class ECOAService {
         @AuraEnabled
         public String statusMessage;
     }
-    
-    public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
-        Map<String, String> headerMap = new Map<String, String>{
-            'Content-Type' => 'application/json'
-        };
-        List<SObject> sObjectsList = new List<SObject>();
-
-        HttpCallout remoteCall = new HttpCallout(
-            null,
-            'POST',
-            headerMap,
-            JSON.serializePretty(ecoaEventList),
-            ECOAService.class
-        );
-        remoteCall.setEndPointURL('callout:ECOAIntegration/subjects/eventdates');
-        String respBody = (String) remoteCall.execute();
-
-        if (remoteCall.log.Success__c) {
-            //perform on success
-        }
-        if (remoteCall.log != null) {
-            sObjectsList.add(remoteCall.log);
-        }
-
-        if (sObjectsList.size() > 0) {
-            sObjectsList.sort();
-            Database.upsert(sObjectsList, false);
-        }
-    }
 
     public static void createEcoaEvent(List<Map<String, String>> ecoaEventList) {
         Map<String, String> headerMap = new Map<String, String>{
