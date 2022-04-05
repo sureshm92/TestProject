@@ -350,6 +350,8 @@ public inherited sharing class VisitResultsService {
         }
         return null;
     }
+
+    @testVisible
     private static Set<String> visitResultAvailabilityByGroupForReport(
         List<Visit_Result__c> visitResults
     ) {
