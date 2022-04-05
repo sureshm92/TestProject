@@ -130,13 +130,13 @@ public with sharing class Test_VisitResultsRemote {
 
         System.assert(tesContainer.groupName.equals('Vitals'));
     }
-    
-     @IsTest
+
+    @IsTest
     static void showVisitResults_test() {
         Test.startTest();
         TestData testData = new TestData();
         System.runAs(testData.participantUser) {
-        VisitResultsRemote.showVisitResults();
+            VisitResultsRemote.showVisitResults();
         }
         Test.stopTest();
 

@@ -15,7 +15,7 @@ public without sharing class SMSOptOutService {
      * @param: messageIdSet
      * @return:
      **/
-    public static void processOptOUTForSMS(Set<Id> messageIdSet) {
+    public static void processOptOUTForSMS(Set<String> messageIdSet) {
         Set<Id> notificationIdSet = new Set<Id>();
         Set<Id> platformLevelSMSRecipientIdSet = new Set<Id>();
         Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
