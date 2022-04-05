@@ -24162,4 +24162,60 @@ communications using the toggles below.</value>
         <shortDescription>PIR_Download</shortDescription>
         <value>Download</value>
     </labels>
+	 <labels>
+        <fullName>RH_RP_Missing_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Missing Info</shortDescription>
+        <value>Missing Info</value>
+    </labels>
+	<labels>
+        <fullName>RH_RP_Outreach_Email_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Email Results</shortDescription>
+        <value>Outreach Email Results</value>
+    </labels>
+	 <labels>
+        <fullName>RH_RP_Outreach_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Info</shortDescription>
+        <value>Outreach Info</value>
+    </labels>
+	<labels>
+        <fullName>RH_RP_Outreach_Not_Sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Not Sent</shortDescription>
+        <value>Outreach Not Sent</value>
+    </labels>
+	<labels>
+        <fullName>RH_RP_Outreach_Sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Sent</shortDescription>
+        <value>Outreach Sent</value>
+    </labels>
+	 <labels>
+        <fullName>RH_RP_Review</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Review</shortDescription>
+        <value>Review</value>
+    </labels>
+	 <labels>
+        <fullName>RH_RP_Successfully_Submitted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Successfully Submitted</shortDescription>
+        <value>Successfully Submitted!</value>
+    </labels>
+	<labels>
+        <fullName>RH_RP_out_of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP out of</shortDescription>
+        <value>out of</value>
+    </labels>
 </CustomLabels>
