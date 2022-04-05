@@ -26,17 +26,16 @@ private class Test_AccountSettingsController {
         TestData.loadTestData();
         Test.stopTest();
     }
-    
+
     @IsTest
-    static void getMaxLength(){
+    static void getMaxLength() {
         List<String> fieldNames = new List<String>();
         fieldNames.add('FirstName');
         String sObjectName = 'Contact';
         Schema.SObjectType t = Schema.getGlobalDescribe().get(sObjectName); // obtain sObject description from the schema
         Sobject so = t.newSObject();
-        Map<String,Integer> m = CommunityService.getMaxLength(so,fieldNames);
+        Map<String, Integer> m = CommunityService.getMaxLength(so, fieldNames);
         System.assert(m != null);
-        
     }
 
     @IsTest
@@ -68,9 +67,20 @@ private class Test_AccountSettingsController {
                 JSON.serialize(testData.participant)
             );
             AccountSettingsController.updateContact(JSON.serialize(con));
-            AccountSettingsController.changeEmail('aaa@bbb.com',CommunityService.USER_MODE_PARTICIPANT);
+            //  AccountSettingsController.updateAccount('test');
+
+            AccountSettingsController.changeEmail(
+                'aaa@bbb.com',
+                CommunityService.USER_MODE_PARTICIPANT
+            );
             AccountSettingsController.changePassword('123', '123', '321');
-            AccountSettingsController.changeOptInEmail(true, true, true, true,CommunityService.USER_MODE_PARTICIPANT);
+            AccountSettingsController.changeOptInEmail(
+                true,
+                true,
+                true,
+                true,
+                CommunityService.USER_MODE_PARTICIPANT
+            );
             AccountSettingsController.changeOptInCookies(false, false);
             AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
@@ -82,7 +92,10 @@ private class Test_AccountSettingsController {
                 AccountSettingsController.AccountData.class
             );
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
-            AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS(),CommunityService.USER_MODE_PARTICIPANT);
+            AccountSettingsController.changeOptInSMS(
+                personWrapper.isOptInSMS(),
+                CommunityService.USER_MODE_PARTICIPANT
+            );
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
@@ -113,6 +126,8 @@ private class Test_AccountSettingsController {
             FROM Case
             WHERE Contact.Id = :contacts[0].Id AND Status = 'New'
         ];
+        AccountSettingsController.getCommunityUrl();
+        // AccountSettingsController.updateAccount('name');
         System.assertEquals(1, contacts.size());
         System.assertEquals(true, contacts[0].HCP_Opt_In_Patient_Status_Emails__c);
         System.assertEquals(true, contacts[0].HCP_Opt_In_Referral_Status_Emails__c);
@@ -125,5 +140,50 @@ private class Test_AccountSettingsController {
         System.assertEquals(acc1.Id, acc.Id);
         System.assertEquals(12, cookieList.size());
         System.assertEquals(true, contacts[0].Participant_Opt_In_Status_SMS__c);
+    }
+
+    @IsTest
+    static void testAccountnew() {
+        Account acc1 = new Account(Name = 'newAcc1');
+        insert acc1;
+        Contact conCase = new Contact(
+            AccountId = acc1.Id,
+            LastName = 'portalTestUser1',
+            RRCookiesAllowedCookie__c = false,
+            RRLanguageAllowedCookie__c = true,
+            userCommunytyType__c = CommunityService.USER_MODE_HCP
+        );
+        insert conCase;
+
+        //Create user
+        Profile profile = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
+        ];
+        User portalUser = new User(
+            ProfileId = profile.Id,
+            Username = 'newUser@yahoo.com',
+            Email = 'pb@f.com',
+            EmailEncodingKey = 'UTF-8',
+            LocaleSidKey = 'en_US',
+            LanguageLocaleKey = 'en_US',
+            TimeZoneSidKey = 'America/Los_Angeles',
+            Alias = 'nuser',
+            LastName = 'lastname',
+            ContactId = conCase.Id
+        );
+        insert portalUser;
+        System.runAs(portalUser) {
+            try {
+                AccountSettingsController.updateAccount('name');
+                AccountSettingsController.updateAccount('');
+                AccountSettingsController.changeEmail('ss', CommunityService.USER_MODE_PARTICIPANT);
+                AccountSettingsController.changePassword('123', '123', '222');
+            } catch (Exception e) {
+                System.debug(e);
+            }
+        }
+
     }
 }
