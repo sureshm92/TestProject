@@ -93,7 +93,8 @@ public class TestData {
                 Visit_Results_Sharing__c,
                 Name,
                 Principal_Investigator__c,
-                Enable_for_Call_Center_Support__c
+                Enable_for_Call_Center_Support__c,
+                Clinical_Trial_Profile__c
             FROM Study_Site__c
             WHERE Clinical_Trial_Profile__c = :ctp.Id
         ];
