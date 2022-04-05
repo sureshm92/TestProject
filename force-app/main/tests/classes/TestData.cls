@@ -36,6 +36,7 @@ public class TestData {
                 Balance__c,
                 Contact__c,
                 Mailing_Country_Code__c,
+                Mailing_Country__c,
                 Contact__r.AccountId
             FROM Participant__c
             WHERE Last_Name__c = 'ParticipantTD'
@@ -80,7 +81,9 @@ public class TestData {
                 Initial_Visit_Required__c,
                 Participant_Workflow_Final_Step__c,
                 Final_Consent_Required__c,
-                Enable_for_Call_Center_Support__c
+                Enable_for_Call_Center_Support__c,
+                Link_to_Medical_Record_Review__c,
+                Link_to_Pre_screening__c
             FROM Clinical_Trial_Profile__c
             WHERE NCT_Number__c = 'NCT99999999'
         ];
@@ -102,6 +105,7 @@ public class TestData {
                 Participant_Contact__c,
                 Participant_Status__c,
                 Participant_Contact__r.Visit_Results_OptIn__c,
+                Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_occurred_date__c,
                 Initial_visit_scheduled_time__c,
@@ -112,12 +116,21 @@ public class TestData {
                 Medical_Record_Review_Completed_Date__c,
                 Study_Site__r.Principal_Investigator__c,
                 Study_Site__r.Principal_Investigator__r.Name,
-                Study_Site__r.Principal_Investigator__r.Title
+                Study_Site__r.Principal_Investigator__r.Title,
+                Participant__r.Mailing_Country_Code__c,
+                Participant__r.Mailing_Country__c
             FROM Participant_Enrollment__c
             WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-            SELECT Id, Orientation_Date__c, HCP_Contact__c, Study_Site__c
+            SELECT
+                Id,
+                Orientation_Date__c,
+                HCP_Contact__c,
+                Study_Site__c,
+                Study_Site__r.Principal_Investigator__c,
+                HCP_Contact__r.AccountId,
+                Study_Site__r.Clinical_Trial_Profile__c
             FROM HCP_Enrollment__c
             WHERE HCP_Contact__r.LastName = 'HCPTD'
             LIMIT 1
