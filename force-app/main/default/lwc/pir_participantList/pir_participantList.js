@@ -2,6 +2,7 @@ import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
 import updateParticipantData from '@salesforce/apex/PIR_BulkActionController.updateParticipantData';
 import createUserForPatientProtal from '@salesforce/apex/PIR_BulkActionController.createUserForPatientProtal';
+import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -71,6 +72,66 @@ export default class Pir_participantList extends LightningElement {
           this.urlStateParameters = currentPageReference.state;
           this.setParametersBasedOnUrl();
        }
+    }
+    @api showAddParticipant = false;
+    @wire(getStudyStudySiteDetails)
+    participantAccess({ error, data }) {
+      if (data){
+            var siteAccessLevels = data.siteAccessLevels;
+            var ctpListNoAccess = [];
+            var studySiteMap = data;
+            var studylist;
+            var studyToStudySite;
+            ctpListNoAccess = data.ctpNoAccess;
+            var k = 0;var a = 0;
+            var accesslevels = Object.keys(siteAccessLevels).length;
+            if (studySiteMap.ctpMap) {
+                var conts = studySiteMap.ctpMap;
+                let options = [];
+                var sites = studySiteMap.studySiteMap; 
+                for (var key in conts) {
+                    if(!ctpListNoAccess.includes(conts[key])){ 
+                        var temp = sites[conts[key]];
+                        let z = 0;
+                        for (var j in temp) {
+                             if(accesslevels == 0){
+                                z=z+1;
+                                a=a+1;
+                             }else{
+                                var level = siteAccessLevels[temp[j].Id];
+                                if(level != 'Level 3' && level != 'Level 2'){
+                                    z=z+1;
+                                    a=a+1;
+                                }
+                             }
+                        }
+                        if(z != 0){
+                            options.push({ label: key, value: conts[key] });
+                            k=k+1;
+                        }
+                    }
+                }
+                studylist = options;
+                if (studySiteMap.studySiteMap) {
+                    studyToStudySite = studySiteMap.studySiteMap;
+                }
+            }
+            if(k != 0 && a != 0){
+                    this.showAddParticipant = true;
+                    const selectedEvent = new CustomEvent("updatestudylist", {
+                        detail: {
+                            studylist: studylist,
+                            siteAccessLevels: siteAccessLevels,
+                            studyToStudySite: studyToStudySite
+                        }
+                      });
+                    this.dispatchEvent(selectedEvent);
+            }else{
+                this.showAddParticipant = false;
+            }
+      } else if (error) {
+          this.error = error;
+      }
     }
     @api hideCheckbox(){
         this.isCheckboxhidden=false;

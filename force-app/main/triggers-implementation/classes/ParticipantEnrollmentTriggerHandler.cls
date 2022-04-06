@@ -1137,7 +1137,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (
                 per.Clinical_Trial_Profile__r.Study_GUID__c != null &&
                 per.Subject_GUID__c != null &&
-                Config_API_Param__mdt.getInstance('OrgGuid').ParamValue__c != null
+                ECOAService.apiParamsMap.get(ECOAService.ORG_GUID).ParamValue__c != null
             ) {
                 string dateKey = '';
                 if (

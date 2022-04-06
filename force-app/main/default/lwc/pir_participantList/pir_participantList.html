@@ -82,9 +82,11 @@
                                         <a href="#" role="menuitem" data-id="Export" onclick={handlenewOnSelect} > <span class="slds-truncate" title="Export" data-id="Export">Export</span> </a>
                                     </li>
                                 </template>
+                                <template if:true={showAddParticipant}>  
                                     <li class="slds-dropdown__item" role="presentation" data-id="Add New Participant">
                                         <a href="#" role="menuitem" data-id="Add New Participant" onmousedown={handlenewOnSelect}> <span class="slds-truncate" title="Add New Participant" data-id="Add New Participant">Add New Participant</span> </a>
                                     </li>
+                                </template>
                                 </ul>
                             </div>
                     </div>

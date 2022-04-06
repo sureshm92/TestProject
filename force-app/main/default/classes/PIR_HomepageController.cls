@@ -1050,14 +1050,13 @@ public without sharing class PIR_HomepageController {
 
     return studySiteList;
   }
-  @AuraEnabled
+  @AuraEnabled(cacheable=true)
   public static StudyStudySiteWrapper getStudyStudySiteDetails() {
     StudyStudySiteWrapper sswrap = new StudyStudySiteWrapper();
     try {
       String sponsorName = UserContext.getCurrentUserMode()
         .template.templateName;
       String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
-      system.debug('USERMODEE'+sponsorName);
       List<Study_Site__c> studySiteList = getStudySiteDetails();
       
       Map<String, Id> studyMap = new Map<String, Id>();
