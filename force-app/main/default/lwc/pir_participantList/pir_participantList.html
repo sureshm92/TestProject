@@ -32,11 +32,11 @@
                 <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
             </div>
         </div> -->
-        <!--<template if:true={showFilter}>
+        <template if:true={showFilter}>
             <div class="slds-col slds-size_12-of-12 filter-relative">
                 <c-pir_filter urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}></c-pir_filter>
             </div>
-        </template>-->
+        </template>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
                 <div class="textBolds slds-m-bottom--xx-small">Presets</div>
@@ -82,9 +82,11 @@
                                         <a href="#" role="menuitem" data-id="Export" onclick={handlenewOnSelect} > <span class="slds-truncate" title="Export" data-id="Export">Export</span> </a>
                                     </li>
                                 </template>
+                                <template if:true={showAddParticipant}>  
                                     <li class="slds-dropdown__item" role="presentation" data-id="Add New Participant">
                                         <a href="#" role="menuitem" data-id="Add New Participant" onmousedown={handlenewOnSelect}> <span class="slds-truncate" title="Add New Participant" data-id="Add New Participant">Add New Participant</span> </a>
                                     </li>
+                                </template>
                                 </ul>
                             </div>
                     </div>

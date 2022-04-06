@@ -17,7 +17,7 @@
        <div class="boxShadow  maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg ">
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <span>
-                   <c-pir_participant-list ongotofirst={settopageone} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} fetch={setList}></c-pir_participant-list>
+                   <c-pir_participant-list ongotofirst={settopageone} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} fetch={setList}></c-pir_participant-list>
                </span>
            </div>
 		    <template if:false={progressValue}> 
@@ -333,7 +333,7 @@
                      </div>
                   </div>
                   <slot name="body">   
-                     <div class="slds-grid slds-wrap slds-gutters vertical-scroll-pop">
+                     <div class="slds-grid slds-wrap slds-gutters">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                               <div class="participant-text">
                                  {label.RH_PP_Select_Study_Site}
