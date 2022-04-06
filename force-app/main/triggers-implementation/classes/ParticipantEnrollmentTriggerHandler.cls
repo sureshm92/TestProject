@@ -1147,6 +1147,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     per.Participant_Status__c == PEStatusState.PE_STATUS_FOLLOW_UP_PERIOD_STARTED
                 ) {
                     String statusInLowerCase = per.Participant_Status__c.toLowercase();
+                    statusInLowerCase = statusInLowerCase.replaceAll('[^a-zA-Z0-9\\s+]', ' ');
                     List<String> statusStrList = statusInLowerCase.split(' ');
                     dateKey = String.join(statusStrList, '_');
 
