@@ -21139,26 +21139,6 @@ communications using the toggles below.</value>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
     <labels>
-        <fullName>rp_revamp_BulkImport_Bulk_Import_Process</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>rp revamp BulkImport Bulk Import Process</shortDescription>
-        <value>1. Downloads the acceptable bulk format from the download &lt;b&gt;Template File&lt;/b&gt; button at the top
-        right of the table.&lt;/br&gt;
-        2. Enter available information for the patients in the file.&lt;/br&gt;
-        3. Select the &lt;b&gt;Study Name&lt;/b&gt;.&lt;/br&gt;
-        4. Upload the file.&lt;/br&gt;
-        5. After upload is complete select &lt;b&gt;Import&lt;/b&gt;.&lt;/br&gt;
-        6. Your upload results will appear at the top of the table with the total records, accepted records, and
-        rejected records displayed.&lt;/br&gt;
-        7. All accepted records can now be found under the &lt;b&gt;Not Yet Referred Tab&lt;/b&gt;.&lt;/br&gt;
-        8. All rejected records will need to be fixed by doing the following-&lt;/br&gt;
-        &amp;nbsp;&amp;nbsp;&amp;nbsp;a. Download the result sheet from the action icon in the last column.&lt;/br&gt;
-        &amp;nbsp;&amp;nbsp;&amp;nbsp;b. Check the column &lt;b&gt;Validation Errors&lt;/b&gt; in the sheet for the rejection reason.&lt;/br&gt;
-        &amp;nbsp;&amp;nbsp;&amp;nbsp;c. Make changes based on the rejection reason and save the file.&lt;/br&gt;
-        &amp;nbsp;&amp;nbsp;&amp;nbsp;d. Do not change the file name and follow Step 2 above.</value>
-    </labels>
-    <labels>
         <fullName>SDC_List_View</fullName>
         <language>en_US</language>
         <protected>true</protected>

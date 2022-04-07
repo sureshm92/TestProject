@@ -37,8 +37,6 @@ import BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files from '@salesfo
 import BulkImport_TableHeading from '@salesforce/label/c.BulkImport_TableHeading';
 import BulkImport_Initial_Total_Records from '@salesforce/label/c.BulkImport_Initial_Total_Records';
 import BulkImport_No_files_to_display from '@salesforce/label/c.BulkImport_No_files_to_display';
-import rp_revamp_BulkImport_Bulk_Import_Process from '@salesforce/label/c.rp_revamp_BulkImport_Bulk_Import_Process';
-
 const MAX_FILE_SIZE = 2621440; // 4500000; max file size prog can handle
 const CHUNK_SIZE = 9000; //750000; max chunk size prog can handle
 
@@ -68,7 +66,6 @@ export default class RPRevamp extends LightningElement {
     BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files = BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
     BulkImport_TableHeading = BulkImport_TableHeading;
     BulkImport_Initial_Total_Records = BulkImport_Initial_Total_Records;
-    rp_revamp_BulkImport_Bulk_Import_Process = rp_revamp_BulkImport_Bulk_Import_Process;
 
     templateFile = downloadBulkTemplate;
     instructionsSvgURL = bulkicons + '/instructions.svg';
