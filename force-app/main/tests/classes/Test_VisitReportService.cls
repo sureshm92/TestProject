@@ -21,9 +21,19 @@ private class Test_VisitReportService {
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Include_Countries__c = true,
             Type__c = 'Calcium',
-            Sharing_Countries__c = 'US'
+            Sharing_Countries__c = 'US',
+            Custom_Tooltip__c = 'Tool tip'
         );
         insert vrts;
+
+        Visit_Result_Type_Sharing__c vrts1 = new Visit_Result_Type_Sharing__c(
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Include_Countries__c = true,
+            Type__c = 'Other',
+            Sharing_Countries__c = 'US',
+            Custom_Tooltip__c = 'Tool tip'
+        );
+        insert vrts1;
 
         testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
@@ -32,6 +42,10 @@ private class Test_VisitReportService {
         insert vp;
 
         List<Visit__c> visits = new List<Visit__c>();
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
@@ -84,16 +98,58 @@ private class Test_VisitReportService {
                 Visit_Number__c = 4
             )
         );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(5).Id,
+                Visit_Number__c = 5
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(6).Id,
+                Visit_Number__c = 6
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(7).Id,
+                Visit_Number__c = 7
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Completed_Date__c = Date.today(),
+                Visit__c = visits.get(8).Id,
+                Visit_Number__c = 8
+            )
+        );
+
         insert patientVisits;
+        Id recordTypeIdVisitRes = Schema.SObjectType.Visit_Result__c.getRecordTypeInfosByName()
+            .get(VisitReportService.VISIT_RES_RECORD_TYPE_BIO)
+            .getRecordTypeId();
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
         visitResults.add(
             new Visit_Result__c(
                 Actual_Value__c = 0.01,
                 Patient_Visit__c = patientVisits.get(0).Id,
-                Result_Type__c = 'Calcium'
+                Result_Type__c = 'Calcium',
+                RecordTypeId = recordTypeIdVisitRes
             )
         );
+
         visitResults.add(
             new Visit_Result__c(
                 Actual_Value__c = 0.5,
@@ -106,6 +162,37 @@ private class Test_VisitReportService {
                 Actual_Value__c = 0.8,
                 Patient_Visit__c = patientVisits.get(4).Id,
                 Result_Type__c = 'Calcium'
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 0.8,
+                Patient_Visit__c = patientVisits.get(5).Id,
+                Result_Type__c = 'Other'
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 0.0,
+                Patient_Visit__c = patientVisits.get(6).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId = recordTypeIdVisitRes
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = 1.0,
+                Patient_Visit__c = patientVisits.get(7).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId = recordTypeIdVisitRes
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
+                Actual_Value__c = -1.0,
+                Patient_Visit__c = patientVisits.get(8).Id,
+                Result_Type__c = 'Calcium',
+                RecordTypeId = recordTypeIdVisitRes
             )
         );
         insert visitResults;
@@ -126,6 +213,6 @@ private class Test_VisitReportService {
             }
         }
         Test.stopTest();
-        System.assertEquals(3, testReportDataWrapper.dataTables[0].visitResultsWrapper.size());
+        System.assertEquals(6, testReportDataWrapper.dataTables[0].visitResultsWrapper.size());
     }
 }
