@@ -28,7 +28,14 @@
     line-height: 21px;
     margin-bottom: 4px;
 }
-
+.THIS .street{
+    padding-left:1px;
+    padding-right:6px;
+}
+.THIS .city{
+    padding-left:6px;
+    padding-right:0px;
+}
 .THIS .delegate-select {
     width: 100%;
     color: #000000;
@@ -54,7 +61,7 @@
 }
 
 .THIS .check-address-btn {
-    padding: 4px 16px;
+    padding: 4px 10px;
     max-height: 44px;
 }
 

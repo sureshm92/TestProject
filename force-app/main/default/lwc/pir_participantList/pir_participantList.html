@@ -1,6 +1,24 @@
 <template>
     <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
-        <div class="slds-col slds-size_9-of-12">
+        
+                <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none" onclick={resetPagination}>
+                    <div class="slds-form-element slds-m-left_x-small">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search" class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
+                            <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" />
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter">
+                    <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter}>
+                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xxx-small filter-color">Filter (10)</span>
+                    </button>      
+                    <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>   
+                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color">(10)</span>
+                    </div>
+                </div>
+            
+        <!-- <div class="slds-col slds-size_9-of-12">
             <div class="slds-form-element slds-m-left_x-small">
                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                     <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search" class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
@@ -9,50 +27,160 @@
             </div>
         </div>
         <div class="slds-col slds-size_3-of-12 textBold">
-            <lightning-button label="Filter" title="Filter" icon-name="utility:filterList" class="slds-m-left_xx-small filterTextButton"></lightning-button>
-            <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton">
+            <lightning-button label="Filter" title="Filter" icon-name="utility:filterList" class="slds-m-left_xx-small filterTextButton" onclick={toggleFilter}></lightning-button>
+            <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>
                 <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
             </div>
-        </div>
+        </div> -->
+        <template if:true={showFilter}>
+            <div class="slds-col slds-size_12-of-12 filter-relative">
+                <c-pir_filter urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}></c-pir_filter>
+            </div>
+        </template>
         <div class="slds-col slds-size_12-of-12">
-            <div class="slds-m-left_x-small slds-m-right--x-small slds-m-top--x-small">
-                <span class="textBold">Presets</span>
+            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
+                <div class="textBolds slds-m-bottom--xx-small">Presets</div>
                 <lightning-combobox name="preset" variant="label-hidden"
                 placeholder="Select"  ></lightning-combobox>
-            </div>
+            </div>     
         </div>
-        <div class="slds-col slds-size_12-of-12 slds-p-bottom--x-large">
+        <div class="slds-col slds-size_12-of-12 dropsize">
             <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
-                <div class="slds-col slds-size_2-of-12">
-                    <div class="slds-p-top--x-small textBold">Sort By:</div>
+                <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                    <div class="slds-p-top--x-small textBolds">Sort By:</div>
                 </div>
-                <div class="slds-col slds-size_4-of-12">
+                <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12">
                     <lightning-combobox name="LastAdded" variant="label-hidden"
-                    placeholder="Last Added"  ></lightning-combobox>
+                    placeholder="Last Added"></lightning-combobox>
                 </div>
-                <div class="slds-col slds-size_2-of-12"></div>
-                <div class="slds-col slds-size_4-of-12">
-                    <lightning-combobox name="Bulk" variant="label-hidden"
-                    placeholder="Actions"  ></lightning-combobox>
+                <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
+                   
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 D" >
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small j-content" aria-haspopup="true" aria-expanded="true"  title={dropDownLabel} onclick={opendropdown} disabled={dropDownChange} onblur={handleonblur}>                               
+                             <span class="slds-truncate text-width" >{dropDownLabel}</span> 
+                             <span><lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down" class="slds-icon-text-primary"></lightning-icon></span>
+                        </button>
+                            <div class="slds-dropdown slds-dropdown_left w-100" >
+                                <ul class="slds-dropdown__list" role="menu" aria-label={dropDownLabel}>
+                                    <template if:false={noRecords}>
+                                   <template if:true={showDCT}>
+                                       <li class="slds-dropdown__item" role="presentation" data-id="Send to DCT">
+                                        <a href="#" role="menuitem" data-id="Send to DCT" onmousedown={handlenewOnSelect} >  <span class="slds-truncate" title="Send to DTC"  data-id="Send to DCT">Send to DCT</span> </a>
+                                       </li>
+                                    </template> 
+                                    <template if:true={showPP}>
+                                      <li class="slds-dropdown__item" role="presentation" data-id="Invite to Patient Portal">
+                                        <a href="#" role="menuitem" data-id="Invite to Patient Portal" onmousedown={handlenewOnSelect} > <span class="slds-truncate" title="Invite to Patient Portal" data-id="Invite to Patient Portal">Invite to Patient Portal</span> </a>
+                                      </li>
+                                    </template>
+                                    <template if:true={showStatus}>
+                                      <li class="slds-dropdown__item" role="presentation" data-id="Change Status">
+                                        <a href="#" role="menuitem" data-id="Change Status" onclick={handlenewOnSelect}> <span class="slds-truncate" title="Change Participant Status" data-id="Change Status">Change Participant Status</span> </a>
+                                      </li>
+                                    </template>
+                                    <li class="slds-dropdown__item" role="presentation" data-id="Export">
+                                        <a href="#" role="menuitem" data-id="Export" onclick={handlenewOnSelect} > <span class="slds-truncate" title="Export" data-id="Export">Export</span> </a>
+                                    </li>
+                                </template>
+                                <template if:true={showAddParticipant}>  
+                                    <li class="slds-dropdown__item" role="presentation" data-id="Add New Participant">
+                                        <a href="#" role="menuitem" data-id="Add New Participant" onmousedown={handlenewOnSelect}> <span class="slds-truncate" title="Add New Participant" data-id="Add New Participant">Add New Participant</span> </a>
+                                    </li>
+                                </template>
+                                </ul>
+                            </div>
+                    </div>
+                
                 </div>
-            </div>
+            </div>    
         </div>
+        <template if:true={isCheckboxhidden}>
+            <template if:true={enableStatus}>
+                <div class="slds-col slds-size_12-of-12 slds-p-bottom_small">
+                    <lightning-combobox name="ChangeStatusTo" variant="label-hidden"
+                    placeholder="Change Status to..."  options={options}  onchange={handleChange} ></lightning-combobox>
+                    
+                </div>
+            </template>
+            <template if:false={dctCheck}>
+                <div class="slds-col slds-size_12-of-12 checkbox-color  ">
+                    <template if:false={enableStatus}>
+                        <div class="checkbox-place ">
+                        <lightning-input type="checkbox" onchange={handleSelectAll}  checked={selectall} ></lightning-input>
+                        </div>
+                    </template>   
+                </div>
+            </template>
+                <template if:true={dctCheck}>
+                <div class="slds-col slds-size_12-of-12 checkbox-colordct  ">
+                    <template if:false={enableStatus}>
+                        <div class="checkbox-placedct ">
+                        <lightning-input type="checkbox" onchange={handleSelectAll}  checked={selectall} ></lightning-input>
+                        </div>
+                    </template>   
+                </div>
+            </template>
+        </template>
+    
+        
+        
         <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
             <template if:false={participantList}>
                 <div class="overflowSet" style="position:relative">
                     <div role="status" class="slds-spinner slds-spinner_medium">
-                      <span class="slds-assistive-text">Loading</span>
-                      <div class="slds-spinner__dot-a"></div>
-                      <div class="slds-spinner__dot-b"></div>
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
                     </div>
                     <template if:true={pageLimit}>
                         <div class="slds-align--absolute-center wait">
                             Please wait as your page loads 
                         </div>
                     </template>
-                  </div>
+                    </div>
             </template>
             <template if:true={participantList}>
+                <template if:true={saving}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand">
+                    </lightning-spinner>
+                </template>
+                <template if:true={isCheckboxhidden}>
+                <template for:each={participantList} for:item="p"  for:index="index">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop">
+                        <div class="card-content checkboxdisplay">  
+                            <template if:false={enableStatus}>
+                                <template if:true={dctCheck}>
+                            <div class="slds-align--absolute-center w-7">
+                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled={p.showActionbtnDisabled} ></lightning-input>
+                            </div> 
+                                </template>
+                                <template if:false={dctCheck}>
+                            <div class="slds-align--absolute-center w-10" >
+                                <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} ></lightning-input>
+                            </div> 
+                                </template>
+                            </template>
+                        <div class="w-90">
+                            <div class="flags">
+                                <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>Action Required</span></template>
+                                <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>
+                                <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>High Risk</span></template>
+                            </div>
+                            <div class="slds-text-heading--small breakW" >
+                                {p.firstName} {p.lastName}  
+                            </div>
+                            <div class="tooltip">
+                                <div class="subInfo slds-truncate" >
+                                    {p.refId} - {p.studyName}
+                                </div>
+                                <span class={p.cs}>{p.studyName}</span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
                     <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
                         <div class="flags">
@@ -60,9 +188,9 @@
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>
                             <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>High Risk</span></template>
                         </div>
-                        <div class="card-content">
-                            <div class="slds-text-heading--small breakW">
-                                {p.firstName} {p.lastName}
+                        <div class="card-content ">  
+                            <div class="slds-text-heading--small breakW" >
+                                {p.firstName} {p.lastName}  
                             </div>
                             <div class="tooltip">
                                 <div class="subInfo slds-truncate" >
@@ -74,9 +202,10 @@
                     </div>
                 </template>
             </template>
+            </template>
             <template if:true={noRecords}>
                 <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
             </template>
         </div>
     </div>
-</template>
+    </template>
