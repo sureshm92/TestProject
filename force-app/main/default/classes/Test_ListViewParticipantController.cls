@@ -130,7 +130,7 @@ public class Test_ListViewParticipantController {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
         Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
-        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
+        participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
         Incentive_Plan__c ip = new Incentive_Plan__c(
         Clinical_Trial_Profile__c = clinical.id,
             Plan_Name__c = 'test'
@@ -252,8 +252,8 @@ public class Test_ListViewParticipantController {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
         Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
-        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
-        system.debug(p.Present_Age__c);
+        participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
@@ -344,8 +344,8 @@ public class Test_ListViewParticipantController {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
         Participant_Enrollment__c pe = [SELECT ID,Study_Hub_Log__c,Participant_Status__c,Clinical_Trial_Profile__r.Promote_to_SH__c FROM Participant_Enrollment__c LIMIT 1];
-        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
-        system.debug(p.Present_Age__c);
+        participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
