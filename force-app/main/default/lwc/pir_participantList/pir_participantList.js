@@ -2,6 +2,7 @@ import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
 import updateParticipantData from '@salesforce/apex/PIR_BulkActionController.updateParticipantData';
 import createUserForPatientProtal from '@salesforce/apex/PIR_BulkActionController.createUserForPatientProtal';
+import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -36,7 +37,20 @@ export default class Pir_participantList extends LightningElement {
     showStatus=false;
     selectedStatusList;
     selectedStatusValue = 'Received';isPPFiltered = false;
-    
+    @api get fetch(){
+        return true;
+    }
+    set fetch(val){
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+        }).then(() => {
+            this.fetchList(); 
+        }).catch((error) => {
+             console.log('Error: ' + error.message);
+             console.log('Error: ' + error.stack);
+        });
+    }
     /* Params from Url */
     urlStudyId = null;
     urlSiteId = null;
@@ -59,6 +73,66 @@ export default class Pir_participantList extends LightningElement {
           this.setParametersBasedOnUrl();
        }
     }
+    @api showAddParticipant = false;
+    @wire(getStudyStudySiteDetails)
+    participantAccess({ error, data }) {
+      if (data){
+            var siteAccessLevels = data.siteAccessLevels;
+            var ctpListNoAccess = [];
+            var studySiteMap = data;
+            var studylist;
+            var studyToStudySite;
+            ctpListNoAccess = data.ctpNoAccess;
+            var k = 0;var a = 0;
+            var accesslevels = Object.keys(siteAccessLevels).length;
+            if (studySiteMap.ctpMap) {
+                var conts = studySiteMap.ctpMap;
+                let options = [];
+                var sites = studySiteMap.studySiteMap; 
+                for (var key in conts) {
+                    if(!ctpListNoAccess.includes(conts[key])){ 
+                        var temp = sites[conts[key]];
+                        let z = 0;
+                        for (var j in temp) {
+                             if(accesslevels == 0){
+                                z=z+1;
+                                a=a+1;
+                             }else{
+                                var level = siteAccessLevels[temp[j].Id];
+                                if(level != 'Level 3' && level != 'Level 2'){
+                                    z=z+1;
+                                    a=a+1;
+                                }
+                             }
+                        }
+                        if(z != 0){
+                            options.push({ label: key, value: conts[key] });
+                            k=k+1;
+                        }
+                    }
+                }
+                studylist = options;
+                if (studySiteMap.studySiteMap) {
+                    studyToStudySite = studySiteMap.studySiteMap;
+                }
+            }
+            if(k != 0 && a != 0){
+                    this.showAddParticipant = true;
+                    const selectedEvent = new CustomEvent("updatestudylist", {
+                        detail: {
+                            studylist: studylist,
+                            siteAccessLevels: siteAccessLevels,
+                            studyToStudySite: studyToStudySite
+                        }
+                      });
+                    this.dispatchEvent(selectedEvent);
+            }else{
+                this.showAddParticipant = false;
+            }
+      } else if (error) {
+          this.error = error;
+      }
+    }
     @api hideCheckbox(){
         this.isCheckboxhidden=false;
         this.selectedCheckboxes=[];
@@ -72,6 +146,8 @@ export default class Pir_participantList extends LightningElement {
         });
         if(this.isPPFiltered == true){
             this.isPPFiltered = false;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true; 
             this.fetchList();
         }
         
@@ -84,6 +160,7 @@ export default class Pir_participantList extends LightningElement {
     totalRecordCount = -1;
     @api pageNumber = 1;
     participantList;
+    selectedParticipantList;
     studyIdlist=null;
     siteIdlist=null;
     iconHighRisk =pirResources+'/pirResources/icons/status-alert.svg';
@@ -102,24 +179,25 @@ export default class Pir_participantList extends LightningElement {
     noHighPriority=[];
 
     connectedCallback(){   
-        this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-large");
-        });     
+        // this.template.querySelectorAll(".dropsize").forEach(function (L) {
+        //     L.classList.add("slds-p-bottom--x-large");
+        // });     
        if(this.urlStudyId !== null && this.urlSiteId !== null){
         this.studyIdlist = [];
         this.studyIdlist.push(this.urlStudyId);
         this.siteIdlist = [];
-        this.siteIdlist.push(this.urlSiteId);        
+        this.siteIdlist.push(this.urlSiteId);   
+       
        }
-        loadScript(this, RR_COMMUNITY_JS)
-        .then(() => {
-            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
-        }).then(() => {
-            this.fetchList(); 
-        }).catch((error) => {
-             console.log('Error: ' + error.message);
-             console.log('Error: ' + error.stack);
-        });
+        // loadScript(this, RR_COMMUNITY_JS)
+        // .then(() => {
+        //     this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+        // }).then(() => {
+        //     this.fetchList(); 
+        // }).catch((error) => {
+        //      console.log('Error: ' + error.message);
+        //      console.log('Error: ' + error.stack);
+        // });
      
     }   
     rendered=false;
@@ -131,16 +209,13 @@ export default class Pir_participantList extends LightningElement {
             this.rendered=true;
             this.setKeyAction();  
         }        
-        this.keyScope += 'ren';  
-        this.changeSelected();        
+        this.keyScope += 'ren';        
     }
-   
     @api fetchList(){
         this.selectall = false;
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
-        
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered })
         .then(result => {
             this.participantList = result.listViewWrapper;
@@ -158,8 +233,7 @@ export default class Pir_participantList extends LightningElement {
             }else{
                 this.noRecords = true;
             }
-            
-            if(this.selectedStatusList!=null && this.selectedStatusValue!='All Active Statuses'){
+            if(this.selectedStatusList!=null && (this.selectedStatusValue!='All Active Statuses' && this.selectedStatusValue!= 'All Inactive Statuses') ){
                 this.showStatus=true;
             }
             else{
@@ -201,7 +275,6 @@ export default class Pir_participantList extends LightningElement {
                 
             }
             this.showPP = result.isEnablePP;
-            
             if(selectCount==this.participantList.length){
                 this.selectall = true;
             }
@@ -214,7 +287,7 @@ export default class Pir_participantList extends LightningElement {
                 const updateCount = new CustomEvent("reccountupdate", {
                     detail: this.totalRecordCount
                 });
-                this.dispatchEvent(updateCount);  
+                this.dispatchEvent(updateCount);
             }
             if(!this.siteIdlist){
                 this.siteIdlist = result.siteIdlist;
@@ -222,7 +295,9 @@ export default class Pir_participantList extends LightningElement {
             if(!this.studyIdlist){
                 this.studyIdlist = result.studyIdlist;
             }
-            this.saving = false;
+            this.saving = false;       
+            window.clearTimeout(this.delayTimeout);
+            this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
         })
         .catch(error => {
             this.err = error;
@@ -240,12 +315,8 @@ export default class Pir_participantList extends LightningElement {
             this.showSuccessToast(this.label.Records_sent_to_SH);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
+            this.isResetPagination = true;
             this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
             const selectedEvent = new CustomEvent("resetcount");
             this.dispatchEvent(selectedEvent); 
         })
@@ -262,14 +333,13 @@ export default class Pir_participantList extends LightningElement {
             this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
-            this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
-            const selectedEvent = new CustomEvent("resetcount");
-            this.dispatchEvent(selectedEvent); 
+            this.isResetPagination = true;
+             const gotofirstEvent = new CustomEvent("gotofirst");
+             this.dispatchEvent(gotofirstEvent); 
+             
+             const resetcountEvent = new CustomEvent("resetcount");
+             this.dispatchEvent(resetcountEvent); 
+            
         })
         .catch(error => {
             this.err = error;
@@ -360,11 +430,12 @@ export default class Pir_participantList extends LightningElement {
                     cards[j].classList.add("selected");
                     cards[j].focus();
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
-                    if((!this.keypress) || this.keyScope == 'downrenchsecrenchsec'){
+                    if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
                          detail: this.selectedPE
                         });
                         this.dispatchEvent(selectedEvent); 
+                        this.keypress = false;
                     }
                 }
                 else{
@@ -372,6 +443,8 @@ export default class Pir_participantList extends LightningElement {
                 }
             }
         }
+        if(this.isResetPagination)
+            this.resetPagination();
     }
     get pageLimit(){
         return this.pageNumber>200;
@@ -387,20 +460,22 @@ export default class Pir_participantList extends LightningElement {
         this.value = event.detail.value;
         this.enableStatus=false;
     }
- 
     handlenewOnSelect(event){
-        this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-small");
-        });
-        this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.remove("slds-p-bottom--x-large");
-        });
+        
+        
         var selectedVal=event.target.dataset.id;
         
         this.dropDownLabel=selectedVal;
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
+        this.template.querySelectorAll(".dropsize").forEach(function (L) {
+            L.classList.remove("slds-p-bottom--x-large");
+        });
+        this.template.querySelectorAll(".dropsize").forEach(function (L) {
+            L.classList.add("slds-p-bottom--x-small");
+        });
+        
         if(selectedVal != 'Add New Participant'){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
@@ -411,13 +486,9 @@ export default class Pir_participantList extends LightningElement {
             this.isPPFiltered = true;
             this.saving = true;
             this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            this.pageNumber = 1;
             this.fetchList();
-            var ttlcount = this.totalRecordCount;
-            const selectEvent = new CustomEvent('resetpagination', {
-                detail: ttlcount
-            });
-            this.dispatchEvent(selectEvent);
-           
         }
         
         
@@ -445,7 +516,7 @@ export default class Pir_participantList extends LightningElement {
           const selectedEventnew = new CustomEvent("droplabel", {
             detail: this.dropDownLabel
           });
-          this.dispatchEvent(selectedEventnew);
+          this.dispatchEvent(selectedEventnew); 
     }
     opendropdown(event){
         
@@ -549,7 +620,7 @@ export default class Pir_participantList extends LightningElement {
     toggleFilter(){
         this.showFilter = !this.showFilter;
     }
-
+    isResetPagination = false;
     handleFilterEvent(event){
         this.studyIdlist = event.detail.selectedStudy;
         this.siteIdlist = event.detail.selectedSite;
@@ -589,18 +660,20 @@ export default class Pir_participantList extends LightningElement {
         this.selectedStatusList = selectedStatusListOptions;
         this.totalRecordCount = -1;
         this.toggleFilter();
+        this.isResetPagination = true;
         this.fetchList();
-        //this.hideCheckbox();
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
+    }
+    resetPagination(){ //reset pagination after fetch list method is finished
         var ttlcount = this.totalRecordCount;
         const selectEvent = new CustomEvent('resetpagination', {
             detail: ttlcount
         });
-       this.dispatchEvent(selectEvent);
-        const selectEventnew = new CustomEvent('resetparent', {
-        detail: 'test'
-        });
-        this.dispatchEvent(selectEventnew);
-       
+        this.dispatchEvent(selectEvent);
+        this.isResetPagination = false;        
     }
    
 }

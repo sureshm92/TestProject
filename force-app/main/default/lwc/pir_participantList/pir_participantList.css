@@ -215,6 +215,15 @@
     border: 1px solid #E9E9E9;
     height: 26px;
 }
+.checkbox-colordct{
+    background: #F6F7FB;
+    border: 1px solid #E9E9E9;
+    height: 28px;
+}
+.checkbox-placedct{
+    margin-left: 12px;
+    padding: 3px 0px 0px 0px;
+}
 
   
  

@@ -505,6 +505,9 @@ public without sharing class ParticipantTriggerHandler {
 
         for (Participant__c p : newList) {
             if (!String.isBlank(p.Date_of_Birth__c)) {
+                p.Birth_Month__c = p.Date_of_Birth__c.substring(5, 7);
+                p.Birth_Day__c = p.Date_of_Birth__c.substring(8, 10);
+                //p.Birth_Year__c = p.Date_of_Birth__c.substring(0, 4);
                 Date birthDate = Date.newInstance(
                     Integer.valueOf(p.Date_of_Birth__c.substring(0, 4)),
                     Integer.valueOf(p.Date_of_Birth__c.substring(5, 7)),
@@ -518,24 +521,8 @@ public without sharing class ParticipantTriggerHandler {
                     ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
                     ? Date.today().year() - birthDate.year()
                     : Date.today().year() - birthDate.year() - 1;
-                Integer dt1 = (system.today())
-                    .daysBetween(
-                        Date.valueOf(
-                            Date.newInstance(
-                                Date.today().year(),
-                                birthDate.month(),
-                                birthDate.day()
-                            )
-                        )
-                    );
-                dt1 = dt1 > 0 ? dt1 : Math.abs(dt1);
-                String strDaysLeft = '';
-
-                strDaysLeft = dt1 <= 9
-                    ? String.valueOf('00' + dt1)
-                    : dt1 > 9 && dt1 <= 99 ? String.valueOf('0' + dt1) : String.valueOf(dt1);
-                Decimal decParticipantAge = Decimal.valueOf(participantAge + '.' + strDaysLeft);
-                p.Age__c = decParticipantAge;
+                
+                p.Age__c = participantAge;
                 if (p.Gender__c == 'Male')
                     p.Gender_Technical__c = 'M';
                 else if (p.Gender__c == 'Female')
