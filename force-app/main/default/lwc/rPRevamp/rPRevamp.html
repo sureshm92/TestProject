@@ -342,7 +342,7 @@
                     <div class="importInfo">
                         <div class="header1">{BulkImport_Bulk_Import_Process}</div>
                         <span class="processTextBody">
-                            <ol type="1" class="processtext">
+                           <!-- <ol type="1" class="processtext">
                                 <li>Download the acceptable bulk format from the download <b>Template File</b> button at
                                     the top right of the table. </li>
                                 <li>Enter available information for the patients in the file.</li>
@@ -361,7 +361,9 @@
                                         <li>Do not change the file name and follow Step 2 above.</li>
                                     </ol>
                                 </li>
-                            </ol>
+                            </ol>-->
+                            <lightning-formatted-rich-text value={rp_revamp_BulkImport_Bulk_Import_Process}>
+                            </lightning-formatted-rich-text>
                         </span>
                     </div>
                 </div>
