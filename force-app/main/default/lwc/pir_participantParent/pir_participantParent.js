@@ -2,7 +2,6 @@ import { LightningElement, api, wire } from "lwc";
 import pirResources from "@salesforce/resourceUrl/pirResources";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
-import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import RH_PP_Select_Study_Site from '@salesforce/label/c.RH_PP_Select_Study_Site';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
@@ -47,7 +46,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   discardSharingTab = false;
   isSPModalOpen = false;
   isSharingTab = false;
-  studylist;
+  @api studylist;
   studyToStudySite;
   studySiteList;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
@@ -77,10 +76,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.error = error;
     }
   }
+  handleStudyAndSite(event){
+    this.studylist = event.detail.studylist;
+    this.siteAccessLevels = event.detail.siteAccessLevels;
+    this.studyToStudySite = event.detail.studyToStudySite;
+    this.studysiteaccess = true;
+  }
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
-    // console.log(picklist_Value);
     var accesslevels = Object.keys(this.siteAccessLevels).length;
     var conts = this.studyToStudySite;
     let options = [];
@@ -491,33 +495,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
         this.addParticipant = true;
-        this.addNewParticipant = true;
-        this.siteAccessLevels='';
-        getStudyStudySiteDetails()
-        .then((result) => {
-            this.siteAccessLevels = result.siteAccessLevels;
-            var ctpListNoAccess = [];
-            var studySiteMap = result;
-            ctpListNoAccess = result.ctpNoAccess;
-            if (studySiteMap.ctpMap) {
-              var conts = studySiteMap.ctpMap;
-              let options = [];
-              for (var key in conts) {
-                if(!ctpListNoAccess.includes(conts[key])){ 
-                    options.push({ label: key, value: conts[key] });
-                }
-              }
-              this.studylist = options;
-            }
-            if (studySiteMap.studySiteMap) {
-              this.studyToStudySite = studySiteMap.studySiteMap;
-            }
-            this.addNewParticipant = false;
-            this.studysiteaccess = true;
-        }).catch(error => {
-          console.log(error);
-          this.addNewParticipant = false;
-        });    
+        this.studysiteaccess = true;   
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;

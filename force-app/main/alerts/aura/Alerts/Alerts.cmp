@@ -43,7 +43,9 @@
                 <aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}" />
             </div>
             <aura:set attribute="footerButtons">
-                <button class="apollo-btn primary" onclick="{!c.doShowNext}">OK</button>
+                <button class="apollo-btn primary" onclick="{!c.doShowNext}">
+                    {!$Label.c.BTN_OK}
+                </button>
             </aura:set>
         </c:Popup>
     </aura:if>
