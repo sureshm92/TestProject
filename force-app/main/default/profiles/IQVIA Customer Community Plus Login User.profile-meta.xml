@@ -6874,6 +6874,11 @@
         <field>Study_Site__c.Agrees_to_Referral_Reimbursement__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Include_PII_on_Export__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Approved_Lng__c</field>
