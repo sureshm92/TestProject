@@ -11615,6 +11615,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
     </labels>
+     <labels>
+        <fullName>Send_to_DCT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to DCT</shortDescription>
+        <value>Send to DCT</value>
+    </labels>
+     <labels>
+        <fullName>RH_ExportSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ExportSelected</shortDescription>
+        <value>Export Selected</value>
+    </labels>
+     <labels>
+        <fullName>RH_ParticipantSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ParticipantSelected</shortDescription>
+        <value>Participant(s) Selected</value>
+    </labels>
     <labels>
         <fullName>pir_Received_History</fullName>
         <language>en_US</language>
@@ -19349,6 +19370,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>rh_physician_email_subject_Initial</shortDescription>
         <value>You are successfully registered in Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>rhpp_loginerror</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rhpp_loginerror</shortDescription>
+        <value>Your login attempt has failed. Make sure the username and password are correct.</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>

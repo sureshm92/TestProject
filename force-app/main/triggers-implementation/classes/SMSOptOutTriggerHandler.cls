@@ -12,11 +12,14 @@ public without sharing class SMSOptOutTriggerHandler {
      * @param: smsOptOutPEventList
      * @return:
      **/
+    @TestVisible
     private static void optOutForSMS(List<SMS_Opt_Out__e> smsOptOutPEventList) {
         Set<String> messageIdSet = new Set<String>();
         //Get the List of PreviousPublishedMessageId__c from platform event record.
         for (SMS_Opt_Out__e smsOptOut : smsOptOutPEventList) {
-            messageIdSet.Add(smsOptOut.PreviousPublishedMessageId__c);
+            if (smsOptOut.optout__c) {
+                messageIdSet.Add(smsOptOut.PreviousPublishedMessageId__c);
+            }
         }
         //Process Opt out for SMS.
         SMSOptOutService.processOptOUTForSMS(messageIdSet);
