@@ -111,7 +111,17 @@ public with sharing class ECOAService {
             Database.upsert(sObjectsList, false);
         }
     }
+    private static ECOAService instance;
 
+    public static ECOAService getInstance() {
+        if (instance == null)
+            instance = new ECOAService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider) {
+        instance = (ECOAService) Test.createStub(ECOAService.class, stubProvider);
+    }
     public static void createSite(List<Study_Site__c> siteList) {
         Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
         list<string> locales = new List<String>();
