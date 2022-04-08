@@ -707,7 +707,7 @@ public without sharing class ListViewParticipantController {
             String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE';
             String queryString =
                 'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Participant_ID_randomized_ID__c,Screening_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
-                'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
+                'Participant__r.Full_Name__c,Participant__r.Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
                 'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Clinical_Trial_Profile__r.Protocol_ID__c,Participant__r.Ethnicity__c,' +
                 'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Participant__r.Alternative_Phone_Number__c, Participant__r.Alternative_Phone_Type__c,' +
                 'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c,(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c WHERE ';
@@ -839,18 +839,18 @@ public without sharing class ListViewParticipantController {
                 FilterList[0].AgeTo = '150';
             if (FilterList[0].AgeFrom == '0' && FilterList[0].AgeTo == '150') {
                 filter +=
-                    ' AND ((Participant__r.Present_Age__c >=' +
+                    ' AND ((Participant__r.Age__c >=' +
                     FilterList[0].AgeFrom +
-                    ' AND Participant__r.Present_Age__c <=' +
+                    ' AND Participant__r.Age__c <=' +
                     FilterList[0].AgeTo +
                     ') ';
-                String universal = ' OR Participant__r.Present_Age__c = null ) ';
+                String universal = ' OR Participant__r.Age__c = null ) ';
                 filter = filter + universal;
             } else {
                 filter +=
-                    ' AND (Participant__r.Present_Age__c >=' +
+                    ' AND (Participant__r.Age__c >=' +
                     FilterList[0].AgeFrom +
-                    ' AND Participant__r.Present_Age__c <=' +
+                    ' AND Participant__r.Age__c <=' +
                     FilterList[0].AgeTo +
                     ')';
             }

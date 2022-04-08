@@ -1112,7 +1112,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Set<Id> peIds = new Set<Id>();
         if (newList != null) {
             for (Participant_Enrollment__c per : newList) {
-                if (oldMap.get(per.Id).Participant_Status__c != per.Participant_Status__c) {
+                if (
+                    per.Subject_GUID__c != null &&
+                    (oldMap.get(per.Id).Subject_GUID__c != per.Subject_GUID__c ||
+                    oldMap.get(per.Id).Participant_Status__c != per.Participant_Status__c)
+                ) {
                     peIds.add(per.Id);
                 }
             }
@@ -1136,8 +1140,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         ]) {
             if (
                 per.Clinical_Trial_Profile__r.Study_GUID__c != null &&
-                per.Subject_GUID__c != null &&
-                Config_API_Param__mdt.getInstance('OrgGuid').ParamValue__c != null
+                ECOAService.apiParamsMap.get(ECOAService.ORG_GUID).ParamValue__c != null
             ) {
                 string dateKey = '';
                 if (
@@ -1147,6 +1150,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     per.Participant_Status__c == PEStatusState.PE_STATUS_FOLLOW_UP_PERIOD_STARTED
                 ) {
                     String statusInLowerCase = per.Participant_Status__c.toLowercase();
+                    statusInLowerCase = statusInLowerCase.replaceAll('[^a-zA-Z0-9\\s+]', ' ');
                     List<String> statusStrList = statusInLowerCase.split(' ');
                     dateKey = String.join(statusStrList, '_');
 

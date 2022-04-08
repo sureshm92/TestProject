@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">    
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
@@ -10183,14 +10183,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17989,49 +17989,49 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Data Available SMS</shortDescription>
-        <value>##ShortCommunityName: New ##StudyCodeName visit data is available. Please log in to view the latest data ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: New ##StudyCodeName visit data is available. Please log in to view the latest data ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_Has_not_Login_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Has not Login SMS</shortDescription>
-        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_Del_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task Del SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new reward certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a new reward certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
-        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
@@ -18545,7 +18545,7 @@ communications using the toggles below.</value>
         <shortDescription>Prefer not to say</shortDescription>
         <value>0- Prefer not to say</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Pre_Enrollment_Visit_Plan</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19349,6 +19349,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>rh_physician_email_subject_Initial</shortDescription>
         <value>You are successfully registered in Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>rhpp_loginerror</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rhpp_loginerror</shortDescription>
+        <value>Your login attempt has failed. Make sure the username and password are correct.</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>
@@ -20519,14 +20526,14 @@ communications using the toggles below.</value>
         <shortDescription>RH RP legal status attest</shortDescription>
         <value>I have confirmed that this patient is of legal age.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_PP_Add_New_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_PP_Add_New_Participant</shortDescription>
         <value>Add New Participant</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_PP_Select_Study_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21834,14 +21841,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
@@ -24147,7 +24154,7 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Media file Header</shortDescription>
         <value>Media File List</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PIR_Gender</fullName>
         <language>en_US</language>
@@ -24161,5 +24168,61 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>PIR_Download</shortDescription>
         <value>Download</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Missing_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Missing Info</shortDescription>
+        <value>Missing Info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_Email_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Email Results</shortDescription>
+        <value>Outreach Email Results</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Info</shortDescription>
+        <value>Outreach Info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_Not_Sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Not Sent</shortDescription>
+        <value>Outreach Not Sent</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_Sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach Sent</shortDescription>
+        <value>Outreach Sent</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Review</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Review</shortDescription>
+        <value>Review</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Successfully_Submitted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Successfully Submitted</shortDescription>
+        <value>Successfully Submitted!</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_out_of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP out of</shortDescription>
+        <value>out of</value>
     </labels>
 </CustomLabels>
