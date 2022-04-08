@@ -19351,6 +19351,13 @@ communications using the toggles below.</value>
         <value>You are successfully registered in Referral Hub</value>
     </labels>
     <labels>
+        <fullName>rhpp_loginerror</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>rhpp_loginerror</shortDescription>
+        <value>Your login attempt has failed. Make sure the username and password are correct.</value>
+    </labels>
+    <labels>
         <fullName>RH_Reset</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -6482,6 +6482,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant__c.Birth_Day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Birth_Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
