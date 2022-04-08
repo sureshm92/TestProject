@@ -7,7 +7,7 @@ import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.P
 import REQUIRED_ERROR_MSG from '@salesforce/label/c.PP_RequiredErrorMessage';
 import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
-
+import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 
 import fetchStudySite from '@salesforce/apex/ConsentManagerController.fetchStudySite'; 
 
@@ -39,6 +39,7 @@ export default class ConsentManager extends LightningElement {
     REQUIRED_ERROR_MSG  = REQUIRED_ERROR_MSG;
     EMAIL = EMAIL;
     PHONE = PHONE;
+    SMS_TEXT = SMS_TEXT;
 
     @api participantEnrollId;
     @track consentModel = consentModel;
@@ -90,14 +91,7 @@ export default class ConsentManager extends LightningElement {
     @api
     validateConsent(){
         let element = this.template.querySelector('[data-id="studyConsent"]');
-        /*if(!element.value){
-            this.consentModel.showError
-            //element.setCustomValidity('*Please complete this field');
-        }else{
-            this.consentModel.showError
-        }*/
         this.consentModel.showError = (element.checked ? false : true);
-        //element.reportValidity();
     }
 
     @api
@@ -168,7 +162,6 @@ export default class ConsentManager extends LightningElement {
                             this.pe.Permit_SMS_Text_for_this_study__c = consent;
                         }
                         this.fireConsentChange('study');
-                        //this.validateConsent();
                         break;
                 case 'studySMSConsent':
                         this.pe.Permit_SMS_Text_for_this_study__c = consent;
@@ -208,27 +201,8 @@ export default class ConsentManager extends LightningElement {
             }
     }
 
-    /*clearFieldValidation(){
-        let element = this.template.querySelector('[data-id="studyConsent"]');
-        element.setCustomValidity('');
-        element.reportValidity();
-    }*/
 
     clearConsents(){
-        /*this.consentModel.studyConsent = false;
-        this.consentModel.studySMSConsent = false;
-        this.consentModel.outReachConsent = false;
-        this.consentModel.outreachPhoneConsent = false;
-        this.consentModel.outreachEmailConsent = false;
-        this.consentModel.outreachSMSConsent = false;
-        this.consentModel.showError = false;
-        this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
-        this.participantContact.Participant_Opt_In_Status_Emails__c = false;
-        this.participantContact.Participant_Opt_In_Status_SMS__c = false;
-        this.pe.Permit_Mail_Email_contact_for_this_study__c = false;
-        this.pe.Permit_Voice_Text_contact_for_this_study__c = false;
-        this.pe.Permit_SMS_Text_for_this_study__c = false; */
-
         this.consentModel.studyConsent 
         =this.consentModel.studySMSConsent 
         =this.consentModel.outReachConsent 
