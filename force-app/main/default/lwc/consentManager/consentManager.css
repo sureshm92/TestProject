@@ -19,3 +19,7 @@ label{
 .errorMsg{
     color: rgb(234, 0, 30);
 }
+
+.marginLess {
+    margin-left: -13px;
+}
