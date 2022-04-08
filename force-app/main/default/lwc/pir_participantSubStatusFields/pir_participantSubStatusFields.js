@@ -1153,7 +1153,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     })
     .catch((error) => {
       console.log(error);
-      this.showErrorToast(JSON.stringify(error.body.message));
     });
     
   }
@@ -1320,7 +1319,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1346,7 +1344,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1372,7 +1369,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1398,7 +1394,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1424,7 +1419,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
