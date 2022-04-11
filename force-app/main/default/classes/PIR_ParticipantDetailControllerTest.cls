@@ -1,0 +1,205 @@
+@isTest
+public with sharing class PIR_ParticipantDetailControllerTest {
+    @TestSetup
+    static void init(){
+        TestData.loadTestData(); 
+    }
+
+    @isTest
+    static void testGetParticipantData(){
+        TestData testData = new TestData();
+        
+        String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        Test.startTest();
+        Map<String,sObject> dataMap = PIR_ParticipantDetailController.getParticipantData(testData.pe.Id);
+        System.assertEquals(true,dataMap.containsKey('pe'));
+        PIR_ParticipantDetailController.CountyrStateInfo countryInfo = new PIR_ParticipantDetailController.CountyrStateInfo();        
+        PIR_ParticipantDetailController.getCnData();
+        System.assert(countryInfo.stateMap != null);
+        System.assert(countryInfo.adultAgeByCountryStateCode != null);
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateString,false, false,true,'insertDelegate');
+        System.assertEquals(true,isSavePrDetails);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testDoSaveParticipantDetails_peUpdated(){
+        TestData testData = new TestData();
+        Participant_Enrollment__c perRec = [
+            SELECT
+                Id,
+                Name,
+                External_Key__c,
+                Participant_Contact__c,
+                Participant_Status__c,
+                Participant_Contact__r.Visit_Results_OptIn__c,
+                Initial_visit_scheduled_date__c,
+                Initial_visit_occurred_date__c,
+                Initial_visit_scheduled_time__c,
+                Initial_visit_occurred_flag__c,
+                Initial_visit_scheduled_flag__c,
+                Screening_ID__c,
+                Participant__c,
+                Medical_Record_Review_Completed_Date__c,
+                Study_Site__r.Principal_Investigator__c,
+                Study_Site__r.Principal_Investigator__r.Name,
+                Study_Site__r.Principal_Investigator__r.Title,
+                Permit_Mail_Email_contact_for_this_study__c,
+                Permit_SMS_Text_for_this_study__c,
+                Permit_Voice_Text_contact_for_this_study__c,
+                MRN_Id__c,
+                Participant__r.Email__c,
+                Participant__r.First_Name__c,
+                Participant__r.Last_Name__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :testData.pe.Id
+        ];
+        perRec.Permit_Mail_Email_contact_for_this_study__c = true;
+        perRec.Permit_SMS_Text_for_this_study__c = false;
+        String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        Test.startTest();
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,'insertDelegate');
+        System.assertEquals(true,isSavePrDetails);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testDoSaveParticipantDetails() {
+        TestData testData = new TestData();
+        byPassTriggersMethod();
+        Contact delegate = new Contact(
+            FirstName = 'Patient',
+            LastName = 'Delegate',
+            Email = 'delegate@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegate;    
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Patient',
+            Last_Name__c = 'Delegate',
+            Email__c = 'delegate@somemail.com',
+            Contact__c = delegate.Id
+        );
+        insert p;
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegate.Id,
+            Contact__r = delegate,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant,
+            Participant_Delegate__c = p.Id,
+            Participant_Delegate__r = p
+        );
+        
+        insert patientDelegate;
+        String delegateIdString = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        Test.startTest();
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'updateDeligate');
+        System.assertEquals(true,isSavePrDetails);
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'updateParticipant');
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'');
+        String delegateDeleteString = '{ "Id": "'+patientDelegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","First_Name__c": "","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,'');
+        Test.stopTest();
+    }
+
+    static void byPassTriggersMethod() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.prepareAdditionalFields.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PETriggerHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );        
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+    }
+}

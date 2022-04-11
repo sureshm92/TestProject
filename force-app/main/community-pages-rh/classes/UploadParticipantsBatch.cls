@@ -808,10 +808,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         errorRecordCount++;
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate information is mandatory in case of minor Participant');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
-                    }else if((!String.isEmpty(DelegateEmail) || !String.isEmpty(DelegateFirstName) || !String.isEmpty(DelegateLastName)) && (String.isEmpty(DelegateEmail) || String.isEmpty(DelegateFirstName) || String.isEmpty(DelegateLastName))){
-                        errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate information is missing');
-                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
                     else if(!participant.Adult__c && DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
                         errorRecordCount++;

@@ -30,7 +30,7 @@
                                                   index={index}
                                                   key={currentItem}
                                                   non_enrollment_reason={reason}
-                                                  consussessreason={contSuccessReason} 
+                                                  consussessreason={contSuccessReason}
                                                   onstatuschange={hanldeStatusChange}>
                     </c-pir_participant-Sub-Status>
                 </template>
@@ -47,7 +47,7 @@
            <template if:true={showStatus}> 
                 <c-pir_participant-sub-status-fields pe_record={per} isfinalconsentrequired={isFinalConsentRequired} initialvisitsctime={initialVisitScheduledTime} isinitialvisitpresent={isInitialVisitsPresent} 
                                                     grpicons={groupIcons} isinitialvisit={isInitialVisitRequired} outcome-to-reason-map={outcomeToReasonMap}  currentitems={selectedPeStatus} 
-                                                    groupname={groupnme} isvprequired={isVisitPlanRequired} plan={selectedPlan}  visitplanoptions={visitPlan} peid={selectedPE_ID}
+                                                    groupname={groupnme} isvprequired={isVisitPlanRequired} plan={selectedPlan}  visitplanoptions={visitPlan} peid={selectedPE_ID} latest-status-grp={latestStatusGrp}
                                                     onsaved={doSelectedPI}  onvalidatesavebutton={handleSaveButton} onrecordsave={doShowSpinneronSave}
                                                     currentuserdate={userDate} outcome-values={outcomeValue} onstatusdetailsvaluechange={doCallParent} oncallparticipantstatusdetail={doCallEvent} set-opt={showStatus}>
                  </c-pir_participant-Sub-Status-Fields > 

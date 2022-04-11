@@ -473,7 +473,7 @@
                                 </th>
                                 <th scope="row">
                                     <div class="slds-truncate">
-                                        {!obj.pe.Participant__r.Present_Age__c}
+                                        {!obj.pe.Participant__r.Age__c}
                                     </div>
                                 </th>
                                 <th scope="row">

@@ -18,6 +18,15 @@
   transform: scale(0.75);
 }
 
+:dir(rtl) .slds-icon-utility-search {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  opacity: 0.5;
+  z-index: 10;
+  transform: scale(0.75);
+  }
+
 .searchBox1 {
   width: 100%;
   margin: 0 10px;
@@ -79,6 +88,12 @@
     margin-left: 15px;
 }
 
+:dir(rtl).searchBox1 {
+  /* width: 310px;*/
+  margin-left: 15px;
+  text-indent: 25px;
+  }
+  
 .refreshIcon {
   height: 23px;
   width: 25px;
@@ -114,6 +129,13 @@
   width: 26px;
 }
 
+:dir(rtl) .unFilterIcon {
+  right:17.5rem;
+  position:absolute;
+  top:8px;
+  
+  }
+  
 .siteforceLoadingBalls {
   visibility: hidden;
 }

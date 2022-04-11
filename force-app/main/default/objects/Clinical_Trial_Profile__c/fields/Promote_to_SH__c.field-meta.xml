@@ -3,7 +3,7 @@
     <fullName>Promote_to_SH__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Promote to SH</label>
+    <label>Promote to DCT</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -151,10 +151,6 @@
                 <field>Age__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Present_Age__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Ethnicity__c</field>
             </layoutItems>

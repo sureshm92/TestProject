@@ -20,9 +20,37 @@
     background: white;
     display:none;
 }
+.labelHide .labelhide_1 .slds-form-element__label{
+    display: none!important;
+
+}
 .selected{background: #ECF3FF;}
 .dividerTop{ border-color: #E9E9E9;}
-.textBold{font-weight: 700; }
+.textBold{font-weight: 600; }
+.textBolds{font-weight: 700; }
+.w-filter{
+    width: 30%;
+    margin-left: 7px;
+}
+.filter-color{color: #297dfd;}
+.w-100{
+    width: 100%;
+}
+.text-width{
+    width: 140px;
+    text-align: left;
+}
+.btn-shadow:focus{
+    border-color: var(--lwc-colorBorderInputActive,rgb(27, 150, 255));
+    box-shadow: var(--lwc-shadowButtonFocus,0 0 3px #0176d3);
+}
+.j-content{
+    justify-content: left;
+}
+.w-action{
+    margin-left: 7px;
+    width: 47%;
+}
 .subInfo{
     color: #999999;
     font-size: 14px;
@@ -60,9 +88,9 @@
 .flags .actionReq span{ background-color: rgba(255,147,0,0.08); }
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
-.list-card{ cursor:pointer; padding-top: 3px; }
+.list-card{ cursor:pointer; padding-top: 3px;}
 .overflowSet{height: 47vh; overflow: auto;}
-
+.filter-relative{margin-left: 8px;margin-top: 4px;}
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -88,10 +116,18 @@
         height: 40px;
     }
 }
+
 @media all and (max-width: 47.9375em) {
     .selected{background:white;}
     
 }
+@media (max-device-width: 767px) {
+    .filter-relative{margin-left: 0;margin-top: 4px;}
+    .w-filter{
+        width: 25%;
+        margin-left: 0;
+    }
+}    
 /*  Tooltip for Text length overflow  */
 .tooltip {
     position: relative;
@@ -159,4 +195,40 @@
   .tooltip:hover .tooltiptextTop {
     visibility: visible;
   }
+  .checkboxdisplay  {
+    display: flex;
+  }
+  .w-7{
+      width: 7%;
+  }
+  .w-90{
+      width: 90%;
+  }
+  .checkbox-place{
+    margin-left: 9px;
+    padding: 3px 0px 0px 0px;
+}
+.checkbox-padding{
+    padding: 10px;
+}
+.menu-style{
+    white-space: nowrap;
+}
+.checkbox-color{
+    background: #F6F7FB;
+    border: 1px solid #E9E9E9;
+    height: 26px;
+}
+.checkbox-colordct{
+    background: #F6F7FB;
+    border: 1px solid #E9E9E9;
+    height: 28px;
+}
+.checkbox-placedct{
+    margin-left: 12px;
+    padding: 3px 0px 0px 0px;
+}
+
+  
+ 
   /* --------END Top --------------- */
