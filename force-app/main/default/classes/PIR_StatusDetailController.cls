@@ -407,7 +407,7 @@ public without sharing class PIR_StatusDetailController {
     }
   }
   @AuraEnabled
-  public static List<ContactHistoryWrap> getContactHistory(Id pe) {
+  public static List<ContactHistoryWrap> getContactHistory(Id pe,String groupName) {
     try {
       List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
       List<ContactHistoryWrap> wrapperList = new List<ContactHistoryWrap>();
@@ -691,11 +691,9 @@ public without sharing class PIR_StatusDetailController {
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 1) {
-          if (
-            pesh.Additional_Notes__c != null &&
-            pesh.Additional_Notes__c != '' &&
-            pesh.Status_Label__c != 'Successfully_Contacted'
-          ) {
+         if (groupName == 'PWS_Contact_Name' ? (pesh.Additional_Notes__c != null && pesh.Additional_Notes__c != '') : (pesh.Additional_Notes__c != null &&    pesh.Additional_Notes__c != '' &&
+             pesh.Status_Label__c != 'Successfully_Contacted')
+          ){
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
@@ -706,32 +704,36 @@ public without sharing class PIR_StatusDetailController {
                 Label.PE_Status_History_On_Date +
                 ' '
               );
-              string title = note.substring(0, startOfOnLabeltxt);
-              wrapp.historyTitle = title;
-              string notedetails = note.substring(
-                startOfOnLabeltxt,
-                note.length()
-              );
-              Integer startOfOnLabelcby = notedetails.lastIndexOfIgnoreCase(
-                ' ' +
-                Label.PG_IMI_L_by_user +
-                ' '
-              );
-              string createdby='';
-              if(startOfIQVIA>0){
-                   createdby = Label.RH_Masked_Display_IQVIA_User;
-              }else{
-                   createdby = notedetails.substring(
-                    startOfOnLabelcby + 4,
-                    notedetails.length()
+               if(startOfOnLabeltxt>0){
+                  string title = note.substring(0, startOfOnLabeltxt);
+                  wrapp.historyTitle = title;
+                  string notedetails = note.substring(
+                    startOfOnLabeltxt,
+                    note.length()
                   );
+                  Integer startOfOnLabelcby = notedetails.lastIndexOfIgnoreCase(
+                    ' ' +
+                    Label.PG_IMI_L_by_user +
+                    ' '
+                  );
+                  string createdby='';
+                  if(startOfIQVIA>0){
+                       createdby = Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                       createdby = notedetails.substring(
+                        startOfOnLabelcby + 4,
+                        notedetails.length()
+                      );
+                  }
+                  wrapp.createdBy = createdby;
+                  string notedetailsdt = notedetails.substring(
+                    4,
+                    startOfOnLabelcby
+                  );
+                  wrapp.noteDetailsdt = notedetailsdt;
+              }else{
+                  wrapp.historyTitle = note;
               }
-              wrapp.createdBy = createdby;
-              string notedetailsdt = notedetails.substring(
-                4,
-                startOfOnLabelcby
-              );
-              wrapp.noteDetailsdt = notedetailsdt;
               wrapp.isAdditionalNote = true;
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
@@ -771,32 +773,37 @@ public without sharing class PIR_StatusDetailController {
                 Label.PE_Status_History_On_Date +
                 ' '
               );
-              string title = note.substring(0, startOfOnLabeltxt);
-              wrapp.historyTitle = title;
-              string notedetails = note.substring(
-                startOfOnLabeltxt,
-                note.length()
-              );
-              Integer startOfOnLabelcby = notedetails.lastIndexOfIgnoreCase(
-                ' ' +
-                Label.PG_IMI_L_by_user +
-                ' '
-              );
-               string  createdby ='';
-               if(startOfIQVIA>0){
-                   createdby = Label.RH_Masked_Display_IQVIA_User;
-              }else{
-                   createdby = notedetails.substring(
-                    startOfOnLabelcby + 4,
-                    notedetails.length()
+              if(startOfOnLabeltxt>0){
+                  string title = note.substring(0, startOfOnLabeltxt);
+                  wrapp.historyTitle = title;
+                  string notedetails = note.substring(
+                    startOfOnLabeltxt,
+                    note.length()
                   );
+                  Integer startOfOnLabelcby = notedetails.lastIndexOfIgnoreCase(
+                    ' ' +
+                    Label.PG_IMI_L_by_user +
+                    ' '
+                  );
+                   string  createdby ='';
+                   if(startOfIQVIA>0){
+                       createdby = Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                       createdby = notedetails.substring(
+                        startOfOnLabelcby + 4,
+                        notedetails.length()
+                      );
+                  }
+                  wrapp.createdBy = createdby;
+                  string notedetailsdt = notedetails.substring(
+                    4,
+                    startOfOnLabelcby
+                  );
+                  wrapp.noteDetailsdt = notedetailsdt;
+              }else{
+                  wrapp.historyTitle = note;
               }
-              wrapp.createdBy = createdby;
-              string notedetailsdt = notedetails.substring(
-                4,
-                startOfOnLabelcby
-              );
-              wrapp.noteDetailsdt = notedetailsdt;
+              
               wrapp.isAdditionalNote = true;
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
@@ -857,12 +864,16 @@ public without sharing class PIR_StatusDetailController {
               );
               string singlenote='';
               Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-              singlenote = note.substring(0, startOfOnLabel);
-              wrapp.historyTitle = singlenote;
-              if(startOfIQVIA>0){
-                  wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-               }else{
-                   wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+              if(startOfOnLabel>0){
+                  singlenote = note.substring(0, startOfOnLabel);
+                  wrapp.historyTitle = singlenote;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                   }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                  }
+              }else{
+                  wrapp.historyTitle = note;
               }
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -911,12 +922,16 @@ public without sharing class PIR_StatusDetailController {
                 );
                 string singlenote='';
                 Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-                singlenote = note.substring(0, startOfOnLabel);
-                wrapp.historyTitle = singlenote;
-                if(startOfIQVIA>0){
-                  wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                if(startOfOnLabel>0){
+                    singlenote = note.substring(0, startOfOnLabel);
+                    wrapp.historyTitle = singlenote;
+                    if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                     }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                     }
                  }else{
-                   wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                      wrapp.historyTitle = note;
                  }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
@@ -969,13 +984,17 @@ public without sharing class PIR_StatusDetailController {
               ' '
             );
             Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-            string singlenote = note.substring(0, startOfOnLabel);
-            wrapp.notes = singlenote;
-            if(startOfIQVIA>0){
-                  wrapp.notesDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-             }else{
-                   wrapp.notesDetails = note.substring(startOfOnLabel, note.length());
-            }
+            if(startOfOnLabel>0){
+                string singlenote = note.substring(0, startOfOnLabel);
+                wrapp.notes = singlenote;
+                if(startOfIQVIA>0){
+                      wrapp.notesDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                 }else{
+                       wrapp.notesDetails = note.substring(startOfOnLabel, note.length());
+                }
+              }else{
+                   wrapp.notes = note;
+              }
             wrapperList.add(wrapp);
           }
         }
@@ -1031,13 +1050,17 @@ public without sharing class PIR_StatusDetailController {
                 ' '
               );
               Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-              string singlenote = note.substring(0, startOfOnLabel);
-              wrapp.historyTitle = singlenote;
-              if(startOfIQVIA>0){
-                  wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-              }else{
-                   wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
-              }            
+              if(startOfOnLabel>0){
+                  string singlenote = note.substring(0, startOfOnLabel);
+                  wrapp.historyTitle = singlenote;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                  }    
+                }else{
+                    wrapp.historyTitle = note;
+                }      
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
             }
@@ -1076,13 +1099,17 @@ public without sharing class PIR_StatusDetailController {
                   ' '
                 );
                 Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-                string singlenote = note.substring(0, startOfOnLabel);
-                wrapp.historyTitle = singlenote;
-                if(startOfIQVIA>0){
-                     wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                 }else{
-                     wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
-                }  
+                if(startOfOnLabel>0){
+                    string singlenote = note.substring(0, startOfOnLabel);
+                    wrapp.historyTitle = singlenote;
+                    if(startOfIQVIA>0){
+                         wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                     }else{
+                         wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                    }  
+                  }else{
+                      wrapp.historyTitle = note;
+                  }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
               }
@@ -1140,13 +1167,17 @@ public without sharing class PIR_StatusDetailController {
                 ' '
               );
               Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-              string singlenote = note.substring(0, startOfOnLabel);
-              wrapp.historyTitle = singlenote;
-              if(startOfIQVIA>0){
-                  wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-              }else{
-                   wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
-              }
+              if(startOfOnLabel>0){
+                  string singlenote = note.substring(0, startOfOnLabel);
+                  wrapp.historyTitle = singlenote;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                  }
+                }else{
+                   wrapp.historyTitle = note; 
+                }  
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
             }
@@ -1185,13 +1216,17 @@ public without sharing class PIR_StatusDetailController {
                   ' '
                 );
                 Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-                string singlenote = note.substring(0, startOfOnLabel);
-                wrapp.historyTitle = singlenote;
-                if(startOfIQVIA>0){
-                     wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                if(startOfOnLabel>0){
+                    string singlenote = note.substring(0, startOfOnLabel);
+                    wrapp.historyTitle = singlenote;
+                    if(startOfIQVIA>0){
+                         wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                     }else{
+                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                    } 
                  }else{
-                    wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
-                }  
+                      wrapp.historyTitle = note;
+                 }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
               }

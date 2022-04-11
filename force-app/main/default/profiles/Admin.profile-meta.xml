@@ -497,6 +497,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConsentManagerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactReferralNetworkTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2619,6 +2623,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Interventions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.IQVIA_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6471,6 +6480,16 @@
         <field>Participant__c.Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Birth_Day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Birth_Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>

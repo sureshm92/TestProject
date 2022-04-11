@@ -274,6 +274,20 @@
                             </div>
                         </aura:if>
                         <!-- eCOA toggle ends-->
+                        <!-- IQVIA Outreach-->
+                            <div class="global-element">
+                                <lightning:input
+                                                aura:id="iqviaToggle"
+                                                type="toggle"
+                                                label="IQVIA Outreach"
+                                                name="IqviaOutreach"
+                                                onchange="{!c.saveCTP}"
+                                                checked="{!v.ctp.IQVIA_Outreach__c}"
+                                                variant="label-hidden"
+                                                />
+                                <div style="margin-left: 10px">IQVIA Outreach</div>
+                            </div>
+                        <!-- IQVIA Outreach-->
                     </div>
                 </div>
                 <aura:if isTrue="{!v.user_has_permission == 'View'}">

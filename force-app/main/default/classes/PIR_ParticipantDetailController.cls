@@ -40,7 +40,12 @@ public without sharing class PIR_ParticipantDetailController {
           Participant__r.Mailing_Country__c,
           Participant__r.Mailing_Country_Code__c,
           Participant__r.Mailing_Zip_Postal_Code__c,
-          Participant__r.Emancipation_in_progress__c
+          Participant__r.Emancipation_in_progress__c,
+          Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+          Participant_Contact__c,
+          Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+          Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+          Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
         FROM Participant_Enrollment__c
         WHERE id = :PEid
       ]
@@ -169,6 +174,7 @@ public without sharing class PIR_ParticipantDetailController {
     Boolean isPeUpdated,
     Boolean isPartUpdated,
     Boolean isDelUpdated,
+    Boolean isOutreachUpdated,
     String delegateCriteria
   ) {
     Boolean bol = true;
@@ -235,6 +241,26 @@ public without sharing class PIR_ParticipantDetailController {
 
           update piToUpdateDelegate;
         }
+      }
+
+      if(isOutreachUpdated){
+        TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.PopulateOverrideFields.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+        );
+        contact con = new Contact(Id = perRecord.Participant_Contact__r.Id,
+        Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+        Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+        Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c);
+        update con;
       }
     } catch (Exception e) {
       bol = false;

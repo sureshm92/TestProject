@@ -1,16 +1,28 @@
 import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
+import getAvailableStatuses from '@salesforce/apex/PIR_HomepageController.getAvailableStatuses';
+import updateParticipantStatus from '@salesforce/apex/PIR_HomepageController.updateParticipantStatus';
 import updateParticipantData from '@salesforce/apex/PIR_BulkActionController.updateParticipantData';
 import createUserForPatientProtal from '@salesforce/apex/PIR_BulkActionController.createUserForPatientProtal';
+import exportSelected from '@salesforce/apex/PIR_BulkActionController.exportSelected';
+import exportAll from '@salesforce/apex/PIR_BulkActionController.exportAll';
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
 import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
+import Send_to_DCT from '@salesforce/label/c.Send_to_DCT';
+import Invite_to_Patient_Portal from '@salesforce/label/c.Invite_to_Patient_Portal';
 import Records_sent_to_SH from '@salesforce/label/c.Records_sent_to_SH';
 import ParticipantLimit from '@salesforce/label/c.ParticipantLimit';
+import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
+import Disclaimer_Text from '@salesforce/label/c.Disclaimer_Text';
+import BTN_Export from '@salesforce/label/c.BTN_Export';
+import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
+import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getPEData from '@salesforce/apex/PIR_HomepageController.getPEData';
+import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
 import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
 import Records_all_invited from '@salesforce/label/c.Records_all_invited';
 
@@ -36,6 +48,11 @@ export default class Pir_participantList extends LightningElement {
     showStatus=false;
     selectedStatusList;
     selectedStatusValue = 'Received';isPPFiltered = false;
+    statusChangeList;statusSelected='';
+    sortInitialVisit = false;
+    disabledFilter = false;
+
+
     @api get fetch(){
         return true;
     }
@@ -59,7 +76,14 @@ export default class Pir_participantList extends LightningElement {
         Janssen_Community_Template_Name,
         Records_sent_to_SH,
         ParticipantLimit,
-        Records_all_invited
+        Records_all_invited,
+        Send_to_DCT,
+        Invite_to_Patient_Portal,
+        Change_Participant_Status,
+        ListView_ChangeStatus,
+        BTN_Export,
+        RH_PP_Add_New_Participant,
+        Disclaimer_Text
     };
     
     @api isCheckboxhidden=false;
@@ -71,6 +95,66 @@ export default class Pir_participantList extends LightningElement {
           this.urlStateParameters = currentPageReference.state;
           this.setParametersBasedOnUrl();
        }
+    }
+    @api showAddParticipant = false;
+    @wire(getStudyStudySiteDetails)
+    participantAccess({ error, data }) {
+      if (data){
+            var siteAccessLevels = data.siteAccessLevels;
+            var ctpListNoAccess = [];
+            var studySiteMap = data;
+            var studylist;
+            var studyToStudySite;
+            ctpListNoAccess = data.ctpNoAccess;
+            var k = 0;var a = 0;
+            var accesslevels = Object.keys(siteAccessLevels).length;
+            if (studySiteMap.ctpMap) {
+                var conts = studySiteMap.ctpMap;
+                let options = [];
+                var sites = studySiteMap.studySiteMap; 
+                for (var key in conts) {
+                    if(!ctpListNoAccess.includes(conts[key])){ 
+                        var temp = sites[conts[key]];
+                        let z = 0;
+                        for (var j in temp) {
+                             if(accesslevels == 0){
+                                z=z+1;
+                                a=a+1;
+                             }else{
+                                var level = siteAccessLevels[temp[j].Id];
+                                if(level != 'Level 3' && level != 'Level 2'){
+                                    z=z+1;
+                                    a=a+1;
+                                }
+                             }
+                        }
+                        if(z != 0){
+                            options.push({ label: key, value: conts[key] });
+                            k=k+1;
+                        }
+                    }
+                }
+                studylist = options;
+                if (studySiteMap.studySiteMap) {
+                    studyToStudySite = studySiteMap.studySiteMap;
+                }
+            }
+            if(k != 0 && a != 0){
+                    this.showAddParticipant = true;
+                    const selectedEvent = new CustomEvent("updatestudylist", {
+                        detail: {
+                            studylist: studylist,
+                            siteAccessLevels: siteAccessLevels,
+                            studyToStudySite: studyToStudySite
+                        }
+                      });
+                    this.dispatchEvent(selectedEvent);
+            }else{
+                this.showAddParticipant = false;
+            }
+      } else if (error) {
+          this.error = error;
+      }
     }
     @api hideCheckbox(){
         this.isCheckboxhidden=false;
@@ -117,27 +201,14 @@ export default class Pir_participantList extends LightningElement {
     yesHighPriority=[];
     noHighPriority=[];
 
-    connectedCallback(){   
-        // this.template.querySelectorAll(".dropsize").forEach(function (L) {
-        //     L.classList.add("slds-p-bottom--x-large");
-        // });     
+    connectedCallback(){      
        if(this.urlStudyId !== null && this.urlSiteId !== null){
         this.studyIdlist = [];
         this.studyIdlist.push(this.urlStudyId);
         this.siteIdlist = [];
         this.siteIdlist.push(this.urlSiteId);   
-       
        }
-        // loadScript(this, RR_COMMUNITY_JS)
-        // .then(() => {
-        //     this.communityTemplate = communityService.getCurrentCommunityTemplateName();
-        // }).then(() => {
-        //     this.fetchList(); 
-        // }).catch((error) => {
-        //      console.log('Error: ' + error.message);
-        //      console.log('Error: ' + error.stack);
-        // });
-     
+      
     }   
     rendered=false;
     renderedCallback(){
@@ -150,13 +221,44 @@ export default class Pir_participantList extends LightningElement {
         }        
         this.keyScope += 'ren';        
     }
+    @api
+    handleParticipantsearch(event){
+        console.log('>>>length string>>'+event.target.value.length);
+        let enteredString = '';
+        this.disabledFilter = false;
+        if(event.target.value.length != 0)
+        {
+            this.disabledFilter = true;
+        } 
+        if(event.target.value && event.target.value.length >= 3 )
+        {
+            console.log('>>>>enterstring is>>'+enteredString+'>with lentgh>>'+enteredString.length);
+            enteredString = event.target.value;
+           
+        }
+        //cal the method with search string
+      getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, 
+                        siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, 
+                        selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : enteredString })
+        .then(result => {
+            
+        })
+        .catch(error => {
+            // this.err = error;
+            console.log('Error new: '+JSON.stringify( this.err));
+            console.log('Error : '+error.message);
+        });
+        
+    }
     @api fetchList(){
         this.selectall = false;
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
-        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered })
+        this.sortInitialVisit = false;
+        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : '' })
         .then(result => {
+            this.sortInitialVisit = result.sortInitialVisit;
             this.participantList = result.listViewWrapper;
             if(result.listViewWrapper.length>0){
                 this.noRecords = false;
@@ -172,7 +274,7 @@ export default class Pir_participantList extends LightningElement {
             }else{
                 this.noRecords = true;
             }
-            if(this.selectedStatusList!=null && (this.selectedStatusValue!='All Active Statuses' && this.selectedStatusValue!= 'All Inactive Statuses') ){
+            if(this.selectedStatusList!=null && (this.selectedStatusValue!='All Active Statuses' && this.selectedStatusValue!= 'All Inactive Statuses' && this.selectedStatusValue!= 'Eligibility Passed' && this.selectedStatusValue!= 'Eligibility Failed') ){
                 this.showStatus=true;
             }
             else{
@@ -256,6 +358,11 @@ export default class Pir_participantList extends LightningElement {
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.fetchList();
+            // var ttlcount = this.totalRecordCount;
+            // const selectEvent = new CustomEvent('resetpagination', {
+            //     detail: ttlcount
+            // });
+            // this.dispatchEvent(selectEvent);
             const selectedEvent = new CustomEvent("resetcount");
             this.dispatchEvent(selectedEvent); 
         })
@@ -270,6 +377,40 @@ export default class Pir_participantList extends LightningElement {
         .then(result => {
             this.saving = true;
             this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
+            this.selectedCheckboxes = [];
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            //this.fetchList();
+            // var ttlcount = this.totalRecordCount;
+            // const selectEvent = new CustomEvent('resetpagination', {
+            //     detail: ttlcount
+            // });
+            // this.dispatchEvent(selectEvent);
+             const gotofirstEvent = new CustomEvent("gotofirst");
+             this.dispatchEvent(gotofirstEvent); 
+             
+             const resetcountEvent = new CustomEvent("resetcount");
+             this.dispatchEvent(resetcountEvent); 
+            
+        })
+        .catch(error => {
+            this.err = error;
+            console.log('Error new: '+JSON.stringify( this.err));
+            console.log('Error : '+error.message);
+        });
+    }
+    @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; 
+    @api updateBulkStatusChange(){   
+        updateParticipantStatus({peIdList : this.selectedCheckboxes, 
+            StatusToUpdate: this.newstatus,
+            Notes: this.additionalNoteValue,
+            reason: this.selectedreasonvalue,
+            studyId: this.studyIdlist,
+            oParticipantStatus: this.selectedStatusList[0],
+            finalconsent: this.finalConsentvalue})
+        .then(result => {
+            this.saving = true;
+            //this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -394,16 +535,24 @@ export default class Pir_participantList extends LightningElement {
             
         ];
     }
-    
-    handleChange(event) {
-        this.value = event.detail.value;
+    @api newstatus;
+    handleChangeOfStatus(event) {
         this.enableStatus=false;
+        const selectedEvent = new CustomEvent("statusvaluechange", {
+            detail: {
+                newStatusSelected: event.detail.value,
+                oParticipantStatus: this.selectedStatusList[0],
+                studyId: this.studyIdlist
+            }
+          });
+        this.dispatchEvent(selectedEvent);
+        this.newstatus = event.detail.value;
     }
+  
+    changeStatus = false;
     handlenewOnSelect(event){
         
-        
         var selectedVal=event.target.dataset.id;
-        
         this.dropDownLabel=selectedVal;
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
@@ -415,38 +564,60 @@ export default class Pir_participantList extends LightningElement {
             L.classList.add("slds-p-bottom--x-small");
         });
         
-        if(selectedVal != 'Add New Participant'){ 
+        if(selectedVal != this.label.RH_PP_Add_New_Participant){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
         }else{
             this.isCheckboxhidden=false;
         }
-        if(event.target.dataset.id == 'Invite to Patient Portal'){
+        if(event.target.dataset.id == this.label.Invite_to_Patient_Portal){
             this.isPPFiltered = true;
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
-            this.pageNumber = 1;
             this.fetchList();
         }
         
         
-        if( this.dropDownLabel=='Change Status'){
+        if( this.dropDownLabel==this.label.ListView_ChangeStatus){
+            const selectedEvent = new CustomEvent("getstatus");
+            this.dispatchEvent(selectedEvent);
+            this.changeStatus=true;
             this.enableStatus=true;
+            this.statusChangeList = '';this.statusSelected='';
+            getAvailableStatuses({ status: this.selectedStatusList[0], StudyId: this.studyIdlist })
+            .then(result => {
+                this.statusChangeList = result;
+                this.statusSelected = 'null';
+                const selectedEvent = new CustomEvent("getstatus");
+                this.dispatchEvent(selectedEvent);
+            })
+            .catch(error => {
+               console.log(error);
+               this.showErrorToast(error);
+               const selectedEvent = new CustomEvent("getstatus");
+               this.dispatchEvent(selectedEvent);
+            });
+            
         }
         else{
+            this.changeStatus = false;
             this.enableStatus=false;
         }
 
-        if( this.dropDownLabel=='Send to DCT'){
+        if( this.dropDownLabel==this.label.Send_to_DCT){
             this.dctCheck=true;
+            //this.saving = true;
+            // this.totalRecordCount = -1;
+            // this.isResetPagination = true;
+            // this.fetchList(); 
         }
         else{
             this.dctCheck=false;
         }
 
 
-        if(this.dropDownLabel != 'Add New Participant'){
+        if(this.dropDownLabel != this.label.RH_PP_Add_New_Participant){
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: this.isCheckboxhidden
             });
@@ -455,8 +626,521 @@ export default class Pir_participantList extends LightningElement {
           const selectedEventnew = new CustomEvent("droplabel", {
             detail: this.dropDownLabel
           });
-          this.dispatchEvent(selectedEventnew); 
+          this.dispatchEvent(selectedEventnew);
     }
+    exportData;
+    @api handleExport(){
+        this.saving=true;
+        exportSelected({peIdList : this.selectedCheckboxes})
+        .then(result => {
+            this.exportData = result;
+        if (this.exportData == null || this.exportData.length<0) {
+            return null;
+        }
+        if(result.partList.length>0){
+            this.downloadCSV(result.partList);
+        }
+        
+       
+        })
+        .catch(error => {
+            this.saving=false;
+            this.err = error;
+            console.log('Error new: '+JSON.stringify( this.err));
+            console.log('Error : '+error.message);
+        });
+        
+    }
+    exportAllDatatemp;
+    studyAll=[];
+    siteAll=[];
+    startPos=0;
+    endPos=45000;
+    totalCount=45000;
+    counterLimit=45000;
+    isFirstTime=true;
+    csvList=[];
+    
+    @api getExportAll(){ //resetexportall
+        this.csvList=[];
+        this.startPos=0;
+        this.endPos=45000;
+        this.totalCount=45000;
+        this.counterLimit=45000;
+        this.isFirstTime=true;
+        this.getincludePII=false;
+        this.handleExportall();
+    }
+
+     handleExportall(){
+        this.saving=true;
+        exportAll({studies : this.studyAll, studySites: this.siteAll,startPos: this.startPos,endPos: this.endPos,sponsorName: this.communityTemplate})
+        .then(result => {
+            this.exportAllDatatemp = result;
+            this.totalCount=this.exportAllDatatemp.totalCount;
+            var csvFinalList = this.exportAllDatatemp.partList; 
+                
+                if (this.isFirstTime==false) {
+                    this.csvList = [].concat(this.csvList,csvFinalList);
+                } else {
+                    this.csvList = csvFinalList;
+                    this.isFirstTime=false;
+                }
+
+                var currentCount = this.csvList.length;
+                var counterLimit = this.counterLimit;
+                var finaltotalCount = this.totalCount;
+                if (finaltotalCount > 100000) {
+                    finaltotalCount = 100000;
+                }
+                console.log('currentCount ' + currentCount);
+                console.log('finaltotalCount ' + finaltotalCount);
+                console.log('counterLimit ' + counterLimit);
+                if (currentCount < finaltotalCount) {
+                    counterLimit = counterLimit + 45000;
+                    this.counterLimit= counterLimit;
+                }
+                console.log('counterLimit new ' + counterLimit);
+                if (this.exportAllDatatemp.endPos < counterLimit && currentCount < finaltotalCount) {
+                    this.startPos = this.endPos + 1;
+                    this.endPos = this.endPos + 45000;
+                    this.startPos= this.startPos;
+                    this.endPos= this.endPos;
+                    this.handleExportall();
+                } else {
+                    console.log('in else');
+                    this.downloadCSV(this.csvList);
+                }
+        })
+        .catch(error => {
+            this.saving=false;
+            this.err = error;
+            console.log('Error new: '+JSON.stringify( this.err));
+            console.log('Error : '+error.message);
+        });
+    }
+    dowloadList;
+    downloadCSV(partList){
+        
+        this.saving=false;
+        var csvStringResult, counter, keys, columnDivider, lineDivider;
+        columnDivider = ',';
+        lineDivider = '\n';
+         var disclaimer =  '"' +this.label.Disclaimer_Text + '"';
+         disclaimer = disclaimer + columnDivider + lineDivider;
+         var headerWithDis = [
+                    'Participant Profile Name',
+                    'MRN Id',
+                    'Patient ID',
+                    'Source ID',
+                    'Received Date',
+                    'Study Code Name',
+                    'First Name',
+                    'Last Name',
+                    'Email',
+                    'Phone',
+                    'Phone Type',
+                    'Alternate Phone Number',
+                    'Alternate Phone Type',
+                    'Sex',
+                    'Age',
+                    'Ethnicity',
+                    'Comorbidities',
+                    'BMI',
+                    'High Risk Occupation',
+                    'High Priority',
+                    'Protocol ID',
+                    'Study Site Name',
+                    'Investigator Name',
+                    'Participant Status',
+                    'Status Change Reason',
+                    'Participant Status Last Changed Date',
+                    'Last Status Changed Notes',
+                    'Pre-screening 1 Status',
+                    'Pre-screening 1 Completed by',
+                    'Pre-screening Date',
+                    'Referral Source'
+                ];
+                headerWithDis =  disclaimer+ headerWithDis;
+                csvStringResult = '';
+                csvStringResult += headerWithDis + columnDivider;
+            
+             
+            csvStringResult += lineDivider;
+            for (var i = 0; i < partList.length; i++) {
+                if (
+                    partList[i]['Name'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Name'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['MRN_Id__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['MRN_Id__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Patient_ID__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Patient_ID__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i]['Referral_Source__c'] == 'PI') {
+                    if (partList[i]['MRN_Id__c'] != undefined) {
+                        csvStringResult += '"' + partList[i]['MRN_Id__c'] + '"' + ',';
+                    } else {
+                        csvStringResult += '" "' + ',';
+                    }
+                } else if (partList[i]['Referral_Source__c'] == 'HCP') {
+                    if (partList[i]['Patient_ID__c'] != undefined) {
+                        csvStringResult += '"' + partList[i]['Patient_ID__c'] + '"' + ',';
+                    } else {
+                        csvStringResult += '" "' + ',';
+                    }
+                } else {
+                    if (csvStringResult += '"' + partList[i]['Patient_ID__c'] !== undefined) {
+                        csvStringResult += '"' + partList[i]['Patient_ID__c'] + '"' + ',';
+                    } else {
+                        csvStringResult += '" "' + ',';
+                    }
+                }
+                if (
+                    partList[i]['Referred_Date__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Referred_Date__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+        
+         
+             //code for when PII inclusion is true start
+            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == true){	
+                
+                if (partList[i]['Participant__r'] !== undefined && partList[i]['Participant__r']['First_Name__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i]['Participant__r']['First_Name__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i]['Participant__r'] !== undefined && partList[i]['Participant__r']['Last_Name__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i]['Participant__r']['Last_Name__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i]['Participant__r'] !== undefined && partList[i]['Participant__r']['Email__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i]['Participant__r']['Email__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Phone__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i] ['Participant__r']['Phone__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Phone_Type__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i] ['Participant__r']['Phone_Type__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Alternative_Phone_Number__c'] !==
+                    undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i] ['Participant__r']['Alternative_Phone_Number__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Alternative_Phone_Type__c'] !== undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i] ['Participant__r']['Alternative_Phone_Type__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Gender_Technical__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i] ['Participant__r']['Gender_Technical__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Present_Age__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i] ['Participant__r']['Present_Age__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Ethnicity__c'] !== undefined) {
+                    var val = partList[i] ['Participant__r']['Ethnicity__c'];
+                    var arr = val.split(';');
+                    csvStringResult += '"' + arr.join() + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['Comorbidities__c'] !== undefined) {
+                    csvStringResult += '"' + partList[i] ['Comorbidities__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['BMI__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i] ['Participant__r']['BMI__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i] ['HighRisk_Indicator__c'] !== undefined) {
+                    csvStringResult +=
+                        '"' + partList[i] ['HighRisk_Indicator__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (partList[i]['High_Priority__c'] !== undefined) {
+                    if (partList[i]['High_Priority__c'] == true)  {
+                        csvStringResult += '"' + 'Yes'+ '"' + ',';
+                    }
+                    else{
+                        csvStringResult +=  '"' + 'No'+ '"' + ',';
+                    }
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+            }
+            //code for PII inclusion is true end
+            //code for when PII inclusion is false start
+            if(partList[i]['Study_Site__r']['Include_PII_on_Export__c'] == false){	
+                
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' +'Restricted' + '"' + ',';
+            
+               csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+           
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+           
+               csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+           
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+           
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+            
+                csvStringResult +=
+                    '"' + 'Restricted' + '"' + ',';
+           
+            }
+            //code for when PII inclusion is false end
+        
+        
+                if (
+                    partList[i]['Clinical_Trial_Profile__r']['Protocol_ID__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Clinical_Trial_Profile__r']['Protocol_ID__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Study_Site__r']['Name'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Study_Site__r']['Name'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['PI_Contact__r']['Full_Name__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['PI_Contact__r']['Full_Name__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (partList[i]['Participant_Status__c'] !== undefined) {
+                    if(partList[i]['Participant_Status__c']=='Eligibility Passed' 
+                       && (partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                           || partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+                        partList[i]['Participant_Status__c'] = 'Sent to Study Hub';
+                    }
+                    csvStringResult +=
+                        '"' + partList[i]['Participant_Status__c'] + '"' + ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Non_Enrollment_Reason__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Non_Enrollment_Reason__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Participant_Status_Last_Changed_Date__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Participant_Status_Last_Changed_Date__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+    
+                if (
+                    partList[i]['Last_Status_Changed_Notes__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Last_Status_Changed_Notes__c']+'nned masking' +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Medical_Record_Review_Status__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Medical_Record_Review_Status__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Medical_Record_Review_Completedby_Name__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Medical_Record_Review_Completedby_Name__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Medical_Record_Review_Completed_Date__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Medical_Record_Review_Completed_Date__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                if (
+                    partList[i]['Referral_Source__c'] != undefined
+                ) {
+                    csvStringResult +=
+                        '"' +
+                        partList[i]['Referral_Source__c'] +
+                        '"' +
+                        ',';
+                } else {
+                    csvStringResult += '" "' + ',';
+                }
+                csvStringResult += lineDivider;
+            }
+
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csvStringResult);
+        hiddenElement.target = '_self'; //
+        hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
+        document.body.appendChild(hiddenElement); // Required for FireFox browser
+        hiddenElement.click();  // using click() js function to download csv file
+    }
+
     opendropdown(event){
         
         this.template.querySelectorAll(".D").forEach(function (L) {
@@ -509,7 +1193,7 @@ export default class Pir_participantList extends LightningElement {
         total = this.selectedCheckboxes.length + countvalue;
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
-                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!=this.label.Send_to_DCT) ){
                     checkboxes[i].checked = event.target.checked;
                     if(checkboxes[i].checked==true){
                         if(!this.selectedCheckboxes.includes(this.participantList[i].id))
@@ -614,5 +1298,27 @@ export default class Pir_participantList extends LightningElement {
         this.dispatchEvent(selectEvent);
         this.isResetPagination = false;        
     }
-   
+    //sort
+    sortOn = ' ORDER BY PerCounter__c DESC ';
+
+    get sortOptions() {
+       var opts =  [
+            { label: 'Last Added', value: ' ORDER BY PerCounter__c DESC ' },
+            { label: 'Last Modified', value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },            
+        ];
+        if(this.sortInitialVisit){
+            opts.push({ label: 'Initial Visit Scheduled Date (upcoming)', value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
+            opts.push({ label: 'Initial Visit Scheduled Date (past)', value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
+        }      
+        return opts;
+    }
+    handleSortChange(event) {
+        this.sortOn = event.detail.value;
+        this.totalRecordCount = -1;
+        this.isResetPagination = true;
+        const selectEvent = new CustomEvent('resetparent', {
+            detail: ''
+        });
+        this.dispatchEvent(selectEvent);
+    }
 }
