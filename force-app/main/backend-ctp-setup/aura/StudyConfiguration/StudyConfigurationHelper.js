@@ -31,6 +31,11 @@
             component.set('v.ctp.Study_GUID__c', component.get("v.study_guid"));
             component.set('v.ctp.Study_Version_GUID__c', component.get("v.study_version_guid"));
         }
+        //IQVIA Outreach
+        if (source === 'IqviaOutreach') {
+            let stValue = component.find('iqviaToggle').get('v.checked');
+            component.find('iqviaToggle').set('v.checked', stValue);
+        }
         
         
         component.find('spinner').show();
