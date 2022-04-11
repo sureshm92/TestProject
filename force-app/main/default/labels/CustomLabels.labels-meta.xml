@@ -15791,6 +15791,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>to share the above information with IQVIA and its affiliates</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
