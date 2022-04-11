@@ -20093,6 +20093,13 @@ communications using the toggles below.</value>
         <value>Export to Excel</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Outreach_already_initiated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach already initiated</shortDescription>
+        <value>Outreach already initiated</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Outreach_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20112,6 +20119,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH_RP_OutreachEmail</shortDescription>
         <value>Initiate a request to send an outreach email to the selected patients.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_was_sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach was sent</shortDescription>
+        <value>Outreach was sent</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patients_Selected</fullName>
@@ -20658,6 +20672,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP want to include patients</shortDescription>
         <value>Are you sure you want to include the patient(s)?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_YOB</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP YOB</shortDescription>
+        <value>YOB</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
