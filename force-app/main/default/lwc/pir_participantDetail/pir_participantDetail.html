@@ -251,7 +251,7 @@
                         </div>                
                   </div> <!--    Participation Information  End  --> 
 
-                  <c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c}></c-consent-manager>
+                  <c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager>
 
                   <!--div class="step-card-title slds-m-bottom_x-small slds-m-top_small">
                         {PG_Ref_L_Information_Sharing}
