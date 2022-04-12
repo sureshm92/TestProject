@@ -4,6 +4,7 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_ESP from '@salesforce/label/c.PG_Ref_
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US';
 import PG_Ref_L_Permit_IQVIA_Outreach_Consent_US from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_US';
 import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
+import PG_Ref_L_Permit_IQVIA_To_Store_And_Contact from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Store_And_Contact';
 import REQUIRED_ERROR_MSG from '@salesforce/label/c.PP_RequiredErrorMessage';
 import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
@@ -36,10 +37,12 @@ export default class ConsentManager extends LightningElement {
     PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US;
     PG_Ref_L_Permit_IQVIA_Outreach_Consent_US = PG_Ref_L_Permit_IQVIA_Outreach_Consent_US;
     PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
+    PG_Ref_L_Permit_IQVIA_To_Store_And_Contact= PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
     REQUIRED_ERROR_MSG  = REQUIRED_ERROR_MSG;
     EMAIL = EMAIL;
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
+    CONSENT_TO_STORE_AND_CONTACT;
 
     @api participantEnrollId;
     @track consentModel = consentModel;
@@ -48,8 +51,24 @@ export default class ConsentManager extends LightningElement {
     isCountryUS;
     isIqviaOutreachEnabled=false;
     _studySiteId;
+    _callSource;
     studySite;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
+
+    @api
+    get callSource() {
+        return this._callSource;
+    }
+    set callSource(value) {    
+        switch(value){
+            case 'addParticipant':
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
+            break;
+            case 'editParticipant':
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+            break;
+        }
+    }
 
     @api
     get studySiteId() {
