@@ -73,7 +73,8 @@ public without sharing class AddPatientByPIRemote {
         Boolean allowPhone,
         Boolean allowSMS,
         Boolean allowContact,
-        Boolean allowDelegateContact
+        Boolean allowDelegateContact,
+        String contactConsentJSON
     ) {
         try {
             TriggerHandlerExecutor.bypassHandler(
@@ -151,6 +152,15 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.MobilePhone = participant.Phone__c;
                 } else {
                     participantCon.Phone = participant.Phone__c;
+                }
+                if(String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                    contact contactConsent = (Contact) JSON.deserialize(
+                        contactConsentJSON,
+                        Contact.class
+                    );
+                    participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
+                    participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
+                    participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
                 }
                 update participantCon;
             }

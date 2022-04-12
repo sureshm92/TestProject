@@ -47,42 +47,42 @@ public without sharing class rpPatientOutreachController {
                 isError = true;
             }
             if(String.isBlank(peRec.Participant_Name__c)){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'First Name';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_First_Name;
                 isError = true;
             }
             if(String.isBlank(peRec.Participant_Surname__c)){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Last Name';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_Last_Name;
                 isError = true;
             }
             if(String.isBlank(peRec.Email__c)){
                 if(String.isBlank(peRec.Primary_Delegate_Email__c)){
-                    peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Email';
+                    peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.SS_Email;
                     isError = true;
                 }
             }
             if(String.isBlank(peRec.Study_Name__c)){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Study Name';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.Study_Name;
                 isError = true;
             }
             //if(peRec.Legal_Status__c != 'Yes'){
                 if(String.isBlank(peRec.Legal_Status__c)){
-                    peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Legal Status';
+                    peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_Legal_Status;
                     isError = true;
             }
             if(String.isBlank(peRec.YOB__c)){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'YOB';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_YOB;
                 isError = true;
             }
             if(peRec.Patient_Auth__c != 'Yes'){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Patient Auth';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_Patient_Auth;
                 isError = true;
             }
             if(peRec.Outreach_Email_Status__c == 'Submitted'){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Outreach already initiated';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_Outreach_already_initiated;
                 isError = true;
             }
             if(peRec.Outreach_Email_Status__c == 'Delivered'){
-                peRecValidationMsgs = peRecValidationMsgs + ', ' + 'Outreach was sent';
+                peRecValidationMsgs = peRecValidationMsgs + ', ' + System.label.RH_RP_Outreach_was_sent;
                 isError = true;
             }
             if(isError){          

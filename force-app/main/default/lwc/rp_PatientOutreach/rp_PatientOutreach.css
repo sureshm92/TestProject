@@ -1,192 +1,194 @@
 .patientOutreach .tabScroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: -webkit-box;
-  display: -moz-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
+    display: -moz-box;
 }
 .table-header-label {
     color: #444444 !important;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
-    font-weight: bold!important;
+    font-weight: bold !important;
     letter-spacing: 0;
     line-height: 21px;
     padding-left: 0px;
 }
 .patientOutreach .bufferSides {
-  float: left;
-  width: 2%;
-  height: 44px;
-  cursor: pointer;
+    float: left;
+    width: 2%;
+    height: 44px;
+    cursor: pointer;
 }
 .patientOutreach .buffermain {
-  float: left;
-  width: 96%;
+    float: left;
+    width: 96%;
 }
 .patientOutreach ::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 .patientOutreach .saveButton {
-  background-color: rgb(41, 125, 253);
-  color: white;
-  border-color: #297dfd;
+    background-color: rgb(41, 125, 253);
+    color: white;
+    border-color: #297dfd;
 }
 .patientOutreach .saveButton:hover {
-  background-color: #1c577f;
-  border-color: #1c577f;
+    background-color: #1c577f;
+    border-color: #1c577f;
 }
 .patientOutreach {
-  font-family: Proxima Nova;
-  font-size: 16px;
-  color: black;
+    font-family: Proxima Nova;
+    font-size: 16px;
+    color: black;
 }
 .studyContent .studyTitle {
-  font-weight: 600;
-  padding: 10px 0px 0px 12px;
-  max-height: 85px;
-  overflow-y: visible !important;
-  overflow-x: hidden;
-  scrollbar-width: thin;/*fancy width*/
-  scrollbar-color: #f3f0dd #154734;/*fancy colors for Firefox*/
+    font-weight: 600;
+    padding: 10px 0px 0px 12px;
+    max-height: 85px;
+    overflow-y: visible !important;
+    overflow-x: hidden;
+    scrollbar-width: thin; /*fancy width*/
+    scrollbar-color: #f3f0dd #154734; /*fancy colors for Firefox*/
 }
 .studyContent .studyTitle::-webkit-scrollbar {
-  width: 10px !important;
-  display: block !important;
+    width: 10px !important;
+    display: block !important;
 }
 
 .studyContent .studyTitle::-webkit-scrollbar-track {
-  background: #297dfd ;
+    background: #297dfd;
 }
 
 .studyContent .studyTitle::-webkit-scrollbar-thumb {
-  background-color: #fff;
-  border-radius: 6px;
-  border: 3px solid #297dfd ;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 3px solid #297dfd;
 }
 .patientOutreach .tabScroll li a {
-  font-weight: 500;
-  color: black;
+    font-weight: 500;
+    color: black;
 }
 .patientOutreach .tabScroll .slds-is-active a {
-  font-weight: 600;
+    font-weight: 600;
 }
 .patientOutreach .slds-tabs_default__item.slds-active:after,
 .slds-tabs_default__item.slds-is-active:after,
 .slds-tabs--default__item.slds-active:after,
 .slds-tabs--default__item.slds-is-active:after {
-  background-color: #0768fd;
-  border-radius: 4px;
+    background-color: #0768fd;
+    border-radius: 4px;
 }
 .patientOutreach .outreachInfo {
-  padding: 10px 14px 15px 14px;
+    padding: 10px 14px 15px 14px;
 }
 .outreachOkButton {
-  background-color: rgb(41, 125, 253);
-  color: white;
-  border-color: #297dfd;
-  width: 80px;
+    background-color: rgb(41, 125, 253);
+    color: white;
+    border-color: #297dfd;
+    width: 80px;
 }
 .outreachOkButton:hover {
-  background-color: #1c577f;
-  border-color: #1c577f;
+    background-color: #1c577f;
+    border-color: #1c577f;
 }
 .patientOutreachValidation .subtitle {
-  color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
 }
 
 .patientOutreachValidation .outreach-sent {
-  font-size: 16px;
-  font-weight: bold;
-  padding-top: 12px;
-  border-bottom: 2px solid black;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 12px;
+    border-bottom: 2px solid black;
 }
 .patientOutreachValidation .outreach-notsent {
-  font-size: 16px;
-  font-weight: bold;
-  padding-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 12px;
 }
 .patientOutreachValidation .success {
-  padding: 15px 20px;
-  color: #444444;
-  font-family: "Proxima Nova";
-  font-size: 14px;
-  font-weight: bold;
+    padding: 15px 20px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
 }
-.patientOutreachValidation .success:before{
-  content: "";
-  /*position: absolute;*/
-  background-image: url(/resource/1637744198000/rr_community_icons/checkGreen.svg);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  height: 16px;
-  width: 16px;
-  /*left: 90px;  */
-  padding-left: 23px;
+.patientOutreachValidation .success:before {
+    content: '';
+    /*position: absolute;*/
+    background-image: url(/resource/1637744198000/rr_community_icons/checkGreen.svg);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    /*left: 90px;  */
+    padding-left: 23px;
 }
 .patientOutreachValidation th {
-  border-bottom: 2px solid black;
-  font-size: 14px;
+    border-bottom: 2px solid black;
+    font-size: 14px;
 }
 .patientOutreachValidation td {
-  font-size: 14px;
-  font-weight: bold;
-  padding: 13px 0px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 13px 0px;
 }
 .patientOutreachValidation td:first-child {
-  /*width: 180px;
+    /*width: 180px;
   word-break: break-all;*/
-  display: block;
-  padding: 15px 15px 0px 0px;
+    display: block;
+    padding: 15px 15px 0px 0px;
 }
 .patientOutreachValidation .innerbox {
-  max-height: 360px;
-  padding-right: 15px;
-  overflow: auto;
-  margin-bottom: 20px;
+    max-height: 360px;
+    padding-right: 15px;
+    overflow: auto;
+    margin-bottom: 20px;
 }
 .patientOutreachValidation ::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
-
+.patientBtnRTL {
+    margin-left: 15px;
+}
 /* Track */
 .patientOutreachValidation ::-webkit-scrollbar-track {
-  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  background: #dbdbdb;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    background: #dbdbdb;
 }
 
 /* Handle */
 .patientOutreachValidation ::-webkit-scrollbar-thumb {
-  background: #999999;
-  border-radius: 4px;
+    background: #999999;
+    border-radius: 4px;
 }
 
 /* Handle on hover */
 .patientOutreachValidation ::-webkit-scrollbar-thumb:hover {
-  background: #7a7a7a;
+    background: #7a7a7a;
 }
 .patient-button {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: flex-end;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
 }
 
 /* ol li {
   list-style: lower-roman !important;
 } */
 @media (max-width: 768px) {
-  .patientOutreach .outreachInfo {
-    padding: 20px 0px 0px 0px !important;
-  }
-  .patientOutreach .studyTitle {
-    font-weight: 900;
-    padding: 22px 0px 0px 0px;
-  }
-  /* .slds-rich-text-editor__output ol {
+    .patientOutreach .outreachInfo {
+        padding: 20px 0px 0px 0px !important;
+    }
+    .patientOutreach .studyTitle {
+        font-weight: 900;
+        padding: 22px 0px 0px 0px;
+    }
+    /* .slds-rich-text-editor__output ol {
     list-style: lower-roman !important;
   }
   .slds-rich-text-editor__output ol li {
