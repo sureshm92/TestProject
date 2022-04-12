@@ -40,7 +40,8 @@
                         <div class="textoverlap2">
                             <aura:if
                                 isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}">
-                                <abbr title="required" class="slds-required">*</abbr></aura:if>
+                                <abbr title="required" class="slds-required">*</abbr>
+                            </aura:if>
                             {!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
                             v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
                             v.field.title)}
@@ -64,6 +65,7 @@
                             <div class="textoverlap2">
                                 {!$Label.c.RH_ParticipantNoshow}
                             </div>
+                            <span>{!$Label.c.RH_ParticipantNoshow}</span>
                         </div>
                         <lightning:input aura:id="fieldInput" label="" type="checkbox" checked="{!v.PartcipantNoShow}"
                             onchange="{!c.onclickNoShowCheck}" class="checkbox_alignment" />
