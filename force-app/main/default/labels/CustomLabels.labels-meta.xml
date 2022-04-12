@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Add_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Televisit Vendor</shortDescription>
+        <value>Add Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Banner_Display_Offset_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner display</shortDescription>
+        <value>Banner display</value>
+    </labels>
+    <labels>
+        <fullName>Banner_dispose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner dispose</shortDescription>
+        <value>Banner dispose</value>
+    </labels>
+    <labels>
+        <fullName>Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Description</shortDescription>
+        <value>Description</value>
+    </labels>
+    <labels>
+        <fullName>Select_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Televisit Vendor</shortDescription>
+        <value>Select Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Record_Vendor_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Record Vendor Name</shortDescription>
+        <value>Televisit Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>offset_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>offset time</shortDescription>
+        <value>offset time</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
