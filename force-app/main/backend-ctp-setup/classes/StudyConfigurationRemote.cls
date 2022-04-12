@@ -36,7 +36,8 @@ public with sharing class StudyConfigurationRemote {
                     ECOA_Is_Avaialble__c,
                     Study_GUID__c,
                     Study_Version_GUID__c,
-                    Visits_are_Available__c
+                    Visits_are_Available__c,
+                    IQVIA_Outreach__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id = :ctpId
             ];

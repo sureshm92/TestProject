@@ -17,6 +17,12 @@
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" />
     <aura:attribute name="ctp" type="Clinical_Trial_Profile__c" />
     <aura:attribute name="ss" type="Study_Site__c" />
+    <aura:attribute name="contactConsent" type="Contact" default="{
+        'sobjectType': 'Contact',
+        'Participant_Phone_Opt_In_Permit_Phone__c': 0,
+        'Participant_Opt_In_Status_Emails__c': '', 
+        'Participant_Opt_In_Status_SMS__c': ''
+    }"/>
     <aura:attribute name="isValid" type="Boolean" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="userLanguage" type="String" />
@@ -336,6 +342,14 @@
                             class="slds-form-element"
                             style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
                         >
+                        <c:consentManager aura:id="consent-Manager" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}" callSource="addParticipant"></c:consentManager></div>
+                    </div>
+                    <!-- Added for 1936-->
+                    <!--div class="slds-grid slds-gutters slds-wrap">
+                        <div
+                            class="slds-form-element"
+                            style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
+                        >
                             <div class="slds-form-element__control">
                                 <span
                                     class="slds-form-element__label-for-checkbox"
@@ -345,7 +359,7 @@
                                 >
                             </div>
                         </div>
-                    </div>
+                    </div-->
                     <!--  <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
@@ -355,7 +369,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="slds-grid slds-gutters slds-wrap">
+                    <!--div class="slds-grid slds-gutters slds-wrap">
                         <div
                             class="slds-form-element"
                             style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
@@ -498,7 +512,7 @@
                                 </div>
                             </div>
                         </div>
-                    </aura:if>
+                    </aura:if-->
                     <aura:if
                         isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' ,          (v.ss.Suppress_Participant_Emails__c || v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || (v.participant.Adult__c&amp;&amp;or(!v.participant.Email__c,v.participant.Email__c=='')&amp;&amp;v.needsGuardian)))}"
                     >

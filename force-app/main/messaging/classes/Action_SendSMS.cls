@@ -385,6 +385,7 @@ public with sharing class Action_SendSMS implements Action {
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode,
+                    Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
                     Survey_Invitation__r.IsTrialSurvey__c
                 FROM Task
                 WHERE Id IN :taskIdList OR Survey_Invitation__c IN :surveyInvitationIdList
@@ -455,6 +456,7 @@ public with sharing class Action_SendSMS implements Action {
             ctpObj.Sponsor_AWS__c = peObj.Study_Site__r.Sponsor_AWS__c;
             ctpObj.Study_AWS__c = peObj.Study_Site__r.Study_AWS__c;
             ctpObj.CommunityTemplate__c = peObj.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            ctpObj.Study_Sponsor__c = peObj.Clinical_Trial_Profile__r.Study_Sponsor__c;
 
             ctpMap.put(peObj.Clinical_Trial_Profile__c, ctpObj);
 
@@ -499,7 +501,7 @@ public with sharing class Action_SendSMS implements Action {
                 Boolean isPlatformLevel = true;
                 String pinPoint;
                 String sponsorName;
-                String sponsorNameSms;
+                String sponsorNameSms = 'IQVIA';
                 String studyName;
                 String ctpTemplateName;
                 String studySiteId;
@@ -697,6 +699,7 @@ public with sharing class Action_SendSMS implements Action {
                 }
 
                 if (!isPlatformLevel) {
+                    system.debug('Inside studylevel --' + isPlatformLevel);
                     //If this method is called from SMSOptOutService Class
                     if (isSMSOptOutPlatFormEvent) {
                         SMSOptOutService.notIdMapOfPartContactSponsorMap.put(
@@ -711,10 +714,13 @@ public with sharing class Action_SendSMS implements Action {
                     }
                 } else {
                     //If Notification is platform level.
+                    system.debug('Inside platformlevel --' + isPlatformLevel);
                     NotificationService.platfomLevelSMSSet.Add(notObj.Id);
                 }
                 //If this method is not called from SMSOptOutService Class
+                system.debug('outside if --' + isSMSOptOutPlatFormEvent);
                 if (!isSMSOptOutPlatFormEvent) {
+                    system.debug('inside if --' + isSMSOptOutPlatFormEvent);
                     PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
                     pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
                     pinpointWrapperObj.studyPinpoint = pinPoint;

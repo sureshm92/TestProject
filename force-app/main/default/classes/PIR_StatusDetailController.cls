@@ -156,8 +156,9 @@ public without sharing class PIR_StatusDetailController {
             Disabled_PESH__c
           FROM Participant_Enrollment_Status_History__r
           WHERE Disabled_PESH__c = FALSE
+          AND Backward_Bulk_Update__c = FALSE
           ORDER BY Name DESC
-        )
+        ) 
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];

@@ -20,6 +20,10 @@
     background: white;
     display:none;
 }
+.labelHide .labelhide_1 .slds-form-element__label{
+    display: none!important;
+
+}
 .selected{background: #ECF3FF;}
 .dividerTop{ border-color: #E9E9E9;}
 .textBold{font-weight: 600; }

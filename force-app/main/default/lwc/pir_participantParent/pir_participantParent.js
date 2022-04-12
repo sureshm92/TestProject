@@ -1,14 +1,26 @@
-import { LightningElement, api, wire } from "lwc";
+import { LightningElement, api, wire, track } from "lwc";
 import pirResources from "@salesforce/resourceUrl/pirResources";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
+import bulkstatusDetail from "@salesforce/apex/PIR_HomepageController.bulkstatusDetail";
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import RH_PP_Select_Study_Site from '@salesforce/label/c.RH_PP_Select_Study_Site';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import RH_ExportSelected from '@salesforce/label/c.RH_ExportSelected';
+import BTN_Export_All from '@salesforce/label/c.BTN_Export_All';
+import RH_ParticipantSelected from '@salesforce/label/c.RH_ParticipantSelected';
 import Continue from '@salesforce/label/c.Continue';
 import PG_VP_L_Study_site from '@salesforce/label/c.PG_VP_L_Study_site';
 import CC_Study from '@salesforce/label/c.CC_Study';
+import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
+import ListView_New_Status from '@salesforce/label/c.ListView_New_Status';
+import ListView_Current_Status from '@salesforce/label/c.ListView_Current_Status';
+import PG_ACPE_L_Reason from '@salesforce/label/c.PG_ACPE_L_Reason';
+import FD_PE_Field_Final_Consent from '@salesforce/label/c.FD_PE_Field_Final_Consent';
+import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
+import Submit from '@salesforce/label/c.Submit';
 import { NavigationMixin } from 'lightning/navigation';
+import { label } from "c/pir_label";
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -25,6 +37,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api selectedTab = "Status Details";  
   @api discardTab = false;
   @api addNewParticipant = false;
+  @track utilLabels = label;
   setList = true;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
   usericon= pirResources+'/pirResources/icons/user.svg';
@@ -56,17 +69,19 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     BTN_Cancel,
     Continue,
     PG_VP_L_Study_site,
-    CC_Study
+    CC_Study,
+    ListView_ChangeStatus,
+    ListView_New_Status,
+    PG_ACPE_L_Reason,
+    FD_PE_Field_Final_Consent,
+    PG_ACPE_L_Notes,
+    Submit,
+    ListView_Current_Status,
+    RH_ExportSelected,
+    RH_ParticipantSelected,
+    BTN_Export_All
+
   };
-  // connectedCallback() {
-  //   getStudyAccessLevel()
-  //     .then((result) => {
-  //       this.lststudysiteaccesslevel = result;
-  //     })
-  //     .catch((error) => {
-  //       this.error = error;
-  //     });
-  // }
   
   @wire(getStudyAccessLevel)
   wiredAccess({ error, data }) {
@@ -85,6 +100,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
+    
     var accesslevels = Object.keys(this.siteAccessLevels).length;
     var conts = this.studyToStudySite;
     let options = [];
@@ -370,7 +386,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     }
  }
  handleMedicalTab() {
-    console.log('stb-1medical->'+this.selectedTab);
   if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) { 
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
     this.selectedTab = "Health Information";
@@ -387,7 +402,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }else if(this.isMedicalModalOpen == false){ 
     this.isSharingTab = false;
     this.selectedTab = "Health Information"; 
-    console.log('stb-1->'+this.selectedTab);
     this.isMedicalTab = true;
     this.disableMedicalSaveButton = true;
      this.isParticipantDetail = false;
@@ -435,7 +449,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
 
   handleTabs(){
-    console.log('>>selectedTab>>'+this.selectedTab);
     this.statusDetailValueChanged = false;
     this.template.querySelector("lightning-tabset").activeTabValue =  this.selectedTab;
   }
@@ -465,7 +478,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
           this.delegateLevel = this.lststudysiteaccesslevel[this.selectedPE.siteId];
         }
     }
-    console.log('fetchAccessLevel:'+this.delegateLevel);
+  }
+  handlestatusspinner(){
+     this.saving ? this.saving=false:this.saving=true
   }
   hanldeProgressValueChange(event){
     this.progressValue=event.detail;
@@ -473,7 +488,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       L.classList.add("boxShadownone");
   });
  
-    console.log('this.progressValue parent',this.progressValue);
   }
   exportDisable=true;
   handleCount(event){
@@ -490,7 +504,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.showErrorToast('Error');
     }
   }
-  exportItem=false;addParticipant=false;siteAccessLevels;
+  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
@@ -523,7 +537,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       }
   }
   handleNewParticipant(){
-      console.log('study:'+this.selectedStudy+''+'site:'+this.selectedSite);
       this[NavigationMixin.Navigate]({
         type: 'comm__namedPage',
         attributes: {
@@ -563,6 +576,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   handleExportSelcted(event){
     this.template.querySelector("c-pir_participant-list").handleExport();
   }
+ 
+  handleExportAll(event){
+    this.template.querySelector("c-pir_participant-list").getExportAll();
+  }
   handleresetparent(event){
     this.onCancel();
   }
@@ -570,11 +587,146 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.countValue = 0;
       this.ondisableButton = true;
       this.saving = false;
+      this.isStatusChange = false;
   }
-  
+  get notesLabel() {
+      if(this.newStatusSelected == "Unable to Reach" && this.selectedreason == ""){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+      }else if(this.newStatusSelected == "Contacted - Not Suitable" && this.selectedreason == ""){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+      }else if(this.notesNeeded.includes(this.selectedreason)){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+       }else {
+         this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Optional;
+      }
+  }
+  changeInputValue(event) {
+    let datavalue = event.target.dataset.value;
+    if (event.target.dataset.value === "additionalNotes") {
+      this.additionalNote = event.target.value;
+      this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "FinalConsent") {
+      this.finalConsentvalue = event.target.checked;
+      this.bulkButtonValidation();
+    }
+  }
+  bulkButtonValidation(){
+    let notes = this.additionalNote.trim();
+    let btnValidationSuccess = false;
+    let validationList = [];
+     
+    //1.
+    if (this.notesNeeded.includes(this.selectedreason)) {
+        if (notes != null && notes != "" && notes.length != 0) {
+          btnValidationSuccess = true;
+          validationList.push(btnValidationSuccess);
+        } else {
+          btnValidationSuccess = false;
+          validationList.push(btnValidationSuccess);
+        }
+    }
+    //2.
+    if(this.finalConsentRequired == true){
+       if(this.finalConsentvalue == true){
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+       }else{
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+       }
+    }
+    //3.
+    if((this.newStatusSelected == "Unable to Reach" || this.newStatusSelected == "Contacted - Not Suitable") && this.selectedreason == ""){
+      if (notes != null && notes != "" && notes.length != 0) {
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+      } else {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
+   }
+
+    if(validationList.includes(false)) {
+       this.bulkSubmit = true;    
+    }else {
+      this.bulkSubmit = false;  
+    }
+  }
+
+  handleReasonChange(event){
+    if(event.target.value == null || event.target.value == ' '){
+       this.selectedreason = '';
+    }else{
+      this.selectedreason = event.detail.value;
+    }
+  }
+  isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
+  additionalNote = '';finalConsent=false;finalConsentRequired = false;
+  handleStatusChanges(event){
+    this.newStatusSelected = event.detail.newStatusSelected;
+    this.oParticipantStatus = event.detail.oParticipantStatus;
+    this.studyID = event.detail.studyId;
+ }
+ reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
-    this.openpopup=true;
+       this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
+       this.bulkStatusSpinner = true;
+       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
+      .then(result => {
+          let reasons = result.reason;
+          if(reasons != undefined){
+            if(reasons.charAt(0) == ';'){
+               reasons=reasons.substring(1);
+            }
+            let reasonList = reasons.split(";");
+            let trans_reasonopts = [];
+            for (let i = 0; i < reasonList.length; i++) {
+              let outcomeReason = reasonList[i];
+              if (outcomeReason.endsWith("*")) {
+                  outcomeReason = outcomeReason.substring(0,outcomeReason.length - 1);
+                  if(outcomeReason.length != 1){
+                    this.notesNeeded.push(outcomeReason);
+                  }else{
+                    this.notesNeeded.push('BLANK');
+                  }
+              }
+              trans_reasonopts.push({
+                label: this.utilLabels[outcomeReason],
+                value: outcomeReason
+              });
+             
+            }
+            this.reasoneoptions = trans_reasonopts;
+            if(this.newStatusSelected == "Contacted - Not Suitable"){
+              this.selectedreason ='';
+            }else{
+              this.selectedreason =  reasonList[0];
+            }
+            this.isReasonEmpty = false;
+          }else{
+             this.selectedreason ='';
+             this.isReasonEmpty = true;
+          }
+          if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
+              this.finalConsent = result.finalConsent;
+              if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
+                  this.finalConsentRequired = true;
+              }
+          }
+          this.bulkStatusSpinner =false;
+      })
+      .catch(error => {
+         console.log(error);
+         this.bulkStatusSpinner = false;
+         this.showErrorToast(error);  
+      });
+       this.isStatusChange=true;
     }
     else{
       this.openpopup=false;
@@ -589,9 +741,14 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     }
     
   }
-
+  handleBulkUpdate(){
+    this.template.querySelector("c-pir_participant-list").updateBulkStatusChange();
+    this.saving = true;
+  }
+  handleCloseStatus(){
+    this.isStatusChange = false;
+  }
   checkFormChanges(event) {
-    console.log('FormChangeEvent:'+JSON.stringify(event.detail));
     this.isSharingOptionsChanged = true;
     this.isSharingTab = true;
   }
