@@ -2,6 +2,7 @@
  * Created by Kryvolap on 21.09.2019.
  * Updated by Sumit Surve on 13.07.2020
  */
+
 ({
     doInit: function (component, event, helper) {
         communityService.executeAction(
@@ -116,7 +117,10 @@
     },
     helpTopicChanged: function (component, event, helper) {
         var helpTopicSettings = component.get('v.helpTopicSettings');
-        var selectedTopic = component.get('v.selectedTopic');
+        var selectedTopic =
+            $A.get('$Browser.formFactor') === 'DESKTOP'
+                ? component.get('v.selectedTopic')
+                : event.target.value;
         var selectedTopicSettings;
         if (selectedTopic !== '') {
             selectedTopicSettings = helpTopicSettings[selectedTopic];
@@ -128,6 +132,10 @@
                 descriptionPlaceholder: '',
                 submitRequired: false
             };
+        }
+        if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
+            let selection = component.get('v.helpTopicOptions')[selectedTopic].label;
+            component.set('v.placeholderText', selection);
         }
         component.set('v.selectedTopicSettings', selectedTopicSettings);
         component.set('v.didThisHelp', '');
@@ -165,5 +173,10 @@
             }
             helper.createNewCase(component, subject, text, type, priority, reason, true, escalated);
         }
+    },
+
+    toggleElement: function (component, event, helper) {
+        let element = document.getElementsByClassName('dropdown-menu');
+        element[0].classList.toggle('active');
     }
 });
