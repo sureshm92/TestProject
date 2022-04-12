@@ -92,7 +92,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     } else if (error) {
         this.error = error;
     }
-
+  }
   getTelevisitVisibility(peid){
     getTelevisitVisibility({ParticipantEnrollmentId : peid})
             .then((result) => {
