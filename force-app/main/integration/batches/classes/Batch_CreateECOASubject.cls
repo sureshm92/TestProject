@@ -39,7 +39,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
         perlist.addAll(pelist);
     }
 
-    public override void finish(Database.BatchableContext BC) {
+    public override void finalAction() {
         system.debug('perlist----->' + perlist);
         set<ID> peId = new Set<ID>();
         for (Participant_Enrollment__c pe : perlist) {
