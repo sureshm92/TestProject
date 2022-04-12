@@ -18,6 +18,7 @@ import showEyeTooltip from '@salesforce/label/c.Login_Form_Hide';
 import hideEyeTooltip from '@salesforce/label/c.Login_Form_Show';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
+import rhpp_loginerror from '@salesforce/label/c.rhpp_loginerror';
 
 export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @track isMobileApp;
@@ -61,7 +62,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         enterUsernameMsg,
         enterPasswordMsg,
         showEyeTooltip,
-        hideEyeTooltip
+        hideEyeTooltip,
+        rhpp_loginerror
     };
 
     connectedCallback() {

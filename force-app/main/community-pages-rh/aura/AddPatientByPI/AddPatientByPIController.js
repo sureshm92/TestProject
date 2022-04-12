@@ -50,6 +50,7 @@
     },
     
     checkMandatory: function (component, event, helper) {
+        component.find('consent-Manager').validateConsent();
         var formInputs =  component.find("dataDiv1").find({instancesOf : "lightning:select"});
         var formInputs2 = component.find("dataDiv1").find({instancesOf : "lightning:input"});
 
@@ -63,11 +64,11 @@
         if(selectYr){
             helper.checkGuardianAge(component, event, helper);
         }
-        var conCheck = component.find("checkbox-Contact");
+        /*var conCheck = component.find("checkbox-Contact");
         if(!document.getElementById("checkbox-unique-id-76").checked){
             document.getElementById("cnLabel").classList.add("chErr");
             document.getElementById("cnLabelErr").classList.remove("slds-hide");
-        }
+        }*/
         let editForm = component.find('editForm');
         editForm.resetDateInput();
         var toastEvent = $A.get("e.force:showToast");
@@ -200,5 +201,19 @@
 
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
+    },
+
+    handleConsentChange: function (component,event){
+        if(event.ap.consentMap.cType == 'study'){
+            component.set('v.isEmail', event.ap.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c);
+            component.set('v.doContact', event.ap.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c);
+            component.set('v.isPhone', event.ap.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c);
+            component.set('v.isSMS', event.ap.consentMap.pe.Permit_SMS_Text_for_this_study__c);
+            component.set('v.createUsers', false);
+        }else{
+            component.set('v.contactConsent.Participant_Opt_In_Status_Emails__c',event.ap.consentMap.contact.Participant_Opt_In_Status_Emails__c);
+            component.set('v.contactConsent.Participant_Opt_In_Status_SMS__c',event.ap.consentMap.contact.Participant_Opt_In_Status_SMS__c);
+            component.set('v.contactConsent.Participant_Phone_Opt_In_Permit_Phone__c',event.ap.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c);
+        }
     }
 });
