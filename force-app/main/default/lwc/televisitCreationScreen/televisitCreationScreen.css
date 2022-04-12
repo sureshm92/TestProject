@@ -1,0 +1,143 @@
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.btn-height{
+    height: 40px;
+}
+.save-btn{
+    float: right;
+    margin-left: 15px;
+}
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
+}
+.save-btn-p{
+    text-align:right;
+    padding: 12px 27px;
+}
+
+.lightningCard{
+    border: 1px solid #dedede;
+    margin: 10px 0px 10px 0px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px 1px #dedede;
+    font-family: Proxima Nova;
+}
+
+.closeButtopnIcon:hover{
+    background-color: #ff4d4a;
+    --lwc-colorTextIconDefault: white;
+}
+
+.inputFields{
+    font-size:16px;
+}
+
+
+.vertical-scroll{
+    height: 51vh;
+    overflow: auto;
+    padding: 0px 5px 0px 0px;
+    overflow-x: hidden;
+    margin-top: 10px;
+}
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+}
+/* Scrollbar Code End */
+
+textdecoration{
+    color: #000000 !important;
+    font-family: 'Proxima Nova' !important;
+    font-size: 16px !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+/*  Tooltip for Text length overflow  */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+  }
+.tooltip .tooltiptextTop {
+    visibility: hidden;
+    width: auto;
+    background-color: #444444;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 6px;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  .tooltip .tooltiptextTop::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 7px;
+      border-style: solid;
+      border-color: #444444 transparent transparent transparent;
+  }
+  .tooltip:hover .tooltiptextTop {
+    visibility: visible;
+  }
+  /* --------END Top --------------- */
+  .tooltip .tooltiptextBottom {
+    visibility: hidden;
+    width: 200px;
+    background-color: #444444;
+    color: #fff;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: -200%;
+    margin-left: -60px;
+  }
+  
+  .tooltip .tooltiptextBottom::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent #444444 transparent;
+  }
+  
+  .tooltip:hover .tooltiptextBottom {
+    visibility: visible;
+  }

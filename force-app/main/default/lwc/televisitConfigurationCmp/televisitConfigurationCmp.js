@@ -1,0 +1,384 @@
+import { LightningElement,api,track} from 'lwc';
+import gettelevisitrecorddetails from '@salesforce/apex/televisitConfigurationController.getinitData';
+import createtelevisitvendor from '@salesforce/apex/televisitConfigurationController.createtelevisitvendorrecord';
+import createorupdatetvs from '@salesforce/apex/televisitConfigurationController.createorupdatetvsrecord';
+import selectallstudysite from '@salesforce/apex/televisitConfigurationController.selectallstudysites';
+import deselectallstudysite from '@salesforce/apex/televisitConfigurationController.deselectallstudysites';
+import deletevendordetails from '@salesforce/apex/televisitConfigurationController.deleteVendor';
+import updatestudysitedetails from '@salesforce/apex/televisitConfigurationController.updatestudysite';
+import saveLabel from '@salesforce/label/c.Save';
+import cancelLabel from '@salesforce/label/c.Cancel';
+import selectcountryLabel from '@salesforce/label/c.RH_RP_Select_Country';
+import selecttelevisitvendorLabel from '@salesforce/label/c.Select_Televisit_Vendor';
+import studysiteLabel from '@salesforce/label/c.TS_Select_Study_Site';
+import addvendorLabel from '@salesforce/label/c.TS_Add_Vendor';
+import addtelevisitvendorLabel from '@salesforce/label/c.Add_Televisit_Vendor';
+import televisitrecvendorLabel from '@salesforce/label/c.Televisit_Record_Vendor_Name';
+import DescriptionLabel from '@salesforce/label/c.Description';
+import countryLabel from '@salesforce/label/c.RH_RP_Country';
+import studysitLabel from '@salesforce/label/c.Study_Site';
+import studysitNumbrLabel from '@salesforce/label/c.TS_Study_Site_Number';
+import bannerdisplayLabel from '@salesforce/label/c.Banner_Display_Offset_Time';
+import bannerdisposeLabel from '@salesforce/label/c.Banner_dispose';
+import offsetTimeLabel from '@salesforce/label/c.offset_time';
+import selectallLabel from '@salesforce/label/c.Select_All_PI';
+import clearallLabel from '@salesforce/label/c.RPR_Clear_All';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+export default class TelevisitConfigurationCmp extends LightningElement {
+    label = {
+        saveLabel,
+        cancelLabel,
+        selectcountryLabel,
+        selecttelevisitvendorLabel,
+        studysiteLabel,
+        addvendorLabel,
+        addtelevisitvendorLabel,
+        televisitrecvendorLabel,
+        DescriptionLabel,
+        countryLabel,
+        studysitLabel,
+        studysitNumbrLabel,
+        bannerdisplayLabel,
+        bannerdisposeLabel,
+        offsetTimeLabel,
+        selectallLabel,
+        clearallLabel
+        
+
+    };
+    @api recordId;   
+    venders; 
+    televisitdetails = [];
+    totalstudysitelist = [];
+    isModalOpen = false;
+    vendername;
+    venderdescription;
+    countryArray = [];
+    countryArraySet = [];
+    vendorArray = [];
+    studysiteArray = [];
+    showOppLookup1 = false;
+    showOppLookup2 = false;
+    showOppLookup3 = false;
+    selectedVendors;
+    selectedStudysite;
+    selectedcountrylist;
+    selectedcountry = [];
+    rowNumberOffset;
+    telelength;
+    uparrow = true;
+    downarrow = false;
+    sortingorder = 'ASC';
+    toupsertcheck = false;
+    vendorId;
+    picklistoptions =[];
+    showpagenation = false;
+    vendercreationcheck = true;
+    showTelevisitscreen = false;
+    connectedCallback() {
+        this.getteledetails(this.recordId);
+    }
+
+    getteledetails(itemId) {
+        this.televisitdetails = [];
+        this.totalstudysitelist = [];
+        this.showpagenation = false;
+
+        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendor:this.selectedVendors,study:this.selectedStudysite,sortingOrder:this.sortingorder })
+        .then((result) => {
+            this.venders = result.trvList;
+            this.showTelevisitscreen = result.televisitpermissioncheck;
+            this.televisitdetails = result.ResponeWrapperList;
+            this.totalstudysitelist = result.ResponeWrapperList;
+            this.telelength = this.televisitdetails.length;
+            let options = [];
+                 
+            for (var key in result.picklistvalues) {
+                options.push({ label: result.picklistvalues[key], value: result.picklistvalues[key]  });
+            }
+            this.picklistoptions = options;
+            for(let i=0; i<result.studysiteList.length; i++){
+                if(result.studysiteList[i].Site__r.BillingCountry != '' && result.studysiteList[i].Site__r.BillingCountry != undefined &&
+                !this.countryArraySet.includes(result.studysiteList[i].Site__r.BillingCountry)){
+                    let obj = {id: result.studysiteList[i].Site__r.BillingCountry, value: result.studysiteList[i].Site__r.BillingCountry, icon:'utility:check'};
+                    this.countryArray.push(obj);
+                    this.countryArraySet.push(result.studysiteList[i].Site__r.BillingCountry);
+                }
+            }
+            this.showOppLookup1 = true;
+            this.vendorArray = [];
+            for(let i=0; i<result.trvList.length; i++){
+                let obj = {id: result.trvList[i].Id, value: result.trvList[i].Name, icon:'utility:check'};
+                this.vendorArray.push(obj);
+            }
+            
+            this.showOppLookup2 = true;
+            for(let i=0; i<result.studysiteList.length; i++){
+                let obj = {id: result.studysiteList[i].Id, value: result.studysiteList[i].Name, icon:'utility:check'};
+                this.studysiteArray.push(obj);
+            }
+            this.showOppLookup3 = true;
+            this.showpagenation = true;
+        })
+        .catch((error) => {
+            console.log(JSON.stringify(error));
+        });
+    }
+
+    createvendor(){
+        this.vendorId = '';
+        this.vendername = '';
+        this.isModalOpen = true;
+        this.vendorId = '';
+    }
+    closeModal() {
+        this.vendorId = '';
+        this.vendername = '';
+        this.isModalOpen = false;
+    }
+    submitDetails(){
+            createtelevisitvendor({ name:this.vendername,description:this.venderdescription,vendorId:this.vendorId})
+            .then((result) => {
+                console.log('result-->'+result);
+                
+                this.vendercreationcheck = true;
+                if(result != '' && result != undefined ){
+                    const event = new ShowToastEvent({
+                        title: 'Error',
+                        message: result,
+                        variant: 'error',
+                        mode: 'dismissable'
+                    });
+                    this.dispatchEvent(event);
+                    this.isModalOpen = true;
+                }else{
+                    this.isModalOpen = false;
+                    this.getteledetails(this.recordId);
+                }
+            })
+            .catch((error) => {
+                this.vendercreationcheck = true;
+                console.log(JSON.stringify(error));
+            });
+        
+    } 
+    updatevendername(event){
+        this.vendername = event.target.value;
+        if(this.vendername != '' && this.vendername != '' && this.vendername != undefined && this.vendername.trim() != '' ){
+            this.vendercreationcheck = false;
+        }else{
+            this.vendercreationcheck = true;
+        }
+    }
+
+    updatevenderdesc(event){
+        this.venderdescription = event.target.value;
+    }
+
+    handleOppsChange(event){
+        let opps = event.detail;
+        this.selectedcountrylist = '';
+        
+        opps.forEach(opp => {
+            this.selectedcountrylist += opp.id+';';
+        });
+        let splt = this.selectedcountrylist.split(';');
+            this.selectedcountry=[];
+        for(let i=0; i<splt.length; i++){
+            if(splt[i] != '' && splt[i] != undefined){
+                this.selectedcountry.push(splt[i]);
+            }
+        }
+        this.getteledetails(this.recordId);
+
+    }
+
+    selectedVendor(event){
+        let opps = event.detail;
+        this.selectedVendors = '';
+        opps.forEach(opp => {
+            this.selectedVendors += opp.id+';';
+            
+        });
+        this.getteledetails(this.recordId);
+    }
+
+    selectedStusysite(event){
+
+        let opps = event.detail;
+        this.selectedStudysite = '';
+        opps.forEach(opp => {
+            this.selectedStudysite += opp.id+';';
+        });
+        this.getteledetails(this.recordId);
+    }
+
+    handleClick(event) {
+        let targetId = event.target.dataset.targetId;
+        let studyId = event.currentTarget.dataset.id;
+        var totalRecords = [];
+
+        for(var i in this.totalstudysitelist) {
+            let row = Object.assign({}, this.totalstudysitelist[i]);
+            for(var j in row.vendorrapperlist){
+                let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
+                if(targetId == vendorRow.vendorId && studyId ==  this.totalstudysitelist[i].studysiteid){
+                    if(event.target.checked){
+                        vendorRow.isEnable = true;
+                        row.vendorrapperlist[j] = vendorRow;
+                    }
+                    else{
+                        vendorRow.isEnable = false;
+                        row.vendorrapperlist[j] = vendorRow;
+                    }
+                }
+            }
+            totalRecords.push(row);
+        }
+        this.totalstudysitelist = [];
+        this.totalstudysitelist = totalRecords;
+        createorupdatetvs({ studyId:studyId,vendorId:targetId,isEnable:event.target.checked})
+            .then((result) => {
+                console.log('result-->'+result);
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error));
+            });
+    }
+
+    //Select all records
+    selectallstudysites(event){
+        let vendorRecId = event.currentTarget.dataset.id;
+        console.log(vendorRecId);
+        var totalRecords = [];
+        for(var i in this.totalstudysitelist) {
+            let row = Object.assign({}, this.totalstudysitelist[i]);
+            for(var j in row.vendorrapperlist){
+                let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
+                if(vendorRecId == vendorRow.vendorId){
+                    vendorRow.isEnable = true;
+                }
+                row.vendorrapperlist[j] = vendorRow;
+            }
+            totalRecords.push(row);
+        }
+        this.totalstudysitelist = [];
+        this.totalstudysitelist = totalRecords;
+
+        selectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
+        .then((result) => {
+            console.log('result-->'+result);
+        })
+        .catch((error) => {
+            console.log(JSON.stringify(error));
+        });
+    }
+
+    deselectallstudysites(event){
+        let vendorRecId = event.currentTarget.dataset.id;
+        var totalRecords = [];
+                    
+        for(var i in this.totalstudysitelist) {
+            let row = Object.assign({}, this.totalstudysitelist[i]);
+            for(var j in row.vendorrapperlist){
+                let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
+                if(vendorRecId === vendorRow.vendorId){
+                    vendorRow.isEnable = false;
+                }
+                row.vendorrapperlist[j] = vendorRow;
+            }
+            totalRecords.push(row);
+        }
+        this.totalstudysitelist = [];
+        this.totalstudysitelist = totalRecords;
+        deselectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
+        .then((result) => {
+            console.log('result-->'+result);
+            //  this.televisitdetails = result;
+            // this.getteledetails(this.recordId);
+        })
+        .catch((error) => {
+            console.log(JSON.stringify(error));
+        });
+    }
+
+    handleOnselect(event){
+        var selectedVal = event.detail.value;
+        let vendorId = event.currentTarget.dataset.id;
+        let vendorName = event.target.dataset.targetId;
+        this.vendername = '';
+        this.venderdescription = '';
+        this.toupsertcheck = false;
+        if(selectedVal == 'Clone'){
+            this.vendorId = '';
+            this.vendername = vendorName + selectedVal;
+            this.isModalOpen = true;
+        }else if(selectedVal == 'Remove'){
+            deletevendordetails({ vendorId:vendorId})
+            .then((result) => {
+                console.log('result-->'+result);
+                this.getteledetails(this.recordId);
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error));
+            });
+        }
+        else if(selectedVal == 'Edit'){
+            this.vendername = vendorName; 
+            this.isModalOpen = true;
+            this.toupsertcheck = true;
+            this.vendorId = vendorId;
+        }
+    }
+    handleTypeChange(event){
+        let studysiteid = event.currentTarget.dataset.id;
+        let  comboboxname = event.target.dataset.targetId;
+        let  selectedValue = event.detail.value;
+        console.log('============='+selectedValue);
+        var totalRecords = [];
+
+        for(var i in this.totalstudysitelist) {
+            let row = Object.assign({}, this.totalstudysitelist[i]);
+            if(studysiteid ==  this.totalstudysitelist[i].studysiteid && comboboxname == 'displyoffsettime'){
+                row.bannerdisplayoffsettime = selectedValue;
+            }
+            if(studysiteid ==  this.totalstudysitelist[i].studysiteid && comboboxname == 'disposeoffsettime'){
+                row.bannerdisposeoffsettime = selectedValue;
+            }
+            totalRecords.push(row);
+        }
+
+        this.totalstudysitelist = [];
+        this.totalstudysitelist = totalRecords;
+
+        updatestudysitedetails({ studysiteId:studysiteid,comboboxname:comboboxname,selValue:selectedValue})
+        .then((result) => {
+            console.log('result-->'+result);
+          //  this.getteledetails(this.recordId);
+        })
+        .catch((error) => {
+            console.log(JSON.stringify(error));
+        });
+        
+    }
+    
+    sortRecs(event){
+        if(this.uparrow){
+            this.downarrow = true;
+            this.uparrow = false;
+            this.sortingorder = 'DESC';
+            this.getteledetails(this.recordId);
+        }else{
+            this.downarrow = false;
+            this.uparrow = true;
+            this.sortingorder = 'ASC';
+            this.getteledetails(this.recordId);
+        }
+    }
+    
+    handlePaginatorChanges(event) {
+        this.televisitdetails = event.detail;
+        this.rowNumberOffset = this.televisitdetails[0].rowNumber - 1;
+    }
+}
