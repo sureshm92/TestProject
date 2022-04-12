@@ -55,6 +55,10 @@ export default class ConsentManager extends LightningElement {
     studySite;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
 
+    constructor(){
+        super();
+        this.clearConsents();
+    }
     @api
     get callSource() {
         return this._callSource;
