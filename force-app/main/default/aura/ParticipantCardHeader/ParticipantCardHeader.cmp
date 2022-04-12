@@ -2,162 +2,172 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
+<aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="pe" type="Object" />
     <aura:attribute name="isReferral" type="Boolean" />
     <aura:attribute name="isInvited" type="Boolean" />
-    <aura:attribute name="sendToSHDate" type="Date" default="false"/> 
+    <aura:attribute name="sendToSHDate" type="Date" default="false" />
 
     <!--added for the performance issue-->
     <!--aura:attribute name="parent" type="Aura.Component" required="true"/>
     <aura:attribute name="parentSE" type="Aura.Component" required="true"/-->
 
     <!-- component body: -->
-    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative"> 
+    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative">
         <div class="slds-grid">
-        <aura:if isTrue="{!v.pe.Participant__c}">
-            
+            <aura:if isTrue="{!v.pe.Participant__c}">
                 <div class="slds-media__body">
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <div class="slds-grid">
+                            <div class="col">
+                                <div class="vpi-tile-title">
+                                    {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div
+                                    class="{! if(v.isRTL, if(v.communityName == 'GSK Community' , 'objective-linkRTLGSK', 'objective-linkRTL') , if(v.communityName == 'GSK Community', 'objective-linkGSK' , 'objective-link'))}"
+                                >
+                                    <c:RRLink
+                                        page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                                    >
+                                        <aura:if isTrue="{!v.isRTL}"
+                                            >{!$Label.c.BTN_Learn_More}<c:RRIcon
+                                                iconName="icon-chevron-left"
+                                        /></aura:if>
 
-            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                <div class="slds-grid">
-                    <div class="col">
-                        <div class="vpi-tile-title">
-                            {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
-                        </div> 
-                    </div>
-                    <div class="col">
-                        <div class="{! if(v.isRTL, if(v.communityName == 'GSK Community' , 'objective-linkRTLGSK', 'objective-linkRTL')  , if(v.communityName == 'GSK Community', 'objective-linkGSK' , 'objective-link'))}">
-                            <c:RRLink
-                                      page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
-                                      >
-                                <aura:if isTrue="{!v.isRTL}"
-                                         >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"
-                                                                              /></aura:if>
-                                
-                                <aura:if isTrue="{!!v.isRTL}"
-                                         >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"
-                                                                              /></aura:if>
-                            </c:RRLink>
+                                        <aura:if isTrue="{!!v.isRTL}"
+                                            >{!$Label.c.BTN_Learn_More}<c:RRIcon
+                                                iconName="icon-chevron-right"
+                                        /></aura:if>
+                                    </c:RRLink>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="sponsor-name">
-                    {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c}
-                </div>
-                <div class="objective-section">
-                    <div class="objective-text">
-                        {!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}
-                    </div>
-                </div>
-                <aura:set attribute="else">
-                    <aura:if isTrue="{!not(v.isReferral)}">
-
-                        <div  class="vpi-title" style="margin-bottom: 20px">
-                            {!v.pe.Participant__r.First_Name__c + ' ' +
-                            v.pe.Participant__r.Last_Name__c}
+                        <div class="sponsor-name">
+                            {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c}
+                        </div>
+                        <div class="objective-section">
+                            <div class="objective-text">
+                                {!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}
+                            </div>
                         </div>
                         <aura:set attribute="else">
-                            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                                <c:RRLink
-                                    class="vpi-title"
-                                    page="{!'patient-profile?id=' + v.pe.Participant__c}"
-                                    >{!v.pe.Participant__r.First_Name__c + ' ' +
-                                    v.pe.Participant__r.Last_Name__c}</c:RRLink
-                                >
+                            <aura:if isTrue="{!not(v.isReferral)}">
+                                <div class="vpi-title" style="margin-bottom: 20px">
+                                    {!v.pe.Participant__r.First_Name__c + ' ' +
+                                    v.pe.Participant__r.Last_Name__c}
+                                </div>
                                 <aura:set attribute="else">
-                                    <c:RRLink
-                                        class="vpi-title"
-                                        page="{!'referral-profile?id=' + v.pe.Id}"
-                                        >{!v.pe.Participant__r.First_Name__c + ' ' +
-                                        v.pe.Participant__r.Last_Name__c}</c:RRLink
-                                    >
+                                    <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                        <c:RRLink
+                                            class="vpi-title"
+                                            page="{!'patient-profile?id=' + v.pe.Participant__c}"
+                                            >{!v.pe.Participant__r.First_Name__c + ' ' +
+                                            v.pe.Participant__r.Last_Name__c}</c:RRLink
+                                        >
+                                        <aura:set attribute="else">
+                                            <c:RRLink
+                                                class="vpi-title"
+                                                page="{!'referral-profile?id=' + v.pe.Id}"
+                                                >{!v.pe.Participant__r.First_Name__c + ' ' +
+                                                v.pe.Participant__r.Last_Name__c}</c:RRLink
+                                            >
+                                        </aura:set>
+                                    </aura:if>
                                 </aura:set>
                             </aura:if>
                         </aura:set>
-
                     </aura:if>
-                </aura:set>
-            </aura:if>
-            <aura:set attribute="else">
-                <div class="vpi-title" style="margin-bottom: 20px">
-                    {!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName + ')',
-                    '')}
-                </div>
-            </aura:set>
-            </div>
-            <div class="slds-no-flex">
-
-            <aura:if isTrue="{!v.userMode == 'PI'}">
-                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
-                    <div class="slds-has-block-links--space3" data-gtm="Label_Action_Required">
-                        {!$Label.c.Action_Required}
-                    </div>
                     <aura:set attribute="else">
-
-                        <aura:if isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c =='Traditional'}">
-                            
-                            <aura:if isTrue = "{!v.isInvited &amp;&amp; and(v.pe.Invited_To_PP_Date__c!=null,v.pe.Invited_To_PP_Date__c!=undefined)}">
-
-                                <div class="slds-has-block-links--spacepurple"
-                                     data-gtm="{!$Label.c.Community_PP}">
-                                    <img
-                                         src="{!$Resource.paperplane_pp_sh}"
-                                         class="icon-checkmark"
-                                         />
-                                    {!$Label.c.Community_PP}
-                                </div>
-                                <aura:set attribute="else">
-                                    
-                                    <div class="slds-has-block-links--space2"
-                                         data-gtm="{!$Label.c.Community_PP}">
-                                        <img
-                                             src="{!$Resource.paperplane_pp_sh}"
-                                             class="icon-checkmark"
-                                             />
-                                        {!$Label.c.Community_PP}
-                                    </div>
-                                </aura:set>
-                            </aura:if>    
-                          <aura:set attribute="else">
-                             <aura:if isTrue = "{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c  &amp;&amp; or(v.pe.Study_Site__r.Study_Site_Type__c =='Virtual',v.pe.Study_Site__r.Study_Site_Type__c =='Hybrid')}">
-                                 <aura:if isTrue = "{!and(v.sendToSHDate!=null,v.sendToSHDate!=undefined)}">
-                                     
-                                     <div class="slds-has-block-links--spaceblue"
-                                          data-gtm="{!$Label.c.Study_Hub}">
-                                         <img
-                                              src="{!$Resource.paperplane_pp_sh}"
-                                              class="icon-checkmark"
-                                              />
-                                         {!$Label.c.Study_Hub}
-                                     </div>
-                                  <aura:set attribute="else">
-                                      
-                                     <div class="slds-has-block-links--space2"
-                                          data-gtm="{!$Label.c.Study_Hub}">
-                                         <img
-                                              src="{!$Resource.paperplane_pp_sh}"
-                                              class="icon-checkmark"
-                                              />
-                                         {!$Label.c.Study_Hub}
-                                      </div>
-                                  </aura:set> 
-                             	 </aura:if>
-                             </aura:if>
-                           </aura:set>
-                        </aura:if>
-                        
+                        <div class="vpi-title" style="margin-bottom: 20px">
+                            {!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName
+                            + ')', '')}
+                        </div>
                     </aura:set>
-                </aura:if>
+                </div>
+                <div class="slds-no-flex">
+                    <aura:if isTrue="{!v.userMode == 'PI'}">
+                        <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
+                            <div
+                                class="slds-has-block-links--space3"
+                                data-gtm="Label_Action_Required"
+                            >
+                                {!$Label.c.Action_Required}
+                            </div>
+                            <aura:set attribute="else">
+                                <aura:if
+                                    isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c =='Traditional'}"
+                                >
+                                    <aura:if
+                                        isTrue="{!v.isInvited &amp;&amp; and(v.pe.Invited_To_PP_Date__c!=null,v.pe.Invited_To_PP_Date__c!=undefined)}"
+                                    >
+                                        <div
+                                            class="slds-has-block-links--spacepurple"
+                                            data-gtm="{!$Label.c.Community_PP}"
+                                        >
+                                            <img
+                                                src="{!$Resource.paperplane_pp_sh}"
+                                                class="icon-checkmark"
+                                            />
+                                            Patient Portal
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div
+                                                class="slds-has-block-links--space2"
+                                                data-gtm="{!$Label.c.Community_PP}"
+                                            >
+                                                <img
+                                                    src="{!$Resource.paperplane_pp_sh}"
+                                                    class="icon-checkmark"
+                                                />
+                                                {!$Label.c.Community_PP}
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        <aura:if
+                                            isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c  &amp;&amp; or(v.pe.Study_Site__r.Study_Site_Type__c =='Virtual',v.pe.Study_Site__r.Study_Site_Type__c =='Hybrid')}"
+                                        >
+                                            <aura:if
+                                                isTrue="{!and(v.sendToSHDate!=null,v.sendToSHDate!=undefined)}"
+                                            >
+                                                <div
+                                                    class="slds-has-block-links--spaceblue"
+                                                    data-gtm="{!$Label.c.Study_Hub}"
+                                                >
+                                                    <img
+                                                        src="{!$Resource.paperplane_pp_sh}"
+                                                        class="icon-checkmark"
+                                                    />
+                                                    {!$Label.c.Study_Hub}
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div
+                                                        class="slds-has-block-links--space2"
+                                                        data-gtm="{!$Label.c.Study_Hub}"
+                                                    >
+                                                        <img
+                                                            src="{!$Resource.paperplane_pp_sh}"
+                                                            class="icon-checkmark"
+                                                        />
+                                                        {!$Label.c.Study_Hub}
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
+                </div>
+
+                <!--Added for performance tuning -->
+                <!--a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a-->
             </aura:if>
-            </div>
-
-
-            <!--Added for performance tuning -->
-            <!--a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a-->
-        </aura:if>
+        </div>
     </div>
-</div>
 </aura:component>

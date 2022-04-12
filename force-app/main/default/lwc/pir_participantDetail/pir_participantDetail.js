@@ -51,6 +51,18 @@ import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Prefe
 import This_Participant_has_reached_legal_age_of_emancipation from '@salesforce/label/c.This_Participant_has_reached_legal_age_of_emancipation';
 import BTN_Verify from '@salesforce/label/c.BTN_Verify';
 import PG_MT_T_Your_permissions_do_not_permit_this_action from '@salesforce/label/c.PG_MT_T_Your_permissions_do_not_permit_this_action';
+import January from '@salesforce/label/c.January'
+import February from '@salesforce/label/c.February'
+import March from '@salesforce/label/c.March'
+import April from '@salesforce/label/c.April'
+import May from '@salesforce/label/c.May'
+import June from '@salesforce/label/c.June'
+import July from '@salesforce/label/c.July'
+import August from '@salesforce/label/c.August'
+import September from '@salesforce/label/c.September'
+import October from '@salesforce/label/c.October'
+import November from '@salesforce/label/c.November'
+import December from '@salesforce/label/c.December'
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -62,6 +74,7 @@ export default class Pir_participantDetail extends LightningElement {
     delegateMinor =false;
     disableEdit = false;
     saveoffCount = 100;
+    isOutreachUpdated = false;
     fieldMap = new Map([["src" , "MRN_Id__c"],
 				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
@@ -345,7 +358,8 @@ export default class Pir_participantDetail extends LightningElement {
         this.selectedEthinicity = this.selectedEthinicity.concat(tempList); 
         if(this.fcsEth)
             this.template.querySelector('.eBox').focus();  
-        this.fcsEth = true;     
+        this.fcsEth = true;    
+        this.toggleSave(); 
     }
     removeE(event){
         this.template.querySelector("input[value='"+event.currentTarget.dataset.id+"']").checked = false;
@@ -359,6 +373,7 @@ export default class Pir_participantDetail extends LightningElement {
         }
         this.selectedEthinicity = [];
         this.pd['pe']['Participant__r']['Ethnicity__c'] = "";
+        this.toggleSave();
     }
     //ethinicity end
 
@@ -396,18 +411,18 @@ export default class Pir_participantDetail extends LightningElement {
     get optionsMM() {
         var opt = [];
         // opt.push({label: '--', value:'--' });
-        opt.push({label: 'January', value:'01' });
-        opt.push({label: 'Febuary', value:'02' });
-        opt.push({label: 'March', value:'03' });
-        opt.push({label: 'April', value:'04' });
-        opt.push({label: 'May', value:'05' });
-        opt.push({label: 'June', value:'06' });
-        opt.push({label: 'July', value:'07' });
-        opt.push({label: 'August', value:'08' });
-        opt.push({label: 'September', value:'09' });
-        opt.push({label: 'October', value:'10' });
-        opt.push({label: 'November', value:'11' });
-        opt.push({label: 'December', value:'12' });        
+        opt.push({label: January, value:'01' });
+        opt.push({label: February, value:'02' });
+        opt.push({label: March, value:'03' });
+        opt.push({label: April, value:'04' });
+        opt.push({label: May, value:'05' });
+        opt.push({label: June, value:'06' });
+        opt.push({label: July, value:'07' });
+        opt.push({label: August, value:'08' });
+        opt.push({label: September, value:'09' });
+        opt.push({label: October, value:'10' });
+        opt.push({label: November, value:'11' });
+        opt.push({label: December, value:'12' });       
         return opt;
     }
     get optionsYYYY() {
@@ -909,7 +924,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,delegateCriteria:this.delOp})
+        doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
         .then(result => {
             this.dispatchEvent(new CustomEvent('toggleclick'));
             this.dispatchEvent(new CustomEvent('handletab'));
@@ -949,6 +964,21 @@ export default class Pir_participantDetail extends LightningElement {
         }        
         return false;
     }
+
+    handleConsentUpdate(event){
+        if(event.detail.consentMap.cType == 'study'){
+            this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
+            this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = event.detail.consentMap.pe.Permit_SMS_Text_for_this_study__c;
+            this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c;
+        }
+        if(event.detail.consentMap.cType == 'outreach'){
+            this.isOutreachUpdated = true;
+            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
+            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
+            this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
+        }
+    }
+
     //Labels
     BTN_Participant_Information=BTN_Participant_Information;
     PG_AS_F_First_name=PG_AS_F_First_name;

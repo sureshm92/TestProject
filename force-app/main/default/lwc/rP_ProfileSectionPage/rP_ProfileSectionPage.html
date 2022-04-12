@@ -2,93 +2,161 @@
 <template>
     <div class="slds-m-around_large">
         <div if:true={isLoading} class="slds-is-relative">
-            <lightning-spinner alternative-text="Loading..." variant="brand">
-            </lightning-spinner>
+            <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
         </div>
     </div>
     <div class="rightColContent">
         <template for:each={peRecordList} for:item="pe">
             <lightning-layout multiple-rows="true" key={pe.Id}>
-                <lightning-layout-item padding="around-small" size="8" small-device-size="4" class="patientInfo">
+                <lightning-layout-item
+                    padding="around-small"
+                    size="8"
+                    small-device-size="4"
+                    class="patientInfo"
+                >
                     <div class="profile-patientID">{pe.peRecord.Patient_ID__c}</div>
                     <div class="profile-patientName">
-                        {pe.peRecord.Participant_Name__c}
-                        {pe.peRecord.Participant_Surname__c}
+                        {pe.peRecord.Participant_Name__c} {pe.peRecord.Participant_Surname__c}
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="4" small-device-size="8" class="actionButtons">
+                <lightning-layout-item
+                    padding="around-small"
+                    size="4"
+                    small-device-size="8"
+                    class="actionButtons"
+                >
                     <div class="actionButtons slds-show_medium">
-                       <!--<template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>-->
-                       <!--   <template if:true={showOutreachButton}>-->
-                            <button class="apollo-btn secondary search-more-btn" disabled={disabledOutreachButton}
-                            onclick={openOutreach} title={label.RH_RP_OutreachEmail}>
-                            <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email">
-                            </lightning-button-icon> &nbsp;
-                                {label.RH_RP_Outreach_Email}
-                            </button>
+                        <!--<template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>-->
+                        <!--   <template if:true={showOutreachButton}>-->
+                        <button
+                            class="apollo-btn secondary search-more-btn ButtonRTL"
+                            disabled={disabledOutreachButton}
+                            onclick={openOutreach}
+                            title={label.RH_RP_OutreachEmail}
+                        >
+                            <lightning-button-icon
+                                variant="bare"
+                                class="removeborder"
+                                icon-name="utility:email"
+                            >
+                            </lightning-button-icon>
+                            &nbsp; {label.RH_RP_Outreach_Email}
+                        </button>
                         <!--  </template>-->
                         <template if:true={showExclude}>
-                            <button class="apollo-btn secondary search-more-btn" onclick={openExcludeModal}
-                                title={label.RH_RP_Exclude_From_Referring} disabled={referbuttonDisable}>
-                                <lightning-button-icon icon-name="utility:close" variant="bare"></lightning-button-icon>
-                                &nbsp;
-                                {label.RH_RP_Exclude}
+                            <button
+                                class="apollo-btn secondary search-more-btn"
+                                onclick={openExcludeModal}
+                                title={label.RH_RP_Exclude_From_Referring}
+                                disabled={referbuttonDisable}
+                            >
+                                <lightning-button-icon
+                                    icon-name="utility:close"
+                                    variant="bare"
+                                ></lightning-button-icon>
+                                &nbsp; {label.RH_RP_Exclude}
                             </button>
                         </template>
 
                         <template if:true={showInclude}>
-                            <button class="apollo-btn secondary search-more-btn" onclick={openIncludeModal}
-                                title={label.RH_RP_Include_From_Referring} disabled={referbuttonDisable}>
-                                <lightning-button-icon icon-name="utility:add" variant="bare"></lightning-button-icon>
-                                &nbsp;
-                                {label.RH_RP_Include}
+                            <button
+                                class="apollo-btn secondary search-more-btn"
+                                onclick={openIncludeModal}
+                                title={label.RH_RP_Include_From_Referring}
+                                disabled={referbuttonDisable}
+                            >
+                                <lightning-button-icon
+                                    icon-name="utility:add"
+                                    variant="bare"
+                                ></lightning-button-icon>
+                                &nbsp; {label.RH_RP_Include}
                             </button>
                         </template>
 
                         <template if:true={showMRR}>
-                            <button class="apollo-btn primary search-more-btn" onclick={showmedicalreview}
-                                title="Medical Review">
-                                <lightning-button-icon icon-name="utility:edit" variant="bare-inverse">
-                                </lightning-button-icon> &nbsp;
-                                {label.RH_RP_Medical_Review}
+                            <button
+                                class="apollo-btn primary search-more-btn"
+                                onclick={showmedicalreview}
+                                title="Medical Review"
+                            >
+                                <lightning-button-icon
+                                    icon-name="utility:edit"
+                                    variant="bare-inverse"
+                                >
+                                </lightning-button-icon>
+                                &nbsp; {label.RH_RP_Medical_Review}
                             </button>
                         </template>
                         <template if:true={showRefer}>
-                            <button class="apollo-btn apollo-btn-rtl primary search-more-btn" onclick={doRedirectToReferPatient}
-                                title="Refer" disabled={referbuttonDisable}>
+                            <button
+                                class="apollo-btn apollo-btn-rtl primary search-more-btn"
+                                onclick={doRedirectToReferPatient}
+                                title="Refer"
+                                disabled={referbuttonDisable}
+                            >
                                 {label.RH_RP_Refer}
                             </button>
                         </template>
                     </div>
                     <!-- Imteyaz code for Action button dropdown -->
-                    <lightning-button-menu menu-alignment="auto" class="slds-hide_medium" alternative-text="Show menu"
-                        label="Actions" onselect={handleMenuItem}>
+                    <lightning-button-menu
+                        menu-alignment="auto"
+                        class="slds-hide_medium"
+                        alternative-text="Show menu"
+                        label="Actions"
+                        onselect={handleMenuItem}
+                    >
                         <!--<template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>-->
-                       <!-- <template if:true={showOutreachButton}>-->
+                        <!-- <template if:true={showOutreachButton}>-->
 
-                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
-                                label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
-                                title={label.RH_RP_OutreachEmail} disabled={disabledOutreachButton}>
-                            </lightning-menu-item>
-                         <!-- </template>-->
+                        <lightning-menu-item
+                            class="label-icon-color"
+                            prefix-icon-name="utility:email"
+                            label={label.RH_RP_Outreach_Email}
+                            value="medical-review"
+                            onclick={openOutreach}
+                            title={label.RH_RP_OutreachEmail}
+                            disabled={disabledOutreachButton}
+                        >
+                        </lightning-menu-item>
+                        <!-- </template>-->
                         <template if:true={showExclude}>
-                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
-                                label={label.RH_RP_Exclude} onclick={openExcludeModal} disabled={referbuttonDisable}>
+                            <lightning-menu-item
+                                class="label-icon-color"
+                                prefix-icon-name="utility:close"
+                                label={label.RH_RP_Exclude}
+                                onclick={openExcludeModal}
+                                disabled={referbuttonDisable}
+                            >
                             </lightning-menu-item>
                         </template>
                         <template if:true={showInclude}>
-                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:add"
-                                label={label.RH_RP_Include} onclick={openIncludeModal} disabled={referbuttonDisable}>
+                            <lightning-menu-item
+                                class="label-icon-color"
+                                prefix-icon-name="utility:add"
+                                label={label.RH_RP_Include}
+                                onclick={openIncludeModal}
+                                disabled={referbuttonDisable}
+                            >
                             </lightning-menu-item>
                         </template>
                         <template if:true={showMRR}>
-                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:edit"
-                                label={label.RH_RP_Medical_Review} onclick={showmedicalreview}>
+                            <lightning-menu-item
+                                class="label-icon-color"
+                                prefix-icon-name="utility:edit"
+                                label={label.RH_RP_Medical_Review}
+                                onclick={showmedicalreview}
+                            >
                             </lightning-menu-item>
                         </template>
                         <template if:true={showRefer}>
-                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:edit"
-                                label={label.RH_RP_Refer} onclick={doRedirectToReferPatient} disabled={referbuttonDisable}>
+                            <lightning-menu-item
+                                class="label-icon-color"
+                                prefix-icon-name="utility:edit"
+                                label={label.RH_RP_Refer}
+                                onclick={doRedirectToReferPatient}
+                                disabled={referbuttonDisable}
+                            >
                             </lightning-menu-item>
                         </template>
                     </lightning-button-menu>
@@ -97,139 +165,231 @@
             <div key={pe.Id} class="testGrid">
                 <lightning-layout-item size="12">
                     <lightning-layout multiple-rows="true" key={pe.Id}>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="header-label">
-                                {label.RH_RP_Study_Code}
-                            </div>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="header-label">{label.RH_RP_Study_Code}</div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
                             <div class="header-label">
                                 {label.RH_RP_Legal_Status}
-                                <lightning-helptext style="padding-left:4px;" content={label.RH_RP_legal_status_attest}>
+                                <lightning-helptext
+                                    style="padding-left: 4px"
+                                    content={label.RH_RP_legal_status_attest}
+                                >
                                 </lightning-helptext>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
                             <div class="header-label">
                                 {label.RH_RP_Patient_Auth}
-                                <lightning-helptext style="padding-left:4px;" content={label.RH_RP_Patient_Auth_Help}>
+                                <lightning-helptext
+                                    style="padding-left: 4px"
+                                    content={label.RH_RP_Patient_Auth_Help}
+                                >
                                 </lightning-helptext>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="header-label">
-                                {label.RH_RP_Medical_Review}
-                            </div>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="header-label">{label.RH_RP_Medical_Review}</div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="header-label">
-                                {label.RH_RP_Pre_Eligibility_Screening}
-                            </div>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="header-label">{label.RH_RP_Pre_Eligibility_Screening}</div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="header-label">
-                                {label.RH_RP_Added_On}
-                            </div>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="header-label">{label.RH_RP_Added_On}</div>
                         </lightning-layout-item>
                     </lightning-layout>
                     <lightning-layout multiple-rows="true" key={pe.Id}>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-study slds-truncate"
-                                title={pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div
+                                class="label-study slds-truncate"
+                                title={pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            >
                                 {pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-value" style="margin-left: 40px;">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="label-value" style="margin-left: 40px">
                                 <template if:true={isLegalStatus}>
-                                    <img src={icon_Url_LegalStatus}>
+                                    <img src={icon_Url_LegalStatus} />
                                 </template>
                                 <template if:false={isLegalStatus}>
-                                    <img src={icon_Url_LegalStatus}>
+                                    <img src={icon_Url_LegalStatus} />
                                 </template>
                                 <template if:true={emptyLegalStatus}>
-                                    <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                                    <div
+                                        style="
+                                            border-bottom: 2px solid #444444;
+                                            width: 20px;
+                                            margin-top: -10px;
+                                        "
+                                    ></div>
                                 </template>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-value" style="margin-left: 40px;">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="label-value" style="margin-left: 40px">
                                 <template if:true={ispatientAuthStatus}>
-                                    <img src={icon_Url_PatientAuthStatus}>
+                                    <img src={icon_Url_PatientAuthStatus} />
                                 </template>
                                 <template if:false={ispatientAuthStatus}>
-                                    <img src={icon_Url_PatientAuthStatus}>
+                                    <img src={icon_Url_PatientAuthStatus} />
                                 </template>
                                 <template if:true={emptyPatientAuthStatus}>
-                                    <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                                    <div
+                                        style="
+                                            border-bottom: 2px solid #444444;
+                                            width: 20px;
+                                            margin-top: -10px;
+                                        "
+                                    ></div>
                                 </template>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-value" style="margin-left: 40px;">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="label-value" style="margin-left: 40px">
                                 <template if:true={isMedicalReviewStatus}>
-                                    <img src={icon_Url_MedicalReviewStatus}>
+                                    <img src={icon_Url_MedicalReviewStatus} />
                                 </template>
                                 <template if:false={isMedicalReviewStatus}>
-                                    <img src={icon_Url_MedicalReviewStatus}>
+                                    <img src={icon_Url_MedicalReviewStatus} />
                                 </template>
                                 <template if:true={emptyMedicalReviewStatus}>
-                                    <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                                    <div
+                                        style="
+                                            border-bottom: 2px solid #444444;
+                                            width: 20px;
+                                            margin-top: -10px;
+                                        "
+                                    ></div>
                                 </template>
                                 <template if:false={medicalreviewConfigured}>
-                                    <div style="margin-top: -20px;">{label.RH_RP_N_A}</div>
+                                    <div style="margin-top: -20px">{label.RH_RP_N_A}</div>
                                 </template>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-value" style="margin-left: 20px;">
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="label-value" style="margin-left: 20px">
                                 <template if:true={isPreEligibilityStatus}>
-                                    <img src={icon_Url_PreEligibilityStatus}>
+                                    <img src={icon_Url_PreEligibilityStatus} />
                                 </template>
                                 <template if:false={isPreEligibilityStatus}>
-                                    <img src={icon_Url_PreEligibilityStatus}>
+                                    <img src={icon_Url_PreEligibilityStatus} />
                                 </template>
                                 <template if:true={emptyPreEligibilityStatus}>
-                                    <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                                    <div
+                                        style="
+                                            border-bottom: 2px solid #444444;
+                                            width: 20px;
+                                            margin-top: -10px;
+                                        "
+                                    ></div>
                                 </template>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="2" small-device-size="2"
-                            medium-device-size="2" large-device-size="2">
-                            <div class="label-value">
-                                {pe.createdDateFormat}
-                            </div>
+                        <lightning-layout-item
+                            padding="around-small"
+                            size="2"
+                            small-device-size="2"
+                            medium-device-size="2"
+                            large-device-size="2"
+                        >
+                            <div class="label-value">{pe.createdDateFormat}</div>
                         </lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>
             </div>
         </template>
         <template if:false={medicalReview}>
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 30px">
                 <lightning-tabset>
                     <lightning-tab label={label.RH_RP_Patient}>
-                        <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList}
-                            isaccesslevelthree={isaccessLevelthree} onrefreshpatienttabchange={handlePatientTabChange}
-                            states={states} disabledsavebutton={disabledSaveButton}></c-rp_-patient-tab>
+                        <c-rp_-patient-tab
+                            patientrecordlist={peRecordList}
+                            originalpatientrecord={peRecordList}
+                            isaccesslevelthree={isaccessLevelthree}
+                            onrefreshpatienttabchange={handlePatientTabChange}
+                            states={states}
+                            disabledsavebutton={disabledSaveButton}
+                        ></c-rp_-patient-tab>
                     </lightning-tab>
                     <lightning-tab label={label.RH_RP_Primary_Delegate}>
-                        <c-rp_-delegate-tab delegaterecordlist={delegatepeRecordList}
-                            originaldelegaterecordlist={delegatepeRecordList} isaccesslevelthree={isaccessLevelthree}
-                            onrefreshdelegatetabchange={handleDelegateChange}> </c-rp_-delegate-tab>
+                        <c-rp_-delegate-tab
+                            delegaterecordlist={delegatepeRecordList}
+                            originaldelegaterecordlist={delegatepeRecordList}
+                            isaccesslevelthree={isaccessLevelthree}
+                            onrefreshdelegatetabchange={handleDelegateChange}
+                        >
+                        </c-rp_-delegate-tab>
                     </lightning-tab>
                     <lightning-tab label={label.RH_RP_Notes}>
-                        <c-rp_-notes-tab delegateid={delegateId} patientrecord={peRecordList}> </c-rp_-notes-tab>
+                        <c-rp_-notes-tab delegateid={delegateId} patientrecord={peRecordList}>
+                        </c-rp_-notes-tab>
                     </lightning-tab>
                 </lightning-tabset>
             </div>
@@ -242,8 +402,14 @@
 
     <!--for Exclude records-->
     <template if:true={openExclude}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-fade-in-open"
+        >
             <div class="slds-modal__container">
                 <header class="slds-modal__header">
                     <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
@@ -253,18 +419,27 @@
                         <span class="slds-assistive-text">{label.BTN_Close}</span>
                     </button> -->
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
-                        {label.RH_RP_Exclude_Record}</h2>
+                        {label.RH_RP_Exclude_Record}
+                    </h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     <p>{label.RH_RP_exclude_this_patient}</p>
                 </div>
                 <footer class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" onclick={closeExcludeModal} title="Cancel"
-                        disabled={disableButton}>
-                        {label.Cancel}
-                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="apollo-btn primary search-more-btn" onclick={excludepatient} title="Ok"
-                        disabled={disableButton}>
+                    <button
+                        class="slds-button slds-button_neutral"
+                        onclick={closeExcludeModal}
+                        title="Cancel"
+                        disabled={disableButton}
+                    >
+                        {label.Cancel}</button
+                    >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button
+                        class="apollo-btn primary search-more-btn"
+                        onclick={excludepatient}
+                        title="Ok"
+                        disabled={disableButton}
+                    >
                         {label.BTN_OK}
                     </button>
                 </footer>
@@ -275,8 +450,14 @@
 
     <!--for Include records-->
     <template if:true={openInclude}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-fade-in-open"
+        >
             <div class="slds-modal__container">
                 <header class="slds-modal__header">
                     <!--<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
@@ -286,18 +467,27 @@
                         <span class="slds-assistive-text">{label.BTN_Close}</span>
                     </button>-->
                     <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
-                        {label.RH_RP_Include_Record}</h2>
+                        {label.RH_RP_Include_Record}
+                    </h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
                     <p>{label.RH_RP_want_to_include_patients}</p>
                 </div>
                 <footer class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" onclick={closeIncludeModal} title="Cancel"
-                        disabled={disableButton}>
-                        {label.Cancel}
-                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="apollo-btn primary search-more-btn" onclick={includepatient} title="Ok"
-                        disabled={disableButton}>
+                    <button
+                        class="slds-button slds-button_neutral"
+                        onclick={closeIncludeModal}
+                        title="Cancel"
+                        disabled={disableButton}
+                    >
+                        {label.Cancel}</button
+                    >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button
+                        class="apollo-btn primary search-more-btn"
+                        onclick={includepatient}
+                        title="Ok"
+                        disabled={disableButton}
+                    >
                         {label.BTN_OK}
                     </button>
                 </footer>

@@ -3,7 +3,7 @@
  */
 
 public without sharing class RRChangePasswordController {
-    public static final String ERROR_SUFFIX = ': You must enter a value';
+    public static final String ERROR_SUFFIX = ': '+System.Label.RH_ProfileInfoErrorMsz;
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
     public static final String AGE_OF_MAJORITY_ALL_COUNTRIES = 'Age_for_All_Countries';
@@ -455,7 +455,7 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.First_Name__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_First_Name + ERROR_SUFFIX)
                 );
             }
             if (
@@ -463,7 +463,7 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.Last_Name__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Last_Name + ERROR_SUFFIX)
                 );
             }
 
@@ -533,12 +533,12 @@ public without sharing class RRChangePasswordController {
             }
             if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_Address_Line + ERROR_SUFFIX)
                 );
             }
             if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_City + ERROR_SUFFIX)
                 );
             }
             if (
@@ -546,7 +546,7 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.Mailing_Country_Code__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Country + ERROR_SUFFIX)
                 );
             }
             if (
@@ -555,25 +555,25 @@ public without sharing class RRChangePasswordController {
                 states.size() > 0
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_State + ERROR_SUFFIX)
                 );
             }
             if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
                 ApexPages.addMessage(
                     new ApexPages.Message(
                         ApexPages.Severity.ERROR,
-                        'ZIP/Postal Code' + ERROR_SUFFIX
+                        System.Label.PG_AS_F_Institute_Zip_Postal_Code + ERROR_SUFFIX
                     )
                 );
             }
             if (!notEnrollNow && String.isBlank(contact.Phone)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Delegate_Phone_Number + ERROR_SUFFIX)
                 );
             }
             if (!notEnrollNow && String.isBlank(account.Name)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX)
+                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_Name + ERROR_SUFFIX)
                 );
             }
             try {

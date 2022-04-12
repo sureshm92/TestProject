@@ -45,17 +45,12 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
-    TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-    );
-     TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-    );
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class);
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
     );
-    TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
-        );
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
 
 }
