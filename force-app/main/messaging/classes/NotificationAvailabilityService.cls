@@ -346,6 +346,20 @@ public without sharing class NotificationAvailabilityService {
         return isAvailable;
     }
 
+    /**
+     * @description: This Method will check if contact number is invalid.
+     * @author: Krishna Mahto
+     * @param: contactId
+     * @return: Boolean
+     **/
+    public Boolean isInvalidNumber(Id contactId) {
+        Boolean isInvalid = true;
+        Contact contact = contactByIdMap.get(contactId);
+        isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
+
+        return isInvalid;
+    }
+
     public Boolean isAvailableForPush(Id contactId, String whatId) {
         //TODO
         return true;
