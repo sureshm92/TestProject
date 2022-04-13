@@ -1114,8 +1114,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c per : newList) {
                 if (
                     per.Subject_GUID__c != null &&
-                    (oldMap.get(per.Id).Subject_GUID__c != per.Subject_GUID__c ||
-                    oldMap.get(per.Id).Participant_Status__c != per.Participant_Status__c)
+                    oldMap.get(per.Id).Participant_Status__c != per.Participant_Status__c
                 ) {
                     peIds.add(per.Id);
                 }
