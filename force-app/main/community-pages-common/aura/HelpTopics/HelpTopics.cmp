@@ -49,7 +49,12 @@
                                 useSentenceFont="false"
                             />
                             <aura:set attribute="else">
-                                <div class="dropdown" onclick="{!c.toggleElement}">
+                                <div
+                                    class="dropdown"
+                                    onclick="{!c.toggleElement}"
+                                    onfocusout="{!c.removeElementFocus}"
+                                    tabindex="1"
+                                >
                                     <span class="dropdown-span">{!v.placeholderText}</span>
                                     <ul class="dropdown-menu">
                                         <aura:iteration items="{!v.helpTopicOptions}" var="item">
@@ -58,7 +63,7 @@
                                                 value="{!item.value}"
                                                 onclick="{!c.helpTopicChanged}"
                                             >
-                                                {!item.label}
+                                                <aura:unescapedHtml value="{!item.label}" />
                                             </li>
                                         </aura:iteration>
                                     </ul>

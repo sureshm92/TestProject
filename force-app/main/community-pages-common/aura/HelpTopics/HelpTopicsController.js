@@ -178,5 +178,9 @@
     toggleElement: function (component, event, helper) {
         let element = document.getElementsByClassName('dropdown-menu');
         element[0].classList.toggle('active');
+    },
+    removeElementFocus: function (component, event, helper) {
+        let element = document.getElementsByClassName('dropdown-menu');
+        element[0].classList.remove('active');
     }
 });
