@@ -102,10 +102,11 @@ public with sharing class ECOAService {
         if (remoteCall.log.Success__c) {
             //perform on success
         }
+
         if (remoteCall.log != null) {
             sObjectsList.add(remoteCall.log);
         }
-
+        disableTriggers();
         if (sObjectsList.size() > 0) {
             sObjectsList.sort();
             Database.upsert(sObjectsList, false);
