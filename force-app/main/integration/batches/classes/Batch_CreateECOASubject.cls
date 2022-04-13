@@ -45,7 +45,9 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
         for (Participant_Enrollment__c pe : perlist) {
             peId.add(pe.id);
         }
-        System.enqueueJob(new Queueable_CreateECOASubject(peId));
+        //System.enqueueJob(new Queueable_CreateECOASubject(peId));
+        Batch_CreateECOASubjectEvents objBatch = new Batch_CreateECOASubjectEvents(peId);
+        Database.executeBatch(objBatch, 1);
     }
 
     public override Type getType() {
