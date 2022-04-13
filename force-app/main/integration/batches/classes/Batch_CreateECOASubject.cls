@@ -47,7 +47,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
         }
         //System.enqueueJob(new Queueable_CreateECOASubject(peId));
         Batch_CreateECOASubjectEvents objBatch = new Batch_CreateECOASubjectEvents(peId);
-        Database.executeBatch(objBatch, 1);
+        Database.executeBatch(objBatch, 200);
     }
 
     public override Type getType() {
