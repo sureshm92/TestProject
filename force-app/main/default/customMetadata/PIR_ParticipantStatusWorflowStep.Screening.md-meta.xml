@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Eligibility Passed;Ready to Screen;Screening In Progress;Screening In Progress - Wash Out Period;</value>
     </values>
     <values>
+        <field>InitialVisit__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>List_of_Statuses__c</field>
         <value xsi:nil="true"/>
     </values>
