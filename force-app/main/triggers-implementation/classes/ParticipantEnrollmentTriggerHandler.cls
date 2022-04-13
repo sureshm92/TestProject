@@ -1179,12 +1179,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     requestMapList.add(ecoaEventMap);
                 }
             }
-            if (requestMapList != null && !requestMapList.isEmpty()) {
-                try {
-                    ECOAService.createEcoaEvent(requestMapList);
-                } catch (Exception e) {
-                    System.debug('Error--->' + e.getmessage());
-                }
+        }
+        if (requestMapList != null && !requestMapList.isEmpty()) {
+            try {
+                ECOAService.createEcoaEvent(requestMapList);
+            } catch (Exception e) {
+                System.debug('Error--->' + e.getmessage());
             }
         }
     }
