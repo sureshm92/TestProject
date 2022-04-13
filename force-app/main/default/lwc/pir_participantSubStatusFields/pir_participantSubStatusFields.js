@@ -1616,6 +1616,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       if(this.participantrecord.Visit_Plan__c){
         visitPln = this.participantrecord.Visit_Plan__c;
       }
+      if(this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen'){
+        delete this.participantrecord.Participant_Status__c;
+      }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
       doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
