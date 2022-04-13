@@ -1,4 +1,4 @@
-global class televisitBatch implements Database.Batchable<sObject> {
+global class Batch_TelevisitCompletedStatus implements Database.Batchable<sObject> {
      global Database.QueryLocator start( Database.BatchableContext BC ) {
         String query = 'SELECT Id,Status__c,Visit_Date__c,Start_Time__c FROM Televisit__c ';
         return Database.getQueryLocator( query );
