@@ -35,9 +35,14 @@ public with sharing class IntegrationVisitResultService {
                         resultsToDelete.add(result);
                     }
                 } else if (visitsByExternalIds.containsKey(visitKey)) {
-                    newResults.add(
-                        this.createNewResult(visitsByExternalIds.get(visitKey), upatedVisitKey, iResult)
-                    );
+                    /**PEH-5142*/
+                    if (iResult.IsDeletedInSDH__c == 'N') {
+                        newResults.add(
+                        	this.createNewResult(visitsByExternalIds.get(visitKey), upatedVisitKey, iResult)
+                    	);
+                    }else{
+                        iResult.Processed__c = true;
+                    }
                 }
             }
         }
