@@ -24344,4 +24344,74 @@ communications using the toggles below.</value>
         <shortDescription>RH RP out of</shortDescription>
         <value>out of</value>
     </labels>
+	 <labels>
+        <fullName>PIR_CreatePreset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_CreatePreset</shortDescription>
+        <value>Create Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_CreatePresetPopup</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_CreatePresetPopup</shortDescription>
+        <value>The applied filters will be saved as a preset. Please enter a name to reference later.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset</shortDescription>
+        <value>Delete Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Preset_Popup</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup</shortDescription>
+        <value>Select a preset to be deleted. This cannot be undone.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_PresetName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_PresetName</shortDescription>
+        <value>Preset Name</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Created_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Created_Message</shortDescription>
+        <value>has been created.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Delete_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Delete_Message</shortDescription>
+        <value>has been deleted.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Heading</shortDescription>
+        <value>Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_HeadingPlural</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_HeadingPlural</shortDescription>
+        <value>Presets</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Save_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Save_Preset</shortDescription>
+        <value>Save Preset</value>
+    </labels>
 </CustomLabels>

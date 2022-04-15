@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Screening Passed</value>
     </values>
     <values>
+        <field>InitialVisit__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>List_of_Statuses__c</field>
         <value xsi:type="xsd:string">Randomization Success;Withdrew Consent After Screening;Randomization Failed;Declined Final Consent;</value>
     </values>
