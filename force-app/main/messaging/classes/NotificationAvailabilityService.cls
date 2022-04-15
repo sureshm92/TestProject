@@ -36,6 +36,7 @@ public without sharing class NotificationAvailabilityService {
                 userCommunityMode__c,
                 Language__c,
                 MailingCountryCode,
+                Is_Invalid_Number__c,
                 (SELECT TimeZoneSidKey FROM Users)
             FROM Contact
             WHERE Id IN :recipientIds
