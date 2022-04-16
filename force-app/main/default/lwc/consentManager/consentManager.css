@@ -4,6 +4,8 @@
     font-weight: bold !important;
 }
 label{
+    height: 48px;
+    width: 812px;
     font-size: 16px !important;
     color: black !important;
     font-weight: 500;
@@ -20,6 +22,15 @@ label{
     color: rgb(234, 0, 30);
 }
 
-.marginLess {
-    margin-left: -13px;
+.checkbox_size{
+    max-width: 15px;
+}
+.p-l-20{
+    padding-left: 20px;
+}
+
+@media all and (max-width: 767px) {
+    .checkbox_size{
+        margin-right: 10px;
+    }
 }
