@@ -72,6 +72,10 @@ export default class ConsentManager extends LightningElement {
             case 'editParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
             break;
+            case 'importParticipant':
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+                this.getStudySite();
+            break;
         }
     }
 
@@ -156,21 +160,13 @@ export default class ConsentManager extends LightningElement {
 
     fireConsentChange(consentType){
         this.consentMapping['cType'] = consentType;
-        if(consentType == 'study'){
             this.consentMapping['pe'] = this.pe;
-            const consentMap = this.consentMapping;
-            const filterChangeEvent = new CustomEvent('consentchange', {
-                detail: { consentMap },
-            });
-            this.dispatchEvent(filterChangeEvent);
-        }else{
             this.consentMapping['contact'] = this.participantContact;
             const consentMap = this.consentMapping;
             const filterChangeEvent = new CustomEvent('consentchange', {
                 detail: { consentMap },
             });
             this.dispatchEvent(filterChangeEvent);
-        }
     }
 
     handleConsentChange(event){
@@ -242,6 +238,7 @@ export default class ConsentManager extends LightningElement {
         =this.pe.Permit_Voice_Text_contact_for_this_study__c 
         =this.pe.Permit_SMS_Text_for_this_study__c  
         = false;
+        this.isCountryUS = true;
     }
 
     getStudySite(){
@@ -249,6 +246,11 @@ export default class ConsentManager extends LightningElement {
         .then((result) => {
             this.studySite = result;
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+            if(this._callSource == 'importParticipant' && this.studySite.Site__r.BillingCountryCode!=null){
+                this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
+                    this.updateStudyConsentChecks();
+                    this.updateOutreachConsentChecks();
+            }
         })
         .catch((error) => {
             this.error = error;
