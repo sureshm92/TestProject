@@ -15875,6 +15875,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You must have a signed authorization from the patient giving permission for their contact information and pre-screening data be shared with IQVIA and study doctors.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_StudySite_Consent_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_StudySite_Consent_Mandatory</shortDescription>
+        <value>Please, confirm that your patient and/or patient's legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
+    </labels> 
+    <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
         <language>en_US</language>
         <protected>true</protected>
