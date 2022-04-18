@@ -18,7 +18,7 @@ public class Batch_CreateECOASubjectEvents implements Database.Batchable<SObject
                     Clinical_Trial_Profile__r.Study_GUID__c,
                     Participant_Status__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN :peId
+                WHERE Id IN :peId AND Subject_GUID__c != NULL
             ]
         );
     }
