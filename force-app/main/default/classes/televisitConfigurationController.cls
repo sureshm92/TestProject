@@ -292,7 +292,7 @@ return lrw;*/
         }catch(exception e){
             system.debug('==================>'+e.getMessage());
         }
-        
+    }
     public static List<Televisit_Record_Vendor__c> getVendors(String studySiteId) {
         String filter =
             'Study_Site__c =  \'' +
