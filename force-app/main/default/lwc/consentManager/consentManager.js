@@ -70,12 +70,10 @@ export default class ConsentManager extends LightningElement {
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
             break;
             case 'editParticipant':
-                //this.template.querySelector(".slds-p-left_x-small").classList.add('editParticipantClass')
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
                
             break;
             case 'importParticipant':
-                //this.template.querySelector(".slds-p-left_x-small").classList.add('importParticipantClass')
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
                 this.getStudySite();
             break;
@@ -83,7 +81,6 @@ export default class ConsentManager extends LightningElement {
     }
 
     get ClassName(){
-        // return this._callSource == 'addParticipant' ? "addParticipant" : "editParticipant"
          if(this._callSource == "addParticipant"){
             return "addParticipantClass"
         }
