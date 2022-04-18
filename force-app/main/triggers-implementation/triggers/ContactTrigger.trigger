@@ -12,14 +12,19 @@ trigger ContactTrigger on Contact(
     after delete,
     after undelete
 ) {
-    if(UserInfo.getUserName() != Label.UserName){
-    TriggerHandlerExecutor.execute(
-        ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
-    );
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForDelegateContactHandler.class);
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.SetShowTourDefaultHandler.class);
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.PopulateOverrideFields.class);
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForCCContactHandler.class);
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+    if (UserInfo.getUserName() != Label.UserName) {
+        TriggerHandlerExecutor.execute(
+            ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.execute(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+        TriggerHandlerExecutor.execute(
+            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+        );
     }
 }
