@@ -19,7 +19,6 @@
         visitPlanId,
         helper
     ) {
-        console.log('calling uploadPaticipants :: '+iqviaOutreachEmail+iqviaOutreachPhone+iqviaOutreachSMS);
         component.find('upModalSpinner').show();
         communityService.executeAction(
             component,
