@@ -647,17 +647,6 @@ export default class Pir_participantDetail extends LightningElement {
             { label: this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS, value: 'smscnt' },
         ];
     }
-    /*handleSharingOptChange(event) {
-        this.infoSharingValue = event.detail.value;
-        for(var i=0;i<this.infoSharingOptions.length;i++){
-            if(this.infoSharingValue.includes(this.infoSharingOptions[i].value)){
-                this.pd['pe'][this.fieldMap.get(this.infoSharingOptions[i].value)]=true;
-            }
-            else{                
-                this.pd['pe'][this.fieldMap.get(this.infoSharingOptions[i].value)]=false;
-            }
-        }
-    }*/
     // delegate logic
     duplicateDelegateInfo =  {};
     delegateReq;
