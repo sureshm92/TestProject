@@ -8829,6 +8829,13 @@ The expected format is REF##### to REF########</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Tele_Visit_Details_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Tele Visit Details Tab</shortDescription>
+        <value>Televisits</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Travel_Support_Action_Col</fullName>
         <categories>Home Page</categories>
         <language>en_US</language>

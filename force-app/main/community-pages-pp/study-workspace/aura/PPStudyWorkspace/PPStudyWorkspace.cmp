@@ -242,7 +242,7 @@
                                 class="{!'apollo-btn text ' + if(v.visitMode == 'TeleVisitDetails', ' current', '')}"
                                 onclick="{!c.doAction}"
                             >
-                                Televisit
+                                {!$Label.c.Home_Page_Tele_Visit_Details_Tab}
                             </button>
                         </aura:if>
 
