@@ -46,7 +46,8 @@ public without sharing class TrialService {
         'Participant_Workflow_Final_Step__c',
         'Initial_Visit_Required__c',
         'Final_Consent_Required__c',
-        'Patient_Auth_Upload_Required__c'
+        'Patient_Auth_Upload_Required__c',
+        'Televisit_Vendor_is_Available__c'
     };
 
     private static TrialService instance;

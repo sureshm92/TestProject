@@ -293,6 +293,30 @@ return lrw;*/
             system.debug('==================>'+e.getMessage());
         }
         
+    public static List<Televisit_Record_Vendor__c> getVendors(String studySiteId) {
+        String filter =
+            'Study_Site__c =  \'' +
+            studySiteId +
+            '\' AND isEnable__c = TRUE' +
+            ' ORDER BY Televisit_Record_Vendor__r.Name';
+        List<TelevisitVendorSettings__c> vendorSettings = (List<TelevisitVendorSettings__c>) DatabaseService.query(
+            new List<String>{
+                'Televisit_Record_Vendor__c',
+                'Televisit_Record_Vendor__r.Name',
+                'Televisit_Record_Vendor__r.Televisit_Vendor__c'
+            },
+            TelevisitVendorSettings__c.getSObjectType(),
+            filter
+        );
+        Set<Televisit_Record_Vendor__c> vendorsUniq = new Set<Televisit_Record_Vendor__c>();
+        for (TelevisitVendorSettings__c vendorSetting : vendorSettings)
+            vendorsUniq.add(vendorSetting.Televisit_Record_Vendor__r);
+
+        List<Televisit_Record_Vendor__c> vendors = new List<Televisit_Record_Vendor__c>();
+        if (!vendorsUniq.isEmpty())
+            vendors.addAll(vendorsUniq);
+
+        return vendors;
     }
     
     public class ResponeWrapper {
