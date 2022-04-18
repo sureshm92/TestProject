@@ -404,8 +404,6 @@ public without sharing class ContactTriggerHandler {
         List<Contact> newList,
         Map<Id, Contact> oldMap
     ) {
-        //set<Id> contIdSet = new  set<Id>();
-        //List<Contact> contList = new List<Contact>();
         Map<Id, Contact> contMap = new Map<Id, Contact>();
         Map<Id, Id> contIdUserIdMap = new Map<Id, Id>();
         Map<Id, Id> contIdParMap = new Map<Id, Id>();
@@ -417,8 +415,6 @@ public without sharing class ContactTriggerHandler {
                 cont.is_Invalid_number__c != oldMap.get(cont.Id).is_Invalid_number__c
             ) {
                 contMap.put(cont.Id, cont);
-                //contIdSet.add(cont.Id);
-                //contList.add(cont);
             }
 
             if (contMap != null && !contMap.isEmpty()) {
