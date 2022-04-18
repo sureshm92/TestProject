@@ -4,6 +4,8 @@
     font-weight: bold !important;
 }
 label{
+    height: 48px;
+    width: 812px;
     font-size: 16px !important;
     color: black !important;
     font-weight: 500;
@@ -20,6 +22,22 @@ label{
     color: rgb(234, 0, 30);
 }
 
-.marginLess {
-    margin-left: -13px;
+.checkbox_size{
+    max-width: 7px;
+}
+
+.importParticipantClass {
+    padding-left: 15px;
+}
+.addParticipantClass {
+    padding-left: 17px;
+}
+.editParticipantClass {
+    padding-left: 18px;
+}
+
+@media all and (max-width: 767px) {
+    .importParticipantClass {
+        padding-left: 18px;
+    }
 }
