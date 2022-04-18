@@ -95,7 +95,7 @@ public without sharing class AddPatientByPIRemote {
                     );
                 }
             }
-
+            
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -134,6 +134,9 @@ public without sharing class AddPatientByPIRemote {
                 userLanguage
             );
 
+            Study_Site__c ss = [select Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c 
+            from  Study_Site__c 
+            where Id=:pe.Study_Site__c ]; 
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id
                 : pe.Participant__c;
@@ -153,7 +156,7 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
-                if(String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                if(ss.Clinical_Trial_Profile__r.IQVIA_Outreach__c && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
                     contact contactConsent = (Contact) JSON.deserialize(
                         contactConsentJSON,
                         Contact.class

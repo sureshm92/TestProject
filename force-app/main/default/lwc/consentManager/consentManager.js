@@ -43,7 +43,7 @@ export default class ConsentManager extends LightningElement {
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
     CONSENT_TO_STORE_AND_CONTACT;
-
+    
     @api participantEnrollId;
     @track consentModel = consentModel;
     participantContact = contactConsent;
@@ -58,6 +58,7 @@ export default class ConsentManager extends LightningElement {
     constructor(){
         super();
         this.clearConsents();
+        console.log('In constructor callback :: '+JSON.stringify(consentModel));
     }
     @api
     get callSource() {
@@ -65,17 +66,37 @@ export default class ConsentManager extends LightningElement {
     }
     set callSource(value) {    
         this._callSource = value; 
+        console.log('callSource', this.callSource);         
         switch(value){
             case 'addParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
             break;
             case 'editParticipant':
+                //this.template.querySelector(".slds-p-left_x-small").classList.add('editParticipantClass')
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+               
             break;
             case 'importParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+                //this.template.querySelector(".slds-p-left_x-small").classList.add('importParticipantClass')
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
                 this.getStudySite();
             break;
+        }
+    }
+
+    get ClassName(){
+        // return this._callSource == 'addParticipant' ? "addParticipant" : "editParticipant"
+         if(this._callSource == "addParticipant"){
+            return "addParticipantClass"
+        }
+        else if(this._callSource == "editParticipant"){
+            return "editParticipantClass"
+        }
+        else if(this._callSource == "importParticipant"){
+            return "importParticipantClass"
+        }
+        else{
+            return "addParticipantClass"
         }
     }
 
@@ -84,6 +105,7 @@ export default class ConsentManager extends LightningElement {
         return this._studySiteId;
     }
     set studySiteId(value) {    
+        console.log('studySiteId'+value);
         if( value != null || value != undefined){
             this._studySiteId = value;
             this.getStudySite();
@@ -95,6 +117,7 @@ export default class ConsentManager extends LightningElement {
         return this.isCountryUS;
     }
     set participantCountry(value) {
+        console.log('participantCountry');
         this.isCountryUS = (value == "US"? true : false);
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
@@ -105,6 +128,7 @@ export default class ConsentManager extends LightningElement {
         return this.pe;
     }
     set participantEnrollment(value) {
+        console.log('participantEnrollment'+JSON.stringify(value));
         if( value != null || value != undefined){
             let participantData = JSON.stringify(value);
             this.pe = JSON.parse(participantData);
@@ -160,13 +184,13 @@ export default class ConsentManager extends LightningElement {
 
     fireConsentChange(consentType){
         this.consentMapping['cType'] = consentType;
-            this.consentMapping['pe'] = this.pe;
-            this.consentMapping['contact'] = this.participantContact;
-            const consentMap = this.consentMapping;
-            const filterChangeEvent = new CustomEvent('consentchange', {
-                detail: { consentMap },
-            });
-            this.dispatchEvent(filterChangeEvent);
+        this.consentMapping['pe'] = this.pe;
+        this.consentMapping['contact'] = this.participantContact;
+        const consentMap = this.consentMapping;
+        const filterChangeEvent = new CustomEvent('consentchange', {
+            detail: { consentMap },
+        });
+        this.dispatchEvent(filterChangeEvent);
     }
 
     handleConsentChange(event){
@@ -241,10 +265,44 @@ export default class ConsentManager extends LightningElement {
         this.isCountryUS = true;
     }
 
+    // connectedCallback() {       
+    //     var divblock = this.template.querySelector('.slds-p-left_x-small');
+    //     if(this._callSource == 'addParticipant'){
+    //         var divblock = this.template.querySelector('.slds-p-left_x-small');
+    //         if(divblock){
+    //             this.template.querySelector(".slds-p-left_x-small").style.display="none"
+    //         }
+    //         console.log("testCallSource",this._callSource);
+    //         // this.template.querySelector(".slds-p-left_x-small").classList.add('addParticipantClass')
+           
+    //     }
+    //     else if(this._callSource == 'editParticipant'){
+    //         var divblock = this.template.querySelector('.slds-p-left_x-small');
+    //         if(divblock){
+    //             this.template.querySelector(".slds-p-left_x-small").style.display="none"
+    //         }
+    //     }
+    //     else if(this._callSource == 'importParticipant'){
+    //         var divblock = this.template.querySelector('.slds-p-left_x-small');
+    //         if(divblock){
+    //             this.template.querySelector(".slds-p-left_x-small").style.display="none"
+    //         }
+    //     }
+    //     else{
+    //      //this.template.querySelector(".slds-p-left_x-small").classList.add('addParticipantClass')
+    //      var divblock = this.template.querySelector('.slds-p-left_x-small');
+    //         if(divblock){
+    //             this.template.querySelector(".slds-p-left_x-small").style.display="none"
+    //         }
+    //     }
+    // }
+
     getStudySite(){
+        console.log('getStudySite method calling:: ');
         fetchStudySite({ studySiteId : this._studySiteId })
         .then((result) => {
             this.studySite = result;
+            console.log('getStudySite method calling:: '+JSON.stringify(this.studySite));
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
             if(this._callSource == 'importParticipant' && this.studySite.Site__r.BillingCountryCode!=null){
                 this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
@@ -253,6 +311,7 @@ export default class ConsentManager extends LightningElement {
             }
         })
         .catch((error) => {
+            console.log('getStudySite error occured :: '+error);
             this.error = error;
         });
     }
