@@ -1,0 +1,68 @@
+<template>
+    <div class={containerClass}>
+        <div class={titleClass}>Televisit Details</div>
+        <div class="select-container">
+            {filterLabel}
+            <c:web-select value="Upcoming" options={options} container-class="select-list">
+            </c:web-select>
+        </div>
+
+        <template if:true={teleVisits}>
+            <c:ui-table>
+                <slot name="body">
+                    <tr class="table-header">
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>Attendees</th>
+                    </tr>
+                    <template for:each={teleVisits} for:item="visitWrapper">
+                        <tr key={visitWrapper.id}>
+                            <td>{visitWrapper.visitName}</td>
+                            <td class="">
+                                <lightning-formatted-date-time
+                                    value={visitWrapper.visitDate}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                    time-zone={timeZone}
+                                >
+                                </lightning-formatted-date-time>
+                            </td>
+                            <td>
+                                <lightning-formatted-date-time
+                                    value={visitWrapper.visitDate}
+                                    hour="numeric"
+                                    minute="numeric"
+                                    time-zone={timeZoneInHour}
+                                >
+                                </lightning-formatted-date-time>
+                            </td>
+                            <td>{visitWrapper.visitDuration}</td>
+                            <td>{visitWrapper.visitAttendees}</td>
+                        </tr>
+                    </template>
+                </slot>
+            </c:ui-table>
+        </template>
+
+        <!--<div class="pagination">
+                    <c:rrPagination
+                        aura:id="rrPaginationComponent"
+                        studyVisitPageCheck="{!v.pageCheck}"
+                        currentPage="{!v.pageNumber}"
+                        allObjects="{!v.visitWrappers}"
+                        currentObjects="{!v.currentVisits}"
+                        entriesOnPage="4"
+                    />
+                </div>
+
+            <c:web-empty-list-stub
+                class="no-visits-message"
+                target-list={visitWrappers}
+                icon-name="none"
+                message={noItemsToDisplay}
+            />-->
+    </div>
+</template>
