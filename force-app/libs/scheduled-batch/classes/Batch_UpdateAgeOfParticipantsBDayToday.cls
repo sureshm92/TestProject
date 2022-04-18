@@ -1,6 +1,7 @@
-/* This Batch is called from Scheduler class which updates batches daily
-*  who have birthday on the same day as today
-*/
+/* 
+ * This Batch is called from Scheduler class which updates batches daily
+ * who have birthday on the same day as today
+ */
 public class Batch_UpdateAgeOfParticipantsBDayToday implements Database.Batchable<SObject>, Database.Stateful {
     
 

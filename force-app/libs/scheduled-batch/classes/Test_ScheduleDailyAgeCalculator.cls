@@ -1,6 +1,8 @@
-/*This is the test class for ScheduleDailyAgeCalculator
-*/
-@isTest
+/*
+ * This is the test class for ScheduleDailyAgeCalculator
+ */
+
+ @isTest
 public class Test_ScheduleDailyAgeCalculator {
     
     //test only scheduling part for ScheduleDailyAgeCalculator

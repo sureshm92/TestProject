@@ -1,6 +1,6 @@
 /*
-* This class is scheduled from setup to run once everyday
-*/
+ * This class is scheduled from setup to run once everyday
+ */
 public  class ScheduleDailyAgeCalculator implements Schedulable{
     public void execute(SchedulableContext ctx){
       //call to batch running to update age of participants
