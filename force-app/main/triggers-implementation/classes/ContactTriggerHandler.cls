@@ -5,7 +5,7 @@
 
 public without sharing class ContactTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-	//public static Boolean noUpdateOnParticipantRecord = false;
+    //public static Boolean noUpdateOnParticipantRecord = false;
     public class UpdateParticipantAndUserEmailsOnEmailChangeHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantAndUserEmailsOnEmailChange(newList, (Map<Id, Contact>) oldMap);
@@ -19,6 +19,12 @@ public without sharing class ContactTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createUserForDelegateContact(newList);
+        }
+    }
+
+    public class UpdatePhoneNumberContactsHandler extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
         }
     }
 
@@ -52,126 +58,171 @@ public without sharing class ContactTriggerHandler {
 
     public class UpdateParticipantDetailsHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateParticipantDetailsHandler((List<Contact>)newList, (Map<Id, Contact>) oldMap);
+            updateParticipantDetailsHandler((List<Contact>) newList, (Map<Id, Contact>) oldMap);
         }
     }
-    
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
-    private static void updateParticipantDetailsHandler(List<Contact> newList, Map<Id, Contact> oldMap){
+    private static void updateParticipantDetailsHandler(
+        List<Contact> newList,
+        Map<Id, Contact> oldMap
+    ) {
         Map<ID, Contact> updatedContactsMap = new Map<Id, Contact>();
         Map<Id, Contact> updatedContactsForNameMap = new Map<Id, Contact>();
-        for(Contact c : newList){
-            Boolean isUpdateNeeded= false;
+        for (Contact c : newList) {
+            Boolean isUpdateNeeded = false;
             Boolean isUpdateNameNeeded = false;
-            if(c.MailingCountry!= oldMap.get(c.Id).MailingCountry){
+            if (c.MailingCountry != oldMap.get(c.Id).MailingCountry) {
                 isUpdateNeeded = true;
             }
-            if(c.MailingCountryCode!= oldMap.get(c.Id).MailingCountryCode){
+            if (c.MailingCountryCode != oldMap.get(c.Id).MailingCountryCode) {
                 isUpdateNeeded = true;
             }
-            if(c.MailingState!= oldMap.get(c.Id).MailingState){
+            if (c.MailingState != oldMap.get(c.Id).MailingState) {
                 isUpdateNeeded = true;
             }
-            if(c.MailingStateCode!= oldMap.get(c.Id).MailingStateCode){
+            if (c.MailingStateCode != oldMap.get(c.Id).MailingStateCode) {
                 isUpdateNeeded = true;
             }
-            if(c.MailingPostalCode!= oldMap.get(c.Id).MailingPostalCode){
-                isUpdateNeeded = true;
-            } 
-            if(c.Language__c != oldMap.get(c.Id).Language__c){
+            if (c.MailingPostalCode != oldMap.get(c.Id).MailingPostalCode) {
                 isUpdateNeeded = true;
             }
-            if(c.Phone != oldMap.get(c.Id).Phone){
+            if (c.Language__c != oldMap.get(c.Id).Language__c) {
                 isUpdateNeeded = true;
             }
-            if(c.FirstName != oldMap.get(c.Id).FirstName){
+            if (c.Phone != oldMap.get(c.Id).Phone) {
+                isUpdateNeeded = true;
+            }
+            if (c.FirstName != oldMap.get(c.Id).FirstName) {
                 isUpdateNameNeeded = true;
             }
-            if(c.LastName != oldMap.get(c.Id).LastName){
+            if (c.LastName != oldMap.get(c.Id).LastName) {
                 isUpdateNameNeeded = true;
             }
-            if(isUpdateNeeded){
-                updatedContactsMap.put(c.Id,c);                                  
+            if (isUpdateNeeded) {
+                updatedContactsMap.put(c.Id, c);
             }
-            if(isUpdateNameNeeded){
-                updatedContactsForNameMap.put(c.Id,c);
+            if (isUpdateNameNeeded) {
+                updatedContactsForNameMap.put(c.Id, c);
             }
         }
-        if(updatedContactsMap.size()>0 || updatedContactsForNameMap.size()>0){
+        if (updatedContactsMap.size() > 0 || updatedContactsForNameMap.size() > 0) {
             List<Participant__c> participantsToUpdate = new List<Participant__c>();
-            for(Participant__c participant: [SELECT Id,Contact__c,Mailing_Country_Code__c,Preferred_Language__c,Phone__c,
-                                             Mailing_State_Code__c,Mailing_Zip_Postal_Code__c 
-                                             FROM Participant__c WHERE Contact__c IN :updatedContactsMap.keySet() OR Contact__c IN :updatedContactsForNameMap.keySet()]){
-                Boolean isUpdateNeeded= false;
-                if(updatedContactsMap.containsKey(participant.Contact__c)){
-                    if(participant.Mailing_Country_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingCountryCode){
-                        participant.Mailing_Country_Code__c = updatedContactsMap.get(participant.Contact__c).MailingCountryCode;
+            for (Participant__c participant : [
+                SELECT
+                    Id,
+                    Contact__c,
+                    Mailing_Country_Code__c,
+                    Preferred_Language__c,
+                    Phone__c,
+                    Mailing_State_Code__c,
+                    Mailing_Zip_Postal_Code__c
+                FROM Participant__c
+                WHERE
+                    Contact__c IN :updatedContactsMap.keySet()
+                    OR Contact__c IN :updatedContactsForNameMap.keySet()
+            ]) {
+                Boolean isUpdateNeeded = false;
+                if (updatedContactsMap.containsKey(participant.Contact__c)) {
+                    if (
+                        participant.Mailing_Country_Code__c !=
+                        updatedContactsMap.get(participant.Contact__c).MailingCountryCode
+                    ) {
+                        participant.Mailing_Country_Code__c = updatedContactsMap.get(
+                                participant.Contact__c
+                            )
+                            .MailingCountryCode;
                         isUpdateNeeded = true;
                     }
-                    if(participant.Mailing_State_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingStateCode){
-                        participant.Mailing_State_Code__c = updatedContactsMap.get(participant.Contact__c).MailingStateCode;
+                    if (
+                        participant.Mailing_State_Code__c !=
+                        updatedContactsMap.get(participant.Contact__c).MailingStateCode
+                    ) {
+                        participant.Mailing_State_Code__c = updatedContactsMap.get(
+                                participant.Contact__c
+                            )
+                            .MailingStateCode;
                         isUpdateNeeded = true;
                     }
-                    if(participant.Mailing_Zip_Postal_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingPostalCode){
-                        participant.Mailing_Zip_Postal_Code__c = updatedContactsMap.get(participant.Contact__c).MailingPostalCode;
+                    if (
+                        participant.Mailing_Zip_Postal_Code__c !=
+                        updatedContactsMap.get(participant.Contact__c).MailingPostalCode
+                    ) {
+                        participant.Mailing_Zip_Postal_Code__c = updatedContactsMap.get(
+                                participant.Contact__c
+                            )
+                            .MailingPostalCode;
                         isUpdateNeeded = true;
-                    } 
-                    if(participant.Preferred_Language__c != updatedContactsMap.get(participant.Contact__c).Language__c){
-                        participant.Preferred_Language__c = updatedContactsMap.get(participant.Contact__c).Language__c;
+                    }
+                    if (
+                        participant.Preferred_Language__c !=
+                        updatedContactsMap.get(participant.Contact__c).Language__c
+                    ) {
+                        participant.Preferred_Language__c = updatedContactsMap.get(
+                                participant.Contact__c
+                            )
+                            .Language__c;
                         isUpdateNeeded = true;
-                    } 
-                    if(participant.Phone__c != updatedContactsMap.get(participant.Contact__c).Phone){
+                    }
+                    if (
+                        participant.Phone__c != updatedContactsMap.get(participant.Contact__c).Phone
+                    ) {
                         participant.Phone__c = updatedContactsMap.get(participant.Contact__c).Phone;
                         isUpdateNeeded = true;
                     }
                 }
-                if(isUpdateNeeded){
-                    participantsToUpdate.add(participant); 
-                    system.debug('*****participantsToUpdate: '+participantsToUpdate);
+                if (isUpdateNeeded) {
+                    participantsToUpdate.add(participant);
+                    system.debug('*****participantsToUpdate: ' + participantsToUpdate);
                 }
-                if(updatedContactsForNameMap.containsKey(participant.Contact__c)){
-                       updatedContactsForNameMap.remove(participant.Contact__c);                              
-                }                                 
+                if (updatedContactsForNameMap.containsKey(participant.Contact__c)) {
+                    updatedContactsForNameMap.remove(participant.Contact__c);
+                }
             }
-            if(participantsToUpdate.size()>0){
+            if (participantsToUpdate.size() > 0) {
                 TriggerHandlerExecutor.bypassHandler(
                     ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
                 );
                 update participantsToUpdate;
             }
         }
-        if(!updatedContactsForNameMap.isEmpty()){
+        if (!updatedContactsForNameMap.isEmpty()) {
             List<User> usersToUpdate = new List<User>();
-            for(User u : [SELECT Id,ContactId,FirstName,LastName FROM User WHERE ContactId IN :updatedContactsForNameMap.keySet()]){
+            for (User u : [
+                SELECT Id, ContactId, FirstName, LastName
+                FROM User
+                WHERE ContactId IN :updatedContactsForNameMap.keySet()
+            ]) {
                 Boolean isUpdateNeeded = false;
-                if(u.FirstName!= updatedContactsForNameMap.get(u.ContactId).FirstName){
+                if (u.FirstName != updatedContactsForNameMap.get(u.ContactId).FirstName) {
                     u.FirstName = updatedContactsForNameMap.get(u.ContactId).FirstName;
                     isUpdateNeeded = true;
                 }
-                if(u.LastName!= updatedContactsForNameMap.get(u.ContactId).LastName){
+                if (u.LastName != updatedContactsForNameMap.get(u.ContactId).LastName) {
                     u.LastName = updatedContactsForNameMap.get(u.ContactId).LastName;
                     isUpdateNeeded = true;
                 }
-                if(isUpdateNeeded){
+                if (isUpdateNeeded) {
                     usersToUpdate.add(u);
                 }
             }
-            if(!usersToUpdate.isEmpty()){
+            if (!usersToUpdate.isEmpty()) {
                 update usersToUpdate;
             }
         }
     }
-    
-@TestVisible
+
+    @TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(
         List<Contact> newList,
         Map<Id, Contact> oldMap
     ) {
         Boolean needUpdate = false;
         for (Contact cnt : newList) {
-            needUpdate = ((oldMap.get(cnt.Id).Email != cnt.Email) || (oldMap.get(cnt.Id).Language__c != cnt.Language__c));
+            needUpdate = ((oldMap.get(cnt.Id).Email != cnt.Email) ||
+            (oldMap.get(cnt.Id).Language__c != cnt.Language__c));
             if (needUpdate)
                 break;
         }
@@ -186,7 +237,11 @@ public without sharing class ContactTriggerHandler {
             for (Participant__c participant : participants)
                 participantsByContactMap.put(participant.Contact__c, participant);
             //prepare users map:
-            List<User> users = [SELECT Id,Email,LanguageLocaleKey,ContactId FROM User WHERE ContactId IN :newList];
+            List<User> users = [
+                SELECT Id, Email, LanguageLocaleKey, ContactId
+                FROM User
+                WHERE ContactId IN :newList
+            ];
             Map<Id, User> usersByContactMap = new Map<Id, User>();
             for (User user : users)
                 usersByContactMap.put(user.ContactId, user);
@@ -204,30 +259,29 @@ public without sharing class ContactTriggerHandler {
                     }
                     User user = usersByContactMap.get(cnt.Id);
                     Boolean isUpdateNeeded = false;
-                    if (user != null) {                       
-                        if(user.Email != cnt.Email){
+                    if (user != null) {
+                        if (user.Email != cnt.Email) {
                             user.Email = cnt.Email;
                             isUpdateNeeded = true;
                         }
-                        if(user.LanguageLocaleKey != cnt.Language__c){
+                        if (user.LanguageLocaleKey != cnt.Language__c) {
                             user.LanguageLocaleKey = cnt.Language__c;
                             isUpdateNeeded = true;
                         }
-                        if(isUpdateNeeded){
+                        if (isUpdateNeeded) {
                             usersForUpdate.add(user);
                         }
                     }
                 }
             }
-            if(!usersForUpdate.isEmpty()){
-            update usersForUpdate;
-                }
-             if(!participantsForUpdate.isEmpty()){
-            update participantsForUpdate;
-             }
+            if (!usersForUpdate.isEmpty()) {
+                update usersForUpdate;
+            }
+            if (!participantsForUpdate.isEmpty()) {
+                update participantsForUpdate;
+            }
         }
     }
-
 
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
@@ -343,5 +397,61 @@ public without sharing class ContactTriggerHandler {
 
         if (!toActivateUser.isEmpty())
             CommunityService.ActivateUsers(toActivateUser);
+    }
+    @TestVisible
+    //This method creates a task to update phone number whenever is_Invalid_number__c field is updated to true at contact
+    private static void createTaskToUpdatePhoneNumber(
+        List<Contact> newList,
+        Map<Id, Contact> oldMap
+    ) {
+        //set<Id> contIdSet = new  set<Id>();
+        //List<Contact> contList = new List<Contact>();
+        Map<Id, Contact> contMap = new Map<Id, Contact>();
+        Map<Id, Id> contIdUserIdMap = new Map<Id, Id>();
+        Map<Id, Id> contIdParMap = new Map<Id, Id>();
+        List<Task> taskForUpdatePhoneNumber = new List<Task>();
+        for (contact cont : newList) {
+            //check if is_Invalid_number__c field is updated to true
+            if (
+                cont.is_Invalid_number__c &&
+                cont.is_Invalid_number__c != oldMap.get(cont.Id).is_Invalid_number__c
+            ) {
+                contMap.put(cont.Id, cont);
+                //contIdSet.add(cont.Id);
+                //contList.add(cont);
+            }
+
+            if (contMap != null && !contMap.isEmpty()) {
+                //get the user from the contact list
+                list<user> userList = [
+                    SELECT Id, contactId
+                    FROM user
+                    WHERE contactId IN :contMap.keySet()
+                ];
+                for (user u : userList) {
+                    contIdUserIdMap.put(u.contactId, u.Id);
+                }
+                //get the participant from the contact set
+                list<participant__c> participantList = [
+                    SELECT Id, Contact__c
+                    FROM participant__c
+                    WHERE Contact__c IN :contMap.keySet()
+                ];
+                for (participant__c par : participantList) {
+                    contIdParMap.put(par.Contact__c, par.Id);
+                }
+                // call task service to create task to update phone number
+                for (contact con : contMap.values()) {
+                    Id userId = contIdUserIdMap.get(con.Id);
+                    Id parId = contIdParMap.get(con.Id);
+                    if (parId != null) {
+                        taskForUpdatePhoneNumber.add(
+                            TaskService.getInstance()
+                                .updateYourPhoneNumberTask(userId, parId, Con.Id)
+                        );
+                    }
+                }
+            }
+        }
     }
 }
