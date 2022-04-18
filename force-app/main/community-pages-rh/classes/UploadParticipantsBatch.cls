@@ -767,8 +767,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
                         Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
                         Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
-                        //MailingCountry = uploadUser.Contact.MailingCountry,
-                        //MailingCountryCode = uploadUser.Contact.MailingCountryCode,
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,
