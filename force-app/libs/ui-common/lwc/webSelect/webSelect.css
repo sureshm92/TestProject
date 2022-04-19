@@ -2,7 +2,7 @@
     display: inline-block;
 }
 
-.rrs-container .rrs-label {
+.rrs-label {
     display: flex;
     color: #666666;
     font-size: 13px;
@@ -10,7 +10,7 @@
     line-height: 21px;
 }
 
-.rrs-container .rrs-label .rrs-error {
+.rrs-error {
     color: #ff0031;
 }
 
@@ -22,7 +22,7 @@
     border-top: none;
 }
 
-.rrs-container .rrs-relative {
+.rrs-relative {
     position: relative;
 }
 
@@ -34,16 +34,7 @@
     height: 32px;
 }
 
-.rrs-container .rr-icon-default {
-    position: absolute;
-    pointer-events: none;
-    top: 13px;
-    right: 11px;
-    height: 16px;
-    width: 16px;
-}
-
-.slds-select_container .slds-select {
+.slds-select {
     padding-right: 25px;
     margin-top: 3px;
     position: relative;
@@ -62,6 +53,8 @@
     height: 16px;
 }
 
-.rrs-relative img {
-    display: none;
+.select-list {
+    margin-left: 10%;
+    height: max-content;
+    width: 120px;
 }

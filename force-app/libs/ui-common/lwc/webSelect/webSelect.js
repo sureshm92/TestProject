@@ -10,7 +10,7 @@ export default class WebSelect extends LightningElement {
     @api options = {};
 
     get applyContainerClass() {
-        return 'rrs-container' + this.containerClass;
+        return 'rrs-container' + ' ' + this.containerClass;
     }
     get isEmptylabel() {
         return this.label.length === 0;
