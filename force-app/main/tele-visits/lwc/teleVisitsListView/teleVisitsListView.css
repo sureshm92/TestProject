@@ -40,9 +40,12 @@
 th {
     font-size: 14px;
     line-height: 21px;
+    padding: 4px 10px;
+}
+
+.table-header {
     height: 43px;
     background-color: #f8f9fb;
-    padding: 4px 10px;
 }
 
 .rtl th,
