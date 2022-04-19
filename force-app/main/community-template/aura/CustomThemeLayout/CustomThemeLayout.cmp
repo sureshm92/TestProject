@@ -71,7 +71,12 @@
                                          />
                                 </div>
                             </aura:set>
-                        </aura:if>                   
+                        </aura:if>   
+                        <aura:if isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}">
+                            <img
+                                src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
+                            />
+                        </aura:if>                
                         
                         <div class="navigation-block">
                             <c:CommunityNavigation
@@ -110,6 +115,11 @@
                                 </aura:if>
                             </aura:if>
                             <!-- Ending of REF-1343 -->
+                            <aura:if isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}">
+                                <img
+                                    src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
+                                />
+                            </aura:if> 
                             <c:CommunityModeSwitcherMenu
                                                          currentMode="{!v.currentMode}"
                                                          onModeChange="{!c.doRefresh}"
