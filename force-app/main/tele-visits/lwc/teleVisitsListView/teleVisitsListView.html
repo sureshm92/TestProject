@@ -3,12 +3,12 @@
         <div class={titleClass}>Televisit Details</div>
         <div class="select-container">
             {filterLabel}
-            <c:web-select value="Upcoming" options={options} container-class="select-list">
-            </c:web-select>
+            <c-web-select value="Upcoming" options={options} container-class="select-list">
+            </c-web-select>
         </div>
 
         <template if:true={teleVisits}>
-            <c:ui-table>
+            <c-ui-table>
                 <slot name="body">
                     <tr class="table-header">
                         <th>Title</th>
@@ -35,7 +35,7 @@
                                     value={visitWrapper.visitDate}
                                     hour="numeric"
                                     minute="numeric"
-                                    time-zone={timeZoneInHour}
+                                    time-zone={timeZone}
                                 >
                                 </lightning-formatted-date-time>
                             </td>
@@ -44,7 +44,7 @@
                         </tr>
                     </template>
                 </slot>
-            </c:ui-table>
+            </c-ui-table>
         </template>
 
         <!--<div class="pagination">
@@ -58,7 +58,7 @@
                     />
                 </div>
 
-            <c:web-empty-list-stub
+            <c-web-empty-list-stub
                 class="no-visits-message"
                 target-list={visitWrappers}
                 icon-name="none"

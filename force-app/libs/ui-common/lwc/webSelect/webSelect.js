@@ -6,8 +6,8 @@ export default class WebSelect extends LightningElement {
     @api label = '';
     @api isRequired = false;
     @api errorMessage = '';
-    @api value;
-    @api options;
+    @api value = '';
+    @api options = {};
 
     get applyContainerClass() {
         return 'rrs-container' + this.containerClass;
