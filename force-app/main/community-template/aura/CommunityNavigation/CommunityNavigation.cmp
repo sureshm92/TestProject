@@ -7,7 +7,7 @@
     <aura:attribute name="communityName" type="String" />
     <input type="hidden" id="userMode" name="userMode" value="{!v.userMode}" />
     <!-- component body: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
         aura:id="navMenu"
@@ -32,10 +32,10 @@
                     </li>
                 </aura:set>
             </aura:if>
-            <aura:if  isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}" >
-                <img
-                     src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
-				 />
+            <aura:if
+                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
+            >
+                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
             </aura:if>
         </aura:iteration>
     </ul>
