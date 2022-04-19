@@ -6,7 +6,7 @@
     box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04);
     margin-top: -15px;
 }
-.cRRTable.rr-table .wrapText {
+.rr-table .wrapText {
     white-space: nowrap;
 }
 
@@ -32,7 +32,7 @@
     margin-right: 10px;
 }
 
-.cRRTable.rr-table td {
+.rr-table td {
     border-bottom: 1px solid #eaeaea;
     min-height: 45px;
 }
@@ -40,19 +40,16 @@
 th {
     font-size: 14px;
     line-height: 21px;
+    height: 43px;
+    background-color: #f8f9fb;
+    padding: 4px 10px;
 }
 
-.rtl.cRRTable th,
-.rtl.cRRTable td {
+.rtl th,
+.rtl td {
     padding: 0 10px;
     /*@noflip*/
     text-align: right;
-}
-
-.cRRTable.rr-table tr td.tv-t-reminder {
-    color: #297dfd;
-    cursor: pointer;
-    width: max-content;
 }
 
 .tv-t-reminder {
@@ -83,10 +80,6 @@ th {
     display: none;
 }
 
-.uiScrollerWrapper.scrollable {
-    overflow: visible;
-}
-
 @media (max-width: 768px) {
     .rr-table .tableHeader {
         display: none;
@@ -97,23 +90,23 @@ th {
         flex-direction: column;
     }
 
-    .cRRTable.rr-table tr td {
+    .rr-table tr td {
         width: 100%;
         border-bottom: none;
         color: #000;
     }
 
-    .cRRTable.rr-table tr td.tv-t-name {
+    .rr-table tr td.tv-t-name {
         padding-left: 10px;
         width: 100%;
     }
 
-    .cRRTable.rr-table tr td .tv-t-reminder {
+    .rr-table tr td .tv-t-reminder {
         display: flex;
         align-items: flex-start;
     }
 
-    .cRRTable.rr-table tr td .tv-t-reminder .slds-button {
+    .rr-table tr td .tv-t-reminder .slds-button {
         margin-top: -5px;
     }
 
@@ -128,7 +121,7 @@ th {
         padding: 0 0 0 5px;
     }
 
-    .cRRTable.rr-table tr td:last-child {
+    .rr-table tr td:last-child {
         border-bottom: 1px solid #d9d9d9;
         margin-bottom: 1.5rem;
         padding-top: 0;
