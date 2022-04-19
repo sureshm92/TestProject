@@ -43,7 +43,7 @@ export default class ConsentManager extends LightningElement {
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
     CONSENT_TO_STORE_AND_CONTACT;
-
+    
     @api participantEnrollId;
     @track consentModel = consentModel;
     participantContact = contactConsent;
@@ -61,16 +61,37 @@ export default class ConsentManager extends LightningElement {
     }
     @api
     get callSource() {
-        return this._callSource;
+        return this._callSource;        
     }
-    set callSource(value) {    
+    set callSource(value) {  
+        this._callSource = value;         
         switch(value){
-            case 'addParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
+            case 'addParticipant':                          
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
             break;
             case 'editParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+               
             break;
+            case 'importParticipant':
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
+                this.getStudySite();
+            break;
+        }
+    }
+
+    get ClassName(){
+         if(this._callSource == "addParticipant"){
+            return "addParticipantClass"
+        }
+        else if(this._callSource == "editParticipant"){
+            return "editParticipantClass"
+        }
+        else if(this._callSource == "importParticipant"){
+            return "importParticipantClass"
+        }
+        else{
+            return "addParticipantClass"
         }
     }
 
@@ -103,8 +124,7 @@ export default class ConsentManager extends LightningElement {
         if( value != null || value != undefined){
             let participantData = JSON.stringify(value);
             this.pe = JSON.parse(participantData);
-            this.participantContact = this.pe.Participant_Contact__r;
-            this.isCountryUS = (value.Participant__r.Mailing_Country_Code__c == "US"? true : false);
+            this.participantContact = (this.pe.Participant_Contact__r!=undefined?this.pe.Participant_Contact__r :  this.participantContact);
             this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
             this.updateStudyConsentChecks();
             this.updateOutreachConsentChecks();
@@ -156,21 +176,13 @@ export default class ConsentManager extends LightningElement {
 
     fireConsentChange(consentType){
         this.consentMapping['cType'] = consentType;
-        if(consentType == 'study'){
-            this.consentMapping['pe'] = this.pe;
-            const consentMap = this.consentMapping;
-            const filterChangeEvent = new CustomEvent('consentchange', {
-                detail: { consentMap },
-            });
-            this.dispatchEvent(filterChangeEvent);
-        }else{
-            this.consentMapping['contact'] = this.participantContact;
-            const consentMap = this.consentMapping;
-            const filterChangeEvent = new CustomEvent('consentchange', {
-                detail: { consentMap },
-            });
-            this.dispatchEvent(filterChangeEvent);
-        }
+        this.consentMapping['pe'] = this.pe;
+        this.consentMapping['contact'] = this.participantContact;
+        const consentMap = this.consentMapping;
+        const filterChangeEvent = new CustomEvent('consentchange', {
+            detail: { consentMap },
+        });
+        this.dispatchEvent(filterChangeEvent);
     }
 
     handleConsentChange(event){
@@ -184,6 +196,8 @@ export default class ConsentManager extends LightningElement {
                         if(this.isCountryUS){
                             this.pe.Permit_SMS_Text_for_this_study__c = consent;
                         }
+                        if(consent)
+                            this.consentModel.showError = false;
                         this.fireConsentChange('study');
                         break;
                 case 'studySMSConsent':
@@ -240,6 +254,7 @@ export default class ConsentManager extends LightningElement {
         =this.pe.Permit_Voice_Text_contact_for_this_study__c 
         =this.pe.Permit_SMS_Text_for_this_study__c  
         = false;
+        this.isCountryUS = true;
     }
 
     getStudySite(){
@@ -247,6 +262,11 @@ export default class ConsentManager extends LightningElement {
         .then((result) => {
             this.studySite = result;
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+            if(this._callSource == 'importParticipant' && this.studySite.Site__r.BillingCountryCode!=null){
+                this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
+                    this.updateStudyConsentChecks();
+                    this.updateOutreachConsentChecks();
+            }
         })
         .catch((error) => {
             this.error = error;
