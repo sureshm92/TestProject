@@ -412,7 +412,6 @@ public without sharing class ContactTriggerHandler {
         Map<Id, Id> contIdUserIdMap = new Map<Id, Id>();
         Map<Id, Id> contIdParMap = new Map<Id, Id>();
         List<Task> taskForUpdatePhoneNumber = new List<Task>();
-        List<Task> taskListForStatusUpdate = new List<Task>();
         for (contact cont : newList) {
             //check if is_Invalid_number__c field is updated to true
             if (
@@ -465,10 +464,9 @@ public without sharing class ContactTriggerHandler {
             ];
             for (task tl : taskList) {
                 tl.Status = 'Completed';
-                taskListForStatusUpdate.add(tl);
+                taskForUpdatePhoneNumber.add(tl);
             }
         }
-        upsert taskListForStatusUpdate;
         upsert taskForUpdatePhoneNumber;
     }
 }
