@@ -458,7 +458,7 @@
                         <aura:if
                             isTrue="{!v.studyDetail.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c}"
                         >
-                            <c:teleVisitsListView />
+                            <c:teleVisitsListView></c:teleVisitsListView>
                         </aura:if>
                     </aura:if>
                     <aura:if
