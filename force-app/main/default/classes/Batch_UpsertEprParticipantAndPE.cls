@@ -158,6 +158,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             newParticipantsMap.values()
         );
         Map<String, String> participantsByEmailRefid = new Map<String, String>();
+        List<Contact> contactsToInsert = new List<Contact>();
         Map<String,Contact> iprAndContactsToInsert = new Map<String,Contact>();
         Map<String, String> conEmailAccMap = new Map<String, String>();
         Map<Id, Id> dupPartContMap = new Map<Id, Id>();
@@ -202,6 +203,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participantDuplicate.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participantDuplicate.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participantDuplicate.Mailing_Zip_Postal_Code__c;
+                    //contactsToInsert.add(newContact);
                     iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participantDuplicate.Email__c, ipr.referralID__c);
                     String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
@@ -234,6 +236,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participant.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
+                    contactsToInsert.add(newContact);
                     iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participant.Email__c, ipr.referralID__c);
                     String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
@@ -243,9 +246,15 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             }
             
         }
+        //insert ContactsToInsert;
         insert iprAndContactsToInsert.values();
+        /*
+        for (Contact newContact : contactsToInsert) {
+            newParticipantsMap.get(participantsByEmailRefid.get(newContact.Email)).Contact__c = newContact.Id;    
+        }
+        */
         for(String ipr : iprAndContactsToInsert.keySet()) {
-            newParticipantsMap.get(ipr).Contact__c = iprAndContactsToInsert.get(ipr).Id;
+            newParticipantsMap.get(ipr).Contact__c = iprAndContactsToInsert.get(ipr);
         }
         
         Set<Participant__c> newParticipantsSet = new Set<Participant__c>(newParticipantsMap.values());
