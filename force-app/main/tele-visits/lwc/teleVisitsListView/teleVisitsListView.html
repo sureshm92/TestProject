@@ -9,7 +9,7 @@
 
         <template if:true={teleVisits}>
             <c-ui-table>
-                <slot name="body">
+                <table slot="body">
                     <tr class="table-header">
                         <th>Title</th>
                         <th>Date</th>
@@ -43,22 +43,19 @@
                             <td>{visitWrapper.visitAttendees}</td>
                         </tr>
                     </template>
-                </slot>
+                </table>
             </c-ui-table>
         </template>
 
-        <!--<div class="pagination">
-                    <c:rrPagination
-                        aura:id="rrPaginationComponent"
-                        studyVisitPageCheck="{!v.pageCheck}"
-                        currentPage="{!v.pageNumber}"
-                        allObjects="{!v.visitWrappers}"
-                        currentObjects="{!v.currentVisits}"
-                        entriesOnPage="4"
-                    />
-                </div>
+        <div class="pagination">
+            <c-web-pagination-remote
+                current-page={pageNumber}
+                all-records-count={allRecordsCount}
+                entries-on-page="4"
+            ></c-web-pagination-remote>
+        </div>
 
-            <c-web-empty-list-stub
+        <!--<c-web-empty-list-stub
                 class="no-visits-message"
                 target-list={visitWrappers}
                 icon-name="none"
