@@ -21,6 +21,7 @@ import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
 import Submit from '@salesforce/label/c.Submit';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
+import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -62,6 +63,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api studylist;
   studyToStudySite;
   studySiteList;
+  enableTelevisitTab = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
     RH_PP_Add_New_Participant,
@@ -91,16 +93,28 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.error = error;
     }
   }
+  getTelevisitVisibility(peid){
+    getTelevisitVisibility({ParticipantEnrollmentId : peid})
+            .then((result) => {
+                this.enableTelevisitTab = result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+  }
   handleStudyAndSite(event){
     this.studylist = event.detail.studylist;
     this.siteAccessLevels = event.detail.siteAccessLevels;
     this.studyToStudySite = event.detail.studyToStudySite;
     this.studysiteaccess = true;
   }
+    
+  
+
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
-    
+
     var accesslevels = Object.keys(this.siteAccessLevels).length;
     var conts = this.studyToStudySite;
     let options = [];
@@ -154,6 +168,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isSharingTab = false;
 
     console.log("pe-parent" + JSON.stringify(this.selectedPE));
+    this.getTelevisitVisibility(this.selectedPE.id);
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
     {
@@ -161,7 +176,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.isMedicalHistryAccess = false; 
       } 
     } 
-     
+
     this.template.querySelector("c-pir_participant-header").selectedPE =this.selectedPE;
     this.template.querySelector("c-pir_participant-header").doSelectedPI();
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
@@ -352,7 +367,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       } else{
         this.isSharingTab = false;
         this.selectedTab = "Participant Details";
-
+        
       }
     }
   }
@@ -379,7 +394,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.discardSharingTab = false;
         this.fetchAccessLevel();
         this.template.querySelector("c-pir_sharing-Option").fetchInitialDetails();      
-        
+
       }
       
       
@@ -413,6 +428,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isParticipantDetail = false;
     //this.disableMedicalSaveButton = true;
   }
+ }
+ isTelevisitTab=false;
+ handleTelevisitTab(){
+   this.selectedTab = 'Televisit';
+    //this.isStatusDetail=false;
+    this.isMedicalTab=false;
+    this.isParticipantDetail=false;
+    //this.isSharingTab=false;
+    this.isTelevisitTab= true;
+    
  }
 
  @api
@@ -478,10 +503,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
           this.delegateLevel = this.lststudysiteaccesslevel[this.selectedPE.siteId];
         }
     }
-  }
-  handlestatusspinner(){
-     this.saving ? this.saving=false:this.saving=true
-  }
+}
+handlestatusspinner(){
+  this.saving ? this.saving=false:this.saving=true
+}
   hanldeProgressValueChange(event){
     this.progressValue=event.detail;
     this.template.querySelectorAll(".linenone").forEach(function (L) {
@@ -509,7 +534,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
         this.addParticipant = true;
-        this.studysiteaccess = true;   
+        this.studysiteaccess = true;
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;
@@ -576,7 +601,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   handleExportSelcted(event){
     this.template.querySelector("c-pir_participant-list").handleExport();
   }
- 
+
   handleExportAll(event){
     this.template.querySelector("c-pir_participant-list").getExportAll();
   }
@@ -588,40 +613,60 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.ondisableButton = true;
       this.saving = false;
       this.isStatusChange = false;
-  }
-  get notesLabel() {
-      if(this.newStatusSelected == "Unable to Reach" && this.selectedreason == ""){
+    }
+    get notesLabel() {
+        if(this.newStatusSelected == "Unable to Reach" && this.selectedreason == ""){
+          this.bulkButtonValidation();
+          return this.utilLabels.PG_ACPE_L_Notes_Required;
+        }else if(this.newStatusSelected == "Contacted - Not Suitable" && this.selectedreason == ""){
+          this.bulkButtonValidation();
+          return this.utilLabels.PG_ACPE_L_Notes_Required;
+        }else if(this.notesNeeded.includes(this.selectedreason)){
+          this.bulkButtonValidation();
+          return this.utilLabels.PG_ACPE_L_Notes_Required;
+         }else {
+           this.bulkButtonValidation();
+          return this.utilLabels.PG_ACPE_L_Notes_Optional;
+        }
+    }
+    changeInputValue(event) {
+      let datavalue = event.target.dataset.value;
+      if (event.target.dataset.value === "additionalNotes") {
+        this.additionalNote = event.target.value;
         this.bulkButtonValidation();
-        return this.utilLabels.PG_ACPE_L_Notes_Required;
-      }else if(this.newStatusSelected == "Contacted - Not Suitable" && this.selectedreason == ""){
-        this.bulkButtonValidation();
-        return this.utilLabels.PG_ACPE_L_Notes_Required;
-      }else if(this.notesNeeded.includes(this.selectedreason)){
-        this.bulkButtonValidation();
-        return this.utilLabels.PG_ACPE_L_Notes_Required;
-       }else {
-         this.bulkButtonValidation();
-        return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
-  }
-  changeInputValue(event) {
-    let datavalue = event.target.dataset.value;
-    if (event.target.dataset.value === "additionalNotes") {
-      this.additionalNote = event.target.value;
-      this.bulkButtonValidation();
+      if (event.target.dataset.value === "FinalConsent") {
+        this.finalConsentvalue = event.target.checked;
+        this.bulkButtonValidation();
+      }
     }
-    if (event.target.dataset.value === "FinalConsent") {
-      this.finalConsentvalue = event.target.checked;
-      this.bulkButtonValidation();
-    }
-  }
-  bulkButtonValidation(){
-    let notes = this.additionalNote.trim();
-    let btnValidationSuccess = false;
-    let validationList = [];
-     
-    //1.
-    if (this.notesNeeded.includes(this.selectedreason)) {
+    bulkButtonValidation(){
+      let notes = this.additionalNote.trim();
+      let btnValidationSuccess = false;
+      let validationList = [];
+       
+      //1.
+      if (this.notesNeeded.includes(this.selectedreason)) {
+          if (notes != null && notes != "" && notes.length != 0) {
+            btnValidationSuccess = true;
+            validationList.push(btnValidationSuccess);
+          } else {
+            btnValidationSuccess = false;
+            validationList.push(btnValidationSuccess);
+          }
+      }
+      //2.
+      if(this.finalConsentRequired == true){
+         if(this.finalConsentvalue == true){
+          btnValidationSuccess = true;
+          validationList.push(btnValidationSuccess);
+         }else{
+          btnValidationSuccess = false;
+          validationList.push(btnValidationSuccess);
+         }
+      }
+      //3.
+      if((this.newStatusSelected == "Unable to Reach" || this.newStatusSelected == "Contacted - Not Suitable") && this.selectedreason == ""){
         if (notes != null && notes != "" && notes.length != 0) {
           btnValidationSuccess = true;
           validationList.push(btnValidationSuccess);
@@ -629,104 +674,84 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
           btnValidationSuccess = false;
           validationList.push(btnValidationSuccess);
         }
-    }
-    //2.
-    if(this.finalConsentRequired == true){
-       if(this.finalConsentvalue == true){
-        btnValidationSuccess = true;
-        validationList.push(btnValidationSuccess);
-       }else{
-        btnValidationSuccess = false;
-        validationList.push(btnValidationSuccess);
-       }
-    }
-    //3.
-    if((this.newStatusSelected == "Unable to Reach" || this.newStatusSelected == "Contacted - Not Suitable") && this.selectedreason == ""){
-      if (notes != null && notes != "" && notes.length != 0) {
-        btnValidationSuccess = true;
-        validationList.push(btnValidationSuccess);
-      } else {
-        btnValidationSuccess = false;
-        validationList.push(btnValidationSuccess);
-      }
-   }
-
-    if(validationList.includes(false)) {
-       this.bulkSubmit = true;    
-    }else {
-      this.bulkSubmit = false;  
-    }
   }
 
-  handleReasonChange(event){
-    if(event.target.value == null || event.target.value == ' '){
-       this.selectedreason = '';
-    }else{
-      this.selectedreason = event.detail.value;
-    }
-  }
-  isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
-  additionalNote = '';finalConsent=false;finalConsentRequired = false;
-  handleStatusChanges(event){
-    this.newStatusSelected = event.detail.newStatusSelected;
-    this.oParticipantStatus = event.detail.oParticipantStatus;
-    this.studyID = event.detail.studyId;
+  if(validationList.includes(false)) {
+    this.bulkSubmit = true;    
+ }else {
+   this.bulkSubmit = false;  
  }
- reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+}
+
+handleReasonChange(event){
+ if(event.target.value == null || event.target.value == ' '){
+    this.selectedreason = '';
+ }else{
+   this.selectedreason = event.detail.value;
+ }
+}
+isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
+additionalNote = '';finalConsent=false;finalConsentRequired = false;
+handleStatusChanges(event){
+ this.newStatusSelected = event.detail.newStatusSelected;
+ this.oParticipantStatus = event.detail.oParticipantStatus;
+ this.studyID = event.detail.studyId;
+}
+reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
-       this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
-       this.bulkStatusSpinner = true;
-       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
-      .then(result => {
-          let reasons = result.reason;
-          if(reasons != undefined){
-            if(reasons.charAt(0) == ';'){
-               reasons=reasons.substring(1);
-            }
-            let reasonList = reasons.split(";");
-            let trans_reasonopts = [];
-            for (let i = 0; i < reasonList.length; i++) {
-              let outcomeReason = reasonList[i];
-              if (outcomeReason.endsWith("*")) {
-                  outcomeReason = outcomeReason.substring(0,outcomeReason.length - 1);
-                  if(outcomeReason.length != 1){
-                    this.notesNeeded.push(outcomeReason);
-                  }else{
-                    this.notesNeeded.push('BLANK');
-                  }
-              }
-              trans_reasonopts.push({
-                label: this.utilLabels[outcomeReason],
-                value: outcomeReason
-              });
-             
-            }
-            this.reasoneoptions = trans_reasonopts;
-            if(this.newStatusSelected == "Contacted - Not Suitable"){
-              this.selectedreason ='';
-            }else{
-              this.selectedreason =  reasonList[0];
-            }
-            this.isReasonEmpty = false;
-          }else{
+      this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
+      this.bulkStatusSpinner = true;
+      bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
+     .then(result => {
+         let reasons = result.reason;
+         if(reasons != undefined){
+           if(reasons.charAt(0) == ';'){
+              reasons=reasons.substring(1);
+           }
+           let reasonList = reasons.split(";");
+           let trans_reasonopts = [];
+           for (let i = 0; i < reasonList.length; i++) {
+             let outcomeReason = reasonList[i];
+             if (outcomeReason.endsWith("*")) {
+                 outcomeReason = outcomeReason.substring(0,outcomeReason.length - 1);
+                 if(outcomeReason.length != 1){
+                   this.notesNeeded.push(outcomeReason);
+                 }else{
+                   this.notesNeeded.push('BLANK');
+                 }
+             }
+             trans_reasonopts.push({
+               label: this.utilLabels[outcomeReason],
+               value: outcomeReason
+             });
+            
+           }
+           this.reasoneoptions = trans_reasonopts;
+           if(this.newStatusSelected == "Contacted - Not Suitable"){
              this.selectedreason ='';
-             this.isReasonEmpty = true;
-          }
-          if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
-              this.finalConsent = result.finalConsent;
-              if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
-                  this.finalConsentRequired = true;
-              }
-          }
-          this.bulkStatusSpinner =false;
-      })
-      .catch(error => {
-         console.log(error);
-         this.bulkStatusSpinner = false;
-         this.showErrorToast(error);  
-      });
-       this.isStatusChange=true;
+           }else{
+             this.selectedreason =  reasonList[0];
+           }
+           this.isReasonEmpty = false;
+         }else{
+            this.selectedreason ='';
+            this.isReasonEmpty = true;
+         }
+         if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
+             this.finalConsent = result.finalConsent;
+             if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
+                 this.finalConsentRequired = true;
+             }
+         }
+         this.bulkStatusSpinner =false;
+     })
+     .catch(error => {
+        console.log(error);
+        this.bulkStatusSpinner = false;
+        this.showErrorToast(error);  
+     });
+      this.isStatusChange=true;
     }
     else{
       this.openpopup=false;

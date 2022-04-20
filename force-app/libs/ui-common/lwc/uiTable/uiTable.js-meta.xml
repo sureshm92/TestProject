@@ -3,5 +3,5 @@
     <apiVersion>47.0</apiVersion>
     <description>Ui Table</description>
     <isExposed>false</isExposed>
-    <masterLabel>Ui Table</masterLabel>
+    <masterLabel>uiTable</masterLabel>
 </LightningComponentBundle>
