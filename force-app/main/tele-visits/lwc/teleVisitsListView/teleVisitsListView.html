@@ -51,7 +51,8 @@
             <c-web-pagination-remote
                 current-page={pageNumber}
                 all-records-count={allRecordsCount}
-                entries-on-page="4"
+                entries-on-page={entriesOnPage}
+                onpaginatorchange={handlePaginatorChanges}
             ></c-web-pagination-remote>
         </div>
 
