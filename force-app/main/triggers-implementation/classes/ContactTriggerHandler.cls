@@ -26,6 +26,9 @@ public without sharing class ContactTriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
         }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
+        }
     }
 
     public class SetShowTourDefaultHandler extends TriggerHandler {
@@ -405,6 +408,7 @@ public without sharing class ContactTriggerHandler {
         Map<Id, Contact> oldMap
     ) {
         Map<Id, Contact> contMap = new Map<Id, Contact>();
+        Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
         Map<Id, Id> contIdUserIdMap = new Map<Id, Id>();
         Map<Id, Id> contIdParMap = new Map<Id, Id>();
         List<Task> taskForUpdatePhoneNumber = new List<Task>();
@@ -416,38 +420,53 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
+            if (cont.Phone != oldMap.get(cont.Id).phone) {
+                contMapForStatusUpdate.put(cont.Id, cont);
+                cont.Is_Invalid_Number__c = false;
+            }
+        }
 
-            if (contMap != null && !contMap.isEmpty()) {
-                //get the user from the contact list
-                list<user> userList = [
-                    SELECT Id, contactId
-                    FROM user
-                    WHERE contactId IN :contMap.keySet()
-                ];
-                for (user u : userList) {
-                    contIdUserIdMap.put(u.contactId, u.Id);
-                }
-                //get the participant from the contact set
-                list<participant__c> participantList = [
-                    SELECT Id, Contact__c
-                    FROM participant__c
-                    WHERE Contact__c IN :contMap.keySet()
-                ];
-                for (participant__c par : participantList) {
-                    contIdParMap.put(par.Contact__c, par.Id);
-                }
-                // call task service to create task to update phone number
-                for (contact con : contMap.values()) {
-                    Id userId = contIdUserIdMap.get(con.Id);
-                    Id parId = contIdParMap.get(con.Id);
-                    if (parId != null) {
-                        taskForUpdatePhoneNumber.add(
-                            TaskService.getInstance()
-                                .updateYourPhoneNumberTask(userId, parId, Con.Id)
-                        );
-                    }
+        if (contMap != null && !contMap.isEmpty()) {
+            //get the user from the contact list
+            list<user> userList = [
+                SELECT Id, contactId
+                FROM user
+                WHERE contactId IN :contMap.keySet()
+            ];
+            for (user u : userList) {
+                contIdUserIdMap.put(u.contactId, u.Id);
+            }
+            //get the participant from the contact set
+            list<participant__c> participantList = [
+                SELECT Id, Contact__c
+                FROM participant__c
+                WHERE Contact__c IN :contMap.keySet()
+            ];
+            for (participant__c par : participantList) {
+                contIdParMap.put(par.Contact__c, par.Id);
+            }
+            // call task service to create task to update phone number
+            for (contact con : contMap.values()) {
+                Id userId = contIdUserIdMap.get(con.Id);
+                Id parId = contIdParMap.get(con.Id);
+                if (parId != null) {
+                    taskForUpdatePhoneNumber.add(
+                        TaskService.getInstance().updateYourPhoneNumberTask(userId, parId, Con.Id)
+                    );
                 }
             }
         }
+        if (contMapForStatusUpdate != null && !contMapForStatusUpdate.isEmpty()) {
+            list<task> taskList = [
+                SELECT Id, WhoId, Status
+                FROM task
+                WHERE WhoId IN :contMapForStatusUpdate.keySet()
+            ];
+            for (task tl : taskList) {
+                tl.Status = 'Completed';
+                taskForUpdatePhoneNumber.add(tl);
+            }
+        }
+        upsert taskForUpdatePhoneNumber;
     }
 }
