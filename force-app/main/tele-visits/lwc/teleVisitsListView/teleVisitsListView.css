@@ -32,12 +32,12 @@
     margin-right: 10px;
 }
 
-.rr-table td {
+.tv-body td {
     border-bottom: 1px solid #eaeaea;
     min-height: 45px;
 }
 
-th {
+.tv-body th {
     font-size: 14px;
     line-height: 21px;
     padding: 4px 10px;

@@ -9,6 +9,8 @@ export default class WebPaginationRemote extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
     @api currentPage;
     @track totalPages;
+    recordsToDisplay = [];
+    @track end = false;
 
     @api
     get allRecordsCount() {
@@ -31,6 +33,7 @@ export default class WebPaginationRemote extends LightningElement {
     //Inner methods-----------------------------------------------------------------------------------------------------
     connectedCallback() {
         this.calcTotalPages();
+        //this.setRecordsToDisplay();
     }
 
     calcTotalPages() {
@@ -72,5 +75,35 @@ export default class WebPaginationRemote extends LightningElement {
             'next-btn slds-button slds-button_neutral' +
             (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '')
         );
+    }
+    @api
+    setRecordsToDisplay() {
+        this.recordsToDisplay = [];
+        if (!this.entriesOnPage) this.entriesOnPage = this.allRecordsCount;
+
+        let begin = (this.currentPage - 1) * this.recordsPerPage;
+        let end = begin + this.recordsPerPage;
+        if (this.allRecordsCount == 0) {
+            this.startRecord = this.allRecordsCount;
+        } else if (begin < this.allRecordsCount) {
+            this.startRecord = begin + 1;
+        } else if (this.allRecordsCount <= 10) {
+            this.startRecord = 1;
+        }
+
+        this.endRecord = end > this.allRecordsCount ? this.allRecordsCount : end;
+
+        this.end = end > this.allRecordsCount ? true : false;
+        //this.setPaginationControls();
+
+        for (
+            let i = (this.currentPage - 1) * this.entriesOnPage;
+            i < this.currentPage * this.entriesOnPage;
+            i++
+        ) {
+            if (i === this.allRecordsCount) break;
+            this.recordsToDisplay.push(this.records[i]);
+        }
+        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
     }
 }
