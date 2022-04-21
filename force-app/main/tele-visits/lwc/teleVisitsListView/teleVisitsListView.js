@@ -1,7 +1,4 @@
-import { LightningElement, api, wire } from 'lwc';
-//import { loadScript } from 'lightning/platformResourceLoader';
-//import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-//import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { LightningElement, api, wire, track } from 'lwc';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import TIMEZONE from '@salesforce/i18n/timeZone';
@@ -10,15 +7,8 @@ import getVisits from '@salesforce/apex/TeleVisitService.getVisits';
 export default class TeleVisitsListView extends LightningElement {
     @api isMobileApp;
     @api isRTL;
-    teleVisits = [{}];
-    searchStatus = 'Scheduled';
-    @wire(getVisits, { visitMode: '$searchStatus' }) wiredVisits({ error, data }) {
-        if (data) {
-            this.teleVisits = data;
-        } else if (error) {
-            console.log('error', error);
-        }
-    }
+    @track teleVisits = [{}];
+    searchStatus = '';
     labels = {
         RTL_Languages,
         FILTER_LABEL
@@ -38,6 +28,11 @@ export default class TeleVisitsListView extends LightningElement {
     allRecordsCount = 5;
     teleVisitsToDisplay = [];
 
+    connectedCallback() {
+        this.searchStatus = 'Scheduled';
+        this.loadVisits();
+    }
+
     get containerClass() {
         return 'tv-body' + (this.isInitialized ? '' : 'hidden');
     }
@@ -53,7 +48,17 @@ export default class TeleVisitsListView extends LightningElement {
         //this.rowNumberOffset = this.teleVisitsToDisplay[0].rowNumber - 1;
     }
     statusHandler(event) {
-        console.log('event detail', event.detail);
         this.searchStatus = event.detail;
+        this.loadVisits();
+    }
+    loadVisits() {
+        getVisits({ visitMode: this.searchStatus })
+            .then((result) => {
+                console.log('res', result);
+                this.teleVisits = result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }

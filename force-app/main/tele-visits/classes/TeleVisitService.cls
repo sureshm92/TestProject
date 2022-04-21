@@ -1,6 +1,6 @@
 public without sharing class TeleVisitService {
     @TestVisible
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<TelevisitWrapper> getVisits(String visitMode) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
