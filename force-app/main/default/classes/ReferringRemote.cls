@@ -452,6 +452,15 @@ public without sharing class ReferringRemote {
                     } else {
                         participantCon.Phone = participant.Phone__c;
                     }
+                    //Added by Raviteja
+                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                        participantCon.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
+                       participantCon.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                       participantCon.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+
+                    }
+                      //End                         
+                    
                     update participantCon;
                 }
             }
