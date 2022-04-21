@@ -1,62 +1,35 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 //import { loadScript } from 'lightning/platformResourceLoader';
 //import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import TIMEZONE from '@salesforce/i18n/timeZone';
+import getVisits from '@salesforce/apex/TeleVisitService.getVisits';
 
 export default class TeleVisitsListView extends LightningElement {
     @api isMobileApp;
     @api isRTL;
+    teleVisits = [{}];
+    searchStatus = 'Scheduled';
+    @wire(getVisits, { visitMode: '$searchStatus' }) wiredVisits({ error, data }) {
+        if (data) {
+            this.teleVisits = data;
+        } else if (error) {
+            console.log('error', error);
+        }
+    }
     labels = {
         RTL_Languages,
         FILTER_LABEL
     };
     options = [
         {
-            value: 'Upcoming',
+            value: 'Scheduled',
             label: 'Upcoming'
         },
-        { value: 'Past', label: 'Past' },
+        { value: 'Completed', label: 'Past' },
         { value: 'Cancelled', label: 'Cancelled' }
-    ];
-    teleVisits = [
-        {
-            id: '0',
-            visitName: 'Visit 1',
-            visitDate: '2022-04-18T11:16:47.000+0000',
-            visitDuration: '30 minutes',
-            visitAttendees: 'Mike Tyson (PI)'
-        },
-        {
-            id: '1',
-            visitName: 'Visit 2',
-            visitDate: '2022-04-18T11:16:47.000+0000',
-            visitDuration: '30 minutes',
-            visitAttendees: 'Mike Tyson (PI)'
-        },
-        {
-            id: '2',
-            visitName: 'Visit 3',
-            visitDate: '2022-04-18T11:16:47.000+0000',
-            visitDuration: '30 minutes',
-            visitAttendees: 'Mike Tyson (PI)'
-        },
-        {
-            id: '3',
-            visitName: 'Visit 4',
-            visitDate: '2022-04-18T11:16:47.000+0000',
-            visitDuration: '30 minutes',
-            visitAttendees: 'Mike Tyson (PI)'
-        },
-        {
-            id: '4',
-            visitName: 'Visit 5',
-            visitDate: '2022-04-18T11:16:47.000+0000',
-            visitDuration: '30 minutes',
-            visitAttendees: 'Mike Tyson (PI)'
-        }
     ];
     isInitialized = true;
     timeZone = TIMEZONE;
@@ -97,5 +70,9 @@ export default class TeleVisitsListView extends LightningElement {
     handlePaginatorChanges(event) {
         this.teleVisitsToDisplay = event.detail;
         //this.rowNumberOffset = this.teleVisitsToDisplay[0].rowNumber - 1;
+    }
+    statusHandler(event) {
+        console.log('event detail', event.detail);
+        this.searchStatus = event.detail;
     }
 }
