@@ -38,25 +38,6 @@ export default class TeleVisitsListView extends LightningElement {
     allRecordsCount = 5;
     teleVisitsToDisplay = [];
 
-    /*connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                console.log('RR_COMMUNITY_JS loaded');
-                this.isMobileApp = communityService.isMobileSDK();
-                this.isMobileScreen = communityService.isMobileOS();
-                this.isRTL = this.labels.RTL_Languages.contains(communityService.getLanguage());
-                this.isInitialized = true;
-            })
-            .catch((error) => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error loading RR_COMMUNITY_JS',
-                        message: error.message,
-                        variant: 'error'
-                    })
-                );
-            });
-    }*/
     get containerClass() {
         return 'tv-body' + (this.isInitialized ? '' : 'hidden');
     }
