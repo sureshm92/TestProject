@@ -36,7 +36,7 @@ export default class WebIcon extends LightningElement {
         });
         //}
         //else {
-        console.log('inside legend icon-->')
+        console.log('inside legend icon-->');
         new SvgLoader().getIconBody(rrIcons + '/icons.svg', this.iconName, function (symbol) {
             try {
                 svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
@@ -46,7 +46,6 @@ export default class WebIcon extends LightningElement {
             }
         });
         //}
-
 
         if (this.iconHeight) svgElement.style.height = this.iconHeight + 'px';
         if (this.iconWidth) svgElement.style.width = this.iconWidth + 'px';
@@ -65,7 +64,7 @@ export default class WebIcon extends LightningElement {
     }
 
     get svgClass() {
-        return 'rr-icon-' + this.iconSize;
+        return 'rr-icon_' + this.iconSize;
     }
 
     cloneNodes(sourceEl, targetEl) {
