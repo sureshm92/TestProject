@@ -29,7 +29,7 @@ export default class TeleVisitsListView extends LightningElement {
     entriesOnPage = ENTRIES_ON_PAGE;
     pageNumber = 1;
     allRecordsCount;
-    isDisplayPagination;
+    isDisplayTable;
     teleVisitsToDisplay = [];
 
     renderedCallback() {
