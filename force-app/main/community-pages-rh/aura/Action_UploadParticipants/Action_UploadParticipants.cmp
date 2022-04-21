@@ -182,9 +182,9 @@
                 <div class="slds-size_1-of-1 slds-p-horizontal_x-medium" style="margin-left:13px">
                     <div class="slds-m-around-small">
                         <c:consentManager aura:id="consent-Manager" onconsentchange="{!c.handleConsentChange}"  studySiteId="{!v.studySiteId}" callSource="importParticipant"></c:consentManager>
-                        </div>
                     </div>
                 </div>
+            </div>
             <aura:if isTrue="{!and(v.studySiteType == 'Traditional' , v.isSuppressed)}">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">

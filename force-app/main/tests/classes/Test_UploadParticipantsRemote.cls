@@ -44,6 +44,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -81,6 +84,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -129,6 +135,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -170,6 +179,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -206,6 +218,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -253,6 +268,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -288,6 +306,9 @@ public class Test_UploadParticipantsRemote {
                 tstData.ss.Id,
                 statuses[2].value,
                 true,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -330,6 +351,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -378,6 +402,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -416,6 +443,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -460,6 +490,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                false,
+                false,
+                false,
                 false,
                 false,
                 false,
@@ -510,6 +543,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                false,
+                false,
+                false,
                 null
             );
         }
@@ -549,6 +585,9 @@ public class Test_UploadParticipantsRemote {
                 'TestFile',
                 tstData.ss.Id,
                 statuses[2].value,
+                true,
+                true,
+                true,
                 true,
                 true,
                 true,
@@ -600,6 +639,9 @@ public class Test_UploadParticipantsRemote {
                 true,
                 true,
                 true,
+                true,
+                true,
+                true,
                 null
             );
         }
@@ -642,6 +684,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                true,
+                true,
+                true,
                 null
             );
         }
@@ -685,6 +730,9 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
+                true,
+                true,
+                true,
                 null
             );
         }
