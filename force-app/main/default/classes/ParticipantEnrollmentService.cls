@@ -599,8 +599,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
         'Clinical_Trial_Profile__r.Study_GUID__c',
-        'Clinical_Trial_Profile__r.Visits_are_Available__c ',
-        'Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c ',
+        'Clinical_Trial_Profile__r.Visits_are_Available__c ',   
+        'Clinical_Trial_Profile__r.IQVIA_Outreach__c',//Added by Raviteja
         'Subject_GUID__c',
         'isAuthorized__c',
         'Human_Id__c',
@@ -674,6 +674,12 @@ public without sharing class ParticipantEnrollmentService {
         'Participant__r.Contact__r.Visit_Results_OptIn__c',
         'Participant_Contact__c',
         'Participant_Contact__r.Visit_Results_OptIn__c',
+        'Participant_Contact__r.Participant_Opt_In_Status_Emails__c',//Added by Raviteja
+        'Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c',//Added by Raviteja
+        'Participant_Contact__r.Participant_Opt_In_Status_SMS__c',//Added by Raviteja
+        'Participant_Opt_In_Status_Emails__c',//Added by Raviteja
+        'Participant_Opt_In_Status_SMS__c',//Added by Raviteja
+        'Participant_Phone_Opt_In_Permit_Phone__c',//Added by Raviteja
         'PI_Contact__c',
         'PI_Contact__r.Id',
         'PI_Contact__r.Name',
@@ -779,7 +785,7 @@ public without sharing class ParticipantEnrollmentService {
         'Consulted__c',
         'Consulted_Date__c',
         'Have_you_Documented_the_Discussion__c',
-        'Discussion_Documented_Date__c'
+        'Discussion_Documented_Date__c' 
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',
