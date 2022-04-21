@@ -1,8 +1,9 @@
 <template>
+    <c-web-spinner fixed="true"></c-web-spinner>
     <div class={containerClass}>
         <div class={titleClass}>Televisit Details</div>
         <div class="select-container">
-            {filterLabel}
+            {labels.FILTER_LABEL}
             <c-web-select
                 value="Scheduled"
                 options={options}
@@ -12,7 +13,7 @@
             </c-web-select>
         </div>
 
-        <template if:true={teleVisits}>
+        <template if:true={isDisplayTable}>
             <c-ui-table>
                 <table slot="body">
                     <tr class="table-header">
@@ -61,11 +62,11 @@
             ></c-web-pagination-remote>
         </div>
 
-        <!--<c-web-empty-list-stub
-                class="no-visits-message"
-                target-list={visitWrappers}
-                icon-name="none"
-                message={noItemsToDisplay}
-            />-->
+        <c-web-empty-list
+            css-class="main-container_no-visits"
+            target-list={teleVisits}
+            icon-name="none"
+            message={labels.NO_ITEMS}
+        ></c-web-empty-list>
     </div>
 </template>
