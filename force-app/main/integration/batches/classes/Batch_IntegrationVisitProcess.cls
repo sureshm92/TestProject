@@ -3,6 +3,7 @@
  */
 
 public without sharing class Batch_IntegrationVisitProcess extends Batch_ScheduledAbstract {
+    set<ID> pvIds = new Set<ID>();
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
             [
@@ -33,10 +34,13 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
 
     public void execute(Database.BatchableContext param1, List<SObject> scope) {
         List<Integration_Visit__c> integrationVisits = (List<Integration_Visit__c>) scope;
-        IntegrationVisitTriggerHandler.updateVisits(integrationVisits);
+        pvIds = IntegrationVisitTriggerHandler.updateVisits(integrationVisits);
     }
 
     public override void finish(Database.BatchableContext bc) {
+        system.debug('pvIds----->' + pvIds);
+        Batch_CreateECOASubjectEvents objBatch = new Batch_CreateECOASubjectEvents(pvIds);
+        Database.executeBatch(objBatch, 50);
         Database.executeBatch(new Batch_IntegrationVisitResultProcess());
         super.finish(bc);
     }
