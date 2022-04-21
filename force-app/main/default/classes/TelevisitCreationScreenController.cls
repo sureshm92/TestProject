@@ -3,7 +3,7 @@ Public without sharing Class TelevisitCreationScreenController {
     Public static Boolean televisistPrerequisiteCheck(String ParticipantEnrollmentId){
         Boolean enableTelevisitTab = false;
         if(ParticipantEnrollmentId != Null){
-            Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+            Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Participant_Contact__r.Is_Patient_User_Created__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
                 FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
             
@@ -11,7 +11,7 @@ Public without sharing Class TelevisitCreationScreenController {
                 
             if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
                ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
-               vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c){
+               vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c && ParticipantEnrollment.Participant_Contact__r.Is_Patient_User_Created__c){
                      enableTelevisitTab = true;
                  
              }else{
@@ -101,6 +101,16 @@ Public without sharing Class TelevisitCreationScreenController {
             type = type.split('\\)')[0];
             televisitAttendee.Attendee_Type__c = type;
             
+            if(type == 'Participant'){
+                televisitAttendee.Firstname__c = per.Participant__r.First_Name__c;
+                televisitAttendee.Lastname__c = per.Participant__r.Last_Name__c;
+            }
+            
+            if(type == 'Participant Delegate'){
+                televisitAttendee.Firstname__c = pd.Participant_Delegate__r.First_Name__c;
+                televisitAttendee.Lastname__c = pd.Participant_Delegate__r.Last_Name__c;
+            }
+            /*
             if(type == 'Participant' && televisitAttendee.Firstname__c == null){
                 televisitAttendee.Firstname__c = per.Participant__r.First_Name__c;
             }
@@ -114,6 +124,7 @@ Public without sharing Class TelevisitCreationScreenController {
             if(type == 'Participant Delegate' && televisitAttendee.Lastname__c == null){
                 televisitAttendee.Lastname__c = pd.Participant_Delegate__r.Last_Name__c;
             }
+            */
             
             lsttelevisitAttendees.add(televisitAttendee);
         }
@@ -183,15 +194,19 @@ Public without sharing Class TelevisitCreationScreenController {
         @AuraEnabled 
         public List<Televisit_Attendee__c> attendeesList{get;set;}
         @AuraEnabled 
-        public Boolean isScheduleStatus{get;set;}
+        public Boolean isScheduledStatus{get;set;}
         @AuraEnabled 
         public Boolean isCancelledStatus{get;set;}
         @AuraEnabled 
         public Boolean isCompletedStatus{get;set;}
+        @AuraEnabled
+        public List<AttendeesWrapper> attendeesWrapperList{get;set;}
     }
     
     @AuraEnabled
     Public Static List<FetchTelevisitWrapper> fetchTelevisitRecord(String status, String participantEnrollmentId){
+        List<Televisit__c> lstTelevisitRecordsToFetch = new List<Televisit__c>();
+        
         String Cancelled;
         String Completed;
         String Schdeduled;
@@ -199,18 +214,32 @@ Public without sharing Class TelevisitCreationScreenController {
         if(status.contains('/')){
             Cancelled = status.split('/')[0];
             Completed = status.split('/')[1];
+            
+            lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
+                                        Participant_Enrollment__r.Participant__r.First_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r)
+                                        FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
+                                        order by Visit_Date__c desc, Start_Time__c desc];
         }else{
             Schdeduled = status;
+            
+            lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
+                                        Participant_Enrollment__r.Participant__r.First_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r)
+                                        FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
+                                        order by Visit_Date__c asc, Start_Time__c asc];
         }
         List<FetchTelevisitWrapper> lstWrap = new List<FetchTelevisitWrapper>();
         List<Televisit__c> lstTelevisitRecords = new List<Televisit__c>();
+        List<AttendeesWrapper> lstAttendeesWrapper = new List<AttendeesWrapper>();
         
-        for(Televisit__c tv :[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
-                                Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                Participant_Enrollment__r.Participant__r.Last_Name__c, 
-                                (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r)
-                                FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
-                                  order by Visit_Date__c asc, Start_Time__c asc]){
+        
+        
+        
+        
+        for(Televisit__c tv :lstTelevisitRecordsToFetch){
             FetchTelevisitWrapper wrap = new FetchTelevisitWrapper();
             wrap.id = tv.Id;
             wrap.title = tv.Title__c;
@@ -218,7 +247,7 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.startTime = tv.Start_Time__c;
             wrap.status = tv.Status__c;
             if(tv.Status__c == 'Scheduled'){
-                wrap.isScheduleStatus = true;
+                wrap.isScheduledStatus = true;
             }
             if(tv.Status__c == 'Completed'){
                 wrap.isCompletedStatus = true;
@@ -293,7 +322,14 @@ Public without sharing Class TelevisitCreationScreenController {
         Public String attendeeType;
         @AuraEnabled 
         Public String contactId;
+        @AuraEnabled 
+        Public String attendeeId;  
         
+        @AuraEnabled 
+        Public String name;
+        @AuraEnabled 
+        Public String id;
+           
     }
     
     @AuraEnabled
@@ -305,5 +341,130 @@ Public without sharing Class TelevisitCreationScreenController {
         return 'Televisit Cancelled Successfully';
     }
     
+    @AuraEnabled
+    Public Static List<AttendeesWrapper> fetchSelectedAttendees(String TelevisitId){
+        List<AttendeesWrapper> lstSelectedAttendees = new List<AttendeesWrapper>();
+        for(Televisit_Attendee__c selectedAttendee: [SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c,Contact__c  
+                                                    FROM Televisit_Attendee__c WHERE Televisit__c =: TelevisitId]){
+            AttendeesWrapper wrap = new AttendeesWrapper();
+            wrap.firstName = selectedAttendee.Firstname__c;
+            wrap.lastName = selectedAttendee.Lastname__c;
+            wrap.attendeeType = selectedAttendee.Attendee_Type__c;
+            wrap.contactId = selectedAttendee.Contact__c;
+            wrap.attendeeId = selectedAttendee.Id;
+            lstSelectedAttendees.add(wrap);                     
+        }
+        return lstSelectedAttendees;
+    }
     
+    @AuraEnabled
+    Public Static String updateAttendees(String TelevisitId,String deletedAttendeesRecord, String newlyAddedAttendeesRecord){
+        List<AttendeesWrapper> deletedAttendeesRecordWrap=(List<AttendeesWrapper>)JSON.deserialize(deletedAttendeesRecord,List<AttendeesWrapper>.class);
+        List<Televisit_Attendee__c> delListTelevisitAttendee = new List<Televisit_Attendee__c>();
+        List<Id> delListTelevisitAttendeeId = new List<Id>();
+        system.debug('deletedAttendeesRecordWrap :'+deletedAttendeesRecordWrap);
+        for(AttendeesWrapper delRec :deletedAttendeesRecordWrap){
+            delListTelevisitAttendeeId.add(delRec.attendeeId);
+        }
+        
+        
+        for(Televisit_Attendee__c tvAttendeeRecord : [SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c,Contact__c  
+                                                    FROM Televisit_Attendee__c WHERE Televisit__c =: TelevisitId AND Id =:delListTelevisitAttendeeId]){
+            delListTelevisitAttendee.add(tvAttendeeRecord);                              
+        }
+        
+        if(!delListTelevisitAttendee.isEmpty()){
+            delete delListTelevisitAttendee;
+        }
+        
+        addNewAttendees(TelevisitId,newlyAddedAttendeesRecord);
+        
+        return 'Success';
+    }
+    
+    @AuraEnabled
+    Public Static String addNewAttendees(String TelevisitId, String newlyAddedAttendeesRecord){
+        List<AttendeesWrapper> newlyAddedAttendeesRecordWrap=(List<AttendeesWrapper>)JSON.deserialize(newlyAddedAttendeesRecord,List<AttendeesWrapper>.class);
+        system.debug('newlyAddedAttendeesRecordWrap :'+newlyAddedAttendeesRecordWrap);
+        
+        //List<ParseAttendeesList> wrapper1=(List<ParseAttendeesList>)JSON.deserialize(wrapper.attendeesList,ParseAttendeesList.class);
+        Map<Id,User> mapUser = new Map<Id,User>();
+        List<String> Ids = new List<String>();
+        for(AttendeesWrapper wrap : newlyAddedAttendeesRecordWrap){
+            string id = wrap.id;
+            Ids.add(id);
+        }
+        for(User usr :[SELECT Id,firstname,lastname,contactId FROM User WHERE contactId  =:Ids]){
+            mapUser.put(usr.contactId, usr);
+        }
+        List<Televisit_Attendee__c> lsttelevisitAttendees = new List<Televisit_Attendee__c>();
+        
+        String participantContactId;
+        String participantDelegateContactId;
+        
+        for(AttendeesWrapper wrap : newlyAddedAttendeesRecordWrap){
+            String type = wrap.name;
+            type = type.split('\\(')[1];
+            type = type.split('\\)')[0];
+            if(type == 'Participant'){
+                participantContactId = wrap.id;
+            }
+            if(type == 'Participant Delegate'){
+                participantDelegateContactId = wrap.id;
+            } 
+           
+        }
+        
+        Participant_Enrollment__c per = new Participant_Enrollment__c();
+        Patient_Delegate__c pd = new Patient_Delegate__c();
+        if(participantContactId != null){
+            per = [SELECT Id,Participant__c,Participant_Contact__c,PI_Contact__c,PI_Contact__r.FirstName, PI_Contact__r.LastName, Study_Site__c,
+                                          Participant__r.First_Name__c,Participant__r.Last_Name__c FROM Participant_Enrollment__c WHERE Participant_Contact__c =: participantContactId];
+        
+        }
+        if(participantDelegateContactId != null){
+            pd = [SELECT Id,Participant__c, Primary_Delegate__c, Participant_Delegate__r.First_Name__c, 
+                                                      Participant_Delegate__r.Last_Name__c, Contact__c FROM Patient_Delegate__c WHERE 
+                                                      Contact__c =: participantDelegateContactId];
+        
+        }
+        
+        
+        for(AttendeesWrapper wrap : newlyAddedAttendeesRecordWrap){
+            Televisit_Attendee__c televisitAttendee = new Televisit_Attendee__c();
+            String contactId = wrap.id;
+            televisitAttendee.Contact__c = contactId;
+            televisitAttendee.Televisit__c = TelevisitId;
+            televisitAttendee.User__c = (mapUser.get(contactId)!= null)? mapUser.get(contactId).Id:null;
+            televisitAttendee.Firstname__c =(mapUser.get(contactId)!= null)? mapUser.get(contactId).firstname:null;
+            televisitAttendee.Lastname__c =(mapUser.get(contactId)!= null)? mapUser.get(contactId).lastname:null;
+            String type = wrap.name;
+            type = type.split('\\(')[1];
+            type = type.split('\\)')[0];
+            televisitAttendee.Attendee_Type__c = type;
+            
+            if(type == 'Participant' && televisitAttendee.Firstname__c == null){
+                televisitAttendee.Firstname__c = per.Participant__r.First_Name__c;
+            }
+            if(type == 'Participant' && televisitAttendee.Lastname__c == null){
+                televisitAttendee.Lastname__c = per.Participant__r.Last_Name__c;
+            }
+            
+            if(type == 'Participant Delegate' && televisitAttendee.Firstname__c == null){
+                televisitAttendee.Firstname__c = pd.Participant_Delegate__r.First_Name__c;
+            }
+            if(type == 'Participant Delegate' && televisitAttendee.Lastname__c == null){
+                televisitAttendee.Lastname__c = pd.Participant_Delegate__r.Last_Name__c;
+            }
+            
+            lsttelevisitAttendees.add(televisitAttendee);
+        }
+        
+        //Televisit_Attendee__c televisitAttendees = new Televisit_Attendee__c();
+        //televisitAttendees.Contact__c = wrapper1.label;
+        
+            insert lsttelevisitAttendees;
+        
+        return 'Success Add Attendee';
+    }
 }

@@ -16,6 +16,9 @@
     <aura:attribute name="siteId" type="String" /> 
     <aura:attribute name="trial" type="Object" />
     <aura:attribute name="pEnrollment" type="Object" />
+    <!-- Added by Raviteja -->
+    <aura:attribute name="mailingCountryCode" type="String" />
+    <!-- Ended by Raviteja -->
     <aura:attribute name="hcpeId" type="String" />
     <aura:attribute name="hcpEnrollment" type="Object" />
     <aura:attribute name="pendingPEnrollments" type="List" />
@@ -1197,23 +1200,8 @@
                                                 </aura:if>
                                             </aura:if>
                                             <aura:if isTrue="{!(!v.authorizationForm)}">
-                                                
-                                                <div
-                                                     class="rr-form-element slds-no-label"
-                                                     style="margin-top: 25px"
-                                                     >
-                                                    <div class="rr-cb-container">
-                                                        <lightning:input
-                                                                         type="checkbox"
-                                                                         label=""
-                                                                         checked="{!v.agreePolicy}"
-                                                                         onchange="{!c.doCheckfields}"
-                                                                         />
-                                                    </div>
-                                                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                        {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study}
-                                                    </div>
-                                                </div>
+                                                 <c:consentManager  peUpdation="true" onconsentchange="{!c.handleConsentUpdate}"  participantEnrollment="{!v.pEnrollment}" participantCountry="{!v.mailingCountryCode}" callSource="ReferParticipantRP" ></c:consentManager>
+
                                             </aura:if>
                                             <button
                                                     class="apollo-btn primary"
@@ -1827,23 +1815,8 @@
                                                     </aura:if>
                                                 </aura:if>
                                                 <aura:if isTrue="{!(!v.authorizationForm)}">
-                                                    
-                                                    <div
-                                                         class="rr-form-element slds-no-label"
-                                                         style="margin-top: 25px"
-                                                         >
-                                                        <div class="rr-cb-container">
-                                                            <lightning:input
-                                                                             type="checkbox"
-                                                                             label=""
-                                                                             checked="{!v.agreePolicy}"
-                                                                             onchange="{!c.doCheckfields}"
-                                                                             />
-                                                        </div>
-                                                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                            {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study}
-                                                        </div>
-                                                    </div>
+                                                                            
+                                                    <c:consentManager peUpdation="true" onconsentchange="{!c.handleConsentUpdate}"  participantEnrollment="{!v.pEnrollment}" participantCountry="{!v.mailingCountryCode}" callSource="ReferParticipantRP" ></c:consentManager>
                                                 </aura:if>
                                                 <button
                                                         class="apollo-btn primary"
