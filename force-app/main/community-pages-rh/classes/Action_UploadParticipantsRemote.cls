@@ -81,6 +81,9 @@ public without sharing class Action_UploadParticipantsRemote {
         Boolean allowEmail,
         Boolean allowPhone,
         Boolean allowSMS,
+        Boolean outreachEmail,
+        Boolean outreachPhone,
+        Boolean outreachSMS,
         Id visitPlanId
     ) {
         try {
@@ -123,7 +126,7 @@ public without sharing class Action_UploadParticipantsRemote {
             }
 			system.debug('>>finalCSVLines>>'+finalCSVLines);
             system.debug('>>csvFileLines>>'+csvFileLines);
-            Database.executeBatch(
+           Database.executeBatch(
                 new UploadParticipantsBatch(
                     finalCSVLines.values(),
                     csvFileLines.get(0),
@@ -136,6 +139,9 @@ public without sharing class Action_UploadParticipantsRemote {
                     allowEmail,
                     allowPhone,
                     allowSMS,
+                    outreachEmail,
+                    outreachPhone,
+                    outreachSMS,
                     visitPlanId
                 ),
                 7
