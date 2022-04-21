@@ -3,7 +3,12 @@
         <div class={titleClass}>Televisit Details</div>
         <div class="select-container">
             {filterLabel}
-            <c-web-select value="Upcoming" options={options} container-class="select-list">
+            <c-web-select
+                value="Scheduled"
+                options={options}
+                container-class="select-list"
+                onpasstotelevisitparent={statusHandler}
+            >
             </c-web-select>
         </div>
 
@@ -18,8 +23,8 @@
                         <th>Attendees</th>
                     </tr>
                     <template for:each={teleVisits} for:item="visitWrapper">
-                        <tr key={visitWrapper.id}>
-                            <td>{visitWrapper.visitName}</td>
+                        <tr key={visitWrapper.tvId}>
+                            <td>{visitWrapper.title}</td>
                             <td class="">
                                 <lightning-formatted-date-time
                                     value={visitWrapper.visitDate}
@@ -32,15 +37,15 @@
                             </td>
                             <td>
                                 <lightning-formatted-date-time
-                                    value={visitWrapper.visitDate}
+                                    value={visitWrapper.visitTime}
                                     hour="numeric"
                                     minute="numeric"
                                     time-zone={timeZone}
                                 >
                                 </lightning-formatted-date-time>
                             </td>
-                            <td>{visitWrapper.visitDuration}</td>
-                            <td>{visitWrapper.visitAttendees}</td>
+                            <td>{visitWrapper.duration}</td>
+                            <td>{visitWrapper.attendeeList}</td>
                         </tr>
                     </template>
                 </table>
@@ -51,7 +56,8 @@
             <c-web-pagination-remote
                 current-page={pageNumber}
                 all-records-count={allRecordsCount}
-                entries-on-page="4"
+                entries-on-page={entriesOnPage}
+                onpaginatorchange={handlePaginatorChanges}
             ></c-web-pagination-remote>
         </div>
 
