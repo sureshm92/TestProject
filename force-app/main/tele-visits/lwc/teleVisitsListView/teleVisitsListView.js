@@ -54,7 +54,7 @@ export default class TeleVisitsListView extends LightningElement {
     loadVisits() {
         getVisits({ visitMode: this.searchStatus })
             .then((result) => {
-                console.log('res', result);
+                console.log(JSON.parse(JSON.stringify(result)));
                 this.teleVisits = result;
             })
             .catch((error) => {
