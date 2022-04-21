@@ -10,7 +10,7 @@ export default class WebSelect extends LightningElement {
     @api options = {};
 
     get applyContainerClass() {
-        return 'rrs-container' + this.containerClass;
+        return 'rrs-container' + ' ' + this.containerClass;
     }
     get isEmptylabel() {
         return this.label.length === 0;
@@ -23,5 +23,12 @@ export default class WebSelect extends LightningElement {
     }
     get errorMessageClass() {
         return 'rr-error-message' + this.errorMessage.length === 0 ? ' slds-hide' : '';
+    }
+    handleChange(event) {
+        console.log(event.target.value);
+        const custEvent = new CustomEvent('passtotelevisitparent', {
+            detail: event.target.value
+        });
+        this.dispatchEvent(custEvent);
     }
 }

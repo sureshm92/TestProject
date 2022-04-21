@@ -3,13 +3,18 @@
         <div class={titleClass}>Televisit Details</div>
         <div class="select-container">
             {filterLabel}
-            <c-web-select value="Upcoming" options={options} container-class="select-list">
+            <c-web-select
+                value="Scheduled"
+                options={options}
+                container-class="select-list"
+                onpasstotelevisitparent={statusHandler}
+            >
             </c-web-select>
         </div>
 
         <template if:true={teleVisits}>
             <c-ui-table>
-                <slot name="body">
+                <table slot="body">
                     <tr class="table-header">
                         <th>Title</th>
                         <th>Date</th>
@@ -18,8 +23,8 @@
                         <th>Attendees</th>
                     </tr>
                     <template for:each={teleVisits} for:item="visitWrapper">
-                        <tr key={visitWrapper.id}>
-                            <td>{visitWrapper.visitName}</td>
+                        <tr key={visitWrapper.tvId}>
+                            <td>{visitWrapper.title}</td>
                             <td class="">
                                 <lightning-formatted-date-time
                                     value={visitWrapper.visitDate}
@@ -32,33 +37,30 @@
                             </td>
                             <td>
                                 <lightning-formatted-date-time
-                                    value={visitWrapper.visitDate}
+                                    value={visitWrapper.visitTime}
                                     hour="numeric"
                                     minute="numeric"
                                     time-zone={timeZone}
                                 >
                                 </lightning-formatted-date-time>
                             </td>
-                            <td>{visitWrapper.visitDuration}</td>
-                            <td>{visitWrapper.visitAttendees}</td>
+                            <td>{visitWrapper.duration}</td>
+                            <td>{visitWrapper.attendeeList}</td>
                         </tr>
                     </template>
-                </slot>
+                </table>
             </c-ui-table>
         </template>
 
-        <!--<div class="pagination">
-                    <c:rrPagination
-                        aura:id="rrPaginationComponent"
-                        studyVisitPageCheck="{!v.pageCheck}"
-                        currentPage="{!v.pageNumber}"
-                        allObjects="{!v.visitWrappers}"
-                        currentObjects="{!v.currentVisits}"
-                        entriesOnPage="4"
-                    />
-                </div>
+        <div class="pagination">
+            <c-web-pagination-remote
+                current-page={pageNumber}
+                all-records-count={allRecordsCount}
+                entries-on-page="4"
+            ></c-web-pagination-remote>
+        </div>
 
-            <c-web-empty-list-stub
+        <!--<c-web-empty-list-stub
                 class="no-visits-message"
                 target-list={visitWrappers}
                 icon-name="none"
