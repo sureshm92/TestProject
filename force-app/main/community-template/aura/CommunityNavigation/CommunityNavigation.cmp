@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
+ <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="communityName" type="String" />
     <input type="hidden" id="userMode" name="userMode" value="{!v.userMode}" />
@@ -11,43 +11,55 @@
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
         aura:id="navMenu"
-    >
+        >
         <aura:iteration items="{!v.menuItems}" var="item">
             <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
                 <c:CommunityResourcesNavigation
-                    itemResource="{!v.item}"
-                    communityTemplate="{!v.communityTemplate}"
-                    currentUserMode="{!v.userMode}"
-                />
+                                                itemResource="{!v.item}"
+                                                communityTemplate="{!v.communityTemplate}"
+                                                currentUserMode="{!v.userMode}"
+                                                />
                 <aura:set attribute="else">
                     <li
                         class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}"
                         data-page-name="{!item.page}"
                         onclick="{!c.onClick}"
-                    >
-                        {!item.label}
-                        <aura:if isTrue="{!equals(item.page, 'messages')}">
-                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}" />
-                        </aura:if>
-                    </li>
-                </aura:set>
-            </aura:if>
-            <aura:if
-                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
-            >
-                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
-            </aura:if>
-        </aura:iteration>
-    </ul>
-
-    <aura:if isTrue="{!v.scrollRequired}">
-        <div class="{!'scroll-btn-container ' + v.scrollDirection}" onclick="{!c.doScroll}">
-            <aura:if isTrue="{!v.scrollDirection =='left'}">
-                <c:RRIcon iconName="icon-chevron-right" />
-            </aura:if>
-            <aura:if isTrue="{!v.scrollDirection =='right'}">
-                <c:RRIcon iconName="icon-chevron-left" />
-            </aura:if>
-        </div>
-    </aura:if>
-</aura:component>
+                        >
+                        <aura:if
+                                 isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
+                                 >
+                            <aura:if isTrue="{!item.label == 'Home'}">
+                                <c:RRIcon iconName="icon-home-pplite-new" color="white" class="navigation-icon icon-height" />
+                                <aura:set attribute="else">
+                                    {!item.label}
+                                </aura:set>
+                            </aura:if>
+                                <aura:set attribute="else">
+                                    {!item.label}
+                                </aura:set>
+                            </aura:if>
+                            <aura:if isTrue="{!equals(item.page, 'messages')}">
+                                <c:navMessageCounter isOnPage="{!item.page == v.currentPage}" />
+                            </aura:if>
+                        </li>
+                    </aura:set>
+                </aura:if>
+                <aura:if
+                         isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
+                         >
+                    <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                </aura:if>
+            </aura:iteration>
+        </ul>
+        
+        <aura:if isTrue="{!v.scrollRequired}">
+            <div class="{!'scroll-btn-container ' + v.scrollDirection}" onclick="{!c.doScroll}">
+                <aura:if isTrue="{!v.scrollDirection =='left'}">
+                    <c:RRIcon iconName="icon-chevron-right" />
+                </aura:if>
+                <aura:if isTrue="{!v.scrollDirection =='right'}">
+                    <c:RRIcon iconName="icon-chevron-left" />
+                </aura:if>
+            </div>
+        </aura:if>
+    </aura:component>
