@@ -39,7 +39,7 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
 
     public override void finish(Database.BatchableContext bc) {
         system.debug('pvIds----->' + pvIds);
-        Batch_CreateECOASubjectEvents objBatch = new Batch_CreateECOASubjectEvents(pvIds);
+        Batch_CreateECOAEventOnPVUpdate objBatch = new Batch_CreateECOAEventOnPVUpdate(pvIds);
         Database.executeBatch(objBatch, 50);
         Database.executeBatch(new Batch_IntegrationVisitResultProcess());
         super.finish(bc);
