@@ -22,7 +22,7 @@
                 label="Create Televisit"
                 title="Create Televisit"
                 onclick={openModal}
-                class="slds-m-left_x-small slds-float_right">
+                class="slds-m-left_x-small slds-float_right zoom">
             </lightning-button>
         </div>
     </div>
@@ -37,7 +37,13 @@
                  <div class="slds-p-around_large" style="margin:0px 15px 0px 15px;">
                     <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                        <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                          <span class="title" style="font-weight:700;font-size:20px">Create Televisit</span> 
+                        <template if:true={televisitEditView}>
+                            <span class="title" style="font-weight:700;font-size:20px">Edit Televisit</span> 
+                        </template>  
+                        <template if:false={televisitEditView}>
+                            <span class="title" style="font-weight:700;font-size:20px">Create Televisit</span> 
+                        </template>  
+                        
                        </div>
                        <div class="slds-col slds-size_1-of-12 close-icon">
                           <div onclick={closeModal}>
@@ -63,7 +69,7 @@
                             <div class="slds-col slds-size_4-of-12 slds-p-right_small">
                                 <abbr class="slds-required">*</abbr>
                                 <label class="inputFields">Visit Date</label>
-                                <lightning-input variant="label-hidden"  min={today} class="inputFields" name="Visit Date" data-id="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
+                                <lightning-input variant="label-hidden"  min={today} class="inputFields" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
                                 <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
                             </div>
                             <div class="slds-col slds-size_4-of-12 slds-p-right_small">
@@ -96,6 +102,7 @@
                                         data-id="Duration"
                                         variant="label-hidden"
                                         class="inputFields"
+                                        title="Duration"
                                     >
                                     </lightning-combobox>
                                     
@@ -104,24 +111,53 @@
                         </div>
                         <br/>
                         <div class="slds-grid slds-wrap">
-                            <div class="slds-col slds-size_12-of-12">
-                                <span class="inputFields">Attendees</span> 
-                                <c-multi-lookup data-id="Attendee" name="Attendee" options={attendeesList} place-holder="Search to add" 
-                				onoptionchange={handleAttendeeChange}></c-multi-lookup>
-                            </div>
+                            <template if:true={isLoading}>
+                                <div class="spinnerHolder">
+                                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                </div>
+                            </template>
+                            <template if:false={isLoading}>
+                                <div class="slds-col slds-size_12-of-12">
+                                    <abbr class="slds-required">*</abbr>
+                                    <label class="inputFields">Attendees</label>
+                                    <!--<span class="inputFields">Attendees</span> -->
+                                    <c-attendee-lookup data-id="Attendee" name="Attendee" options={attendeesList} place-holder="Search to add" 
+                                    hide-button-icon="true" selected-elements={selectedItems} remove-element={itemToRemove} onoptionchange={handleAttendeeChange}></c-attendee-lookup>
+                                </div>
+                                <div style="height: 100px;width:100%; overflow: auto" >
+                                    <table style="background:#fbfbfb" >
+                                        <template for:each={selectedAttendeesList} for:item="attendee">
+                                            <tr key={attendee}>
+                                                <td>
+                                                    <lightning-icon icon-name="utility:user"
+                                                        alternative-text="user"
+                                                        size="xx-small" class="slds-p-right_x-small">
+                                                    </lightning-icon>
+                                                    {attendee.name} &nbsp; 
+                                                    <template if:false={attendee.isMandatorySelection} >
+                                                        <a  data-index={attendee.index} data-name={attendee.name} data-id={attendee.id} onclick={removeSelectedItem}>Remove</a>
+                                                    </template>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </table>
+                                    <template if:false={siteStaffAdded}>
+                                        <p style="color: red;">At least one site staff member is required to attend. Attendees above.</p>
+                                    </template>
+                                </div>
+                            </template>
+
                         </div>
-                        <br/>
-                        <br/>
-                        <br/>
+                        
                         <div class="slds-grid slds-wrap slds-m-top_large">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                             <div class="slds-float_right mobile-width">  
-                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={closeModal}> Discard</button>                
+                                <button class="slds-button apollo-btn secondary btn-height discard-btn zoom"  onclick={closeModal}> Discard</button>                
                                 <template if:false={televisitEditView}>
-                                    <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={submitDetails} disabled={disableSaveButton}> Save </button>
+                                    <button title="" class="slds-button apollo-btn primary btn-height save-btn zoom" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> Save </button>
                                 </template>
                                 <template if:true={televisitEditView}>
-                                    <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={submitDetails} disabled={disableSaveButton}> Update </button>
+                                    <button title="" class="slds-button apollo-btn primary btn-height save-btn zoom" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
                                 </template>
                             </div>    
                           </div>
@@ -135,7 +171,12 @@
      <div class="slds-backdrop slds-backdrop_open"></div>
  
     </template> 
-
+    
+    <template if:false={displayTelevisitRecords}>
+        <div class="noRecordsFound">
+            &#9785; Oh no, there are no items to display.
+        </div>
+    </template>
     
     <template if:true={displayTelevisitRecords}>
         <div  class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll" style="font-size:15px;">
@@ -144,11 +185,11 @@
             <div key={tv.id} class="lightningCard">
                 
                 <lightning-card key={tv.id}>
-                    <lightning-layout >
+                    <lightning-layout style="padding-bottom: 20px;">
                         <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:1px;" size="8" >
-                            <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;
+                            <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
                             <template if:true={tv.isCancelledStatus}>
-                                <lightning-formatted-text style="font-size: 14px;" value={tv.status}></lightning-formatted-text>
+                                <lightning-formatted-text class="CancelledTag" value={tv.status}></lightning-formatted-text>
                             </template>
                             
                         </lightning-layout-item>
@@ -161,17 +202,18 @@
                                 </lightning-layout-item>
                             </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item size="1" style=" margin-top: -20px;">
-                            <lightning-layout >
-                                <lightning-layout-item padding="around-small" >
-                                    <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
-                                        <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-duration={tv.duration}  onclick={openModal}></lightning-menu-item>
-                                        <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id} onclick={openCancelModal}></lightning-menu-item>
-                                        
-                                    </lightning-button-menu>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </lightning-layout-item>
+                        <template if:true={tv.isScheduledStatus}>
+                            <lightning-layout-item size="1" style=" margin-top: -10px;">
+                                <lightning-layout >
+                                    <lightning-layout-item  >
+                                        <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
+                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
+                                            <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id} onclick={openCancelModal}></lightning-menu-item>
+                                        </lightning-button-menu>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>
                     </lightning-layout>
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item size="12" style="margin-top:-10px">    
@@ -179,7 +221,7 @@
                                 <lightning-layout-item padding="horizontal-small">
                                     <lightning-icon icon-name="utility:event"
                                         alternative-text="event"
-                                        size="small" >
+                                        size="x-small" >
                                     </lightning-icon>
                                 </lightning-layout-item>
                                 <lightning-layout-item class="slds-p-right_x-small">
@@ -197,17 +239,24 @@
                         </lightning-layout-item>
                         
                         <lightning-layout-item padding="around-small" size="12">
-                            <lightning-layout-item >
-                                <lightning-icon icon-name="utility:user"
-                                    alternative-text="user"
-                                    size="small" class="slds-p-right_x-small">
-                                </lightning-icon>
-                            </lightning-layout-item>
-                            <lightning-layout-item class="slds-p-right_x-small">
-                                <template for:each={tv.attendeesList} for:item="attendee" >
-                                    {attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}),&nbsp;
-                                </template>
-                            </lightning-layout-item>
+                            <lightning-layout>
+                                <lightning-layout-item >
+                                    <lightning-icon icon-name="utility:user"
+                                        alternative-text="user"
+                                        size="x-small" class="slds-p-right_x-small">
+                                    </lightning-icon>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-right_x-small" >
+                                    <!--<template for:each={tv.attendeesList} for:item="attendee" >
+                                        {attendee.Firstname__c} {attendee.Lastname__c} ({attendee.Attendee_Type__c}),&nbsp;
+                                    </template>-->
+                                    <template iterator:it={tv.attendeesList}>
+                                        <template if:true={it.first}></template>{it.value.Firstname__c} {it.value.Lastname__c} ({it.value.Attendee_Type__c})
+                                        <template if:false={it.last}>, </template>
+                                        
+                                    </template>
+                                </lightning-layout-item>
+                        </lightning-layout>
                         </lightning-layout-item>
                             
                         

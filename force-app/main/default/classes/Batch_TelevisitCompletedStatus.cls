@@ -7,7 +7,7 @@ global class Batch_TelevisitCompletedStatus implements Database.Batchable<sObjec
    
     global void execute( Database.BatchableContext BC, List< Televisit__c > scope ) {
          for (Televisit__c tv : scope) {
-             if(tv.Visit_Date__c < system.today()+1){
+             if(tv.Visit_Date__c < system.today()+1 && tv.Status__c != 'Cancelled'){
                  tv.Status__c = 'Completed';  
              }
                            
