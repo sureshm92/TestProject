@@ -219,32 +219,7 @@
                 </lightning-layout-item>
             </lightning-layout>
             <div key={pe.peRecord.Id} style="margin-top: 10px;">
-                <div class="slds-grid slds-gutters slds-wrap" style="padding-left: 10px;align-items:baseline;">
-                    <div class="section-header">{label.PG_Ref_L_Information_Sharing}</div>
-                </div>
-                <div style="margin-left: 10px;margin-top: 10px;">
-                    <div class="patientConfirmation-header">
-                        {label.RH_RP_Patient_Authorization}
-                    </div>
-                    <div class="patientConfirmation">
-                        <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsEmail" name="IsEmail"
-                            variant="label-hidden" checked={pe.peRecord.Is_Email__c} data-value="IsEmail"
-                            data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                        <div>{label.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
-                    </div>
-                    <div class="patientConfirmation">
-                        <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsPhone" name="IsPhone"
-                            variant="label-hidden" checked={pe.peRecord.Is_Phone__c} data-value="IsPhone"
-                            data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                        <div>{label.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
-                    </div>
-                    <div class="patientConfirmation">
-                        <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsSMS" name="IsSMS"
-                            variant="label-hidden" checked={pe.peRecord.Is_SMS__c} data-value="IsSMS"
-                            data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                        <div>{label.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
-                    </div>
-                </div>
+                <c-consent-manager  onconsentchange={handleConsentUpdate}  pe-updation="true" participant-enrollment={pe.peRecord} participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP"  ></c-consent-manager>
             </div>
         </template>
         <div class="topIcon-control slds-hide_medium" >

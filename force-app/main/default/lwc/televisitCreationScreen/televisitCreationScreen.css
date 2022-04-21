@@ -141,3 +141,38 @@ textdecoration{
   .tooltip:hover .tooltiptextBottom {
     visibility: visible;
   }
+
+.CancelledTag{
+    background-color: #FF3232;
+    padding: 4px 6px 4px 6px;
+    color: white;
+    border-radius: 4px 4px 4px 4px;
+    font-size: 14px;
+}
+
+.layoutStyleCss{
+    padding-bottom: 20px;
+}
+
+.spinnerHolder{
+    position: relative;
+    display: inline-block;
+    width: 800px;
+    height: 80px;
+    
+}
+
+.noRecordsFound{
+    text-align: center;
+    padding: 50px;
+    font-weight: 400;
+    font-family: 'Proxima Nova';
+    border: 1px solid #f2f2f2;
+    margin: 30px;
+}
+
+.zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+  }

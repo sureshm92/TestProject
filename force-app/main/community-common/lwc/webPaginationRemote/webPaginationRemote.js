@@ -94,7 +94,6 @@ export default class WebPaginationRemote extends LightningElement {
         this.endRecord = end > this.allRecordsCount ? this.allRecordsCount : end;
 
         this.end = end > this.allRecordsCount ? true : false;
-        //this.setPaginationControls();
 
         for (
             let i = (this.currentPage - 1) * this.entriesOnPage;
