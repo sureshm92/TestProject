@@ -5,7 +5,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import TIMEZONE from '@salesforce/i18n/timeZone';
-import getVisits from '@salesforce/apex/TeleVisitService.getVisits';
+import getVisits from '@salesforce/apex/TeleVisitRemote.getVisits';
 
 export default class TeleVisitsListView extends LightningElement {
     @api isMobileApp;
