@@ -9,6 +9,7 @@ import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
 import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
 import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
 import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 const ENTRIES_ON_PAGE = 4;
 export default class TeleVisitsListView extends LightningElement {
@@ -54,6 +55,12 @@ export default class TeleVisitsListView extends LightningElement {
 
     get containerClass() {
         return 'tv-body' + (this.isInitialized ? '' : 'hidden');
+    }
+    get isDesktop() {
+        return FORM_FACTOR === 'Large' ? true : false;
+    }
+    get isMobileView() {
+        return FORM_FACTOR === 'Small' ? true : false;
     }
 
     get titleClass() {
