@@ -1,6 +1,11 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
+import TV_TH_Attendees from '@salesforce/label/c.TV_TH_Attendees';
+import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
+import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
+import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
+import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
 import NO_ITEMS from '@salesforce/label/c.PG_VP_L_No_Items_display';
 import TIMEZONE from '@salesforce/i18n/timeZone';
 import getVisits from '@salesforce/apex/TeleVisitService.getVisits';
@@ -14,7 +19,12 @@ export default class TeleVisitsListView extends LightningElement {
     labels = {
         RTL_Languages,
         FILTER_LABEL,
-        NO_ITEMS
+        NO_ITEMS,
+        TV_TH_Title,
+        TV_TH_Time,
+        TV_TH_Duration,
+        TV_TH_Date,
+        TV_TH_Attendees
     };
     options = [
         {
