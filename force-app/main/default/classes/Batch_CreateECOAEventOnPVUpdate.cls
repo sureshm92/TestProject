@@ -10,8 +10,7 @@ public class Batch_CreateECOAEventOnPVUpdate implements Database.Batchable<SObje
         String query =
             ' Select Id, Completed_Date__c, Ecoa_Key__c, ECOA_Event_Processed__c Participant_Enrollment__r.Subject_GUID__c, Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_GUID__c from Patient_Visit__c where ECOA_Event_Processed__c = ' +
             ECOAEventProcessed +
-            ' AND Status__c = ' +
-            statusCompleted;
+            ' AND Status__c = : statusCompleted';
         if (pvId != null) {
             query = query + ' AND Id IN :pvId ';
         }
