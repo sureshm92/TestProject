@@ -77,7 +77,7 @@ export default class ConsentManager extends LightningElement {
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
             break;
             case 'importParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
                 this.getStudySite();
             break;
         }
@@ -272,12 +272,9 @@ export default class ConsentManager extends LightningElement {
         .then((result) => {
             this.studySite = result;
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
-            if(this._callSource == 'importParticipant' ){
-                //import participant change
-                this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
-                if(this.studySite.Site__r.BillingCountryCode!=null){
-                    this.isCountryUS = true;
-                }
+            if(this._callSource == 'importParticipant'){
+                let siteCountry = this.studySite.Site__r.BillingCountryCode;
+                this.isCountryUS = (siteCountry == "US" || siteCountry == '' || siteCountry == undefined ? true : false);
                     this.updateStudyConsentChecks();
                     this.updateOutreachConsentChecks();
             }
