@@ -84,7 +84,7 @@
         <shortDescription>PIR_Save_Changes</shortDescription>
         <value>Save Changes?</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PIR_Unsaved_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -278,7 +278,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Dont_show_me_again_on_landing</shortDescription>
-        <value>Don't show me again on landing</value>
+        <value>Don&apos;t show me again on landing</value>
     </labels>
     <labels>
         <fullName>BulkImport_Ok</fullName>
@@ -4904,7 +4904,6 @@ By using our website, you are accepting our use of cookies.</value>
         <value>This is an email to remind you of your upcoming  task ##SurveyName.
 Due Date and Time: ##expirationDate</value>
     </labels>
-
     <labels>
         <fullName>Email_Action_Register</fullName>
         <language>en_US</language>
@@ -9027,7 +9026,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
-        <value>	Initial Visit Scheduled Date &amp; Time</value>
+        <value>Initial Visit Scheduled Date &amp; Time</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
@@ -11699,21 +11698,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Send_to_DCT</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send to DCT</shortDescription>
         <value>Send to DCT</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_ExportSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_ExportSelected</shortDescription>
         <value>Export Selected</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>RH_ParticipantSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15851,7 +15850,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -19352,7 +19351,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SFMCHCP_RecordNotFound</shortDescription>
-        <value>The information you provided does not match an account we have. Please try again. </value>
+        <value>The information you provided does not match an account we have. Please try again.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
@@ -19387,21 +19386,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on:  </value>
+        <value>Authorization Requested on:</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRecordProvider</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordProvider</shortDescription>
-        <value>Medical Records Providers  </value>
+        <value>Medical Records Providers</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrieve_EmailError</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
+        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrive_Succces</fullName>
@@ -20412,7 +20411,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>This patient auth status should be 'Yes'.</value>
+        <value>This patient auth status should be &apos;Yes&apos;.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>
@@ -20814,13 +20813,6 @@ communications using the toggles below.</value>
         <value>Referred by</value>
     </labels>
     <labels>
-        <fullName>RH_Send_to_DCT_Platform</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_Send to DCT Platform</shortDescription>
-        <value>Send to DCT Platform</value>
-    </labels>
-    <labels>
         <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20951,7 +20943,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RRH_RegistratinSuccess</shortDescription>
-        <value>Registration was successful – please log in </value>
+        <value>Registration was successful – please log in</value>
     </labels>
     <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
@@ -24399,5 +24391,40 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH RP out of</shortDescription>
         <value>out of</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Attendees</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Attendees</shortDescription>
+        <value>Attendees</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Duration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Duration</shortDescription>
+        <value>Duration</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Time</shortDescription>
+        <value>Time</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Title</shortDescription>
+        <value>Title</value>
     </labels>
 </CustomLabels>

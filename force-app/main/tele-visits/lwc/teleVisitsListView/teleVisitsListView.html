@@ -16,11 +16,11 @@
             <c-ui-table>
                 <table slot="body">
                     <tr class="table-header">
-                        <th>Title</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Duration</th>
-                        <th>Attendees</th>
+                        <th>{labels.TV_TH_Title}</th>
+                        <th>{labels.TV_TH_Date}</th>
+                        <th>{labels.TV_TH_Time}</th>
+                        <th>{labels.TV_TH_Duration}</th>
+                        <th>{labels.TV_TH_Attendees}</th>
                     </tr>
                     <template for:each={tabteleVisits} for:item="visitWrapper">
                         <tr key={visitWrapper.tvId}>
