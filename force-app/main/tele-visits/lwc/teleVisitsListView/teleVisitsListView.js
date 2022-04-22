@@ -1,7 +1,4 @@
 import { LightningElement, api, wire, track } from 'lwc';
-//import { loadScript } from 'lightning/platformResourceLoader';
-//import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-//import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import NO_ITEMS from '@salesforce/label/c.PG_VP_L_No_Items_display';
@@ -17,7 +14,6 @@ export default class TeleVisitsListView extends LightningElement {
     entriesonpage = 4;
     pageNumber = 1;
     isDisplayTable = false;
-
     searchStatus = 'Scheduled';
     labels = {
         RTL_Languages,
@@ -92,7 +88,6 @@ export default class TeleVisitsListView extends LightningElement {
         getVisits({ visitMode: this.searchStatus })
             .then((result) => {
                 this.teleVisits = result;
-                // this.pageNumber = 1;
                 this.allRecordsCount = result.length;
                 this.isDisplayTable = this.allRecordsCount > 0;
                 if (this.spinner) this.spinner.hide();
