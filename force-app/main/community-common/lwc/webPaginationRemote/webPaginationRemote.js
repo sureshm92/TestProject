@@ -11,9 +11,9 @@ export default class WebPaginationRemote extends LightningElement {
     @track totalPages;
     recordsToDisplay = [];
     @track end = false;
-    @track _allRecordsCount;
-    @track _visitRecords;
-    @track _entriesOnPage;
+    _allRecordsCount;
+    @track _recordsList;
+    _entriesOnPage;
 
     @api
     get recordsCount() {
@@ -24,14 +24,14 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     @api
-    get teleVisitRecords() {
-        return this._visitRecords;
+    get recordsList() {
+        return this._recordsList;
     }
-    set teleVisitRecords(value) {
+    set recordsList(value) {
         this.handleChange(value);
     }
     handleChange(value) {
-        this._visitRecords = JSON.parse(JSON.stringify(value));
+        this._recordsList = JSON.parse(JSON.stringify(value));
         this.currentPage = 1;
         this.calcTotalPages();
     }
@@ -46,9 +46,9 @@ export default class WebPaginationRemote extends LightningElement {
     //Inner methods-----------------------------------------------------------------------------------------------------
 
     calcTotalPages() {
-        this.allRecordsCount = this._visitRecords.length;
+        this.allRecordsCount = this._recordsList.length;
         this.totalPages = Math.ceil(this.allRecordsCount / this._entriesOnPage);
-        this._allRecordsCount = this._visitRecords.length;
+        this._allRecordsCount = this._recordsList.length;
         this.loadTabVisit();
     }
 
@@ -93,7 +93,7 @@ export default class WebPaginationRemote extends LightningElement {
             i++
         ) {
             if (i === this.allRecordsCount) break;
-            this.recordsToDisplay.push(this._visitRecords[i]);
+            this.recordsToDisplay.push(this._recordsList[i]);
         }
         this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay }));
     }
