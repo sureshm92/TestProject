@@ -12,7 +12,6 @@
             >
             </c-web-select>
         </div>
-
         <template if:true={isDisplayTable}>
             <c-ui-table>
                 <table slot="body">
@@ -23,7 +22,7 @@
                         <th>Duration</th>
                         <th>Attendees</th>
                     </tr>
-                    <template for:each={teleVisits} for:item="visitWrapper">
+                    <template for:each={tabteleVisits} for:item="visitWrapper">
                         <tr key={visitWrapper.tvId}>
                             <td>{visitWrapper.title}</td>
                             <td class="">
@@ -56,9 +55,10 @@
         <div class="pagination">
             <c-web-pagination-remote
                 current-page={pageNumber}
-                all-records-count={allRecordsCount}
-                entries-on-page={entriesOnPage}
+                records-count={allRecordsCount}
+                entries={entriesonpage}
                 onpaginatorchange={handlePaginatorChanges}
+                tele-visit-records={teleVisits}
             ></c-web-pagination-remote>
         </div>
 

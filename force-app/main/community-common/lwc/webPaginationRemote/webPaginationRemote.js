@@ -10,48 +10,66 @@ export default class WebPaginationRemote extends LightningElement {
     @api currentPage;
     @track totalPages;
     recordsToDisplay = [];
+
     @track end = false;
+    @track _allRecordsCount;
+    @track _visitRecords;
+    @track _entriesOnPage;
 
     @api
-    get allRecordsCount() {
+    get recordsCount() {
         return this._allRecordsCount;
     }
-    set allRecordsCount(value) {
+    set recordsCount(value) {
         this._allRecordsCount = value;
-        this.calcTotalPages();
     }
 
     @api
-    get entriesOnPage() {
+    get teleVisitRecords() {
+        return this._visitRecords;
+    }
+    set teleVisitRecords(value) {
+        this.handleChange(value);
+    }
+    handleChange(value) {
+        //this._visitRecords = JSON.parse(value);
+        this._visitRecords = JSON.parse(JSON.stringify(value));
+        this.currentPage = 1;
+        this.calcTotalPages();
+    }
+    @api
+    get entries() {
         return this._entriesOnPage;
     }
-    set entriesOnPage(value) {
+    set entries(value) {
         this._entriesOnPage = value;
-        this.calcTotalPages();
+        //this.calcTotalPages();
     }
 
     //Inner methods-----------------------------------------------------------------------------------------------------
-    connectedCallback() {
-        this.calcTotalPages();
-        //this.setRecordsToDisplay();
-    }
 
     calcTotalPages() {
-        this.totalPages = Math.ceil(this.allRecordsCount / this.entriesOnPage);
+        this.allRecordsCount = this._visitRecords.length;
+        //  this.allRecordsCount = console.log('this.allRecordsCount', this.allRecordsCount);
+        this.totalPages = Math.ceil(this.allRecordsCount / this._entriesOnPage);
+        this._allRecordsCount = this._visitRecords.length;
+        this.loadTabVisit();
     }
 
     nextPageClick() {
-        if (this.currentPage < this.totalPages) this.currentPage += 1;
+        if (this.currentPage <= this.totalPages) this.currentPage = this.currentPage + 1;
 
-        const changeEvent = new CustomEvent('change', {});
-        this.dispatchEvent(changeEvent);
+        /**const changeEvent = new CustomEvent('change', {});
+        this.dispatchEvent(changeEvent); **/
+        this.loadTabVisit();
     }
 
     prevPageClick() {
         if (this.currentPage > 1) this.currentPage -= 1;
 
-        const changeEvent = new CustomEvent('change', {});
-        this.dispatchEvent(changeEvent);
+        /* const changeEvent = new CustomEvent('change', {});
+        this.dispatchEvent(changeEvent); */
+        this.loadTabVisit();
     }
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
@@ -64,6 +82,8 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     get previousBtnCss() {
+        if (this.currentPage <= this.to) this.currentPage = this.currentPage + 1;
+
         return (
             'previous-btn slds-button slds-button_neutral' +
             (this.currentPage === 1 ? ' disabled' : '')
@@ -71,38 +91,23 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     get nextBtnCss() {
+        if (this.currentPage <= this.to) this.currentPage = this.currentPage + 1;
         return (
             'next-btn slds-button slds-button_neutral' +
             (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '')
         );
     }
-    @api
-    setRecordsToDisplay() {
+
+    loadTabVisit() {
         this.recordsToDisplay = [];
-        if (!this.entriesOnPage) this.entriesOnPage = this.allRecordsCount;
-
-        let begin = (this.currentPage - 1) * this.recordsPerPage;
-        let end = begin + this.recordsPerPage;
-        if (this.allRecordsCount == 0) {
-            this.startRecord = this.allRecordsCount;
-        } else if (begin < this.allRecordsCount) {
-            this.startRecord = begin + 1;
-        } else if (this.allRecordsCount <= 10) {
-            this.startRecord = 1;
-        }
-
-        this.endRecord = end > this.allRecordsCount ? this.allRecordsCount : end;
-
-        this.end = end > this.allRecordsCount ? true : false;
-
         for (
-            let i = (this.currentPage - 1) * this.entriesOnPage;
-            i < this.currentPage * this.entriesOnPage;
+            let i = (this.currentPage - 1) * this._entriesOnPage;
+            i < this.currentPage * this._entriesOnPage;
             i++
         ) {
             if (i === this.allRecordsCount) break;
-            this.recordsToDisplay.push(this.records[i]);
+            this.recordsToDisplay.push(this._visitRecords[i]);
         }
-        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
+        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay }));
     }
 }
