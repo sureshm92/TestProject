@@ -72,8 +72,6 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     get previousBtnCss() {
-        if (this.currentPage <= this.to) this.currentPage = this.currentPage + 1;
-
         return (
             'previous-btn slds-button slds-button_neutral' +
             (this.currentPage === 1 ? ' disabled' : '')
@@ -81,7 +79,6 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     get nextBtnCss() {
-        if (this.currentPage <= this.to) this.currentPage = this.currentPage + 1;
         return (
             'next-btn slds-button slds-button_neutral' +
             (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '')
