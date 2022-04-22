@@ -1,4 +1,4 @@
-public without sharing class TeleVisitService {
+public without sharing class TeleVisitRemote {
     @TestVisible
     @AuraEnabled
     public static List<TelevisitWrapper> getVisits(String visitMode) {
