@@ -4,13 +4,18 @@ import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_V
 import NO_ITEMS from '@salesforce/label/c.PG_VP_L_No_Items_display';
 import TIMEZONE from '@salesforce/i18n/timeZone';
 import getVisits from '@salesforce/apex/TeleVisitRemote.getVisits';
+import TV_TH_Attendees from '@salesforce/label/c.TV_TH_Attendees';
+import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
+import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
+import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
+import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
 
 const ENTRIES_ON_PAGE = 4;
 export default class TeleVisitsListView extends LightningElement {
     @api isMobileApp;
     @api isRTL;
     @track teleVisits = [{}];
-    @track tabteleVisits = [{}];
+    @track tabTeleVisits = [{}];
     allRecordsCount;
     entriesOnPage = ENTRIES_ON_PAGE;
     pageNumber = 1;
@@ -19,7 +24,12 @@ export default class TeleVisitsListView extends LightningElement {
     labels = {
         RTL_Languages,
         FILTER_LABEL,
-        NO_ITEMS
+        NO_ITEMS,
+        TV_TH_Title,
+        TV_TH_Time,
+        TV_TH_Duration,
+        TV_TH_Date,
+        TV_TH_Attendees
     };
 
     options = [
@@ -50,15 +60,12 @@ export default class TeleVisitsListView extends LightningElement {
     get titleClass() {
         return 'tv-title' + (this.isRTL === true ? ' tile-rtl' : '');
     }
-    get filterLabel() {
-        return this.labels.FILTER_LABEL;
-    }
     statusHandler(event) {
         this.searchStatus = event.detail;
         this.loadVisits();
     }
     handlePaginatorChanges(event) {
-        this.tabteleVisits = JSON.parse(JSON.stringify(event.detail));
+        this.tabTeleVisits = JSON.parse(JSON.stringify(event.detail));
     }
     loadVisits() {
         this.spinner = this.template.querySelector('c-web-spinner');
