@@ -24,7 +24,7 @@ public without sharing class ContactTriggerHandler {
 
     public class UpdatePhoneNumberContactsHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
+            //createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
         }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
