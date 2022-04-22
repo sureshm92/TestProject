@@ -169,6 +169,7 @@
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
     },
+    //changes related to RH-6742
     handleConsentChange: function (component,event){
         if(event.ap.consentMap.cType == 'study'){
             component.set('v.isEmail', event.ap.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c);

@@ -273,7 +273,7 @@ export default class ConsentManager extends LightningElement {
             this.studySite = result;
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
             if(this._callSource == 'importParticipant' ){
-                
+                //import participant change
                 this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
                 if(this.studySite.Site__r.BillingCountryCode!=null){
                     this.isCountryUS = true;

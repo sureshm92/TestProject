@@ -5,9 +5,6 @@
         </div> 
     </lightning-layout>
     <lightning-layout multiple-rows="true">
-        <!--div class="slds-form-element information-text slds-m-bottom_x-small slds-m-top_small">
-            {PG_Ref_L_Information_Sharing}
-        </div-->  
         <template if:true={consentModel.showError}>
             <div><lightning-formatted-text class="slds-form-element__help errorMsg" value={REQUIRED_ERROR_MSG} ></lightning-formatted-text></div>
         </template>
