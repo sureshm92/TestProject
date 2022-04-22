@@ -18,7 +18,7 @@ public without sharing class SMSOptOutTriggerHandler {
         List<IntegrationLog__c> listIL = new List<IntegrationLog__c>();
         //Get the List of PreviousPublishedMessageId__c from platform event record.
         for (SMS_Opt_Out__e smsOptOut : smsOptOutPEventList) {
-            listIL.add(smsOptOut.createIntegrationLog());
+            listIL.add(SMSOptOutService.createIntegrationLog(smsOptOut));
             if (smsOptOut.optout__c) {
                 messageIdSet.Add(smsOptOut.PreviousPublishedMessageId__c);
             }
