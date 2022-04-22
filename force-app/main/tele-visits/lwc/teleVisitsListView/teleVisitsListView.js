@@ -43,7 +43,6 @@ export default class TeleVisitsListView extends LightningElement {
 
     isInitialized = false;
     timeZone = TIMEZONE;
-    isDisplayPagination;
 
     renderedCallback() {
         if (this.isInitialized) return;
