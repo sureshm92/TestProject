@@ -10,7 +10,6 @@ export default class WebPaginationRemote extends LightningElement {
     @api currentPage;
     @track totalPages;
     recordsToDisplay = [];
-    @track end = false;
     _allRecordsCount;
     @track _recordsList;
     _entriesOnPage;
@@ -49,17 +48,17 @@ export default class WebPaginationRemote extends LightningElement {
         this.allRecordsCount = this._recordsList.length;
         this.totalPages = Math.ceil(this.allRecordsCount / this._entriesOnPage);
         this._allRecordsCount = this._recordsList.length;
-        this.loadTabVisit();
+        this.loadTabRecords();
     }
 
     nextPageClick() {
         if (this.currentPage <= this.totalPages) this.currentPage = this.currentPage + 1;
-        this.loadTabVisit();
+        this.loadTabRecords();
     }
 
     prevPageClick() {
         if (this.currentPage > 1) this.currentPage -= 1;
-        this.loadTabVisit();
+        this.loadTabRecords();
     }
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
@@ -85,7 +84,7 @@ export default class WebPaginationRemote extends LightningElement {
         );
     }
 
-    loadTabVisit() {
+    loadTabRecords() {
         this.recordsToDisplay = [];
         for (
             let i = (this.currentPage - 1) * this._entriesOnPage;
