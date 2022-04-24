@@ -14,41 +14,93 @@
         </div>
         <template if:true={isDisplayTable}>
             <c-ui-table>
-                <table slot="body">
-                    <tr class="table-header">
-                        <th>{labels.TV_TH_Title}</th>
-                        <th>{labels.TV_TH_Date}</th>
-                        <th>{labels.TV_TH_Time}</th>
-                        <th>{labels.TV_TH_Duration}</th>
-                        <th>{labels.TV_TH_Attendees}</th>
-                    </tr>
-                    <template for:each={tabTeleVisits} for:item="visitWrapper">
-                        <tr key={visitWrapper.tvId}>
-                            <td>{visitWrapper.title}</td>
-                            <td class="">
-                                <lightning-formatted-date-time
-                                    value={visitWrapper.visitDate}
-                                    year="numeric"
-                                    month="short"
-                                    day="2-digit"
-                                    time-zone={timeZone}
-                                >
-                                </lightning-formatted-date-time>
-                            </td>
-                            <td>
-                                <lightning-formatted-date-time
-                                    value={visitWrapper.visitTime}
-                                    hour="numeric"
-                                    minute="numeric"
-                                    time-zone={timeZone}
-                                >
-                                </lightning-formatted-date-time>
-                            </td>
-                            <td>{visitWrapper.duration}</td>
-                            <td>{visitWrapper.attendeeList}</td>
+                <template if:true={isDesktop}>
+                    <table slot="body">
+                        <tr class="table-header">
+                            <th>{labels.TV_TH_Title}</th>
+                            <th>{labels.TV_TH_Date}</th>
+                            <th>{labels.TV_TH_Time}</th>
+                            <th>{labels.TV_TH_Duration}</th>
+                            <th>{labels.TV_TH_Attendees}</th>
                         </tr>
-                    </template>
-                </table>
+                        <template for:each={tabTeleVisits} for:item="visitWrapper">
+                            <tr key={visitWrapper.tvId}>
+                                <td>{visitWrapper.title}</td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitTime}
+                                        hour="numeric"
+                                        minute="numeric"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </td>
+                                <td>{visitWrapper.duration}</td>
+                                <td>{visitWrapper.attendeeList}</td>
+                            </tr>
+                        </template>
+                    </table>
+                </template>
+                <template if:false={isDesktop}>
+                    <table slot="body">
+                        <tr class="table-header">
+                            <th>{labels.TV_TH_Title}</th>
+                            <th>{labels.TV_TH_Date}</th>
+                            <th>{labels.TV_TH_Time}</th>
+                        </tr>
+                        <template for:each={tabTeleVisits} for:item="visitWrapper">
+                            <tr key={visitWrapper.tvId}>
+                                <td>
+                                    {visitWrapper.title} <br />
+                                    <div class="show">
+                                        <span>{labels.TV_TH_Duration} </span>{visitWrapper.duration}
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                    <br />
+                                    <div>
+                                        <span>{labels.TV_TH_Attendees} </span
+                                        >{visitWrapper.attendeeList}
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitTime}
+                                        hour="numeric"
+                                        minute="numeric"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                    <lightning-button-icon
+                                        icon-name="utility:down"
+                                        size="medium"
+                                        variant="bare"
+                                        alternative-text="View More"
+                                        onclick={displayData}
+                                    ></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                    </table>
+                </template>
             </c-ui-table>
         </template>
 

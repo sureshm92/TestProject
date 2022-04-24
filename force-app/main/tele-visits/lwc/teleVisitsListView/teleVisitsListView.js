@@ -57,14 +57,10 @@ export default class TeleVisitsListView extends LightningElement {
         return 'tv-body' + (this.isInitialized ? '' : 'hidden');
     }
     get isDesktop() {
-        return FORM_FACTOR === 'Large' ? true : false;
+        return FORM_FACTOR === 'Large';
     }
-    get isMobileView() {
-        return FORM_FACTOR === 'Small' ? true : false;
-    }
-
     get titleClass() {
-        return 'tv-title' + (this.isRTL === true ? ' tile-rtl' : '');
+        return 'tv-title' + (this.isRTL ? ' tile-rtl' : '');
     }
     statusHandler(event) {
         this.searchStatus = event.detail;
@@ -87,4 +83,5 @@ export default class TeleVisitsListView extends LightningElement {
                 console.log(error);
             });
     }
+    displayData(event) {}
 }
