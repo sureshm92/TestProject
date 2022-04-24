@@ -80,7 +80,7 @@ export default class TeleVisitsListView extends LightningElement {
                 if (this.spinner) this.spinner.hide();
             })
             .catch((error) => {
-                console.log(error);
+                console.log('error', error);
             });
     }
     displayData(event) {
