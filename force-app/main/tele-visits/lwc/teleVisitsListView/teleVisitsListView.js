@@ -83,5 +83,17 @@ export default class TeleVisitsListView extends LightningElement {
                 console.log(error);
             });
     }
-    displayData(event) {}
+    displayData(event) {
+        let index = event.target.value;
+        let dataElements = this.template.querySelectorAll("div[data-index='" + index + "']");
+        dataElements.forEach(function (ele) {
+            ele.classList.toggle('hidden');
+        });
+        let buttons = this.template.querySelectorAll(
+            "lightning-button-icon[value='" + index + "']"
+        );
+        buttons.forEach(function (btn) {
+            btn.classList.toggle('hidden');
+        });
+    }
 }

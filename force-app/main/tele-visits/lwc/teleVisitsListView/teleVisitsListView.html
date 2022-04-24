@@ -16,7 +16,7 @@
             <c-ui-table>
                 <template if:true={isDesktop}>
                     <table slot="body">
-                        <tr class="table-header">
+                        <tr class="tv-table-header">
                             <th>{labels.TV_TH_Title}</th>
                             <th>{labels.TV_TH_Date}</th>
                             <th>{labels.TV_TH_Time}</th>
@@ -53,17 +53,23 @@
                 </template>
                 <template if:false={isDesktop}>
                     <table slot="body">
-                        <tr class="table-header">
+                        <tr class="tv-nested-row_header">
                             <th>{labels.TV_TH_Title}</th>
                             <th>{labels.TV_TH_Date}</th>
                             <th>{labels.TV_TH_Time}</th>
                         </tr>
-                        <template for:each={tabTeleVisits} for:item="visitWrapper">
+                        <template
+                            for:each={tabTeleVisits}
+                            for:item="visitWrapper"
+                            for:index="index"
+                        >
                             <tr key={visitWrapper.tvId}>
                                 <td>
                                     {visitWrapper.title} <br />
-                                    <div class="show">
-                                        <span>{labels.TV_TH_Duration} </span>{visitWrapper.duration}
+                                    <div class="tv-dur-row hidden" data-index={index}>
+                                        <span class="tv-dur-row_header"
+                                            >{labels.TV_TH_Duration} </span
+                                        ><br />{visitWrapper.duration}
                                     </div>
                                 </td>
                                 <td>
@@ -76,9 +82,10 @@
                                     >
                                     </lightning-formatted-date-time>
                                     <br />
-                                    <div>
-                                        <span>{labels.TV_TH_Attendees} </span
-                                        >{visitWrapper.attendeeList}
+                                    <div class="tv-att-row hidden" data-index={index}>
+                                        <span class="tv-att-row_header"
+                                            >{labels.TV_TH_Attendees} </span
+                                        ><br />{visitWrapper.attendeeList}
                                     </div>
                                 </td>
                                 <td>
@@ -90,10 +97,21 @@
                                     >
                                     </lightning-formatted-date-time>
                                     <lightning-button-icon
-                                        icon-name="utility:down"
+                                        icon-name="utility:chevrondown"
                                         size="medium"
                                         variant="bare"
                                         alternative-text="View More"
+                                        value={index}
+                                        class="tv-data-btn"
+                                        onclick={displayData}
+                                    ></lightning-button-icon>
+                                    <lightning-button-icon
+                                        icon-name="utility:chevronup"
+                                        size="medium"
+                                        variant="bare"
+                                        alternative-text="View Less"
+                                        value={index}
+                                        class="tv-data-btn hidden"
                                         onclick={displayData}
                                     ></lightning-button-icon>
                                 </td>
