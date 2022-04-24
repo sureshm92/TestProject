@@ -89,11 +89,9 @@ export default class TeleVisitsListView extends LightningElement {
         dataElements.forEach(function (ele) {
             ele.classList.toggle('hidden');
         });
-        let buttons = this.template.querySelectorAll(
-            "lightning-button-icon[value='" + index + "']"
-        );
-        buttons.forEach(function (btn) {
-            btn.classList.toggle('hidden');
+        let spans = this.template.querySelectorAll("span[data-index='" + index + "']");
+        spans.forEach(function (spn) {
+            spn.classList.toggle('hidden');
         });
     }
 }

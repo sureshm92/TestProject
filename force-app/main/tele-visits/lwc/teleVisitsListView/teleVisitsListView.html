@@ -96,24 +96,26 @@
                                         time-zone={timeZone}
                                     >
                                     </lightning-formatted-date-time>
-                                    <lightning-button-icon
-                                        icon-name="utility:chevrondown"
-                                        size="medium"
-                                        variant="bare"
-                                        alternative-text="View More"
-                                        value={index}
-                                        class="tv-data-btn"
-                                        onclick={displayData}
-                                    ></lightning-button-icon>
-                                    <lightning-button-icon
-                                        icon-name="utility:chevronup"
-                                        size="medium"
-                                        variant="bare"
-                                        alternative-text="View Less"
-                                        value={index}
-                                        class="tv-data-btn hidden"
-                                        onclick={displayData}
-                                    ></lightning-button-icon>
+                                    <span class="tv-data-btn" data-index={index}
+                                        ><lightning-button-icon
+                                            icon-name="utility:chevrondown"
+                                            size="medium"
+                                            variant="bare"
+                                            alternative-text="View More"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
+                                    </span>
+                                    <span class="tv-data-btn hidden" data-index={index}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronup"
+                                            size="medium"
+                                            variant="bare"
+                                            alternative-text="View Less"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
+                                    </span>
                                 </td>
                             </tr>
                         </template>
