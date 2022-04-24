@@ -9,6 +9,7 @@ import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
 import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
 import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
 import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 const ENTRIES_ON_PAGE = 4;
 export default class TeleVisitsListView extends LightningElement {
@@ -55,9 +56,11 @@ export default class TeleVisitsListView extends LightningElement {
     get containerClass() {
         return 'tv-body' + (this.isInitialized ? '' : 'hidden');
     }
-
+    get isDesktop() {
+        return FORM_FACTOR === 'Large';
+    }
     get titleClass() {
-        return 'tv-title' + (this.isRTL === true ? ' tile-rtl' : '');
+        return 'tv-title' + (this.isRTL ? ' tile-rtl' : '');
     }
     statusHandler(event) {
         this.searchStatus = event.detail;
@@ -79,5 +82,16 @@ export default class TeleVisitsListView extends LightningElement {
             .catch((error) => {
                 console.log('error', error);
             });
+    }
+    displayData(event) {
+        let index = event.target.value;
+        let dataElements = this.template.querySelectorAll("div[data-index='" + index + "']");
+        dataElements.forEach(function (ele) {
+            ele.classList.toggle('hidden');
+        });
+        let spans = this.template.querySelectorAll("span[data-index='" + index + "']");
+        spans.forEach(function (spn) {
+            spn.classList.toggle('hidden');
+        });
     }
 }
