@@ -6,9 +6,6 @@
     box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04);
     margin-top: -15px;
 }
-.rr-table .wrapText {
-    white-space: nowrap;
-}
 
 .tv-body .rr-white-panel {
     border: none;
@@ -46,10 +43,23 @@
     line-height: 21px;
     padding: 4px 10px;
 }
-
-.table-header {
+.tv-table-header {
     height: 43px;
     background-color: #f8f9fb;
+}
+.tv-att-row,
+.tv-dur-row {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+.tv-att-row_header,
+.tv-dur-row_header {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(51, 51, 51);
 }
 
 .rtl th,
@@ -68,10 +78,6 @@
     margin-bottom: 15px;
 }
 
-.invisible {
-    display: none;
-}
-
 .no-visits-message {
     margin-bottom: 1.5em;
 }
@@ -81,10 +87,6 @@
     padding: 0 2% 2% 25px;
     align-items: center;
     color: #666666;
-}
-
-.visitsLabel {
-    display: none;
 }
 
 @media (max-width: 768px) {
@@ -116,18 +118,6 @@
     .rr-table tr td .tv-t-reminder .slds-button {
         margin-top: -5px;
     }
-
-    .visitsLabel {
-        display: inline-block;
-        padding-right: 5px;
-        color: #595959;
-        position: relative;
-    }
-
-    .rtl .taskLabel {
-        padding: 0 0 0 5px;
-    }
-
     .rr-table tr td:last-child {
         border-bottom: 1px solid #d9d9d9;
         margin-bottom: 1.5rem;

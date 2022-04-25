@@ -46,7 +46,6 @@ export default class ConsentManager extends LightningElement {
     SMS_TEXT = SMS_TEXT;
     CONSENT_TO_STORE_AND_CONTACT;
     
-
     @api peUpdation = false; //set this flag if IQVIA Outreach consents are to be updated on PE record
     @track consentModel = consentModel;
     participantContact = contactConsent;
@@ -64,17 +63,18 @@ export default class ConsentManager extends LightningElement {
     }
     @api
     get callSource() {
-        return this._callSource;
+        return this._callSource;        
     }
-    set callSource(value) {    
-        this._callSource = value; 
+    set callSource(value) {  
+        this._callSource = value;         
         this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;        
         switch(value){
-            case 'addParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
+            case 'addParticipant':                          
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
             break;
             case 'editParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
+               
             break;
             case 'importParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
@@ -133,7 +133,7 @@ export default class ConsentManager extends LightningElement {
                     this.participantContact.Participant_Opt_In_Status_SMS__c = this.pe.Participant_Opt_In_Status_SMS__c;
                     this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = this.pe.Participant_Phone_Opt_In_Permit_Phone__c;
                 }else {
-            this.participantContact = this.pe.Participant_Contact__r;
+                    this.participantContact = this.pe.Participant_Contact__r;
                 }
                 this.consentModel.ranOnce = true;
             }
@@ -173,7 +173,7 @@ export default class ConsentManager extends LightningElement {
 
     updateOutreachConsentChecks(){
         if(this.participantContact.Participant_Opt_In_Status_Emails__c!=undefined){
-            if(this.participantContact.Participant_Opt_In_Status_Emails__c && this.participantContact.Participant_Opt_In_Status_SMS__c
+        if(this.participantContact.Participant_Opt_In_Status_Emails__c && this.participantContact.Participant_Opt_In_Status_SMS__c
             && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c){
             this.consentModel.outReachConsent = true;
         }
@@ -188,14 +188,14 @@ export default class ConsentManager extends LightningElement {
 
     fireConsentChange(consentType){
         this.consentMapping['cType'] = consentType;
-            this.consentMapping['pe'] = this.pe;
-            this.consentMapping['contact'] = this.participantContact;
-            const consentMap = this.consentMapping;
-            const filterChangeEvent = new CustomEvent('consentchange', {
-                detail: { consentMap },
-            });
-            this.dispatchEvent(filterChangeEvent);
-        }
+        this.consentMapping['pe'] = this.pe;
+        this.consentMapping['contact'] = this.participantContact;
+        const consentMap = this.consentMapping;
+        const filterChangeEvent = new CustomEvent('consentchange', {
+            detail: { consentMap },
+        });
+        this.dispatchEvent(filterChangeEvent);
+    }
 
     handleConsentChange(event){
             let consentType = event.target.name;

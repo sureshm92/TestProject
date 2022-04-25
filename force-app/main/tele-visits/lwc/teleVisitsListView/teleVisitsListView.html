@@ -12,53 +12,125 @@
             >
             </c-web-select>
         </div>
-
         <template if:true={isDisplayTable}>
             <c-ui-table>
-                <table slot="body">
-                    <tr class="table-header">
-                        <th>{labels.TV_TH_Title}</th>
-                        <th>{labels.TV_TH_Date}</th>
-                        <th>{labels.TV_TH_Time}</th>
-                        <th>{labels.TV_TH_Duration}</th>
-                        <th>{labels.TV_TH_Attendees}</th>
-                    </tr>
-                    <template for:each={teleVisits} for:item="visitWrapper">
-                        <tr key={visitWrapper.tvId}>
-                            <td>{visitWrapper.title}</td>
-                            <td class="">
-                                <lightning-formatted-date-time
-                                    value={visitWrapper.visitDate}
-                                    year="numeric"
-                                    month="short"
-                                    day="2-digit"
-                                    time-zone={timeZone}
-                                >
-                                </lightning-formatted-date-time>
-                            </td>
-                            <td>
-                                <lightning-formatted-date-time
-                                    value={visitWrapper.visitTime}
-                                    hour="numeric"
-                                    minute="numeric"
-                                    time-zone={timeZone}
-                                >
-                                </lightning-formatted-date-time>
-                            </td>
-                            <td>{visitWrapper.duration}</td>
-                            <td>{visitWrapper.attendeeList}</td>
+                <template if:true={isDesktop}>
+                    <table slot="body">
+                        <tr class="tv-table-header">
+                            <th>{labels.TV_TH_Title}</th>
+                            <th>{labels.TV_TH_Date}</th>
+                            <th>{labels.TV_TH_Time}</th>
+                            <th>{labels.TV_TH_Duration}</th>
+                            <th>{labels.TV_TH_Attendees}</th>
                         </tr>
-                    </template>
-                </table>
+                        <template for:each={tabTeleVisits} for:item="visitWrapper">
+                            <tr key={visitWrapper.tvId}>
+                                <td>{visitWrapper.title}</td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitTime}
+                                        hour="numeric"
+                                        minute="numeric"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                </td>
+                                <td>{visitWrapper.duration}</td>
+                                <td>{visitWrapper.attendeeList}</td>
+                            </tr>
+                        </template>
+                    </table>
+                </template>
+                <template if:false={isDesktop}>
+                    <table slot="body">
+                        <tr class="tv-nested-row_header">
+                            <th>{labels.TV_TH_Title}</th>
+                            <th>{labels.TV_TH_Date}</th>
+                            <th>{labels.TV_TH_Time}</th>
+                        </tr>
+                        <template
+                            for:each={tabTeleVisits}
+                            for:item="visitWrapper"
+                            for:index="index"
+                        >
+                            <tr key={visitWrapper.tvId}>
+                                <td>
+                                    {visitWrapper.title} <br />
+                                    <div class="tv-dur-row hidden" data-index={index}>
+                                        <span class="tv-dur-row_header"
+                                            >{labels.TV_TH_Duration} </span
+                                        ><br />{visitWrapper.duration}
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                    <br />
+                                    <div class="tv-att-row hidden" data-index={index}>
+                                        <span class="tv-att-row_header"
+                                            >{labels.TV_TH_Attendees} </span
+                                        ><br />{visitWrapper.attendeeList}
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitTime}
+                                        hour="numeric"
+                                        minute="numeric"
+                                        time-zone={timeZone}
+                                    >
+                                    </lightning-formatted-date-time>
+                                    <span class="tv-data-btn" data-index={index}
+                                        ><lightning-button-icon
+                                            icon-name="utility:chevrondown"
+                                            size="medium"
+                                            variant="bare"
+                                            alternative-text="View More"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
+                                    </span>
+                                    <span class="tv-data-btn hidden" data-index={index}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronup"
+                                            size="medium"
+                                            variant="bare"
+                                            alternative-text="View Less"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
+                    </table>
+                </template>
             </c-ui-table>
         </template>
 
         <div class="pagination">
             <c-web-pagination-remote
                 current-page={pageNumber}
-                all-records-count={allRecordsCount}
-                entries-on-page={entriesOnPage}
+                records-count={allRecordsCount}
+                entries={entriesOnPage}
                 onpaginatorchange={handlePaginatorChanges}
+                records-list={teleVisits}
             ></c-web-pagination-remote>
         </div>
 

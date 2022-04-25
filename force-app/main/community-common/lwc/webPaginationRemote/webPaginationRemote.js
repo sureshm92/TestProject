@@ -10,48 +10,55 @@ export default class WebPaginationRemote extends LightningElement {
     @api currentPage;
     @track totalPages;
     recordsToDisplay = [];
-    @track end = false;
+    _allRecordsCount;
+    @track _recordsList;
+    _entriesOnPage;
 
     @api
-    get allRecordsCount() {
+    get recordsCount() {
         return this._allRecordsCount;
     }
-    set allRecordsCount(value) {
+    set recordsCount(value) {
         this._allRecordsCount = value;
-        this.calcTotalPages();
     }
 
     @api
-    get entriesOnPage() {
+    get recordsList() {
+        return this._recordsList;
+    }
+    set recordsList(value) {
+        this.handleChange(value);
+    }
+    handleChange(value) {
+        this._recordsList = JSON.parse(JSON.stringify(value));
+        this.currentPage = 1;
+        this.calcTotalPages();
+    }
+    @api
+    get entries() {
         return this._entriesOnPage;
     }
-    set entriesOnPage(value) {
+    set entries(value) {
         this._entriesOnPage = value;
-        this.calcTotalPages();
     }
 
     //Inner methods-----------------------------------------------------------------------------------------------------
-    connectedCallback() {
-        this.calcTotalPages();
-        //this.setRecordsToDisplay();
-    }
 
     calcTotalPages() {
-        this.totalPages = Math.ceil(this.allRecordsCount / this.entriesOnPage);
+        this.allRecordsCount = this._recordsList.length;
+        this.totalPages = Math.ceil(this.allRecordsCount / this._entriesOnPage);
+        this._allRecordsCount = this._recordsList.length;
+        this.loadTabRecords();
     }
 
     nextPageClick() {
-        if (this.currentPage < this.totalPages) this.currentPage += 1;
-
-        const changeEvent = new CustomEvent('change', {});
-        this.dispatchEvent(changeEvent);
+        if (this.currentPage <= this.totalPages) this.currentPage = this.currentPage + 1;
+        this.loadTabRecords();
     }
 
     prevPageClick() {
         if (this.currentPage > 1) this.currentPage -= 1;
-
-        const changeEvent = new CustomEvent('change', {});
-        this.dispatchEvent(changeEvent);
+        this.loadTabRecords();
     }
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
@@ -76,33 +83,17 @@ export default class WebPaginationRemote extends LightningElement {
             (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '')
         );
     }
-    @api
-    setRecordsToDisplay() {
+
+    loadTabRecords() {
         this.recordsToDisplay = [];
-        if (!this.entriesOnPage) this.entriesOnPage = this.allRecordsCount;
-
-        let begin = (this.currentPage - 1) * this.recordsPerPage;
-        let end = begin + this.recordsPerPage;
-        if (this.allRecordsCount == 0) {
-            this.startRecord = this.allRecordsCount;
-        } else if (begin < this.allRecordsCount) {
-            this.startRecord = begin + 1;
-        } else if (this.allRecordsCount <= 10) {
-            this.startRecord = 1;
-        }
-
-        this.endRecord = end > this.allRecordsCount ? this.allRecordsCount : end;
-
-        this.end = end > this.allRecordsCount ? true : false;
-
         for (
-            let i = (this.currentPage - 1) * this.entriesOnPage;
-            i < this.currentPage * this.entriesOnPage;
+            let i = (this.currentPage - 1) * this._entriesOnPage;
+            i < this.currentPage * this._entriesOnPage;
             i++
         ) {
             if (i === this.allRecordsCount) break;
-            this.recordsToDisplay.push(this.records[i]);
+            this.recordsToDisplay.push(this._recordsList[i]);
         }
-        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
+        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay }));
     }
 }
