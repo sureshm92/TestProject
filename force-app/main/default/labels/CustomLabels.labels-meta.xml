@@ -15850,7 +15850,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -15929,6 +15929,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Signed Authorization Form</shortDescription>
         <value>You must have a signed authorization from the patient giving permission for their contact information and pre-screening data be shared with IQVIA and study doctors.</value>
     </labels>
+    <labels>
+        <fullName>PG_Ref_L_StudySite_Consent_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_StudySite_Consent_Mandatory</shortDescription>
+        <value>Please, confirm that your patient and/or patient's legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
+    </labels> 
     <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
         <language>en_US</language>
@@ -24392,39 +24399,75 @@ communications using the toggles below.</value>
         <shortDescription>RH RP out of</shortDescription>
         <value>out of</value>
     </labels>
-    <labels>
-        <fullName>TV_TH_Attendees</fullName>
+	 <labels>
+        <fullName>PIR_CreatePreset</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TV_TH_Attendees</shortDescription>
-        <value>Attendees</value>
+        <protected>false</protected>
+        <shortDescription>PIR_CreatePreset</shortDescription>
+        <value>Create Preset</value>
     </labels>
     <labels>
-        <fullName>TV_TH_Date</fullName>
+        <fullName>PIR_CreatePresetPopup</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TV_TH_Date</shortDescription>
-        <value>Date</value>
+        <protected>false</protected>
+        <shortDescription>PIR_CreatePresetPopup</shortDescription>
+        <value>The applied filters will be saved as a preset. Please enter a name to reference later.</value>
     </labels>
     <labels>
-        <fullName>TV_TH_Duration</fullName>
+        <fullName>PIR_Delete_Preset</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TV_TH_Duration</shortDescription>
-        <value>Duration</value>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset</shortDescription>
+        <value>Delete Preset</value>
     </labels>
     <labels>
-        <fullName>TV_TH_Time</fullName>
+        <fullName>PIR_Delete_Preset_Popup</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TV_TH_Time</shortDescription>
-        <value>Time</value>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup</shortDescription>
+        <value>Select a preset to be deleted. This cannot be undone.</value>
     </labels>
     <labels>
-        <fullName>TV_TH_Title</fullName>
+        <fullName>PIR_PresetName</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TV_TH_Title</shortDescription>
-        <value>Title</value>
+        <protected>false</protected>
+        <shortDescription>PIR_PresetName</shortDescription>
+        <value>Preset Name</value>
     </labels>
+    <labels>
+        <fullName>PIR_Preset_Created_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Created_Message</shortDescription>
+        <value>has been created.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Delete_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Delete_Message</shortDescription>
+        <value>has been deleted.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_Heading</shortDescription>
+        <value>Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_HeadingPlural</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset_HeadingPlural</shortDescription>
+        <value>Presets</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Save_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Save_Preset</shortDescription>
+        <value>Save Preset</value>
+    </labels>
+</CustomLabels>
 </CustomLabels>

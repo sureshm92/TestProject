@@ -28,6 +28,7 @@ public without sharing class TaskService {
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
+    public static final String TASK_CODE_UPDATE_YOUR_PHONE_NUMBER = 'Update_Your_Phone_Number';
     public static final String TASK_CODE_SELECT_COI = 'Select_COI';
 
     public static final String OPEN_TASKS_ORDER = ' ORDER BY Priority DESC, ActivityDate NULLS LAST, CreatedDate DESC';
@@ -686,5 +687,19 @@ public without sharing class TaskService {
             }
         }
         update expiredTasks;
+    }
+    public Task updateYourPhoneNumberTask(Id ownerId, Id participantId, Id participantContactId) {
+        return new Task(
+            OwnerId = ownerId,
+            Subject = TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER,
+            Task_Code__c = TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER,
+            Status = TASK_STATUS_OPEN,
+            Priority = TASK_PRIORITY_CRITICAL,
+            WhatId = participantId,
+            WhoId = participantContactId,
+            Visible_For__c = TASK_VISIBILITY_ALL,
+            Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
+            //InitialTaskNotification__c = true
+        );
     }
 }

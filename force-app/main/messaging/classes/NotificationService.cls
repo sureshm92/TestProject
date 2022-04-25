@@ -415,29 +415,34 @@ public without sharing class NotificationService {
                         );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
-                    Boolean isSMSAvailableAtPlatformLevel =
-                        platfomLevelSMSSet.contains(n.Id) &&
-                        availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
-                    if (isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id)) {
-                        if (
-                            (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
-                            (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                            !String.isBlank(n.Task_Id__c))
-                        ) {
+                    //if Number is not Invalid at contact, proceed for sending SMS else skip the SMS.
+                    if (!availabilityService.isInvalidNumber(n.Recipient__c)) {
+                        Boolean isSMSAvailableAtPlatformLevel =
+                            platfomLevelSMSSet.contains(n.Id) &&
+                            availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+                        if (isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id)) {
                             if (
-                                !String.isBlank(n.Task_Id__c) &&
-                                taskMap != null &&
-                                taskMap.containsKey(n.Task_Id__c) &&
-                                (taskMap.get(n.Task_Id__c).Remind_Using_SMS__c ||
-                                (instantNotificationTypes.contains(n.Notification_Type__c) &&
-                                taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
+                                (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
+                                (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
+                                !String.isBlank(n.Task_Id__c))
                             ) {
+                                if (
+                                    !String.isBlank(n.Task_Id__c) &&
+                                    taskMap != null &&
+                                    taskMap.containsKey(n.Task_Id__c) &&
+                                    (taskMap.get(n.Task_Id__c).Remind_Using_SMS__c ||
+                                    (instantNotificationTypes.contains(n.Notification_Type__c) &&
+                                    taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
+                                ) {
+                                    smsNotifications.add(n);
+                                    sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                                }
+                            } else {
                                 smsNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             }
                         } else {
-                            smsNotifications.add(n);
-                            sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                            sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                         }
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
