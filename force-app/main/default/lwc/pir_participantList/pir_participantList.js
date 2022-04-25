@@ -22,6 +22,7 @@ import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Partici
 import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getPEData from '@salesforce/apex/PIR_HomepageController.getPEData';
+import fetchPreset from '@salesforce/apex/PIR_HomepageController.fetchPreset';
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
 import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
 import Records_all_invited from '@salesforce/label/c.Records_all_invited';
@@ -45,13 +46,14 @@ export default class Pir_participantList extends LightningElement {
     showDCT=false;
     showPP=false;
     saving=false;
-    showStatus=false;
+    @api showStatus=false;
     selectedStatusList;
     selectedStatusValue = 'Received';isPPFiltered = false;
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
-
+    enteredSearchString = '';
+    filterWrapper= {};
 
     @api get fetch(){
         return true;
@@ -61,7 +63,8 @@ export default class Pir_participantList extends LightningElement {
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
         }).then(() => {
-            this.fetchList(); 
+            //this.fetchList(); 
+            this.fetchAllPreset(); 
         }).catch((error) => {
              console.log('Error: ' + error.message);
              console.log('Error: ' + error.stack);
@@ -167,6 +170,9 @@ export default class Pir_participantList extends LightningElement {
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.add("slds-p-bottom--x-large");
         });
+        this.template.querySelectorAll(".dropsize").forEach(function (L) {
+            L.classList.remove("participantStatus");
+        });
         if(this.isPPFiltered == true){
             this.isPPFiltered = false;
             this.totalRecordCount = -1;
@@ -179,6 +185,12 @@ export default class Pir_participantList extends LightningElement {
     setParametersBasedOnUrl() {
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
+       if(this.urlStudyId != null && this.urlSiteId != null){
+        this.filterWrapper.siteList = [];
+        this.filterWrapper.studyList = [];
+        this.filterWrapper.siteList.push(this.urlSiteId);
+        this.filterWrapper.studyList.push(this.urlStudyId);
+       }
     }
     totalRecordCount = -1;
     @api pageNumber = 1;
@@ -208,8 +220,7 @@ export default class Pir_participantList extends LightningElement {
         this.siteIdlist = [];
         this.siteIdlist.push(this.urlSiteId);   
        }
-      
-    }   
+    }
     rendered=false;
     renderedCallback(){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
@@ -223,31 +234,36 @@ export default class Pir_participantList extends LightningElement {
     }
     @api
     handleParticipantsearch(event){
-        console.log('>>>length string>>'+event.target.value.length);
-        let enteredString = '';
+        this.enteredSearchString = '';
         this.disabledFilter = false;
         if(event.target.value.length != 0)
         {
+          this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            if(event.target.value.length <= 2 )
+                return;
         } 
-        if(event.target.value && event.target.value.length >= 3 )
-        {
-            console.log('>>>>enterstring is>>'+enteredString+'>with lentgh>>'+enteredString.length);
-            enteredString = event.target.value;
-           
+        else{
+          
+          this.template.querySelector('[data-id="filterdiv"]').classList.remove('disablefilter');
         }
-        //cal the method with search string
-      getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, 
-                        siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, 
-                        selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : enteredString })
-        .then(result => {
-            
-        })
-        .catch(error => {
-            // this.err = error;
-            console.log('Error new: '+JSON.stringify( this.err));
-            console.log('Error : '+error.message);
-        });
+        if(event.target.value && event.target.value.length > 2 )
+        { 
+            this.enteredSearchString = event.target.value;
+        }
+        //call the method with search string
+        if(this.totalRecordCount > 0){        
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
+        else{
+            this.totalRecordCount = -1;
+            this.fetchList();
+        }
         
     }
     @api fetchList(){
@@ -255,8 +271,12 @@ export default class Pir_participantList extends LightningElement {
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
-        this.sortInitialVisit = false;
-        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : '' })
+        this.sortInitialVisit = false;        
+        this.showFilter =true;
+        console.log('filter:'+JSON.stringify(this.filterWrapper));
+        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
+            sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
+             isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
         .then(result => {
             this.sortInitialVisit = result.sortInitialVisit;
             this.participantList = result.listViewWrapper;
@@ -274,12 +294,19 @@ export default class Pir_participantList extends LightningElement {
             }else{
                 this.noRecords = true;
             }
-            if(this.selectedStatusList!=null && (this.selectedStatusValue!='All Active Statuses' && this.selectedStatusValue!= 'All Inactive Statuses' && this.selectedStatusValue!= 'Eligibility Passed' && this.selectedStatusValue!= 'Eligibility Failed') ){
+           
+            console.log('result value:'+JSON.stringify(result));
+            console.log('studyIdList--->'+result.studyIdlist.length);
+            console.log('StatusList--->'+result.filterWrapper.status);
+             if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
                 this.showStatus=true;
+                console.log('showstatus'+this.showStatus);
             }
             else{
                 this.showStatus=false;
+                console.log('dontshowstatus'+this.showStatus); 
             }
+           
             this.showDCT=false;
             for(var i=0 ; i<result.listViewWrapper.length;i++){
                 this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
@@ -316,6 +343,13 @@ export default class Pir_participantList extends LightningElement {
                 
             }
             this.showPP = result.isEnablePP;
+            if(!(Object.keys(this.filterWrapper).length === 0)){
+                if(this.filterWrapper.studyList.length != 1){
+                    this.showDCT=false;
+                    this.showPP=false;
+                    console.log('showstatus'+  this.showDCT);
+                }
+            }
             if(selectCount==this.participantList.length){
                 this.selectall = true;
             }
@@ -341,9 +375,8 @@ export default class Pir_participantList extends LightningElement {
             this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
         })
         .catch(error => {
-            this.err = error;
             this.saving = false;
-            console.log('Error : '+JSON.stringify( this.err));
+            console.log('Error : '+error.stack);
             console.log('Error : '+error.message);
             this.participantList = undefined;
         });
@@ -399,15 +432,22 @@ export default class Pir_participantList extends LightningElement {
             console.log('Error : '+error.message);
         });
     }
-    @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; 
+    @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; @api consentValue;
+    @api signedDateValue;
+
     @api updateBulkStatusChange(){   
+        let study = this.filterWrapper.studyList.toString();
+        let status = this.filterWrapper.status.toString();
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
             reason: this.selectedreasonvalue,
-            studyId: this.studyIdlist,
-            oParticipantStatus: this.selectedStatusList[0],
-            finalconsent: this.finalConsentvalue})
+            studyId: study,
+            oParticipantStatus: status,
+            finalconsent: this.finalConsentvalue,
+            consentSigned: this.consentValue,
+            signedDate:this.signedDateValue
+        })
         .then(result => {
             this.saving = true;
             //this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
@@ -538,11 +578,13 @@ export default class Pir_participantList extends LightningElement {
     @api newstatus;
     handleChangeOfStatus(event) {
         this.enableStatus=false;
+        let study = this.filterWrapper.studyList.toString();
+        let status = this.filterWrapper.status.toString();
         const selectedEvent = new CustomEvent("statusvaluechange", {
             detail: {
                 newStatusSelected: event.detail.value,
-                oParticipantStatus: this.selectedStatusList[0],
-                studyId: this.studyIdlist
+                oParticipantStatus: status,
+                studyId: study
             }
           });
         this.dispatchEvent(selectedEvent);
@@ -557,13 +599,23 @@ export default class Pir_participantList extends LightningElement {
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
+        if( this.dropDownLabel != this.label.ListView_ChangeStatus){
+            console.log('changestatus');
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.remove("slds-p-bottom--x-large");
+            });
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.add("slds-p-bottom--x-small");
+            });
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.remove("participantStatus");
+            });
+       }
+       else{
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.remove("slds-p-bottom--x-large");
+            L.classList.add("participantStatus");
         });
-        this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-small");
-        });
-        
+       }
         if(selectedVal != this.label.RH_PP_Add_New_Participant){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
@@ -585,7 +637,11 @@ export default class Pir_participantList extends LightningElement {
             this.changeStatus=true;
             this.enableStatus=true;
             this.statusChangeList = '';this.statusSelected='';
-            getAvailableStatuses({ status: this.selectedStatusList[0], StudyId: this.studyIdlist })
+            let study = this.filterWrapper.studyList.toString();
+            console.log('filterstudylen:'+''+this.filterWrapper.studyList+this.filterWrapper.studyList.length);
+            console.log('filterstatus:'+''+this.filterWrapper.status+this.filterWrapper.status.length);
+            let status = this.filterWrapper.status.toString();
+            getAvailableStatuses({ status: status, StudyId: study })
             .then(result => {
                 this.statusChangeList = result;
                 this.statusSelected = 'null';
@@ -668,11 +724,10 @@ export default class Pir_participantList extends LightningElement {
         this.totalCount=45000;
         this.counterLimit=45000;
         this.isFirstTime=true;
-        this.getincludePII=false;
         this.handleExportall();
     }
 
-     handleExportall(){
+    handleExportall(){
         this.saving=true;
         exportAll({studies : this.studyAll, studySites: this.siteAll,startPos: this.startPos,endPos: this.endPos,sponsorName: this.communityTemplate})
         .then(result => {
@@ -693,14 +748,10 @@ export default class Pir_participantList extends LightningElement {
                 if (finaltotalCount > 100000) {
                     finaltotalCount = 100000;
                 }
-                console.log('currentCount ' + currentCount);
-                console.log('finaltotalCount ' + finaltotalCount);
-                console.log('counterLimit ' + counterLimit);
                 if (currentCount < finaltotalCount) {
                     counterLimit = counterLimit + 45000;
                     this.counterLimit= counterLimit;
                 }
-                console.log('counterLimit new ' + counterLimit);
                 if (this.exportAllDatatemp.endPos < counterLimit && currentCount < finaltotalCount) {
                     this.startPos = this.endPos + 1;
                     this.endPos = this.endPos + 45000;
@@ -708,7 +759,6 @@ export default class Pir_participantList extends LightningElement {
                     this.endPos= this.endPos;
                     this.handleExportall();
                 } else {
-                    console.log('in else');
                     this.downloadCSV(this.csvList);
                 }
         })
@@ -1239,48 +1289,50 @@ export default class Pir_participantList extends LightningElement {
     }
 
     //Filter
-    showFilter = false;
     toggleFilter(){
-        this.showFilter = !this.showFilter;
+        this.template.querySelectorAll(".filter-relative").forEach(function (L) {
+            L.classList.toggle("slds-hide");
+        });
     }
     isResetPagination = false;
     handleFilterEvent(event){
-        this.studyIdlist = event.detail.selectedStudy;
-        this.siteIdlist = event.detail.selectedSite;
-        this.urlStudyId = event.detail.selectedStudy;
-        this.urlSiteId = event.detail.selectedSite;
-        this.selectedStatusValue = event.detail.selectedStatus;
-        var selectedStatusListOptions = [];
-        if(event.detail.selectedStatus == 'All Active Statuses'){
-            selectedStatusListOptions.push('Received');
-            selectedStatusListOptions.push('Pre-review Passed');
-            selectedStatusListOptions.push('Contact Attempted');
-            selectedStatusListOptions.push('Successfully Contacted');
-            selectedStatusListOptions.push('Screening In Progress');
-            selectedStatusListOptions.push('Screening In Progress - Wash Out Period');
-            selectedStatusListOptions.push('Screening Passed');
-            selectedStatusListOptions.push('Enrollment Success');
-            selectedStatusListOptions.push('Eligibility Passed');
-            selectedStatusListOptions.push('Ready to Screen');
-            selectedStatusListOptions.push('Randomization Success');
-        }else if(event.detail.selectedStatus == 'All Inactive Statuses'){
-            selectedStatusListOptions.push('Pre-review Failed');
-            selectedStatusListOptions.push('Unable to Reach');
-            selectedStatusListOptions.push('Contacted - Not Suitable');
-            selectedStatusListOptions.push('Eligibility Failed');
-            selectedStatusListOptions.push('Declined Consent');
-            selectedStatusListOptions.push('Unable to Screen');
-            selectedStatusListOptions.push('Withdrew Consent');
-            selectedStatusListOptions.push('Screening Failed');
-            selectedStatusListOptions.push('Withdrew Consent After Screening');
-            selectedStatusListOptions.push('Enrollment Failed');
-            selectedStatusListOptions.push('Randomization Failed');
-            selectedStatusListOptions.push('Declined Final Consent');
-        }else{
-            selectedStatusListOptions.push(event.detail.selectedStatus);
-        }
+        this.filterWrapper = event.detail;
+        // this.studyIdlist = event.detail.selectedStudy;
+        // this.siteIdlist = event.detail.selectedSite;
+        // this.urlStudyId = event.detail.selectedStudy;
+        // this.urlSiteId = event.detail.selectedSite;
+        // this.selectedStatusValue = event.detail.selectedStatus;
+        // var selectedStatusListOptions = [];
+        // if(event.detail.selectedStatus == 'All Active Statuses'){
+        //     selectedStatusListOptions.push('Received');
+        //     selectedStatusListOptions.push('Pre-review Passed');
+        //     selectedStatusListOptions.push('Contact Attempted');
+        //     selectedStatusListOptions.push('Successfully Contacted');
+        //     selectedStatusListOptions.push('Screening In Progress');
+        //     selectedStatusListOptions.push('Screening In Progress - Wash Out Period');
+        //     selectedStatusListOptions.push('Screening Passed');
+        //     selectedStatusListOptions.push('Enrollment Success');
+        //     selectedStatusListOptions.push('Eligibility Passed');
+        //     selectedStatusListOptions.push('Ready to Screen');
+        //     selectedStatusListOptions.push('Randomization Success');
+        // }else if(event.detail.selectedStatus == 'All Inactive Statuses'){
+        //     selectedStatusListOptions.push('Pre-review Failed');
+        //     selectedStatusListOptions.push('Unable to Reach');
+        //     selectedStatusListOptions.push('Contacted - Not Suitable');
+        //     selectedStatusListOptions.push('Eligibility Failed');
+        //     selectedStatusListOptions.push('Declined Consent');
+        //     selectedStatusListOptions.push('Unable to Screen');
+        //     selectedStatusListOptions.push('Withdrew Consent');
+        //     selectedStatusListOptions.push('Screening Failed');
+        //     selectedStatusListOptions.push('Withdrew Consent After Screening');
+        //     selectedStatusListOptions.push('Enrollment Failed');
+        //     selectedStatusListOptions.push('Randomization Failed');
+        //     selectedStatusListOptions.push('Declined Final Consent');
+        // }else{
+        //     selectedStatusListOptions.push(event.detail.selectedStatus);
+        // }
         this.isPPFiltered = false;
-        this.selectedStatusList = selectedStatusListOptions;
+        // this.selectedStatusList = selectedStatusListOptions;
         this.totalRecordCount = -1;
         this.toggleFilter();
         this.isResetPagination = true;
@@ -1299,12 +1351,15 @@ export default class Pir_participantList extends LightningElement {
         this.isResetPagination = false;        
     }
     //sort
+    sortValue =  ' ORDER BY PerCounter__c DESC ';
     sortOn = ' ORDER BY PerCounter__c DESC ';
-
+    sortType = 0;
     get sortOptions() {
        var opts =  [
             { label: 'Last Added', value: ' ORDER BY PerCounter__c DESC ' },
-            { label: 'Last Modified', value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },            
+            { label: 'Last Modified', value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
+            { label: 'Alphabetical (A-Z)', value: 'asc' },
+            { label: 'Alphabetical (Z-A)', value: 'desc' }       
         ];
         if(this.sortInitialVisit){
             opts.push({ label: 'Initial Visit Scheduled Date (upcoming)', value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
@@ -1313,12 +1368,74 @@ export default class Pir_participantList extends LightningElement {
         return opts;
     }
     handleSortChange(event) {
-        this.sortOn = event.detail.value;
+        var orderby = event.detail.value;
+        this.sortValue = orderby;
+        if(orderby!='asc' && orderby!='desc'){
+            this.sortOn = orderby;
+            this.sortType = 0;
+        }else{
+            this.sortOn = '';
+            this.sortType = 1;
+            if(orderby=='desc'){                
+                this.sortType = -1;
+            }
+        }
         this.totalRecordCount = -1;
         this.isResetPagination = true;
         const selectEvent = new CustomEvent('resetparent', {
             detail: ''
         });
         this.dispatchEvent(selectEvent);
+    }
+    //PRESET
+    presetOpts;
+    sysPresets = [];
+    selectedPreset = {};
+    presetSel;
+    showEditPreset =false;
+    showFilter =false;
+    fetchAllPreset(){
+        var presets = [];
+        fetchPreset()
+        .then(data => {
+            this.sysPresets = data;
+            for(var i = 0; i<data.length ; i++){
+                if(data[i].isDefault){
+                    this.filterWrapper= data[i];
+                    this.presetSel=data[i].presetId;
+                }
+                presets.push({ label: data[i].presetName, value: data[i].presetId });
+            }
+            this.presetOpts = presets;
+            this.fetchList();
+        })
+        .catch(error => {
+            this.error = error;
+            console.log("Error: "+error.message);
+        });
+    }
+    editPreset(){
+        this.showEditPreset = true;
+    }
+    closepresetmodel(){
+        this.showEditPreset = false;
+    }
+    handlePresetChange(event){
+        for(var i=0;i<this.sysPresets.length;i++){
+            if(event.detail.value==this.sysPresets[i].presetId){
+                this.filterWrapper = this.sysPresets[i];
+                this.presetSel=this.sysPresets[i].presetId;
+                this.isPPFiltered = false;
+                this.totalRecordCount = -1;
+                this.isResetPagination = true;
+                this.fetchList();
+                const selectEvent = new CustomEvent('resetparent', {
+                    detail: ''
+                });
+                this.dispatchEvent(selectEvent);
+                this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]); 
+                break;
+            }
+        }
     }
 }
