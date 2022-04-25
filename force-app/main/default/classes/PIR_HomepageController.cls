@@ -255,8 +255,7 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-
-      sendEmailDebug.sendEmail('>>>>searchString is>>' + searchString);
+     
 
       String janssenLabel = system.Label.Janssen_Community_Template_Name;
       String filterStringPP =
@@ -587,7 +586,6 @@ public without sharing class PIR_HomepageController {
   ) {
     List<String> studyIdlist = new List<String>();
     List<String> siteIdlist = new List<String>();
-    sendEmailDebug.sendEmail('>>>>Coming in method>');
     string janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
     String janssenLabel = system.Label.Janssen_Community_Template_Name;
     List<Study_Site__c> studySiteList = getStudySite();
