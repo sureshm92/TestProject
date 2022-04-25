@@ -62,6 +62,9 @@
     font-weight: 600;
     letter-spacing: 0;
 }
+.disablefilter{
+    opacity: 0.4;
+}
 .flags span{min-height: 18px;}
 .actionReq{  color: #FF9300; padding-right: 0.5rem; }
 .priority{ color: #9E54B0; padding-right: 0.5rem; }
@@ -227,6 +230,9 @@
 .checkbox-placedct{
     margin-left: 12px;
     padding: 3px 0px 0px 0px;
+}
+.participantStatus{
+    padding-bottom: 5px !important;
 }
 
   

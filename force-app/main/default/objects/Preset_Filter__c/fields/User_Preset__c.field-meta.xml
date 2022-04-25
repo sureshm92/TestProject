@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_Preset__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Will tell for which community user this preset is available</description>
+    <externalId>false</externalId>
+    <label>User_Preset</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Preset_Filters</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
