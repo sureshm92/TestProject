@@ -232,8 +232,10 @@ export default class Pir_participantList extends LightningElement {
         }        
         this.keyScope += 'ren';        
     }
+    searchCounter =0;
     @api
     handleParticipantsearch(event){
+        this.searchCounter++ ;
         this.enteredSearchString = '';
         this.disabledFilter = false;
         if(event.target.value.length != 0)
@@ -252,6 +254,7 @@ export default class Pir_participantList extends LightningElement {
             this.enteredSearchString = event.target.value;
         }
         //call the method with search string
+        console.log('>>>searchCounter>>'+this.searchCounter);
         if(this.totalRecordCount > 0){        
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -265,114 +268,124 @@ export default class Pir_participantList extends LightningElement {
             this.fetchList();
         }
         
+
+       
+        
     }
+    @api studyIDList;
     @api fetchList(){
+        var searchCount = this.searchCounter;
         this.selectall = false;
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
         this.sortInitialVisit = false;        
-        this.showFilter =true;
+        this.showFilter =true; 
         console.log('filter:'+JSON.stringify(this.filterWrapper));
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
              isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
         .then(result => {
-            this.sortInitialVisit = result.sortInitialVisit;
-            this.participantList = result.listViewWrapper;
-            if(result.listViewWrapper.length>0){
-                this.noRecords = false;
-                if(!this.backSwap){
-                    this.selectedIndex = 0;
-                    this.selectedPE=result.listViewWrapper[0];   
-                }else{
-                    this.backSwap = false;
-                    this.selectedIndex = result.listViewWrapper.length -1;
-                    this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
-                }
+            if(searchCount == this.searchCounter){
+                this.sortInitialVisit = result.sortInitialVisit;
+                this.participantList = result.listViewWrapper;
+                if(result.listViewWrapper.length>0){
+                    this.noRecords = false;
+                    if(!this.backSwap){
+                        this.selectedIndex = 0;
+                        this.selectedPE=result.listViewWrapper[0];   
+                    }else{
+                        this.backSwap = false;
+                        this.selectedIndex = result.listViewWrapper.length -1;
+                        this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
+                    }
 
-            }else{
-                this.noRecords = true;
-            }
-           
-            console.log('result value:'+JSON.stringify(result));
-            console.log('studyIdList--->'+result.studyIdlist.length);
-            console.log('StatusList--->'+result.filterWrapper.status);
-             if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
-                this.showStatus=true;
-                console.log('showstatus'+this.showStatus);
-            }
-            else{
-                this.showStatus=false;
-                console.log('dontshowstatus'+this.showStatus); 
-            }
-           
-            this.showDCT=false;
-            for(var i=0 ; i<result.listViewWrapper.length;i++){
-                this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
-                if(i>4)
-                    this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
-                
-                this.participantList[i].check = this.selectedCheckboxes.includes(this.participantList[i].id);
-                
-                if(this.participantList[i].check){
-                    selectCount++;
+                }else{
+                    this.noRecords = true;
                 }
-                this.participantList[i].getlabel=this.dropDownLabel;
-                
-                this.participantList[i].showActionbtnDisabled = true;
-                
-                if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
-                {
-                    this.participantList[i].showActionbtnDisabled = false;
-                    enableCount++;
-                }
-                else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
-                {
-                    this.participantList[i].showActionbtnDisabled = true;
+            
+                console.log('result value:'+JSON.stringify(result));
+                console.log('studyIdList--->'+result.studyIdlist.length);
+                console.log('result.filterWrapper--->'+result.filterWrapper);
+                console.log('StatusList--->'+result.filterWrapper.status);
+                this.studyIDList = result.studyIdlist;
+                if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
+                    this.showStatus=true;
+                    console.log('showstatus'+this.showStatus);
                 }
                 else{
-                    this.participantList[i].showActionbtnDisabled = false;
+                    this.showStatus=false;
+                    console.log('dontshowstatus'+this.showStatus); 
                 }
-                if(this.participantList[i].isAllowedForSH){
-                    this.showDCT=true;
-                }
-               
-                this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
-                this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
-                
-            }
-            this.showPP = result.isEnablePP;
-            if(!(Object.keys(this.filterWrapper).length === 0)){
-                if(this.filterWrapper.studyList.length != 1){
-                    this.showDCT=false;
-                    this.showPP=false;
-                    console.log('showstatus'+  this.showDCT);
-                }
-            }
-            if(selectCount==this.participantList.length){
-                this.selectall = true;
-            }
-            if(selectCount==enableCount && selectCount!=0 &&  enableCount!=0){
-                this.selectall = true;
-            }
             
-            if(this.totalRecordCount !=  result.totalRecordCount){
-                this.totalRecordCount =  result.totalRecordCount;
-                const updateCount = new CustomEvent("reccountupdate", {
-                    detail: this.totalRecordCount
-                });
-                this.dispatchEvent(updateCount);
+                this.showDCT=false;
+                for(var i=0 ; i<result.listViewWrapper.length;i++){
+                    this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
+                    if(i>4)
+                        this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
+                    
+                    this.participantList[i].check = this.selectedCheckboxes.includes(this.participantList[i].id);
+                    
+                    if(this.participantList[i].check){
+                        selectCount++;
+                    }
+                    this.participantList[i].getlabel=this.dropDownLabel;
+                    
+                    this.participantList[i].showActionbtnDisabled = true;
+                    
+                    if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
+                    {
+                        this.participantList[i].showActionbtnDisabled = false;
+                        enableCount++;
+                    }
+                    else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
+                    {
+                        this.participantList[i].showActionbtnDisabled = true;
+                    }
+                    else{
+                        this.participantList[i].showActionbtnDisabled = false;
+                    }
+                    if(this.participantList[i].isAllowedForSH){
+                        this.showDCT=true;
+                    }
+                
+                    this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
+                    this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
+                    
+                }
+                this.showPP = result.isEnablePP;
+                if(!(Object.keys(this.filterWrapper).length === 0)){
+                    if(this.filterWrapper.studyList.length != 1){
+                        this.showDCT=false;
+                        this.showPP=false;
+                        console.log('showstatus'+  this.showDCT);
+                    }
+                }
+                if(selectCount==this.participantList.length){
+                    this.selectall = true;
+                }
+                if(selectCount==enableCount && selectCount!=0 &&  enableCount!=0){
+                    this.selectall = true;
+                }
+                
+                if(this.totalRecordCount !=  result.totalRecordCount){
+                    this.totalRecordCount =  result.totalRecordCount;
+                    const updateCount = new CustomEvent("reccountupdate", {
+                        detail: this.totalRecordCount
+                    });
+                    this.dispatchEvent(updateCount);
+                }
+                if(!this.siteIdlist){
+                    this.siteIdlist = result.siteIdlist;
+                }
+                if(!this.studyIdlist){
+                    this.studyIdlist = result.studyIdlist;
+                }
+                this.saving = false; 
+                
+                window.clearTimeout(this.delayTimeout);
+                this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
             }
-            if(!this.siteIdlist){
-                this.siteIdlist = result.siteIdlist;
-            }
-            if(!this.studyIdlist){
-                this.studyIdlist = result.studyIdlist;
-            }
-            this.saving = false;       
-            window.clearTimeout(this.delayTimeout);
-            this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
         })
         .catch(error => {
             this.saving = false;
@@ -436,8 +449,15 @@ export default class Pir_participantList extends LightningElement {
     @api signedDateValue;
 
     @api updateBulkStatusChange(){   
-        let study = this.filterWrapper.studyList.toString();
-        let status = this.filterWrapper.status.toString();
+        // let study = this.filterWrapper.studyList.toString();
+        // let status = this.filterWrapper.status.toString();
+        let study = this.studyIDList.toString();
+	    let status;
+        if(this.filterWrapper.status == undefined){
+        status='Received'
+        }else{
+        status = this.filterWrapper.status.toString();
+        }
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
@@ -593,7 +613,7 @@ export default class Pir_participantList extends LightningElement {
   
     changeStatus = false;
     handlenewOnSelect(event){
-        
+        console.log('change status0');
         var selectedVal=event.target.dataset.id;
         this.dropDownLabel=selectedVal;
         this.template.querySelectorAll(".D").forEach(function (L) {
@@ -632,15 +652,22 @@ export default class Pir_participantList extends LightningElement {
         
         
         if( this.dropDownLabel==this.label.ListView_ChangeStatus){
+            console.log('change status');
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
             this.changeStatus=true;
             this.enableStatus=true;
             this.statusChangeList = '';this.statusSelected='';
-            let study = this.filterWrapper.studyList.toString();
-            console.log('filterstudylen:'+''+this.filterWrapper.studyList+this.filterWrapper.studyList.length);
-            console.log('filterstatus:'+''+this.filterWrapper.status+this.filterWrapper.status.length);
-            let status = this.filterWrapper.status.toString();
+            console.log('filterstudylen:'+''+ this.studyIDList);
+            console.log('filterstatus:'+''+this.filterWrapper.status);
+            let study =  this.studyIDList.toString();
+            let status;
+            if(this.filterWrapper.status == undefined){
+                status='Received'
+            }else{
+                status = this.filterWrapper.status.toString();
+            }
+           
             getAvailableStatuses({ status: status, StudyId: study })
             .then(result => {
                 this.statusChangeList = result;
@@ -1401,8 +1428,10 @@ export default class Pir_participantList extends LightningElement {
             this.sysPresets = data;
             for(var i = 0; i<data.length ; i++){
                 if(data[i].isDefault){
-                    this.filterWrapper= data[i];
-                    this.presetSel=data[i].presetId;
+                    if((Object.keys(this.filterWrapper).length === 0)){
+                        this.filterWrapper= data[i];                    
+                        this.presetSel=data[i].presetId;
+                    }
                 }
                 presets.push({ label: data[i].presetName, value: data[i].presetId });
             }
@@ -1437,5 +1466,8 @@ export default class Pir_participantList extends LightningElement {
                 break;
             }
         }
+    }
+    setDefaultFilter(event){
+        this.filterWrapper= event.detail;
     }
 }
