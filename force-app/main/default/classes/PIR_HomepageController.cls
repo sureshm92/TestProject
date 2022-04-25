@@ -255,8 +255,6 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-     
-
       String janssenLabel = system.Label.Janssen_Community_Template_Name;
       String filterStringPP =
         ' AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=\'Virtual\' AND Study_Site__r.Study_Site_Type__c !=\'Hybrid\' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE' +
@@ -273,7 +271,8 @@ public without sharing class PIR_HomepageController {
           studyIdlist,
           siteIdlist,
           sortOn,
-          sortType
+          sortType,
+          filterWrapper
         );
       }
 
@@ -582,7 +581,8 @@ public without sharing class PIR_HomepageController {
     List<String> studyIdlistParam,
     List<String> siteIdlistParam,
     String sortOn,
-    Integer sortType
+    Integer sortType,
+    String filterWrapper
   ) {
     List<String> studyIdlist = new List<String>();
     List<String> siteIdlist = new List<String>();
@@ -654,21 +654,26 @@ public without sharing class PIR_HomepageController {
       if (isFound)
         filteredPEList.add(pe);
     }
-    peList = filteredPEList;
-    system.debug('filterList>>>' + peList.size());
+    peList = filteredPEList;  
+    
     List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
     Integer listendindex;
+     
     if (filteredPEList.size() > pageNumber * 10) {
       listendindex = pageNumber * 10 - 1;
     } else {
       listendindex = filteredPEList.size() - 1;
     }
-    for (Integer i = (pageNumber * 10 - 10); i < listendindex; i++) {
+     
+    
+    for (Integer i = (pageNumber * 10 - 10); i <= listendindex; i++) {
       perLimitList.add(filteredPEList[i]);
     }
     List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
+     
     listViewWrapper = createListViewWrapper(perLimitList);
-
+     
+     
     ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
 
     listViewReturnWrapper.listViewWrapper = listViewWrapper;
@@ -682,14 +687,13 @@ public without sharing class PIR_HomepageController {
       WHERE Initial_Visit_Required__c = TRUE AND id IN :studyIdlist
     ];
     listViewReturnWrapper.sortInitialVisit = (ivStudies != 0);
-    system.debug('>>listViewReturnWrapper>>' + listViewReturnWrapper);
+     
     if (sortType != 0) {
       sortOrder = sortType;
       listViewReturnWrapper.listViewWrapper.sort();
     }
+    ListViewReturnWrapper.filterWrapper = (PresetWrapper) JSON.deserialize(filterWrapper,PresetWrapper.class);
     return ListViewReturnWrapper;
-
-    //  system.debug('>>>exceptio>>>'+0/0);
   }
   //presets
   @AuraEnabled
