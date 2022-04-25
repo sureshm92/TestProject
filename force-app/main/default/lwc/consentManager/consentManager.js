@@ -77,7 +77,7 @@ export default class ConsentManager extends LightningElement {
                
             break;
             case 'importParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                
+                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                
                 this.getStudySite();
             break;
         }
