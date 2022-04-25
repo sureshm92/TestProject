@@ -36,7 +36,7 @@
             </div>
         </div> -->
         <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
-                <c-pir_filter urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper}></c-pir_filter>
+                <c-pir_filter sponser={communityTemplate} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper}></c-pir_filter>
         </div>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">

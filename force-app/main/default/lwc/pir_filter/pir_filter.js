@@ -37,6 +37,7 @@ export default class Filtertest extends LightningElement {
   isbuttonenabled = false;
   shoulddisplaypopup = false;
   @api selectedstatusvalue;
+  @api sponser;
   @api filterWrapper = {
     activeInactive: "Active",
     studyList: [],
@@ -118,6 +119,8 @@ export default class Filtertest extends LightningElement {
             } else {
               this.defaultStudy = options[1].value;
             }
+            this.filterWrapper.studyList=[];
+            this.filterWrapper.studyList.push(this.defaultStudy);
           }
 
           if (result.studySiteMap) {
@@ -142,13 +145,20 @@ export default class Filtertest extends LightningElement {
               this.defaultSite = options1[1].value;
             }
             this.selectedSite = this.defaultSite;
-            this.filterWrapper.siteList = this.defaultSite;
+            this.filterWrapper.siteList=[];
+            this.filterWrapper.siteList.push(this.defaultSite);
           }
           this.loaded = !this.loaded;
+          this.filterWrapper.status = [];
+          this.filterWrapper.status.push('Received');
           if(!(Object.keys(value).length === 0)){
             this.presetWrapperSet(presetSellection);
           }
-          
+          //send filter wrapper to parent
+          const setFilter = new CustomEvent("getdefaultfilter", {
+            detail: this.filterWrapper
+          });
+          this.dispatchEvent(setFilter);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -665,6 +675,14 @@ export default class Filtertest extends LightningElement {
         value: "Initial Visit Not Scheduled"
       }
     ];
+  }
+
+  get isJanssen(){
+    if(this.sponser == 'Janssen'){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   //Ethnicity start
