@@ -266,6 +266,7 @@ export default class Pir_participantList extends LightningElement {
         }
         
     }
+    @api studyIDList;
     @api fetchList(){
         this.selectall = false;
         var selectCount=0;
@@ -294,17 +295,12 @@ export default class Pir_participantList extends LightningElement {
             }else{
                 this.noRecords = true;
             }
-           
-            console.log('result value:'+JSON.stringify(result));
-            console.log('studyIdList--->'+result.studyIdlist.length);
-            console.log('StatusList--->'+result.filterWrapper.status);
-             if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
+            this.studyIDList = result.studyIdlist;
+            if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
                 this.showStatus=true;
-                console.log('showstatus'+this.showStatus);
             }
             else{
-                this.showStatus=false;
-                console.log('dontshowstatus'+this.showStatus); 
+                this.showStatus=false; 
             }
            
             this.showDCT=false;
@@ -436,8 +432,13 @@ export default class Pir_participantList extends LightningElement {
     @api signedDateValue;
 
     @api updateBulkStatusChange(){   
-        let study = this.filterWrapper.studyList.toString();
-        let status = this.filterWrapper.status.toString();
+        let study = this.studyIDList.toString();
+	    let status;
+        if(this.filterWrapper.status == undefined){
+        status='Received'
+        }else{
+        status = this.filterWrapper.status.toString();
+        }
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
@@ -637,10 +638,13 @@ export default class Pir_participantList extends LightningElement {
             this.changeStatus=true;
             this.enableStatus=true;
             this.statusChangeList = '';this.statusSelected='';
-            let study = this.filterWrapper.studyList.toString();
-            console.log('filterstudylen:'+''+this.filterWrapper.studyList+this.filterWrapper.studyList.length);
-            console.log('filterstatus:'+''+this.filterWrapper.status+this.filterWrapper.status.length);
-            let status = this.filterWrapper.status.toString();
+            let study =  this.studyIDList.toString();
+            let status;
+            if(this.filterWrapper.status == undefined){
+                status='Received';
+            }else{
+                status = this.filterWrapper.status.toString();
+            }
             getAvailableStatuses({ status: status, StudyId: study })
             .then(result => {
                 this.statusChangeList = result;
