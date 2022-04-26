@@ -3,7 +3,7 @@
  */
 public without sharing class PIR_HomepageController {
   public static boolean allowSH;
-  public class ListViewWrapper implements Comparable {
+  public class ListViewWrapper {//implements Comparable {
     @AuraEnabled
     public string firstName;
     @AuraEnabled
@@ -65,20 +65,20 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public Participant_Enrollment__c per;
     // Implement the compareTo() method
-    public Integer compareTo(Object compareTo) {
-      ListViewWrapper compareToP = (ListViewWrapper) compareTo;
-      if (firstName == compareToP.firstName) {
-        if (lastName == compareToP.lastName)
-          return 0 * sortOrder;
-        if (lastName > compareToP.lastName)
-          return 1 * sortOrder;
-        return -1 * sortOrder;
-      } else if (firstName > compareToP.firstName)
-        return 1 * sortOrder;
-      return -1 * sortOrder;
-    }
+    // public Integer compareTo(Object compareTo) {
+    //   ListViewWrapper compareToP = (ListViewWrapper) compareTo;
+    //   if (firstName == compareToP.firstName) {
+    //     if (lastName == compareToP.lastName)
+    //       return 0 * sortOrder;
+    //     if (lastName > compareToP.lastName)
+    //       return 1 * sortOrder;
+    //     return -1 * sortOrder;
+    //   } else if (firstName > compareToP.firstName)
+    //     return 1 * sortOrder;
+    //   return -1 * sortOrder;
+    // }
   }
-  public static integer sortOrder = 1;
+  //public static integer sortOrder = 1;
 
   public class ListViewReturnWrapper {
     @AuraEnabled
@@ -385,8 +385,7 @@ public without sharing class PIR_HomepageController {
       if (totalCount == -1) {
         if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
-          (siteIdlist == null || siteIdlist.isEmpty()) &&
-          (String.isBlank(searchString))
+          (siteIdlist == null || siteIdlist.isEmpty()) 
         ) {
           studyIdlist = new List<String>();
           siteIdlist = new List<String>();
@@ -417,8 +416,7 @@ public without sharing class PIR_HomepageController {
           siteIdlist = getStudySiteForaStudy(studyIdlist);
         } else if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
-          (siteIdlist == null || siteIdlist.isEmpty()) &&
-          (String.isNotBlank(searchString))
+          (siteIdlist == null || siteIdlist.isEmpty()) 
         ) {
           studyIdlist = new List<String>();
           siteIdlist = new List<String>();
@@ -556,10 +554,10 @@ public without sharing class PIR_HomepageController {
         WHERE Initial_Visit_Required__c = TRUE AND id IN :studyIdlist
       ];
       listViewReturnWrapper.sortInitialVisit = (ivStudies != 0);
-      if (sortType != 0) {
-        sortOrder = sortType;
-        listViewReturnWrapper.listViewWrapper.sort();
-      }
+      // if (sortType != 0) {
+      //   sortOrder = sortType;
+      //   listViewReturnWrapper.listViewWrapper.sort();
+      // }
       return listViewReturnWrapper;
     } catch (Exception e) {
       System.debug('e.getMessage(): ' + e.getMessage());
@@ -665,7 +663,8 @@ public without sharing class PIR_HomepageController {
       listendindex = filteredPEList.size() - 1;
     }
      
-    
+    system.debug('>>>>>>>>>>>>>>>>>filterr'+listendindex);
+       system.debug('>>>>>>>>>>>>>>>>>filterr'+pageNumber);
     for (Integer i = (pageNumber * 10 - 10); i <= listendindex; i++) {
       perLimitList.add(filteredPEList[i]);
     }
@@ -688,10 +687,10 @@ public without sharing class PIR_HomepageController {
     ];
     listViewReturnWrapper.sortInitialVisit = (ivStudies != 0);
      
-    if (sortType != 0) {
-      sortOrder = sortType;
-      listViewReturnWrapper.listViewWrapper.sort();
-    }
+    // if (sortType != 0) {
+    //   sortOrder = sortType;
+    //   listViewReturnWrapper.listViewWrapper.sort();
+    // }
     ListViewReturnWrapper.filterWrapper = (PresetWrapper) JSON.deserialize(filterWrapper,PresetWrapper.class);
     return ListViewReturnWrapper;
   }
@@ -748,7 +747,23 @@ public without sharing class PIR_HomepageController {
     return pwlist;
   }
   @AuraEnabled
-  public static String createPreset(String strPresetwrapper) {
+  public static String deletePreset(String strPresetwrapper) {
+     
+    presetwrapper objPresetWrapper = (presetwrapper) JSON.deserialize( strPresetwrapper,
+      presetwrapper.class
+    ); 
+    delete [select id from Preset_Filter__c where id=:objPresetWrapper.presetId];
+    if(objPresetWrapper.isDefault){
+      List<Preset_Filter__c> lstPreset = [SELECT id,createddate  FROM Preset_Filter__c order by CreatedDate Desc LIMIT 1];
+      if(!lstPreset.isEmpty()){
+        Preset_Filter__c objPreset = new Preset_Filter__c(Id=lstPreset[0].id,Default_Preset__c = true);
+        update objPreset;
+      } 
+    }
+    return 'deleted';
+  }
+  @AuraEnabled
+  public static String createPreset(String strPresetwrapper,Boolean isUpdate) {
     presetwrapper objPresetWrapper = (presetwrapper) JSON.deserialize(
       strPresetwrapper,
       presetwrapper.class
@@ -763,20 +778,31 @@ public without sharing class PIR_HomepageController {
 
     String strPresetName = objPresetWrapper.presetName;
     ID currentUserId = UserInfo.getUserId();
-
-    Integer intcount = [SELECT Count() from Preset_Filter__c where User_Preset__c =: currentUserId];
-    if(intcount >= 5)
-      return 'limitexced'; 
-    list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
-    lstExistingPreset = [
-      SELECT ID
-      FROM Preset_Filter__c
-      WHERE Preset_Name__c = :strPresetName AND User_Preset__c = :currentUserId
-    ];
-    if (!lstExistingPreset.isEmpty()) {
-      return 'duplicateName';
-    } 
-     
+    if(!isUpdate){
+      Integer intcount = [SELECT Count() from Preset_Filter__c where User_Preset__c =: currentUserId];
+      if(intcount >= 5)
+        return 'limitexced'; 
+      list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
+      lstExistingPreset = [
+        SELECT ID
+        FROM Preset_Filter__c
+        WHERE Preset_Name__c = :strPresetName AND User_Preset__c = :currentUserId
+      ];
+      if (!lstExistingPreset.isEmpty()) {
+        return 'duplicateName';
+      } 
+    }
+    else{
+      list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
+      lstExistingPreset = [
+        SELECT ID
+        FROM Preset_Filter__c
+        WHERE Preset_Name__c = :strPresetName AND User_Preset__c = :currentUserId and id !=: objPresetWrapper.presetId
+      ];
+      if (!lstExistingPreset.isEmpty()) {
+        return 'duplicateName';
+      } 
+    }
     strStudyId = String.join(objPresetWrapper.studyList, ';');
     //Site id list
     
@@ -815,18 +841,40 @@ public without sharing class PIR_HomepageController {
       objPreset.Id = objPresetWrapper.presetId;
 
     lstPresetFilter.add(objPreset);
-
-    for (Preset_Filter__c objPresetExist : [
-      SELECT ID, Default_Preset__c
-      FROM Preset_Filter__c
-      WHERE User_Preset__c = :currentUserId AND Default_Preset__c = TRUE
-    ]) {
-      objPresetExist.Default_Preset__c = false;
-      lstPresetFilter.add(objPresetExist);
+    if(!isUpdate){
+      for (Preset_Filter__c objPresetExist : [
+        SELECT ID, Default_Preset__c
+        FROM Preset_Filter__c
+        WHERE User_Preset__c = :currentUserId AND Default_Preset__c = TRUE
+      ]) {
+        objPresetExist.Default_Preset__c = false;
+        lstPresetFilter.add(objPresetExist);
+      }
     }
 
     upsert lstPresetFilter;
     return 'success';
+  }
+
+  @AuraEnabled
+  public static void setselectedFilterasDefault(String selectedPresetId)
+  {
+
+    List<Preset_Filter__c> lstPresetFilterToUpdate = new List<Preset_Filter__c>();
+    Id currentUserId = userinfo.getUserId();
+    for (Preset_Filter__c objPresetExist : [ SELECT ID, Default_Preset__c
+                                              FROM Preset_Filter__c
+                                              WHERE User_Preset__c = :currentUserId AND Default_Preset__c = TRUE 
+                                              AND ID !=: selectedPresetId 
+      ]) {
+        objPresetExist.Default_Preset__c = false;
+        lstPresetFilterToUpdate.add(objPresetExist);
+      }
+      IF(!lstPresetFilterToUpdate.IsEmpty()){
+      Preset_Filter__c objPresetToUpdate = new Preset_Filter__c(Id=selectedPresetId,  Default_Preset__c = true);
+       lstPresetFilterToUpdate.add(objPresetToUpdate); 
+       update lstPresetFilterToUpdate;
+      }
   }
 
   private static List<ListViewWrapper> createListViewWrapper(
@@ -2039,5 +2087,10 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static string fetchCurrentUserLanguage() {
+    return UserInfo.getLanguage();
   }
 }

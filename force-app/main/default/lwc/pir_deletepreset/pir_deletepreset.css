@@ -1,3 +1,4 @@
+/** pop code **/
 .title {
     color: #000000;
     font-family: "Proxima Nova";
@@ -44,34 +45,13 @@
     font-weight: 500;
 }
 .container_popup{
-    z-index: 9002;
+    z-index: 9999;
 }
 .containerbackdrop_popup{
-    z-index: 9000;
-}
-.setContainer{
-    width: 128%;
-}
-.setModal{
-        right: unset;
-    bottom: unset;
-     left: unset;
-}
-.pen{
-    zoom: 0.8;
-}
-.filter-heading{
-    font-size: 14px;
-    color: #000000;
-    line-height: 16px;
-    font-weight: 600;
-    text-align: left;
-    padding-top: 31px;
+    z-index: 9998;
 }
 
-.p-left-none{
-    padding-left: 0;
-}
+
 @media (max-device-width: 767px) {
     .model-small{
         width: auto;
@@ -103,4 +83,5 @@
     .model-small{
         width: 470px;
     }
-}
+} 
+ /** pop code End **/
