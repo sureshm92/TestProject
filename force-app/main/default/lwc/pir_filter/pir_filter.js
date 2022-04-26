@@ -199,9 +199,9 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = presetSellection.ageTo;
     this.ageEndValue = presetSellection.ageFrom;
     this.defaultSex = presetSellection.sex;
-    this.defaultHighRisk = presetSellection.highRisk;
+    this.defaultHighRisk = presetSellection.highRisk == 'true';
     this.defaultHighPriority = presetSellection.highPriority;
-    this.defaultComorbidities = presetSellection.comorbidities;
+    this.defaultComorbidities = presetSellection.comorbidities == 'true';
     this.ininialvisitScheduledOption = presetSellection.initialVisit;
 
     if(presetSellection.initialVisit == 'All'){
@@ -356,13 +356,15 @@ export default class Filtertest extends LightningElement {
     this.selectedStudy = picklist_Value;
     this.defaultSite = "All Study Site";
     this.selectedSite = "All Study Site";
+    this.sendFilterUpdates();
   }
 
   studysiteshandleChange(event) {
     this.selectedSite = event.target.value;
     this.defaultSite = event.target.value;
+    this.sendFilterUpdates();
   }
-
+  @api
   applyFilter() {
     this.filterPresetHandler();
     const selectEvent = new CustomEvent("applyfilterevent", {
@@ -378,6 +380,10 @@ export default class Filtertest extends LightningElement {
   }
   closepresetmodel(event){
     this.shoulddisplaypopup  = false;
+    if(event.detail=='created'){
+      const presetcreated = new CustomEvent("presetcreated");
+      this.dispatchEvent(presetcreated); 
+    }
   }
 
   filterPresetHandler() {
@@ -494,11 +500,13 @@ export default class Filtertest extends LightningElement {
       this.selectedStatus = "All Inactive Statuses";
     }
     this.filterWrapper.activeInactive = selectedMode;
+    this.sendFilterUpdates();
   }
 
   statushandleChange(event) {
     this.selectedStatus = event.target.value;
     this.defaultStatus = event.target.value;
+    this.sendFilterUpdates();
   }
 
   initialvisithandleChange(event) {
@@ -522,6 +530,7 @@ export default class Filtertest extends LightningElement {
 
     this.filterWrapper.initialVisit = event.target.value;
     this.ininialvisitScheduledOption = event.target.value;
+    this.sendFilterUpdates();
   }
 
   handleInitialVisitStartDateChange(event) {
@@ -543,6 +552,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleInitialVisitEndDateChange(event) {
@@ -564,6 +574,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleAgeStartChange(event) {
@@ -586,6 +597,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleAgeEndChange(event) {
@@ -607,6 +619,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   sourcehandleChange(event) {
@@ -623,6 +636,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.source = [];
       this.filterWrapper.source.push(source);
     }
+    this.sendFilterUpdates();
   }
 
   sexatbirthhandleChange(event) {
@@ -630,22 +644,28 @@ export default class Filtertest extends LightningElement {
     if (sex != "All") {
       this.filterWrapper.sex = sex;
       this.defaultSex = sex;
+    }else{
+      this.filterWrapper.sex = '';
     }
+    this.sendFilterUpdates();
   }
 
   handleHighRisk(event) {
     this.filterWrapper.highRisk = event.target.checked;
     this.defaultHighRisk = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   handleHighPriority(event) {
     this.filterWrapper.highPriority = event.target.checked;
     this.defaultHighPriority = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   handleComorbidities(event) {
     this.filterWrapper.comorbidities = event.target.checked;
     this.defaultComorbidities = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   get sourceoptions() {
@@ -727,6 +747,7 @@ export default class Filtertest extends LightningElement {
     this.selectedEthinicity = [];
     this.selectedEthinicity = this.selectedEthinicity.concat(tempList);
     this.template.querySelector(".eBox").focus();
+    this.sendFilterUpdates();
   }
   openETH() {
     this.template.querySelector(".eBoxOpen").classList.add("slds-is-open");
@@ -749,7 +770,7 @@ export default class Filtertest extends LightningElement {
     this.selectedEthinicity = [];
     this.ethListStr = "";
   }
-
+  @api
   resetFilter(event){
     this.selectedActiveInactive = this.activeoptions[0].value;
     this.defaultStudy = this.studylist[1].value;
@@ -824,5 +845,14 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.presetId = "";
     this.filterWrapper.presetName = "";
 
+  }
+  sendFilterUpdates(){
+    if(this.filterClass=="edit"){
+      this.filterPresetHandler();
+      const updfilter = new CustomEvent("updfilter", {
+      detail: {fw : this.filterWrapper,err:this.isbuttonenabled}
+      });
+      this.dispatchEvent(updfilter);
+    }
   }
 }
