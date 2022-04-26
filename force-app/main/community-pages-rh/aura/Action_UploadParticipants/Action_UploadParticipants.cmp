@@ -36,6 +36,7 @@
     <aura:attribute name="iqviaOutreachEmail" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachPhone" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachSMS" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="reload" type="Boolean" />
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String" />
@@ -178,13 +179,15 @@
             </div>
 
             <!--1936-->
-            <div class="slds-grid slds-wrap">
-                <div class="slds-size_1-of-1 slds-p-horizontal_x-medium" style="margin-left:13px">
-                    <div class="slds-m-around-small">
-                        <c:consentManager aura:id="consent-Manager" onconsentchange="{!c.handleConsentChange}"  studySiteId="{!v.studySiteId}" callSource="importParticipant"></c:consentManager>
+            <aura:if isTrue="{!v.reload}">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium" style="margin-left:13px">
+                        <div class="slds-m-around-small">
+                            <c:consentManager aura:id="consent-Manager" callSource="importParticipant"  onconsentchange="{!c.handleConsentChange}"  studySiteId="{!v.studySiteId}" ></c:consentManager>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </aura:if>
             <aura:if isTrue="{!and(v.studySiteType == 'Traditional' , v.isSuppressed)}">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
