@@ -546,9 +546,9 @@
                 {
                     AccName: inst.Name
                 },
-                function (returnValue) { },
+                function (returnValue) {},
                 null,
-                function () { }
+                function () {}
             );
             /*communityService.executeAction(component, 'changeEmail', {
                 newEmail: newEmail
