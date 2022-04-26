@@ -440,7 +440,7 @@
         }
     },
     navigateToHelpPage: function (component, event, helper) {
-        communityService.navigateToPage('help');
+        communityService.navigateToPage('help');  
     },
 
     doUpdatePerson: function (component, event, helper) {
