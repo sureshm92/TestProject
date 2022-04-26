@@ -147,4 +147,13 @@ public without sharing class SMSOptOutService {
             update perToUpdate;
         }
     }
+
+    public static IntegrationLog__c createIntegrationLog(SMS_Opt_Out__e smsOptOut) {
+        IntegrationLog__c IL = new IntegrationLog__c();
+        IL.Function_Name__c = 'SMS Opt Out';
+        IL.Http_Method__c = 'InBound';
+        IL.Request_Time__c = DateTime.now();
+        IL.Request_Body__c = JSON.serialize(smsOptOut);
+        return IL;
+    }
 }

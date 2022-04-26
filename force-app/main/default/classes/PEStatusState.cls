@@ -122,6 +122,8 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
         PE_STATUS_FAILED_REVIEW,
         PE_STATUS_FAILED_REFERRAL,
+        PE_STATUS_PRE_REVIEW_FAILED,
+        PE_STATUS_CONTACTED_NOT_SUITABLE,
         PE_STATUS_EXCLUDED_FROM_REFERRING,
         PE_STATUS_REFERRAL_DECLINED,
         PE_STATUS_UNABLE_TO_REACH,

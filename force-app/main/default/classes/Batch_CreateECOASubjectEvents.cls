@@ -10,17 +10,11 @@ public class Batch_CreateECOASubjectEvents implements Database.Batchable<SObject
         this.peId = peId;
     }
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator(
-            [
-                SELECT
-                    Id,
-                    Subject_GUID__c,
-                    Clinical_Trial_Profile__r.Study_GUID__c,
-                    Participant_Status__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN :peId
-            ]
-        );
+        String query = ' SELECT Id,Subject_GUID__c, Clinical_Trial_Profile__r.Study_GUID__c,Participant_Status__c FROM Participant_Enrollment__c where Subject_GUID__c != NULL ';
+        if (peId != null) {
+            query = query + ' AND Id IN :peId ';
+        }
+        return Database.getQueryLocator(query);
     }
 
     public void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> pelist) {
