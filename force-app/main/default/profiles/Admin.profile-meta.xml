@@ -17,6 +17,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateEcoaTasks</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HumanAPIcontroller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -622,6 +626,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DuplicateContactController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EcoaTaskConfigTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3683,6 +3691,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Ecoa_Task_Configuration__c.Rule_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Ecoa_Task_Configuration__c.Rule_Recurrence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
