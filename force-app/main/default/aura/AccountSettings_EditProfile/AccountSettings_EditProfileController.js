@@ -70,7 +70,7 @@
                         communityService.getCurrentCommunityMode().currentDelegateId
                     );
                     if (component.get('v.userMode') === 'Participant') {
-                        if (initData.participant.Adult__c) {
+                        if (initData.participant.Adult__c && initData.delegateUserName != null) {
                             component.set('v.userEmail', initData.delegateUserName.Username);
                         }
                     }
@@ -201,7 +201,7 @@
                 hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c,
                 userMode: component.get('v.userMode')
             },
-            function () {}
+            function () { }
         );
     },
 
@@ -440,7 +440,7 @@
         }
     },
     navigateToHelpPage: function (component, event, helper) {
-       communityService.navigateToPage('help');  
+        communityService.navigateToPage('help');
     },
 
     doUpdatePerson: function (component, event, helper) {
@@ -546,9 +546,9 @@
                 {
                     AccName: inst.Name
                 },
-                function (returnValue) {},
+                function (returnValue) { },
                 null,
-                function () {}
+                function () { }
             );
             /*communityService.executeAction(component, 'changeEmail', {
                 newEmail: newEmail
