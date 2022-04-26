@@ -3,6 +3,7 @@
  */
 ({
     doExecute: function (component, event, helper) {
+        component.set('v.reload',true);
         component.find('upModalSpinner').show();
         component.set('v.createUsers', false);
         component.set('v.isEmail', false);
@@ -52,6 +53,7 @@
     },
 
     doCancel: function (component, event, helper) {
+        component.set('v.reload',false);
         component.set('v.isEmail', false);
         component.set('v.isPhone', false);
         component.set('v.isSMS', false);
