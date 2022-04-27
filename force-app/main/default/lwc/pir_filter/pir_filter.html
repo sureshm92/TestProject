@@ -22,6 +22,9 @@
         </div>
       </div>
     </template>
+    <div class="slds-col slds-size_12-of-12 closebutton">
+      <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}></lightning-icon>  
+    </div>
     <div class="slds-grid slds-wrap slds-gutters slds-m-top_large">
       <div
         class="
@@ -221,7 +224,7 @@
                   p-left-none p-left-age
                 "
               >
-                <p class="filter-age">and</p>
+                <p class="filter-age and">and</p>
               </div>
               <div
                 class="
@@ -297,19 +300,13 @@
                     role="none"
                   >
                     <div class="selectedOption">
-                      <template if:true={selectedEthinicity}>
-                        <template for:each={selectedEthinicity} for:item="item">
-                          <span class="selectedValue" key={item.value}>
-                            {item.label}
-                            <lightning-icon
-                              data-id={item.value}
-                              icon-name="utility:clear"
-                              size="x-small"
-                              class="close-icon"
-                              onclick={removeE}
-                            ></lightning-icon>
-                          </span>
-                        </template>
+                      <template if:true={getFirstSelecedEth}>
+                        <span class="selectedValue slds-truncate" >
+                          {getFirstSelecedEth}                            
+                        </span>
+                        <div class="ethmore">
+                          {ethCount}
+                        </div>
                       </template>
                     </div>
                     <span
@@ -660,7 +657,7 @@
             onclick={applyFilter}
             disabled={isbuttonenabled}
           >
-            Apply Filter
+            Apply Filters
           </button>
         </div>
       </div>

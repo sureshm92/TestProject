@@ -13,8 +13,12 @@
     color: #444444;
 }
 .deletebtn{  
-background: #E20000;
-color: white;
+    background: #E20000;
+    color: white;
+}
+.deletebtn:hover{
+    background: #de4141;
+    color: white;
 }
 .bar {    
     height: 4px;
