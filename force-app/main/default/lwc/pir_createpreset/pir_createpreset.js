@@ -13,8 +13,6 @@ export default class Pir_createpreset extends LightningElement {
     connectedCallback(){
         this.isNameBlank = true;
         this.isDataloaded = true;
-        console.log('>>filterwrapper>>'+JSON.stringify(this.filterWrapper)); 
-        console.log('>>>presetName>>>'+this.filterWrapper.presetName);
     }
 
     checkCreateButton(event){
@@ -38,22 +36,22 @@ export default class Pir_createpreset extends LightningElement {
             });
         this.dispatchEvent(closeEventModel);
     }
-    presettoast = 'test';
+    
     insertPreset(){
-          
          this.isDataloaded = false;
          let presetNameEnter = this.filterWrapperToInsert.presetName;
         let successMessage = presetNameEnter +" has been created.";
+        let uniqueNameMessage = presetNameEnter + "already exists please enter another name to continue"
          
         createPreset({strPresetwrapper:JSON.stringify(this.filterWrapperToInsert),isUpdate:false })
         .then((result) => { 
             this.isDataloaded = true;
             if(result == 'duplicateName')
             {
-                this.isDataloaded = true;
                 const event = new ShowToastEvent({
                     title: "Error",
-                    message: "Plesae enter an unique Name",
+                    message: '{0}',
+                    messageData: [uniqueNameMessage],
                     variant: "Error",
                     mode: "sticky",
                   });
@@ -62,8 +60,7 @@ export default class Pir_createpreset extends LightningElement {
             else if(result == 'limitexced'){
                 const event = new ShowToastEvent({
                     title: "Error",
-                   // message: "Preset cannot exced 5",
-                    message:  "{test}" + "coming" ,
+                    message: "You have reached maximum permissible limit, please delete a preset to continue.",
                     variant: "Error",
                     mode: "sticky",
                   });
@@ -79,11 +76,11 @@ export default class Pir_createpreset extends LightningElement {
                     mode: "dismissable"
                   });
                   this.dispatchEvent(evt);
-                  
-            const closeEventModel = new CustomEvent("closepresetmodel", {
-                detail: "created"
-                });
-            this.dispatchEvent(closeEventModel); 
+                 
+                  const closeEventModel = new CustomEvent("closepresetmodel", {
+                    detail: "created"
+                    });
+                this.dispatchEvent(closeEventModel); 
             }
              
         })

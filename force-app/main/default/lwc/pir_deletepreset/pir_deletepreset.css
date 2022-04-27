@@ -12,6 +12,10 @@
     line-height: 24px;
     color: #444444;
 }
+.deletebtn{  
+background: #E20000;
+color: white;
+}
 .bar {    
     height: 4px;
     background: linear-gradient(270deg,#0076ae,#250056);
