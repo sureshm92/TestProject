@@ -1,0 +1,106 @@
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.model-small{
+    width: 420px;
+    max-width: 52.0625rem;
+    min-width: 0;
+}
+.close-arrow-left{
+    margin-right:0;
+}
+.close-icon{
+    cursor: pointer;
+    padding-left: 10px;
+}
+.btn-height{
+    height: 40px;
+}
+.save-btn{
+    float: right;
+    margin-left: 15px;
+}
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
+}
+.participant-text{
+    font-size: 16px;
+    font-weight: 500;
+}
+.container_popup{
+    z-index: 9002;
+}
+.containerbackdrop_popup{
+    z-index: 9000;
+}
+.setContainer{
+    width: 128%;
+}
+.setModal{
+        right: unset;
+    bottom: unset;
+     left: unset;
+}
+.pen{
+    zoom: 0.8;
+}
+.filter-heading{
+    font-size: 14px;
+    color: #000000;
+    line-height: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding-top: 31px;
+}
+
+.p-left-none{
+    padding-left: 0;
+}
+@media (max-device-width: 767px) {
+    .model-small{
+        width: auto;
+        min-width: auto;
+    }
+    .mobile-width{
+        width: 100%;
+    }
+    .close-icon{
+        padding-left: 25px;
+    }
+    .save-btn{
+        float: left;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .discard-btn{
+        width: 100%;
+        margin-left: 0;
+    }
+}  
+@media (min-width: 767px) {
+    .model-small{
+        width: 100%;
+    }
+}
+@media (min-width: 992px) {
+    .model-small{
+        width: 470px;
+    }
+}

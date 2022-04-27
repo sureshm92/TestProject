@@ -156,8 +156,9 @@ public without sharing class PIR_StatusDetailController {
             Disabled_PESH__c
           FROM Participant_Enrollment_Status_History__r
           WHERE Disabled_PESH__c = FALSE
+          AND Backward_Bulk_Update__c = FALSE
           ORDER BY Name DESC
-        )
+        ) 
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -195,9 +196,9 @@ public without sharing class PIR_StatusDetailController {
     String filter = ' Where Label != \'' + notInFinalStep + '\' ';
     String order = ' ORDER BY Order__c ASC ';
     if (!per[0].Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
-      filter = filter + ' AND Label != \'PWS_Initial_Visit_Card_Name\' ';
+      filter = filter + ' AND Label != \'PWS_Initial_Visit_Card_Name\' AND InitialVisit__c = FALSE';
     } else {
-      filter = filter + ' AND Label != \'PWS_Eligibility_Card_Name\' ';
+      filter = filter + ' AND Label != \'PWS_Eligibility_Card_Name\' AND InitialVisit__c = TRUE';
     }
 
     query = query + filter + order;
@@ -226,9 +227,6 @@ public without sharing class PIR_StatusDetailController {
           mdt.Label == 'PWS_Initial_Visit_Card_Name' &&
           ((isInitialVisitDetailsAvailable && !isInitialVisitAttended ||
           isConsentFalse)
-          //  ||
-          // orderToPeshMap.get(4).Status_Label__c == 'Declined_Consent' ||
-          // orderToPeshMap.get(4).Status_Label__c == 'Withdrew_Consent'
           )
         ) {
           wrap.groupIcon = INPROGRESS;

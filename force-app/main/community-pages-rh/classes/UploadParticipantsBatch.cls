@@ -17,6 +17,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean allowEmail;
     private Boolean allowPhone;
     private Boolean allowSMS;
+    private Boolean outreachEmail;
+    private Boolean outreachPhone;
+    private Boolean outreachSMS;
     private User uploadUser;
     private Id visitPlanId;
 
@@ -46,6 +49,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Boolean allowEmail,
         Boolean allowPhone,
         Boolean allowSMS,
+        Boolean outreachEmail,
+        Boolean outreachPhone,
+        Boolean outreachSMS,
         Id visitPlanId
     ) {
         uploadTime = DateTime.now();
@@ -58,6 +64,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.allowPhone = allowPhone;
         this.allowSMS = allowSMS;
 		this.visitPlanId = visitPlanId;
+        this.outreachEmail = outreachEmail;
+        this.outreachPhone = outreachPhone;
+        this.outreachSMS = outreachSMS;
+        
 
         studySiteDetails = [
             SELECT
@@ -67,7 +77,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Principal_Investigator__c,
                 Clinical_Trial_Profile__c,
                 Clinical_Trial_Profile__r.CommunityTemplate__c,
-                Study_Site_Type__c,Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c 
+                Study_Site_Type__c,Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c 
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -753,8 +764,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone = Phone,
                         MobilePhone = Phone2,
                         MailingState = State,
-                        //MailingCountry = uploadUser.Contact.MailingCountry,
-                        //MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                        Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
+                        Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
+                        Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,

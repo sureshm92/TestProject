@@ -2,19 +2,22 @@
     <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
         
                 <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none" onclick={resetPagination}>
-                    <div class="slds-form-element slds-m-left_x-small">
-                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                    <div class="slds-form-element slds-m-left_x-small labelHide">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
                             <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search" class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
-                            <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" />
+                            <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
+                             <lightning-input type="text" id="searchText" placeholder="Search Participants" variant="label-hidden"  onchange={handleParticipantsearch} >
+                                 
+                                 </lightning-input>
                         </div>
                     </div>
                 </div>
-                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter">
-                    <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter}>
-                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xxx-small filter-color">Filter (10)</span>
+                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter " data-id="filterdiv">
+                    <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter} disabled={disabledFilter}>
+                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xx-small filter-color">Filter</span>
                     </button>      
                     <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>   
-                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color">(10)</span>
+                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color"></span>
                     </div>
                 </div>
             
@@ -32,17 +35,22 @@
                 <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
             </div>
         </div> -->
-        <template if:true={showFilter}>
-            <div class="slds-col slds-size_12-of-12 filter-relative">
-                <c-pir_filter urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}></c-pir_filter>
-            </div>
-        </template>
+        <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
+                <c-pir_filter sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper}></c-pir_filter>
+        </div>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
-                <div class="textBolds slds-m-bottom--xx-small">Presets</div>
-                <lightning-combobox name="preset" variant="label-hidden"
-                placeholder="Select"  ></lightning-combobox>
+                <div class="textBolds slds-m-bottom--xx-small">Presets
+                    <span onclick={editPreset}>
+                        <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>
+                    
+                </span></div>
+                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}
+                placeholder="Select" options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
+            <template if:true={showEditPreset}>
+                <c-pir_-preset-edit onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+            </template>
         </div>
         <div class="slds-col slds-size_12-of-12 dropsize">
             <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
@@ -50,8 +58,7 @@
                     <div class="slds-p-top--x-small textBolds">Sort By:</div>
                 </div>
                 <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12">
-                    <lightning-combobox name="LastAdded" variant="label-hidden"
-                    placeholder="Last Added"></lightning-combobox>
+                    <lightning-combobox  options={sortOptions} value={sortValue} onchange={handleSortChange}  variant="label-hidden"></lightning-combobox>
                 </div>
                 <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
                    
@@ -64,44 +71,53 @@
                                 <ul class="slds-dropdown__list" role="menu" aria-label={dropDownLabel}>
                                     <template if:false={noRecords}>
                                    <template if:true={showDCT}>
-                                       <li class="slds-dropdown__item" role="presentation" data-id="Send to DCT">
-                                        <a href="#" role="menuitem" data-id="Send to DCT" onmousedown={handlenewOnSelect} >  <span class="slds-truncate" title="Send to DTC"  data-id="Send to DCT">Send to DCT</span> </a>
+                                       <li class="slds-dropdown__item" role="presentation" data-id={label.Send_to_DCT}>
+                                        <a href="#" role="menuitem" data-id={label.Send_to_DCT} onmousedown={handlenewOnSelect} >  <span class="slds-truncate" title={label.Send_to_DCT}  data-id={label.Send_to_DCT}>{label.Send_to_DCT}</span> </a>
                                        </li>
                                     </template> 
                                     <template if:true={showPP}>
-                                      <li class="slds-dropdown__item" role="presentation" data-id="Invite to Patient Portal">
-                                        <a href="#" role="menuitem" data-id="Invite to Patient Portal" onmousedown={handlenewOnSelect} > <span class="slds-truncate" title="Invite to Patient Portal" data-id="Invite to Patient Portal">Invite to Patient Portal</span> </a>
+                                      <li class="slds-dropdown__item" role="presentation" data-id={label.Invite_to_Patient_Portal}>
+                                        <a href="#" role="menuitem" data-id={label.Invite_to_Patient_Portal} onmousedown={handlenewOnSelect} > <span class="slds-truncate" title={label.Invite_to_Patient_Portal} data-id={label.Invite_to_Patient_Portal}>{label.Invite_to_Patient_Portal}</span> </a>
                                       </li>
                                     </template>
                                     <template if:true={showStatus}>
-                                      <li class="slds-dropdown__item" role="presentation" data-id="Change Status">
-                                        <a href="#" role="menuitem" data-id="Change Status" onclick={handlenewOnSelect}> <span class="slds-truncate" title="Change Participant Status" data-id="Change Status">Change Participant Status</span> </a>
+                                      <li class="slds-dropdown__item" role="presentation" data-id={label.ListView_ChangeStatus}>
+                                        <a href="#" role="menuitem" data-id={label.ListView_ChangeStatus} onmousedown={handlenewOnSelect}> <span class="slds-truncate" title={label.Change_Participant_Status} data-id={label.ListView_ChangeStatus}>{label.Change_Participant_Status}</span> </a>
                                       </li>
                                     </template>
-                                    <li class="slds-dropdown__item" role="presentation" data-id="Export">
-                                        <a href="#" role="menuitem" data-id="Export" onclick={handlenewOnSelect} > <span class="slds-truncate" title="Export" data-id="Export">Export</span> </a>
-                                    </li>
                                 </template>
-                                <template if:true={showAddParticipant}>  
-                                    <li class="slds-dropdown__item" role="presentation" data-id="Add New Participant">
-                                        <a href="#" role="menuitem" data-id="Add New Participant" onmousedown={handlenewOnSelect}> <span class="slds-truncate" title="Add New Participant" data-id="Add New Participant">Add New Participant</span> </a>
+                                    <li class="slds-dropdown__item" role="presentation" data-id={label.BTN_Export}>
+                                        <a href="#" role="menuitem" data-id={label.BTN_Export} onmousedown={handlenewOnSelect} > <span class="slds-truncate" title={label.BTN_Export} data-id={label.BTN_Export}>{label.BTN_Export}</span> </a>
                                     </li>
-                                </template>
+                                    <template if:true={showAddParticipant}>   
+                                        <li class="slds-dropdown__item" role="presentation" data-id={label.RH_PP_Add_New_Participant}>
+                                            <a href="#" role="menuitem" data-id={label.RH_PP_Add_New_Participant} onmousedown={handlenewOnSelect}> <span class="slds-truncate" title={label.RH_PP_Add_New_Participant} data-id={label.RH_PP_Add_New_Participant}>{label.RH_PP_Add_New_Participant}</span> </a>
+                                        </li>
+                                    </template>
                                 </ul>
                             </div>
                     </div>
-                
                 </div>
+                
+                <template if:true={isCheckboxhidden}>
+                    <template if:true={changeStatus}>
+                        <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
+                            <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
+                              options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                        </div> 
+                    </template>
+                </template>
+
             </div>    
         </div>
         <template if:true={isCheckboxhidden}>
-            <template if:true={enableStatus}>
-                <div class="slds-col slds-size_12-of-12 slds-p-bottom_small">
-                    <lightning-combobox name="ChangeStatusTo" variant="label-hidden"
-                    placeholder="Change Status to..."  options={options}  onchange={handleChange} ></lightning-combobox>
-                    
-                </div>
-            </template>
+            <!-- <template if:true={changeStatus}>
+                <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-around_small ">
+                    <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
+                      options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                </div> 
+            </template> -->
+             <template if:false={noRecords}>
             <template if:false={dctCheck}>
                 <div class="slds-col slds-size_12-of-12 checkbox-color  ">
                     <template if:false={enableStatus}>
@@ -120,10 +136,8 @@
                     </template>   
                 </div>
             </template>
+            </template>
         </template>
-    
-        
-        
         <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
             <template if:false={participantList}>
                 <div class="overflowSet" style="position:relative">
@@ -144,7 +158,7 @@
                     <lightning-spinner alternative-text="Loading..." variant="brand">
                     </lightning-spinner>
                 </template>
-                <template if:true={isCheckboxhidden}>
+            <template if:true={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
                     <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop">
                         <div class="card-content checkboxdisplay">  

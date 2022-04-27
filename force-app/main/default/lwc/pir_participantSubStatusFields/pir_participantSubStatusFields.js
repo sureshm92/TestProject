@@ -1153,7 +1153,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     })
     .catch((error) => {
       console.log(error);
-      this.showErrorToast(JSON.stringify(error.body.message));
     });
     
   }
@@ -1320,7 +1319,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1346,7 +1344,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1372,7 +1369,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1398,7 +1394,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1424,7 +1419,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1621,6 +1615,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       let visitPln = 'null';
       if(this.participantrecord.Visit_Plan__c){
         visitPln = this.participantrecord.Visit_Plan__c;
+      }
+      if(this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen'){
+        delete this.participantrecord.Participant_Status__c;
       }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);

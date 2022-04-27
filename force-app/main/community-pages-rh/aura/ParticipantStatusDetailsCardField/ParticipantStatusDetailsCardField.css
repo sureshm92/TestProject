@@ -87,6 +87,12 @@
     white-space: nowrap;
     overflow: hidden;
 }
+.THIS .textoverlap2 {
+    width: 9rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 .THIS .tooltip1 span {
     color: #000;
     text-decoration: none;

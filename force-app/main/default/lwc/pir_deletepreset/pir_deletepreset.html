@@ -1,0 +1,55 @@
+<template>
+    <!--  Change Status Model Start  -->  
+    
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open container_popup">
+    <div class="slds-modal_small">
+       <div class="slds-modal__container model-small ">
+          <div class="slds-modal__content" id="modal-content-id-1">
+             <div class="bar"></div>
+             <div class="slds-p-around_large">
+                <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                   <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                      <span class="title">Delete Preset</span> 
+                   </div>
+                   <div class="slds-col slds-size_1-of-12 close-icon">
+                      <div onclick={closeModel}>
+                         <lightning-icon icon-name="utility:close" 
+                            alternative-text="close"
+                            size="small" ></lightning-icon>
+                         <span class="slds-assistive-text" onclick={closeModel}>Close</span>
+                      </div>
+                   </div>
+                </div>
+                <slot name="body">   
+                   <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                            <div class="participant-text">
+                              Are you Sure you want to delete {selectedpreset.presetName}? This cannot be undone.
+                           </div> 
+                        </div> 
+
+                    </div>
+                   <div class="slds-grid slds-wrap slds-m-top_large">
+                      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-float_right mobile-width">                  
+                            <button title="" class="slds-button apollo-btn slds-button_destructive deletebtn btn-height save-btn" onclick={deletePreset} > Delete </button>
+                            <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={closeModel}> Back </button>
+                        </div>    
+                      </div>
+                   </div>
+                </slot>
+             </div>
+          </div>
+       </div>
+    </div>
+    <template if:true={isDeleted} class="slds-is-relative">
+      <div class="slds-m-around_large vertical-scroll">
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+      </div>
+    </template>
+ </section>
+ <div class="slds-backdrop slds-backdrop_open containerbackdrop_popup"></div>
+<!--  Change Status Model End --> 
+</template>

@@ -66,7 +66,7 @@
                     var trialDetail = JSON.parse(returnValue);
                     component.set(
                         'v.isshowTravelCardInPreEnrollment',
-                        JSON.parse(trialDetail.participantstate).showTravelCardInPreEnrollment
+                        JSON.parse(trialDetail.showTravelCardInPreEnrollment)
                     );
                     if (
                         !trialDetail.showVisits ||

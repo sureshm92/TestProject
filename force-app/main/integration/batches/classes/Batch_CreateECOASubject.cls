@@ -1,7 +1,8 @@
 /**
  * Created by Sandeep on 10/1/2022.
  */
-public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbstract implements Database.AllowsCallouts {
+public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbstract implements Database.AllowsCallouts, Database.Stateful {
+    public List<Participant_Enrollment__c> perlist = new List<Participant_Enrollment__c>();
     public Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> peEnrollmentStatus = new List<String>{
             PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED,
@@ -35,6 +36,18 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
 
     public void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> pelist) {
         ECOAService.createSubject(pelist);
+        perlist.addAll(pelist);
+    }
+
+    public override void finalAction() {
+        system.debug('perlist----->' + perlist);
+        set<ID> peId = new Set<ID>();
+        for (Participant_Enrollment__c pe : perlist) {
+            peId.add(pe.id);
+        }
+        //System.enqueueJob(new Queueable_CreateECOASubject(peId));
+        Batch_CreateECOASubjectEvents objBatch = new Batch_CreateECOASubjectEvents(peId);
+        Database.executeBatch(objBatch, 200);
     }
 
     public override Type getType() {
