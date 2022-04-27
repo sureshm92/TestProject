@@ -77,7 +77,8 @@ private class Test_BasePPCommunity {
                     false,
                     false,
                     false,
-                    null
+                    null,
+                    false
                 );
                 
                 for (Participant_Enrollment__c pe2 : [

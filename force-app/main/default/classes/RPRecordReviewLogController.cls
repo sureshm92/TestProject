@@ -134,33 +134,33 @@ public without sharing class RPRecordReviewLogController {
             
             for (Participant_Enrollment__c pe : peList) {
                 
-                String createdDateString = dateFormatChangeForCreatedDate(pe.CreatedDate);
-                peProfileSectionWrapperList.add(new peProfileSection(pe, createdDateString));
-                
-                //By defult value if country and state null
-                if(pe.Mailing_Country_Code__c == null) {
-                    pe.Mailing_Country_Code__c = 'US';
-                }
-                if(pe.Mailing_State_Code__c == null) {
-                    pe.Mailing_State_Code__c = 'NY';
-                }
-                //if no YOB and Month and Adult than field will email,phone number and phone type required 
-                if(pe.YOB__c != null) {
-                    isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Mailing_Country_Code__c, pe.Mailing_State_Code__c, pe.Birth_Month__c,pe.YOB__c);
-                    if(isAdult =='true') {
-                        //Minor
-                        peProfileSectionWrapperList[0].isRequired = false;
-                        //pe.Legal_Status__c = 'No';
-                        peProfileSectionWrapperList[0].isMinor = true;
+                    String createdDateString = dateFormatChangeForCreatedDate(pe.CreatedDate);
+                    peProfileSectionWrapperList.add(new peProfileSection(pe, createdDateString));
+
+                    //By defult value if country and state null
+                    if(pe.Mailing_Country_Code__c == null) {
+                        pe.Mailing_Country_Code__c = 'US';
+                    }
+                    if(pe.Mailing_State_Code__c == null) {
+                        pe.Mailing_State_Code__c = 'NY';
+                    }
+                    //if no YOB and Month and Adult than field will email,phone number and phone type required 
+                    if(pe.YOB__c != null) {
+                        isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Mailing_Country_Code__c, pe.Mailing_State_Code__c, pe.Birth_Month__c,pe.YOB__c);
+                        if(isAdult =='true') {
+                            //Minor
+                            peProfileSectionWrapperList[0].isRequired = false;
+                            //pe.Legal_Status__c = 'No';
+                            peProfileSectionWrapperList[0].isMinor = true;
+                        }
+                        else{
+                            peProfileSectionWrapperList[0].isRequired = true;
+                            //pe.Legal_Status__c = 'Yes';
+                            peProfileSectionWrapperList[0].isMinor = false;
+                        }
                     }
                     else{
                         peProfileSectionWrapperList[0].isRequired = true;
-                        //pe.Legal_Status__c = 'Yes';
-                        peProfileSectionWrapperList[0].isMinor = false;
-                    }
-                }
-                else{
-                    peProfileSectionWrapperList[0].isRequired = true;
                     peProfileSectionWrapperList[0].isMinor = false;
                 }
                 if(pe.RP_Site_Selected__c == null) {
@@ -221,19 +221,19 @@ public without sharing class RPRecordReviewLogController {
             peEnrollment.Participant_Phone_Opt_In_Permit_Phone__c = peRecord.Participant_Phone_Opt_In_Permit_Phone__c;
             
             //Ends
-            peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
-            peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
-            peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
-            peEnrollment.Is_Email__c=peRecord.Is_Email__c;
-            peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
-            peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
-            peEnrollment.Study_Site__c=peRecord.Study_Site__c;
-            peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
-            
-            
-            update peEnrollment;
-            //update peRecord;
-            return 'Success';
+               peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
+               peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
+               peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
+               peEnrollment.Is_Email__c=peRecord.Is_Email__c;
+               peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
+               peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               peEnrollment.Study_Site__c=peRecord.Study_Site__c;
+               peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
+
+               
+               update peEnrollment;
+                //update peRecord;
+                return 'Success';
         } 
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
