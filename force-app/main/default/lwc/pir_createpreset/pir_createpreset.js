@@ -56,7 +56,7 @@ export default class Pir_createpreset extends LightningElement {
          this.isDataloaded = false;
          let presetNameEnter = this.filterWrapperToInsert.presetName;
         let successMessage = presetNameEnter + " " +this.label.PIR_Preset_Created_Message;
-        let uniqueNameMessage = presetNameEnter + + " " +this.label.pir_presetUniqueName;
+        let uniqueNameMessage = presetNameEnter + " " +this.label.pir_presetUniqueName;
          
         createPreset({strPresetwrapper:JSON.stringify(this.filterWrapperToInsert),isUpdate:false })
         .then((result) => { 
