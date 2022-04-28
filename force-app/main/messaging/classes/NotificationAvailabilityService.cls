@@ -36,6 +36,7 @@ public without sharing class NotificationAvailabilityService {
                 userCommunityMode__c,
                 Language__c,
                 MailingCountryCode,
+                Is_Invalid_Number__c,
                 (SELECT TimeZoneSidKey FROM Users)
             FROM Contact
             WHERE Id IN :recipientIds
@@ -344,6 +345,20 @@ public without sharing class NotificationAvailabilityService {
         Contact contact = contactByIdMap.get(contactId);
         isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
         return isAvailable;
+    }
+
+    /**
+     * @description: This Method will check if contact number is invalid.
+     * @author: Krishna Mahto
+     * @param: contactId
+     * @return: Boolean
+     **/
+    public Boolean isInvalidNumber(Id contactId) {
+        Boolean isInvalid = true;
+        Contact contact = contactByIdMap.get(contactId);
+        isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
+
+        return isInvalid;
     }
 
     public Boolean isAvailableForPush(Id contactId, String whatId) {

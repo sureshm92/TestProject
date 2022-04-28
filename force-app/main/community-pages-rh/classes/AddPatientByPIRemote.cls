@@ -73,7 +73,9 @@ public without sharing class AddPatientByPIRemote {
         Boolean allowPhone,
         Boolean allowSMS,
         Boolean allowContact,
-        Boolean allowDelegateContact
+        Boolean allowDelegateContact,
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled
     ) {
         try {
             TriggerHandlerExecutor.bypassHandler(
@@ -94,7 +96,7 @@ public without sharing class AddPatientByPIRemote {
                     );
                 }
             }
-
+            
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -132,7 +134,6 @@ public without sharing class AddPatientByPIRemote {
                 pe,
                 userLanguage
             );
-
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id
                 : pe.Participant__c;
@@ -151,6 +152,15 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.MobilePhone = participant.Phone__c;
                 } else {
                     participantCon.Phone = participant.Phone__c;
+                }
+                if(iqviaOutreachEnabled && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                    contact contactConsent = (Contact) JSON.deserialize(
+                        contactConsentJSON,
+                        Contact.class
+                    );
+                    participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
+                    participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
+                    participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
                 }
                 update participantCon;
             }

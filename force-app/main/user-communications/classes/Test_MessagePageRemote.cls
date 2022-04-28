@@ -145,6 +145,26 @@ private class Test_MessagePageRemote {
         Test.startTest();
         System.runAs(testData.piUser) {
             MessagePageRemote.searchParticipant('Participant', new List<String>{ '' });
+            MessagePageRemote.ConversationWrapper msg = new MessagePageRemote.ConversationWrapper();
+            String s = msg.fullName;
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getPIContactFullNamesTest() {
+        TestData testData = new TestData();
+        List<Id> piContactIds = new List<Id>();
+        piContactIds.add(testData.piContact.Id);
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            Map<Id, String> getPIContaNames = MessagePageRemote.getPIContactFullNames(piContactIds);
+            try {
+                MessagePageRemote.AttachmentWrapper msg = new MessagePageRemote.AttachmentWrapper(
+                    null
+                );
+            } catch (Exception e) {
+            }
         }
         Test.stopTest();
     }
@@ -158,6 +178,7 @@ private class Test_MessagePageRemote {
         for (Study_Site__c ss : studySites)
             ss.Messages_Are_Available__c = true;
         update studySites;
+
         Test.stopTest();
     }
 }

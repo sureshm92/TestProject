@@ -10,7 +10,7 @@ export default class Pir_participantSubStatus extends LightningElement {
   @api non_enrollment_reason = "";
   @api disabled = false;
   @track utilLabels = label;
-  @api consussessreason = '';
+  @api consussessreason = '';@api isinitialvisit;
   checkIcon = pirResources + "/pirResources/icons/status-good.svg";
   minusIcon = pirResources + "/pirResources/icons/status-negative.svg";
   noneIcon = pirResources + "/pirResources/icons/circle.svg";
@@ -20,7 +20,10 @@ export default class Pir_participantSubStatus extends LightningElement {
   get checkGroupName() {
     if (this.groupicon == "success") {
       if (this.groupstatus != undefined) {
-        return this.utilLabels[this.groupstatus];
+          if(this.index == 2 && this.isinitialvisit){
+                 return this.utilLabels['PWS_Initial_Visit_Card_Name'];
+          }else{
+        return this.utilLabels[this.groupstatus];}
       } else {
         return this.utilLabels[this.groupname];
       }
@@ -41,7 +44,11 @@ export default class Pir_participantSubStatus extends LightningElement {
         ) {
           return this.utilLabels[this.groupname];
         } else {
-          return this.utilLabels[this.groupstatus];
+          if(this.index == 2 && this.isinitialvisit){
+              return this.utilLabels['PWS_Initial_Visit_Card_Name'];
+           }else{
+              return this.utilLabels[this.groupstatus];
+           }
         }
       } else {
         return this.utilLabels[this.groupname];

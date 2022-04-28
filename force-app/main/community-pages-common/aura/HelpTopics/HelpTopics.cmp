@@ -17,6 +17,11 @@
     <aura:attribute type="String" name="didThisHelp" access="private" default="true" />
     <aura:attribute name="didSolveOptions" type="List" default="[]" />
     <aura:attribute type="Boolean" name="isInitialized" access="private" default="false" />
+    <aura:attribute
+        type="String"
+        name="placeholderText"
+        default="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}"
+    />
 
     <aura:attribute type="String" name="currentParticipant" default="" access="private" />
     <aura:attribute type="String" name="currentSite" access="private" />
@@ -36,12 +41,35 @@
                 <div class="ht-panel">
                     <div class="h-body-title ht-sub-label">{!$Label.c.PG_HLP_T_What_happened}</div>
                     <div class="h-type-select ht-label">
-                        <c:rrSelect
-                            value="{!v.selectedTopic}"
-                            options="{!v.helpTopicOptions}"
-                            placeholder="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}"
-                            useSentenceFont="false"
-                        />
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <c:rrSelect
+                                value="{!v.selectedTopic}"
+                                options="{!v.helpTopicOptions}"
+                                placeholder="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}"
+                                useSentenceFont="false"
+                            />
+                            <aura:set attribute="else">
+                                <div
+                                    class="dropdown"
+                                    onclick="{!c.toggleElement}"
+                                    onfocusout="{!c.removeElementFocus}"
+                                    tabindex="1"
+                                >
+                                    <span class="dropdown-span">{!v.placeholderText}</span>
+                                    <ul class="dropdown-menu">
+                                        <aura:iteration items="{!v.helpTopicOptions}" var="item">
+                                            <li
+                                                class="dropdown-li"
+                                                value="{!item.value}"
+                                                onclick="{!c.helpTopicChanged}"
+                                            >
+                                                <aura:unescapedHtml value="{!item.label}" />
+                                            </li>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </aura:set>
+                        </aura:if>
                     </div>
                 </div>
                 <div class="ht-panel">
@@ -76,7 +104,7 @@
                                     label=""
                                     variant="label-hidden"
                                     placeholder="{!if(!empty(v.selectedTopicSettings.descriptionPlaceholder),
-                                                        v.selectedTopicSettings.descriptionPlaceholder,$Label.c.PG_HLP_F_Placeholder_Briefly_Explain)}"
+                                                                 v.selectedTopicSettings.descriptionPlaceholder,$Label.c.PG_HLP_F_Placeholder_Briefly_Explain)}"
                                 />
                             </div>
                         </aura:if>

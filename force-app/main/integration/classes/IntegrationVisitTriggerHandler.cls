@@ -13,7 +13,7 @@ public with sharing class IntegrationVisitTriggerHandler {
         }
     }
 
-    public static void updateVisits(List<Integration_Visit__c> integrationVisits) {
+    public static Set<Id> updateVisits(List<Integration_Visit__c> integrationVisits) {
         Set<String> externalKeys = new Set<String>();
         for (Integration_Visit__c integrationVisit : integrationVisits) {
             if (
@@ -44,6 +44,8 @@ public with sharing class IntegrationVisitTriggerHandler {
         List<Patient_Visit__c> visitsToInsert = new List<Patient_Visit__c>();
         Map<String, Decimal> maxCompletedVisitMap = new Map<String, Decimal>();
         Map<Id, Patient_Visit__c> visitsToDeleteMap = new Map<Id, Patient_Visit__c>();
+        set<ID> pvIdsTobeReturned = new Set<ID>();
+
         for (Integration_Visit__c integrationVisit : integrationVisits) {
             Boolean matchFound = false;
             Participant_Enrollment__c pe = peMap.get(integrationVisit.USUBJID__c);
@@ -127,6 +129,12 @@ public with sharing class IntegrationVisitTriggerHandler {
         update visitsToUpdateMap.values();
         delete visitsToDeleteMap.values();
         insert visitsToInsert;
+
+        for (Patient_Visit__c pv : visitsToInsert) {
+            pvIdsTobeReturned.add(pv.Id);
+        }
+        pvIdsTobeReturned.addAll(visitsToUpdateMap.keySet());
+        return pvIdsTobeReturned;
     }
 
     private static Patient_Visit__c createAdhockVisit(

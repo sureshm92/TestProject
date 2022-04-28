@@ -39,6 +39,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @api reVisitDt = "";
   @api plan = "";
   @api currentuserdate = "";  
+  @api latestStatusGrp='';
 
   changeInputValue(event) {
     let datavalue = event.target.dataset.value;
@@ -829,7 +830,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     this.isdataChanged();
   }
   get reasonDisabled() {
-    return this.reasoneoptions == 0;
+      return this.reasoneoptions == 0;
   }
   get screeningReasonDisabled() {
     if(this.pe_record.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
@@ -854,7 +855,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }else if(this.selectedOutcome == "Unable_to_Reach" &&  this.selectedreason == ""){
       this.customButtonValidation(); 
       return this.utilLabels.PG_ACPE_L_Notes_Required;
-    }else{
+    } else{
       if (this.notesNeeded.includes(this.selectedreason)) {
         this.customButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
@@ -943,7 +944,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
      
     //1.
     if (this.notesNeeded.includes(this.selectedreason)) {
-      if ( this.notesNeeded.includes(this.selectedreasonIV)) {
+      if ( this.notesNeeded.includes(this.selectedreasonIV) ) {
         let noteIV = this.additionalNoteIV.trim();
         if (noteIV != null && noteIV != "" && noteIV.length != 0) {
           btnValidationSuccess = true;
@@ -1152,7 +1153,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     })
     .catch((error) => {
       console.log(error);
-      this.showErrorToast(JSON.stringify(error.body.message));
     });
     
   }
@@ -1167,7 +1167,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
         L.classList.toggle("bg-white");
     });
-    getContactHistory({ pe: this.peid })
+    getContactHistory({ pe: this.peid ,groupName: this.latestStatusGrp})
       .then((result) => {
         if (result == null || result.length == 0) {
           this.historyNull = true;
@@ -1319,7 +1319,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1345,7 +1344,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1371,7 +1369,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1397,7 +1394,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1423,7 +1419,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       })
       .catch((error) => {
         console.log(error);
-        this.showErrorToast(JSON.stringify(error.body.message));
       });
   }
 
@@ -1591,9 +1586,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     if(this.participantrecord.ParticipantNoShow__c){ 
       this.participantrecord.Participant_Status__c = 'Unable to Reach';
-      this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit';
+      this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
     }
-   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1607,10 +1601,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-    if(this.participantrecord.Participant_Status__c == "Declined Final Consent"){
-      this.participantrecord.Final_consent__c = false;
+    if (this.participantrecord.Participant_Status__c == "Declined Final Consent") {
+          this.participantrecord.Final_consent__c = false;
     }
-   
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
@@ -1622,6 +1615,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       let visitPln = 'null';
       if(this.participantrecord.Visit_Plan__c){
         visitPln = this.participantrecord.Visit_Plan__c;
+      }
+      if(this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen'){
+        delete this.participantrecord.Participant_Status__c;
       }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
