@@ -12,6 +12,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
     private static final String CASE_OBJ_NAME = 'Case';
+    private static final String TELEVISIT_OBJ_NAME = 'Televisit_Attendee__c';
 
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
@@ -206,6 +207,28 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
 
+            if (objType == TELEVISIT_OBJ_NAME) {
+                System.debug(objType);
+                List<Televisit_Attendee__c> teleVisitsList = [
+                    SELECT
+                        Id,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                    FROM Televisit_Attendee__c
+                    WHERE Id IN :objectsByStrings.get(objType)
+                ];
+                for (Televisit_Attendee__c ta : teleVisitsList) {
+                    objectsByIds.put(ta.Id, ta);
+                }
+            }
+
             //TODO for other objects passing in WhatID
         }
         piHasSiteWithEnabledEmailMap = checkIfPIContactsHaveSitesWithEnabledEmails(recipientIds);
@@ -284,6 +307,10 @@ public without sharing class NotificationAvailabilityService {
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     checkForNotification = true;
             } else if (objType == null) {
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c)
+                    checkForNotification = true;
+            } else if (objType == TELEVISIT_OBJ_NAME) {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     checkForNotification = true;
