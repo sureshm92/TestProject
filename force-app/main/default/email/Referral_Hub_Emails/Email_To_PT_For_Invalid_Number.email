@@ -1,0 +1,6 @@
+Hi {!Receiving_User.FirstName},
+
+Please update your phone number in account setting
+
+Thanks,
+{!Organization.Name}
