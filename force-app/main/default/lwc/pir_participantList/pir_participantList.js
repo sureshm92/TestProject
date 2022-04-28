@@ -990,9 +990,9 @@ export default class Pir_participantList extends LightningElement {
                     csvStringResult += '" "' + ',';
                 }
     
-                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Present_Age__c'] !== undefined) {
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Age__c'] !== undefined) {
                     csvStringResult +=
-                        '"' + partList[i] ['Participant__r']['Present_Age__c'] + '"' + ',';
+                        '"' + partList[i] ['Participant__r']['Age__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
