@@ -379,7 +379,7 @@ public without sharing class NotificationAvailabilityService {
      * @author: Krishna Mahto
      * @param: contactId
      * @return: Boolean
-     **/
+     ***/
     public Boolean isInvalidNumber(Id contactId) {
         Boolean isInvalid = true;
         Contact contact = contactByIdMap.get(contactId);
