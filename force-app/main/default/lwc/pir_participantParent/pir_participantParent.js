@@ -646,9 +646,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       if(event.target.value == 'yes' ){
         this.consentValue = true;
         this.consentData=true;
+        this.isReasonEmpty=true;
+        this.selectedreason ='';
      }else{
       this.consentValue = false;
       this.consentData=false;
+      this.isReasonEmpty= this.storeisReasonEmpty;
      }
      this.bulkButtonValidation();
     }
@@ -743,6 +746,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     }
  }
  reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+ storeisReasonEmpty;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
        this.notesNeeded = [];this.additionalNote = '';
@@ -782,9 +786,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
+            this.storeisReasonEmpty=this.isReasonEmpty;
           }else{
              this.selectedreason ='';
              this.isReasonEmpty = true;
+             this.storeisReasonEmpty=this.isReasonEmpty;
           }
           if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
               this.finalConsent = result.finalConsent;
