@@ -6,10 +6,13 @@
     position: absolute;
     width: 999px;
     max-width: 89%;
-    z-index: 9996;
+    z-index: 9;
     padding: 0 15px;
 }
 
+.edit .close-icon-pop{
+    display: none;
+}
 .filter-heading{
     font-size: 14px;
     color: #000000;
@@ -40,14 +43,14 @@
     margin-top: -19px;
 }
 .w-Demographics{
-    padding-top: 23px;
+    padding-top: 4px;
     width: 36%;
     padding-right: 0px;
 }
 .filter-age{
     text-align: left;
     font-size: 14px;
-    padding-top: 6px;
+    padding-top: 24px;
 }
 .filter-date{
     text-align: left;
@@ -120,9 +123,20 @@
 .slds-btn-right{
     float: right;
 }
+.apply-fil-btn{
+    width: auto;
+    margin-left: 15px;
+    margin-top: 0;
+}
+.p-left{
+    padding-left: 0;
+}
+.and{
+    padding-left: 5px;
+}
 @media (max-device-width: 767px) {
     .filter-area{
-        width: 86.8%;
+        width: 86.6%;
         padding: 0 10px 20px 10px;
         z-index: 9;
         margin-left: var(--lwc-spacingXSmall,0.5rem);
@@ -216,12 +230,28 @@
     .other-m-top{
         margin-top: 15px;
     }
+    .apply-fil-btn{
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .p-left{
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .filter-age{
+        padding-top: 28px;
+    }
+    .and{
+        padding-left: 2px;
+    }
 }
 .eth .slds-no-flex{
     width: 100%;
 }
 .eth .close-icon{
     cursor: pointer;
+    padding-left: 5px;
+    opacity: 0.75;
 }
 .eth .slds-no-flex span{
     float: right;
@@ -246,6 +276,11 @@
     margin-top: 5px;
     margin-bottom: 5px;
     padding: 0 10px;
+    max-width: 117px;
+    text-align: center;
+}
+.eth .ethmore{
+    padding: 7px 0px 0px 170px;
 }
 .eth .close-img{
     cursor: pointer;
@@ -288,4 +323,10 @@
 }
 .edit .hidebutton{
     display:none;
+}
+.close-icon-pop{
+    position: absolute;
+    right: 13px;
+    top: 13px;
+    cursor: pointer;
 }

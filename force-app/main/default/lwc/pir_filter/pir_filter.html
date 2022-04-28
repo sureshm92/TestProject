@@ -22,7 +22,10 @@
         </div>
       </div>
     </template>
-    <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
+    <div class="slds-col slds-size_12-of-12 closebutton">
+      <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}></lightning-icon>  
+    </div>
+    <div class="slds-grid slds-wrap slds-gutters slds-m-top_large">
       <div
         class="
           slds-col
@@ -221,7 +224,7 @@
                   p-left-none p-left-age
                 "
               >
-                <p class="filter-age">and</p>
+                <p class="filter-age and">and</p>
               </div>
               <div
                 class="
@@ -261,7 +264,7 @@
               slds-medium-size_4-of-12
               slds-large-size_4-of-12
               outcome-form-element
-              slds-m-bottom_medium
+              slds-m-bottom_medium p-left
             "
           >
             <label class="slds-form-element__label slds-no-flex"
@@ -297,19 +300,13 @@
                     role="none"
                   >
                     <div class="selectedOption">
-                      <template if:true={selectedEthinicity}>
-                        <template for:each={selectedEthinicity} for:item="item">
-                          <span class="selectedValue" key={item.value}>
-                            {item.label}
-                            <lightning-icon
-                              data-id={item.value}
-                              icon-name="utility:clear"
-                              size="x-small"
-                              class="close-icon"
-                              onclick={removeE}
-                            ></lightning-icon>
-                          </span>
-                        </template>
+                      <template if:true={getFirstSelecedEth}>
+                        <span class="selectedValue slds-truncate" >
+                          {getFirstSelecedEth}                            
+                        </span>
+                        <div class="ethmore">
+                          {ethCount}
+                        </div>
                       </template>
                     </div>
                     <span
@@ -418,7 +415,7 @@
     </div>
     <!-- slds-grid study Information -->
 
-    <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+    <div class="slds-grid slds-wrap slds-gutters">
       <div
         class="
           slds-col
@@ -611,8 +608,8 @@
     <div
       class="
         slds-grid slds-wrap slds-gutters
-        slds-m-top_medium
-        slds-m-bottom_large
+        slds-m-top_large
+        slds-m-bottom_large 
       "
     >
       <div
@@ -655,12 +652,12 @@
               secondary
               ipad-mode-btn
               filter-btn
-              slds-p-around_x-medium
+              slds-p-around_x-medium apply-fil-btn
             "
             onclick={applyFilter}
             disabled={isbuttonenabled}
           >
-            Apply Filter
+            Apply Filters
           </button>
         </div>
       </div>

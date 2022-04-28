@@ -58,13 +58,16 @@ export default class Filtertest extends LightningElement {
     presetName:""
   };
 
+  studyToPrmoteDCT;
+  studyToFinalStep;
+
   activeStatusList = [
     "Received",
     "Pre-review Passed",
     "Contact Attempted",
     "Successfully Contacted",
     "Screening In Progress",
-    "Screening In Progress - Wash Out Period",
+    "In Wash Out Period",
     "Screening Passed",
     "Enrollment Success",
     "Eligibility Passed",
@@ -108,6 +111,8 @@ export default class Filtertest extends LightningElement {
           // console.log("Result $$$$$$$$", result);
           if (result.ctpMap) {
             var conts = result.ctpMap;
+            this.studyToPrmoteDCT = result.studyToPrmoteDCT;
+            this.studyToFinalStep = result.studyToFinalStep;
             let options = [];
             options.push({ label: "All Study", value: "All Study" });
             for (var key in conts) {
@@ -148,6 +153,9 @@ export default class Filtertest extends LightningElement {
             this.filterWrapper.siteList=[];
             this.filterWrapper.siteList.push(this.defaultSite);
           }
+          this.createStatusOption();
+          this.defaultStatus = this.selectedstatusvalue;
+          this.selectedStatus = this.selectedstatusvalue;
           this.loaded = !this.loaded;
           this.filterWrapper.status = [];
           this.filterWrapper.status.push('Received');
@@ -164,26 +172,25 @@ export default class Filtertest extends LightningElement {
           console.error("Error:", error);
         });
 
-      this.statusoptions = [
-        { label: "All Statuses", value: "All Active Statuses" },
-        { label: "Received", value: "Received" },
-        { label: "Pre-review Passed", value: "Pre-review Passed" },
-        { label: "Contact Attempted", value: "Contact Attempted" },
-        { label: "Successfully Contacted", value: "Successfully Contacted" },
-        { label: "Screening In Progress", value: "Screening In Progress" },
-        {
-          label: "Screening In Progress - Wash Out Period",
-          value: "Screening In Progress - Wash Out Period"
-        },
-        { label: "Screening Passed", value: "Screening Passed" },
-        { label: "Enrollment Success", value: "Enrollment Success" },
-        { label: "Eligibility Passed", value: "Eligibility Passed" },
-        { label: "Ready to Screen", value: "Ready to Screen" },
-        { label: "Randomization Success", value: "Randomization Success" }
-      ];
+      // this.statusoptions = [
+      //   { label: "All Statuses", value: "All Active Statuses" },
+      //   { label: "Received", value: "Received" },
+      //   { label: "Pre-review Passed", value: "Pre-review Passed" },
+      //   { label: "Contact Attempted", value: "Contact Attempted" },
+      //   { label: "Successfully Contacted", value: "Successfully Contacted" },
+      //   { label: "Screening In Progress", value: "Screening In Progress" },
+      //   {
+      //     label: "In Wash Out Period",
+      //     value: "In Wash Out Period"
+      //   },
+      //   { label: "Screening Passed", value: "Screening Passed" },
+      //   { label: "Enrollment Success", value: "Enrollment Success" },
+      //   { label: "Eligibility Passed", value: "Eligibility Passed" },
+      //   { label: "Ready to Screen", value: "Ready to Screen" },
+      //   { label: "Randomization Success", value: "Randomization Success" }
+      // ];
 
-      this.defaultStatus = this.selectedstatusvalue;
-      this.selectedStatus = this.selectedstatusvalue;
+
     }
   }
   @api
@@ -199,9 +206,9 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = presetSellection.ageTo;
     this.ageEndValue = presetSellection.ageFrom;
     this.defaultSex = presetSellection.sex;
-    this.defaultHighRisk = presetSellection.highRisk;
+    this.defaultHighRisk = presetSellection.highRisk == 'true';
     this.defaultHighPriority = presetSellection.highPriority;
-    this.defaultComorbidities = presetSellection.comorbidities;
+    this.defaultComorbidities = presetSellection.comorbidities == 'true';
     this.ininialvisitScheduledOption = presetSellection.initialVisit;
 
     if(presetSellection.initialVisit == 'All'){
@@ -251,25 +258,8 @@ export default class Filtertest extends LightningElement {
       this.selectedSite = 'All Study Site';
     }
 
+    this.createStatusOption();
     if (presetSellection.activeInactive == "Active") {
-      this.statusoptions = [
-        { label: "All Statuses", value: "All Active Statuses" },
-        { label: "Received", value: "Received" },
-        { label: "Pre-review Passed", value: "Pre-review Passed" },
-        { label: "Contact Attempted", value: "Contact Attempted" },
-        { label: "Successfully Contacted", value: "Successfully Contacted" },
-        { label: "Screening In Progress", value: "Screening In Progress" },
-        {
-          label: "Screening In Progress - Wash Out Period",
-          value: "Screening In Progress - Wash Out Period"
-        },
-        { label: "Screening Passed", value: "Screening Passed" },
-        { label: "Enrollment Success", value: "Enrollment Success" },
-        { label: "Eligibility Passed", value: "Eligibility Passed" },
-        { label: "Ready to Screen", value: "Ready to Screen" },
-        { label: "Randomization Success", value: "Randomization Success" }
-      ];
-
       if(presetSellection.status.length == 1){
         this.defaultStatus = presetSellection.status[0];
         this.selectedStatus = presetSellection.status[0];
@@ -279,28 +269,6 @@ export default class Filtertest extends LightningElement {
       }
 
     } else if (presetSellection.activeInactive == "Inactive") {
-      this.statusoptions = [
-        { label: "All Statuses", value: "All Inactive Statuses" },
-        { label: "Pre-review Failed", value: "Pre-review Failed" },
-        { label: "Unable to Reach", value: "Unable to Reach" },
-        {
-          label: "Contacted - Not Suitable",
-          value: "Contacted - Not Suitable"
-        },
-        { label: "Eligibility Failed", value: "Eligibility Failed" },
-        { label: "Declined Consent", value: "Declined Consent" },
-        { label: "Unable to Screen", value: "Unable to Screen" },
-        { label: "Withdrew Consent", value: "Withdrew Consent" },
-        { label: "Screening Failed", value: "Screening Failed" },
-        {
-          label: "Withdrew Consent After Screening",
-          value: "Withdrew Consent After Screening"
-        },
-        { label: "Enrollment Failed", value: "Enrollment Failed" },
-        { label: "Randomization Failed", value: "Randomization Failed" },
-        { label: "Declined Final Consent", value: "Declined Final Consent" }
-      ];
-
       if(presetSellection.status.length == 1){
         this.defaultStatus = presetSellection.status[0];
         this.selectedStatus = presetSellection.status[0];
@@ -356,13 +324,16 @@ export default class Filtertest extends LightningElement {
     this.selectedStudy = picklist_Value;
     this.defaultSite = "All Study Site";
     this.selectedSite = "All Study Site";
+    this.createStatusOption();
+    this.sendFilterUpdates();
   }
 
   studysiteshandleChange(event) {
     this.selectedSite = event.target.value;
     this.defaultSite = event.target.value;
+    this.sendFilterUpdates();
   }
-
+  @api
   applyFilter() {
     this.filterPresetHandler();
     const selectEvent = new CustomEvent("applyfilterevent", {
@@ -378,6 +349,10 @@ export default class Filtertest extends LightningElement {
   }
   closepresetmodel(event){
     this.shoulddisplaypopup  = false;
+    if(event.detail=='created'){
+      const presetcreated = new CustomEvent("presetcreated");
+      this.dispatchEvent(presetcreated); 
+    }
   }
 
   filterPresetHandler() {
@@ -426,16 +401,37 @@ export default class Filtertest extends LightningElement {
     }
 
     if (filterStatus == "All Active Statuses") {
-      this.filterWrapper.status = this.activeStatusList;
+      this.filterWrapper.status = [];
+      for (var i = 1; i < this.statusoptions.length; i++) {
+        this.filterWrapper.status.push(this.statusoptions[i].value);
+      }
     } else if (filterStatus == "All Inactive Statuses") {
-      this.filterWrapper.status = this.inactiveStatusList;
+      this.filterWrapper.status = [];
+      for (var i = 1; i < this.statusoptions.length; i++) {
+        this.filterWrapper.status.push(this.statusoptions[i].value);
+      }
     } else {
       this.filterWrapper.status = [];
       this.filterWrapper.status.push(filterStatus);
     }
     console.log("filterWrapper: " + JSON.stringify(this.filterWrapper));
   }
-
+  get getFirstSelecedEth(){
+    if(this.selectedEthinicity){
+      if(this.selectedEthinicity.length>0){
+        return this.selectedEthinicity[0].label;
+      }
+    }
+    return null;
+  }
+  get ethCount(){
+    if(this.selectedEthinicity){
+      if(this.selectedEthinicity.length>1){
+        return "+" + (this.selectedEthinicity.length-1)+" more" ;
+      }
+    }
+    return "";
+  }
   get activeoptions() {
     return [
       { label: "Active", value: "Active" },
@@ -446,59 +442,22 @@ export default class Filtertest extends LightningElement {
   activehandleChange(event) {
     var selectedMode = event.target.value;
     this.selectedActiveInactive = selectedMode;
+    this.createStatusOption();
     if (selectedMode == "Active") {
-      this.statusoptions = [
-        { label: "All Statuses", value: "All Active Statuses" },
-        { label: "Received", value: "Received" },
-        { label: "Pre-review Passed", value: "Pre-review Passed" },
-        { label: "Contact Attempted", value: "Contact Attempted" },
-        { label: "Successfully Contacted", value: "Successfully Contacted" },
-        { label: "Screening In Progress", value: "Screening In Progress" },
-        {
-          label: "Screening In Progress - Wash Out Period",
-          value: "Screening In Progress - Wash Out Period"
-        },
-        { label: "Screening Passed", value: "Screening Passed" },
-        { label: "Enrollment Success", value: "Enrollment Success" },
-        { label: "Eligibility Passed", value: "Eligibility Passed" },
-        { label: "Ready to Screen", value: "Ready to Screen" },
-        { label: "Randomization Success", value: "Randomization Success" }
-      ];
-
       this.defaultStatus = "All Active Statuses";
       this.selectedStatus = "All Active Statuses";
     } else if (selectedMode == "Inactive") {
-      this.statusoptions = [
-        { label: "All Statuses", value: "All Inactive Statuses" },
-        { label: "Pre-review Failed", value: "Pre-review Failed" },
-        { label: "Unable to Reach", value: "Unable to Reach" },
-        {
-          label: "Contacted - Not Suitable",
-          value: "Contacted - Not Suitable"
-        },
-        { label: "Eligibility Failed", value: "Eligibility Failed" },
-        { label: "Declined Consent", value: "Declined Consent" },
-        { label: "Unable to Screen", value: "Unable to Screen" },
-        { label: "Withdrew Consent", value: "Withdrew Consent" },
-        { label: "Screening Failed", value: "Screening Failed" },
-        {
-          label: "Withdrew Consent After Screening",
-          value: "Withdrew Consent After Screening"
-        },
-        { label: "Enrollment Failed", value: "Enrollment Failed" },
-        { label: "Randomization Failed", value: "Randomization Failed" },
-        { label: "Declined Final Consent", value: "Declined Final Consent" }
-      ];
-
       this.defaultStatus = "All Inactive Statuses";
       this.selectedStatus = "All Inactive Statuses";
     }
     this.filterWrapper.activeInactive = selectedMode;
+    this.sendFilterUpdates();
   }
 
   statushandleChange(event) {
     this.selectedStatus = event.target.value;
     this.defaultStatus = event.target.value;
+    this.sendFilterUpdates();
   }
 
   initialvisithandleChange(event) {
@@ -522,6 +481,7 @@ export default class Filtertest extends LightningElement {
 
     this.filterWrapper.initialVisit = event.target.value;
     this.ininialvisitScheduledOption = event.target.value;
+    this.sendFilterUpdates();
   }
 
   handleInitialVisitStartDateChange(event) {
@@ -543,6 +503,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleInitialVisitEndDateChange(event) {
@@ -564,6 +525,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleAgeStartChange(event) {
@@ -586,6 +548,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   handleAgeEndChange(event) {
@@ -607,6 +570,7 @@ export default class Filtertest extends LightningElement {
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+    this.sendFilterUpdates();
   }
 
   sourcehandleChange(event) {
@@ -623,6 +587,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.source = [];
       this.filterWrapper.source.push(source);
     }
+    this.sendFilterUpdates();
   }
 
   sexatbirthhandleChange(event) {
@@ -630,22 +595,28 @@ export default class Filtertest extends LightningElement {
     if (sex != "All") {
       this.filterWrapper.sex = sex;
       this.defaultSex = sex;
+    }else{
+      this.filterWrapper.sex = '';
     }
+    this.sendFilterUpdates();
   }
 
   handleHighRisk(event) {
     this.filterWrapper.highRisk = event.target.checked;
     this.defaultHighRisk = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   handleHighPriority(event) {
     this.filterWrapper.highPriority = event.target.checked;
     this.defaultHighPriority = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   handleComorbidities(event) {
     this.filterWrapper.comorbidities = event.target.checked;
     this.defaultComorbidities = event.target.checked;
+    this.sendFilterUpdates();
   }
 
   get sourceoptions() {
@@ -727,6 +698,7 @@ export default class Filtertest extends LightningElement {
     this.selectedEthinicity = [];
     this.selectedEthinicity = this.selectedEthinicity.concat(tempList);
     this.template.querySelector(".eBox").focus();
+    this.sendFilterUpdates();
   }
   openETH() {
     this.template.querySelector(".eBoxOpen").classList.add("slds-is-open");
@@ -749,7 +721,7 @@ export default class Filtertest extends LightningElement {
     this.selectedEthinicity = [];
     this.ethListStr = "";
   }
-
+  @api
   resetFilter(event){
     this.selectedActiveInactive = this.activeoptions[0].value;
     this.defaultStudy = this.studylist[1].value;
@@ -770,23 +742,7 @@ export default class Filtertest extends LightningElement {
     this.defaultSite = this.studySiteList[1].value;
     this.selectedSite = this.defaultSite;
 
-    this.statusoptions = [
-      { label: "All Statuses", value: "All Active Statuses" },
-      { label: "Received", value: "Received" },
-      { label: "Pre-review Passed", value: "Pre-review Passed" },
-      { label: "Contact Attempted", value: "Contact Attempted" },
-      { label: "Successfully Contacted", value: "Successfully Contacted" },
-      { label: "Screening In Progress", value: "Screening In Progress" },
-      {
-        label: "Screening In Progress - Wash Out Period",
-        value: "Screening In Progress - Wash Out Period"
-      },
-      { label: "Screening Passed", value: "Screening Passed" },
-      { label: "Enrollment Success", value: "Enrollment Success" },
-      { label: "Eligibility Passed", value: "Eligibility Passed" },
-      { label: "Ready to Screen", value: "Ready to Screen" },
-      { label: "Randomization Success", value: "Randomization Success" }
-    ];
+    this.createStatusOption();
 
     this.defaultStatus = this.statusoptions[1].value;
     this.selectedStatus = this.statusoptions[1].value;
@@ -824,5 +780,160 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.presetId = "";
     this.filterWrapper.presetName = "";
 
+  }
+  sendFilterUpdates(){
+    if(this.filterClass=="edit"){
+      this.filterPresetHandler();
+      const updfilter = new CustomEvent("updfilter", {
+      detail: {fw : this.filterWrapper,err:this.isbuttonenabled}
+      });
+      this.dispatchEvent(updfilter);
+    }
+  }
+  handleCloseFilter(){
+      const closefilter = new CustomEvent("closefilter", {
+      detail: ''
+      });
+      this.dispatchEvent(closefilter);
+  }
+
+  createStatusOption(){
+    console.log('OUTPUT this.selectedActiveInactive: ',this.selectedActiveInactive);
+    console.log('OUTPUT this.defaultStudy: ',this.defaultStudy);
+    console.log('OUTPUT this.studyToPrmoteDCT: ',this.studyToPrmoteDCT);
+    console.log('OUTPUT this.studyToPrmoteDCT: ',this.studyToPrmoteDCT[this.defaultStudy]);
+    console.log('OUTPUT this.studyToFinalStep: ',this.studyToFinalStep);
+    console.log('OUTPUT this.studyToFinalStep: ',this.studyToFinalStep[this.defaultStudy]);
+
+    if(this.defaultStudy != 'All Study'){
+      if(this.selectedActiveInactive == 'Active'){
+        if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Randomization'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Active Statuses" },
+            { label: "Received", value: "Received" },
+            { label: "Pre-review Passed", value: "Pre-review Passed" },
+            { label: "Contact Attempted", value: "Contact Attempted" },
+            { label: "Successfully Contacted", value: "Successfully Contacted" },
+            { label: "Screening In Progress", value: "Screening In Progress" },
+            {label: "In Wash Out Period", value: "In Wash Out Period" },
+            { label: "Screening Passed", value: "Screening Passed" },
+            { label: "Sent to DCT", value: "Eligibility Passed" },
+            { label: "Ready to Screen", value: "Ready to Screen" },
+            { label: "Randomization Success", value: "Randomization Success" }
+          ];
+        }else if(!this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Randomization'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Active Statuses" },
+            { label: "Received", value: "Received" },
+            { label: "Pre-review Passed", value: "Pre-review Passed" },
+            { label: "Contact Attempted", value: "Contact Attempted" },
+            { label: "Successfully Contacted", value: "Successfully Contacted" },
+            { label: "Screening In Progress", value: "Screening In Progress" },
+            {label: "In Wash Out Period", value: "In Wash Out Period" },
+            { label: "Screening Passed", value: "Screening Passed" },
+            { label: "Eligibility Passed", value: "Eligibility Passed" },
+            { label: "Ready to Screen", value: "Ready to Screen" },
+            { label: "Randomization Success", value: "Randomization Success" }
+          ];
+        }else if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Active Statuses" },
+            { label: "Received", value: "Received" },
+            { label: "Pre-review Passed", value: "Pre-review Passed" },
+            { label: "Contact Attempted", value: "Contact Attempted" },
+            { label: "Successfully Contacted", value: "Successfully Contacted" },
+            { label: "Screening In Progress", value: "Screening In Progress" },
+            {label: "In Wash Out Period", value: "In Wash Out Period" },
+            { label: "Screening Passed", value: "Screening Passed" },
+            { label: "Enrollment Success", value: "Enrollment Success" },
+            { label: "Sent to DCT", value: "Eligibility Passed" },
+            { label: "Ready to Screen", value: "Ready to Screen" }
+          ];
+        }else if(!this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Active Statuses" },
+            { label: "Received", value: "Received" },
+            { label: "Pre-review Passed", value: "Pre-review Passed" },
+            { label: "Contact Attempted", value: "Contact Attempted" },
+            { label: "Successfully Contacted", value: "Successfully Contacted" },
+            { label: "Screening In Progress", value: "Screening In Progress" },
+            {label: "In Wash Out Period", value: "In Wash Out Period" },
+            { label: "Screening Passed", value: "Screening Passed" },
+            { label: "Enrollment Success", value: "Enrollment Success" },
+            { label: "Eligibility Passed", value: "Eligibility Passed" },
+            { label: "Ready to Screen", value: "Ready to Screen" }
+          ];
+        }
+
+      }else  if(this.selectedActiveInactive == 'Inactive'){
+        if(this.studyToFinalStep[this.defaultStudy] == 'Randomization'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Inactive Statuses" },
+            { label: "Pre-review Failed", value: "Pre-review Failed" },
+            { label: "Unable to Reach", value: "Unable to Reach" },
+            {label: "Contacted - Not Suitable", value: "Contacted - Not Suitable" },
+            { label: "Eligibility Failed", value: "Eligibility Failed" },
+            { label: "Declined Consent", value: "Declined Consent" },
+            { label: "Unable to Screen", value: "Unable to Screen" },
+            { label: "Withdrew Consent", value: "Withdrew Consent" },
+            { label: "Screening Failed", value: "Screening Failed" },
+            {label: "Withdrew Consent After Screening", value: "Withdrew Consent After Screening" },
+            { label: "Randomization Failed", value: "Randomization Failed" },
+            { label: "Declined Final Consent", value: "Declined Final Consent" }
+          ];
+        }else if(this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
+          this.statusoptions = [
+            { label: "All Statuses", value: "All Inactive Statuses" },
+            { label: "Pre-review Failed", value: "Pre-review Failed" },
+            { label: "Unable to Reach", value: "Unable to Reach" },
+            {label: "Contacted - Not Suitable", value: "Contacted - Not Suitable" },
+            { label: "Eligibility Failed", value: "Eligibility Failed" },
+            { label: "Declined Consent", value: "Declined Consent" },
+            { label: "Unable to Screen", value: "Unable to Screen" },
+            { label: "Withdrew Consent", value: "Withdrew Consent" },
+            { label: "Screening Failed", value: "Screening Failed" },
+            {label: "Withdrew Consent After Screening", value: "Withdrew Consent After Screening" },
+            { label: "Enrollment Failed", value: "Enrollment Failed" },
+            { label: "Declined Final Consent", value: "Declined Final Consent" }
+          ];
+        }
+      }
+    }else{
+      if(this.selectedActiveInactive == 'Active'){
+        this.statusoptions = [
+          { label: "All Statuses", value: "All Active Statuses" },
+          { label: "Received", value: "Received" },
+          { label: "Pre-review Passed", value: "Pre-review Passed" },
+          { label: "Contact Attempted", value: "Contact Attempted" },
+          { label: "Successfully Contacted", value: "Successfully Contacted" },
+          { label: "Screening In Progress", value: "Screening In Progress" },
+          {label: "In Wash Out Period", value: "In Wash Out Period" },
+          { label: "Screening Passed", value: "Screening Passed" },
+          { label: "Enrollment Success", value: "Enrollment Success" },
+          { label: "Eligibility Passed", value: "Eligibility Passed" },
+          { label: "Ready to Screen", value: "Ready to Screen" },
+          { label: "Randomization Success", value: "Randomization Success" }
+        ];
+      }else  if(this.selectedActiveInactive == 'Inactive'){
+        this.statusoptions = [
+          { label: "All Statuses", value: "All Inactive Statuses" },
+          { label: "Pre-review Failed", value: "Pre-review Failed" },
+          { label: "Unable to Reach", value: "Unable to Reach" },
+          {label: "Contacted - Not Suitable", value: "Contacted - Not Suitable" },
+          { label: "Eligibility Failed", value: "Eligibility Failed" },
+          { label: "Declined Consent", value: "Declined Consent" },
+          { label: "Unable to Screen", value: "Unable to Screen" },
+          { label: "Withdrew Consent", value: "Withdrew Consent" },
+          { label: "Screening Failed", value: "Screening Failed" },
+          {label: "Withdrew Consent After Screening", value: "Withdrew Consent After Screening" },
+          { label: "Enrollment Failed", value: "Enrollment Failed" },
+          { label: "Randomization Failed", value: "Randomization Failed" },
+          { label: "Declined Final Consent", value: "Declined Final Consent" }
+        ];
+      }
+    }
+
+    console.log('OUTPUT this.statusoptions: ',this.statusoptions);
+    
   }
 }
