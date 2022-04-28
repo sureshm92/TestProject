@@ -10,14 +10,14 @@
              <div class="slds-p-around_large">
                 <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                    <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                      <span class="title">Create Preset</span> 
+                      <span class="title">{label.PIR_CreatePreset}</span> 
                    </div>
                    <div class="slds-col slds-size_1-of-12 close-icon">
                       <div onclick={closeModel}>
                          <lightning-icon icon-name="utility:close"
                             alternative-text="close"
                             size="small" ></lightning-icon>
-                         <span class="slds-assistive-text" onclick={closeModel}>Close</span>
+                         <span class="slds-assistive-text" onclick={closeModel}>{label.BTN_Close}</span>
                       </div>
                    </div>
                 </div>
@@ -25,7 +25,7 @@
                    <div class="slds-grid slds-wrap slds-gutters">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                             <div class="participant-text">
-                              The applied filters will be saved as a preset. Please enter a name to reference later.
+                              {label.PIR_CreatePresetPopup}
                            </div> 
                         </div>
                         
@@ -37,8 +37,8 @@
                    <div class="slds-grid slds-wrap slds-m-top_large">
                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                         <div class="slds-float_right mobile-width">                  
-                            <button title="" class="slds-button apollo-btn primary btn-height save-btn" onclick={insertPreset} disabled={isNameBlank}> Create </button>
-                            <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={closeModel}> Cancel</button>
+                            <button title="" class="slds-button apollo-btn primary btn-height save-btn" onclick={insertPreset} disabled={isNameBlank}> {label.Create} </button>
+                            <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={closeModel}> {label.BTN_Cancel}</button>
                         </div>    
                       </div>
                    </div>

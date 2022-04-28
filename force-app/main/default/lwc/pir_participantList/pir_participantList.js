@@ -1473,14 +1473,69 @@ export default class Pir_participantList extends LightningElement {
             this.showEditPreset = true;
         }
     }
-    closepresetmodel(){
+    closepresetmodel(event){console.log("D::"+JSON.stringify(event.detail));
+
+        if(event.detail.upd){
+            if(event.detail.delList.includes(this.presetSel)){
+                this.presetSel = "no preset";
+                this.template.querySelector("c-pir_filter").resetFilter(event);
+                this.template.querySelector("c-pir_filter").applyFilter();
+                this.toggleFilter();
+                this.refreshAllPreset();
+                
+            }
+            else if(event.detail.upList.includes(this.presetSel)){
+                var presets = [];
+                presets.push({label:"No Preset",value:"no preset"});
+                fetchPreset()
+                .then(data => {
+                    this.sysPresets = data;
+                    this.disablePreset = true;
+                    for(var i = 0; i<data.length ; i++){
+                        this.disablePreset = false;
+                        presets.push({ label: data[i].presetName, value: data[i].presetId });
+                    }
+                    this.presetOpts = presets;
+                    for(var i=0;i<this.sysPresets.length;i++){
+                        if(this.presetSel==this.sysPresets[i].presetId){
+                            this.filterWrapper = this.sysPresets[i];
+                            this.presetSel=this.sysPresets[i].presetId;
+                            this.isPPFiltered = false;
+                            this.totalRecordCount = -1;
+                            this.isResetPagination = true;
+                            this.fetchList();
+                            const selectEvent = new CustomEvent('resetparent', {
+                                detail: ''
+                            });
+                            this.dispatchEvent(selectEvent);
+                            this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]); 
+                            setselectedFilterasDefault ({selectedPresetId :this.presetSel })
+                            .then((result) => {
+                
+                            })
+                            .catch((error) => {
+                                console.error("Error:", error);
+                            });
+                            break;
+                        }
+                    }
+                })
+                .catch(error => {
+                    this.error = error;
+                    console.log("Error: "+error.message);
+                });
+            }
+            else{
+                this.refreshAllPreset();
+            }
+        }
         this.showEditPreset = false;
     }
     handlePresetChange(event){
         if(event.detail.value=="no preset"){
             this.template.querySelector("c-pir_filter").resetFilter(event);
             this.template.querySelector("c-pir_filter").applyFilter();
-           
+            this.toggleFilter();
         }
         else{
             for(var i=0;i<this.sysPresets.length;i++){
@@ -1510,5 +1565,21 @@ export default class Pir_participantList extends LightningElement {
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
+    }
+    get filterCount(){
+        if(!(Object.keys(this.filterWrapper).length === 0)){
+            var count = 10;
+            if(this.filterWrapper.ethnicityList){
+                if(this.filterWrapper.ethnicityList.length>0){
+                    count++;
+                }
+            }
+            if((this.filterWrapper.ageFrom && this.filterWrapper.ageFrom!="") || (this.filterWrapper.ageTo && this.filterWrapper.ageTo!="")){
+                count++;
+            }
+            
+            return "("+count+")";
+        }
+        return "";
     }
 }
