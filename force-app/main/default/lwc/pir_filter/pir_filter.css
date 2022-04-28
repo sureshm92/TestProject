@@ -10,6 +10,9 @@
     padding: 0 15px;
 }
 
+.edit .close-icon-pop{
+    display: none;
+}
 .filter-heading{
     font-size: 14px;
     color: #000000;
@@ -128,6 +131,9 @@
 .p-left{
     padding-left: 0;
 }
+.and{
+    padding-left: 5px;
+}
 @media (max-device-width: 767px) {
     .filter-area{
         width: 86.6%;
@@ -235,6 +241,9 @@
     .filter-age{
         padding-top: 28px;
     }
+    .and{
+        padding-left: 2px;
+    }
 }
 .eth .slds-no-flex{
     width: 100%;
@@ -267,6 +276,11 @@
     margin-top: 5px;
     margin-bottom: 5px;
     padding: 0 10px;
+    max-width: 117px;
+    text-align: center;
+}
+.eth .ethmore{
+    padding: 7px 0px 0px 170px;
 }
 .eth .close-img{
     cursor: pointer;
@@ -309,4 +323,10 @@
 }
 .edit .hidebutton{
     display:none;
+}
+.close-icon-pop{
+    position: absolute;
+    right: 13px;
+    top: 13px;
+    cursor: pointer;
 }
