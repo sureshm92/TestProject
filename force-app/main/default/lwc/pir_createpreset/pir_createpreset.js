@@ -1,8 +1,24 @@
 import { LightningElement,api } from 'lwc';
 import createPreset from "@salesforce/apex/PIR_HomepageController.createPreset";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import PIR_Preset_Created_Message from "@salesforce/label/c.PIR_Preset_Created_Message";
+import pir_presetUniqueName from "@salesforce/label/c.pir_presetUniqueName";
+import pir_preset_count from "@salesforce/label/c.pir_preset_count";
+import PIR_CreatePresetPopup from "@salesforce/label/c.PIR_CreatePresetPopup";
+import BTN_Close from "@salesforce/label/c.BTN_Close";
+import Create from "@salesforce/label/c.Create";
+import BTN_Cancel from "@salesforce/label/c.BTN_Cancel";
+import PIR_CreatePreset from "@salesforce/label/c.PIR_CreatePreset";
  
 export default class Pir_createpreset extends LightningElement {
+
+    label={PIR_Preset_Created_Message
+           ,pir_presetUniqueName
+            ,pir_preset_count
+            ,PIR_CreatePresetPopup
+            ,BTN_Close
+            ,Create,BTN_Cancel
+            ,PIR_CreatePreset};
 
     @api
     filterWrapper;
@@ -13,42 +29,44 @@ export default class Pir_createpreset extends LightningElement {
     connectedCallback(){
         this.isNameBlank = true;
         this.isDataloaded = true;
-        console.log('>>filterwrapper>>'+JSON.stringify(this.filterWrapper)); 
-        console.log('>>>presetName>>>'+this.filterWrapper.presetName);
     }
 
     checkCreateButton(event){
          
-        if(event.target.value.length != 0)
+         var getPresetName = event.target.value; 
+        if(getPresetName.trim())
         {
-            console.log('>>presetName>'+event.target.value);
             this.filterWrapperToInsert = JSON.parse(JSON.stringify(this.filterWrapper));
-            this.filterWrapperToInsert.presetName = event.target.value;
+            this.filterWrapperToInsert.presetName = getPresetName.trim();
             this.filterWrapperToInsert.presetId = null;
             this.isNameBlank = false;
         }
         else 
             this.isNameBlank = true;
-
     }
 
     closeModel(){
-        const closeEventModel = new CustomEvent("closepresetmodel");
+        const closeEventModel = new CustomEvent("closepresetmodel", {
+            detail: "closed"
+            });
         this.dispatchEvent(closeEventModel);
     }
-
+    
     insertPreset(){
-          
          this.isDataloaded = false;
-        createPreset({strPresetwrapper:JSON.stringify(this.filterWrapperToInsert) })
+         let presetNameEnter = this.filterWrapperToInsert.presetName;
+        let successMessage = presetNameEnter + " " +this.label.PIR_Preset_Created_Message;
+        let uniqueNameMessage = presetNameEnter + + " " +this.label.pir_presetUniqueName;
+         
+        createPreset({strPresetwrapper:JSON.stringify(this.filterWrapperToInsert),isUpdate:false })
         .then((result) => { 
             this.isDataloaded = true;
             if(result == 'duplicateName')
-            {
-                this.isDataloaded = true;
+            {  
                 const event = new ShowToastEvent({
                     title: "Error",
-                    message: "Plesae enter an unique Name",
+                    message: '{0}',
+                    messageData: [uniqueNameMessage],
                     variant: "Error",
                     mode: "sticky",
                   });
@@ -57,25 +75,27 @@ export default class Pir_createpreset extends LightningElement {
             else if(result == 'limitexced'){
                 const event = new ShowToastEvent({
                     title: "Error",
-                    message: "Preset cannot exced 5",
+                    message: this.label.pir_preset_count,
                     variant: "Error",
                     mode: "sticky",
                   });
                   this.dispatchEvent(event);
 
             }
-            else{ 
-                
-                 
+            else{  
                 const evt = new ShowToastEvent({
-                    title: this.filterWrapperToInsert.presetName +" has been created.",
-                    message: this.filterWrapperToInsert.presetName +" has been created.",
+                    title: successMessage,
+                    message: '{0}',
+                    messageData: [successMessage],
                     variant: "success",
                     mode: "dismissable"
                   });
                   this.dispatchEvent(evt);
-            const closeEventModel = new CustomEvent("closepresetmodel");
-            this.dispatchEvent(closeEventModel); 
+                 
+                  const closeEventModel = new CustomEvent("closepresetmodel", {
+                    detail: "created"
+                    });
+                this.dispatchEvent(closeEventModel); 
             }
              
         })

@@ -3,7 +3,7 @@
  */
 public without sharing class PIR_HomepageController {
   public static boolean allowSH;
-  public class ListViewWrapper implements Comparable {
+  public class ListViewWrapper { //implements Comparable {
     @AuraEnabled
     public string firstName;
     @AuraEnabled
@@ -65,20 +65,20 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public Participant_Enrollment__c per;
     // Implement the compareTo() method
-    public Integer compareTo(Object compareTo) {
-      ListViewWrapper compareToP = (ListViewWrapper) compareTo;
-      if (firstName == compareToP.firstName) {
-        if (lastName == compareToP.lastName)
-          return 0 * sortOrder;
-        if (lastName > compareToP.lastName)
-          return 1 * sortOrder;
-        return -1 * sortOrder;
-      } else if (firstName > compareToP.firstName)
-        return 1 * sortOrder;
-      return -1 * sortOrder;
-    }
+    // public Integer compareTo(Object compareTo) {
+    //   ListViewWrapper compareToP = (ListViewWrapper) compareTo;
+    //   if (firstName == compareToP.firstName) {
+    //     if (lastName == compareToP.lastName)
+    //       return 0 * sortOrder;
+    //     if (lastName > compareToP.lastName)
+    //       return 1 * sortOrder;
+    //     return -1 * sortOrder;
+    //   } else if (firstName > compareToP.firstName)
+    //     return 1 * sortOrder;
+    //   return -1 * sortOrder;
+    // }
   }
-  public static integer sortOrder = 1;
+  //public static integer sortOrder = 1;
 
   public class ListViewReturnWrapper {
     @AuraEnabled
@@ -385,8 +385,7 @@ public without sharing class PIR_HomepageController {
       if (totalCount == -1) {
         if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
-          (siteIdlist == null || siteIdlist.isEmpty()) &&
-          (String.isBlank(searchString))
+          (siteIdlist == null || siteIdlist.isEmpty())
         ) {
           studyIdlist = new List<String>();
           siteIdlist = new List<String>();
@@ -417,8 +416,7 @@ public without sharing class PIR_HomepageController {
           siteIdlist = getStudySiteForaStudy(studyIdlist);
         } else if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
-          (siteIdlist == null || siteIdlist.isEmpty()) &&
-          (String.isNotBlank(searchString))
+          (siteIdlist == null || siteIdlist.isEmpty())
         ) {
           studyIdlist = new List<String>();
           siteIdlist = new List<String>();
@@ -469,17 +467,6 @@ public without sharing class PIR_HomepageController {
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
 
       if (pageNumber > 200 & pageNumber <= 4500) {
-        // listViewWrapper = createListViewWrapper(
-        //   getAdditionalPages(
-        //     pageNumber,
-        //     totalCount,
-        //     studyIdlist,
-        //     siteIdlist,
-        //     isPPFiltered
-        //   )
-        // );
-        //for pages more than 200 starts
-        // Integer offsetLimit = (pageNumber - 1) * 10;
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
@@ -556,10 +543,10 @@ public without sharing class PIR_HomepageController {
         WHERE Initial_Visit_Required__c = TRUE AND id IN :studyIdlist
       ];
       listViewReturnWrapper.sortInitialVisit = (ivStudies != 0);
-      if (sortType != 0) {
-        sortOrder = sortType;
-        listViewReturnWrapper.listViewWrapper.sort();
-      }
+      // if (sortType != 0) {
+      //   sortOrder = sortType;
+      //   listViewReturnWrapper.listViewWrapper.sort();
+      // }
       return listViewReturnWrapper;
     } catch (Exception e) {
       System.debug('e.getMessage(): ' + e.getMessage());
@@ -654,26 +641,26 @@ public without sharing class PIR_HomepageController {
       if (isFound)
         filteredPEList.add(pe);
     }
-    peList = filteredPEList;  
-    
+    peList = filteredPEList;
+
     List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
     Integer listendindex;
-     
+
     if (filteredPEList.size() > pageNumber * 10) {
       listendindex = pageNumber * 10 - 1;
     } else {
       listendindex = filteredPEList.size() - 1;
     }
-     
-    
+
+    system.debug('>>>>>>>>>>>>>>>>>filterr' + listendindex);
+    system.debug('>>>>>>>>>>>>>>>>>filterr' + pageNumber);
     for (Integer i = (pageNumber * 10 - 10); i <= listendindex; i++) {
       perLimitList.add(filteredPEList[i]);
     }
     List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
-     
+
     listViewWrapper = createListViewWrapper(perLimitList);
-     
-     
+
     ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
 
     listViewReturnWrapper.listViewWrapper = listViewWrapper;
@@ -687,12 +674,15 @@ public without sharing class PIR_HomepageController {
       WHERE Initial_Visit_Required__c = TRUE AND id IN :studyIdlist
     ];
     listViewReturnWrapper.sortInitialVisit = (ivStudies != 0);
-     
-    if (sortType != 0) {
-      sortOrder = sortType;
-      listViewReturnWrapper.listViewWrapper.sort();
-    }
-    ListViewReturnWrapper.filterWrapper = (PresetWrapper) JSON.deserialize(filterWrapper,PresetWrapper.class);
+
+    // if (sortType != 0) {
+    //   sortOrder = sortType;
+    //   listViewReturnWrapper.listViewWrapper.sort();
+    // }
+    ListViewReturnWrapper.filterWrapper = (PresetWrapper) JSON.deserialize(
+      filterWrapper,
+      PresetWrapper.class
+    );
     return ListViewReturnWrapper;
   }
   //presets
@@ -720,7 +710,10 @@ public without sharing class PIR_HomepageController {
         StudyId__c,
         Study_Site_Id__c
       FROM Preset_Filter__c
-      WHERE User_Preset__c = :userinfo.getUserId()
+      WHERE
+        User_Preset__c = :userinfo.getUserId()
+        AND Community_Name__c = :UserContext.getCurrentUserMode()
+          .template.templateName
     ]) {
       presetwrapper pw = new presetwrapper();
       pw.ageFrom = pf.AgeFrom__c;
@@ -748,7 +741,38 @@ public without sharing class PIR_HomepageController {
     return pwlist;
   }
   @AuraEnabled
-  public static String createPreset(String strPresetwrapper) {
+  public static String deletePreset(String strPresetwrapper) {
+    presetwrapper objPresetWrapper = (presetwrapper) JSON.deserialize(
+      strPresetwrapper,
+      presetwrapper.class
+    );
+    delete [
+      SELECT id
+      FROM Preset_Filter__c
+      WHERE id = :objPresetWrapper.presetId
+    ];
+    if (objPresetWrapper.isDefault) {
+      List<Preset_Filter__c> lstPreset = [
+        SELECT id, createddate
+        FROM Preset_Filter__c
+        WHERE
+          Community_Name__c = :UserContext.getCurrentUserMode()
+            .template.templateName
+        ORDER BY CreatedDate DESC
+        LIMIT 1
+      ];
+      if (!lstPreset.isEmpty()) {
+        Preset_Filter__c objPreset = new Preset_Filter__c(
+          Id = lstPreset[0].id,
+          Default_Preset__c = true
+        );
+        update objPreset;
+      }
+    }
+    return 'deleted';
+  }
+  @AuraEnabled
+  public static String createPreset(String strPresetwrapper, Boolean isUpdate) {
     presetwrapper objPresetWrapper = (presetwrapper) JSON.deserialize(
       strPresetwrapper,
       presetwrapper.class
@@ -760,36 +784,57 @@ public without sharing class PIR_HomepageController {
     String strStatus = '';
     String strSource = '';
     String strEthnicity = '';
-
+    String comName = UserContext.getCurrentUserMode().template.templateName;
     String strPresetName = objPresetWrapper.presetName;
     ID currentUserId = UserInfo.getUserId();
-
-    Integer intcount = [SELECT Count() from Preset_Filter__c where User_Preset__c =: currentUserId];
-    if(intcount >= 5)
-      return 'limitexced'; 
-    list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
-    lstExistingPreset = [
-      SELECT ID
-      FROM Preset_Filter__c
-      WHERE Preset_Name__c = :strPresetName AND User_Preset__c = :currentUserId
-    ];
-    if (!lstExistingPreset.isEmpty()) {
-      return 'duplicateName';
-    } 
-     
+    if (!isUpdate) {
+      Integer intcount = [
+        SELECT COUNT()
+        FROM Preset_Filter__c
+        WHERE User_Preset__c = :currentUserId AND Community_Name__c = :comName
+      ];
+      if (intcount >= 5)
+        return 'limitexced';
+      list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
+      lstExistingPreset = [
+        SELECT ID
+        FROM Preset_Filter__c
+        WHERE
+          Preset_Name__c = :strPresetName
+          AND User_Preset__c = :currentUserId
+          AND Community_Name__c = :comName
+      ];
+      if (!lstExistingPreset.isEmpty()) {
+        return 'duplicateName';
+      }
+    } else {
+      list<Preset_Filter__c> lstExistingPreset = new List<Preset_Filter__c>();
+      lstExistingPreset = [
+        SELECT ID
+        FROM Preset_Filter__c
+        WHERE
+          Preset_Name__c = :strPresetName
+          AND User_Preset__c = :currentUserId
+          AND id != :objPresetWrapper.presetId
+          AND Community_Name__c = :comName
+      ];
+      if (!lstExistingPreset.isEmpty()) {
+        return 'duplicateName';
+      }
+    }
     strStudyId = String.join(objPresetWrapper.studyList, ';');
     //Site id list
-    
+
     strSiteId = String.join(objPresetWrapper.siteList, ';');
     //Status
-    
+
     strStatus = String.join(objPresetWrapper.status, ';');
     //Source
-    
+
     strSource = String.join(objPresetWrapper.source, ';');
     //Ethnicity
-    
-    strEthnicity = String.join(objPresetWrapper.ethnicityList, ';');
+    if(objPresetWrapper.ethnicityList != null)
+      strEthnicity = String.join(objPresetWrapper.ethnicityList, ';');
 
     Preset_Filter__c objPreset = new Preset_Filter__c();
 
@@ -811,22 +856,54 @@ public without sharing class PIR_HomepageController {
     objPreset.Study_Site_Id__c = strSiteId;
     objPreset.User_Preset__c = currentUserId;
     objPreset.Default_Preset__c = true;
+    objPreset.Community_Name__c = comName;
     if (String.isNotBlank(objPresetWrapper.presetId))
       objPreset.Id = objPresetWrapper.presetId;
 
     lstPresetFilter.add(objPreset);
-
-    for (Preset_Filter__c objPresetExist : [
-      SELECT ID, Default_Preset__c
-      FROM Preset_Filter__c
-      WHERE User_Preset__c = :currentUserId AND Default_Preset__c = TRUE
-    ]) {
-      objPresetExist.Default_Preset__c = false;
-      lstPresetFilter.add(objPresetExist);
+    if (!isUpdate) {
+      for (Preset_Filter__c objPresetExist : [
+        SELECT ID, Default_Preset__c
+        FROM Preset_Filter__c
+        WHERE
+          User_Preset__c = :currentUserId
+          AND Default_Preset__c = TRUE
+          AND Community_Name__c = :comName
+      ]) {
+        objPresetExist.Default_Preset__c = false;
+        lstPresetFilter.add(objPresetExist);
+      }
     }
 
     upsert lstPresetFilter;
     return 'success';
+  }
+
+  @AuraEnabled
+  public static void setselectedFilterasDefault(String selectedPresetId) {
+    List<Preset_Filter__c> lstPresetFilterToUpdate = new List<Preset_Filter__c>();
+    Id currentUserId = userinfo.getUserId();
+    for (Preset_Filter__c objPresetExist : [
+      SELECT ID, Default_Preset__c
+      FROM Preset_Filter__c
+      WHERE
+        User_Preset__c = :currentUserId
+        AND Default_Preset__c = TRUE
+        AND ID != :selectedPresetId
+        AND Community_Name__c = :UserContext.getCurrentUserMode()
+          .template.templateName
+    ]) {
+      objPresetExist.Default_Preset__c = false;
+      lstPresetFilterToUpdate.add(objPresetExist);
+    }
+    if (!lstPresetFilterToUpdate.IsEmpty()) {
+      Preset_Filter__c objPresetToUpdate = new Preset_Filter__c(
+        Id = selectedPresetId,
+        Default_Preset__c = true
+      );
+      lstPresetFilterToUpdate.add(objPresetToUpdate);
+      update lstPresetFilterToUpdate;
+    }
   }
 
   private static List<ListViewWrapper> createListViewWrapper(
@@ -904,123 +981,6 @@ public without sharing class PIR_HomepageController {
     return listViewWrapper;
   }
 
-  private static List<Participant_Enrollment__c> getAdditionalPages(
-    Integer pageNumber,
-    Integer totalCount,
-    List<Id> studyIdlist,
-    List<Id> siteIdlist,
-    Boolean isPPFiltered
-  ) {
-    Integer limitOfRecords = (pageNumber * 10);
-    List<String> status = new List<String>();
-    status.add('Received');
-    status.add('Pre-review Passed');
-    status.add('In Wash Out Period');
-    status.add('Successfully Contacted');
-    status.add('Contact Attempted');
-    status.add('Eligibility Passed');
-    status.add('Screening Passed');
-    status.add('Screening In Progress');
-    status.add('Screening Passed');
-    status.add('Screening In Progress - Wash Out Period');
-    status.add('Ready to Screen');
-    status.add('Enrollment Success');
-    status.add('Randomization Success');
-    status.add('Pre-review Failed');
-    status.add('Unable to Reach');
-    status.add('Contacted - Not Suitable');
-    status.add('Eligibility Failed');
-    status.add('Declined Consent');
-    status.add('Unable to Screen');
-    status.add('Withdrew Consent');
-    status.add('Withdrew Consent After Screening');
-    status.add('Enrollment Failed');
-    status.add('Randomization Failed');
-    status.add('Declined Final Consent');
-
-    List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
-    if (isPPFiltered == true) {
-      perList = [
-        SELECT
-          Id,
-          Name,
-          Participant__r.First_Name__c,
-          Participant__r.Last_Name__c,
-          Participant__r.Phone__c,
-          Clinical_Trial_Profile__r.Study_Code_Name__c,
-          Study_Site__c,
-          Study_Site__r.name,
-          Clinical_Trial_Profile__c,
-          Referral_Source__c,
-          HighRisk_Indicator__c,
-          High_Priority__c,
-          PerCounter__c,
-          Participant__c,
-          Participant__r.Emancipation_in_progress__c,
-          Participant_Status__c,
-          HCP__c,
-          HCP__r.HCP_Contact__r.Name,
-          PI_Contact__c,
-          PI_Contact__r.Name,
-          Source_Type__c
-        FROM Participant_Enrollment__c
-        WHERE
-          Study_Site__c IN :siteIdlist
-          AND Participant_Status__c IN :status
-          AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE
-          OR Invited_To_PP_Date__c = NULL)
-          AND Participant__r.Email__c != NULL
-          AND Participant__r.Adult__c = TRUE
-          AND Study_Site__r.Study_Site_Type__c != 'Virtual'
-          AND Study_Site__r.Study_Site_Type__c != 'Hybrid'
-          AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE
-          AND Permit_IQVIA_to_contact_about_study__c = TRUE
-          AND Clinical_Trial_Profile__r.CommunityTemplate__c != :system.Label.Janssen_Community_Template_Name
-          AND Study_Site__r.Suppress_Participant_Emails__c = FALSE
-          AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
-          AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-        ORDER BY PerCounter__c DESC
-        LIMIT :limitOfRecords
-      ];
-    } else {
-      perList = [
-        SELECT
-          Id,
-          Name,
-          Participant__r.First_Name__c,
-          Participant__r.Last_Name__c,
-          Participant__r.Phone__c,
-          Clinical_Trial_Profile__r.Study_Code_Name__c,
-          Study_Site__c,
-          Study_Site__r.name,
-          Clinical_Trial_Profile__c,
-          Referral_Source__c,
-          HighRisk_Indicator__c,
-          High_Priority__c,
-          PerCounter__c,
-          Participant__c,
-          Participant__r.Emancipation_in_progress__c,
-          Participant_Status__c,
-          HCP__c,
-          HCP__r.HCP_Contact__r.Name,
-          PI_Contact__c,
-          PI_Contact__r.Name,
-          Source_Type__c
-        FROM Participant_Enrollment__c
-        WHERE Study_Site__c IN :siteIdlist AND Participant_Status__c IN :status
-        ORDER BY PerCounter__c DESC
-        LIMIT :limitOfRecords
-      ];
-    }
-
-    List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
-    for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
-      perLimitList.add(perList[i]);
-    }
-
-    return perLimitList;
-  }
-
   @AuraEnabled
   public static List<Study_Site__c> getStudySite() {
     Id piContactId = CommunityService.getUserContact().Id;
@@ -1033,6 +993,8 @@ public without sharing class PIR_HomepageController {
         Site__r.Name,
         Clinical_Trial_Profile__c,
         Clinical_Trial_Profile__r.Study_Code_Name__c,
+        Clinical_Trial_Profile__r.Promote_to_SH__c,
+        Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
         Clinical_Trial_Profile__r.CommunityTemplate__c,
         Principal_Investigator__c
       FROM Study_Site__c
@@ -1393,6 +1355,10 @@ public without sharing class PIR_HomepageController {
     public List<Id> ctpNoAccess;
     @AuraEnabled
     public Map<Id, String> siteAccessLevels;
+    @AuraEnabled
+    public Map<Id, Boolean> studyToPrmoteDCT;
+    @AuraEnabled
+    public Map<Id, String> studyToFinalStep;
   }
 
   @AuraEnabled
@@ -1404,6 +1370,8 @@ public without sharing class PIR_HomepageController {
       String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
       List<Study_Site__c> studySiteList = getStudySite();
       Map<String, Id> studyMap = new Map<String, Id>();
+      Map<Id, Boolean> studyToPrmoteDCT = new Map<Id,Boolean>();
+      Map<Id, String> studyToFinalStep = new Map<Id,String>();
       Map<Id, List<Study_Site__c>> studySiteMap = new Map<Id, List<Study_Site__c>>();
       for (Study_Site__c s : studySiteList) {
         if (sponsorName == janssen) {
@@ -1412,6 +1380,8 @@ public without sharing class PIR_HomepageController {
               s.Clinical_Trial_Profile__r.Study_Code_Name__c,
               s.Clinical_Trial_Profile__r.Id
             );
+            studyToPrmoteDCT.put(s.Clinical_Trial_Profile__r.Id, s.Clinical_Trial_Profile__r.Promote_to_SH__c);
+            studyToFinalStep.put(s.Clinical_Trial_Profile__r.Id, s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c);
             if (!studySiteMap.containsKey(s.Clinical_Trial_Profile__r.Id)) {
               List<Study_Site__c> stList = new List<Study_Site__c>();
               stList.add(s);
@@ -1430,6 +1400,8 @@ public without sharing class PIR_HomepageController {
               s.Clinical_Trial_Profile__r.Study_Code_Name__c,
               s.Clinical_Trial_Profile__r.Id
             );
+            studyToPrmoteDCT.put(s.Clinical_Trial_Profile__r.Id, s.Clinical_Trial_Profile__r.Promote_to_SH__c);
+            studyToFinalStep.put(s.Clinical_Trial_Profile__r.Id, s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c);
             if (!studySiteMap.containsKey(s.Clinical_Trial_Profile__r.Id)) {
               List<Study_Site__c> stList = new List<Study_Site__c>();
               stList.add(s);
@@ -1445,6 +1417,8 @@ public without sharing class PIR_HomepageController {
         }
       }
       sswrap.ctpMap = studyMap;
+      sswrap.studyToPrmoteDCT = studyToPrmoteDCT;
+      sswrap.studyToFinalStep = studyToFinalStep;
       sswrap.studySiteMap = studySiteMap;
       return sswrap;
     } catch (Exception e) {
@@ -2039,5 +2013,10 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static string fetchCurrentUserLanguage() {
+    return UserInfo.getLanguage();
   }
 }
