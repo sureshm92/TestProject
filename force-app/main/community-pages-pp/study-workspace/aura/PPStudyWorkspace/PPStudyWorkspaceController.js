@@ -87,7 +87,8 @@
                         for (const item in teleVendors) {
                             if (teleVendors != null) {
                                 isTeleVendorChecked =
-                                    teleVendors[item].Televisit_Vendor__c === 'Vonage';
+                                    // teleVendors[item].Televisit_Vendor__c === 'Vonage';
+                                    teleVendors[item].Name === 'Vonage';
                                 break;
                             }
                         }
