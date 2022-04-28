@@ -53,6 +53,11 @@
 }
 
 /*End*/
+
+.THIS .pbottom{
+    padding-bottom: 35px !important;
+}
+
 .THIS .ss-lightning-input label {
     height: 21px;
     color: #444;

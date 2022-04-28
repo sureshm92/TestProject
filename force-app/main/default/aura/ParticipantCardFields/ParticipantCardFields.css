@@ -5,6 +5,9 @@
  .THIS {
     margin-bottom: 15px;
 }
+.THIS .mypatients{
+    margin-bottom: 19px !important;
+}
 
 .THIS .vpi-fields {
     padding: 0 0 20px 0;

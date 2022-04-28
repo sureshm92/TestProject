@@ -115,6 +115,19 @@
     padding-top: 20px;
     padding-bottom: 0px;
 }
+.THIS .textalign3 {
+    width: auto;
+    word-break: break-word;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+    padding-left: 12px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+}
 
 .THIS .borderdiv {
     border-bottom: 1px solid rgb(211, 211, 211);
