@@ -1,3 +1,13 @@
+.custome-width{
+    width: 1000px;
+    max-width: 1000px;
+}
+.scroll-bar{
+    height: 46vh;
+    overflow: auto;
+    padding: 0px 5px 0px 0px;
+    overflow-x: hidden;
+}
 .title {
     color: #000000;
     font-family: "Proxima Nova";
@@ -26,7 +36,7 @@
 }
 .close-icon{
     cursor: pointer;
-    padding-left: 10px;
+    padding-left: 50px;
 }
 .btn-height{
     height: 40px;
@@ -59,6 +69,8 @@
 }
 .pen{
     zoom: 0.8;
+    position: absolute;
+    margin-top: 38px;
 }
 .filter-heading{
     font-size: 14px;
@@ -72,7 +84,17 @@
 .p-left-none{
     padding-left: 0;
 }
+.border-line-bott{
+    border-bottom: 1.5px solid #D4D4D4;
+    width: 98%;
+    margin: 0 auto;
+}
+
 @media (max-device-width: 767px) {
+    .custome-width{
+        width: auto;
+        max-width: unset;
+    }
     .model-small{
         width: auto;
         min-width: auto;
@@ -103,4 +125,16 @@
     .model-small{
         width: 470px;
     }
+}
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 2px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
 }

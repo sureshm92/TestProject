@@ -11441,6 +11441,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delete and Close</value>
     </labels>
     <labels>
+        <fullName>PIR_Delete_Preset_Popup_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
+        <value>Are you Sure you want to delete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Preset_Popup_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_2</shortDescription>
+        <value>This cannot be undone.</value>
+    </labels>
+    <labels>
         <fullName>PIR_In_Wash_Out_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11509,6 +11523,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Declined</shortDescription>
         <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>pir_Delete_Btn</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Delete_Btn</shortDescription>
+        <value>Delete</value>
     </labels>
     <labels>
         <fullName>PIR_Did_Not_Attend_Appointment</fullName>
@@ -11607,6 +11628,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Trial Complete</shortDescription>
         <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>pir_preset_count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_preset_count</shortDescription>
+        <value>You have reached maximum permissible limit, please delete a preset to continue.</value>
+    </labels>
+    <labels>
+        <fullName>pir_presetUniqueName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_presetUniqueName</shortDescription>
+        <value>preset already exists. Please enter a different preset name to continue with the action.	</value>
+    </labels>
+    <labels>
+        <fullName>pir_updatePreset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_updatePreset</shortDescription>
+        <value>has been succesfully updated.</value>
     </labels>
     <labels>
         <fullName>PIR_uploadFile_exced</fullName>
