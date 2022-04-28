@@ -14,7 +14,7 @@
                 </div>
                 <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter " data-id="filterdiv">
                     <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter} disabled={disabledFilter}>
-                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xx-small filter-color">Filter</span>
+                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xx-small filter-color">Filter {filterCount}</span>
                     </button>      
                     <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>   
                         <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color"></span>
@@ -36,7 +36,7 @@
             </div>
         </div> -->
         <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
-                <c-pir_filter sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper}></c-pir_filter>
+                <c-pir_filter sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
         </div>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
