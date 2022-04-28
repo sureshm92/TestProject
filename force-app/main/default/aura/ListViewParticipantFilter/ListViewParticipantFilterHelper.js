@@ -426,9 +426,9 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Present_Age__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Age__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords[i]['pe']['Participant__r']['Present_Age__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Participant__r']['Age__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
