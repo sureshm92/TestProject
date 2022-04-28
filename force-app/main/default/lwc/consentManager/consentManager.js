@@ -114,6 +114,15 @@ export default class ConsentManager extends LightningElement {
     }
     set participantCountry(value) {
         this.isCountryUS = (value == "US"? true : false);
+        if(this.isCountryUS && this._callSource == 'addParticipant' && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
+            && this.participantContact.Participant_Opt_In_Status_SMS__c 
+            && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
+
+            this.participantContact.Participant_Opt_In_Status_Emails__c = false;
+            this.participantContact.Participant_Opt_In_Status_SMS__c = false;
+            this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
+            this.fireConsentChange('outreach');
+        }
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
     }
