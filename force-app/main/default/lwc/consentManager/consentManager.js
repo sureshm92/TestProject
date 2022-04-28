@@ -114,6 +114,15 @@ export default class ConsentManager extends LightningElement {
     }
     set participantCountry(value) {
         this.isCountryUS = (value == "US"? true : false);
+        if(this.isCountryUS && this._callSource == 'addParticipant' && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
+            && this.participantContact.Participant_Opt_In_Status_SMS__c 
+            && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
+
+            this.participantContact.Participant_Opt_In_Status_Emails__c = false;
+            this.participantContact.Participant_Opt_In_Status_SMS__c = false;
+            this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
+            this.fireConsentChange('outreach');
+        }
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
     }
@@ -271,12 +280,9 @@ export default class ConsentManager extends LightningElement {
         .then((result) => {
             this.studySite = result;
             this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
-            if(this._callSource == 'importParticipant' ){
-                
-                this.isCountryUS = (this.studySite.Site__r.BillingCountryCode == "US"? true : false);
-                if(this.studySite.Site__r.BillingCountryCode!=null){
-                    this.isCountryUS = true;
-                }
+            if(this._callSource == 'importParticipant'){
+                let siteCountry = this.studySite.Site__r.BillingCountryCode;
+                this.isCountryUS = (siteCountry == "US" || siteCountry == '' || siteCountry == undefined ? true : false);
                     this.updateStudyConsentChecks();
                     this.updateOutreachConsentChecks();
             }
