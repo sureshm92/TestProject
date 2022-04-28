@@ -166,14 +166,13 @@ export default class ConsentManager extends LightningElement {
     }
 
     updateStudyConsentChecks(){
-        if(this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
-            && this.pe.Permit_SMS_Text_for_this_study__c){
+        if((this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
+            && this.pe.Permit_SMS_Text_for_this_study__c)
+            ||
+            (!this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c)
+            ){
             this.consentModel.studyConsent = true;
-        }
-        else if(!this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c){
-            this.consentModel.studyConsent = true;
-        }
-        else{
+        }else{
             this.consentModel.studyConsent = false;
         }
         this.consentModel.studySMSConsent = (this.pe.Permit_SMS_Text_for_this_study__c ? true : false);
