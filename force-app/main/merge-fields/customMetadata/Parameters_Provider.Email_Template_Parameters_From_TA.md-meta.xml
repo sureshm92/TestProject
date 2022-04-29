@@ -11,7 +11,9 @@
         <value xsi:type="xsd:string">ContactID=Televisit__r.Participant_Enrollment__r.Participant_Contact__c
 VisitName=Televisit__r.Title__c
 VisitDate=Televisit__r.Visit_Date__c
-VisitDuration=Televisit__r.Duration__c</value>
+VisitDuration=Televisit__r.Duration__c
+PIFirstName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.FirstName
+PILastName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

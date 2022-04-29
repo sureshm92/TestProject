@@ -34,6 +34,10 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Task_Instant_Del_Type';
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
 
+    //for Televisits
+    public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
+
+
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
     public static final String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
