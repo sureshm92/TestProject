@@ -1642,13 +1642,17 @@ public without sharing class PIR_HomepageController {
   ) {
     bulkStatusReasonWrapper stWrap = new bulkStatusReasonWrapper();
     PIR_Participant_Workflow_Outcome__mdt pwr = new PIR_Participant_Workflow_Outcome__mdt();
-    pwr = [
+    if(newStatus!='Ready to Screen'){
+      pwr = [
       SELECT Status_Value__c, Step__c, Reasons_List__c, Order__c
       FROM PIR_Participant_Workflow_Outcome__mdt
       WHERE Status_Value__c = :newStatus
     ];
     stWrap.reason = pwr.Reasons_List__c;
     stWrap.Step = pwr.Step__c;
+    }
+    
+    
     stWrap.finalConsent = [
       SELECT Final_Consent_Required__c
       FROM Clinical_Trial_Profile__c
