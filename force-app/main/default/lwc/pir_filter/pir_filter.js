@@ -6,6 +6,7 @@ import ethinicity_field from "@salesforce/schema/Participant__c.Ethnicity__c";
 import RH_Ethnicity from "@salesforce/label/c.RH_Ethnicity";
 
 export default class Filtertest extends LightningElement {
+  @api maindivcls;
   @api
   filterClass = 'filter-area';
   @api
@@ -60,42 +61,12 @@ export default class Filtertest extends LightningElement {
 
   studyToPrmoteDCT;
   studyToFinalStep;
+  isAnythingChangedForReset = false;
 
-  activeStatusList = [
-    "Received",
-    "Pre-review Passed",
-    "Contact Attempted",
-    "Successfully Contacted",
-    "Screening In Progress",
-    "In Wash Out Period",
-    "Screening Passed",
-    "Enrollment Success",
-    "Eligibility Passed",
-    "Ready to Screen",
-    "Randomization Success"
-  ];
-  inactiveStatusList = [
-    "Pre-review Failed",
-    "Unable to Reach",
-    "Contacted - Not Suitable",
-    "Eligibility Failed",
-    "Declined Consent",
-    "Unable to Screen",
-    "Withdrew Consent",
-    "Screening Failed",
-    "Withdrew Consent After Screening",
-    "Enrollment Failed",
-    "Randomization Failed",
-    "Declined Final Consent"
-  ];
-
-  // connectedCallback() {
   filterFetched = false;
   @api
   get filters(){ return true;}
   set filters(value){
-    console.log('fiter val : ',JSON.stringify(value));
-    console.log( Object.keys(value).length === 0);
     var presetSellection = value;
     
     if(!this.filterFetched){
@@ -108,7 +79,6 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.source = scList;
       getStudyStudySite()
         .then((result) => {
-          // console.log("Result $$$$$$$$", result);
           if (result.ctpMap) {
             var conts = result.ctpMap;
             this.studyToPrmoteDCT = result.studyToPrmoteDCT;
@@ -131,7 +101,6 @@ export default class Filtertest extends LightningElement {
           if (result.studySiteMap) {
             this.studyToStudySite = result.studySiteMap;
             var picklist_Value = this.defaultStudy;
-            // console.log(picklist_Value);
             var conts1 = this.studyToStudySite;
             let options1 = [];
             options1.push({ label: "All Study Site", value: "All Study Site" });
@@ -172,24 +141,6 @@ export default class Filtertest extends LightningElement {
           console.error("Error:", error);
         });
 
-      // this.statusoptions = [
-      //   { label: "All Statuses", value: "All Active Statuses" },
-      //   { label: "Received", value: "Received" },
-      //   { label: "Pre-review Passed", value: "Pre-review Passed" },
-      //   { label: "Contact Attempted", value: "Contact Attempted" },
-      //   { label: "Successfully Contacted", value: "Successfully Contacted" },
-      //   { label: "Screening In Progress", value: "Screening In Progress" },
-      //   {
-      //     label: "In Wash Out Period",
-      //     value: "In Wash Out Period"
-      //   },
-      //   { label: "Screening Passed", value: "Screening Passed" },
-      //   { label: "Enrollment Success", value: "Enrollment Success" },
-      //   { label: "Eligibility Passed", value: "Eligibility Passed" },
-      //   { label: "Ready to Screen", value: "Ready to Screen" },
-      //   { label: "Randomization Success", value: "Randomization Success" }
-      // ];
-
 
     }
   }
@@ -206,6 +157,9 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = presetSellection.ageTo;
     this.ageEndValue = presetSellection.ageFrom;
     this.defaultSex = presetSellection.sex;
+    if(!presetSellection.sex){
+      this.defaultSex="All";
+    }
     this.defaultHighRisk = presetSellection.highRisk == 'true';
     this.defaultHighPriority = presetSellection.highPriority;
     this.defaultComorbidities = presetSellection.comorbidities == 'true';
@@ -281,24 +235,28 @@ export default class Filtertest extends LightningElement {
 
     if(presetSellection.ethnicityList){
       let sysVal = presetSellection.ethnicityList;
+      this.removeAllE();
       for(var i=0;i<sysVal.length;i++){
           this.template.querySelector("input[value='"+sysVal[i]+"']").checked = true;
           this.fcsEth = false;   
-          this.setEthinicityList();        
-          this.template.querySelector(".eBox").blur();
-      }
+      }      
+      this.setEthinicityList();        
+      this.template.querySelector(".eBox").blur();
     }
     else{
       this.removeAllE();
     }
     this.filterWrapper = JSON.parse(JSON.stringify(presetSellection));
-
+    
+    const updfilter = new CustomEvent("updfilter", {
+      detail: {fw : this.filterWrapper,err:false}
+      });
+      this.dispatchEvent(updfilter);
   }
 
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
     this.defaultStudy = picklist_Value;
-    // console.log(picklist_Value);
     var conts = this.studyToStudySite;
     let options = [];
     options.push({ label: "All Study Site", value: "All Study Site" });
@@ -344,7 +302,6 @@ export default class Filtertest extends LightningElement {
 
   createPreset() {
     this.filterPresetHandler();
-    console.log("filterWrapper before child" + JSON.stringify(this.filterWrapper));
     this.shoulddisplaypopup  = true;
   }
   closepresetmodel(event){
@@ -356,9 +313,6 @@ export default class Filtertest extends LightningElement {
   }
 
   filterPresetHandler() {
-    console.log("study " + this.selectedStudy);
-    console.log("site " + this.selectedSite);
-    console.log("selectedStatus " + this.selectedStatus);
     var filterStudy = [];
     var filterSite = [];
 
@@ -390,9 +344,6 @@ export default class Filtertest extends LightningElement {
 
     var filterStatus =
       this.selectedStatus != null ? this.selectedStatus : this.defaultStatus;
-    console.log("study " + filterStudy);
-    console.log("site " + filterSite);
-    console.log("filterStatus " + filterStatus);
     this.filterWrapper.studyList = filterStudy;
     this.filterWrapper.siteList = filterSite;
     this.filterWrapper.ethnicityList = [];
@@ -533,10 +484,10 @@ export default class Filtertest extends LightningElement {
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
 
-    if (Number(a1) > Number(a2)) {
+    if (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150)) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
-        .setCustomValidity("Invalid Age Range");
+        .setCustomValidity("Allowed range 0-150");
       this.isbuttonenabled = true;
     } else {
       this.template
@@ -555,10 +506,10 @@ export default class Filtertest extends LightningElement {
     this.ageEndValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if (Number(a1) > Number(a2)) {
+    if (Number(a1) > Number(a2) ||  (Number(a2) < 0 ||  Number(a2) > 150)) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
-        .setCustomValidity("Invalid Age Range");
+        .setCustomValidity("Allowed range 0-150");
       this.isbuttonenabled = true;
     } else {
       this.template
@@ -723,6 +674,7 @@ export default class Filtertest extends LightningElement {
   }
   @api
   resetFilter(event){
+    
     this.selectedActiveInactive = this.activeoptions[0].value;
     this.defaultStudy = this.studylist[1].value;
     this.selectedStudy = this.defaultStudy;
@@ -779,7 +731,23 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.initialVisitEndDate = "";
     this.filterWrapper.presetId = "";
     this.filterWrapper.presetName = "";
+    this.isAnythingChangedForReset = true;
 
+
+    this.template
+        .querySelector('lightning-input[data-name="agestart"]')
+        .setCustomValidity("");
+    this.template
+      .querySelector('lightning-input[data-name="agestart"]')
+      .reportValidity();
+    this.template
+        .querySelector('lightning-input[data-name="datestart"]')
+        .setCustomValidity("");
+    this.template
+        .querySelector('lightning-input[data-name="datestart"]')
+        .reportValidity();
+      this.isbuttonenabled = false;
+    
   }
   sendFilterUpdates(){
     if(this.filterClass=="edit"){
@@ -789,6 +757,7 @@ export default class Filtertest extends LightningElement {
       });
       this.dispatchEvent(updfilter);
     }
+    this.isAnythingChangedForReset = false;
   }
   handleCloseFilter(){
       const closefilter = new CustomEvent("closefilter", {
@@ -911,6 +880,7 @@ export default class Filtertest extends LightningElement {
           { label: "Screening Passed", value: "Screening Passed" },
           { label: "Enrollment Success", value: "Enrollment Success" },
           { label: "Eligibility Passed", value: "Eligibility Passed" },
+          { label: "Sent to DCT", value: "Sent to DCT" },
           { label: "Ready to Screen", value: "Ready to Screen" },
           { label: "Randomization Success", value: "Randomization Success" }
         ];
