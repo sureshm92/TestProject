@@ -28,9 +28,16 @@ import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
 import Submit from '@salesforce/label/c.Submit';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+import My_Participant from '@salesforce/label/c.My_Participant';
+import pir_Participant_List from '@salesforce/label/c.pir_Participant_List';
+import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
+import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
 
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
+import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -98,9 +105,36 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PIR_Save_Changes,
     PIR_Unsaved_Changes,
     BTN_Save,
-    PIR_Discard
+    PIR_Discard,
+    rtlLanguages,
+    My_Participant,
+    pir_Participant_List,
+    PG_AC_Select,
+    PG_DBPI_L_study_site
   };
   
+  @api isRTL = false; 
+  maindivcls;
+  isLanguageSelected = false;
+  
+  connectedCallback() {
+    if(!this.isLanguageSelected) {
+      getUserLanguage() 
+        .then((result) => {
+          this.isRTL = this.label.rtlLanguages.includes(result);
+          this.isLanguageSelected = true;
+          if(this.isRTL) {
+            this.maindivcls = 'rtl';
+          }else{
+            this.maindivcls = 'ltr';
+          }
+        })
+        .catch((error) => {
+              this.error = error;
+        });
+    }
+  }
+
   @wire(getStudyAccessLevel)
   wiredAccess({ error, data }) {
     if (data) {
@@ -179,9 +213,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.isMedicalHistryAccess = false; 
       } 
     } 
-     
+    
+    this.template.querySelector("c-pir_participant-header").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-header").selectedPE =this.selectedPE;
-    this.template.querySelector("c-pir_participant-header").doSelectedPI();
+    this.template.querySelector("c-pir_participant-header").doSelectedPI();         
+    this.template.querySelector("c-pir_participant-Status-Details").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
@@ -716,7 +752,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.bulkSubmit = false;  
     }
   }
-
+  
   handleReasonChange(event){
     if(event.target.value == null || event.target.value == ' '){
        this.selectedreason = '';
@@ -754,6 +790,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
        this.bulkStatusSpinner = true;
        let study = this.studyID.toString();
        console.log('work'+study);
+       
        bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
       .then(result => {
           let reasons = result.reason;

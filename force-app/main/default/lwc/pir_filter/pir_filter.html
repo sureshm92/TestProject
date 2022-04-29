@@ -1,4 +1,5 @@
 <template>
+  <div class={maindivcls}>
   <div class={filterClass}>
     <template if:false={loaded}>
       <lightning-spinner alternative-text="Loading"></lightning-spinner>
@@ -205,8 +206,6 @@
                       type="number"
                       id="text-input-id-68"
                       name="input1"
-                      min="0"
-                      max="150"
                       value={ageStartValue}
                       data-name="agestart"
                       onchange={handleAgeStartChange}
@@ -242,8 +241,6 @@
                       type="number"
                       id="text-input-id-69"
                       name="input11"
-                      min="0"
-                      max="150"
                       value={ageEndValue}
                       data-name="ageend"
                       onchange={handleAgeEndChange}
@@ -629,6 +626,7 @@
               reset-btn
               slds-p-around_x-medium
             "
+            disabled={isAnythingChangedForReset}
             onclick={resetFilter}
           >
             Reset
@@ -641,8 +639,8 @@
               filter-btn
               slds-p-around_x-medium
             "
-            onclick={createPreset}
             disabled={isbuttonenabled}
+            onclick={createPreset}
           >
             Create Preset
           </button>
@@ -654,8 +652,8 @@
               filter-btn
               slds-p-around_x-medium apply-fil-btn
             "
-            onclick={applyFilter}
             disabled={isbuttonenabled}
+            onclick={applyFilter}
           >
             Apply Filters
           </button>
@@ -664,8 +662,9 @@
     </div>
     <!-- button -->
   </div>
+  </div>
   <!-- filter-area -->
   <template if:true={shoulddisplaypopup}>
-      <c-pir_createpreset onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}> </c-pir_createpreset>
+      <c-pir_createpreset maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}> </c-pir_createpreset>
   </template>
 </template>
