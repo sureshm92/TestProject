@@ -19,7 +19,8 @@ export default class Pir_createpreset extends LightningElement {
             ,BTN_Close
             ,Create,BTN_Cancel
             ,PIR_CreatePreset};
-
+    
+    @api maindivcls;    
     @api
     filterWrapper;
     filterWrapperToInsert;
