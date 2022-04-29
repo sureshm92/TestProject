@@ -671,6 +671,8 @@ export default class Filtertest extends LightningElement {
     }
     this.selectedEthinicity = [];
     this.ethListStr = "";
+    this.setEthinicityList();
+    this.template.querySelector(".eBox").blur();
   }
   @api
   resetFilter(event){
