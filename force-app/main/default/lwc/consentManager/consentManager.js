@@ -55,6 +55,7 @@ export default class ConsentManager extends LightningElement {
     _studySiteId;
     _callSource;
     studySite;
+    @api isaccesslevelthree = false;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
 
     constructor(){
