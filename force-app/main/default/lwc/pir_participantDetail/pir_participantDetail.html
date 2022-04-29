@@ -232,7 +232,7 @@
                                           <lightning-helptext class="info-icon" content={PG_AS_F_Source_ID_Help_Text}></lightning-helptext>  
                                     </label>
                                     <div if:true={refByPI} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled={disableScreening} data-lvl="1" name="src" value={pd.pe.MRN_Id__c} onchange={handleValChangeH}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled={disableScreening} data-lvl="1" name="src" title={pd.pe.MRN_Id__c} value={pd.pe.MRN_Id__c} onchange={handleValChangeH}/>
                                     </div>
                                     <div if:true={refByHCP} class="slds-form-element__control">
                                           <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" value={pd.pe.Patient_ID__c}/>
