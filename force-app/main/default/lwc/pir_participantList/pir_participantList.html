@@ -12,12 +12,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter">
+                <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 textBold w-filter " data-id="filterdiv">
                     <button class="slds-button slds-button_neutral filterTextButton" onclick={toggleFilter} disabled={disabledFilter}>
-                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xxx-small filter-color">Filter (10)</span>
+                        <img class="slds-button__icon slds-m-left_xx-small " src={filterIcon}/><span class="slds-p-left_xx-small filter-color">Filter {filterCount}</span>
                     </button>      
                     <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton" onclick={toggleFilter}>   
-                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color">(10)</span>
+                        <img class="slds-button__icon" src={filterIcon}/><span class="slds-p-left_xx-small textBold filter-color"></span>
                     </div>
                 </div>
             
@@ -35,17 +35,22 @@
                 <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
             </div>
         </div> -->
-        <template if:true={showFilter}>
-            <div class="slds-col slds-size_12-of-12 filter-relative">
-                <c-pir_filter urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue}></c-pir_filter>
-            </div>
-        </template>
+        <div if:true={showFilter} class="slds-col slds-size_12-of-12 filter-relative slds-hide">
+                <c-pir_filter sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
+        </div>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
-                <div class="textBolds slds-m-bottom--xx-small">Presets</div>
-                <lightning-combobox name="preset" variant="label-hidden"
-                placeholder="Select"  ></lightning-combobox>
+                <div class="textBolds slds-m-bottom--xx-small">Presets
+                    <span onclick={editPreset}>
+                        <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>
+                    
+                </span></div>
+                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}
+                placeholder="Select" options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
+            <template if:true={showEditPreset}>
+                <c-pir_-preset-edit onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+            </template>
         </div>
         <div class="slds-col slds-size_12-of-12 dropsize">
             <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
@@ -53,7 +58,7 @@
                     <div class="slds-p-top--x-small textBolds">Sort By:</div>
                 </div>
                 <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12">
-                    <lightning-combobox  options={sortOptions} value={sortOn} onchange={handleSortChange}  variant="label-hidden"></lightning-combobox>
+                    <lightning-combobox  options={sortOptions} value={sortValue} onchange={handleSortChange}  variant="label-hidden"></lightning-combobox>
                 </div>
                 <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
                    
@@ -92,17 +97,26 @@
                                 </ul>
                             </div>
                     </div>
-                
                 </div>
+                
+                <template if:true={isCheckboxhidden}>
+                    <template if:true={changeStatus}>
+                        <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
+                            <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
+                              options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                        </div> 
+                    </template>
+                </template>
+
             </div>    
         </div>
         <template if:true={isCheckboxhidden}>
-            <template if:true={changeStatus}>
-                <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-around_small">
+            <!-- <template if:true={changeStatus}>
+                <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-around_small ">
                     <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
                       options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
                 </div> 
-            </template>
+            </template> -->
              <template if:false={noRecords}>
             <template if:false={dctCheck}>
                 <div class="slds-col slds-size_12-of-12 checkbox-color  ">

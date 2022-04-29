@@ -17,8 +17,18 @@ import ListView_New_Status from '@salesforce/label/c.ListView_New_Status';
 import ListView_Current_Status from '@salesforce/label/c.ListView_Current_Status';
 import PG_ACPE_L_Reason from '@salesforce/label/c.PG_ACPE_L_Reason';
 import FD_PE_Field_Final_Consent from '@salesforce/label/c.FD_PE_Field_Final_Consent';
+import FD_PE_Field_Informed_Consent_Signed from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed';
+import FD_PE_Field_Informed_Consent_Signed_Date from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed_Date';
 import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
+import BTN_Status_Details from '@salesforce/label/c.BTN_Status_Details';
+import BTN_Participant_Details from '@salesforce/label/c.BTN_Participant_Details';
+import Tab_Sharing_Options from '@salesforce/label/c.Tab_Sharing_Options';
+import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
+import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
 import Submit from '@salesforce/label/c.Submit';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
@@ -74,13 +84,21 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     ListView_New_Status,
     PG_ACPE_L_Reason,
     FD_PE_Field_Final_Consent,
+    FD_PE_Field_Informed_Consent_Signed,
+    FD_PE_Field_Informed_Consent_Signed_Date,
     PG_ACPE_L_Notes,
     Submit,
     ListView_Current_Status,
     RH_ExportSelected,
     RH_ParticipantSelected,
-    BTN_Export_All
-
+    BTN_Export_All,
+    BTN_Status_Details,
+    BTN_Participant_Details,
+    Tab_Sharing_Options,
+    PIR_Save_Changes,
+    PIR_Unsaved_Changes,
+    BTN_Save,
+    PIR_Discard
   };
   
   @wire(getStudyAccessLevel)
@@ -199,10 +217,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   showZeroErr  = false;
   initialLoad = true;
   pageChanged(event) {
+    console.log('>>page changed called>>>');
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
       this.page;
       if(!this.initialLoad){
+        console.log('>>>fetch page called>>>');
         this.template.querySelector("c-pir_participant-list").fetchList();
       }
       this.initialLoad = false;
@@ -567,7 +587,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelectorAll(".linenone").forEach(function (L) {
         L.classList.remove("boxShadownone");
     });
-  
+    console.log('>>>oncancel called>>>');
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
     this.removeParticipant=false;
     this.countValue=0;
@@ -599,11 +619,19 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       }else if(this.notesNeeded.includes(this.selectedreason)){
         this.bulkButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
-       }else {
+       }else if(this.consentValue==true){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+       }
+       else {
          this.bulkButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
   }
+  signedDate=false;
+  signedDateValue;
+  consentData;
+  consentValue=false;
   changeInputValue(event) {
     let datavalue = event.target.dataset.value;
     if (event.target.dataset.value === "additionalNotes") {
@@ -613,6 +641,28 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if (event.target.dataset.value === "FinalConsent") {
       this.finalConsentvalue = event.target.checked;
       this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "consentSigned") {
+      if(event.target.value == 'yes' ){
+        this.consentValue = true;
+        this.consentData=true;
+        this.isReasonEmpty=true;
+        this.selectedreason ='';
+     }else{
+      this.consentValue = false;
+      this.consentData=false;
+      this.isReasonEmpty= this.storeisReasonEmpty;
+     }
+     this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "signedDate") {
+      this.signedDateValue=event.target.value;
+      if(event.target.value != null ){
+        this.signedDate = true;
+     }else{
+      this.signedDate = false;
+     }
+     this.bulkButtonValidation();
     }
   }
   bulkButtonValidation(){
@@ -650,7 +700,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         validationList.push(btnValidationSuccess);
       }
    }
-
+   //4.
+    if(this.consentSigned==true){
+      if(this.consentValue==true && notes != null && notes != "" && notes.length != 0 && this.signedDate==true){
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+    } else {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
+    }
     if(validationList.includes(false)) {
        this.bulkSubmit = true;    
     }else {
@@ -665,19 +724,37 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.selectedreason = event.detail.value;
     }
   }
-  isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
-  additionalNote = '';finalConsent=false;finalConsentRequired = false;
+  
+  isStatusChange= false;newStatusSelected='';oParticipantStatus=''; studyID='';bulkSubmit=false;
+  additionalNote = '';finalConsent=false;finalConsentRequired = false;consentSigned=false;
+
+  get consentSignedOptions() {
+    return [
+        { label: '', value: '' },
+        { label: 'Yes', value: 'yes' }
+    ];
+}
   handleStatusChanges(event){
     this.newStatusSelected = event.detail.newStatusSelected;
     this.oParticipantStatus = event.detail.oParticipantStatus;
     this.studyID = event.detail.studyId;
+    if(this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent'){
+      this.consentSigned=true;
+    }
+    else{
+      this.consentSigned=false;
+    }
  }
  reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+ storeisReasonEmpty;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
-       this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
+       this.notesNeeded = [];this.additionalNote = '';
+       this.signedDateValue=null;this.consentData='';this.signedDate=false;this.consentValue=false;this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
        this.bulkStatusSpinner = true;
-       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
+       let study = this.studyID.toString();
+       console.log('work'+study);
+       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
       .then(result => {
           let reasons = result.reason;
           if(reasons != undefined){
@@ -709,9 +786,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
+            this.storeisReasonEmpty=this.isReasonEmpty;
           }else{
              this.selectedreason ='';
              this.isReasonEmpty = true;
+             this.storeisReasonEmpty=this.isReasonEmpty;
           }
           if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
               this.finalConsent = result.finalConsent;

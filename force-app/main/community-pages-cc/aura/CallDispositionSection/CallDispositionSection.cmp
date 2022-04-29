@@ -1,73 +1,76 @@
-<aura:component description="CallDispositionSection" extends="c:LightningService"
-implements="flexipage:availableForAllPageTypes">
+<aura:component
+    description="CallDispositionSection"
+    extends="c:LightningService"
+    implements="flexipage:availableForAllPageTypes"
+>
     <!-- attributes: -->
-    
-    <aura:attribute name="sectionOpen" type="Boolean" default="false"/>
+
+    <aura:attribute name="sectionOpen" type="Boolean" default="false" />
     <aura:attribute name="studySite" type="Object" />
-    <aura:attribute name="siteId" type="string" access="public"/>
+    <aura:attribute name="siteId" type="string" access="public" />
     <aura:attribute name="CD" type="object" access="public" />
-    <aura:attribute name="notes" type="String" default=""/>
-    <aura:attribute name="callbound" type="String" default="Inbound"/>
-    <aura:attribute name="callcategory" type="String"/>
-    <aura:attribute name="interventionReq" type="Boolean" default="false"/>
-    <aura:attribute name="isCDValitated" type="Boolean"  />
+    <aura:attribute name="notes" type="String" default="" />
+    <aura:attribute name="callbound" type="String" default="Inbound" />
+    <aura:attribute name="callcategory" type="String" />
+    <aura:attribute name="interventionReq" type="Boolean" default="false" />
+    <aura:attribute name="isCDValitated" type="Boolean" />
     <aura:attribute name="newCall" type="Boolean" default="false" />
     <aura:attribute name="hasNewCall" type="Boolean" default="false" />
     <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
     <aura:method name="childMessageMethod" action="{!c.getMessage}" access="public">
-        <aura:attribute name="childnote" type="String" /> 
-        <aura:attribute name="childcallcategory" type="String" /> 
+        <aura:attribute name="childnote" type="String" />
+        <aura:attribute name="childcallcategory" type="String" />
     </aura:method>
-     <aura:method name="RefreshCD" action="{!c.doRefreshSectionToggle}" /> 
-     <aura:method name="RefreshCDsection" action="{!c.doRefreshSection}" /> 
-     <aura:handler name="change" value="{!v.callbound}" action="{!c.updCDobj}" />
+    <aura:method name="RefreshCD" action="{!c.doRefreshSectionToggle}" />
+    <aura:method name="RefreshCDsection" action="{!c.doRefreshSection}" />
+    <aura:handler name="change" value="{!v.callbound}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.callcategory}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.interventionReq}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.notes}" action="{!c.updCDobj}" />
-   
-    
+
     <div class="ap-section">
         <div class="collapse-wrapper slds-m-bottom--medium slds-grid">
-            <div class="slds-col ">
+            <div class="slds-col">
                 <!--c:RRCollapse label="Study Site Locations" onclick="{!c.fetchLocations}"-->
                 <lightning:accordion
-                                     aura:id="accordioncd"
-                                     allowMultipleSectionsOpen="true"
-                                     onsectiontoggle="{! c.callhandleSectionToggle }"
-                                     activeSectionName="A"
-                                     >
-                    <lightning:accordionSection name="CD" label="{!$Label.c.Call_Dispositions}">
-                        
+                    aura:id="accordioncd"
+                    allowMultipleSectionsOpen="true"
+                    onsectiontoggle="{! c.callhandleSectionToggle }"
+                    activeSectionName="A"
+                >
+                    <lightning:accordionSection
+                        name="CD"
+                        label="{!$Label.c.Call_Dispositions }"
+                        class="brktext"
+                    >
                         <aura:set attribute="actions">
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
                             <button
-                                    id="addNewLocation"
-                					class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"
-                                    onclick="{!c.handleNewCall}"
-                                    >
-                                <span>+  &nbsp;</span>{!$Label.c.New_Call}
+                                id="addNewLocation"
+                                class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"
+                                onclick="{!c.handleNewCall}"
+                            >
+                                <span>+ &nbsp;</span>{!$Label.c.New_Call}
                             </button>
                             <!--</div>-->
                         </aura:set>
-                        
-                      
+
                         <div class="slds-grid slds-grid_vertical">
-                            <c:callDispositions aura:id="calldispositionlwc" 
-                                                siteId="{!v.siteId}"
-                                                onvaluechange="{!c.getValueFromLwc}" 
-                                                oncallcategchange="{!c.getcallcategValueFromLwc}" 
-                                                onlistselection="{!c.validationNotrequired}"
-                                                oncallBoundchange="{!c.getcallBound}"
-                                                oninterventionchange="{!c.getinterventionchange}"
-                                                />
-                            
+                            <c:callDispositions
+                                aura:id="calldispositionlwc"
+                                siteId="{!v.siteId}"
+                                onvaluechange="{!c.getValueFromLwc}"
+                                oncallcategchange="{!c.getcallcategValueFromLwc}"
+                                onlistselection="{!c.validationNotrequired}"
+                                oncallBoundchange="{!c.getcallBound}"
+                                oninterventionchange="{!c.getinterventionchange}"
+                            />
                         </div>
-                        
+
                         <!--/c:RRCollapse-->
                     </lightning:accordionSection>
                 </lightning:accordion>
             </div>
-            
         </div>
     </div>
 </aura:component>
