@@ -138,8 +138,7 @@ public without sharing class PatientDelegateService {
     }
 
     public static List<Patient_Delegate__c> getPDelegates(List<Id> participantContactIds) {
-        if(participantContactIds.size()==0)
-        {
+        if (participantContactIds.size() == 0) {
             return new List<Patient_Delegate__c>();
         }
         return DatabaseService.query(
@@ -163,8 +162,10 @@ public without sharing class PatientDelegateService {
                 'Contact__r.userCommunityMode__c',
                 'Contact__r.Next_Notify_Date__c',
                 'Status__c',
+                'Participant__r.Contact__r.Id',
                 'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
-                'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c'
+                'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
+                'Primary_Delegate__c'
             },
             Patient_Delegate__c.getSObjectType(),
             DatabaseService.fieldInValues('Participant__r.Contact__c', participantContactIds)
@@ -207,9 +208,9 @@ public without sharing class PatientDelegateService {
     }*/
 
     public static Map<Id, List<Id>> getDelegatedParticipantIdsMap(List<Id> contactIds) {
-        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c> ();
-        if(!contactIds.isEmpty()){
-              pdList = [
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+        if (!contactIds.isEmpty()) {
+            pdList = [
                 SELECT Id, Participant__c, Contact__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c IN :contactIds AND Status__c = 'Active'
@@ -495,13 +496,12 @@ public without sharing class PatientDelegateService {
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
         List<Id> participantContIds
     ) {
-        if(participantContIds.size()==0)
-        {
+        if (participantContIds.size() == 0) {
             return new Map<Id, List<Id>>();
         }
-         List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
-        if(!participantContIds.isEmpty()){
-              patientDelegates = [
+        List<Patient_Delegate__c> patientDelegates = new List<Patient_Delegate__c>();
+        if (!participantContIds.isEmpty()) {
+            patientDelegates = [
                 SELECT Id, Contact__c, Participant__r.Contact__c
                 FROM Patient_Delegate__c
                 WHERE Participant__r.Contact__c IN :participantContIds AND Status__c = 'Active'
@@ -719,8 +719,6 @@ public without sharing class PatientDelegateService {
         return getPastPEIdsListByContactIdMap(new List<Id>{ contactId }).get(contactId);
     }
 
-    
-    
     public static void updatePermissionSets(Set<Id> contactIds) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Patient_Delegate__c[] pdList = [
@@ -758,11 +756,11 @@ public without sharing class PatientDelegateService {
                 (Participant__c IN :allDelegatedParticipantIds
                 OR Participant_Contact__c IN :contactIds)
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
-            	AND Study_Site__r.Study_Site_Type__c != 'Virtual' 
+                AND Study_Site__r.Study_Site_Type__c != 'Virtual'
                 AND Study_Site__r.Study_Site_Type__c != 'Hybrid'
-                AND Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false 
-            	AND Study_Site__r.Suppress_Participant_Emails__c = false
-                AND Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                AND Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
+                AND Study_Site__r.Suppress_Participant_Emails__c = FALSE
+                AND Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         Map<Id, Set<String>> participantPermissions = new Map<Id, Set<String>>();
         Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();
@@ -785,14 +783,14 @@ public without sharing class PatientDelegateService {
 
         //get permission sets for delegated contacts
         Map<Id, Set<String>> delegatedContactPermissionsMap = new Map<Id, Set<String>>();
-         List<User> delegatedUsers = new List<User> ();
-        if(!delegatedContacts.isEmpty()){
-              delegatedUsers = [
+        List<User> delegatedUsers = new List<User>();
+        if (!delegatedContacts.isEmpty()) {
+            delegatedUsers = [
                 SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
                 FROM User
                 WHERE ContactId IN :delegatedContacts
             ];
-        
+
             for (User usr : delegatedUsers) {
                 Set<String> permSets = new Set<String>();
                 for (PermissionSetAssignment psa : usr.PermissionSetAssignments) {
@@ -852,7 +850,10 @@ public without sharing class PatientDelegateService {
         }
     }
 
-    public static void updateContactPermSetsWithDelegates(Set<Id> participantContactIds, Set<Id> invitedPartContactIds) {
+    public static void updateContactPermSetsWithDelegates(
+        Set<Id> participantContactIds,
+        Set<Id> invitedPartContactIds
+    ) {
         Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
             new List<Id>(participantContactIds)
         );

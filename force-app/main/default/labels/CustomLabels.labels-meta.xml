@@ -5861,6 +5861,19 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span  style=&quot;color:black;&quot;&gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Scheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName  with ##PIFirstName, ##PILastName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDate &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration minutes &lt;/span&gt;&lt;/div&gt;
+
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6397,6 +6410,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>This is a task reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Scheduled</shortDescription>
+        <value>This is a televisit invitation</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6835,6 +6855,18 @@ Sincerely,
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Televisit_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Televisit PT</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7221,6 +7253,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Scheduled</shortDescription>
+        <value>You are invited for a televisit!</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Delegate</fullName>
