@@ -16,9 +16,7 @@
     <aura:attribute name="siteId" type="String" /> 
     <aura:attribute name="trial" type="Object" />
     <aura:attribute name="pEnrollment" type="Object" />
-    <!-- Added by Raviteja -->
     <aura:attribute name="mailingCountryCode" type="String" />
-    <!-- Ended by Raviteja -->
     <aura:attribute name="hcpeId" type="String" />
     <aura:attribute name="hcpEnrollment" type="Object" />
     <aura:attribute name="pendingPEnrollments" type="List" />

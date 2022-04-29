@@ -16,6 +16,7 @@
                              name="studyConsent" 
                              checked={consentModel.studyConsent} 
                              onchange={handleConsentChange}
+                             disabled={isaccesslevelthree}
                              class="checkbox_size"></lightning-input>
             <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
         </div>
@@ -29,6 +30,7 @@
                                  name="studySMSConsent" 
                                  checked={consentModel.studySMSConsent} 
                                  onchange={handleConsentChange}
+                                 disabled={isaccesslevelthree}
                                  class="checkbox_size"></lightning-input>
                 <span class={ClassName}><label class="slds-form-element__label-for-checkbox" for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
             </div>
@@ -45,6 +47,7 @@
                                         name="outReachConsent" 
                                         checked={consentModel.outReachConsent} 
                                         onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                         class="checkbox_size"></lightning-input>
                     <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="outReachConsent">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_US}</label></span>
                 </div>
@@ -62,6 +65,7 @@
                                         name="outreachPhoneConsent" 
                                         checked={consentModel.outreachPhoneConsent} 
                                         onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                     <span> <label class="slds-form-element__label-for-checkbox" for="outreachPhoneConsent">{PHONE}</label></span>
                     </div>
@@ -73,6 +77,7 @@
                                         name="outreachEmailConsent" 
                                         checked={consentModel.outreachEmailConsent} 
                                         onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                     <span><label class="slds-form-element__label-for-checkbox" for="outreachEmailConsent">{EMAIL}</label></span>
                     </div>
@@ -84,6 +89,7 @@
                                         name="outreachSMSConsent" 
                                         checked={consentModel.outreachSMSConsent} 
                                         onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                     <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
                 </div>
