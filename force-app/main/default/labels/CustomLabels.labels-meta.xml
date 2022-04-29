@@ -11462,6 +11462,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Screening In Progress - Wash Out Period</value>
     </labels>
     <labels>
+        <fullName>pir_Initial_Visit_Scheduled_Date_past</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Initial Visit Scheduled Date (past)</shortDescription>
+        <value>Initial Visit Scheduled Date (past)</value>
+    </labels>
+    <labels>
+        <fullName>pir_Initial_Visit_Scheduled_Date_upcoming</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Initial Visit Scheduled Date (upcoming)</shortDescription>
+        <value>Initial Visit Scheduled Date (upcoming)</value>
+    </labels>
+    <labels>
         <fullName>PIR_medicalAcceptedFile</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11502,6 +11516,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>pir_Medical_Search_Commorbidity</shortDescription>
         <value>Search Comorbidities...</value>
+    </labels>
+    <labels>
+        <fullName>pir_No_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_No Preset</shortDescription>
+        <value>No Preset</value>
     </labels>
     <labels>
         <fullName>PIR_Not_Ready_to_Schedule</fullName>
@@ -11581,11 +11602,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Other</value>
     </labels>
     <labels>
+        <fullName>pir_Please_wait_as_your_page_loads</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Please wait as your page loads</shortDescription>
+        <value>Please wait as your page loads</value>
+    </labels>
+    <labels>
         <fullName>PIR_PI_Decision</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_PI Decision</shortDescription>
         <value>PI Decision</value>
+    </labels>
+    <labels>
+        <fullName>pir_Participant_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Participant List</shortDescription>
+        <value>Participant List</value>
     </labels>
     <labels>
         <fullName>PIR_Participant_Not_Interested</fullName>
@@ -11602,6 +11637,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participation Complete</value>
     </labels>
     <labels>
+        <fullName>pir_Presets</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Presets</shortDescription>
+        <value>Presets</value>
+    </labels>
+    <labels>
         <fullName>PIR_Protocol_Concerns</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11614,6 +11656,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>pir_Screener</shortDescription>
         <value>Screener</value>
+    </labels>
+    <labels>
+        <fullName>pir_Search_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Search Participants</shortDescription>
+        <value>Search Participants</value>
     </labels>
     <labels>
         <fullName>PIR_Transportation_Issues</fullName>
