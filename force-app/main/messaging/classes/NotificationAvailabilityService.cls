@@ -12,7 +12,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
     private static final String CASE_OBJ_NAME = 'Case';
-    private static final String TELEVISIT_OBJ_NAME = 'Televisit_Attendee__c';
+    private static final String TELEVISIT_ATTN_OBJ_NAME = 'Televisit_Attendee__c';
 
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
@@ -207,7 +207,7 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
 
-            if (objType == TELEVISIT_OBJ_NAME) {
+            if (objType == TELEVISIT_ATTN_OBJ_NAME) {
                 List<Televisit_Attendee__c> teleVisitsList = [
                     SELECT
                         Id,
@@ -310,7 +310,7 @@ public without sharing class NotificationAvailabilityService {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     checkForNotification = true;
-            } else if (objType == TELEVISIT_OBJ_NAME) {
+            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
                 Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
@@ -330,8 +330,8 @@ public without sharing class NotificationAvailabilityService {
                     !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
                 ) {
                     checkForNotification = true;
+                }
             }
-        }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
