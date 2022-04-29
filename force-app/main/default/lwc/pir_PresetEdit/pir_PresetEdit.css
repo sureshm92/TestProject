@@ -62,6 +62,9 @@
 .setContainer{
     width: 128%;
 }
+.enablePreset{
+    cursor: pointer;
+}
 .setModal{
         right: unset;
     bottom: unset;

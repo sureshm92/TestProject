@@ -277,10 +277,9 @@
     margin-bottom: 5px;
     padding: 0 10px;
     max-width: 117px;
-    text-align: center;
 }
 .eth .ethmore{
-    padding: 7px 0px 0px 170px;
+    padding: 7px 0px 0px 130px;
 }
 .eth .close-img{
     cursor: pointer;
@@ -330,3 +329,22 @@
     top: 13px;
     cursor: pointer;
 }
+/*RTL start*/
+.rtl .w-date {
+    width: 46%;
+    padding-right: 0px;
+}
+
+.rtl .w-to {
+    width: 6%;
+}
+
+.rtl .m-top-date {
+    margin-top: -25px;
+}
+
+.rtl .filter-date {
+    padding-top: 28px;
+    padding-right:4px;
+}
+/*RTL ENd*/
