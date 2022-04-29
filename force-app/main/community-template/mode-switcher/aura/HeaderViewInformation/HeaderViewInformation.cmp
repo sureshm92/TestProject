@@ -17,27 +17,18 @@
         <div class="header-container">
             <div class="avatar-icon">
                 <aura:if isTrue="{!v.hasProfilePic}">
-                    <lightning:avatar
-                        src="{!v.user.SmallPhotoUrl}"
-                        variant="circle"
-                        size="large"
-                        alternativeText=""
-                        fallbackIconName="standard:avatar"
-                    />
+                    <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="large" alternativeText=""
+                        fallbackIconName="standard:avatar" />
 
                     <aura:set attribute="else">
                         <aura:if isTrue="{!v.isRTL}">
-                            <c:RRIcon
-                                color="white"
+                            <c:RRIcon color="white"
                                 class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatarRTL')}"
-                                iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"
-                            />
+                                iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}" />
                             <aura:set attribute="else">
-                                <c:RRIcon
-                                    color="white"
+                                <c:RRIcon color="white"
                                     class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
-                                    iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"
-                                />
+                                    iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}" />
                             </aura:set>
                         </aura:if>
                     </aura:set>
@@ -46,7 +37,9 @@
             <div class="{!if(v.isRTL, 'user-name rtl' , 'user-name')}">
                 {!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}
             </div>
-            <div class="{!if(v.isRTL, 'user-mode rtl' , 'user-mode')}">{!v.viewMode}</div>
+            <div class="slds-truncate" title="{!v.viewMode}">
+                <div class="{!if(v.isRTL, 'user-mode rtl' , 'user-mode')}">{!v.viewMode}</div>
+            </div>
         </div>
     </aura:if>
 </aura:component>
