@@ -18158,7 +18158,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new reward certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
