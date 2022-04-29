@@ -11455,6 +11455,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>This cannot be undone.</value>
     </labels>
     <labels>
+        <fullName>pir_Filter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Filter</shortDescription>
+        <value>Filter</value>
+    </labels>
+    <labels>
+        <fullName>pir_Sort_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Sort By</shortDescription>
+        <value>Sort By:</value>
+    </labels>
+    <labels>
         <fullName>PIR_In_Wash_Out_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
