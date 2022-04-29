@@ -1,8 +1,4 @@
-<aura:component
-    description="StudySiteEdit"
-    controller="StudySiteInformationController"
-    extends="c:CommunityContext"
->
+<aura:component description="StudySiteEdit" controller="StudySiteInformationController" extends="c:CommunityContext">
     <aura:attribute name="studyInformation" type="String" />
     <aura:attribute name="delegateList" type="List" />
     <aura:attribute name="siteInfoComplete" type="Boolean" default="false" />
@@ -14,168 +10,104 @@
 
     <div class="ap-section">
         <div class="collapse-wrapper">
-            <lightning:accordion
-                aura:id="accordion"
-                allowMultipleSectionsOpen="true"
-                onsectiontoggle="{! c.handleSectionToggle }"
-                activeSectionName="SSE"
-            >
-                <lightning:accordionSection
-                    name="SSE"
-                    label="{!$Label.c.Study_Site_Information}"
-                    class="label-block brktext"
-                >
+            <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true"
+                onsectiontoggle="{! c.handleSectionToggle }" activeSectionName="SSE">
+                <lightning:accordionSection name="SSE" label="{!$Label.c.Study_Site_Information}"
+                    class="label-block brktext">
                     <div class="criteria-body">
-                        <div
-                            id="contactInformation"
-                            class="slds-size_1-of-1 ss-info-container ss-container-border"
-                        >
+                        <div id="contactInformation" class="slds-size_1-of-1 ss-info-container ss-container-border">
                             <div class="slds-grid slds-gutters slds-wrap">
                                 <div
-                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details"
-                                >
+                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
                                         <div class="rr-form-element">
-                                            <lightning:input
-                                                aura:id="locationName"
-                                                class="ss-lightning-input"
+                                            <lightning:input aura:id="locationName" class="ss-lightning-input"
                                                 value="{!v.studyInformation.siteName}"
-                                                label="{!$Label.c.SS_Study_Site_Name}"
-                                                required="true"
-                                                disabled="true"
-                                                onblur="{!c.trimChanges}"
-                                                onchange="{!c.changeUpdatedStatus}"
-                                            />
+                                                label="{!$Label.c.SS_Study_Site_Name}" required="true" disabled="true"
+                                                onblur="{!c.trimChanges}" onchange="{!c.changeUpdatedStatus}" />
                                         </div>
                                     </span>
                                 </div>
                                 <div
-                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details"
-                                >
+                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
                                         <div class="input-fields-labels">
                                             {!$Label.c.SS_Primary_Contact}
                                         </div>
-                                        <c:rrSelect
-                                            id="delegatesPicklist"
-                                            options="{!v.delegateList}"
-                                            value="{!v.studyInformation.siteStaff}"
-                                            class="delegate-select"
+                                        <c:rrSelect id="delegatesPicklist" options="{!v.delegateList}"
+                                            value="{!v.studyInformation.siteStaff}" class="delegate-select"
                                             placeholder="{!if(v.delegateList.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
-                                            onchange="{!c.changeUpdatedStatus}"
-                                            useSentenceFont="false"
-                                            setValueAsSelected="true"
-                                        />
+                                            onchange="{!c.changeUpdatedStatus}" useSentenceFont="false"
+                                            setValueAsSelected="true" />
                                     </span>
                                 </div>
                                 <div
-                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details"
-                                >
+                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
-                                        <div
-                                            class="input-fields-labels"
-                                            style="display: inline-block"
-                                        >
+                                        <div class="input-fields-labels" style="display: inline-block">
                                             <div class="tooltip">
                                                 <div class="textoverlap">{!$Label.c.CC_Phone}</div>
                                                 <span>{!$Label.c.CC_Phone}</span>
                                             </div>
                                         </div>
                                         <div class="rr-form-element" style="margin-top: -2%">
-                                            <lightning:input
-                                                aura:id="PhoneInput"
+                                            <lightning:input aura:id="PhoneInput"
                                                 value="{!v.studyInformation.sitePhone}"
-                                                onchange="{!c.changeUpdatedStatus}"
-                                            />
+                                                onchange="{!c.changeUpdatedStatus}" />
                                         </div>
                                     </span>
                                 </div>
 
-                                <div
-                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element"
-                                >
+                                <div class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element">
                                     <div class="input-fields-labels">{!$Label.c.CC_Email}</div>
                                     <div class="rr-form-element">
-                                        <lightning:input
-                                            aura:id="emailInput"
-                                            value="{!v.studyInformation.siteEmail}"
-                                            onchange="{!c.changeUpdatedStatus}"
-                                            onblur="{!c.checkValidEmail}"
-                                        />
+                                        <lightning:input aura:id="emailInput" value="{!v.studyInformation.siteEmail}"
+                                            onchange="{!c.changeUpdatedStatus}" onblur="{!c.checkValidEmail}" />
                                     </div>
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <span
                                         class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap"
-                                        style="{!if(v.isRTL,'padding-right: 0px;','padding-left: 0px;')}"
-                                    >
-                                        <div
-                                            class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}"
-                                        >
+                                        style="{!if(v.isRTL,'padding-right: 0px;','padding-left: 0px;')}">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels pbottom'}">
                                             {!$Label.c.CC_Receive_Study_Site_Email}
                                         </div>
                                         <div>
-                                            <lightning:input
-                                                type="toggle"
-                                                iconSize="small"
+                                            <lightning:input type="toggle" iconSize="small"
                                                 checked="{!v.studyInformation.receivePIEmail}"
-                                                onchange="{!c.doSupressEmail}"
-                                                label="{!$Label.c.SS_City}"
-                                            />
+                                                onchange="{!c.doSupressEmail}" label="{!$Label.c.SS_City}" />
                                         </div>
                                     </span>
 
                                     <span
-                                        class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap"
-                                    >
-                                        <div
-                                            class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}"
-                                            style="word-break: break-word; width: 11rem"
-                                        >
+                                        class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}"
+                                            style="word-break: break-word;">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>
-                                        <lightning:input
-                                            type="toggle"
-                                            iconSize="small"
+                                        <lightning:input type="toggle" iconSize="small"
                                             checked="{!v.studyInformation.optInForWarmTransfer}"
-                                            onchange="{!c.doOptIn}"
-                                        />
+                                            onchange="{!c.doOptIn}" />
                                     </span>
                                 </div>
-                                <div
-                                    class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
-                                >
+                                <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                                     <div
-                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
-                                    >
-                                        <lightning:input
-                                            type="checkbox"
-                                            class="IQVIA_contact-patient-checkbox"
+                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                                        <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox"
                                             onchange="{!c.doSiteInfoComplete}"
-                                            checked="{!v.studyInformation.siteInfoComplete}"
-                                        />
-                                        <div
-                                            class="slds-size--10-of-12 IQVIA_contact-patient-checkbox"
-                                        >
+                                            checked="{!v.studyInformation.siteInfoComplete}" />
+                                        <div class="slds-size--10-of-12 IQVIA_contact-patient-checkbox">
                                             {!$Label.c.CC_Site_Information_Form_Complete}
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
-                                >
+                                <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                                     <div
-                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
-                                    >
-                                        <lightning:input
-                                            type="checkbox"
-                                            class="IQVIA_contact-patient-checkbox"
+                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                                        <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox"
                                             onchange="{!c.doTrainingComplete}"
-                                            checked="{!v.studyInformation.trainingComplete}"
-                                        />
-                                        <div
-                                            class="slds-size--10-of-12 IQVIA_contact-patient-checkbox"
-                                        >
+                                            checked="{!v.studyInformation.trainingComplete}" />
+                                        <div class="slds-size--10-of-12 IQVIA_contact-patient-checkbox">
                                             {!$Label.c.CC_Training_Complete}
                                         </div>
                                     </div>
