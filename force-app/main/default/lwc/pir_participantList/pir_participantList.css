@@ -38,6 +38,7 @@
     margin-left: 7px;
 }
 .filter-color{color: #297dfd;}
+.w-truncate {width: 70px;}
 .w-100{
     width: 100%;
 }
@@ -58,6 +59,12 @@
 }
 .pen{
     zoom: 0.8;
+}
+.disablePreset{
+    opacity:0.5;
+}
+.enablePreset{
+    cursor: pointer;
 }
 .subInfo{
     color: #999999;
@@ -242,7 +249,28 @@
 .participantStatus{
     padding-bottom: 5px !important;
 }
+/*RTL start */
 
+.rtl .w-filter {
+    margin-right: 7px;
+    margin-left: 0;
+}
+.rtl .w-action {
+    margin-right: 7px;
+    margin-left: 0;
+}
+.rtl .tooltip .tooltiptextBottom {
+    text-align: right;
+}
+.rtl .checkbox-place{
+    margin-right: 10px;
+    padding: 3px 0px 0px 0px;
+}
+.rtl .checkbox-placedct{
+    margin-right: 13px;
+    padding: 3px 0px 0px 0px;
+} 
+/* RTL End*/
   
  
   /* --------END Top --------------- */

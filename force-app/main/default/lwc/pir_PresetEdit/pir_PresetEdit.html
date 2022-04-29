@@ -1,5 +1,5 @@
 <template>
-   
+    <div class={maindivcls}>
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
     aria-describedby="modal-content-id-1" class="slds-modal slds-modal_large slds-align--absolute-center slds-fade-in-open container_popup">
     <div >
@@ -57,7 +57,7 @@
                             p-left-none
                             "
                         >
-                            <span class="edit-icon" onclick={editname}> <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/></span>
+                            <span class="edit-icon enablePreset" onclick={editname}> <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/></span>
                         
                         </div> 
                         <div if:true={isnameUpdate}
@@ -104,10 +104,11 @@
         </div>
       </template>
 </section> 
+</div>
 <div class="slds-backdrop slds-backdrop_open containerbackdrop_popup"></div>
     
 <template if:true={shoulddisplaydelete}>
-    <c-pir_deletepreset onclosedeletemodel={closeDeletemodel} selectedpreset={selectedPresetWrapper} > </c-pir_deletepreset>
+    <c-pir_deletepreset maindivcls={maindivcls} onclosedeletemodel={closeDeletemodel} selectedpreset={selectedPresetWrapper} > </c-pir_deletepreset>
 </template>
 
 </template>
