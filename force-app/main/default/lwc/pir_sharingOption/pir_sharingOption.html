@@ -17,6 +17,7 @@
                {delegateLabel}    
             </div>
               <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates} 
                  is-h-c-p-delegate="false" 
                  target-object='delegate' 
@@ -35,6 +36,7 @@
            </div>
 
            <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates}
                  target-object='rp' 
                  participant-object={participantObject}
@@ -53,6 +55,7 @@
                <!--You should only invite a participant's provider with the participant's explicit permission. Upon registration, the provider will be able to track a participant's status.-->
             </div>
             <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates} 
                  is-h-c-p-delegate="true" 
                  target-object='hcp' 

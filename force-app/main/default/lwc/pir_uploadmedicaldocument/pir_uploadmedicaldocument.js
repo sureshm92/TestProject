@@ -53,6 +53,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     isFileAdded = false;
     @api 
     uploadonid;
+    @api maindivcls;
 
     handleFilesChange(event) {
         

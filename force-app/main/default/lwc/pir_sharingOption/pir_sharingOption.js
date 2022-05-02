@@ -30,6 +30,8 @@ export default class Pir_sharingOption extends LightningElement {
     isDisplayProviders = true;    
     @api delegateLevel;
     delegateLabel;
+    @api isrtl = false;
+    maindivcls;
     
     label = {
         MessageForDelegates,
@@ -41,6 +43,12 @@ export default class Pir_sharingOption extends LightningElement {
     }
 
     connectedCallback(){
+        if(this.isrtl){
+            this.maindivcls = 'rtl';
+        } else {
+            this.maindivcls = 'ltr';
+        }
+        
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();

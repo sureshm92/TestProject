@@ -32,7 +32,7 @@ import My_Participant from '@salesforce/label/c.My_Participant';
 import pir_Participant_List from '@salesforce/label/c.pir_Participant_List';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
-
+import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
@@ -63,7 +63,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   isMedicalModalOpen = false;
   isMedicalDetailChanged = false;
   discardMedicalTab = false;
-  progressValue;
+  progressValue=false;
   countValue=0;
   cancelCheckbox;
   removeParticipant=true;
@@ -110,7 +110,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     My_Participant,
     pir_Participant_List,
     PG_AC_Select,
-    PG_DBPI_L_study_site
+    PG_DBPI_L_study_site,
+    pir_Health_Information
   };
   
   @api isRTL = false; 
@@ -230,6 +231,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
   curentMobileView = "list";
   mobileViewToggle() { 
+    if(this.progressValue==false){
     if (this.curentMobileView == "list") {
       this.curentMobileView = "detail";
       this.template.querySelectorAll(".D").forEach(function (D) {
@@ -247,6 +249,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         D.classList.add("hideMobile");
       });
     }
+  }
   }
   //pagination
   totalRecord;

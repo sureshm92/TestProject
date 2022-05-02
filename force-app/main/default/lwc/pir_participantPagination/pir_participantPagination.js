@@ -18,6 +18,7 @@ export default class Pir_participantPagination extends LightningElement {
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
     isRendered = false;
+    @api maindivcls;
     renderedCallback(){
         if(!this.isRendered){
             this.isRendered = true;
@@ -58,6 +59,7 @@ export default class Pir_participantPagination extends LightningElement {
                     page: this.pageNumber
                 }
             });
+            console.log('>>>>calculatecalculate>>>>');
             this.dispatchEvent(pagechange);
         }
     }
