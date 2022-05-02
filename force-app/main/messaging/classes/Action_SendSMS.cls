@@ -225,8 +225,6 @@ public with sharing class Action_SendSMS implements Action {
                         .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
-                String countryCode = smsChannel.Notification__r.Recipient__r.MailingCountryCode;
-                String countryCode = smsChannel.Notification__r.Recipient__r.MailingCountryCode;
                 msgParam.MailingCountryCode = countryCode;
                 msgParam.stateCode = stateCode;
                 /**if (
