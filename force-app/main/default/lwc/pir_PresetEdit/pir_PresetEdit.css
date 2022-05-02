@@ -143,7 +143,7 @@
         margin-top: 15px;
     }
     .delete-btn{
-        width:48%;
+        width:46%;
         float:right;
     }
     .cancel-btn{
@@ -200,7 +200,8 @@
         right:unset;
     }
     .rtl .p-right-rtl{
-        padding-left:0px;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+        padding-right: var(--lwc-spacingSmall,0.75rem);
     }
     .rtl .rtl-left-m{
         margin-right:unset;
