@@ -20969,13 +20969,6 @@ communications using the toggles below.</value>
         <value>Referred by</value>
     </labels>
     <labels>
-        <fullName>RH_Send_to_DCT_Platform</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_Send to DCT Platform</shortDescription>
-        <value>Send to DCT Platform</value>
-    </labels>
-    <labels>
         <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21584,7 +21577,7 @@ communications using the toggles below.</value>
         <fullName>SS_Btn_Check_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>SS Btn Check Address</shortDescription>
+        <shortDescription>SS Btn Check Address</shortDescription> 
         <value>Check Address</value>
     </labels>
     <labels>
