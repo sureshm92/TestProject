@@ -3,12 +3,16 @@ import community_icon from '@salesforce/resourceUrl/rr_community_icons';
 import RH_RP_Items from '@salesforce/label/c.RH_RP_Items';
 import RH_RP_of from '@salesforce/label/c.RH_RP_of';
 import RH_RP_Page from '@salesforce/label/c.RH_RP_Page';
+import Page from '@salesforce/label/c.Page';
+import of from '@salesforce/label/c.of';
 
 export default class Pir_participantPagination extends LightningElement {
     label = {
         RH_RP_Items,
         RH_RP_of,
-        RH_RP_Page
+        RH_RP_Page,
+        Page,
+        of
     };
     startRecord = 0;
     endRecord = 0;
@@ -18,6 +22,7 @@ export default class Pir_participantPagination extends LightningElement {
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
     isRendered = false;
+    @api isRTLPg = false;
     @api maindivcls;
     renderedCallback(){
         if(!this.isRendered){
@@ -25,6 +30,9 @@ export default class Pir_participantPagination extends LightningElement {
             if(this.totalRecords > 0){
                 this.pageNumber = 1;
                 this.calculate();
+            }
+            if(this.maindivcls == 'rtl'){
+                this.isRTLPg = true;
             }
         }
     }
