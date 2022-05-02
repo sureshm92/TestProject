@@ -21577,7 +21577,7 @@ communications using the toggles below.</value>
         <fullName>SS_Btn_Check_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>SS Btn Check Address</shortDescription>
+        <shortDescription>SS Btn Check Address</shortDescription> 
         <value>Check Address</value>
     </labels>
     <labels>
