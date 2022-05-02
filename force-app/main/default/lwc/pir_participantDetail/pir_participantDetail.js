@@ -45,6 +45,7 @@ import PG_Ref_L_Permit_IQVIA_Confirmation from '@salesforce/label/c.PG_Ref_L_
 import PG_Ref_L_Permit_IQVIA_To_Contact_Email from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Email';
 import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone';
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
+import PG_Ref_L_Permit_IQVIA_To_Contact_By from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_By';
 import PG_Ref_L_StudySite_Consent_Mandatory from '@salesforce/label/c.PG_Ref_L_StudySite_Consent_Mandatory';
 import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
 import EMAIL from '@salesforce/label/c.Email';
@@ -964,16 +965,6 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-
-        if(!this.isConsentComplete()){
-            const event = new ShowToastEvent({
-                variant: 'error',
-                message: this.PG_Ref_L_StudySite_Consent_Mandatory ,
-            });
-            this.dispatchEvent(event);
-            this.saving = false;
-        }
-        else{
             doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
@@ -996,7 +987,6 @@ export default class Pir_participantDetail extends LightningElement {
                 });
                 this.dispatchEvent(event);
             });
-        }
     }
     fieldUpdate(old,upd){
         if(typeof(old)=='boolean'){
@@ -1084,6 +1074,7 @@ export default class Pir_participantDetail extends LightningElement {
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
     PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
     PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
+    PG_Ref_L_Permit_IQVIA_To_Contact_By = PG_Ref_L_Permit_IQVIA_To_Contact_By;
     EMAIL = EMAIL;
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
