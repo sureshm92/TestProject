@@ -790,7 +790,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if(this.dropdownLabel=='Change Status'){
        this.notesNeeded = [];this.additionalNote = '';
        this.signedDateValue=null;this.consentData='';this.signedDate=false;this.consentValue=false;this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
-       this.bulkStatusSpinner = true;
+       this.bulkStatusSpinner = true;this.finalConsentvalue=false;
        let study = this.studyID.toString();
        console.log('work'+study);
        

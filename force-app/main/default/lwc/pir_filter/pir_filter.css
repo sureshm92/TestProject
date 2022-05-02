@@ -397,13 +397,17 @@
  .rtl .eth .slds-no-flex span{
      float:left;
  }
+ .rtl .p-right-rtl{
+     padding-right:0px;
+ } 
 
 @media (max-device-width: 767px) {
-    rtl .filter-area{
+    .rtl .filter-area{
     margin-right: var(--lwc-spacingXSmall,0.5rem);
     }
     .rtl .close-icon-pop {
     left: 13px;
+    right:unset;
     }
     .rtl .filter-heading {
     text-align: right;
@@ -428,6 +432,13 @@
     .rtl .filter-date {
     padding-top: 28px;
     padding-right: 0px;
-    }    
+    }  
+    .rtl .apply-fil-btn{
+        width: 95%;
+        margin-left: 0;
+    }  
+    .rtl .p-right-rtl{
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    } 
 }
 /*RTL ENd*/
