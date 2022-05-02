@@ -235,10 +235,10 @@
                                           <input type="text"  placeholder=""  class="slds-input" disabled={disableScreening} data-lvl="1" name="src" title={pd.pe.MRN_Id__c} value={pd.pe.MRN_Id__c} onchange={handleValChangeH}/>
                                     </div>
                                     <div if:true={refByHCP} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" value={pd.pe.Patient_ID__c}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" title={pd.pe.Patient_ID__c} value={pd.pe.Patient_ID__c}/>
                                     </div>
                                     <div if:true={notRefByPiHcp} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src"  value={stype}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" title={stype} value={stype}/>
                                     </div>
                               </div>
                               <!-- <lightning-input type="text" label="Source ID"></lightning-input> -->

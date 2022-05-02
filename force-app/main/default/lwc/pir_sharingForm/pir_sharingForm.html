@@ -1,6 +1,7 @@
 <template>
    <template for:each={addDelegateList} for:item="delegate" if:true={isAddDelegates}>
       <c-pir_sharing-form-fields 
+         rtlcss={rtlcss}
          key={delegate}
          pe = {pe}
          participant-object = {participantObject}
@@ -12,6 +13,7 @@
    </template>
    <template for:each={addDelegateList} for:item="delegate" if:true={isAddRp}>
       <c-pir_sharing-form-fields 
+         rtlcss={rtlcss}
          key={delegate} 
          pe = {pe}
          participant-object = {participantObject}
@@ -23,6 +25,7 @@
    </template>
    <template for:each={addDelegateList} for:item="delegate" if:true={isAddHcp}>
       <c-pir_sharing-form-fields 
+         rtlcss={rtlcss}
          key={delegate} 
          pe = {pe}
          participant-object = {participantObject}
