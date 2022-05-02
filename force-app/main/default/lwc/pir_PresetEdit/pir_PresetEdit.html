@@ -41,6 +41,7 @@
                             slds-large-size_3-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
                             <lightning-combobox name="preset" label={label.PresetName}
@@ -55,11 +56,12 @@
                             slds-large-size_1-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
                             <span class="edit-icon enablePreset" onclick={editname}> <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/></span>
                         
-                        </div> 
+                        </div>  
                         <div if:true={isnameUpdate}
                             class="
                             slds-col
@@ -68,6 +70,7 @@
                             slds-large-size_3-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
                             <lightning-input class="pname" label={label.PresetName} type="text" value={seletedPresetName} onchange={handleNameChange} onblur={updateName}></lightning-input>
@@ -83,7 +86,7 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                         <div class="slds-float_right mobile-width">   
                             <button class="slds-button apollo-btn secondary btn-height discard-btn cancel-btn" onclick={closeModel}> {label.Cancel}</button>
-                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-height delete-btn"  onclick={deletePR}> {label.Delete} </button>
+                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-height delete-btn rtl-left-m"  onclick={deletePR}> {label.Delete} </button>
                             <button class="apollo-btn primary ipad-mode-btn slds-p-around_x-small btn-height update-btn" disabled={cantUpdate} onclick={updatePR}> {label.Update} </button>
                         </div>    
                         </div>
