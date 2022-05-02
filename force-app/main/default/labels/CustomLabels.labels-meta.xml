@@ -5865,16 +5865,16 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit  with ##PIFirstName, ##PILastName, scheduled for ##VisitDate is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;Please  contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Del_Cancelled</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDate is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -5883,22 +5883,22 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName, ##PILastName has been  rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDate &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration minutes &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Del_Scheduled</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName  with ##PIFirstName, ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDate &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration minutes &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -5907,10 +5907,10 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit  with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDate &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration minutes &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -5919,13 +5919,12 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName  with ##PIFirstName, ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName with ##PIFirstName, ##PILastName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDate &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration minutes &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-
-&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Alert</fullName>

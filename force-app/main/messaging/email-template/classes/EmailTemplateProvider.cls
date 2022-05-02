@@ -396,8 +396,10 @@ public without sharing virtual class EmailTemplateProvider {
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(
             recipientContactId
         );
-        if (participant != null)
+        if (participant != null) {
             parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
+            parameters.put('ParticipantLastName', checkMetacharacters(participant.Last_Name__c));
+        }
     }
 
     public void addStudySiteNumber(){
