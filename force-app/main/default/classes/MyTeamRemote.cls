@@ -73,7 +73,7 @@ public without sharing class MyTeamRemote {
     }
 
     @AuraEnabled
-    public static String getContactData(String userMode, String contactEmail, String parentId) {
+	public static String getContactData(String userMode, String contactEmail, String parentId) {
         try {
             List<Contact> delegateContacts = new List<Contact>();
             List<Contact> contactsToProcess = new List<Contact>();
@@ -429,6 +429,7 @@ public without sharing class MyTeamRemote {
         return delegateOptions;
     }
 
+    @testVisible
     private static List<LabelValueItem> getDelegateParents() {
         Set<Id> piDelegateParentIds = DelegateService.getPIDelegateParents();
         List<LabelValueItem> parents = new List<LabelValueItem>();
@@ -642,6 +643,7 @@ public without sharing class MyTeamRemote {
         }
     }
     
+    @testVisible
     private static void sendEmailNotificationWelcome(Contact delegateContact) {
         Map<Id, String> toSendNotificationMap = new Map<Id, String>();
         toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
