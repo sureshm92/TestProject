@@ -438,7 +438,7 @@
         margin-left: 0;
     }  
     .rtl .p-right-rtl{
-        padding-left:0px;
+        padding-right: var(--lwc-spacingSmall,0.75rem);
     } 
 }
 /*RTL ENd*/
