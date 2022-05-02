@@ -46,6 +46,10 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_Email from '@salesforce/label/c.PG_Re
 import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone';
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
 import PG_Ref_L_StudySite_Consent_Mandatory from '@salesforce/label/c.PG_Ref_L_StudySite_Consent_Mandatory';
+import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
+import EMAIL from '@salesforce/label/c.Email';
+import PHONE from '@salesforce/label/c.Phone';
+import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 import Age from '@salesforce/label/c.Age';
 import RH_Ethnicity from '@salesforce/label/c.RH_Ethnicity';
 import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Preferred_Contact_Time';
@@ -246,6 +250,32 @@ export default class Pir_participantDetail extends LightningElement {
         let field =event.target.name;
         this.setVal(val,lvl,field);
     }    
+    handleCheckboxChange(event){
+        this.isOutreachUpdated = true;
+        let consent = event.detail.checked;
+        let consentType = event.target.name;
+        switch(consentType){
+            case 'outreachPhoneConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
+                    break;
+            case 'outreachEmailConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = consent;
+                    break;
+            case 'outreachSMSConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
+                    break;
+            case 'studyPhoneConsent':
+                this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = consent;
+                break;
+            case 'studyEmailConsent':
+                this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = consent;
+                break;
+            case 'studySMSConsent':
+                this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = consent;
+                break;
+        }
+        this.toggleSave();
+    }   
     setVal(val,lvl,field){
         let toggleSaveButton = true;
         if(lvl=='1'){
@@ -1053,5 +1083,8 @@ export default class Pir_participantDetail extends LightningElement {
     BTN_Verify=BTN_Verify;
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
     PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
-    RPR_Clear_All=RPR_Clear_All;
+    PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
+    EMAIL = EMAIL;
+    PHONE = PHONE;
+    SMS_TEXT = SMS_TEXT;
 }
