@@ -95,6 +95,7 @@
 }
 .rtl .save-btn-p{
     text-align:left;
+    border-top: 1px solid #E9E9E9;
 }
 .participant-text{
     font-size: 16px;
@@ -168,6 +169,9 @@
     }
     .save-btn-p{
         padding: 12px 10px;
+    }
+    .rtl .save-btn-p{
+        border-top: 1px solid transparent;
     }
 }  
 @media (min-width: 767px) {

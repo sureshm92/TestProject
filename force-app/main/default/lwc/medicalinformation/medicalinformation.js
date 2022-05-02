@@ -36,7 +36,6 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
-
 import LOCALE from "@salesforce/i18n/locale";
 
 export default class Medicalinformation extends LightningElement {
@@ -112,19 +111,27 @@ export default class Medicalinformation extends LightningElement {
   isHighPriorityChanged;
   isComorbidityyChanged = false;
   isBMIError = false;
-
-  
-  
-  
+  @api isrtl = false;
+  maindivcls;
+  popupcls;
 
   connectedCallback() {
-    console.log(">>vonnectted medical");
+    if(this.isrtl) {
+      this.maindivcls = 'rtl';      
+    }else{
+        this.maindivcls = 'ltr';
+    }
+    this.popupcls = this.maindivcls + ' processBody';
     this.doSelectedPI();
   }
 
   @api
   doSelectedPI() {
-    console.log(">>do select pi medical>>");
+    if(this.isrtl) {
+      this.maindivcls = 'rtl';      
+    }else{
+        this.maindivcls = 'ltr';
+    }
     this.loadSurvey = false;
     this.isMedicalDataLoaded = false;
     this.openmodel = false;

@@ -64,6 +64,8 @@ import September from '@salesforce/label/c.September'
 import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
+import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -71,6 +73,8 @@ export default class Pir_participantDetail extends LightningElement {
     actionReq = false;
     notification = pirResources+'/pirResources/icons/bell.svg';
     disableSrc = false;
+    @api isrtl = false;
+    maindivcls;
     disableScreening = false;
     delegateMinor =false;
     disableEdit = false;
@@ -132,6 +136,11 @@ export default class Pir_participantDetail extends LightningElement {
         this.delegateMinor =false;
         this.stateReq = false;
         this.disableEdit = false;
+        if(this.isrtl) {
+            this.maindivcls = 'rtl';
+        }else{
+            this.maindivcls = 'ltr';
+        }
         getParticipantData( { PEid:value})
             .then(result => {
                 this.pd = result;   
@@ -631,7 +640,7 @@ export default class Pir_participantDetail extends LightningElement {
     setState(){
         this.contactstates=[];
         if(this.pd['pe']['Participant__r']['Mailing_Country__c']){      
-            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country__c']];
+            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country_Code__c']];
             this.stateReq = this.contactstates.length >0;
         }   
         window.clearTimeout(this.delayTimeout);
@@ -943,7 +952,7 @@ export default class Pir_participantDetail extends LightningElement {
                 const event = new ShowToastEvent({
                     variant: 'success',
                     message:
-                    'Record Saved Successfully',
+                    RH_RP_Record_Saved_Successfully,
                 });
                 this.dispatchEvent(event);
                 this.saving = false;
@@ -1044,5 +1053,5 @@ export default class Pir_participantDetail extends LightningElement {
     BTN_Verify=BTN_Verify;
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
     PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
- 
+    RPR_Clear_All=RPR_Clear_All;
 }

@@ -22,19 +22,17 @@ export default class Pir_participantPagination extends LightningElement {
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
     isRendered = false;
-    @api isRTLPg = false;
+    @api isRTLPg;
     @api maindivcls;
     renderedCallback(){
-        if(!this.isRendered){
+        if(!this.isRendered){            
             this.isRendered = true;
             if(this.totalRecords > 0){
                 this.pageNumber = 1;
                 this.calculate();
-            }
-            if(this.maindivcls == 'rtl'){
-                this.isRTLPg = true;
-            }
+            }            
         }
+        
     }
     
     calculate(){
