@@ -93,3 +93,9 @@
     }
 } 
  /** pop code End **/
+ /**RTL Start **/
+.rtl .save-btn{
+    float:left;
+    margin-right:15px;
+}
+ /**RTL END**/

@@ -39,7 +39,7 @@
                                <c-pir_sharing-option isrtl={isRTL} selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
                            </lightning-tab>
                            <template if:true={isMedicalHistryAccess}> 
-                               <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
+                               <lightning-tab label={label.pir_Health_Information} value="Health Information" onactive={handleMedicalTab} class="no-padding">
                                    <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>

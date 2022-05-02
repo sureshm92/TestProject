@@ -16,7 +16,8 @@ export default class Pir_sharingOptionForm extends LightningElement {
     @api isHCPDelegate;
     @api isRpContact;
     @api addRpList;   
-    @api delegateLevel;
+    @api delegateLevel;    
+    @api rtlcss;
     buttonLabel;
     isAddRp = false;
     isAddHcp = false;

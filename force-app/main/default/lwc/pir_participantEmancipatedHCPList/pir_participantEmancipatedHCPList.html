@@ -5,13 +5,33 @@
     </template>
     <div class="slds-grid slds-wrap slds-gutters">
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
-        <lightning-input type="email" label={label.HealthCare_Providers_Email} title={label.HealthCare_Providers_Email} value={email} disabled="true"></lightning-input>
+        <!-- <lightning-input type="email" label={label.HealthCare_Providers_Email} title={label.HealthCare_Providers_Email} value={email} disabled="true"></lightning-input> -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="text-input-id-608"  title={label.HealthCare_Providers_Email}>
+                    {label.HealthCare_Providers_Email}
+                </label>
+                <div class="slds-form-element__control input-margin">
+                    <lightning-input type="email" variant="label-hidden"
+                    value={email} disabled="true"
+                    ></lightning-input>
+                </div>
+            </div>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
         <lightning-input type="text" label={label.HealthCare_Providers_First_Name} title={label.HealthCare_Providers_First_Name} value={firstName} disabled="true"></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_x-small">
-        <lightning-input type="text" label={label.HealthCare_Providers_Last_Name} title={label.HealthCare_Providers_Last_Name} value={lastName} disabled="true"></lightning-input>
+           <!-- <lightning-input type="text" label={label.HealthCare_Providers_Last_Name} title={label.HealthCare_Providers_Last_Name} value={lastName} disabled="true"></lightning-input> -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="text-input-id-608"  title={label.HealthCare_Providers_Last_Name}>
+                    {label.HealthCare_Providers_Last_Name}
+                </label>
+                <div class="slds-form-element__control input-margin">
+                    <lightning-input type="text" variant="label-hidden"
+                    value={lastName} disabled="true"
+                    ></lightning-input>
+                </div>
+            </div>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_x-small">
         <template if:true={isInvited}>

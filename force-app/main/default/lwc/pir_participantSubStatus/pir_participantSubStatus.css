@@ -59,6 +59,15 @@
     font-weight: 500;
     line-height: 20px;
 }
+/** RTL Start **/
+.rtl .step-info{
+    text-align: right;
+}
+.rtl .status-img{
+    margin-right: 0px;
+    margin-left: 10px;
+}
+/** RTL End **/
 @media (max-device-width: 767px) { 
     .text-wrap-btn{
         overflow: unset;
