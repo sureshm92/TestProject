@@ -15938,6 +15938,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>IQVIA cannot contact regarding this study</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_By</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_By</shortDescription>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian consents to be contacted by the study team to keep them updated about important study-related information and activities by the means specified below.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
         <language>en_US</language>
         <protected>true</protected>
