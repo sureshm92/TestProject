@@ -1,4 +1,5 @@
 <template>
+   <div class={rtlcss}>
    <template if:true={isDelegate}>
       <div class={gridCss}>
          <div class="slds-grid slds-wrap slds-gutters" >            
@@ -6,48 +7,57 @@
                <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
             </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
-               <lightning-input 
-                     type="email" 
-                     label={label.DelegateEmailLabel} 
-                     title={label.DelegateEmailLabel} 
-                     required=""
-                     onchange={checkFields} 
-                     value={sharingObject.email}
-                     data-name='email'
-                     class="validate"
-                     onblur={checkDelegateDuplicate}
-                     disabled={isExistingDelegate}>
-                  </lightning-input>
+               
+               <div class="slds-form-element">
+                  <label class="slds-form-element__label" title={label.DelegateEmailLabel}>
+                     <abbr class="slds-required" title="required">* </abbr>{label.DelegateEmailLabel}
+                  </label>
+                  <div class="slds-form-element__control input-margin">
+                     <lightning-input type="email" variant="label-hidden" required=""
+                        onchange={checkFields} 
+                        value={sharingObject.email}
+                        data-name='email'
+                        class="validate"
+                        onblur={checkDelegateDuplicate}
+                        disabled={isExistingDelegate}></lightning-input>
+                     </div>
+               </div>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small m-bottom-mobile">
                <div class="slds-grid slds-wrap slds-gutters">
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                     <lightning-input 
-                           type="text" 
-                           label={label.DelegateFirstNameLabel}
-                           title={label.DelegateFirstNameLabel}
-                           required="" 
-                           value={sharingObject.firstName}                     
-                           onchange={checkFields} 
-                           data-name='firstName'
-                           class="validate"
-                           onblur={checkDelegateDuplicate}
-                           disabled={isDisabled}>
-                        </lightning-input>
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.DelegateFirstNameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.DelegateFirstNameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.firstName}
+                              data-name='firstName'
+                              class="validate"
+                              onblur={checkDelegateDuplicate}
+                              disabled={isDisabled}>
+                           </lightning-input>
+                        </div>
+                     </div>
                   </div>
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                     <lightning-input 
-                           type="text" 
-                           label={label.DelegatelastnameLabel}
-                           title={label.DelegatelastnameLabel}
-                           value={sharingObject.lastName}
-                           required="" 
-                           onchange={checkFields} 
-                           data-name='lastName'
-                           class="validate"
-                           onblur={checkDelegateDuplicate}
-                           disabled={isDisabled}>
-                        </lightning-input>
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.DelegatelastnameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.DelegatelastnameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.lastName}
+                              data-name='lastName'
+                              class="validate"
+                              onblur={checkDelegateDuplicate}
+                              disabled={isDisabled}>
+                           </lightning-input>
+                        </div>
+                     </div>
                         
                         <!--value={sharingObject.lastName}-->
                   </div>
@@ -111,48 +121,58 @@
                <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
             </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
-               <lightning-input 
-                     type="email" 
-                     label={label.ProvidersEmailLabel}
-                     title={label.ProvidersEmailLabel} 
-                     required=""
-                     onchange={checkFields} 
-                     value={sharingObject.Email}
-                     data-name='email'
-                     class="validate"
-                     onblur={checkDelegateDuplicate}
-                     disabled={isExistingDelegate}>
-                  </lightning-input>
+               
+               <div class="slds-form-element">
+                  <label class="slds-form-element__label" title={label.ProvidersEmailLabel}>
+                     <abbr class="slds-required" title="required">* </abbr>{label.ProvidersEmailLabel}
+                  </label>
+                  <div class="slds-form-element__control input-margin">
+                     <lightning-input type="email" variant="label-hidden" required=""
+                        onchange={checkFields} 
+                        value={sharingObject.Email}
+                        data-name='email'
+                        class="validate"
+                        onblur={checkDelegateDuplicate}
+                        disabled={isExistingDelegate}>
+                     </lightning-input>
+                  </div>
+               </div>
                   <!--value={sharingObject.email}-->
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small m-bottom-mobile">
                <div class="slds-grid slds-wrap slds-gutters">
-                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                     <lightning-input 
-                           type="text" 
-                           label={label.ProvidersFirstNameLabel}
-                           title={label.ProvidersFirstNameLabel} 
-                           required="" 
-                           value={sharingObject.FirstName}                     
-                           onchange={checkFields} 
-                           data-name='firstName'
-                           class="validate"                           
-                           disabled={isExistingDelegate}>
-                        </lightning-input>
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">                     
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.ProvidersFirstNameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.ProvidersFirstNameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.FirstName}
+                              data-name='firstName'
+                              class="validate"
+                              disabled={isExistingDelegate}>
+                           </lightning-input>
+                        </div>
+                     </div>
                         <!--value={sharingObject.firstName}onblur={checkDelegateDuplicate}-->
                   </div>
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element m-bottom-mobile">
-                     <lightning-input 
-                           type="text" 
-                           label={label.ProvidersLastnameLabel}
-                           title={label.ProvidersLastnameLabel}
-                           value={sharingObject.LastName}
-                           required="" 
-                           onchange={checkFields} 
-                           data-name='lastName'
-                           class="validate"                           
-                           disabled={isExistingDelegate}>
-                        </lightning-input>
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.ProvidersLastnameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.ProvidersLastnameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.LastName}
+                              data-name='lastName'
+                              class="validate"
+                              disabled={isExistingDelegate}>
+                           </lightning-input>
+                        </div>
+                     </div>
                         
                         <!--value={sharingObject.lastName} onblur={checkDelegateDuplicate}-->
                   </div>
@@ -180,46 +200,52 @@
             <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
          </template>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_samll m-bottom-mobile">
-               <lightning-input 
-                     type="email" 
-                     label={label.ProvidersEmailLabel} 
-                     title={label.ProvidersEmailLabel} 
-                     required=""
-                     onchange={checkFields} 
-                     value={sharingObject.Email__c}
-                     data-name='email'
-                     class="validate"
-                     onblur={checkDelegateDuplicate}
-                     disabled={isExistingDelegate}>
-                  </lightning-input>
+               <div class="slds-form-element">
+                  <label class="slds-form-element__label" title={label.ProvidersEmailLabel}>
+                     <abbr class="slds-required" title="required">* </abbr>{label.ProvidersEmailLabel}
+                  </label>
+                  <div class="slds-form-element__control input-margin">
+                     <lightning-input type="email" variant="label-hidden" required=""
+                        onchange={checkFields} 
+                        value={sharingObject.Email__c}
+                        data-name='email'
+                        class="validate"
+                        onblur={checkDelegateDuplicate}
+                        disabled={isExistingDelegate}></lightning-input>
+                     </div>
+               </div>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 outcome-form-element slds-m-bottom_small m-bottom-mobile">
                <div class="slds-grid slds-wrap slds-gutters">
-                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">
-                     <lightning-input 
-                           type="text" 
-                           label={label.ProvidersFirstNameLabel} 
-                           title={label.ProvidersFirstNameLabel} 
-                           required="" 
-                           value={sharingObject.First_Name__c}                     
-                           onchange={checkFields} 
-                           data-name='firstName'
-                           class="validate"                           
-                           disabled={isDisabled}>
-                        </lightning-input>
+                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element">                     
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.ProvidersFirstNameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.ProvidersFirstNameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.First_Name__c}
+                              data-name='firstName'
+                              class="validate"
+                              disabled={isDisabled}></lightning-input>
+                         </div>
+                     </div>
                   </div>
                   <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element m-bottom-mobile">
-                     <lightning-input 
-                           type="text" 
-                           label={label.ProvidersLastnameLabel} 
-                           title={label.ProvidersLastnameLabel}
-                           value={sharingObject.Last_Name__c}
-                           required="" 
-                           onchange={checkFields} 
-                           data-name='lastName'
-                           class="validate"                           
-                           disabled={isDisabled}>
-                        </lightning-input>
+                     <div class="slds-form-element">
+                        <label class="slds-form-element__label" title={label.ProvidersLastnameLabel}>
+                           <abbr class="slds-required" title="required">* </abbr>{label.ProvidersLastnameLabel}
+                        </label>
+                        <div class="slds-form-element__control input-margin">
+                           <lightning-input type="text" variant="label-hidden" required=""
+                              onchange={checkFields} 
+                              value={sharingObject.Last_Name__c}
+                              data-name='lastName'
+                              class="validate"
+                              disabled={isDisabled}></lightning-input>
+                         </div>
+                     </div>
                   </div>
                </div>
             </div>
@@ -251,4 +277,5 @@
          </div>
       </div>
    </template>
+</div>
 </template>

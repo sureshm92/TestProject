@@ -146,6 +146,7 @@
         margin-left: 0;
     }
 }    
+
 /*  Tooltip for Text length overflow  */
 .tooltip {
     position: relative;
@@ -269,6 +270,12 @@
 .rtl .checkbox-placedct{
     margin-right: 13px;
     padding: 3px 0px 0px 0px;
+} 
+@media (max-device-width: 767px) {
+    .rtl .w-filter{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 } 
 /* RTL End*/
   
