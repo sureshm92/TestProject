@@ -33,11 +33,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         for (Televisit_Attendee__c attendee : [
             SELECT Id, Contact__c, Televisit__c
             FROM Televisit_Attendee__c
-            WHERE
-                Id IN :attendeeList
-                AND Contact__r.UserCommunityIsDelegate__c = TRUE
-                AND isDeleted = TRUE
-            ALL ROWS
+            WHERE Id IN :attendeeList
         ]) {
             attendeeTelevisitMap.put(attendee.Contact__c, attendee.Televisit__c);
             Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
