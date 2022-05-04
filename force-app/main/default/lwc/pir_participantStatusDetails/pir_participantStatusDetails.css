@@ -485,3 +485,44 @@
         padding: 0px;
     }
 }
+
+/*rtl start*/
+.rtl .vertical-scroll{
+    padding: 0px 0px 0px 5px;  
+}
+.rtl .col-padding{
+    padding: 0px 0px 0px 15px;
+ }
+ @media (max-device-width: 767px) {
+    .rtl .col-padding{
+        padding: 0px 0px 0px 0px;
+     }
+ }
+.rtl .sitepre_Checkbox{/*not found*/
+    padding-right: 11px;
+}
+.rtl .slds-button+.slds-button{
+    margin-right: 0;
+ }
+ .rtl .state-ico-wrapper {
+     left: 0;
+ }
+ .rtl .text-wrap-btn{
+     text-align: right;
+ }
+ .rtl .step-info{
+    text-align: right;
+ }
+ .rtl .status-img{
+     margin-left: 20px;
+     margin-right: 0;
+ }
+ .rtl .vpi-state.current .state-ico-wrapper {
+    left: 65px;
+}
+ @media all and (min-width: 1024px) {
+    .rtl .state-ico-wrapper {
+        left: 60px;
+    }
+ }
+  /** rtl langauge fix End **/

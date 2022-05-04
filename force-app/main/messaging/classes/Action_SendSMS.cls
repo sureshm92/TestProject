@@ -26,6 +26,8 @@ public with sharing class Action_SendSMS implements Action {
         public String awsSponsorName;
         public String awsStudy;
         public String studySiteId;
+        public String MailingCountryCode;
+        public string stateCode;
     }
     class MessagegResponseWrapper {
         public string applicationId;
@@ -154,6 +156,7 @@ public with sharing class Action_SendSMS implements Action {
                 Notification__r.Recipient__r.MobilePhone,
                 Notification__r.Recipient__r.Language__c,
                 Notification__r.Recipient__r.MailingCountryCode,
+                Notification__r.Recipient__r.MailingStateCode,
                 Notification__r.Notification_Type__c,
                 Notification__r.Task_Id__c
             FROM Send_Result__c
@@ -162,6 +165,8 @@ public with sharing class Action_SendSMS implements Action {
                 AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
         ]) {
             String phoneNumber = smsChannel.Notification__r.Recipient__r.MobilePhone;
+            String countryCode = smsChannel.Notification__r.Recipient__r.MailingCountryCode;
+            String stateCode = smsChannel.Notification__r.Recipient__r.MailingStateCode;
             //  Boolean isPlatformLevel = true;
             // String pinPoint;
             if (
@@ -220,6 +225,8 @@ public with sharing class Action_SendSMS implements Action {
                         .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
+                msgParam.MailingCountryCode = countryCode;
+                msgParam.stateCode = stateCode;
                 /**if (
                     message.length() >
                     countryDialCodeMap.get(

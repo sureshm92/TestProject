@@ -10,7 +10,8 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
     @api phoneTypes = [];
     @api inviteOptions = false;
     @api delegatecontinue;
-    @api continuedelegate;
+    @api continuedelegate; 
+    @api maindivcls;
     @api
     get options() {
         return [

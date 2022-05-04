@@ -14,7 +14,7 @@ export default class Pir_deletepreset extends LightningElement {
     label = {PIR_Preset_Delete_Message,PIR_Delete_Preset
             ,BTN_Close,PIR_Delete_Preset_Popup_1,PIR_Delete_Preset_Popup_2 
              ,pir_Delete_Btn,BTN_Back};
-
+    @api maindivcls;
     @api
     selectedpreset;
     isDeleted = false; 

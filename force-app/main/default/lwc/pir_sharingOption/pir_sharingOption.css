@@ -82,3 +82,8 @@
         padding:0 10px;
     }
 }
+/*RTL start*/
+.rtl .connect-patient-btn{
+    margin-top: 10px;
+}
+/* RTL End*/
