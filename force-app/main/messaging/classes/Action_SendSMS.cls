@@ -502,7 +502,7 @@ public with sharing class Action_SendSMS implements Action {
 
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
-            Id peId = '';
+            Id peId = null;
             if (notObj.WhatId__c != null) {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
                     notObj.Notification_Type__c
