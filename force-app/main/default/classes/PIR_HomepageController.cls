@@ -63,6 +63,8 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public boolean isAllowedForSH;
     @AuraEnabled
+    public String screeningId;
+    @AuraEnabled
     public Participant_Enrollment__c per;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
@@ -248,6 +250,7 @@ public without sharing class PIR_HomepageController {
         'PI_Contact__r.Name,' +
         'Source_Type__c,' +
         'Study_Hub_Log__c,' +
+        'Screening_ID__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
         '(' +
         '  SELECT Id, Date__c, Non_Enrollment_Reason__c ' +
@@ -977,6 +980,7 @@ public without sharing class PIR_HomepageController {
       wrap.clinicalPPEnable = lst.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
       wrap.notEligibleEmail = lst.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
+      wrap.screeningId = lst.Screening_ID__c;
 
       listViewWrapper.add(wrap);
     }
