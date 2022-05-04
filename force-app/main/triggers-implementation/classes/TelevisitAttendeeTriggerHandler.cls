@@ -3,6 +3,14 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         public override void afterDelete(List<SObject> oldList) {
             notifyAttendeesRemoved(oldList);
         }
+        public override void afterInsert(List<SObject> newList) {
+            notifyNewAttendees(newList);
+        }
+    }
+
+    @TestVisible
+    private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
+        //Insert notifications for new attendees
     }
 
     @TestVisible
