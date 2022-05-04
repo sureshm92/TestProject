@@ -214,6 +214,7 @@ public without sharing class PIR_HomepageController {
         'Name,' +
         'Participant__r.First_Name__c,' +
         'Participant__r.Last_Name__c,' +
+        'Participant__r.Full_Name__c,' +
         'Participant__r.Phone__c,' +
         'Clinical_Trial_Profile__r.Study_Code_Name__c,' +
         'Clinical_Trial_Profile__r.Promote_to_SH__c,' +
@@ -595,6 +596,7 @@ public without sharing class PIR_HomepageController {
     List<String> lstFieldSearch = new List<String>{
       'Participant__r.First_Name__c',
       'Participant__r.Last_Name__c',
+      'Participant__r.Full_Name__c',
       'Name'
     };
 
@@ -628,12 +630,12 @@ public without sharing class PIR_HomepageController {
       for (String searchField : lstFieldSearch) {
         String searchFieldValue =
           SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
-        for (String searchWord : searchString.split(' ')) {
-          if (searchFieldValue.containsIgnoreCase(searchWord)) {
+       // for (String searchWord : searchString.split(' ')) {
+          if (searchFieldValue.containsIgnoreCase(searchString)) {
             isFound = true;
             break;
           }
-        }
+       // }
       }
       if (isFound)
         filteredPEList.add(pe);
