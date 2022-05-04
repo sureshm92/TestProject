@@ -11683,11 +11683,53 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delete and Close</value>
     </labels>
     <labels>
+        <fullName>PIR_Delete_Preset_Popup_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
+        <value>Are you sure you want to delete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Preset_Popup_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_2</shortDescription>
+        <value>This cannot be undone.</value>
+    </labels>
+    <labels>
+        <fullName>pir_Filter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Filter</shortDescription>
+        <value>Filter</value>
+    </labels>
+    <labels>
+        <fullName>pir_Sort_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Sort By</shortDescription>
+        <value>Sort By:</value>
+    </labels>
+    <labels>
         <fullName>PIR_In_Wash_Out_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_In Wash Out Period</shortDescription>
         <value>Screening In Progress - Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>pir_Initial_Visit_Scheduled_Date_past</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Initial Visit Scheduled Date (past)</shortDescription>
+        <value>Initial Visit Scheduled Date (past)</value>
+    </labels>
+    <labels>
+        <fullName>pir_Initial_Visit_Scheduled_Date_upcoming</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Initial Visit Scheduled Date (upcoming)</shortDescription>
+        <value>Initial Visit Scheduled Date (upcoming)</value>
     </labels>
     <labels>
         <fullName>PIR_medicalAcceptedFile</fullName>
@@ -11732,6 +11774,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Search Comorbidities...</value>
     </labels>
     <labels>
+        <fullName>pir_No_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_No Preset</shortDescription>
+        <value>No Preset</value>
+    </labels>
+    <labels>
         <fullName>PIR_Not_Ready_to_Schedule</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11751,6 +11800,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Declined</shortDescription>
         <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>pir_Delete_Btn</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Delete_Btn</shortDescription>
+        <value>Delete</value>
     </labels>
     <labels>
         <fullName>PIR_Did_Not_Attend_Appointment</fullName>
@@ -11802,11 +11858,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Other</value>
     </labels>
     <labels>
+        <fullName>pir_Please_wait_as_your_page_loads</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Please wait as your page loads</shortDescription>
+        <value>Please wait as your page loads</value>
+    </labels>
+    <labels>
         <fullName>PIR_PI_Decision</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_PI Decision</shortDescription>
         <value>PI Decision</value>
+    </labels>
+    <labels>
+        <fullName>pir_Participant_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Participant List</shortDescription>
+        <value>Participant List</value>
     </labels>
     <labels>
         <fullName>PIR_Participant_Not_Interested</fullName>
@@ -11823,6 +11893,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participation Complete</value>
     </labels>
     <labels>
+        <fullName>pir_Presets</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Presets</shortDescription>
+        <value>Presets</value>
+    </labels>
+    <labels>
         <fullName>PIR_Protocol_Concerns</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11837,6 +11914,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Screener</value>
     </labels>
     <labels>
+        <fullName>pir_Search_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Search Participants</shortDescription>
+        <value>Search Participants</value>
+    </labels>
+    <labels>
         <fullName>PIR_Transportation_Issues</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11849,6 +11933,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Trial Complete</shortDescription>
         <value>Trial Complete</value>
+    </labels>
+    <labels>
+        <fullName>pir_preset_count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_preset_count</shortDescription>
+        <value>You have reached maximum permissible limit, please delete a preset to continue.</value>
+    </labels>
+    <labels>
+        <fullName>pir_presetUniqueName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_presetUniqueName</shortDescription>
+        <value>preset already exists. Please enter a different preset name to continue with the action.	</value>
+    </labels>
+    <labels>
+        <fullName>pir_updatePreset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_updatePreset</shortDescription>
+        <value>has been succesfully updated.</value>
     </labels>
     <labels>
         <fullName>PIR_uploadFile_exced</fullName>
@@ -11870,6 +11975,97 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
         <value>Please review the form for required fields</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Active_InActive</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Active/InActive</shortDescription>
+        <value>Active/Inactive</value>
+    </labels>
+    <labels>
+        <fullName>PIR_All_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_All Study</shortDescription>
+        <value>All Study</value>
+    </labels>
+    <labels>
+        <fullName>PIR_All_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_All Study Site</shortDescription>
+        <value>All Study Site</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Edit_Preset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Edit Preset</shortDescription>
+        <value>Edit Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Initial_Visit_Not_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Initial Visit Not Scheduled</shortDescription>
+        <value>Initial Visit Not Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>PIR_No_presets_available_to_edit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR No presets available to edit</shortDescription>
+        <value>No presets available to edit</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Preset_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Preset Information</shortDescription>
+        <value>Preset Information</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Sex_at_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Sex at Birth</shortDescription>
+        <value>Sex at Birth</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Study_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study Information</shortDescription>
+        <value>Study Information</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Update</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Update</shortDescription>
+        <value>Update</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Use_the_ethnicity_filter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_ Use the ethnicity filter</shortDescription>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse Participants.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_more</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_more</shortDescription>
+        <value>more</value>
+    </labels>
+    <labels>
+        <fullName>pir_Health_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_Health Information</shortDescription>
+        <value>Health Information</value>
     </labels>
     <labels>
         <fullName>RH_Send_to_DCT_Platform</fullName>
@@ -16129,7 +16325,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG_Ref_L_StudySite_Consent_Mandatory</shortDescription>
         <value>Please, confirm that your patient and/or patient's legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
-    </labels> 
+    </labels>
+     
     <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
         <language>en_US</language>
@@ -18364,7 +18561,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new reward certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
@@ -21622,7 +21819,7 @@ communications using the toggles below.</value>
         <fullName>SS_Btn_Check_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>SS Btn Check Address</shortDescription>
+        <shortDescription>SS Btn Check Address</shortDescription> 
         <value>Check Address</value>
     </labels>
     <labels>
@@ -23089,6 +23286,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Task Subject Select COI</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Update_Your_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Update Your Phone Number</shortDescription>
+        <value>Please, update your phone number under Account Settings</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>
@@ -24593,7 +24797,7 @@ communications using the toggles below.</value>
         <shortDescription>RH RP out of</shortDescription>
         <value>out of</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PIR_CreatePreset</fullName>
         <language>en_US</language>
         <protected>false</protected>

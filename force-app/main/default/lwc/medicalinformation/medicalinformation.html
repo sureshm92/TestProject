@@ -7,8 +7,9 @@
   </template>
 
   <template if:true={isMedicalDataLoaded} class="slds-is-relative">
+    <div class={maindivcls}>
     <div
-      class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll"
+      class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll "
     >
       <div
         class="slds-grid slds-wrap slds-gutters slds-p-left_medium slds-p-left_x-small slds-p-right_x-small p-left-right"
@@ -191,6 +192,7 @@
           </div>
         </div>
         <!-- Comorbidities End -->
+    
 
         <div
           class="slds-col slds-size--1-of-1 slds-m-bottom_x-small slds-m-top_xx-small"
@@ -267,6 +269,7 @@
 
                     <template if:true={ismodelPopup}>
                       <c-pir_uploadmedicaldocument
+                        maindivcls={popupcls}
                         uploadonid={returnpervalue.selectedPER.Participant__c}
                         onclosemodelpopup={renderModel}
                       ></c-pir_uploadmedicaldocument>
@@ -391,8 +394,7 @@
                         >
                           <div class="btn-medical-record">
                             <button
-                              class="slds-button apollo-btn primary ipad-mode-btn slds-p-around_x-small stretch-btn"
-                              style="float: right"
+                              class="slds-button apollo-btn primary ipad-mode-btn slds-p-around_x-small stretch-btn float-btns"
                               onclick={handleauthorze}
                             >
                               {label.RH_RequestMedicalBtn}
@@ -691,5 +693,6 @@
       <!-- Medical-tab End -->
     </div>
     <!-- complete section -->
+  </div>
   </template>
 </template>

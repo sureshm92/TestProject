@@ -36,6 +36,7 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -69,7 +70,8 @@ export default class Medicalinformation extends LightningElement {
     pir_BMI_Error,
     pir_BmiHelptext,
     RH_MedicalRecords_NoPermitEmail,
-    PIR_Download
+    PIR_Download,
+    RH_RP_Record_Saved_Successfully
   };
 
   @api selectedPe;
@@ -112,19 +114,27 @@ export default class Medicalinformation extends LightningElement {
   isHighPriorityChanged;
   isComorbidityyChanged = false;
   isBMIError = false;
-
-  
-  
-  
+  @api isrtl = false;
+  maindivcls;
+  popupcls;
 
   connectedCallback() {
-    console.log(">>vonnectted medical");
+    if(this.isrtl) {
+      this.maindivcls = 'rtl';      
+    }else{
+        this.maindivcls = 'ltr';
+    }
+    this.popupcls = this.maindivcls + ' processBody';
     this.doSelectedPI();
   }
 
   @api
   doSelectedPI() {
-    console.log(">>do select pi medical>>");
+    if(this.isrtl) {
+      this.maindivcls = 'rtl';      
+    }else{
+        this.maindivcls = 'ltr';
+    }
     this.loadSurvey = false;
     this.isMedicalDataLoaded = false;
     this.openmodel = false;
@@ -845,8 +855,6 @@ export default class Medicalinformation extends LightningElement {
     if (this.returnpervalue.BMI) {
       BMIvalue = this.returnpervalue.BMI;
     }
-
-    console.log(">>BMIvalue>>" + BMIvalue);
     saveParticipantData({
       strBMI: BMIvalue,
       boolHighRisk: this.returnpervalue.HighRisk,
@@ -867,8 +875,8 @@ export default class Medicalinformation extends LightningElement {
 
         
         const evt = new ShowToastEvent({
-          title: "Record Saved Successfully",
-          message: "Record Saved Successfully",
+          title: this.label.RH_RP_Record_Saved_Successfully,
+          message: this.label.RH_RP_Record_Saved_Successfully,
           variant: "success",
           mode: "dismissable"
         });

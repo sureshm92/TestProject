@@ -80,7 +80,12 @@
     float: right;
     margin-left: 15px;
 }
-.discard-btn {
+.rtl .save-btn{
+    float: left;
+    margin-right: 15px;
+    margin-left: 0px;
+}
+.discard-btn{
     border: 1px solid #ffffff;
     box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
 }
@@ -88,7 +93,11 @@
     text-align: right;
     padding: 12px 27px;
 }
-.participant-text {
+.rtl .save-btn-p{
+    text-align:left;
+    border-top: 1px solid #E9E9E9;
+}
+.participant-text{
     font-size: 16px;
     font-weight: 500;
 }
@@ -106,6 +115,12 @@
 }
 .margin-top {
     margin-top: 1px;
+}
+.rtl .rtl-left{
+    margin-left:12px;
+}
+.rtl .rtl-export{
+    margin-left:14px;
 }
 /* Scrollbar Code */
 ::-webkit-scrollbar {
@@ -155,7 +170,10 @@
     .save-btn-p {
         padding: 12px 10px;
     }
-}
+    .rtl .save-btn-p{
+        border-top: 1px solid transparent;
+    }
+}  
 @media (min-width: 767px) {
     .model-small {
         width: 50%;

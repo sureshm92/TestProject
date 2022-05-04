@@ -22,6 +22,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
     @api em = '';@api fn = '';@api ln = '';@api isconn = false;
     @api loading = false;
     @track utilLabels = label;
+    @api maindivcls;
     checkFields(event){
         let datavalue = event.target.dataset.value;
         if(event.target.dataset.value === "firstName") {
@@ -98,9 +99,9 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     this.delegateItem.isDuplicate = result.isDuplicateDelegate;
                     this.delegateItem.sObjectType = "Participant__c";
                     this.delegateItem.Mailing_State_Code__c = this.participants.Mailing_State_Code__c;
-                    this.delegateItem.Mailing_State__c = this.participants.Mailing_State__c;
+                    //this.delegateItem.Mailing_State__c = this.participants.Mailing_State__c;
                     this.delegateItem.Mailing_Country_Code__c = this.participants.Mailing_Country_Code__c;
-                    this.delegateItem.Mailing_Country__c = this.participants.Mailing_Country__c;
+                    //this.delegateItem.Mailing_Country__c = this.participants.Mailing_Country__c;
                     this.delegateItem.Phone_Type__c ="Home";
                     this.delegateItem.Adult__c = true;
                     this.delegateItem.Email__c = this.emailAddress;
@@ -111,9 +112,9 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     this.delegateItem.isDuplicate = result.isDuplicateDelegate;
                     this.delegateItem.sObjectType = "Participant__c";
                     this.delegateItem.Mailing_State_Code__c = this.participants.Mailing_State_Code__c;
-                    this.delegateItem.Mailing_State__c = this.participants.Mailing_State__c;
+                    //this.delegateItem.Mailing_State__c = this.participants.Mailing_State__c;
                     this.delegateItem.Mailing_Country_Code__c = this.participants.Mailing_Country_Code__c;
-                    this.delegateItem.Mailing_Country__c = this.participants.Mailing_Country__c;
+                    //this.delegateItem.Mailing_Country__c = this.participants.Mailing_Country__c;
                     this.delegateItem.Phone_Type__c ="Home";
                     this.delegateItem.Adult__c = true;
                     this.delegateItem.Email__c = this.emailAddress;
