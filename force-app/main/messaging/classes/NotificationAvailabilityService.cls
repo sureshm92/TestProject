@@ -12,6 +12,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
     private static final String CASE_OBJ_NAME = 'Case';
+    private static final String TELEVISIT_OBJ_NAME = 'Televisit__c';
     private static final String TELEVISIT_ATTN_OBJ_NAME = 'Televisit_Attendee__c';
 
     private Map<Id, Contact> contactByIdMap;
@@ -206,26 +207,26 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(ss.Id, ss);
                 }
             }
-
-            if (objType == TELEVISIT_ATTN_OBJ_NAME) {
-                List<Televisit_Attendee__c> teleVisitsList = [
+            if (objType == TELEVISIT_OBJ_NAME) {
+                List<Televisit__c> teleVisitsList = [
                     SELECT
                         Id,
-                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
-                    FROM Televisit_Attendee__c
+                        Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                        Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                    FROM Televisit__c
                     WHERE Id IN :objectsByStrings.get(objType)
+                    ALL ROWS
                 ];
-                for (Televisit_Attendee__c ta : teleVisitsList) {
-                    objectsByIds.put(ta.Id, ta);
+                for (Televisit__c tv : teleVisitsList) {
+                    objectsByIds.put(tv.Id, tv);
                 }
             }
 
@@ -310,14 +311,10 @@ public without sharing class NotificationAvailabilityService {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     checkForNotification = true;
-            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
-                Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
-                    Id.valueOf(whatId)
-                );
-                Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
+            } else if (objType == TELEVISIT_OBJ_NAME) {
+                Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
+                Participant_Enrollment__c pe = tv.Participant_Enrollment__r;
                 Contact contact = contactByIdMap.get(contactId);
-                /**if (contact.Participant_Opt_In_Status_Emails__c)
-                 checkForNotification = true; **/
                 if (
                     pe != null &&
                     contact != null &&
