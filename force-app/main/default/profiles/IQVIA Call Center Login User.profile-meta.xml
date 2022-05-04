@@ -5869,6 +5869,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Pre_Screener_Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Pre_Screener_Completed_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>     
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Opt_In_Status_Emails__c</field>
         <readable>true</readable>
     </fieldPermissions>
