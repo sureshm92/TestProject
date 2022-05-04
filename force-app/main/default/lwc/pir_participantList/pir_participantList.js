@@ -69,6 +69,7 @@ export default class Pir_participantList extends LightningElement {
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
+    hideActiononSearch=false
     enteredSearchString = '';
     filterWrapper= {};
     @api maindivcls;
@@ -270,10 +271,12 @@ export default class Pir_participantList extends LightningElement {
         this.searchCounter++ ;
         this.enteredSearchString = '';
         this.disabledFilter = false;
+        this.hideActiononSearch=false;
         if(event.target.value.length != 0)
         {
           this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            this.hideActiononSearch=true;
             if(event.target.value.length <= 2 )
                 return;
         } 
@@ -641,6 +644,13 @@ export default class Pir_participantList extends LightningElement {
           });
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
+    }
+    get checknewStatus(){
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
     }
   
     changeStatus = false;
@@ -1301,25 +1311,50 @@ export default class Pir_participantList extends LightningElement {
         total = this.selectedCheckboxes.length + countvalue;
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
-                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
-                    checkboxes[i].checked = event.target.checked;
-                    if(checkboxes[i].checked==true){
-                        if(!this.selectedCheckboxes.includes(this.participantList[i].id))
-                        {
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
-                                this.selectedCheckboxes.push(this.participantList[i].id);
+                if(this.checknewStatus){
+                    if(this.participantList[i].screeningId){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
-                            else{ 
-                                event.target.checked=false;
-                                checkboxes[i].checked=false;
-                            }
+                            
                         }
-                        
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
                     }
-                    else{
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
-                                var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
-                                this.selectedCheckboxes.splice(index,1 );
+                }else{
+                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
+                            }
+                            
+                        }
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
                             }
                         }
                 }
