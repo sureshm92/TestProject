@@ -266,20 +266,20 @@ public without sharing class PIR_HomepageController {
         ' AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: janssenLabel' +
         ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
 
-      if (String.isNotBlank(searchString)) {
-        return getSearchRecords(
-          sponsorName,
-          queryString,
-          searchString,
-          filterStringPP,
-          pageNumber,
-          studyIdlist,
-          siteIdlist,
-          sortOn,
-          sortType,
-          filterWrapper
-        );
-      }
+      // if (String.isNotBlank(searchString)) {
+      //   return getSearchRecords(
+      //     sponsorName,
+      //     queryString,
+      //     searchString,
+      //     filterStringPP,
+      //     pageNumber,
+      //     studyIdlist,
+      //     siteIdlist,
+      //     sortOn,
+      //     sortType,
+      //     filterWrapper
+      //   );
+      // }
       String filterString =
         ' Study_Site__c IN :siteIdlist' +
         ' AND Participant_Status__c IN :status';
@@ -292,6 +292,9 @@ public without sharing class PIR_HomepageController {
           selectedStatusList.add('Eligibility Passed');
           filterString =
             filterString + ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
+        }else if(!selectedStatusList.contains('Sent to DCT') && selectedStatusList.contains('Eligibility Passed')){
+          filterString =
+            filterString + ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false  ';
         }else if(selectedStatusList.contains('Sent to DCT') && selectedStatusList.contains('Eligibility Passed')){
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -456,7 +459,20 @@ public without sharing class PIR_HomepageController {
       Integer totalCountPP = Database.countQuery(qCountString);
 
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
-
+      if (String.isNotBlank(searchString)) {
+        return getSearchRecords(
+          sponsorName,
+          queryString,
+          searchString,
+          filterStringPP,
+          pageNumber,
+          studyIdlist,
+          siteIdlist,
+          sortOn,
+          sortType,
+          filterWrapper
+        );
+      }
       if (pageNumber > 200 & pageNumber <= 4500) {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
@@ -604,10 +620,12 @@ public without sharing class PIR_HomepageController {
       for (String searchField : lstFieldSearch) {
         String searchFieldValue =
           SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
+       // for (String searchWord : searchString.split(' ')) {
           if (searchFieldValue.containsIgnoreCase(searchString)) {
             isFound = true;
             break;
           }
+       // }
       }
       if (isFound)
         filteredPEList.add(pe);
@@ -1767,8 +1785,6 @@ public without sharing class PIR_HomepageController {
             new Participant_Enrollment_Status_History__c(
               Date__c = pe.Participant_Status_Last_Changed_Date__c,
               Status__c = PEStatusState.PE_STATUS_READY_TO_SCREEN,
-              Notes__c = Notes,
-              Non_Enrollment_Reason__c = initReasonMap.get(reason),
               ParticipantEnrollment__c = pe.Id
             )
           );
