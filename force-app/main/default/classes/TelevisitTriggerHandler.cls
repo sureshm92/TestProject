@@ -71,7 +71,7 @@ public class TelevisitTriggerHandler {
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
-                                WhatId__c = teleAttendee.Id,
+                                WhatId__c = teleObj.Id,
                                 Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Type'
                             )
                         );
@@ -82,7 +82,7 @@ public class TelevisitTriggerHandler {
                                         participantIdsByDelegates,
                                         teleAttendee.Contact__c
                                     ),
-                                    WhatId__c = teleAttendee.Id,
+                                    WhatId__c = teleObj.Id,
                                     Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Del_Ty'
                                 )
                             );
@@ -101,7 +101,7 @@ public class TelevisitTriggerHandler {
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
-                                WhatId__c = teleAttendee.Id,
+                                WhatId__c = teleObj.Id,
                                 Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Type'
                             )
                         );
@@ -112,7 +112,7 @@ public class TelevisitTriggerHandler {
                                         participantIdsByDelegates,
                                         teleAttendee.Contact__c
                                     ),
-                                    WhatId__c = teleAttendee.Id,
+                                    WhatId__c = teleObj.Id,
                                     Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Del'
                                 )
                             );
