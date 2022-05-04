@@ -7,15 +7,37 @@ public without sharing class TelevisitAttendeeTriggerHandler {
 
     @TestVisible
     private static void notifyAttendeesRemoved(List<Televisit_Attendee__c> attendeeList) {
-        List<Id> contactsToNotify = new List<Id>();
+        /*
+         * Scenarios -
+         * Participant as attendee (For minor) - will not occur
+         * Participant Delegate as attendee
+         * Notfication to delegate when participant is removed - will not occur
+         */
+        List<Id> allAttendeeContactIds = new List<Id>();
+        List<Id> delegateAttendeeConIds = new List<Id>();
+        //List<Id> patientDeleToNotify = new List<Id>();
+
         for (Televisit_Attendee__c attendee : attendeeList) {
-            contactsToNotify.add(attendee.Contact__c);
+            allAttendeeContactIds.add(attendee.Contact__c);
         }
-        List<Id> patientDeleToNotify = new List<Id>();
+
+        delegateAttendeeConIds.addAll(
+            new Map<Id, Contact>(
+                    [
+                        SELECT Id
+                        FROM Contact
+                        WHERE Id IN :allAttendeeContactIds AND UserCommunityIsDelegate__c = TRUE
+                    ]
+                )
+                .keySet()
+        );
+        /*
         //Contact Id => List<Patient_Delegate__c>
         Map<Id, List<Patient_Delegate__c>> contactDelegateMap = new Map<Id, List<Patient_Delegate__c>>();
         for (
-            Patient_Delegate__c delegate : PatientDelegateService.getPDelegates(contactsToNotify)
+            Patient_Delegate__c delegate : PatientDelegateService.getPDelegates(
+                allAttendeeContactIds
+            )
         ) {
             if (contactDelegateMap.containsKey(delegate.Participant__r.Contact__r.Id)) {
                 contactDelegateMap.get(delegate.Participant__r.Contact__r.Id).add(delegate);
@@ -43,16 +65,22 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 }
             }
         }
-        if (!contactsToNotify.isEmpty()) {
+        if (!participantContactsToNotifiy.isEmpty()) {
             createAttendeeNotifications(
-                contactsToNotify,
-                NotificationCatalog.MESSAGE_TO_PT_AND_DEL_REMOVED_ATTENDEE
+                participantContactsToNotifiy,
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE
             );
         }
         if (!patientDeleToNotify.isEmpty()) {
             createAttendeeNotifications(
-                contactsToNotify,
-                NotificationCatalog.MESSAGE_TO_DEL_PT_REMOVED_ATTENDEE
+                patientDeleToNotify,
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE
+            );
+        }*/
+        if (!delegateAttendeeConIds.isEmpty()) {
+            createAttendeeNotifications(
+                delegateAttendeeConIds,
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE
             );
         }
     }
