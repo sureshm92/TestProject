@@ -25,11 +25,6 @@ public with sharing class SMSDeliveryStatusTriggerHandler {
         set<Id> notificationIdSet = new Set<Id>();
 
         List<IntegrationLog__c> listIL = new List<IntegrationLog__c>();
-        Set<String> welcomemsgNoticationtypes = new Set<String>{
-            NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
-            //TODO: Add notification types
-        };
-
         //Get the List of messageId from platform event record.
         for (SMS_Delivery_Status__e dr : ssmDeliveryStatus) {
             if (dr.Record_Status__c.equalsIgnoreCase(INVALID)) {
@@ -58,7 +53,11 @@ public with sharing class SMSDeliveryStatusTriggerHandler {
                 contactIdSet.Add(sr.Notification__r.Recipient__c);
             }
             //If Notification Type is Welcome Message
-            if (welcomemsgNoticationtypes.contains(sr.Notification__r.Notification_Type__c)) {
+            if (
+                NotificationService.welcomemsgNoticationtypes.contains(
+                    sr.Notification__r.Notification_Type__c
+                )
+            ) {
                 if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
                     //If the delivery Receipt  status is INVALID.
                     notificationIdStatusMap.put(sr.Notification__c, INVALID);
