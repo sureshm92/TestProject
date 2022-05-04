@@ -15,67 +15,46 @@ public without sharing class TelevisitAttendeeTriggerHandler {
 
     @TestVisible
     private static void notifyAttendeesRemoved(List<Televisit_Attendee__c> attendeeList) {
-        List<Id> contactsToNotify = new List<Id>();
-        for (Televisit_Attendee__c attendee : attendeeList) {
-            contactsToNotify.add(attendee.Contact__c);
+        /*
+         * Scenarios :
+         * --------------------------------------------------------------------
+         * 1. Participant as attendee (For minor) - will not occur
+         * 2. Participant Delegate as attendee
+         * 3. Notfication to delegate when participant is removed - will not occur
+         */
+        //Contact Id => Televisit Id
+        Map<Id, Id> delConTeleMap = new Map<Id, Id>();
+
+        for (Televisit_Attendee__c attendee : [
+            SELECT Id, Contact__c, Televisit__c
+            FROM Televisit_Attendee__c
+            WHERE
+                Id IN :attendeeList
+                AND Contact__r.UserCommunityIsDelegate__c = TRUE
+                AND isDeleted = TRUE
+            ALL ROWS
+        ]) {
+            delConTeleMap.put(attendee.Contact__c, attendee.Televisit__c);
         }
-        List<Id> patientDeleToNotify = new List<Id>();
-        //Contact Id => List<Patient_Delegate__c>
-        Map<Id, List<Patient_Delegate__c>> contactDelegateMap = new Map<Id, List<Patient_Delegate__c>>();
-        for (
-            Patient_Delegate__c delegate : PatientDelegateService.getPDelegates(contactsToNotify)
-        ) {
-            if (contactDelegateMap.containsKey(delegate.Participant__r.Contact__r.Id)) {
-                contactDelegateMap.get(delegate.Participant__r.Contact__r.Id).add(delegate);
-            } else {
-                contactDelegateMap.put(
-                    delegate.Participant__r.Contact__r.Id,
-                    new List<Patient_Delegate__c>{ delegate }
-                );
-            }
-        }
-        if (!contactDelegateMap.isEmpty()) {
-            //Look for number of delegates
-            for (Id ptConId : contactDelegateMap.keySet()) {
-                if (contactDelegateMap.get(ptConId).size() == 1) {
-                    //Sole delegate should be notified
-                    patientDeleToNotify.add(contactDelegateMap.get(ptConId)[0].Contact__c);
-                } else if (contactDelegateMap.get(ptConId).size() > 1) {
-                    //For multiple delegates notify primary delegate
-                    for (Patient_Delegate__c del : contactDelegateMap.get(ptConId)) {
-                        if (del.Primary_Delegate__c) {
-                            patientDeleToNotify.add(del.Contact__c);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if (!contactsToNotify.isEmpty()) {
+        if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(
-                contactsToNotify,
-                NotificationCatalog.MESSAGE_TO_PT_AND_DEL_REMOVED_ATTENDEE
-            );
-        }
-        if (!patientDeleToNotify.isEmpty()) {
-            createAttendeeNotifications(
-                contactsToNotify,
-                NotificationCatalog.MESSAGE_TO_DEL_PT_REMOVED_ATTENDEE
+                delConTeleMap,
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE
             );
         }
     }
 
     @TestVisible
     private static void createAttendeeNotifications(
-        List<Id> attendeeContactIds,
+        Map<Id, Id> contactTelevistMap,
         String notificationType
     ) {
         List<Notification__c> notifications = new List<Notification__c>();
-        for (Id conId : attendeeContactIds) {
+        for (Id conId : contactTelevistMap.keySet()) {
             notifications.add(
                 new Notification__c(
                     Recipient__c = conId,
-                    WhatId__c = 'Televisit_Attendee__c',
+                    WhatId__c = contactTelevistMap.get(conId),
                     Notification_Type__c = notificationType
                 )
             );

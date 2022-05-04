@@ -44,9 +44,9 @@ public without sharing class NotificationService {
 
     static public List<String> televisitNotificationTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_AND_DEL_REMOVED_ATTENDEE,
-        NotificationCatalog.MESSAGE_TO_PT_AND_DEL_ADDED_ATTENDEE,
-        NotificationCatalog.MESSAGE_TO_DEL_PT_REMOVED_ATTENDEE
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
