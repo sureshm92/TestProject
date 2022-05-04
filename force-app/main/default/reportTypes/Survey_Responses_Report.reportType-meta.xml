@@ -325,16 +325,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Pre_Screener_Review_Completed_Date__c</field>
-            <table>Participant_Enrollment__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Pre_Screener_Review_Completed_by__c</field>
-            <table>Participant_Enrollment__c</table>
-        </columns>        
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Randomized_Date__c</field>
             <table>Participant_Enrollment__c</table>
         </columns>
