@@ -198,3 +198,11 @@
   
 }
 /* RLT End */
+.label_align{
+    display:flex;
+    align-items: baseline;
+    padding-left: 18px;
+}
+.label_spacing{
+    margin-left: -10px;
+}
