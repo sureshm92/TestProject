@@ -12,7 +12,7 @@
     font-size: 16px;
     font-weight: 500;
 }
-.THIS .slds-accordion__section{
+.THIS .slds-accordion__section {
     padding-top: 0px;
     padding-bottom: 0px;
 }
@@ -63,7 +63,8 @@
 }
 
 .THIS .button-RTL {
- /* @noflip */   margin-right:485px;
+    /* @noflip */
+    margin-right: 485px;
 }
 
 .THIS .account_details {
@@ -114,12 +115,15 @@
     height: 49px;
 }
 
+.THIS .brktext SPAN {
+    padding: 3px 0 !important;
+}
+
 .THIS .label-block {
     font-size: 1rem;
     /*  height: 49px; */
     color: #595959;
 }
-
 
 @media (max-width: 925px) {
     .THIS .ss-info-headers {
@@ -135,33 +139,32 @@
     .THIS .locationContainer {
         padding: 8px 11px 13px;
     }
-    
+
     .THIS .popup-account-name:first-child {
         padding-left: 0;
     }
-    
+
     .THIS .popup-account-name + .slds-col {
         min-height: 100%;
         align-items: center;
         margin-top: -20px;
         max-width: 32px;
     }
-    
+
     .THIS .p-footer .p-buttons-container {
         display: flex;
         flex-direction: row;
     }
-    
+
     .THIS .p-footer .p-buttons-container .apollo-btn {
         margin: 15px 15px 0 0;
     }
-    
+
     .THIS .account_details {
         flex-direction: column;
         width: 90%;
         padding-left: 0;
     }
-    
 }
 
 @media all and (max-width: 600px) {
@@ -174,40 +177,40 @@
     .THIS .p-footer .p-buttons-container {
         flex-direction: column;
     }
-    
+
     .THIS .p-footer .p-buttons-container .apollo-btn {
         margin: 15px 0 0 0;
     }
-    
+
     .THIS .popup-account-name + .slds-col {
         min-width: 32px;
     }
-    
+
     .THIS .account_details {
         width: 80%;
-    }    
-    
+    }
+
     .THIS .slds-accordion__summary {
         padding-bottom: 15px;
     }
-    
+
     .THIS .slds-accordion__summary-heading {
         margin-bottom: 15px;
-    }    
-    
+    }
+
     .THIS .popup-account-name .slds-size--6-of-12.slds-grid {
         min-width: 75%;
         padding-left: 5px;
     }
-    
+
     .THIS .popup-account-name .slds-size--5-of-12.slds-grid {
-        max-width: 15%
+        max-width: 15%;
     }
-    
+
     .THIS .edit-address-container > .slds-wrap > .slds-wrap > .slds-col.slds-wrap {
         padding: 0;
     }
-    
+
     .THIS .partinfo-buttons {
         padding-top: 0;
         margin: 20px 0;

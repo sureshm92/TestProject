@@ -17,11 +17,27 @@ import ListView_New_Status from '@salesforce/label/c.ListView_New_Status';
 import ListView_Current_Status from '@salesforce/label/c.ListView_Current_Status';
 import PG_ACPE_L_Reason from '@salesforce/label/c.PG_ACPE_L_Reason';
 import FD_PE_Field_Final_Consent from '@salesforce/label/c.FD_PE_Field_Final_Consent';
+import FD_PE_Field_Informed_Consent_Signed from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed';
+import FD_PE_Field_Informed_Consent_Signed_Date from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed_Date';
 import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
+import BTN_Status_Details from '@salesforce/label/c.BTN_Status_Details';
+import BTN_Participant_Details from '@salesforce/label/c.BTN_Participant_Details';
+import Tab_Sharing_Options from '@salesforce/label/c.Tab_Sharing_Options';
+import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
+import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
 import Submit from '@salesforce/label/c.Submit';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+import My_Participant from '@salesforce/label/c.My_Participant';
+import pir_Participant_List from '@salesforce/label/c.pir_Participant_List';
+import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
+import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
+import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
-import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
+import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -47,7 +63,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   isMedicalModalOpen = false;
   isMedicalDetailChanged = false;
   discardMedicalTab = false;
-  progressValue;
+  progressValue=false;
   countValue=0;
   cancelCheckbox;
   removeParticipant=true;
@@ -76,15 +92,51 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     ListView_New_Status,
     PG_ACPE_L_Reason,
     FD_PE_Field_Final_Consent,
+    FD_PE_Field_Informed_Consent_Signed,
+    FD_PE_Field_Informed_Consent_Signed_Date,
     PG_ACPE_L_Notes,
     Submit,
     ListView_Current_Status,
     RH_ExportSelected,
     RH_ParticipantSelected,
-    BTN_Export_All
-
+    BTN_Export_All,
+    BTN_Status_Details,
+    BTN_Participant_Details,
+    Tab_Sharing_Options,
+    PIR_Save_Changes,
+    PIR_Unsaved_Changes,
+    BTN_Save,
+    PIR_Discard,
+    rtlLanguages,
+    My_Participant,
+    pir_Participant_List,
+    PG_AC_Select,
+    PG_DBPI_L_study_site,
+    pir_Health_Information
   };
   
+  @api isRTL = false; 
+  maindivcls;
+  isLanguageSelected = false;
+  
+  connectedCallback() {
+    if(!this.isLanguageSelected) {
+      getUserLanguage() 
+        .then((result) => {
+          this.isRTL = this.label.rtlLanguages.includes(result);
+          this.isLanguageSelected = true;
+          if(this.isRTL) {
+            this.maindivcls = 'rtl';
+          }else{
+            this.maindivcls = 'ltr';
+          }
+        })
+        .catch((error) => {
+              this.error = error;
+        });
+    }
+  }
+
   @wire(getStudyAccessLevel)
   wiredAccess({ error, data }) {
     if (data) {
@@ -176,9 +228,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.isMedicalHistryAccess = false; 
       } 
     } 
-
+    
+    this.template.querySelector("c-pir_participant-header").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-header").selectedPE =this.selectedPE;
-    this.template.querySelector("c-pir_participant-header").doSelectedPI();
+    this.template.querySelector("c-pir_participant-header").doSelectedPI();         
+    this.template.querySelector("c-pir_participant-Status-Details").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
@@ -191,6 +245,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
   curentMobileView = "list";
   mobileViewToggle() { 
+    if(this.progressValue==false){
     if (this.curentMobileView == "list") {
       this.curentMobileView = "detail";
       this.template.querySelectorAll(".D").forEach(function (D) {
@@ -209,15 +264,18 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       });
     }
   }
+  }
   //pagination
   totalRecord;
   showZeroErr  = false;
   initialLoad = true;
   pageChanged(event) {
+    console.log('>>page changed called>>>');
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
       this.page;
       if(!this.initialLoad){
+        console.log('>>>fetch page called>>>');
         this.template.querySelector("c-pir_participant-list").fetchList();
       }
       this.initialLoad = false;
@@ -592,7 +650,7 @@ handlestatusspinner(){
     this.template.querySelectorAll(".linenone").forEach(function (L) {
         L.classList.remove("boxShadownone");
     });
-  
+    console.log('>>>oncancel called>>>');
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
     this.removeParticipant=false;
     this.countValue=0;
@@ -638,35 +696,60 @@ handlestatusspinner(){
       if (event.target.dataset.value === "FinalConsent") {
         this.finalConsentvalue = event.target.checked;
         this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+       }else if(this.consentValue==true){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+       }
+       else {
+         this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
+  }
+  signedDate=false;
+  signedDateValue;
+  consentData;
+  consentValue=false;
+  changeInputValue(event) {
+    let datavalue = event.target.dataset.value;
+    if (event.target.dataset.value === "additionalNotes") {
+      this.additionalNote = event.target.value;
+      this.bulkButtonValidation();
     }
-    bulkButtonValidation(){
-      let notes = this.additionalNote.trim();
-      let btnValidationSuccess = false;
-      let validationList = [];
-       
-      //1.
-      if (this.notesNeeded.includes(this.selectedreason)) {
-          if (notes != null && notes != "" && notes.length != 0) {
-            btnValidationSuccess = true;
-            validationList.push(btnValidationSuccess);
-          } else {
-            btnValidationSuccess = false;
-            validationList.push(btnValidationSuccess);
-          }
-      }
-      //2.
-      if(this.finalConsentRequired == true){
-         if(this.finalConsentvalue == true){
-          btnValidationSuccess = true;
-          validationList.push(btnValidationSuccess);
-         }else{
-          btnValidationSuccess = false;
-          validationList.push(btnValidationSuccess);
-         }
-      }
-      //3.
-      if((this.newStatusSelected == "Unable to Reach" || this.newStatusSelected == "Contacted - Not Suitable") && this.selectedreason == ""){
+    if (event.target.dataset.value === "FinalConsent") {
+      this.finalConsentvalue = event.target.checked;
+      this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "consentSigned") {
+      if(event.target.value == 'yes' ){
+        this.consentValue = true;
+        this.consentData=true;
+        this.isReasonEmpty=true;
+        this.selectedreason ='';
+     }else{
+      this.consentValue = false;
+      this.consentData=false;
+      this.isReasonEmpty= this.storeisReasonEmpty;
+     }
+     this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "signedDate") {
+      this.signedDateValue=event.target.value;
+      if(event.target.value != null ){
+        this.signedDate = true;
+     }else{
+      this.signedDate = false;
+     }
+     this.bulkButtonValidation();
+    }
+  }
+  bulkButtonValidation(){
+    let notes = this.additionalNote.trim();
+    let btnValidationSuccess = false;
+    let validationList = [];
+     
+    //1.
+    if (this.notesNeeded.includes(this.selectedreason)) {
         if (notes != null && notes != "" && notes.length != 0) {
           btnValidationSuccess = true;
           validationList.push(btnValidationSuccess);
@@ -674,84 +757,134 @@ handlestatusspinner(){
           btnValidationSuccess = false;
           validationList.push(btnValidationSuccess);
         }
+    }
+    //2.
+    if(this.finalConsentRequired == true){
+       if(this.finalConsentvalue == true){
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+       }else{
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+       }
+    }
+    //3.
+    if((this.newStatusSelected == "Unable to Reach" || this.newStatusSelected == "Contacted - Not Suitable") && this.selectedreason == ""){
+      if (notes != null && notes != "" && notes.length != 0) {
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+      } else {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
+   }
+   //4.
+    if(this.consentSigned==true){
+      if(this.consentValue==true && notes != null && notes != "" && notes.length != 0 && this.signedDate==true){
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+    } else {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
+    }
+    if(validationList.includes(false)) {
+       this.bulkSubmit = true;    
+    }else {
+      this.bulkSubmit = false;  
+    }
   }
+  
+  handleReasonChange(event){
+    if(event.target.value == null || event.target.value == ' '){
+       this.selectedreason = '';
+    }else{
+      this.selectedreason = event.detail.value;
+    }
+  }
+  
+  isStatusChange= false;newStatusSelected='';oParticipantStatus=''; studyID='';bulkSubmit=false;
+  additionalNote = '';finalConsent=false;finalConsentRequired = false;consentSigned=false;
 
-  if(validationList.includes(false)) {
-    this.bulkSubmit = true;    
- }else {
-   this.bulkSubmit = false;  
+  get consentSignedOptions() {
+    return [
+        { label: '', value: '' },
+        { label: 'Yes', value: 'yes' }
+    ];
+}
+  handleStatusChanges(event){
+    this.newStatusSelected = event.detail.newStatusSelected;
+    this.oParticipantStatus = event.detail.oParticipantStatus;
+    this.studyID = event.detail.studyId;
+    if(this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent'){
+      this.consentSigned=true;
+    }
+    else{
+      this.consentSigned=false;
+    }
  }
-}
-
-handleReasonChange(event){
- if(event.target.value == null || event.target.value == ' '){
-    this.selectedreason = '';
- }else{
-   this.selectedreason = event.detail.value;
- }
-}
-isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
-additionalNote = '';finalConsent=false;finalConsentRequired = false;
-handleStatusChanges(event){
- this.newStatusSelected = event.detail.newStatusSelected;
- this.oParticipantStatus = event.detail.oParticipantStatus;
- this.studyID = event.detail.studyId;
-}
-reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+ reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+ storeisReasonEmpty;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
-      this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
-      this.bulkStatusSpinner = true;
-      bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
-     .then(result => {
-         let reasons = result.reason;
-         if(reasons != undefined){
-           if(reasons.charAt(0) == ';'){
-              reasons=reasons.substring(1);
-           }
-           let reasonList = reasons.split(";");
-           let trans_reasonopts = [];
-           for (let i = 0; i < reasonList.length; i++) {
-             let outcomeReason = reasonList[i];
-             if (outcomeReason.endsWith("*")) {
-                 outcomeReason = outcomeReason.substring(0,outcomeReason.length - 1);
-                 if(outcomeReason.length != 1){
-                   this.notesNeeded.push(outcomeReason);
-                 }else{
-                   this.notesNeeded.push('BLANK');
-                 }
-             }
-             trans_reasonopts.push({
-               label: this.utilLabels[outcomeReason],
-               value: outcomeReason
-             });
-            
-           }
-           this.reasoneoptions = trans_reasonopts;
-           if(this.newStatusSelected == "Contacted - Not Suitable"){
+       this.notesNeeded = [];this.additionalNote = '';
+       this.signedDateValue=null;this.consentData='';this.signedDate=false;this.consentValue=false;this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
+       this.bulkStatusSpinner = true;this.finalConsentvalue=false;
+       let study = this.studyID.toString();
+       console.log('work'+study);
+       
+       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
+      .then(result => {
+          let reasons = result.reason;
+          if(reasons != undefined){
+            if(reasons.charAt(0) == ';'){
+               reasons=reasons.substring(1);
+            }
+            let reasonList = reasons.split(";");
+            let trans_reasonopts = [];
+            for (let i = 0; i < reasonList.length; i++) {
+              let outcomeReason = reasonList[i];
+              if (outcomeReason.endsWith("*")) {
+                  outcomeReason = outcomeReason.substring(0,outcomeReason.length - 1);
+                  if(outcomeReason.length != 1){
+                    this.notesNeeded.push(outcomeReason);
+                  }else{
+                    this.notesNeeded.push('BLANK');
+                  }
+              }
+              trans_reasonopts.push({
+                label: this.utilLabels[outcomeReason],
+                value: outcomeReason
+              });
+             
+            }
+            this.reasoneoptions = trans_reasonopts;
+            if(this.newStatusSelected == "Contacted - Not Suitable"){
+              this.selectedreason ='';
+            }else{
+              this.selectedreason =  reasonList[0];
+            }
+            this.isReasonEmpty = false;
+            this.storeisReasonEmpty=this.isReasonEmpty;
+          }else{
              this.selectedreason ='';
-           }else{
-             this.selectedreason =  reasonList[0];
-           }
-           this.isReasonEmpty = false;
-         }else{
-            this.selectedreason ='';
-            this.isReasonEmpty = true;
-         }
-         if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
-             this.finalConsent = result.finalConsent;
-             if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
-                 this.finalConsentRequired = true;
-             }
-         }
-         this.bulkStatusSpinner =false;
-     })
-     .catch(error => {
-        console.log(error);
-        this.bulkStatusSpinner = false;
-        this.showErrorToast(error);  
-     });
-      this.isStatusChange=true;
+             this.isReasonEmpty = true;
+             this.storeisReasonEmpty=this.isReasonEmpty;
+          }
+          if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
+              this.finalConsent = result.finalConsent;
+              if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
+                  this.finalConsentRequired = true;
+              }
+          }
+          this.bulkStatusSpinner =false;
+      })
+      .catch(error => {
+         console.log(error);
+         this.bulkStatusSpinner = false;
+         this.showErrorToast(error);  
+      });
+       this.isStatusChange=true;
     }
     else{
       this.openpopup=false;
