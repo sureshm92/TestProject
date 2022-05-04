@@ -55,6 +55,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     @TestVisible
     private static void notifyAttendeesRemoved(List<Televisit_Attendee__c> attendeeList) {
         /*
+         
          * Scenarios :
          * --------------------------------------------------------------------
          * 1. Participant as attendee (For minor) - will not occur
