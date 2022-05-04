@@ -1,49 +1,82 @@
 public with sharing class SMSDeliveryStatusTriggerHandler {
-    public class processDeliveryReciptforSMS extends TriggerHandler {
+    public static final String INVALID = 'INVALID';
+    public static final String DELIVERED = 'DELIVERED ';
+
+    public class processDeliveryReceipt extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            processDeliveryRecipt((List<SMS_Delivery_Status__e>) newList);
+            processDeliveryReceipt((List<SMS_Delivery_Status__e>) newList);
         }
     }
 
     /**
-     * @description: This Method will process the invlaid number at contact. 
+     * @description: This Method will process the invlaid number at contact.
      *
      * @author: Krishna Mahto
      * @param: ssmDeliveryStatus
      * @return:
      **/
     @TestVisible
-    private static void processDeliveryRecipt(List<SMS_Delivery_Status__e> ssmDeliveryStatus) {
-        Set<String> messageIdSet = new Set<String>();
+    private static void processDeliveryReceipt(List<SMS_Delivery_Status__e> ssmDeliveryStatus) {
+        //Set<String> messageIdSet = new Set<String>();
         List<Send_Result__c> sendResultList = new List<Send_Result__c>();
-        Set<String> contactIdSet = new Set<String>();
-        List<contact> conToUpdate = new List<Contact>();
+        Set<Id> contactIdSet = new Set<Id>();
+        Map<String, String> messageIdStatusMap = new Map<String, String>();
+        Map<Id, String> notificationIdStatusMap = new Map<Id, String>();
+        set<Id> notificationIdSet = new Set<Id>();
+
+        List<IntegrationLog__c> listIL = new List<IntegrationLog__c>();
+        Set<String> welcomemsgNoticationtypes = new Set<String>{
+            NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+            //TODO: Add notification types
+        };
+
         //Get the List of messageId from platform event record.
         for (SMS_Delivery_Status__e dr : ssmDeliveryStatus) {
-            // if the delivery recipt status is INVALID.
-            if (dr.Record_Status__c.equalsIgnoreCase('INVALID')) {
-                messageIdSet.Add(dr.Message_id__c);
+            if (dr.Record_Status__c.equalsIgnoreCase(INVALID)) {
+                //If the delivery Receipt  status is INVALID.
+                messageIdStatusMap.put(dr.Message_id__c, INVALID);
+            } else if (dr.Record_Status__c.equalsIgnoreCase(DELIVERED)) {
+                //If the delivery Receipt  status is DELEVERED.
+                messageIdStatusMap.put(dr.Message_id__c, DELIVERED);
             }
+            //create Integration Log
+            listIL.add(SMSDeliveryStatusService.createIntegrationLog(dr));
         }
-        //Get the Send result records.
-        sendResultList = SMSOptOutService.getSendResults(messageIdSet);
 
-        //Get The Recipient Ids for the notifications associated with the Send result record.
+        //Insert Integration Log.
+        if (listIL != null && !listIL.isEmpty()) {
+            insert listIL;
+        }
+
+        //Get the Send result records.
+        sendResultList = SMSOptOutService.getSendResults(messageIdStatusMap.keySet());
+
+        //Get The Recipient Ids for the notifications associated with the Send result record for the INVALID Delivery Status.
         for (Send_Result__c sr : sendResultList) {
-            contactIdSet.Add(sr.Notification__r.Recipient__c);
+            //If Delivery Status is INVALID for message Id.
+            if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
+                contactIdSet.Add(sr.Notification__r.Recipient__c);
+            }
+            //If Notification Type is Welcome Message
+            if (welcomemsgNoticationtypes.contains(sr.Notification__r.Notification_Type__c)) {
+                if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
+                    //If the delivery Receipt  status is INVALID.
+                    notificationIdStatusMap.put(sr.Notification__c, INVALID);
+                } else if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
+                    //If the delivery Receipt  status is DELEVERED.
+                    notificationIdStatusMap.put(sr.Notification__c, DELIVERED);
+                }
+            }
         }
 
         //Update the is Invalid Number to true for contact.
-        for (contact con : [
-            SELECT id, Is_Invalid_Number__c
-            FROM contact
-            WHERE Id IN :contactIdSet
-        ]) {
-            con.Is_Invalid_Number__c = true;
-            conToUpdate.Add(con);
+        if (contactIdSet != null && !contactIdSet.isEmpty()) {
+            SMSDeliveryStatusService.updateGlobalFlag(contactIdSet);
         }
-        if (conToUpdate != null && !conToUpdate.isEmpty()) {
-            update conToUpdate;
+
+        //Update the Delivery Status Flag at contact/PER.
+        if (notificationIdStatusMap != null && !notificationIdStatusMap.isEmpty()) {
+            SMSDeliveryStatusService.updateDeliveryStatusFlag(notificationIdStatusMap);
         }
     }
 }
