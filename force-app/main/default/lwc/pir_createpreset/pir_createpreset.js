@@ -9,6 +9,7 @@ import BTN_Close from "@salesforce/label/c.BTN_Close";
 import Create from "@salesforce/label/c.Create";
 import BTN_Cancel from "@salesforce/label/c.BTN_Cancel";
 import PIR_CreatePreset from "@salesforce/label/c.PIR_CreatePreset";
+import PresetName from "@salesforce/label/c.PIR_PresetName";
  
 export default class Pir_createpreset extends LightningElement {
 
@@ -18,8 +19,11 @@ export default class Pir_createpreset extends LightningElement {
             ,PIR_CreatePresetPopup
             ,BTN_Close
             ,Create,BTN_Cancel
-            ,PIR_CreatePreset};
-
+            ,PIR_CreatePreset
+            ,PresetName
+        };
+    
+    @api maindivcls;    
     @api
     filterWrapper;
     filterWrapperToInsert;
@@ -56,7 +60,7 @@ export default class Pir_createpreset extends LightningElement {
          this.isDataloaded = false;
          let presetNameEnter = this.filterWrapperToInsert.presetName;
         let successMessage = presetNameEnter + " " +this.label.PIR_Preset_Created_Message;
-        let uniqueNameMessage = presetNameEnter + + " " +this.label.pir_presetUniqueName;
+        let uniqueNameMessage = presetNameEnter + " " +this.label.pir_presetUniqueName;
          
         createPreset({strPresetwrapper:JSON.stringify(this.filterWrapperToInsert),isUpdate:false })
         .then((result) => { 

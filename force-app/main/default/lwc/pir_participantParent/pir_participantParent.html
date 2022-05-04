@@ -1,46 +1,46 @@
 <template>
+   <div class={maindivcls}>
    <div class="slds-grid slds-wrap no-p-mobile pir-parent">
        <div onclick={mobileViewToggle} class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
            <div class="pgHead showDesktop slds-p-bottom_small slds-p-left_x-small slds-p-top_small">
                <lightning-icon icon-name="utility:home" size="small" alternative-text="Home"></lightning-icon>
                &nbsp;&nbsp;<lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text=">"></lightning-icon>
-               &nbsp;&nbsp;My Participants
+               &nbsp;&nbsp;{label.My_Participant}
            </div>
            <div class="hideDesktop hideMobile D">
                <div class="pgHeadMob slds-p-left_xx-small">
                    <img class="backArrow" src={backArrow}/>
-                   &nbsp;&nbsp;Participant List
+                   &nbsp;&nbsp;{label.pir_Participant_List}
                </div>
            </div>
-
        </div>
        <div class="boxShadow  maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg ">
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <span>
-                   <c-pir_participant-list ongetstatus={handlestatusspinner} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} consent-value ={consentData} signed-date-value={signedDateValue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} fetch={setList}></c-pir_participant-list>
+                   <c-pir_participant-list maindivcls={maindivcls} ongetstatus={handlestatusspinner} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} consent-value ={consentData} signed-date-value={signedDateValue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} fetch={setList}></c-pir_participant-list>
                </span>
            </div>
 		    <template if:false={progressValue}> 
            <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
-                   <c-pir_participant-header onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail} ></c-pir_participant-header>
+                   <c-pir_participant-header isrtl={isRTL} onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail} ></c-pir_participant-header>
                </div>
                <div class="section-padding all-tabs"> 
                        <lightning-tabset  active-tab-value=''>
                            <lightning-tab label={label.BTN_Status_Details} value="Status Details" onactive={handleStatusTab} class="no-padding" >
-                                   <c-pir_participant-Status-Details onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
+                                   <c-pir_participant-Status-Details isrtl={isRTL} onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
                            </lightning-tab> 
                            <lightning-tab label={label.BTN_Participant_Details} value="Participant Details" onactive={handleParticipantTab} class="no-padding">
                               <template if:true={isParticipantDetail}>        
-                                 <c-pir_participant-detail action-req={selectedPE.actionReq} selected-p-e={selectedPE} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
+                                 <c-pir_participant-detail isrtl={isRTL} action-req={selectedPE.actionReq} selected-p-e={selectedPE} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
                              </template>
                            </lightning-tab>
                            <lightning-tab label={label.Tab_Sharing_Options} value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
-                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
+                               <c-pir_sharing-option isrtl={isRTL} selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
                            </lightning-tab>
                            <template if:true={isMedicalHistryAccess}> 
-                               <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
-                                   <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
+                               <lightning-tab label={label.pir_Health_Information} value="Health Information" onactive={handleMedicalTab} class="no-padding">
+                                   <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
                        </lightning-tabset>
@@ -63,10 +63,10 @@
                         <img class="user-img slds-m-bottom_small" src={usericon}/>
                         <h2 class="slds-text-heading_large slds-m-bottom_medium headertext"> {countValue} {label.RH_ParticipantSelected} </h2>
                         <template if:false={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-left"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
                          </template>
                          <template if:true={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown "  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-export"  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button> 
                            <button class="apollo-btn secondary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={handleExportAll}> {label.BTN_Export_All}</button> 
                         </template>
                         <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile btn-dropdown" onclick={onCancel}> {label.BTN_Cancel}  </button>
@@ -103,7 +103,7 @@
                      <button class="slds-button apollo-btn primary action-btn" disabled={exportDisable} onclick={handleExportSelcted}> {label.RH_ExportSelected}</button>
                   </div>
                   <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_6-of-12 slds-m-bottom_small slds-p-right--none">
-                     <button class="slds-button apollo-btn secondary action-btn"> {label.BTN_Export_All}</button>
+                     <button class="slds-button apollo-btn secondary action-btn" onclick={handleExportAll}> {label.BTN_Export_All}</button>
                   </div>
                   <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
                    <button class="slds-button apollo-btn secondary action-btn" onclick={onCancel}> {label.BTN_Cancel}</button>
@@ -116,7 +116,7 @@
        <div class="boxShadow  slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" > 
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
-                   <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
+                   <c-pir_participant-pagination is-r-t-l-pg={isRTL} maindivcls={maindivcls} total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
            </div>   
 		   <template if:false={progressValue}>
@@ -124,13 +124,13 @@
             <template if:false={isSharingTab}>
                <span>
                   <template if:true={isStatusDetail}> <!--only for status detail -->
-                        <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableButton}  onclick={doSave}> Save </button>
+                        <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableButton}  onclick={doSave}> {label.BTN_Save} </button>
                   </template>
                   <template if:true={isMedicalTab}> <!--only for Medical tab -->
-                   <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableMedicalSaveButton}  onclick={doSaveMedical}> Save </button>
+                   <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableMedicalSaveButton}  onclick={doSaveMedical}> {label.BTN_Save} </button>
                  </template>
                   <template if:true={isParticipantDetail}> <!--only for Medical tab -->
-                     <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> Save </button>
+                     <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> {label.BTN_Save} </button>
                   </template>                  
                </span> 
             </template>
@@ -145,6 +145,7 @@
       </div>
    </div>
    <template if:true={isModalOpen}>
+      <div class={maindivcls}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
        <div class="slds-modal_small">
@@ -181,10 +182,12 @@
           </div>
        </div>
     </section>
+   </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
    </template>   
 
    <template if:true={isMedicalModalOpen}>
+      <div class={maindivcls}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
        <div class="slds-modal_small">
@@ -221,10 +224,11 @@
           </div>
        </div>
     </section>
+   </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
-   
    </template>
    <template if:true={isDetailModalOpen}>
+      <div class={maindivcls}>
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
       aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
       <div class="slds-modal_small">
@@ -261,11 +265,13 @@
          </div>
       </div>
    </section>
+   </div>
    <div class="slds-backdrop slds-backdrop_open"></div>  
+   
   </template>
   <!--Sharing Options Modal-->
   <template if:true={isSPModalOpen}>
-      <c-pir_notification-on-tab-change onnotificationevent={handleNotification}></c-pir_notification-on-tab-change>
+      <c-pir_notification-on-tab-change maindivcls={maindivcls} onnotificationevent={handleNotification}></c-pir_notification-on-tab-change>
       <div class="slds-backdrop slds-backdrop_open"></div>
    </template>
 
@@ -303,12 +309,12 @@
                               </div> 
                           </div>
                           
-                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
+                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top slds-m-bottom_small">
                               <lightning-combobox
                                   name="Study"
                                   label={label.CC_Study}
                                   value={selectedStudy}
-                                  placeholder="Select..."
+                                  placeholder={label.PG_AC_Select}
                                   options={studylist}
                                   onchange={studyhandleChange}
                                   ></lightning-combobox>
@@ -317,9 +323,9 @@
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
                              <lightning-combobox
                                  name="studysite"
-                                 label="Study Site"
+                                 label={label.PG_DBPI_L_study_site}
                                  value={selectedSite}
-                                 placeholder="Select..."
+                                 placeholder={label.PG_AC_Select}
                                  options={studySiteList}
                                  onchange={studysitehandleChange}
                                  disabled={studysiteaccess}
@@ -443,5 +449,5 @@
          </section>
          <div class="slds-backdrop slds-backdrop_open"></div>
   </template>
-
+</div>
 </template>

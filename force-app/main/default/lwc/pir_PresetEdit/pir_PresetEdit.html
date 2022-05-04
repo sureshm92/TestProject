@@ -1,5 +1,5 @@
 <template>
-   
+    <div class={maindivcls}>
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
     aria-describedby="modal-content-id-1" class="slds-modal slds-modal_large slds-align--absolute-center slds-fade-in-open container_popup">
     <div >
@@ -9,7 +9,7 @@
                 <div class="slds-p-around_large">
                 <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                     <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                        <span class="title">Edit Preset</span> 
+                        <span class="title">{label.EditPreset}</span> 
                     </div>
                     <div class="slds-col slds-size_1-of-12 close-icon">
                         <div onclick={closeModel}>
@@ -24,74 +24,77 @@
                     <div class="border-line-bott"></div>
                 </div>
                 <template if:false={disableEdit}>
-                    <div class="slds-grid slds-wrap slds-gutters slds-m-top_large">
+                    <div class="slds-grid slds-wrap slds-gutters m-top-d">
                     
                         <div class="slds-col
                             slds-size_1-of-1
                             slds-medium-size_2-of-12
                             slds-large-size_2-of-12
                             m-bottom-small">
-                        <div class="filter-heading">Preset Information</div>
+                        <div class="filter-heading">{label.PresetInformation}</div>
                         </div>
                         <div if:false={isnameUpdate}
                             class="
                             slds-col
-                            slds-size_2-of-6
+                            slds-size_1-of-1
                             slds-medium-size_3-of-12
                             slds-large-size_3-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
-                            <lightning-combobox name="preset" label="Preset Name"
+                            <lightning-combobox name="preset" label={label.PresetName}
                             placeholder="Select" options={opts} value={presetSel} onchange={handlePresetChange}></lightning-combobox>    
                         
                         </div> 
                         <div if:false={isnameUpdate}
                             class="
                             slds-col
-                            slds-size_1-of-6
+                            slds-size_1-of-1
                             slds-medium-size_1-of-12
                             slds-large-size_1-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
-                            <span class="edit-icon" onclick={editname}> <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/></span>
+                            <span class="edit-icon enablePreset" onclick={editname}> <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/></span>
                         
-                        </div> 
+                        </div>  
                         <div if:true={isnameUpdate}
                             class="
                             slds-col
-                            slds-size_1-of-2
+                            slds-size_1-of-1
                             slds-medium-size_3-of-12
                             slds-large-size_3-of-12
                             m-bottom-small
                             p-left-none
+                            p-right-rtl
                             "
                         >
-                            <lightning-input class="pname" label="Preset Name" type="text" value={seletedPresetName} onchange={handleNameChange} onblur={updateName}></lightning-input>
+                            <lightning-input class="pname" label={label.PresetName} type="text" value={seletedPresetName} onchange={handleNameChange} onblur={updateName}></lightning-input>
                         
                         </div> 
                     </div>  
                     <div class="scroll-bar">
                     <template if:true={showFilter}>
-                        <c-pir_filter filter-class="edit" onupdfilter={checkUpd} filters={filterVal} ></c-pir_filter>
+                        <c-pir_filter maindivcls={maindivcls} filter-class="edit" onupdfilter={checkUpd} filters={filterVal} ></c-pir_filter>
                     </template>
                     </div>
-                    <div class="slds-grid slds-wrap slds-m-top_small">
+                    <div class="slds-grid slds-wrap margin-btn">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                         <div class="slds-float_right mobile-width">   
-                            <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={closeModel}> Cancel</button>
-                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-height"  onclick={deletePR}> Delete </button>
-                            <button class="apollo-btn primary ipad-mode-btn slds-p-around_x-small btn-height" disabled={cantUpdate} onclick={updatePR}> Update </button>
+                            <button class="slds-button apollo-btn secondary btn-height discard-btn cancel-btn" onclick={closeModel}> {label.Cancel}</button>
+                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-height delete-btn rtl-left-m"  onclick={deletePR}> {label.Delete} </button>
+                            <button class="apollo-btn primary ipad-mode-btn slds-p-around_x-small btn-height update-btn" disabled={cantUpdate} onclick={updatePR}> {label.Update} </button>
                         </div>    
                         </div>
                     </div>
                     
                     </template>
                     <template if:true={disableEdit}>
-                        <div>No presets available to edit</div>
+                        <div>{label.NoPresetText}</div>
                     </template>
                 </div>
             </div>
@@ -104,10 +107,11 @@
         </div>
       </template>
 </section> 
+</div>
 <div class="slds-backdrop slds-backdrop_open containerbackdrop_popup"></div>
     
 <template if:true={shoulddisplaydelete}>
-    <c-pir_deletepreset onclosedeletemodel={closeDeletemodel} selectedpreset={selectedPresetWrapper} > </c-pir_deletepreset>
+    <c-pir_deletepreset maindivcls={maindivcls} onclosedeletemodel={closeDeletemodel} selectedpreset={selectedPresetWrapper} > </c-pir_deletepreset>
 </template>
 
 </template>

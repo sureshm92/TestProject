@@ -1262,6 +1262,30 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 duplicateContactIds.add(i);
             }
 
+            //update consent on existing contacts
+            List<Contact> existingContact = new List<Contact>();
+            for(String conId : duplicateContactIds){
+                Contact con = new Contact();
+                con.Id = conId;
+                con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
+                con.Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
+                con.Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false);
+                existingContact.add(con);
+            }
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.PopulateOverrideFields.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+            );
+            update existingContact;
+
             for (User u : [
                     SELECT Id, ContactId
                     FROM User

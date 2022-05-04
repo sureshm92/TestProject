@@ -8,6 +8,8 @@ import getpeData from '@salesforce/apex/PIR_SharingOptionsController.getpeData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { label } from "c/pir_label";
+import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
 export default class Pir_participantEmancipated extends LightningElement {
     @api openModal = false;
     @api currentTab = "0";
@@ -46,8 +48,13 @@ export default class Pir_participantEmancipated extends LightningElement {
     @api isJanssen = false;statesByCountryMap;
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     noneIcon = pirResources+'/pirResources/icons/circle.svg';
-    nonecls = 'neutral';
+    nonecls = 'neutral';    
+    @api maindivcls;
     
+    label = {
+        PG_AC_Select,
+        RH_RP_Record_Saved_Successfully
+    };
     @api
     doExecute(){
         this.openModal = true;
@@ -108,6 +115,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     handleagree(event){
         this.finalAgree = event.target.checked;
     }
+    @api mailingCountry;@api mailingState;
     getInitialData(){
         getParticipantDelegates({participantId: this.selectedPE.participantId })
         .then((result) => {
@@ -142,6 +150,10 @@ export default class Pir_participantEmancipated extends LightningElement {
             .then((result) => { 
                 this.countryList = result.countriesLVList;
                 this.statesByCountryMap = result.statesByCountryMap;
+                this.mailingCountry =  result.participant.Mailing_Country__c;
+                this.mailingState =  result.participant.Mailing_State__c;
+                delete result.participant.Mailing_Country__c;
+                delete result.participant.Mailing_State__c;
                 let participant = result.participant;
                 this.contactstates=[];
                 this.contactstates=this.statesByCountryMap[result.participant.Mailing_Country_Code__c];
@@ -288,13 +300,16 @@ export default class Pir_participantEmancipated extends LightningElement {
         }else if(event.target.dataset.value === "Email"){
             this.participant.Email__c = event.target.value;
         }else if(event.target.dataset.value === "Country"){
-            this.participant.Mailing_Country__c = event.target.options.find(opt => opt.value === event.detail.value).label;
+            //this.participant.Mailing_Country__c = event.target.options.find(opt => opt.value === event.detail.value).label;
+            this.mailingCountry = event.target.options.find(opt => opt.value === event.detail.value).label;
             this.participant.Mailing_Country_Code__c = event.target.value;
             this.participant.Mailing_State_Code__c ='';
             this.participant.Mailing_State__c ='';
+            this.mailingState ='';
             this.setState();
         }else if(event.target.dataset.value === "Province"){
-            this.participant.Mailing_State__c = event.target.options.find(opt => opt.value === event.detail.value).label;
+            //this.participant.Mailing_State__c = event.target.options.find(opt => opt.value === event.detail.value).label;
+            this.mailingState = event.target.options.find(opt => opt.value === event.detail.value).label;
             this.participant.Mailing_State_Code__c = event.target.value;
         }else if(event.target.dataset.value === "PostalCode"){
             this.participant.Mailing_Zip_Postal_Code__c = event.target.value;
@@ -865,6 +880,11 @@ export default class Pir_participantEmancipated extends LightningElement {
 
             delegateToProceedItems.push(this.delegates[i]);
         }
+        if(this.participant.Mailing_State_Code__c == '' || this.participant.Mailing_State_Code__c == null){
+            this.participant.Mailing_State__c = '';
+        }else{
+            delete this.participant.Mailing_State__c;
+        }
          updateParticipantAndDelegates({ peId: this.selectedPE.id, 
                                          participantS: JSON.stringify(this.participant),
                                          participantContactS: JSON.stringify(this.participantContact),
@@ -875,7 +895,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                                         })
         .then((result) => {
           this.saving = false;
-          this.showSuccessToast("Record Saved Successfully");
+          this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("emancipation", {});
           this.dispatchEvent(selectedEvent);
         })
