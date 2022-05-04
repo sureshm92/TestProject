@@ -2,7 +2,7 @@ public with sharing class SMSDeliveryStatusTriggerHandler {
     public static final String INVALID = 'INVALID';
     public static final String DELIVERED = 'DELIVERED ';
 
-    public class processDeliveryReceipt extends TriggerHandler {
+    public class processDeliveryReciptforSMS extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             processDeliveryReceipt((List<SMS_Delivery_Status__e>) newList);
         }
