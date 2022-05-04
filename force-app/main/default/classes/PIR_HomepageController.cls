@@ -591,7 +591,7 @@ public without sharing class PIR_HomepageController {
     String filterString = ' Study_Site__c IN :siteIdlist ';
     queryString = queryString + filterString + sortOn;
 
-    List<Participant_Enrollment__c> peList = Database.query(queryString);
+    List<Participant_Enrollment__c> peList = Database.query(queryString); 
 
     List<String> lstFieldSearch = new List<String>{
       'Participant__r.First_Name__c',
@@ -630,12 +630,10 @@ public without sharing class PIR_HomepageController {
       for (String searchField : lstFieldSearch) {
         String searchFieldValue =
           SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
-       // for (String searchWord : searchString.split(' ')) {
           if (searchFieldValue.containsIgnoreCase(searchString)) {
             isFound = true;
             break;
           }
-       // }
       }
       if (isFound)
         filteredPEList.add(pe);
