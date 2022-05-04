@@ -277,7 +277,6 @@ public without sharing class PIR_HomepageController {
           filterWrapper
         );
       }
-
       String filterString =
         ' Study_Site__c IN :siteIdlist' +
         ' AND Participant_Status__c IN :status';
@@ -356,6 +355,8 @@ public without sharing class PIR_HomepageController {
       //For High Priority
       if (highPriority != null) {
         filterString = filterString + ' AND High_Priority__c = : highPriority ';
+      }else{
+        filterString = filterString + ' AND High_Priority__c = false ';
       }
 
       //For High comorbidities
@@ -392,11 +393,6 @@ public without sharing class PIR_HomepageController {
       }
 
       List<String> status = selectedStatusList;
-      System.debug('totalCount: ' + totalCount);
-      System.debug('studyIdlist: ' + studyIdlist);
-      System.debug('siteIdlist: ' + siteIdlist);
-      System.debug('selectedStatusList: ' + selectedStatusList);
-      System.debug('status: ' + status);
       if (status == null || status.isEmpty()) {
         status = new List<String>();
         status.add('Received');
@@ -446,10 +442,6 @@ public without sharing class PIR_HomepageController {
           qcString = qcString + filterString + sortCountQry;
         }
 
-        System.debug('qCountString: ' + qcString);
-        System.debug('status: ' + status);
-        System.debug('studyIdlist: ' + studyIdlist);
-        System.debug('siteIdlist: ' + siteIdlist);
         totalCount = Database.countQuery(qcString);
       }
 
@@ -458,8 +450,6 @@ public without sharing class PIR_HomepageController {
         filterString +
         filterStringPP +
         sortCountQry;
-      System.debug('qCountString: ' + qCountString);
-      System.debug('status: ' + status);
       Integer totalCountPP = Database.countQuery(qCountString);
 
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
@@ -468,7 +458,6 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
-        //TODO: consider changing this once filter is one.
         if (isPPFiltered == true) {
           queryString =
             queryString +
@@ -479,13 +468,6 @@ public without sharing class PIR_HomepageController {
           queryString = queryString + filterString + orderByString;
         }
 
-        System.debug('studyIdlist: ' + studyIdlist);
-        System.debug('siteIdlist: ' + siteIdlist);
-        System.debug('status: ' + status);
-        System.debug('sourceTypeList: ' + sourceTypeList);
-        System.debug('ageStart: ' + ageStart);
-        System.debug('ageEnd: ' + ageEnd);
-        System.debug('queryString: ' + queryString);
 
         perList = Database.query(queryString);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
@@ -502,7 +484,6 @@ public without sharing class PIR_HomepageController {
           sortOn +
           ' LIMIT 10 ' +
           ' OFFSET :offsetLimit ';
-        //TODO: consider changing this once filter is one.
         if (isPPFiltered == true) {
           queryString =
             queryString +
@@ -512,14 +493,6 @@ public without sharing class PIR_HomepageController {
         } else {
           queryString = queryString + filterString + orderByString;
         }
-
-        System.debug('studyIdlist: ' + studyIdlist);
-        System.debug('siteIdlist: ' + siteIdlist);
-        System.debug('status: ' + status);
-        System.debug('sourceTypeList: ' + sourceTypeList);
-        System.debug('ageStart: ' + ageStart);
-        System.debug('ageEnd: ' + ageEnd);
-        System.debug('queryString: ' + queryString);
 
         perList = Database.query(queryString);
         listViewWrapper = createListViewWrapper(perList);
@@ -533,8 +506,6 @@ public without sharing class PIR_HomepageController {
       listViewReturnWrapper.totalRecordCount = totalCount;
       listViewReturnWrapper.studyIdlist = studyIdlist;
       listViewReturnWrapper.siteIdlist = siteIdlist;
-      System.debug('listViewReturnWrapper: ' + listViewReturnWrapper);
-      //TODO: this query can be avoided.
       Integer ivStudies = [
         SELECT COUNT()
         FROM Clinical_Trial_Profile__c
@@ -591,7 +562,7 @@ public without sharing class PIR_HomepageController {
     String filterString = ' Study_Site__c IN :siteIdlist ';
     queryString = queryString + filterString + sortOn;
 
-    List<Participant_Enrollment__c> peList = Database.query(queryString); 
+    List<Participant_Enrollment__c> peList = Database.query(queryString);
 
     List<String> lstFieldSearch = new List<String>{
       'Participant__r.First_Name__c',
@@ -649,8 +620,6 @@ public without sharing class PIR_HomepageController {
       listendindex = filteredPEList.size() - 1;
     }
 
-    system.debug('>>>>>>>>>>>>>>>>>filterr' + listendindex);
-    system.debug('>>>>>>>>>>>>>>>>>filterr' + pageNumber);
     for (Integer i = (pageNumber * 10 - 10); i <= listendindex; i++) {
       perLimitList.add(filteredPEList[i]);
     }
@@ -1277,7 +1246,6 @@ public without sharing class PIR_HomepageController {
             .Id)
           AND is_Invited__c = TRUE
       ];
-      system.debug('>>>pistaff>>' + piStaffs);
       for (Site_Staff__c siteStaff : piStaffs) {
         if (siteStaff.Site_Contact__c == CommunityService.getUserContact().Id) {
           piStudiesAccessLevel.put(
@@ -1286,9 +1254,6 @@ public without sharing class PIR_HomepageController {
           );
         }
       }
-      system.debug(
-        '>>>retrnvalue piStudiesAccessLevel>>' + piStudiesAccessLevel
-      );
       return piStudiesAccessLevel;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -1461,7 +1426,6 @@ public without sharing class PIR_HomepageController {
       String sponsorName = UserContext.getCurrentUserMode()
         .template.templateName;
       String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
-      system.debug('USERMODEE' + sponsorName);
       List<Study_Site__c> studySiteList = getStudySiteDetails();
 
       Map<String, Id> studyMap = new Map<String, Id>();
@@ -1523,7 +1487,6 @@ public without sharing class PIR_HomepageController {
             .Id)
           AND is_Invited__c = TRUE
       ];
-      system.debug('>>>pistaff>>' + piStaffs);
       for (Site_Staff__c siteStaff : piStaffs) {
         if (siteStaff.Site_Contact__c == CommunityService.getUserContact().Id) {
           piStudiesAccessLevel.put(
@@ -1553,12 +1516,10 @@ public without sharing class PIR_HomepageController {
       FROM Clinical_Trial_Profile__c
       WHERE Id IN :ctpIds AND Terms_And_Conditions_ID__c != NULL
     ];
-    system.debug('ctpids' + ctp.size());
     String UserId = UserInfo.getUserId();
     //String UserId = UserContext.getUserId();
     for (Clinical_Trial_Profile__c c : ctp) {
       tc.put(c.Terms_And_Conditions_ID__c, c.Id);
-      system.debug('cid' + c.Terms_And_Conditions_ID__c + c.Id);
     }
     termsConditions = [
       SELECT Id, Terms_And_Conditions__c, User__c
