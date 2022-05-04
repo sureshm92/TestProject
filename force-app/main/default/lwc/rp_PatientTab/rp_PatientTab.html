@@ -219,7 +219,7 @@
                 </lightning-layout-item>
             </lightning-layout>
             <div key={pe.peRecord.Id} style="margin-top: 10px;">
-                <c-consent-manager  onconsentchange={handleConsentUpdate}  pe-updation="true" participant-enrollment={pe.peRecord} participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP"  ></c-consent-manager>
+                <c-consent-manager  isaccesslevelthree = {isaccesslevelthree} onconsentchange={handleConsentUpdate}  pe-updation="true" participant-enrollment={pe.peRecord} participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP"  ></c-consent-manager>
             </div>
         </template>
         <div class="topIcon-control slds-hide_medium" >

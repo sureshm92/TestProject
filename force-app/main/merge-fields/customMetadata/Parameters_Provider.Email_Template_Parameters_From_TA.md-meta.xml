@@ -12,6 +12,7 @@
 VisitName=Televisit__r.Title__c
 VisitDate=Televisit__r.Visit_Date__c
 VisitDuration=Televisit__r.Duration__c
+VisitDttime=Televisit__r.Visit_Date_Time__c
 PIFirstName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.FirstName
 PILastName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName</value>
     </values>
