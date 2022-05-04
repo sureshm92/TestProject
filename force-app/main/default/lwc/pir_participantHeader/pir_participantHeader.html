@@ -1,4 +1,5 @@
 <template>
+    <div class={maindivcls}>
     <div class="shadowbox shadowbox-mob"> 
         <div class="slds-grid slds-wrap slds-p-around_x-small slds-media_center">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 header-section header-section-mob">
@@ -33,11 +34,11 @@
                             <img class="slds-p-around_x-small ipad-mode cursor" onclick={doPrint} src={printIcon} width="32px" >
                         </template>
                         <template if:true={showPreScreen}>
-                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small"  onclick={doPrescreen}> {label.RH_Pre_screen} </button>
+                            <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small rtl-m-left" title={label.RH_Pre_screen} onclick={doPrescreen}> {label.RH_Pre_screen} </button>
                         </template>
                         <template if:true={showAction}>
                             <template if:true={showActiondt}>
-                                <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> 
+                                <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small rtl-m-left"  onclick={doAction}> 
                                     <div class="" >
                                         <div class="slds-col slds-size_1-of-1" >
                                             {showActionlabel}
@@ -49,7 +50,7 @@
                                 </button> 
                             </template>
                             <template if:false={showActiondt}>
-                                <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {showActionlabel} </button> 
+                                <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small rtl-m-left"  onclick={doAction}> {showActionlabel} </button> 
                             </template>
                         </template>
                     </div>
@@ -71,11 +72,11 @@
                             </div>
                         </template>
                         <template if:false={showActiondt}>
-                            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small"><button class="apollo-btn primary btn-lrg "  onclick={doAction} title={btnToolTip}>  {showActionlabel} </button></div>
+                            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small rtl-m-left"><button class="apollo-btn primary btn-lrg "  onclick={doAction} title={btnToolTip}>  {showActionlabel} </button></div>
                         </template>
                     </template>
                     <template if:true={showPreScreen}>
-                        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small"><button class="apollo-btn secondary btn-lrg"  onclick={doPrescreen}> {label.RH_Pre_screen} </button></div>
+                        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small rtl-m-left"><button class="apollo-btn secondary btn-lrg"  onclick={doPrescreen} title={label.RH_Pre_screen}> {label.RH_Pre_screen} </button></div>
                     </template>
                 </div>
             </div>
@@ -117,19 +118,19 @@
                     <div>
                         <template if:true={checkAction}>
                             <template if:true={showAction}>
-                                
                                 <template if:false={showActiondt}>
-                                    <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {label.inviteToPP} </button> 
+                                    <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" title={label.inviteToPP}  onclick={doAction}> {label.inviteToPP} </button> 
                                 </template> 
                             </template>
                         </template>
                     </div>
                     <div>
-                        <lightning-button variant="base" label={label.PG_MRR_BTN_Back_to_My_Participant} onclick={closeMRR_Modal} class="back-to-my-participant"></lightning-button>
+                        <lightning-button variant="base" title={label.PG_MRR_BTN_Back_to_My_Participant} label={label.PG_MRR_BTN_Back_to_My_Participant} onclick={closeMRR_Modal} class="back-to-my-participant"></lightning-button>
                     </div>
                 </div>
             </template>
         </div> 
     </c-popup-l-w-c>
    </template>
+    </div>
 </template>

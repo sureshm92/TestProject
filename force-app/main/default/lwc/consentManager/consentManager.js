@@ -118,17 +118,16 @@ export default class ConsentManager extends LightningElement {
     set participantCountry(value) {
         if(value != this._countryCode){
             this._countryCode = value;
-            console.log('do country code'); 
         this.isCountryUS = (value == "US"? true : false);
             if(this.isCountryUS  && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
-                && this.participantContact.Participant_Opt_In_Status_SMS__c 
-                && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
+            && this.participantContact.Participant_Opt_In_Status_SMS__c 
+            && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
 
-                this.participantContact.Participant_Opt_In_Status_Emails__c = false;
-                this.participantContact.Participant_Opt_In_Status_SMS__c = false;
-                this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
-                this.fireConsentChange('outreach');
-            }
+            this.participantContact.Participant_Opt_In_Status_Emails__c = false;
+            this.participantContact.Participant_Opt_In_Status_SMS__c = false;
+            this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
+            this.fireConsentChange('outreach');
+        }
             if(this.isCountryUS  && ( !(this.pe.Permit_Mail_Email_contact_for_this_study__c 
                 && this.pe.Permit_Voice_Text_contact_for_this_study__c
                 && this.pe.Permit_SMS_Text_for_this_study__c))){
@@ -140,6 +139,7 @@ export default class ConsentManager extends LightningElement {
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
         }
+    }
     }
 
     @api
@@ -184,7 +184,7 @@ export default class ConsentManager extends LightningElement {
         if((this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c
             && this.pe.Permit_SMS_Text_for_this_study__c)
             ||
-            ((!this.isCountryUS) && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c)
+            (!this.isCountryUS && this.pe.Permit_Mail_Email_contact_for_this_study__c && this.pe.Permit_Voice_Text_contact_for_this_study__c)
             ){
             this.consentModel.studyConsent = true;
         }else{
