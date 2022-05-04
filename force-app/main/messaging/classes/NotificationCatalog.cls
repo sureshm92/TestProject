@@ -104,6 +104,7 @@ public without sharing class NotificationCatalog {
     /*
      * MESSAGE TO TELEVISIT ATTENDEE
      *
+     *
      */
     //For Participant and delegates when they are added to a televisit
     public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
