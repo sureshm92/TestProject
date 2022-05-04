@@ -353,7 +353,7 @@ public without sharing class PIR_HomepageController {
           filterString + ' AND HighRisk_Indicator__c != \'Yes\' ';
       }
       //For High Priority
-      if (highPriority != null && highPriority) {
+      if (highPriority != null) {
         filterString = filterString + ' AND High_Priority__c = : highPriority ';
       }
 
@@ -1761,7 +1761,12 @@ public without sharing class PIR_HomepageController {
         pe.Non_Referral_Notes__c = Notes;
         pe.Last_Status_Changed_Notes__c = Notes;
         pe.Non_Enrollment_Reason__c = initReasonMap.get(reason);
-        pe.Final_consent__c = finalconsent;
+          if(pe.Participant_Status__c==PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT){
+               pe.Final_consent__c = false; 
+          }
+          else{
+              pe.Final_consent__c = finalconsent;
+          }
         pe.Participant_Status_Last_Changed_Date__c = system.now();
         if (consentSigned != null && signedDate != null) {
           pe.Informed_Consent__c = consentSigned;

@@ -45,7 +45,12 @@ import PG_Ref_L_Permit_IQVIA_Confirmation from '@salesforce/label/c.PG_Ref_L_
 import PG_Ref_L_Permit_IQVIA_To_Contact_Email from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Email';
 import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone';
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
+import PG_Ref_L_Permit_IQVIA_To_Contact_By from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_By';
 import PG_Ref_L_StudySite_Consent_Mandatory from '@salesforce/label/c.PG_Ref_L_StudySite_Consent_Mandatory';
+import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
+import EMAIL from '@salesforce/label/c.Email';
+import PHONE from '@salesforce/label/c.Phone';
+import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 import Age from '@salesforce/label/c.Age';
 import RH_Ethnicity from '@salesforce/label/c.RH_Ethnicity';
 import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Preferred_Contact_Time';
@@ -64,6 +69,8 @@ import September from '@salesforce/label/c.September'
 import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
+import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -71,6 +78,8 @@ export default class Pir_participantDetail extends LightningElement {
     actionReq = false;
     notification = pirResources+'/pirResources/icons/bell.svg';
     disableSrc = false;
+    @api isrtl = false;
+    maindivcls;
     disableScreening = false;
     delegateMinor =false;
     disableEdit = false;
@@ -132,6 +141,11 @@ export default class Pir_participantDetail extends LightningElement {
         this.delegateMinor =false;
         this.stateReq = false;
         this.disableEdit = false;
+        if(this.isrtl) {
+            this.maindivcls = 'rtl';
+        }else{
+            this.maindivcls = 'ltr';
+        }
         getParticipantData( { PEid:value})
             .then(result => {
                 this.pd = result;   
@@ -237,6 +251,32 @@ export default class Pir_participantDetail extends LightningElement {
         let field =event.target.name;
         this.setVal(val,lvl,field);
     }    
+    handleCheckboxChange(event){
+        this.isOutreachUpdated = true;
+        let consent = event.detail.checked;
+        let consentType = event.target.name;
+        switch(consentType){
+            case 'outreachPhoneConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
+                    break;
+            case 'outreachEmailConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = consent;
+                    break;
+            case 'outreachSMSConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
+                    break;
+            case 'studyPhoneConsent':
+                this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = consent;
+                break;
+            case 'studyEmailConsent':
+                this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = consent;
+                break;
+            case 'studySMSConsent':
+                this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = consent;
+                break;
+        }
+        this.toggleSave();
+    }   
     setVal(val,lvl,field){
         let toggleSaveButton = true;
         if(lvl=='1'){
@@ -631,7 +671,7 @@ export default class Pir_participantDetail extends LightningElement {
     setState(){
         this.contactstates=[];
         if(this.pd['pe']['Participant__r']['Mailing_Country__c']){      
-            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country__c']];
+            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country_Code__c']];
             this.stateReq = this.contactstates.length >0;
         }   
         window.clearTimeout(this.delayTimeout);
@@ -925,16 +965,6 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-
-        if(!this.isConsentComplete()){
-            const event = new ShowToastEvent({
-                variant: 'error',
-                message: this.PG_Ref_L_StudySite_Consent_Mandatory ,
-            });
-            this.dispatchEvent(event);
-            this.saving = false;
-        }
-        else{
             doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
@@ -943,7 +973,7 @@ export default class Pir_participantDetail extends LightningElement {
                 const event = new ShowToastEvent({
                     variant: 'success',
                     message:
-                    'Record Saved Successfully',
+                    RH_RP_Record_Saved_Successfully,
                 });
                 this.dispatchEvent(event);
                 this.saving = false;
@@ -957,7 +987,6 @@ export default class Pir_participantDetail extends LightningElement {
                 });
                 this.dispatchEvent(event);
             });
-        }
     }
     fieldUpdate(old,upd){
         if(typeof(old)=='boolean'){
@@ -1044,5 +1073,9 @@ export default class Pir_participantDetail extends LightningElement {
     BTN_Verify=BTN_Verify;
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
     PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
- 
+    PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
+    PG_Ref_L_Permit_IQVIA_To_Contact_By = PG_Ref_L_Permit_IQVIA_To_Contact_By;
+    EMAIL = EMAIL;
+    PHONE = PHONE;
+    SMS_TEXT = SMS_TEXT;
 }
