@@ -893,12 +893,6 @@ export default class Filtertest extends LightningElement {
   }
 
   createStatusOption(){
-    console.log('OUTPUT this.selectedActiveInactive: ',this.selectedActiveInactive);
-    console.log('OUTPUT this.defaultStudy: ',this.defaultStudy);
-    console.log('OUTPUT this.studyToPrmoteDCT: ',this.studyToPrmoteDCT);
-    console.log('OUTPUT this.studyToPrmoteDCT: ',this.studyToPrmoteDCT[this.defaultStudy]);
-    console.log('OUTPUT this.studyToFinalStep: ',this.studyToFinalStep);
-    console.log('OUTPUT this.studyToFinalStep: ',this.studyToFinalStep[this.defaultStudy]);
 
     if(this.defaultStudy != 'All Study'){
       if(this.selectedActiveInactive == 'Active'){
@@ -1030,8 +1024,6 @@ export default class Filtertest extends LightningElement {
         ];
       }
     }
-
-    console.log('OUTPUT this.statusoptions: ',this.statusoptions);
     
   }
 }
