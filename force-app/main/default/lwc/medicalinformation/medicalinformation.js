@@ -73,7 +73,7 @@ export default class Medicalinformation extends LightningElement {
     pir_BmiHelptext,
     RH_MedicalRecords_NoPermitEmail,
     PIR_Download,
-    RH_RP_Record_Saved_Successfully
+    RH_RP_Record_Saved_Successfully,
     RH_Pre_screen,
     PE_MedicalRecordReview
   };
