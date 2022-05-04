@@ -251,8 +251,84 @@
                         </div>                
                   </div> <!--    Participation Information  End  --> 
 
-                  <c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager>
-                  <!--    Participation Information  End  --> 
+                  <!-- consenting section starts here-->
+                        <div class="step-card-title slds-m-bottom_x-small slds-m-top_small">
+                              {PG_Ref_L_Information_Sharing}
+                        </div> 
+                        <lightning-layout multiple-rows="true">
+                        <div>
+                              <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_To_Contact_By}</label>
+                        </div>
+                        <div class="label_align">
+                        <lightning-input 
+                                                data-id="studyPhoneConsent" 
+                                                type="checkbox" 
+                                                varient="label-hidden" 
+                                                name="studyPhoneConsent" 
+                                                checked={pd.pe.Permit_Voice_Text_contact_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span> <label class="label_spacing" for="studyPhoneConsent">{PHONE}</label></span>
+                        </div>
+                        <div class="label_align">
+                        <lightning-input 
+                                                type="checkbox" 
+                                                data-id="studyEmailConsent" 
+                                                varient="label-hidden" 
+                                                name="studyEmailConsent" 
+                                                checked={pd.pe.Permit_Mail_Email_contact_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span><label class="label_spacing" for="studyEmailConsent">{EMAIL}</label></span>
+                        </div>
+                        <div class="label_align">
+                        <lightning-input 
+                                                type="checkbox" 
+                                                data-id="studySMSConsent" 
+                                                varient="label-hidden" 
+                                                name="studySMSConsent" 
+                                                checked={pd.pe.Permit_SMS_Text_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span><label class="label_spacing" for="studySMSConsent">{SMS_TEXT}</label></span>
+                        </div>
+                        </br> </br>
+                        <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
+                              <div>
+                                    <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW}</label>
+                              </div> 
+                              </br> </br> 
+                              <div class="label_align">
+                              <lightning-input 
+                                                      data-id="outreachPhoneConsent" 
+                                                      type="checkbox" 
+                                                      varient="label-hidden" 
+                                                      name="outreachPhoneConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span> <label class="label_spacing" for="outreachPhoneConsent">{PHONE}</label></span>
+                              </div>
+                              <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="outreachEmailConsent" 
+                                                      varient="label-hidden" 
+                                                      name="outreachEmailConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{EMAIL}</label></span>
+                              </div>
+                              <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="outreachSMSConsent" 
+                                                      name="outreachSMSConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{SMS_TEXT}</label></span>
+                              </div>
+                        </template>
+                  </lightning-layout>
+                  <!--consenting section ends here-->
+            <!--c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager-->
+            
             
             </div>
             <template if:true={pd.pe.Participant__r.Emancipation_in_progress__c}>
