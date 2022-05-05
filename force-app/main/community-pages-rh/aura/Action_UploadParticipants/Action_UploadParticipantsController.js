@@ -3,7 +3,7 @@
  */
 ({
     doExecute: function (component, event, helper) {
-        component.set('v.reload',false);
+        component.set('v.reload',true);
         component.find('upModalSpinner').show();
         component.set('v.createUsers', false);
         component.set('v.isEmail', false);
@@ -14,8 +14,7 @@
         component.set('v.visitPlanRequired', false);
         component.set('v.visitPlanDisabled', false);
         component.set('v.visitPlanId', undefined);
-        component.set('v.reload',true);
-        component.find('consent-Manager').reInitialize();
+        component.find('consent-Manager').resetConsents();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params['studySiteId'];
