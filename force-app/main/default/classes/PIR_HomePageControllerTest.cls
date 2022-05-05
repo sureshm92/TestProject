@@ -314,6 +314,20 @@ public without sharing class PIR_HomePageControllerTest {
     }
 
     @isTest
+    static void testsetPreScreenerStatus() {        
+        TestData testData = new TestData();
+        Test.startTest();
+        PIR_HomepageController.setPreScreenerStatus(testData.pe.Id,'Pass','https://surveytest.com');
+        PIR_HomepageController.setPreScreenerStatus(testData.pe.Id,'Fail','https://surveytest.com');
+        try{
+            PIR_HomepageController.setPreScreenerStatus(testData.pe.Id,testData.pe.Id,testData.pe.Id);
+        }
+        catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
+        //PIR_HomepageController.setMRRStatus(testData.pe.Id,'Test','https://surveytest.com');
+        Test.stopTest();
+    }
+
+    @isTest
     static void testgetPEDataAdditionalMethod() {
         TestData testData = new TestData();
         List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
