@@ -603,7 +603,8 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                    cards[j].focus();
+                    if(!this.disabledFilter)
+                        cards[j].focus();
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
