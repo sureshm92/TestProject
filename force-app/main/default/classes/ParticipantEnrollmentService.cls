@@ -674,12 +674,9 @@ public without sharing class ParticipantEnrollmentService {
         'Participant__r.Contact__r.Visit_Results_OptIn__c',
         'Participant_Contact__c',
         'Participant_Contact__r.Visit_Results_OptIn__c',
-        'Participant_Contact__r.Participant_Opt_In_Status_Emails__c',//Added by Raviteja
-        'Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c',//Added by Raviteja
-        'Participant_Contact__r.Participant_Opt_In_Status_SMS__c',//Added by Raviteja
-        'Participant_Opt_In_Status_Emails__c',//Added by Raviteja
-        'Participant_Opt_In_Status_SMS__c',//Added by Raviteja
-        'Participant_Phone_Opt_In_Permit_Phone__c',//Added by Raviteja
+        'Participant_Opt_In_Status_Emails__c',
+        'Participant_Opt_In_Status_SMS__c',
+        'Participant_Phone_Opt_In_Permit_Phone__c',
         'PI_Contact__c',
         'PI_Contact__r.Id',
         'PI_Contact__r.Name',
