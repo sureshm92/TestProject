@@ -26,6 +26,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             FROM Patient_Delegate__c
             WHERE Participant__r.Contact__c IN :allContactIds
         ];
+        for (Id conId : allContactIds) {
+            if (!participantIdsByDelegates.containsKey(conId)) {
+                participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
+            }
+        }
         for (Patient_Delegate__c pd : patientDelegates) {
             // allContactIds.add(pd.Contact__c);
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
