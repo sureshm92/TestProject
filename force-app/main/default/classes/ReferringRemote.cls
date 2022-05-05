@@ -368,6 +368,10 @@ public without sharing class ReferringRemote {
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
+            if(enrollment.Pre_screening_Status__c=='Pass' || enrollment.Pre_screening_Status__c == 'Fail'){
+                enrollment.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+                enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
+            }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Contacted__c = true;
             enrollment.Contacted_Date__c = System.today();
@@ -716,6 +720,10 @@ public without sharing class ReferringRemote {
             pe.Non_Referral_Reason__c = reason;
             if (reason == ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING) {
                 pe.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
+            }
+            if(pe.Pre_screening_Status__c=='Pass' || pe.Pre_screening_Status__c == 'Fail'){
+                pe.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+                pe.Pre_Screener_Completed_Date__c = Datetime.now();
             }
             upsert pe;
         } catch (Exception e) {
