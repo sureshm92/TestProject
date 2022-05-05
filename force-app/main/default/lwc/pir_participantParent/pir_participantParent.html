@@ -358,7 +358,6 @@
   <template if:true={isStatusChange}>
    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
-   <div class="slds-modal_small">
       <template if:true={bulkStatusSpinner}>
          <lightning-spinner alternative-text="Loading..." variant="brand">
          </lightning-spinner>
@@ -380,7 +379,6 @@
                      </div>
                   </div>
                </div>
-               <slot name="body">   
                   <div class="slds-grid slds-wrap slds-gutters">
                      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                            <div class="status-text">
@@ -482,7 +480,6 @@
                      </div>    
                      </div>
                   </div>
-               </slot>
             </div>
             </div>
          </section>
