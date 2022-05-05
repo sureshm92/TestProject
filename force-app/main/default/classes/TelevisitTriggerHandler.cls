@@ -130,13 +130,15 @@ public class TelevisitTriggerHandler {
         Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates,
         Id contactId
     ) {
-        if (participantIdsByDelegates.get(contactId).size() == 1) {
-            List<Patient_Delegate__c> pdList = participantIdsByDelegates.get(contactId);
-            return pdList[0].Contact__c;
-        } else if (participantIdsByDelegates.get(contactId).size() > 1) {
-            for (Patient_Delegate__c del : participantIdsByDelegates.get(contactId)) {
-                if (del.Primary_Delegate__c) {
-                    return del.Contact__c;
+        if (participantIdsByDelegates.size() > 0) {
+            if (participantIdsByDelegates.get(contactId).size() == 1) {
+                List<Patient_Delegate__c> pdList = participantIdsByDelegates.get(contactId);
+                return pdList[0].Contact__c;
+            } else if (participantIdsByDelegates.get(contactId).size() > 1) {
+                for (Patient_Delegate__c del : participantIdsByDelegates.get(contactId)) {
+                    if (del.Primary_Delegate__c) {
+                        return del.Contact__c;
+                    }
                 }
             }
         }
