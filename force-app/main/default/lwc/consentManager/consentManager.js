@@ -140,7 +140,6 @@ export default class ConsentManager extends LightningElement {
         this.updateOutreachConsentChecks();
         }
     }
-    }
 
     @api
     get participantEnrollment() {
