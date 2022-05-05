@@ -348,7 +348,7 @@ public without sharing class NotificationAvailabilityService {
     }
 
     /**
-     * @description: This Method will check if contact number is invalid.
+     * @description: This Method will check if contact Phone number is invalid.
      * @author: Krishna Mahto
      * @param: contactId
      * @return: Boolean
