@@ -17,6 +17,7 @@ public without sharing class TeleVisitRemote {
                 Duration__c,
                 Start_Time__c,
                 Visit_Date__c,
+                Visit_Date_Time__c,
                 (SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c FROM Televisit_Attendee__r)
             FROM Televisit__c
             WHERE Participant_Enrollment__c = :pState.pe.Id AND Status__c = :visitMode
@@ -44,6 +45,7 @@ public without sharing class TeleVisitRemote {
                 tvWrapperObj.duration = teleObj.Duration__c;
                 tvWrapperObj.visitTime = teleObj.Start_Time__c;
                 tvWrapperObj.attendeeList = attendeename.removeEnd(',').trim();
+                tvWrapperObj.visitDateTime = teleObj.Visit_Date_Time__c;
                 televisitWrappersList.add(tvWrapperObj);
             }
             return televisitWrappersList;
@@ -60,6 +62,8 @@ public without sharing class TeleVisitRemote {
         public Date visitDate;
         @AuraEnabled
         public Time visitTime;
+        @AuraEnabled
+        public Datetime visitDateTime;
         @AuraEnabled
         public String duration;
         @AuraEnabled
