@@ -22,8 +22,7 @@
                                 component.set('v.currentState', 'Questionare Failed');
                                 window.scrollTo(0, 0);
                             }
-                        );
-                        
+                        );                        
                     }
                     console.log('Gizmo prescreeinig result' + e.data.pdfContent);
                 } else if (e.data.messageType === 'SurveyGizmoHeight') {
@@ -90,6 +89,17 @@
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
+
+            if(pe.Mailing_Country_Code__c != null && pe.Mailing_Country_Code__c != undefined 
+               && pe.Mailing_Country_Code__c != ''){
+                component.set('v.mailingCountryCode',pe.Mailing_Country_Code__c);
+            }else if(pe.Study_Site__r.Site__r.BillingCountryCode != null && pe.Study_Site__r.Site__r.BillingCountryCode != undefined
+                     && pe.Study_Site__r.Site__r.BillingCountryCode != ''){
+                component.set('v.mailingCountryCode',pe.Study_Site__r.Site__r.BillingCountryCode);
+            }else{
+                component.set('v.mailingCountryCode','US');
+            }
+
             component.set('v.emailRepeat',pe.Email__c);
             component.set('v.primaryDelegateFirstname',pe.Primary_Delegate_First_Name__c);
             component.set('v.primaryDelegateLastname',pe.Primary_Delegate_Last_Name__c);
@@ -114,9 +124,13 @@
             }else{
                 component.set('v.pyear',null);
             }
-            
-            if(pe.Is_SMS__c && pe.Is_Email__c && pe.Is_Phone__c){
-                component.set('v.agreePolicy',true); 
+             
+            if( (( pe.Mailing_Country_Code__c == 'US' && pe.Permit_SMS_Text_for_this_study__c) || 
+                   pe.Mailing_Country_Code__c != 'US' ) && 
+                 pe.Permit_Voice_Text_contact_for_this_study__c && 
+                 pe.Permit_Mail_Email_contact_for_this_study__c 
+              ){
+              component.set('v.agreePolicy',true);   
             }
             
         }else{
@@ -127,6 +141,17 @@
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
+
+            if(pe.Mailing_Country_Code__c != null && pe.Mailing_Country_Code__c != undefined 
+                && pe.Mailing_Country_Code__c != ''){
+                 component.set('v.mailingCountryCode',pe.Mailing_Country_Code__c);
+             }else if(pe.Study_Site__r.Site__r.BillingCountryCode != null && pe.Study_Site__r.Site__r.BillingCountryCode != undefined
+                      && pe.Study_Site__r.Site__r.BillingCountryCode != ''){
+                 component.set('v.mailingCountryCode',pe.Study_Site__r.Site__r.BillingCountryCode);
+             }else{
+                 component.set('v.mailingCountryCode','US');
+             }
+             
             if (pe.HCP__r) {
                 participant.Mailing_Country_Code__c =
                     pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
@@ -165,7 +190,6 @@
     },
     
     checkFields: function (component, event, helper, doNotCheckFields) {
-        let agreePolicy = component.get('v.agreePolicy');
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
@@ -192,8 +216,21 @@
         let emailVaild = emailCmp && communityService.isValidEmail(participant.Email__c);
         let emailRepeatValid = emailRepeatCmp && communityService.isValidEmail(emailRepeat);
         let selectedCountry = participant.Mailing_Country_Code__c;
-        let selectedState = participant.Mailing_State_Code__c;
-        
+        let selectedState = participant.Mailing_State_Code__c;        
+        component.set('v.agreePolicy',false);
+        let per = component.get('v.pEnrollment');
+        if( per != null && per != undefined && per != '' &&
+            (
+                (component.get('v.participant').Mailing_Country_Code__c == 'US' && per.Permit_SMS_Text_for_this_study__c) || 
+                 component.get('v.participant').Mailing_Country_Code__c != 'US' ) && 
+                 per.Permit_Voice_Text_contact_for_this_study__c && 
+                 per.Permit_Mail_Email_contact_for_this_study__c 
+              ){
+              component.set('v.agreePolicy',true);   
+            }
+
+        let agreePolicy = component.get('v.agreePolicy');
+
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.delegateParticipant');
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
