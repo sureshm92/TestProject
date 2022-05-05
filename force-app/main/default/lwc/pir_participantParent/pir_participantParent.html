@@ -43,12 +43,12 @@
                                    <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
-						   <template if:true={enableTelevisitTab}>
+                           <template if:true={enableTelevisitTab}>
                               <lightning-tab label="Televisit" value="Televisit" onactive={handleTelevisitTab} class="no-padding">
                                  <c-televisit-creation-screen  peidnew= {selectedPE}></c-televisit-creation-screen>
                               </lightning-tab>
                            </template>
-                       </lightning-tabset>
+                        </lightning-tabset>
                </div>
                <template if:true={isLoaded}>
                    <div class="">
@@ -341,7 +341,7 @@
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
-                              <button class="slds-button apollo-btn primary btn-height save-btn" title={label.Continue} onclick={handleNewParticipant} disabled={handleContinue}> {label.Continue} </button>
+                           <button class="slds-button apollo-btn primary btn-height save-btn" title={label.Continue} onclick={handleNewParticipant} disabled={handleContinue}> {label.Continue} </button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseParticipant}> {label.BTN_Cancel} </button>
                           </div>     
                         </div>
@@ -356,31 +356,40 @@
   <!--  Change Status Model End --> 
   </template>
   <template if:true={isStatusChange}>
-            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
-            <div class="slds-modal_small">
-               <template if:true={bulkStatusSpinner}>
-                  <lightning-spinner alternative-text="Loading..." variant="brand">
-                  </lightning-spinner>
-               </template>
-               <div class="slds-modal__container model-small">
-                  <div class="slds-modal__content" id="modal-content-i44d-1">
-                     <div class="bar"></div>
-                     <div class="slds-p-around_large">
-                        <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
-                           <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                              <span class="title"> {label.ListView_ChangeStatus}</span> 
+   <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+   aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+   <div class="slds-modal_small">
+      <template if:true={bulkStatusSpinner}>
+         <lightning-spinner alternative-text="Loading..." variant="brand">
+         </lightning-spinner>
+      </template>
+      <div class="slds-modal__container model-small">
+         <div class="slds-modal__content" id="modal-content-i44d-1">
+            <div class="bar"></div>
+            <div class="slds-p-around_large">
+               <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                  <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                     <span class="title"> {label.ListView_ChangeStatus}</span> 
+                  </div>
+                  <div class="slds-col slds-size_1-of-12 close-icon">
+                     <div onclick={handleCloseStatus}>
+                        <lightning-icon icon-name="utility:close"
+                           alternative-text="close"
+                           size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                     </div>
+                  </div>
+               </div>
+               <slot name="body">   
+                  <div class="slds-grid slds-wrap slds-gutters">
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="status-text">
+                              {label.ListView_Current_Status}
                            </div>
-                           <div class="slds-col slds-size_1-of-12 close-icon">
-                              <div onclick={handleCloseStatus}>
-                                 <lightning-icon icon-name="utility:close"
-                                    alternative-text="close"
-                                    size="small" ></lightning-icon>
-                                 <span class="slds-assistive-text">Close</span>
-                              </div>
+                           <div class="status-result">
+                              {oParticipantStatus}
                            </div>
                         </div>
-                        <slot name="body">   
                            <div class="slds-grid slds-wrap slds-gutters">
                               <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                                     <div class="status-text">
@@ -397,7 +406,7 @@
                                     <div class="status-result">
                                       {newStatusSelected}
                                     </div>
-                              </div> 
+                              </div>
                               <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small">
                                     <lightning-combobox
                                        name="reason"
@@ -438,18 +447,43 @@
                                     data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>   
                               </div>
                            </div>
-                           <div class="slds-grid slds-wrap slds-m-top_large">
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                              <div class="slds-float_right mobile-width">                  
-                                    <button title={label.Submit} class="slds-button apollo-btn primary btn-height save-btn" onclick={handleBulkUpdate} disabled={bulkSubmit}> {label.Submit} </button>
-                                    <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseStatus}> {label.BTN_Cancel}</button>
-                              </div>    
-                              </div>
+                           <div class="status-result">
+                             {newStatusSelected}
                            </div>
-                        </slot>
+                     </div>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small">
+                           <lightning-combobox
+                              name="reason"
+                              title={label.PG_ACPE_L_Reason}
+                              label={label.PG_ACPE_L_Reason}
+                              value={selectedreason}
+                              placeholder=" "
+                              options={reasoneoptions}
+                              onchange={handleReasonChange}
+                              disabled={isReasonEmpty}
+                              ></lightning-combobox>
+                     </div>
+                     <template if:true={finalConsent}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small" style="padding-top: 10px;">
+                           <lightning-input type="checkbox" data-value="FinalConsent" required={finalConsentRequired} checked={finalConsentvalue}
+                               onchange={changeInputValue} label={label.FD_PE_Field_Final_Consent} title={label.FD_PE_Field_Final_Consent} name="input1"></lightning-input>
+                        </div>
+                     </template>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
+                           <lightning-textarea name="additionalNotes"  title={notesLabel} onchange={changeInputValue}
+                           data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>   
                      </div>
                   </div>
-               </div>
+                  <div class="slds-grid slds-wrap slds-m-top_large">
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                     <div class="slds-float_right mobile-width">                  
+                           <button title={label.Submit} class="slds-button apollo-btn primary btn-height save-btn" onclick={handleBulkUpdate} disabled={bulkSubmit}> {label.Submit} </button>
+                           <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseStatus}> {label.BTN_Cancel}</button>
+                     </div>    
+                     </div>
+                  </div>
+               </slot>
+            </div>
             </div>
          </section>
          <div class="slds-backdrop slds-backdrop_open"></div>
