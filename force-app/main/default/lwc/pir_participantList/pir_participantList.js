@@ -1357,7 +1357,7 @@ export default class Pir_participantList extends LightningElement {
                                     this.selectedCheckboxes.splice(index,1 );
                                 }
                             }
-                        }
+                    }
                 }
             }
             const selectedEvent = new CustomEvent("countvaluecheckbox", {
@@ -1633,7 +1633,7 @@ export default class Pir_participantList extends LightningElement {
     }
     get filterCount(){
         if(!(Object.keys(this.filterWrapper).length === 0)){
-            var count = 10;
+            var count = 7;
             if(this.filterWrapper.ethnicityList){
                 if(this.filterWrapper.ethnicityList.length>0){
                     count++;
@@ -1642,7 +1642,15 @@ export default class Pir_participantList extends LightningElement {
             if((this.filterWrapper.ageFrom && this.filterWrapper.ageFrom!="") || (this.filterWrapper.ageTo && this.filterWrapper.ageTo!="")){
                 count++;
             }
-            
+            if(JSON.stringify(this.filterWrapper.highRisk)=='true'){
+                count++;
+            }
+            if(JSON.stringify(this.filterWrapper.comorbidities)=='true'){
+                count++;
+            }
+            if(this.filterWrapper.highPriority){
+                count++;
+            }
             return "("+count+")";
         }
         return "";
