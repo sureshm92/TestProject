@@ -35,6 +35,7 @@
     <aura:attribute name="isMRRTabInitialized" type="Boolean" />
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean" />
     <aura:attribute name="isshowTravelCardInPreEnrollment" type="Boolean" default="false" />
+    <aura:attribute name="isTeleVendorEnabled" type="Boolean" default="false" />
 
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private" />
@@ -230,6 +231,18 @@
                                 onclick="{!c.doAction}"
                             >
                                 {!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}
+                            </button>
+                        </aura:if>
+                        <aura:if
+                            isTrue="{!and(v.studyDetail.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,v.isTeleVendorEnabled)}"
+                        >
+                            <button
+                                id="changeVisitMode"
+                                data-visit-mode="TeleVisitDetails"
+                                class="{!'apollo-btn text ' + if(v.visitMode == 'TeleVisitDetails', ' current', '')}"
+                                onclick="{!c.doAction}"
+                            >
+                                {!$Label.c.Home_Page_Tele_Visit_Details_Tab}
                             </button>
                         </aura:if>
 
@@ -437,6 +450,18 @@
                             isTrue="{!v.studyDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c}"
                         >
                             <c:StudyVisits />
+                        </aura:if>
+                    </aura:if>
+                    <aura:if
+                        isTrue="{!and(v.currentTab == 'tab-visits',v.visitMode == 'TeleVisitDetails')}"
+                    >
+                        <aura:if
+                            isTrue="{!v.studyDetail.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c}"
+                        >
+                            <c:teleVisitsListView
+                                isMobileApp="{!v.isMobileApp}"
+                                isRTL="{!v.isRTL}"
+                            ></c:teleVisitsListView>
                         </aura:if>
                     </aura:if>
                     <aura:if

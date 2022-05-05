@@ -51,6 +51,10 @@ public without sharing class ParticipantService {
         public Boolean showTravelCardInPreEnrollment;
         @AuraEnabled
         public Boolean showNonInitialVisits;
+        @AuraEnabled
+        public List<Televisit_Record_Vendor__c> teleVendors;
+        @AuraEnabled
+        public Boolean isTeleVendorEnabled;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -64,7 +68,7 @@ public without sharing class ParticipantService {
             isVisitPathEnabled = false;
             isTravelSupportEnabled = false;
             showTravelCardInPreEnrollment = false;
-            showNonInitialVisits=false;
+            showNonInitialVisits = false;
         }
     }
 
@@ -117,6 +121,14 @@ public without sharing class ParticipantService {
                 participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
                     participantState.pe.Study_Site__c
                 );
+                participantState.teleVendors = televisitConfigurationController.getVendors(
+                    participantState.pe.Study_Site__c
+                );
+                participantState.isTeleVendorEnabled =
+                    (participantState.teleVendors.size() > 0) &
+                    PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(
+                        participantState.pe.Participant_Status__c
+                    );
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 participantState.isVisitPathEnabled = participantState.ctp.Visit_Schedule_Is_Available__c;
                 participantState.isTravelSupportEnabled = participantState.ctp.Travel_Vendor_Is_Available__c;
@@ -134,13 +146,13 @@ public without sharing class ParticipantService {
                     participantState.showVisitsInPreTrial = participantState.showVisits;
                     /**PEH-525 END*/
                     participantState.showResults = showResults();
-                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
+                    participantState.showNonInitialVisits = showNonInitialVisitsNew();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
                     participantState.showVisits = showVisits();
                     participantState.showVisitsInPreTrial = showVisits();
-                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
+                    participantState.showNonInitialVisits = showNonInitialVisitsNew();
                     /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
                     Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
@@ -245,15 +257,17 @@ public without sharing class ParticipantService {
         }
         return false;
     }
-	@TestVisible
+    @TestVisible
     private Boolean showNonInitialVisitsNew() {
         if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
                 SELECT Id
                 FROM Patient_Visit__c
-                WHERE Participant_Enrollment__c = :participantState.pe.Id and Is_Pre_Enrollment_Patient_Visit__c=false
+                WHERE
+                    Participant_Enrollment__c = :participantState.pe.Id
+                    AND Is_Pre_Enrollment_Patient_Visit__c = FALSE
             ];
-            
+
             return (!patientVisit.isEmpty());
         }
         return false;

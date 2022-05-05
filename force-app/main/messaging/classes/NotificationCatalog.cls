@@ -101,4 +101,15 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
+    /*
+     * MESSAGE TO TELEVISIT ATTENDEE
+     *
+     *
+     */
+    //For Participant and delegates when they are added to a televisit
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE = 'Message_to_PT_Removed_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Removed_Attendee_Del_Type';
+
+    public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
 }

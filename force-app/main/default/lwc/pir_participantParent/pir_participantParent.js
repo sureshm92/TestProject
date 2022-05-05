@@ -79,6 +79,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api studylist;
   studyToStudySite;
   studySiteList;
+  enableTelevisitTab = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
     RH_PP_Add_New_Participant,
@@ -144,6 +145,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.error = error;
     }
   }
+  getTelevisitVisibility(peid){
+    getTelevisitVisibility({ParticipantEnrollmentId : peid})
+            .then((result) => {
+                this.enableTelevisitTab = result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+  }
   handleStudyAndSite(event){
     this.studylist = event.detail.studylist;
     this.siteAccessLevels = event.detail.siteAccessLevels;
@@ -206,7 +216,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isSPModalOpen = false;
     this.isSharingTab = false;
 
-    console.log("pe-parent" + JSON.stringify(this.selectedPE));
+    this.getTelevisitVisibility(this.selectedPE.id);
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
     {
@@ -472,6 +482,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isParticipantDetail = false;
     //this.disableMedicalSaveButton = true;
   }
+ }
+ isTelevisitTab=false;
+ handleTelevisitTab(){
+   this.selectedTab = 'Televisit';
+    //this.isStatusDetail=false;
+    this.isMedicalTab=false;
+    this.isParticipantDetail=false;
+    //this.isSharingTab=false;
+    this.isTelevisitTab= true;
+    
  }
 
  @api
