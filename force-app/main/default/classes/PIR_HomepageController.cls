@@ -1043,7 +1043,9 @@ public without sharing class PIR_HomepageController {
           Participant_Contact__r.Is_Patient_User_Created__c,
           Invited_To_PP_Date__c,
           MRR_Survey_Results_URL__c,
+          Pre_Screener_Survey_Response__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
+          Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
           Participant__r.Full_Name__c,
           (
@@ -1309,6 +1311,45 @@ public without sharing class PIR_HomepageController {
       if (!Test.isRunningTest()) {
         pe.MRR_Survey_Results_URL__c = surveyGizmoData;
         pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact()
+          .Id;
+      }
+      if (pe.Participant_Status__c == 'Received') {
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+      }
+      update pe;
+    } catch (Exception e) {
+      throw new AuraHandledException(
+        e.getMessage() +
+        '\n' +
+        e.getStackTraceString()
+      );
+    }
+  }
+
+  @AuraEnabled
+  public static void setPreScreenerStatus(
+    String peId,
+    String status,
+    String surveyGizmoData
+  ) {
+    try {
+      Participant_Enrollment__c pe = [
+        SELECT
+          id,
+          Pre_screening_Status__c,
+          Study_Site__c,
+          Name,
+          Participant_Status__c
+        FROM Participant_Enrollment__c
+        WHERE id = :peId
+      ];
+
+      pe.Pre_Screener_Completed_Date__c = Datetime.now();
+      if (!Test.isRunningTest()) {
+        pe.Pre_Screener_Survey_Response__c = surveyGizmoData;
+        pe.Pre_Screener_Completed_by__c = CommunityService.getUserContact()
           .Id;
       }
       if (status == 'Pass') {
