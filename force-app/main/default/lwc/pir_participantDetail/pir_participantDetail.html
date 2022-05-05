@@ -334,7 +334,7 @@
                                                       name="outreachPhoneConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span> <label for="outreachPhoneConsent">{PHONE}</label></span>
+                                                <span> <label class="label_spacing" for="outreachPhoneConsent">{PHONE}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -344,7 +344,7 @@
                                                       name="outreachEmailConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label for="outreachEmailConsent">{EMAIL}</label></span>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{EMAIL}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -353,7 +353,7 @@
                                                       name="outreachSMSConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label for="outreachEmailConsent">{SMS_TEXT}</label></span>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{SMS_TEXT}</label></span>
                               </div>
                         </template>
                   </lightning-layout>
