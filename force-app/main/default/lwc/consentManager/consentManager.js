@@ -21,6 +21,7 @@ consentModel.outreachEmailConsent = false;
 consentModel.outreachSMSConsent = false;
 consentModel.showError = false;
 consentModel.ranOnce = false;
+consentModel.initialPeDataIsSet = false;
 
 const contactConsent = {};
 contactConsent.Participant_Opt_In_Status_Emails__c = false;
@@ -106,6 +107,7 @@ export default class ConsentManager extends LightningElement {
     set studySiteId(value) {    
         if( value != null || value != undefined){
             this._studySiteId = value;
+            this.consentModel.initialPeDataIsSet = true;
             this.getStudySite();
         }
     }
@@ -118,6 +120,7 @@ export default class ConsentManager extends LightningElement {
         if(value != this._countryCode){
             this._countryCode = value;
         this.isCountryUS = (value == "US"? true : false);
+            if(this.consentModel.initialPeDataIsSet){
             if(this.isCountryUS  && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
             && this.participantContact.Participant_Opt_In_Status_SMS__c 
             && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
@@ -139,6 +142,7 @@ export default class ConsentManager extends LightningElement {
         this.updateOutreachConsentChecks();
     }
     }
+    }
 
     @api
     get participantEnrollment() {
@@ -148,6 +152,7 @@ export default class ConsentManager extends LightningElement {
         if( value != null || value != undefined){
             let participantData = JSON.stringify(value);
             this.pe = JSON.parse(participantData);
+            this.consentModel.initialPeDataIsSet = true;
             if(!this.consentModel.ranOnce){
                 if(this.peUpdation || this.peUpdation  == "true"){
                     this.participantContact.Participant_Opt_In_Status_Emails__c = this.pe.Participant_Opt_In_Status_Emails__c;
@@ -283,6 +288,7 @@ export default class ConsentManager extends LightningElement {
         =this.consentModel.outreachSMSConsent 
         =this.consentModel.showError 
         =this.consentModel.ranOnce
+        =this.consentModel.initialPeDataIsSet
         =this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
         =this.participantContact.Participant_Opt_In_Status_Emails__c 
         =this.participantContact.Participant_Opt_In_Status_SMS__c 
