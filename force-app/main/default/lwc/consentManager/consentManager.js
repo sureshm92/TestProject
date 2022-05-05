@@ -192,6 +192,8 @@ export default class ConsentManager extends LightningElement {
         =this.consentModel.outreachEmailConsent 
         =this.consentModel.outreachSMSConsent 
         =this.consentModel.showError 
+        =this.consentModel.ranOnce
+        =this.consentModel.initialPeDataIsSet
         =this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
         =this.participantContact.Participant_Opt_In_Status_Emails__c 
         =this.participantContact.Participant_Opt_In_Status_SMS__c 

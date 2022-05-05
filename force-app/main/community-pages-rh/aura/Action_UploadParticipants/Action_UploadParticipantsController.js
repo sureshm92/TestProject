@@ -172,7 +172,6 @@
         component.set('v.isSMS', !component.get('v.isSMS'));
     },
     handleConsentChange: function (component,event){
-        if(event.ap.consentMap.cType == 'study'){
             component.set('v.isEmail', event.ap.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c);
             component.set('v.doContact', event.ap.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c);
             component.set('v.isPhone', event.ap.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c);
@@ -180,11 +179,10 @@
             if (!component.get('v.doContact')) {
                 component.set('v.createUsers', false);
             }    
-        }else{
             component.set('v.iqviaOutreachEmail',event.ap.consentMap.contact.Participant_Opt_In_Status_Emails__c);
             component.set('v.iqviaOutreachSMS',event.ap.consentMap.contact.Participant_Opt_In_Status_SMS__c);
             component.set('v.iqviaOutreachPhone',event.ap.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c);
-        }
+    
     },
     
     generateISOLanguage: function (component, event, helper) {
