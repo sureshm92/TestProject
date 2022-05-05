@@ -11988,14 +11988,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_All Study</shortDescription>
-        <value>All Study</value>
+        <value>All Studies</value>
     </labels>
     <labels>
         <fullName>PIR_All_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_All Study Site</shortDescription>
-        <value>All Study Site</value>
+        <value>All Study Sites</value>
     </labels>
     <labels>
         <fullName>PIR_Edit_Preset</fullName>
@@ -19439,6 +19439,14 @@ communications using the toggles below.</value>
         <shortDescription>Comorbidities</shortDescription>
         <value>Comorbidities</value>
     </labels>
+    <labels>
+        <fullName>RH_Complete_Pre_Screener</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_01_D</shortDescription>
+        <value>Complete Participant Pre-Screener</value>
+    </labels>     
     <labels>
         <fullName>RH_DelegateAttestation</fullName>
         <language>en_US</language>

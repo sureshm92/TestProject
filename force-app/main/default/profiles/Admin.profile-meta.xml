@@ -5959,6 +5959,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Pre_Screener_Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Pre_Screener_Completed_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Pre_Screener_Survey_Response__c</field>
+        <readable>true</readable>
+    </fieldPermissions>        
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Invited_To_PP_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>

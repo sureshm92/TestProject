@@ -295,14 +295,14 @@ public without sharing class PIR_HomepageController {
           selectedStatusList.add('Eligibility Passed');
           filterString =
             filterString +
-            ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
+            ' AND Study_Hub_Log__c != null ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
         ) {
           filterString =
             filterString +
-            ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false  ';
+            ' AND Study_Hub_Log__c = null  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
@@ -367,7 +367,7 @@ public without sharing class PIR_HomepageController {
       }
 
       //For High Priority
-      if (highPriority != null) {
+      if (highPriority != null && highPriority == true) {
         filterString = filterString + ' AND High_Priority__c = : highPriority ';
       } else {
         filterString = filterString + ' AND High_Priority__c = false ';
