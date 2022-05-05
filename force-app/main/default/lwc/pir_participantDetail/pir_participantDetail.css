@@ -67,7 +67,18 @@
 .alert-box a{
     color: #297dfd;
 }
-
+.slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.input-margin{
+    margin-top:-5px;
+}
+.dropdown-width{
+    display:inline-block;
+}
 @media (max-device-width: 767px) {
     .input-width{
         width: 100%;
@@ -86,6 +97,8 @@
 }
 .eth .close-icon{
     cursor: pointer;
+    opacity: 0.8;
+    padding-left: 5px;
 }
 .eth .slds-no-flex span{
     float: right;
@@ -152,4 +165,44 @@
 }
 .errmsg{
     color: rgb(234, 0, 30);
+}
+/* RTL start */
+.rtl .vertical-scroll{
+    padding: 0px 0px 0px 5px;
+}
+.rtl .label-margin-top{
+    margin-top: 0px;
+}
+.rtl .eth .slds-no-flex span{
+    float: left;
+}
+.rtl .rtl-width{
+    right:-236px; 
+}
+.rtl .eth .text-for-check{
+    padding-right: 7px;
+}
+@media (max-device-width: 767px) {
+    .rtl .vertical-scroll{
+        height: auto;
+    }
+    .rtl .eth .close-icon{
+        padding-right: 5px;
+    }
+    .rtl .rtl-width{
+        right:-162px; 
+    }
+    .rtl .eth .text-for-check{
+        padding-right: 7px;
+    }
+  
+}
+/* RLT End */
+.label_align{
+    display:flex;
+    align-items: baseline;
+    padding-left: 18px;
+}
+.label_spacing{
+    margin-left: -10px;
 }

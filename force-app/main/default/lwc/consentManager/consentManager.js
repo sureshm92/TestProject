@@ -21,6 +21,7 @@ consentModel.outreachEmailConsent = false;
 consentModel.outreachSMSConsent = false;
 consentModel.showError = false;
 consentModel.ranOnce = false;
+consentModel.initialPeDataIsSet = false;
 
 const contactConsent = {};
 contactConsent.Participant_Opt_In_Status_Emails__c = false;
@@ -53,7 +54,9 @@ export default class ConsentManager extends LightningElement {
     isIqviaOutreachEnabled=false;
     _studySiteId;
     _callSource;
+    _countryCode;
     studySite;
+    @api isaccesslevelthree = false;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
 
     constructor(){
@@ -104,6 +107,7 @@ export default class ConsentManager extends LightningElement {
     set studySiteId(value) {    
         if( value != null || value != undefined){
             this._studySiteId = value;
+            this.consentModel.initialPeDataIsSet = true;
             this.getStudySite();
         }
     }
@@ -113,8 +117,11 @@ export default class ConsentManager extends LightningElement {
         return this.isCountryUS;
     }
     set participantCountry(value) {
+        if(value != this._countryCode){
+            this._countryCode = value;
         this.isCountryUS = (value == "US"? true : false);
-        if(this.isCountryUS && this._callSource == 'addParticipant' && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
+            if(this.consentModel.initialPeDataIsSet){
+            if(this.isCountryUS  && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
             && this.participantContact.Participant_Opt_In_Status_SMS__c 
             && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
 
@@ -123,8 +130,18 @@ export default class ConsentManager extends LightningElement {
             this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
             this.fireConsentChange('outreach');
         }
+            if(this.isCountryUS  && ( !(this.pe.Permit_Mail_Email_contact_for_this_study__c 
+                && this.pe.Permit_Voice_Text_contact_for_this_study__c
+                && this.pe.Permit_SMS_Text_for_this_study__c))){
+                this.pe.Permit_Mail_Email_contact_for_this_study__c = false;
+                this.pe.Permit_Voice_Text_contact_for_this_study__c = false;
+                this.pe.Permit_SMS_Text_for_this_study__c = false;
+                this.fireConsentChange('study');
+            }
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
+    }
+    }
     }
 
     @api
@@ -135,6 +152,7 @@ export default class ConsentManager extends LightningElement {
         if( value != null || value != undefined){
             let participantData = JSON.stringify(value);
             this.pe = JSON.parse(participantData);
+            this.consentModel.initialPeDataIsSet = true;
             if(!this.consentModel.ranOnce){
                 if(this.peUpdation || this.peUpdation  == "true"){
                     this.participantContact.Participant_Opt_In_Status_Emails__c = this.pe.Participant_Opt_In_Status_Emails__c;
@@ -176,6 +194,12 @@ export default class ConsentManager extends LightningElement {
             this.consentModel.studyConsent = false;
         }
         this.consentModel.studySMSConsent = (this.pe.Permit_SMS_Text_for_this_study__c ? true : false);
+        if(this.template.querySelector('[data-id="studyConsent"]') != undefined){
+            this.template.querySelector('[data-id="studyConsent"]').checked = this.consentModel.studyConsent;
+        }
+        if(this.template.querySelector('[data-id="studySMSConsent"]') != undefined){
+            this.template.querySelector('[data-id="studySMSConsent"]').checked = this.consentModel.studySMSConsent;
+        }
     }
 
     updateOutreachConsentChecks(){
@@ -264,6 +288,7 @@ export default class ConsentManager extends LightningElement {
         =this.consentModel.outreachSMSConsent 
         =this.consentModel.showError 
         =this.consentModel.ranOnce
+        =this.consentModel.initialPeDataIsSet
         =this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
         =this.participantContact.Participant_Opt_In_Status_Emails__c 
         =this.participantContact.Participant_Opt_In_Status_SMS__c 

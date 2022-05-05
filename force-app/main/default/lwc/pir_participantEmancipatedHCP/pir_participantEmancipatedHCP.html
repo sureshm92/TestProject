@@ -5,13 +5,24 @@
             </lightning-spinner>
         </template>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
-        <lightning-input type="email" label={label.HealthCare_Providers_Email} title={label.HealthCare_Providers_Email}
+        <!-- <lightning-input type="email" label={label.HealthCare_Providers_Email} title={label.HealthCare_Providers_Email}
         value={emailAddress}                     
         onchange={checkFields} 
         data-name="email"
         data-value="email"
         onblur={doCheckContact}
-        required=""></lightning-input>
+        required=""></lightning-input> -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="text-input-id-608"  title={label.HealthCare_Providers_Email}>
+                    <abbr class="slds-required" title="required">*</abbr>{label.HealthCare_Providers_Email}
+                </label>
+                <div class="slds-form-element__control input-margin">
+                    <lightning-input type="email" variant="label-hidden" required=""
+                    value={emailAddress}  onchange={checkFields} data-name="email"
+                    data-value="email"  onblur={doCheckContact} 
+                    ></lightning-input>
+                </div>
+            </div>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 pad-right-none outcome-form-element slds-m-bottom_x-small">
         <lightning-input type="text" label={label.HealthCare_Providers_First_Name} title={label.HealthCare_Providers_First_Name}
@@ -22,12 +33,23 @@
         required="" disabled={isDuplicate}></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_x-small">
-        <lightning-input type="text" label={label.HealthCare_Providers_Last_Name} title={label.HealthCare_Providers_Last_Name}
+        <!-- <lightning-input type="text" label={label.HealthCare_Providers_Last_Name} title={label.HealthCare_Providers_Last_Name}
         value={lastName}                     
         onchange={checkFields} 
         data-name="lastName"
         data-value="lastName"
-        required="" disabled={isDuplicate}></lightning-input>
+        required="" disabled={isDuplicate}></lightning-input> -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="text-input-id-608"  title={label.HealthCare_Providers_Last_Name}>
+                    <abbr class="slds-required" title="required">*</abbr>{label.HealthCare_Providers_Last_Name}
+                </label>
+                <div class="slds-form-element__control input-margin">
+                    <lightning-input type="text" variant="label-hidden" required=""
+                    value={lastName}   onchange={checkFields}  data-name="lastName"
+                    data-value="lastName" disabled={isDuplicate}
+                    ></lightning-input>
+                </div>
+            </div>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_x-small">
             <button class="slds-button apollo-btn secondary connect-patient-btn slds-m-top_large" title={label.HealthCare_Provider_Connect} onclick={doConnect} disabled={doValid}>                                                              

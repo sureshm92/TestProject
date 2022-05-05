@@ -34,7 +34,23 @@
     .outcome-form-element{
         margin-bottom: 10px;
     }
+    .slds-form-element__label {        
+        text-overflow: unset;
+        white-space: unset;
+    }
 
  }
-
-
+ .slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+ }
+ .input-margin{
+    margin-top:-5px;
+}
+/*RTL start*/
+.rtl .connect-patient-btn{
+    margin-top: 10px;
+}
+/* RTL End*/

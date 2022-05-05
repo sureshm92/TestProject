@@ -154,3 +154,8 @@
     }
     
 }
+/** RTL Start **/
+.rtl .model-body-content{
+    text-align: right;
+}
+/** RTL End **/

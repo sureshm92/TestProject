@@ -4,6 +4,9 @@
     float: right;
     margin-left: 15px;
 }
+.blue-icon{
+    --lwc-colorTextIconDefault: #297dfd;
+}
 .back-btn{
     float: right;
     margin-left: 16px;
@@ -98,6 +101,13 @@
 .hide-save{
     display: none;
 }
+.slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* line-height: 11px; */
+    }
 @media (max-device-width: 767px) {    
     .mobile-view-model{
         margin: 16px;
@@ -108,7 +118,7 @@
         margin-left: 12px;
     }  
     .bar {    
-        height: 80px;
+        height: 20px;
     } 
     .next-btn{
         float: none;
@@ -136,6 +146,9 @@
     }
     .connect-patient-btn{
         width: 100%;
+    }
+    .slds-form-element__label {
+        white-space: unset;
     }
     .pad-right-none{
         padding-right: var(--lwc-spacingSmall,0.75rem);
@@ -369,3 +382,49 @@
         padding: 0px;
     }
 }
+
+.input-margin{
+ margin-top: -5px;
+   } 
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 4px;
+    cursor:pointer;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+    }
+    /* Scrollbar Code End */
+    /* Hide Show Mobile View Code */
+/* RTL Start */
+.rtl .next-btn{
+    float: left;
+}
+.rtl .back-btn{
+    float: left;
+}
+.rtl .state-ico-wrapper {
+    left: unset;  
+}
+.rtl  .vpi-state.current .state-ico-wrapper {
+    left: unset;
+}
+.rtl .model-body-content{
+    text-align: right;
+}
+.rtl .section-title{
+    float:right;
+}
+.rtl .participant-subtext{
+    text-align:right;
+}
+@media all and (min-width: 1024px) {
+    .rtl .state-ico-wrapper {
+        left: unset;
+    }
+}
+/* RTL End */
