@@ -1683,14 +1683,16 @@ public without sharing class PIR_HomepageController {
   ) {
     bulkStatusReasonWrapper stWrap = new bulkStatusReasonWrapper();
     PIR_Participant_Workflow_Outcome__mdt pwr = new PIR_Participant_Workflow_Outcome__mdt();
-    if (newStatus != 'Ready to Screen') {
+    if (newStatus != 'Ready to Screen' && newStatus != 'In Wash Out Period') {
       pwr = [
         SELECT Status_Value__c, Step__c, Reasons_List__c, Order__c
         FROM PIR_Participant_Workflow_Outcome__mdt
-        WHERE Status_Value__c = :newStatus
+        WHERE Status_Value__c = :newStatus limit 1
       ];
+      if(pwr != null){
       stWrap.reason = pwr.Reasons_List__c;
       stWrap.Step = pwr.Step__c;
+      }
     }
     Clinical_Trial_Profile__c ctp = [
       SELECT Initial_Visit_Required__c, Final_Consent_Required__c
@@ -1836,7 +1838,7 @@ public without sharing class PIR_HomepageController {
 
         SSId.add(pe.Study_Site__c);
         //logic for ready to screen start
-        if (
+        /*if (
           (oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
           oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT) &&
           (pe.Participant_Status__c != PEStatusState.PE_STATUS_READY_TO_SCREEN)
@@ -1848,7 +1850,7 @@ public without sharing class PIR_HomepageController {
               ParticipantEnrollment__c = pe.Id
             )
           );
-        }
+        }*/
         //logic for ready to screen end
         if (
           (oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
