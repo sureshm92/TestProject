@@ -73,14 +73,15 @@
                                 <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
                             </div>
                             <div class="slds-col slds-size_4-of-12 slds-p-right_small">
-                            
+                                
+                                <!--05:00:00.000Z-->
                                 <abbr class="slds-required">*</abbr>
                                 <label class="inputFields">Start Time</label>
                                     <lightning-input  class="inputFields" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
                                         variant="label-hidden"
                                         value={startTime}
                                         label="Start Time"
-                                        title="Start Time" min="05:00:00.000Z" max="23:45:00.000Z" placeholder="Select Time">
+                                        title="Start Time" min={defaultTime} max="23:45:00.000Z" placeholder="Select Time">
                                     </lightning-input>
                             
                             </div>
@@ -111,42 +112,73 @@
                         </div>
                         <br/>
                         <div class="slds-grid slds-wrap">
-                            <template if:true={isLoading}>
-                                <div class="spinnerHolder">
-                                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                            <div class="slds-col slds-size_12-of-12">
+                                <abbr class="slds-required">*</abbr>
+                                <label class="inputFields">Attendees</label>
+                                <div class="slds-combobox_container" onmouseleave={closeOptionsMenu} style="width: 100%;">
+                                    <div class={cbComputedClass} aria-expanded={isComboExpanded} aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">                
+                                            <!--onkeyup={handleSearch}-->
+                                            <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" autocomplete="off"
+                                            aria-controls="listbox-id" role="textbox" placeholder={placeHolder} onkeyup={handleSearch} onclick={openOptionsMenu}></input>
+                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon-text-default"></lightning-icon>
+                                            </span>
+                                        </div>
+                                        <div id="listbox-id" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid vk-scrollbar" role="listbox" onmouseleave={closeOptionsMenu}> 
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <template for:each={televisitAttendeesList} for:item="option">
+                                                    <li role="presentation" class="slds-listbox__item" key={option.id}>
+                                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity" 
+                                                                data-id={option.id} data-first-name={option.firstName} data-last-name={option.lastName} 
+                                                                data-attendee-type={option.attendeeType} data-is-mandatory-selection={option.isMandatorySelection} 
+                                                                data-attendee-id={option.attendeeId} onclick={handleSelection}>
+                                                                    {option.firstName} {option.lastName} ({option.attendeeType})
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </template>
+                                                <!--<li if:true={noResultsFound} class="slds-p-left_small"> No results found</li>-->
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </template>
-                            <template if:false={isLoading}>
-                                <div class="slds-col slds-size_12-of-12">
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Attendees</label>
-                                    <!--<span class="inputFields">Attendees</span> -->
-                                    <c-attendee-lookup data-id="Attendee" name="Attendee" options={attendeesList} place-holder="Search to add" 
-                                    hide-button-icon="true" selected-elements={selectedItems} remove-element={itemToRemove} onoptionchange={handleAttendeeChange}></c-attendee-lookup>
-                                </div>
-                                <div style="height: 100px;width:100%; overflow: auto" >
-                                    <table style="background:#fbfbfb" >
-                                        <template for:each={selectedAttendeesList} for:item="attendee">
-                                            <tr key={attendee}>
-                                                <td>
-                                                    <lightning-icon icon-name="utility:user"
-                                                        alternative-text="user"
-                                                        size="xx-small" class="slds-p-right_x-small">
-                                                    </lightning-icon>
-                                                    {attendee.name} &nbsp; 
-                                                    <template if:false={attendee.isMandatorySelection} >
-                                                        <a  data-index={attendee.index} data-name={attendee.name} data-id={attendee.id} onclick={removeSelectedItem}>Remove</a>
-                                                    </template>
-                                                </td>
-                                            </tr>
+                                <template if:true={isLoading}>
+                                    <div class="spinnerHolder">
+                                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                    </div>
+                                </template>
+                                <template if:false={isLoading}>
+                                    <div style="height: 100px;width:100%; overflow: auto" >
+                                        <table style="background:#fbfbfb" >
+                                            <template for:each={selectedTelevisitAttendeesList} for:item="selectedAttendee">
+                                                <tr key={selectedAttendee}>
+                                                    <td>
+                                                        <lightning-icon icon-name="utility:user"
+                                                            alternative-text="user"
+                                                            size="xx-small" class="slds-p-right_x-small">
+                                                        </lightning-icon>
+                                                        {selectedAttendee.firstName} {selectedAttendee.lastName} ({selectedAttendee.attendeeType}) &nbsp; 
+                                                        <template if:false={selectedAttendee.isMandatorySelection}>
+                                                            <a data-id={selectedAttendee.id} data-first-name={selectedAttendee.firstName} data-last-name={selectedAttendee.lastName} 
+                                                            data-attendee-type={selectedAttendee.attendeeType} 
+                                                            data-is-mandatory-selection={selectedAttendee.isMandatorySelection} 
+                                                            data-attendee-id={selectedAttendee.attendeeId} onclick={handleRemoveItems}>Remove</a>
+                                                        </template>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </table>
+                                        <template if:false={siteStaffAdded}>
+                                            <p style="color: red;">At least one site staff member is required to attend. Attendees above.</p>
                                         </template>
-                                    </table>
-                                    <template if:false={siteStaffAdded}>
-                                        <p style="color: red;">At least one site staff member is required to attend. Attendees above.</p>
-                                    </template>
-                                </div>
-                            </template>
-
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                         
                         <div class="slds-grid slds-wrap slds-m-top_large">
@@ -174,7 +206,7 @@
     
     <template if:false={displayTelevisitRecords}>
         <div class="noRecordsFound">
-            &#9785; Oh no, there are no items to display.
+            Oh no, there are no items to display.
         </div>
     </template>
     
@@ -258,23 +290,8 @@
                                 </lightning-layout-item>
                         </lightning-layout>
                         </lightning-layout-item>
-                            
-                        
-
                     </lightning-layout>
-                    
-                
-                    
-
-
-                    
-                    
-                    
-                    
-                    
-                    
                 </lightning-card>
-                
             </div>
         </template>
     </div>
@@ -289,7 +306,12 @@
                  <div class="slds-p-around_large">
                     <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                        <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                          <span class="title" style= "font-size:16px; font-weight:500;">Televisit record will get cancelled. Do you need to proceed further?</span> 
+                            <span class="title" style= "font-size:18px; font-weight:600;">
+                                <p>Cancel Televisit</p>
+                            </span> 
+                            <span class="title" style= "font-size:16px; font-weight:500;">
+                                <p>Are you sure you want to cancel a Televisit? </p>
+                            </span> 
                        </div>
                        <div class="slds-col slds-size_1-of-12 close-icon">
                           <div onclick={handleCloseModal}>
@@ -305,8 +327,8 @@
                        <div class="slds-grid slds-wrap slds-m-top_large">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                             <div class="slds-float_right mobile-width">                  
-                                <button title="" class="slds-button apollo-btn primary btn-height save-btn" data-id={cancelTelevisitRecordId}  onclick={cancelTelevisit}> Yes </button>
-                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleCloseModal}> No </button>
+                                <button title="" class="slds-button apollo-btn primary btn-height save-btn" data-id={cancelTelevisitRecordId}  onclick={cancelTelevisit}> Confirm </button>
+                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleCloseModal}> Discard </button>
                             </div>    
                           </div>
                        </div>

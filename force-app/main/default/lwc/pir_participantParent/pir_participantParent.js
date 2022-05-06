@@ -22,6 +22,7 @@ import FD_PE_Field_Informed_Consent_Signed_Date from '@salesforce/label/c.FD_PE_
 import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
 import BTN_Status_Details from '@salesforce/label/c.BTN_Status_Details';
 import BTN_Participant_Details from '@salesforce/label/c.BTN_Participant_Details';
+import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import Tab_Sharing_Options from '@salesforce/label/c.Tab_Sharing_Options';
 import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
 import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
@@ -80,6 +81,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studyToStudySite;
   studySiteList;
   enableTelevisitTab = false;
+  isTelevisitTab=false;
+  @api callTelevisistMethod = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
     RH_PP_Add_New_Participant,
@@ -378,6 +381,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
   handleStatusTab(){
     this.isMedicalTab = false;
+	  this.callTelevisistMethod = false;
     if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
      
       this.selectedTab = "Status Details";
@@ -483,8 +487,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     //this.disableMedicalSaveButton = true;
   }
  }
- isTelevisitTab=false;
  handleTelevisitTab(){
+   this.callTelevisistMethod = true;
    this.selectedTab = 'Televisit';
     //this.isStatusDetail=false;
     this.isMedicalTab=false;
