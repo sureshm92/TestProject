@@ -19,7 +19,7 @@ public without sharing virtual class EmailTemplateProvider {
         'SurveyInvitation' => 'Email_Template_Parameters_From_SI',
         'Task' => 'Email_Template_Parameters_From_Task',
         'Trial_Notification__c' => 'Email_Template_Parameters_From_TN',
-        'Televisit_Attendee__c' => 'Email_Template_Parameters_From_TA'
+        'Televisit__c' => 'Email_Template_Parameters_From_TV'
     };
 
     protected Id recipientId;

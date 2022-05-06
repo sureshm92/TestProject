@@ -21,7 +21,7 @@ public without sharing class TeleVisitRemote {
                 (SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c FROM Televisit_Attendee__r)
             FROM Televisit__c
             WHERE Participant_Enrollment__c = :pState.pe.Id AND Status__c = :visitMode
-            ORDER BY Visit_Date__c, Start_Time__c
+            ORDER BY Visit_Date_Time__c
         ];
         if (teleVisits.size() > 0) {
             List<TelevisitWrapper> televisitWrappersList = new List<TelevisitWrapper>();
