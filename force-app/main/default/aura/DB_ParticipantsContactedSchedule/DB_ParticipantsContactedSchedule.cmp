@@ -10,6 +10,7 @@
 <aura:attribute name="days_8_To_10_participantOptions" type="List" default="[]" />
 <aura:attribute name="days_11_To_21_participantOptions" type="List" default="[]" />
 <aura:attribute name="greater_21_days_participantOptions" type="List" default="[]" />
+<aura:attribute name="mapParticipantIdtoPerName" type="Map" />
 <aura:attribute name="actions" type="Object" />
 <aura:attribute name="parent" type="Aura.Component" />
 <aura:attribute name="isInvited" type="Boolean" />

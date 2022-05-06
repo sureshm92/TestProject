@@ -294,15 +294,15 @@ public without sharing class PIR_HomepageController {
           selectedStatusList.remove(indx);
           selectedStatusList.add('Eligibility Passed');
           filterString =
-            filterString +
-            ' AND Study_Hub_Log__c != null ';
+          filterString +
+          ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
         ) {
           filterString =
             filterString +
-            ' AND Study_Hub_Log__c = null  ';
+            ' AND ((Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false) OR (Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND  Study_Site__r.Study_Site_Type__c = \'Traditional\' ))  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
@@ -451,8 +451,10 @@ public without sharing class PIR_HomepageController {
           qcString = qcString + filterString + sortCountQry;
         }
 
+        System.debug('qcString: ' + qcString);
         totalCount = Database.countQuery(qcString);
       }
+      System.debug('qCountString: ' + qCountString);
 
       qCountString =
         qCountString +
@@ -490,6 +492,7 @@ public without sharing class PIR_HomepageController {
           queryString = queryString + filterString + orderByString;
         }
 
+        System.debug('queryString: ' + queryString);
         perList = Database.query(queryString);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
         for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
