@@ -6,12 +6,26 @@ import pirResources from '@salesforce/resourceUrl/pirResources';
 import fetchPreset from '@salesforce/apex/PIR_HomepageController.fetchPreset';
 import pir_presetUniqueName from "@salesforce/label/c.pir_presetUniqueName";
 import pir_updatePreset from "@salesforce/label/c.pir_updatePreset";
-
+import PresetInformation from "@salesforce/label/c.PIR_Preset_Information";
+import EditPreset from "@salesforce/label/c.PIR_Edit_Preset";
+import PresetName from "@salesforce/label/c.PIR_PresetName";
+import Cancel from "@salesforce/label/c.RH_RP_Cancel";
+import Update from "@salesforce/label/c.PIR_Update";
+import Delete from "@salesforce/label/c.pir_Delete_Btn";
+import NoPresetText from "@salesforce/label/c.PIR_No_presets_available_to_edit";
 
 export default class Pir_PresetEdit extends LightningElement {
 
     label = { pir_presetUniqueName ,
-              pir_updatePreset };
+              pir_updatePreset,
+              PresetInformation,
+              EditPreset,
+              PresetName,
+              Cancel,
+              Update,
+              Delete,
+              NoPresetText};
+              
     @api maindivcls;
     editIcon = pirResources+'/pirResources/icons/pencil.svg';
     @api

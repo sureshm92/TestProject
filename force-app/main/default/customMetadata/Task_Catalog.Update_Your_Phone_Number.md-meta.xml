@@ -12,11 +12,11 @@
     </values>
     <values>
         <field>Immediate_Email_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Email_To_PT_For_Invalid_Number</value>
     </values>
     <values>
         <field>Immediate_Notification_Type__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Message_To_PT_For_Invalid_Number</value>
     </values>
     <values>
         <field>Parameters__c</field>

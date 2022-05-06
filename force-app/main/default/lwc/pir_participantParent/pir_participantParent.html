@@ -39,7 +39,7 @@
                                <c-pir_sharing-option isrtl={isRTL} selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
                            </lightning-tab>
                            <template if:true={isMedicalHistryAccess}> 
-                               <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
+                               <lightning-tab label={label.pir_Health_Information} value="Health Information" onactive={handleMedicalTab} class="no-padding">
                                    <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
                                </lightning-tab> 
                            </template>
@@ -116,7 +116,7 @@
        <div class="boxShadow  slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" > 
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
-                   <c-pir_participant-pagination maindivcls={maindivcls} total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
+                   <c-pir_participant-pagination is-r-t-l-pg={isRTL} maindivcls={maindivcls} total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
            </div>   
 		   <template if:false={progressValue}>

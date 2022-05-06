@@ -329,6 +329,18 @@
     top: 13px;
     cursor: pointer;
 }
+.dropdown-width{
+    display:inline-block;
+}
+.m-top-birth{
+    margin-top: 0px;
+}
+
+@media (max-device-width: 767px) {
+    .m-top-birth{
+        margin-top: -8px;
+    }
+}
 /*RTL start*/
 .rtl .w-date {
     width: 46%;
@@ -340,11 +352,93 @@
 }
 
 .rtl .m-top-date {
-    margin-top: -25px;
+    margin-top: -20px;
 }
 
 .rtl .filter-date {
-    padding-top: 28px;
+    padding-top: 25px;
     padding-right:4px;
+}
+.rtl .w-date{
+    width: 44%;
+    padding-left: 0px;
+    padding-right: 0;
+    }
+    .rtl .w-to {
+    width: 7%;
+    padding-left: 7px;
+    }
+    .rtl .slds-btn-right {
+    float: left;
+}
+.rtl .filter-heading {
+    text-align: right;
+    }
+    .rtl .btn-p-left{
+        padding-left:0;
+    }
+ .rtl .rtl-width{
+     right:-132px;
+ }   
+ .rtl .filter-age{
+     text-align:right;
+ } 
+ .rtl .eth .ethmore{
+    padding: 6px 0px 0px 0px;
+ }
+ .rtl .eth .selectedValue{
+     float:right;
+     margin-right: 5px;
+
+ }
+ .rtl .eth .text-for-check{
+     margin-right: 6px;
+ }
+ .rtl .eth .slds-no-flex span{
+     float:left;
+ }
+ .rtl .p-right-rtl{
+     padding-right:0px;
+ } 
+
+@media (max-device-width: 767px) {
+    .rtl .filter-area{
+    margin-right: var(--lwc-spacingXSmall,0.5rem);
+    }
+    .rtl .close-icon-pop {
+    left: 13px;
+    right:unset;
+    }
+    .rtl .filter-heading {
+    text-align: right;
+    }
+    .rtl .w-Demographics{
+    padding-right: var(--lwc-spacingSmall,0.75rem);
+    }
+    .rtl .eth .selectedValue{
+    float: right;
+    margin-right: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    }
+    .rtl .eth .ethmore {
+    padding: 6px 0px 0px 0px;
+    }
+    .rtl .w-date {
+    width: 46%;
+    padding-right: var(--lwc-spacingSmall,0.75rem);
+    padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .rtl .filter-date {
+    padding-top: 28px;
+    padding-right: 0px;
+    }  
+    .rtl .apply-fil-btn{
+        width: 95%;
+        margin-left: 0;
+    }  
+    .rtl .p-right-rtl{
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+    } 
 }
 /*RTL ENd*/

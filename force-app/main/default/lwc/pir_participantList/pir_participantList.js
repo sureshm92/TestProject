@@ -69,6 +69,7 @@ export default class Pir_participantList extends LightningElement {
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
+    hideActiononSearch=false
     enteredSearchString = '';
     filterWrapper= {};
     @api maindivcls;
@@ -270,10 +271,12 @@ export default class Pir_participantList extends LightningElement {
         this.searchCounter++ ;
         this.enteredSearchString = '';
         this.disabledFilter = false;
+        this.hideActiononSearch=false;
         if(event.target.value.length != 0)
         {
           this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            this.hideActiononSearch=true;
             if(event.target.value.length <= 2 )
                 return;
         } 
@@ -600,7 +603,8 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                    cards[j].focus();
+                    if(!this.disabledFilter)
+                        cards[j].focus();
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
@@ -641,6 +645,13 @@ export default class Pir_participantList extends LightningElement {
           });
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
+    }
+    get checknewStatus(){
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
     }
   
     changeStatus = false;
@@ -1301,27 +1312,52 @@ export default class Pir_participantList extends LightningElement {
         total = this.selectedCheckboxes.length + countvalue;
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
-                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
-                    checkboxes[i].checked = event.target.checked;
-                    if(checkboxes[i].checked==true){
-                        if(!this.selectedCheckboxes.includes(this.participantList[i].id))
-                        {
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
-                                this.selectedCheckboxes.push(this.participantList[i].id);
+                if(this.checknewStatus){
+                    if(this.participantList[i].screeningId){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
-                            else{ 
-                                event.target.checked=false;
-                                checkboxes[i].checked=false;
-                            }
+                            
                         }
-                        
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
                     }
-                    else{
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
-                                var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
-                                this.selectedCheckboxes.splice(index,1 );
+                }else{
+                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
+                            
                         }
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
+                    }
                 }
             }
             const selectedEvent = new CustomEvent("countvaluecheckbox", {
@@ -1597,7 +1633,7 @@ export default class Pir_participantList extends LightningElement {
     }
     get filterCount(){
         if(!(Object.keys(this.filterWrapper).length === 0)){
-            var count = 10;
+            var count = 7;
             if(this.filterWrapper.ethnicityList){
                 if(this.filterWrapper.ethnicityList.length>0){
                     count++;
@@ -1606,7 +1642,15 @@ export default class Pir_participantList extends LightningElement {
             if((this.filterWrapper.ageFrom && this.filterWrapper.ageFrom!="") || (this.filterWrapper.ageTo && this.filterWrapper.ageTo!="")){
                 count++;
             }
-            
+            if(JSON.stringify(this.filterWrapper.highRisk)=='true'){
+                count++;
+            }
+            if(JSON.stringify(this.filterWrapper.comorbidities)=='true'){
+                count++;
+            }
+            if(this.filterWrapper.highPriority){
+                count++;
+            }
             return "("+count+")";
         }
         return "";

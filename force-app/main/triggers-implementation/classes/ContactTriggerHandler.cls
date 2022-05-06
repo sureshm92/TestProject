@@ -460,7 +460,10 @@ public without sharing class ContactTriggerHandler {
             list<task> taskList = [
                 SELECT Id, WhoId, Status
                 FROM task
-                WHERE WhoId IN :contMapForStatusUpdate.keySet()
+                WHERE
+                    WhoId IN :contMapForStatusUpdate.keySet()
+                    AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
+                    AND status = 'Open'
             ];
             for (task tl : taskList) {
                 tl.Status = 'Completed';
