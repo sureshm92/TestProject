@@ -5874,7 +5874,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&apos;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -5883,7 +5883,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&apos;s ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -5919,7 +5919,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName with ##PIFirstName, ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6474,14 +6474,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Televisit Del Cancelled</shortDescription>
-        <value>This is to notify you that your patient ##ParticipantFirstName ##ParticipantLastName’s ##VisitName televisit is canceled</value>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is canceled</value>
     </labels>
     <labels>
         <fullName>Email_Header_Televisit_Del_Rescheduled</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Televisit Del Rescheduled</shortDescription>
-        <value>This is to notify you that your patient ##ParticipantFirstName ##ParticipantLastName’s ##VisitName televisit is rescheduled</value>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is rescheduled</value>
     </labels>
     <labels>
         <fullName>Email_Header_Televisit_Del_Scheduled</fullName>
@@ -6947,7 +6947,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature Televisit Del PT</shortDescription>
-        <value>We appreciate your patient&apos;s participation!
+        <value>We appreciate your patient&#39;s participation!
 
 Sincerely,
 
@@ -7365,7 +7365,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Televisit Del Cancelled P1</shortDescription>
-        <value>Your patient&apos;s</value>
+        <value>Your patient&#39;s</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Del_Cancelled_P2</fullName>
@@ -7379,7 +7379,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Televisit Del Rescheduled P1</shortDescription>
-        <value>Your patient&apos;s</value>
+        <value>Your patient&#39;s</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Del_Rescheduled_P2</fullName>
