@@ -898,7 +898,9 @@
                                                     <!-- REF-3070 - Added disabled -->
                                                     <div class="tooltip">
                                                         <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
-                                                            {!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
+                                                           <abbr title="required" class="slds-required"
+                                                                  >{!!v.needsGuardian ? '*' : ''}</abbr
+                                                                >{!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
                                                         <lightning:input
                                                                          aura:id="emailRepeatField"
                                                                          type="text"
@@ -922,7 +924,9 @@
                                                     <!-- REF-3070 - Added disabled -->
                                                     <div class="tooltip">
                                                         <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
-                                                            {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
+                                                            <abbr title="required" class="slds-required"
+                                                                  >{!!v.needsGuardian ? '*' : ''}</abbr
+                                                                >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
                                                         <lightning:input
                                                                          type="text"
                                                                          variant="label-hidden"
@@ -1085,7 +1089,9 @@
                                                     <div class="slds-col slds-size--1-of-2">
                                                         <div class="tooltip">
                                                             <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
-                                                                {!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
+                                                                <abbr title="required" class="slds-required"
+                                                                  >{!v.needsGuardian ? '*' : ''}</abbr
+                                                                >{!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
                                                             <lightning:input
                                                                              aura:id="emailDelegateRepeatField"
                                                                              type="text"
@@ -1113,7 +1119,9 @@
                                                     <div class="slds-col slds-size--1-of-2">
                                                         <div class="tooltip">
                                                             <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
-                                                                {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
+                                                                <abbr title="required" class="slds-required"
+                                                                      >{!v.needsGuardian ? '*' : ''}</abbr
+                                                                    >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
                                                             <lightning:input
                                                                              type="text"
                                                                              variant="label-hidden"
