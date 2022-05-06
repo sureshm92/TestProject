@@ -10,7 +10,7 @@
                          signature="{!$Label.Email_Signature_PT}">
             <c:Paragraph emailLabel="{!$Label.Task_Subject_Update_Your_Phone_Number}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              surveyId="{!relatedTo.Id}"/>
+                              />
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
