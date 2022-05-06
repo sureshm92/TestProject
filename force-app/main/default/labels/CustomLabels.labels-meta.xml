@@ -11756,6 +11756,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>All Study Sites</value>
     </labels>
     <labels>
+        <fullName>pir_mm_dd_yyyy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_mm_dd_yyyy</shortDescription>
+        <value>mm/dd/yyyy</value>
+    </labels>
+    <labels>
         <fullName>PIR_Edit_Preset</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15999,6 +16006,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
         <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_Study_Outreach_By</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_Study_Outreach_By</shortDescription>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates by the means specified below, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
