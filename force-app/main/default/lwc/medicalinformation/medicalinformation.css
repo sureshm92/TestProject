@@ -326,6 +326,13 @@ input[type='number'] {
 .rtl .float-btns{
     float:left;
 }
+.rtl .info-icon{
+    left:0px;
+    margin-left:0px;
+}
+.rtl .rtl-width{
+    width:80px;
+}
 
 @media (max-device-width: 767px) {
     .rtl .m-report{
