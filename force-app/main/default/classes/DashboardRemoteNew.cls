@@ -94,6 +94,8 @@ public without sharing class DashboardRemoteNew {
         @AuraEnabled
         public String Id;
         @AuraEnabled
+        public String strPerName;
+        @AuraEnabled
         public String name;
         @AuraEnabled
         public String source;
@@ -110,6 +112,7 @@ public without sharing class DashboardRemoteNew {
 
         public WaitingContactItem(
             String Id,
+            String strPerName,
             String name,
             String source,
             String studyName,
@@ -119,6 +122,7 @@ public without sharing class DashboardRemoteNew {
             String StudySiteName
         ) {
             this.Id = Id;
+            this.strPerName = strPerName;
             this.name = name;
             this.source = source;
             this.studyName = studyName;
@@ -552,6 +556,7 @@ public without sharing class DashboardRemoteNew {
             List<Participant_Enrollment__c> contactAtemptedList = [
                 SELECT
                     Id,
+                    Name,
                     CreatedDate,
                     Participant__c,
                     Participant__r.First_Name__c,
@@ -592,6 +597,7 @@ public without sharing class DashboardRemoteNew {
                     resList.add(
                         new WaitingContactItem(
                             pe.Participant__c,
+                            pe.Name,
                             pe.Participant__r.First_Name__c +
                             ' ' +
                             pe.Participant__r.Last_Name__c,
@@ -612,6 +618,7 @@ public without sharing class DashboardRemoteNew {
                         resList.add(
                             new WaitingContactItem(
                                 pe.Participant__c,
+                                pe.Name,
                                 pe.Participant__r.First_Name__c +
                                 ' ' +
                                 pe.Participant__r.Last_Name__c,
@@ -631,6 +638,7 @@ public without sharing class DashboardRemoteNew {
                         resList.add(
                             new WaitingContactItem(
                                 pe.Participant__c,
+                                pe.Name,
                                 pe.Participant__r.First_Name__c +
                                 ' ' +
                                 pe.Participant__r.Last_Name__c,
@@ -996,6 +1004,8 @@ public without sharing class DashboardRemoteNew {
         public Integer total = 0;
         @AuraEnabled
         public Map<String, Map<Id, String>> daysPatientsStudies = new Map<String, Map<Id, String>>();
+        @AuraEnabled 
+        public Map<Id,String> mapPartcipantIdToPerName = new Map<Id,String> (); 	
     }
 
     @AuraEnabled
@@ -1026,6 +1036,7 @@ public without sharing class DashboardRemoteNew {
                 List<Participant_Enrollment_Status_History__c> peshList = [
                     SELECT
                         Id,
+                        ParticipantEnrollment__r.Name,
                         CreatedDate,
                         Date__c,
                         Status__c,
@@ -1050,7 +1061,7 @@ public without sharing class DashboardRemoteNew {
                 for (Participant_Enrollment_Status_History__c pesh : peshList) {
                     daysBetween = Date.valueOf(pesh.Date__c).daysBetween(system.Today());
                     String days = null;
-
+                    contactedWrapper.mapPartcipantIdToPerName.put(pesh.ParticipantEnrollment__r.Participant__c,pesh.ParticipantEnrollment__r.Name);
                     if (daysBetween <= 3) {
                         ++contactedWrapper.FROM_1_TO_3_DAYS;
                         if (contactedWrapper.FROM_1_TO_3_DAYS <= 800) {

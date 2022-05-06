@@ -558,7 +558,7 @@
                       type="date"
                       name="date1"
                       label=""
-                      placeholder="mm/dd/yyyy"
+                      placeholder={label.pir_mm_dd_yyyy}
                       disabled={isInitialVisitSelected}
                       value={initialvisitStart}
                       data-name="datestart"
@@ -573,7 +573,7 @@
                       m-top-date m-bottom-small
                     "
                   >
-                    <p class="filter-date">to</p>
+                    <p class="filter-date">{label.PP_To}</p>
                   </div>
                   <div
                     class="
@@ -587,7 +587,7 @@
                       type="date"
                       name="date2"
                       label=""
-                      placeholder="mm/dd/yyyy"
+                      placeholder={label.pir_mm_dd_yyyy}
                       disabled={isInitialVisitSelected}
                       value={initialvisitEnd}
                       data-name="dateend"
