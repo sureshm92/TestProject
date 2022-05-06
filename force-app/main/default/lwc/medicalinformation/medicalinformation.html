@@ -33,8 +33,8 @@
                   </span>  
                  </label> -->
                  <label
-                 class="slds-form-element__label BMIclass"
-                 for="text-input-id-75"
+                 class="slds-form-element__label BMIclass slds-truncate rtl-width"
+                 title={label.BMI}
                >
                  {label.BMI}
                  <lightning-helptext
@@ -571,7 +571,7 @@
               </section>
             </li>
 
-            <template if:true={returnpervalue.booldisplaygizmo}>
+            <template if:true={displayGizmoResult}>
               <li class="slds-accordion__list-item">
                 <section
                   class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top"
@@ -613,20 +613,54 @@
                       <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium"
                       >
-                        <template if:true={decodeResult}>
-                          <!-- <lightning-formatted-rich-text
-                                                    value={decodeResultGizmo}
-                                                ></lightning-formatted-rich-text> -->
-                          <div class="screener" lwc:dom="manual"></div>
-                        </template>
-                        <template if:false={decodeResult}>
-                          <iframe
-                            src={returnpervalue.strMRRSurveyResult}
-                            height="500px"
-                            width="100%"
-                            allowfullscreen="true"
-                          ></iframe>
-                        </template>
+                        <div class="slds-grid slds-grid_vertical">
+                          <template if:true={returnpervalue.booldisplaymrrgizmo}>  
+                            <div class="slds-col slds-border_top slds-border_left slds-border_right">
+                              <label class="slds-form-element__label" for="High Risk">
+                                <b>  {label.PE_MedicalRecordReview}</b>
+                              </label>
+                            </div>
+                            <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
+                              <template if:true={decodeMRRResult}>
+                                <!-- <lightning-formatted-rich-text
+                                                          value={decodeResultGizmo}
+                                                      ></lightning-formatted-rich-text> -->
+                                <div class="screener1" lwc:dom="manual"></div>
+                              </template>
+                              <template if:false={decodeMRRResult}>
+                                <iframe
+                                  src={returnpervalue.strMRRSurveyResult}
+                                  height="500px"
+                                  width="100%"
+                                  allowfullscreen="true"
+                                ></iframe>
+                              </template>
+                            </div>
+                          </template>
+                          <template if:true={returnpervalue.booldisplayprescreenergizmo}>
+                            <div class="slds-col  slds-border_top slds-border_left slds-border_right">
+                              <label class="slds-form-element__label" for="High Risk">
+                                <b>{label.RH_Pre_screen}</b>
+                              </label>
+                            </div>                       
+                            <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
+                              <template if:true={decodePreScreenerResult}>
+                                <!-- <lightning-formatted-rich-text
+                                                          value={decodeResultGizmo}
+                                                      ></lightning-formatted-rich-text> -->
+                                <div class="screener2" lwc:dom="manual"></div>
+                              </template>
+                              <template if:false={decodePreScreenerResult}>
+                                <iframe
+                                  src={returnpervalue.strPreScreenerSurveyResult}
+                                  height="500px"
+                                  width="100%"
+                                  allowfullscreen="true"
+                                ></iframe>
+                              </template>
+                            </div>
+                          </template>
+                        </div>
                       </div>
                     </div>
                   </div>

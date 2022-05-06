@@ -65,6 +65,8 @@ import Female from "@salesforce/label/c.Gender_Female";
 import InitialVisitNotScheduled from "@salesforce/label/c.PIR_Initial_Visit_Not_Scheduled";
 import InitialVisitScheduled from "@salesforce/label/c.Initial_Visit_Scheduled";
 import More from "@salesforce/label/c.PIR_more";
+import pir_mm_dd_yyyy from "@salesforce/label/c.pir_mm_dd_yyyy";
+import PP_To from "@salesforce/label/c.PP_To";
 export default class Filtertest extends LightningElement {
   @api maindivcls;
   label = {
@@ -128,7 +130,9 @@ export default class Filtertest extends LightningElement {
     AllSources,
     ReferringProvider,
     PricipalInvestigator,
-    DigitalRecruitment
+    DigitalRecruitment,
+    pir_mm_dd_yyyy,
+    PP_To
   };
   @api
   filterClass = 'filter-area';

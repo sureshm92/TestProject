@@ -285,10 +285,7 @@
                         </div> 
                         <lightning-layout multiple-rows="true">
                         <div>
-                              <label class="slds-form-element__label-for-checkbox ">By checking these boxes, you confirm that yo
-                                    ur patient and/or patient's legal guardian consents to be contacted by the study team to keep
-                                     them updated about important study-related information and activities by the means specified below.
-                                     </label>
+                              <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_To_Contact_By}</label>
                         </div>
                         <div class="label_align">
                         <lightning-input 
@@ -323,7 +320,7 @@
                         </br> </br>
                         <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
                               <div>
-                                    <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW}</label>
+                                    <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_Study_Outreach_By}</label>
                               </div> 
                               </br> </br> 
                               <div class="label_align">
@@ -334,7 +331,7 @@
                                                       name="outreachPhoneConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span> <label for="outreachPhoneConsent">{PHONE}</label></span>
+                                                <span> <label class="label_spacing" for="outreachPhoneConsent">{PHONE}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -344,7 +341,7 @@
                                                       name="outreachEmailConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label for="outreachEmailConsent">{EMAIL}</label></span>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{EMAIL}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -353,7 +350,7 @@
                                                       name="outreachSMSConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label for="outreachEmailConsent">{SMS_TEXT}</label></span>
+                                                <span><label class="label_spacing" for="outreachEmailConsent">{SMS_TEXT}</label></span>
                               </div>
                         </template>
                   </lightning-layout>
