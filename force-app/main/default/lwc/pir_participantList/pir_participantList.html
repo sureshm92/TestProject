@@ -7,7 +7,7 @@
                         <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
                             <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title={label.pir_Search_Participants} class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
                             <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
-                             <lightning-input type="text" id="searchText" placeholder={label.pir_Search_Participants} variant="label-hidden"  onchange={handleParticipantsearch} >
+                             <lightning-input type="text" id="searchText" value={srchTxt} placeholder={label.pir_Search_Participants} variant="label-hidden"  onchange={handleParticipantsearch} >
                                  
                                  </lightning-input>
                         </div>
@@ -49,7 +49,7 @@
                         <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
                     </span>
                 </div>
-                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}
+                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}  disabled={disablePresetPicklist}
                 placeholder={label.Select} options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
             <template if:true={showEditPreset}> 
@@ -92,8 +92,11 @@
                                     </template>
                                 </template>
                             </template>
-                                    <li class="slds-dropdown__item" role="presentation" data-id='Export'>
-                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect} > <span class="slds-truncate" title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                    <li class="slds-dropdown__item showDesktop " role="presentation" data-id='Export'>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect} > <span class="slds-truncate showDesktop" title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                    </li>
+                                    <li class="slds-dropdown__item hideDesktop " role="presentation" data-id='Export'>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handleMobileExport} > <span class="slds-truncate " title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
                                     </li>
                                     <template if:true={showAddParticipant}>   
                                         <li class="slds-dropdown__item" role="presentation" data-id='Add New Participant'>

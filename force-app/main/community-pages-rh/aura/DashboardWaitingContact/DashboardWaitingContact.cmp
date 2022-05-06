@@ -85,6 +85,8 @@
                                             <div data-gtm="LNK_View_Participants_Details">
                                                 <a
                                                     id="{!item.Id}"
+                                                    name="{!item.strPerName}"
+                                                    data-pername="{!item.name}" 
                                                     onclick="{!c.showEditParticipantInformation}"
                                                     href="javascript:void(0);"
                                                     >{!item.name}</a

@@ -153,7 +153,9 @@ public without sharing class HCPInviteControllerNew {
                         CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
                     );
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-                CurrentBatchId = database.executeBatch(new Batch_ProcessActionSetupObjects(),10);
+                Batch_ProcessActionSetupObjects batchForAction = new Batch_ProcessActionSetupObjects(); 
+                batchForAction.skipRelaunch = true;
+                CurrentBatchId = database.executeBatch(batchForAction,10);
             }
             objLeadWrapper.LeadDataMessage = lstExistingUser.isEmpty() ? JSON.serialize(userList[0]) : 'UserAlreadyThere';
             objLeadWrapper.BatchId = CurrentBatchId;

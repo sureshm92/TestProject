@@ -778,10 +778,14 @@ export default class Medicalinformation extends LightningElement {
       });
     if (event.currentTarget.dataset.name == "screenerOneAcc") {
       console.log(">>coming in screner accordian");
-      this.template.querySelector(".screener1").innerHTML =
-        this.decodeMRRResultGizmo;
-      this.template.querySelector(".screener2").innerHTML =
-        this.decodePreScreenerResultGizmo;
+      if(this.decodeMRRResultGizmo){
+          this.template.querySelector(".screener1").innerHTML =
+            this.decodeMRRResultGizmo;
+      }
+      if(this.decodePreScreenerResultGizmo){
+          this.template.querySelector(".screener2").innerHTML =
+            this.decodePreScreenerResultGizmo;
+      }
       console.log(">>coming in screner accordian end>>");
     }
   }
