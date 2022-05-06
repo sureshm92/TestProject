@@ -41,6 +41,7 @@ Public without sharing Class TelevisitCreationScreenController {
         televisitRecord.Visit_Date_Time__c = visitDateTime;
         upsert televisitRecord;
         
+        
         if(wrapper.id==''){
             List<AttendeesWrapper> attendeesWrapperList = wrapper.attendeesList;
             List<String> ids = new List<String>();
