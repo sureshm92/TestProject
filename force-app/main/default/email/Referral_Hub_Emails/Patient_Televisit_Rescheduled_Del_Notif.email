@@ -1,6 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Televisit_Del_Rescheduled_P1} {!relatedTo.Televisit__r.Title__c} {!$Label.Email_Subject_Televisit_Del_Rescheduled_P2}"
                          recipientType="Contact"
-                         relatedToType="Televisit_Attendee__c"
+                         relatedToType="Televisit__c"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
