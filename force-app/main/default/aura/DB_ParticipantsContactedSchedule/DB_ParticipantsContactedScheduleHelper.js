@@ -11,6 +11,7 @@
             if (state === 'SUCCESS') {
                 var responseData = response.getReturnValue();
                 component.set('v.ContactedParticipantData', responseData);
+                component.set('v.mapParticipantIdtoPerName', responseData.mapPartcipantIdToPerName);
                 helper.createContactedParticipantDataList(
                     component,
                     event,
