@@ -3578,6 +3578,16 @@
         <field>Contact_Topic__c.Topic__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact_Topic__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact_Topic__c.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Conversation__c.Elapsed_Days_First_Unread__c</field>
@@ -6231,6 +6241,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Washout_Run_In_Applies__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Welcome_Message_Delivered__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
