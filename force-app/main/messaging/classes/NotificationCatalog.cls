@@ -103,8 +103,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 
     // For welcome Message
-    public static final String Message_To_PT_Study_Level_Welcome_Msg = 'Message_To_PT_Study_Level_Welcome_Msg';
-    public static final String Msg_To_Delegate_Study_Level_Welcome_Msg = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
-    public static final String Msg_To_Delegate_Platform_Lvl_Welcme_Msg = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
-    public static final String Msg_To_PT_Platform_Lvl_Welcme_Msg = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+    public static final String MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG = 'Message_To_PT_Study_Level_Welcome_Msg';
+    public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
+    public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
+    public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
 }
