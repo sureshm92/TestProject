@@ -11746,14 +11746,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_All Study</shortDescription>
-        <value>All Study</value>
+        <value>All Studies</value>
     </labels>
     <labels>
         <fullName>PIR_All_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PIR_All Study Site</shortDescription>
-        <value>All Study Site</value>
+        <value>All Study Sites</value>
     </labels>
     <labels>
         <fullName>PIR_Edit_Preset</fullName>
