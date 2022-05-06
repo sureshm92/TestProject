@@ -777,15 +777,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.newStatusSelected = event.detail.newStatusSelected;
     this.oParticipantStatus = event.detail.oParticipantStatus;
     this.studyID = event.detail.studyId;
-    if(this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent'){
-      this.consentSigned=true;
-    }
-    else{
-      this.consentSigned=false;
-    }
+    
  }
  reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
- storeisReasonEmpty;
+ storeisReasonEmpty;isInitialVisit;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
        this.notesNeeded = [];this.additionalNote = '';
@@ -793,10 +788,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
        this.bulkStatusSpinner = true;this.finalConsentvalue=false;
        let study = this.studyID.toString();
        console.log('work'+study);
-       
        bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
       .then(result => {
           let reasons = result.reason;
+          this.isInitialVisit=result.isInitialVisit;
           if(reasons != undefined){
             if(reasons.charAt(0) == ';'){
                reasons=reasons.substring(1);
@@ -837,6 +832,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
                   this.finalConsentRequired = true;
               }
+          }
+          if(this.isInitialVisit==true && (this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent')){
+            this.consentSigned=true;
+          }
+          else{
+            this.consentSigned=false;
           }
           this.bulkStatusSpinner =false;
       })
