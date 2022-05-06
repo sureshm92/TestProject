@@ -32,6 +32,7 @@
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="communityName" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -58,6 +59,16 @@
                                 style="height: 32px; width: 32px"
                             />
                         </div>
+                        <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
+                            <aura:if
+                                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                            >
+                                <img
+                                    src="{!$Resource.icon_hamburgerMenu}"
+                                    onclick="{!c.handleClick}"
+                                />
+                            </aura:if>
+                        </aura:if>
                         <aura:if isTrue="{!v.isRTL}">
                             <div class="logo-container-RTL">
                                 <img
@@ -76,10 +87,12 @@
                                 </div>
                             </aura:set>
                         </aura:if>
-                        <aura:if
-                            isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
-                        >
-                            <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <aura:if
+                                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                            >
+                                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                            </aura:if>
                         </aura:if>
 
                         <div class="navigation-block">
@@ -116,10 +129,14 @@
                                 </aura:if>
                             </aura:if>
                             <!-- Ending of REF-1343 -->
-                            <aura:if
-                                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
-                            >
-                                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                            <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                                <aura:if
+                                    isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                                >
+                                    <img
+                                        src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
+                                    />
+                                </aura:if>
                             </aura:if>
                             <c:CommunityModeSwitcherMenu
                                 currentMode="{!v.currentMode}"
@@ -141,15 +158,30 @@
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
-                    <c:CommunityNavigationMobile
-                        aura:id="navigationMobile"
-                        showSideMenu="{!v.showSideMenu}"
-                        mode="{!v.currentMode.userMode}"
-                        hasMessage="{!v.hasMessage}"
-                        class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
-                        communityTemplate="{!v.template}"
-                        userMode="{!v.currentMode.userMode}"
-                    />
+                    <aura:if isTrue="{!v.isPPonPhone}">
+                        <c:CommunityNavigationMobile
+                            aura:id="navigationMobile"
+                            showSideMenu="{!!v.isPPonPhone}"
+                            isPPonPhone="{!v.isPPonPhone}"
+                            mode="{!v.currentMode.userMode}"
+                            hasMessage="{!v.hasMessage}"
+                            class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
+                            communityTemplate="{!v.template}"
+                            userMode="{!v.currentMode.userMode}"
+                        />
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isPPonPhone}">
+                        <c:CommunityNavigationMobile
+                            aura:id="navigationMobile"
+                            showSideMenu="{!v.showSideMenu}"
+                            isPPonPhone="{!v.isPPonPhone}"
+                            mode="{!v.currentMode.userMode}"
+                            hasMessage="{!v.hasMessage}"
+                            class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
+                            communityTemplate="{!v.template}"
+                            userMode="{!v.currentMode.userMode}"
+                        />
+                    </aura:if>
                 </aura:if>
                 {!v.body}
             </div>
