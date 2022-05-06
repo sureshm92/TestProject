@@ -233,11 +233,24 @@
 .menu-style{
     white-space: nowrap;
 }
+.hideDesktop{
+    display: none;
+}
+
+@media all and (max-width: 47.9375em) { 
+.hideDesktop{
+    display: unset;
+}
+.showDesktop{
+    display: none;
+}
+}
 .checkbox-color{
     background: #F6F7FB;
     border: 1px solid #E9E9E9;
     height: 26px;
 }
+
 .checkbox-colordct{
     background: #F6F7FB;
     border: 1px solid #E9E9E9;

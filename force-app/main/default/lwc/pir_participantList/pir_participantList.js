@@ -18,6 +18,7 @@ import ParticipantLimit from '@salesforce/label/c.ParticipantLimit';
 import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
 import Disclaimer_Text from '@salesforce/label/c.Disclaimer_Text';
 import BTN_Export from '@salesforce/label/c.BTN_Export';
+import Pdf_Not_Available from '@salesforce/label/c.Pdf_Not_Available';
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -69,9 +70,11 @@ export default class Pir_participantList extends LightningElement {
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
-    hideActiononSearch=false
+    hideActiononSearch=false;
     enteredSearchString = '';
     filterWrapper= {};
+    disablePresetPicklist = false;
+    
     @api maindivcls;
     @api get fetch(){
         return true;
@@ -91,12 +94,15 @@ export default class Pir_participantList extends LightningElement {
     /* Params from Url */
     urlStudyId = null;
     urlSiteId = null; 
+    urlPerName = null;
+    urlrefid = null;
 
     label = {
         RH_RP_No_Item_To_Display,
         Janssen_Community_Template_Name,
         Records_sent_to_SH,
         ParticipantLimit,
+        Pdf_Not_Available,
         Records_all_invited,
         Send_to_DCT,
         Invite_to_Patient_Portal,
@@ -218,6 +224,8 @@ export default class Pir_participantList extends LightningElement {
     setParametersBasedOnUrl() {
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
+       this.urlrefid = this.urlStateParameters.perName || null ;  
+       this.urlPerName = this.urlStateParameters.Pname || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
@@ -266,22 +274,30 @@ export default class Pir_participantList extends LightningElement {
         this.keyScope += 'ren';        
     }
     searchCounter =0;
+    keepsearchFocus = false;
     @api
     handleParticipantsearch(event){
+        this.urlPerName=null;
+        this.urlrefid = null;
         this.searchCounter++ ;
         this.enteredSearchString = '';
         this.disabledFilter = false;
+        this.disablePreset = false ;
+        this.disablePresetPicklist = false;
         this.hideActiononSearch=false;
+        this.keepsearchFocus = true;
         if(event.target.value.length != 0)
         {
           this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
             this.hideActiononSearch=true;
             if(event.target.value.length <= 2 )
                 return;
         } 
         else{
-          
+            this.disablePreset = this.isEditPresetFromListDisable ;
           this.template.querySelector('[data-id="filterdiv"]').classList.remove('disablefilter');
         }
         if(event.target.value && event.target.value.length > 2 )
@@ -308,6 +324,7 @@ export default class Pir_participantList extends LightningElement {
         
     }
     @api studyIDList;
+    srchTxt='';
     @api fetchList(){
         var searchCount = this.searchCounter;
         this.selectall = false;
@@ -316,6 +333,16 @@ export default class Pir_participantList extends LightningElement {
         this.participantList=null;
         this.sortInitialVisit = false;        
         this.showFilter =true; 
+        if(this.urlPerName)
+        {       
+            this.srchTxt = this.urlPerName;            
+            this.enteredSearchString = this.urlrefid;
+            this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
+            this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
+            this.hideActiononSearch=true;
+        }
         console.log('filter:'+JSON.stringify(this.filterWrapper));
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
@@ -603,8 +630,11 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                    if(!this.disabledFilter)
-                        cards[j].focus();
+                        if(!this.keepsearchFocus){
+                            
+                            cards[j].focus();
+                        }
+                        this.keepsearchFocus = false;
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
@@ -752,6 +782,15 @@ export default class Pir_participantList extends LightningElement {
             detail: this.dropDownLabel
           });
           this.dispatchEvent(selectedEventnew);
+    }
+    handleMobileExport(event){
+        const evt = new ShowToastEvent({
+            title: this.label.Pdf_Not_Available,
+            message: this.label.Pdf_Not_Available,
+            duration:100,
+            mode: 'dismissible'
+        });
+        this.dispatchEvent(evt);
     }
     exportData;
     @api handleExport(){
@@ -1490,6 +1529,7 @@ export default class Pir_participantList extends LightningElement {
     showEditPreset =false;
     showFilter =false;
     disablePreset = true;
+    isEditPresetFromListDisable = true;
     fetchAllPreset(){
         var presets = [];
         presets.push({label:this.label.pir_No_Preset,value:"no preset"});
@@ -1499,6 +1539,7 @@ export default class Pir_participantList extends LightningElement {
             this.sysPresets = data;
             for(var i = 0; i<data.length ; i++){
                 this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
                 if(data[i].isDefault){
                     if((Object.keys(this.filterWrapper).length === 0)){
                         this.filterWrapper= data[i];                    
@@ -1522,8 +1563,10 @@ export default class Pir_participantList extends LightningElement {
         .then(data => {
             this.sysPresets = data;
             this.disablePreset = true;
+            this.isEditPresetFromListDisable = true;
             for(var i = 0; i<data.length ; i++){
                 this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
                 presets.push({ label: data[i].presetName, value: data[i].presetId });
             }
             this.presetOpts = presets;
@@ -1556,8 +1599,10 @@ export default class Pir_participantList extends LightningElement {
                 .then(data => {
                     this.sysPresets = data;
                     this.disablePreset = true;
+                    this.isEditPresetFromListDisable = true;
                     for(var i = 0; i<data.length ; i++){
                         this.disablePreset = false;
+                        isEditPresetFromListDisable = false;
                         presets.push({ label: data[i].presetName, value: data[i].presetId });
                     }
                     this.presetOpts = presets;
