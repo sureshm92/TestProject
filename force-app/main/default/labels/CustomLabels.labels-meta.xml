@@ -11756,6 +11756,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>All Study Sites</value>
     </labels>
     <labels>
+        <fullName>pir_mm_dd_yyyy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_mm_dd_yyyy</shortDescription>
+        <value>mm/dd/yyyy</value>
+    </labels>
+    <labels>
         <fullName>PIR_Edit_Preset</fullName>
         <language>en_US</language>
         <protected>false</protected>
