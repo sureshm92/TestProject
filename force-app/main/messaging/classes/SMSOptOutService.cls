@@ -7,7 +7,7 @@
  **/
 public without sharing class SMSOptOutService {
     public static Map<Id, Map<Id, String>> notIdMapOfPartContactSponsorMap = new Map<Id, Map<Id, String>>();
-    public static Boolean isSMSOptOutPlatFormEvent = false;
+    public static Boolean isPlatFormEvent = false;
     /**
      * @description: This Method will mark the SMS Optin flag to false at Contact level for Platform Level SMS Optout and SMS optin Flag at PER
      *               level for Study level SMS Opt Out recieved by Participant/patient Delegates.
@@ -30,7 +30,7 @@ public without sharing class SMSOptOutService {
             notificationMap = getNotifications(notificationIdSet);
 
             //Check if notification is Platform level or Study Level.
-            isSMSOptOutPlatFormEvent = true;
+            isPlatFormEvent = true;
             Action_SendSMS actionSendSMSobj = new Action_SendSMS(notificationMap.Values());
             for (Notification__c n : notificationMap.Values()) {
                 if (NotificationService.platfomLevelSMSSet.contains(n.Id)) {
@@ -65,7 +65,12 @@ public without sharing class SMSOptOutService {
         List<Send_Result__c> sendResultList = new List<Send_Result__c>();
         //Query the Send Result record based on matching message Id field
         sendResultList = [
-            SELECT Id, Notification__c, Notification__r.Recipient__c
+            SELECT
+                Id,
+                Msg_Id__c,
+                Notification__c,
+                Notification__r.Recipient__c,
+                Notification__r.Notification_Type__c
             FROM Send_Result__c
             WHERE Msg_Id__c IN :messageIdSet
         ];
