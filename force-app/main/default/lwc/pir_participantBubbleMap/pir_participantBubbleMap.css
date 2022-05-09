@@ -212,14 +212,14 @@
 /** RTL **/
 @media (max-device-width: 767px) {
     .rtl .col-padding{
-    padding: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 5px;
     }
     }
     .rtl .slds-button+.slds-button{
     margin-right: 0;
     }
     .rtl .state-ico-wrapper {
-    left: 0;
+    left: 10px;
     }
     .rtl .text-wrap-btn{
     text-align: right;
@@ -232,7 +232,7 @@
     margin-right: 0;
     }
     .rtl .vpi-state.current .state-ico-wrapper {
-    left: 65px;
+    left: 50px;
     }
     @media all and (min-width: 1024px) {
     .rtl .state-ico-wrapper {
