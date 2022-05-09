@@ -8,6 +8,99 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>Televisit_Cancel_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+There has been an update to Televisit ##VisitName on ##VisitDate from ##VisitTime to ##VisitEndDate at ##VisitEndTime : it was cancelled.
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Cancel Email Subject</shortDescription>
+        <value>Televisit was cancelled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+You have been invited for a ##VisitName with ##firstname ##LastName.
+
+Televisit Date : ##VisitDate
+Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Subject</shortDescription>
+        <value>New Televisit was scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+This is an email to inform you about upcoming televisit  ##VisitName with ##firstname  ##LastName.
+
+Televisit Date : ##VisitDate
+Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Subject</shortDescription>
+        <value>Televisit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Two_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reminder Two Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
+
+Televisit Date : ##VisitDate
+Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Banner_Display_Offset_Time</fullName>
         <language>en_US</language>
         <protected>true</protected>

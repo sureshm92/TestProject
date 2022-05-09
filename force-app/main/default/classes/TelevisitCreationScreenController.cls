@@ -39,8 +39,8 @@ Public without sharing Class TelevisitCreationScreenController {
         televisitRecord.Participant_Enrollment__c = wrapper.peid;
         Datetime visitDateTime = Datetime.newInstance(wrapper.visitDate, timeChange);
         televisitRecord.Visit_Date_Time__c = visitDateTime;
+        televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(wrapper.duration.remove(' minutes')));
         upsert televisitRecord;
-        
         
         if(wrapper.id==''){
             List<AttendeesWrapper> attendeesWrapperList = wrapper.attendeesList;
@@ -74,15 +74,14 @@ Public without sharing Class TelevisitCreationScreenController {
             }
             
             for(Televisit_Attendee__c pissAttendee:pisslsttelevisitAttendees){
-                //pissAttendee.Participant_First_Name__c = participenttelevisitAttendee.Firstname__c;
-                //pissAttendee.Participant_Last_Name__c = participenttelevisitAttendee.Lastname__c;
+                pissAttendee.Participant_First_Name__c = participenttelevisitAttendee.Firstname__c;
+                pissAttendee.Participant_Last_Name__c = participenttelevisitAttendee.Lastname__c;
                 lsttelevisitAttendees.add(pissAttendee);
             }
             
             if(!lsttelevisitAttendees.isEmpty()){
                  try{
                     insert lsttelevisitAttendees;
-                    /*
                     List<Notification__c> notifications = new List<Notification__c>();
                     for (Televisit_Attendee__c attendee : lsttelevisitAttendees) {
                         if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
@@ -96,7 +95,6 @@ Public without sharing Class TelevisitCreationScreenController {
                     if(!notifications.isEmpty()){
                         insert notifications;
                     }
-                    */
 
                 }catch(exception ex){
                     return ex.getMessage();
@@ -302,7 +300,6 @@ Public without sharing Class TelevisitCreationScreenController {
         updateTelevisit.status__c = 'Cancelled';
         try{
             update updateTelevisit;
-            /*
             List<Notification__c> notifications = new List<Notification__c>();
             List<Televisit_Attendee__c> attendeesList = [Select id,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
                                                          where Televisit__c =:TelevisitId AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
@@ -316,7 +313,6 @@ Public without sharing Class TelevisitCreationScreenController {
             if(!notifications.isEmpty()){
                 insert notifications;
             }
-            */
 
         }catch(exception ex){
             return ex.getMessage();

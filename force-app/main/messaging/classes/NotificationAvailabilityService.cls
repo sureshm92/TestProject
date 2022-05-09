@@ -14,7 +14,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String CASE_OBJ_NAME = 'Case';
     private static final String TELEVISIT_OBJ_NAME = 'Televisit__c';
     private static final String TELEVISIT_ATTN_OBJ_NAME = 'Televisit_Attendee__c';
-
+    private static final String TELEVISIT_ATTENDEE_OBJ_NAME = 'Televisit_Attendee__c'; //RH-6577
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
     private Map<Id, List<String>> permissionSetsByConIdMap;
@@ -229,6 +229,28 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(tv.Id, tv);
                 }
             }
+            //As part of RH-6577
+            if (objType == TELEVISIT_ATTENDEE_OBJ_NAME) {
+                List<Televisit_Attendee__c> televisitAttendees = [
+                    SELECT
+                    Id,
+                    Attendee_Type__c,
+                    Contact__c,
+                    Firstname__c,
+                    Lastname__c,
+                    Televisit_Scheduled_Date__c,
+                    User__c,
+                    Televisit__r.Visit_Date_Time__c,
+                    Televisit__r.Status__c,
+                    Televisit__r.Title__c
+                    FROM Televisit_Attendee__c
+                    WHERE Id IN :objectsByStrings.get(objType)
+                ];
+                for (Televisit_Attendee__c ta : televisitAttendees) {
+                    objectsByIds.put(ta.Id, ta);
+                }
+            }
+            //End            
 
             //TODO for other objects passing in WhatID
         }
@@ -375,7 +397,14 @@ public without sharing class NotificationAvailabilityService {
                     piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
                     (piHasSiteWithEnabledEmailMap.containsKey(contactId) &&
                     piHasSiteWithEnabledEmailMap.get(contactId));
-            }
+            }else if(objType == TELEVISIT_ATTENDEE_OBJ_NAME ){ // As part of RH-6577
+                Televisit_Attendee__c teleAttendee = (Televisit_Attendee__c) objectsByIds.get(Id.valueOf(whatId));
+                checkForNotification =
+                    (piDelegateHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
+                    piDelegateHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c)) ||
+                    (piHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
+                    piHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c));
+            }//End
         }
         return checkForNotification;
     }
