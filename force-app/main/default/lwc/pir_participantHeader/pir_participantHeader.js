@@ -77,6 +77,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api showPrinticon = false;
     @api isrtl = false;
     maindivcls;
+    initialsName;
 
     connectedCallback() {
         loadStyle(this, PIR_Community_CSS)
@@ -95,6 +96,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.peId = this.selectedPE.id;
         this.firstName = this.selectedPE.firstName;
         this.lastName = this.selectedPE.lastName;
+        this.initialsName = this.selectedPE.initialsName;
         this.refNumber = this.selectedPE.refId;
         this.phoneNumber = this.selectedPE.participantPhone;
         this.studyName = this.selectedPE.studyName;
