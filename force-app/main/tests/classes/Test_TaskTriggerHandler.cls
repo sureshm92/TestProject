@@ -200,6 +200,78 @@ public class Test_TaskTriggerHandler {
         }
         Test.stopTest();
     }
+    
+    @IsTest
+    static void test_checkTaskFieldsNegative() {
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        Datetime dateNow = Datetime.now();
+		
+        Test.startTest();
+        Contact delegate = new Contact(
+            FirstName = 'Patient',
+            LastName = 'Delegate',
+            Email = 'jsmith@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegate;
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Patient',
+            Last_Name__c = 'Delegate',
+            Contact__c = delegate.Id
+        );
+        insert p;
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegate.Id,
+            Contact__r = delegate,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant,
+            Status__c = 'Active'
+        );
+        insert patientDelegate;
+
+        User delegateUser = CommunityService.createUser(delegate, null, null, null);
+
+        System.runAs(testData.participantUser) {
+            List<Task> tasks = new List<Task>();
+            Task task = new Task();
+            task.Subject = 'test';
+            task.Reminder_Date__c = dateNow;
+            task.ReminderDateTime = dateNow;
+            task.Activity_Datetime__c = Datetime.now().addDays(1);
+            task.OwnerId = testData.participantUser.Id;
+            task.Visible_For__c = 'Owner;Delegates';
+            task.Task_Code__c = 'Complete_Your_Profile_Invalid';
+            task.WhatId = testData.participant.Id;
+            Task task2 = new Task();
+            task2.Subject = 'test2';
+            task2.Reminder_Date__c = dateNow;
+            task2.ReminderDateTime = dateNow;
+            task2.Activity_Datetime__c = Datetime.now().addDays(1);
+            task2.OwnerId = testData.participantUser.Id;
+            task2.Visible_For__c = 'Owner;Delegates';
+            task2.Remind_Me__c = '1 day before';
+            task2.Task_Code__c = 'Complete_Baseline_Survey_Invalid';
+
+            tasks.add(task);
+            tasks.add(task2);
+            try {
+                insert tasks;
+                TaskTriggerHandler.CheckTaskFieldsWithTaskCodeHandler tsHandler = new TaskTriggerHandler.CheckTaskFieldsWithTaskCodeHandler();
+                tsHandler.beforeInsert(new List<Task>{ task });
+                tsHandler.beforeInsert(new List<Task>{ task2 });
+            } catch (Exception e) {
+                Boolean expectedExceptionThrown =  e.getMessage().contains('Task Catalog Card:') ? true : false;
+				System.AssertEquals(expectedExceptionThrown, true);
+            }
+        }
+        Test.stopTest();
+    }
 
     @IsTest(SeeAllData=true)
     static void taskTestSurvey() {
