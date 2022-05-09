@@ -284,6 +284,9 @@
     margin-right: 13px;
     padding: 3px 0px 0px 0px;
 } 
+.rtl .noRecords{
+    margin-right:3rem;
+}
 @media (max-device-width: 767px) {
     .rtl .w-filter{
         margin-left: 0px;
@@ -305,6 +308,7 @@
         /* padding-right: var(--lwc-spacingXLarge,2rem); */
         padding-right: 8px;
     }
+   
 } 
 /* RTL End*/
   
