@@ -7,7 +7,8 @@ import fetchSelectedAttendees from "@salesforce/apex/TelevisitCreationScreenCont
 import updateAttendees from "@salesforce/apex/TelevisitCreationScreenController.updateAttendees";
 import cancelTelevisit from "@salesforce/apex/TelevisitCreationScreenController.cancelTelevisit";
 import { NavigationMixin } from "lightning/navigation";
-
+const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
+const isMenuOpen = ' slds-is-open';
 
 export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     @api peid;
@@ -18,10 +19,23 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.peid = value;
         this.doSelectedPI();
     }
+
+    @api callTV;
+    @api get calltelevisit(){
+        return this.callTV;
+    };
+    set calltelevisit(value){
+        this.fetchTelevisitRecord3();
+    }
+
+    @api fetchTelevisitRecord3(){
+        console.log('fetchTelevisitRecord3');
+        this.fetchTelevisitRecord();
+    }
     
     value = 'Scheduled';
     duration;
-    startTime;
+    @track startTime;
     title;
     visitDate;
     televisitRecord = {};
@@ -41,11 +55,15 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     siteStaffAdded = true;
     isLoading = true;
     currentTime;
-    //Boolean tracked variable to indicate if modal is open or not default value is false as modal is closed when page is loaded 
+    startTimeChanged = false;
+    @track defaultTime;
     @track isModalOpen = false;
-    fetchedAttendeesList =[];
+    selectedAttendees = [];
+    attendeeObj = {name:'',id:'',index:'',attendeeId:'',attendeeType:'',isMandatorySelection:false};
+    @track selectedAttendeesList = [];
+    @track itemToRemove = {name:'',id:''};
+    @track selectedItems;
     openModal(event) {
-        // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
         if(event.target.dataset.id !== null && event.target.dataset.id !== '' && event.target.dataset.id !== undefined){
             this.televisitEditView = true;
@@ -54,10 +72,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.startTime = this.msToTime(event.target.dataset.starttime);
             this.duration = event.target.dataset.duration;
             this.televisitRecordId = event.target.dataset.id;
-            console.log('SelectedAttendeesList :',event.target.dataset.id);
-            this.fetchSelectedAttendees(event.target.dataset.id);
-            
-            
+            //console.log('SelectedAttendeesList :',event.target.dataset.id);
+            //this.fetchSelectedAttendees(event.target.dataset.id);
+            this.isLoading = true;
+            this.startTimeChanged = false;
+            this.fetchAttendees();
         }else{
             this.televisitEditView = false;
             this.televisitRecordId = '';
@@ -65,20 +84,20 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.visitDate = '';
             this.startTime = '';
             this.duration = '';
-
             const today = new Date();
             let h = today.getHours();
             let m = today.getMinutes();
             h = h < 10 ? '0' + h : h;
             m = m < 10 ? '0' + m : m;
             this.currentTime = h+':' + m + ':00.000Z';
+            this.defaultTime = this.currentTime;
+            this.startTimeChanged = false;
             //this.startTime = this.msToTime(event.target.dataset.starttime);
             
-            //this.selectedAttendees =[];
-            //this.selectedAttendeesList = [];
-            //this.selectedItems = [];
-            this.fetchRequiredAttendees();
-            this.isLoading = false;
+            //this.fetchRequiredAttendees();
+            this.isLoading = true;
+            this.fetchAttendees();
+            
         }
     }
 
@@ -98,6 +117,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.checkAllFieldsArePopulated();  
     }
 
+    /*
     fetchSelectedAttendees(recordId){
         fetchSelectedAttendees({TelevisitId :recordId })
             .then((result) => {
@@ -128,7 +148,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log(error);
             });
-    }
+    }*/
 
     compareArrayOfObjects(a,b){
         console.log('Inside',a);
@@ -146,11 +166,12 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                         deletedAttendeesRecord:deletedAttendeesRecord,
                         newlyAddedAttendeesRecord:newlyAddedAttendeesRecord})
             .then((result) => {
-                console.log(result);
+                //console.log(result);
                 this.fetchTelevisitRecord();
-                this.selectedAttendees = [];
-                this.selectedAttendeesList = [];
-                this.selectedItems = [];
+                //this.selectedAttendees = [];
+                //this.selectedAttendeesList = [];
+                //this.selectedItems = [];
+                this.resetTelevisitAttendeesList();
             })
             .catch((error) => {
                 console.log(error);
@@ -172,22 +193,26 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     closeModal() {
-        // to close modal set isModalOpen tarck value as false
         this.isModalOpen = false;
         this.clearFieldValues();
     }
     submitDetails(event) {
-        console.log('televisitRecordId :',this.televisitRecordId);
         this.sendRecord();
         var deletedAttendeesRecord = [];
         var newlyAddedAttendeesRecord = [];
         if(event.target.dataset.id ==='Update'){
+            /*
             deletedAttendeesRecord = this.compareArrayOfObjects(this.selectedItems,this.selectedAttendeesList);
             newlyAddedAttendeesRecord = this.compareArrayOfObjects(this.selectedAttendeesList,this.selectedItems);
             this.updateAttendees(this.televisitRecordId, JSON.stringify(deletedAttendeesRecord), JSON.stringify(newlyAddedAttendeesRecord));
+            */
+            deletedAttendeesRecord = this.compareArrayOfObjects(this.duplicateSelectedTelevisitAttendeesList,this.selectedTelevisitAttendeesList);
+            newlyAddedAttendeesRecord = this.compareArrayOfObjects(this.selectedTelevisitAttendeesList,this.duplicateSelectedTelevisitAttendeesList);
+            this.updateAttendees(this.televisitRecordId, JSON.stringify(deletedAttendeesRecord), JSON.stringify(newlyAddedAttendeesRecord));
         }
         
-                
+        //this.resetTelevisitAttendeesList();
+     
                 
     }
     get options() {
@@ -233,22 +258,33 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         let fieldName = event.target.name;
         console.log('fieldName',fieldName);
         let dom = this.template.querySelector('[data-id="' + fieldName + '"]');
-            let Val = dom.value;
-            console.log('titleVal ',Val);
+            let val = dom.value;
             if(fieldName === 'Title'){
-                this.title = Val;
+                this.title = val;
             }
             if(fieldName === 'Visit Date'){
-                this.visitDate = Val;
-                
+                this.visitDate = val;
+                if(this.visitDate > this.today){
+                    this.defaultTime = '05:00:00.000Z';
+                }else if(this.visitDate === this.today){
+                    this.defaultTime = this.currentTime;
+                    console.log('current Time :',this.currentTime);
+                    console.log('start Time :',this.startTime);
+                    if(this.startTime < this.currentTime && this.startTimeChanged){
+                        this.startTime = null;
+                        this.template.querySelector('[data-id="Start Time"]').setCustomValidity('Please Enter the Start Time');
+                        this.template.querySelector('[data-id="Start Time"]').reportValidity();
+                    }
+                }
             }
             if(fieldName === 'Start Time'){
-                this.startTime = Val;
+                this.startTime = val;
+                this.startTimeChanged = true;
             }
             if(fieldName === 'Duration'){
-                this.duration = Val;
+                this.duration = val;
             }   
-            if(!Val){
+            if(!val){
                 console.log('success');
                 dom.setCustomValidity('Please Enter the ' +fieldName);
             }else{
@@ -261,7 +297,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     clearFieldValues(){
-
         this.title=null;
         this.visitDate=null;
         this.startTime=null;
@@ -270,6 +305,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.selectedAttendeesList = [];
         this.selectedItems = [];
         this.siteStaffAdded = true;
+        this.selectedTelevisitAttendeesList = [];
+        this.duplicateSelectedTelevisitAttendeesList = [];
     }
 
     checkAllFieldsArePopulated(){
@@ -277,32 +314,17 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         var visitDate = this.template.querySelector('[data-id="Visit Date"]').value;
         var startTime = this.template.querySelector('[data-id="Start Time"]').value;
         var duration = this.template.querySelector('[data-id="Duration"]').value;
-        
-        console.log(title);
-        console.log(visitDate);
-        console.log(startTime);
-        console.log(duration);
-
+        console.log('startTime ',startTime);
+        console.log('this.startTime ',this.startTime);
         if(title !== null && title !== undefined && title !== '' && 
         visitDate !== null && visitDate !== undefined && visitDate !== '' && 
-        startTime !== null && startTime !== undefined && startTime !== '' && 
+        this.startTime !== null && this.startTime !== undefined && this.startTime !== '' && 
         duration !== null && duration !== undefined && duration !== '' && visitDate >= this.today && 
         this.siteStaffAdded){
             this.disableSaveButton = false;
         }else{
             this.disableSaveButton = true;
         }
-
-
-
-        /*
-        if(title !== undefined && startTime !== undefined && visitDate !== undefined && duration !== undefined ){
-            this.showToast();
-        }else{
-            this.sendRecord();
-            
-        }*/
-
     }
 
     titleChange(event){
@@ -310,7 +332,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     visitDateChange(event){
-        console.log('In');
         this.visitDate= event.target.value;
     }
     
@@ -352,22 +373,17 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         console.log('Start Time:',this.startTime);
         this.televisitRecord.duration = this.duration;
         this.televisitRecord.peid = this.peid.id;
-        
-        //console.log('AttendeesList', this.attendeesList);
-        //this.attendeesListObject.attendeesList.push(this.attendeesList);
-        //console.log(this.attendeesListObject.attendeesList);
-        //this.televisitRecord.attendeesList = JSON.stringify(this.attendeesListObject);
-        this.televisitRecord.attendeesList = this.selectedAttendees;
-        
-        console.log('Televisit Record :',this.televisitRecord);
+        this.televisitRecord.attendeesList = this.selectedTelevisitAttendeesList;
+        //this.televisitRecord.attendeesList = this.selectedAttendees;
         sendRecord({wrapperText:JSON.stringify(this.televisitRecord)})
             .then((result) => {
-                console.log(result);
                 if(result !== null){
                     this.showToastSuccess();
                     this.isModalOpen = false;
                     this.fetchTelevisitRecord();
+                    this.resetTelevisitAttendeesList();
                 }
+                
             })
             .catch((error) => {
                 console.log(error);
@@ -375,36 +391,20 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback(){
-        
         this.displayTelevisitRecords = true;        
-                
         this.fetchTelevisitRecord();
-
-        /*
-        fetchAttendees({ParticipantEnrollmentId : this.peid.id})
-            .then((result) => {
-                console.log(result.length);
-                this.attendeesList = [];
-                for(let i=0; i<result.length; i++){
-                    this.attendeesList.push({label: result[i].contactId, value: result[i].firstName +' '+ result[i].lastName + ' ('+result[i].attendeeType+')'});
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });*/
-            
         // Get the current date/time in UTC
         let rightNow = new Date();
-
         // Adjust for the user's time zone
         rightNow.setMinutes(
             new Date().getMinutes() - new Date().getTimezoneOffset()
         );
-
         // Return the date in "YYYY-MM-DD" format
         this.today = rightNow.toISOString().slice(0,10);
         console.log(this.today); // Displays the user's current date, e.g. "2020-05-15"
     }
+
+    
 
     fetchTelevisitRecord(){
         fetchRecord({status : this.value, participantEnrollmentId : this.peid.id})
@@ -421,14 +421,16 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 console.log(error);
             });
     }
-    
+
+
+    /*
     fetchRequiredAttendees(){
         this.itemToRemove = {};
                 
         this.selectedAttendees = [];
         this.selectedAttendeesList = [];
         this.selectedItems = [];
-
+        
         for(var i=0;i<this.attendeesList.length;i++){
             console.log('this.attendeesList :',this.attendeesList);
             if(this.attendeesList[i].attendeeType === 'Participant'){
@@ -456,27 +458,57 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         }
         console.log('fetchRequiredAttendees :',this.selectedAttendeesList);
         this.selectedItems = this.selectedAttendeesList;
+    }*/
+
+    fetchAttendees(){
+        this.attendeesList = [];
+        this.televisitAttendeesList = [];
+        this.selectedTelevisitAttendeesList = [];
+        fetchAttendees({ParticipantEnrollmentId : this.peid.id})
+        .then((result) => {
+            for(let i=0; i<result.length; i++){
+                this.attendeesList.push({participantPrimaryDelegate:result[i].participantPrimaryDelegate,
+                                        participantAdult:result[i].participantAdult,
+                                        attendeeType:result[i].attendeeType,
+                                        label: result[i].contactId, 
+                                        value: result[i].firstName +' '+ result[i].lastName + ' ('+result[i].attendeeType+')'});
+                
+                this.televisitAttendeesObj = {};
+                this.televisitAttendeesObj.id = result[i].contactId;
+                this.televisitAttendeesObj.firstName = result[i].firstName;
+                this.televisitAttendeesObj.lastName = result[i].lastName;
+                this.televisitAttendeesObj.attendeeType = result[i].attendeeType;
+                this.televisitAttendeesObj.participantAdult = result[i].participantAdult;
+                this.televisitAttendeesObj.participantPrimaryDelegate = result[i].participantPrimaryDelegate;
+                if(this.televisitAttendeesObj.attendeeType === 'Participant'){
+                    this.televisitAttendeesObj.isMandatorySelection = true;
+                }else if(this.televisitAttendeesObj.attendeeType === 'Participant Delegate' && this.televisitAttendeesObj.participantAdult === false && this.televisitAttendeesObj.participantPrimaryDelegate){
+                    this.televisitAttendeesObj.isMandatorySelection = true;
+                }else{
+                    this.televisitAttendeesObj.isMandatorySelection = false;
+                }
+                this.televisitAttendeesList.push(this.televisitAttendeesObj);
+                this.televisitAttendeesListTemp =  this.televisitAttendeesList;
+            }
+
+            if(this.televisitEditView){
+                this.fetchTelevisitSelectedAttendees(this.televisitRecordId);
+            }else{
+                this.handleMandatoryAttendeesSelection();
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     @api
     doSelectedPI(){
         this.value = 'Scheduled';
         this.attendeesList = [];
-        
-
-        fetchAttendees({ParticipantEnrollmentId : this.peid.id})
-        .then((result) => {
-            for(let i=0; i<result.length; i++){
-                this.attendeesList.push({attendeeType:result[i].attendeeType, label: result[i].contactId, value: result[i].firstName +' '+ result[i].lastName + ' ('+result[i].attendeeType+')'});
-            }
-            console.log('this.attendeesList :',this.attendeesList);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        this.televisitAttendeesList = [];
+        //this.fetchAttendees();
         this.fetchTelevisitRecord();
-        //let obj = {label: this.peid.id, value: this.peid.firstName +' '+ this.peid.lastName +' (Participant)'};
-        //this.attendeesList.push(obj);
     }
 
     openTelevisitWindow(event){
@@ -484,11 +516,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         //var url = '/apex/televisit?sessionId=2_MX40NzQ2MjA4MX5-MTY0ODczNjAyNjA3OX5CT01pQ0orZytUZ2dpQVpZMHhNNlFMR1l-fg';
         window.open(url);
     }
-
     
-    selectedAttendees = [];
-    attendeeObj = {name:'',id:'',index:'',attendeeId:'',attendeeType:'',isMandatorySelection:false};
-    @track selectedAttendeesList = [];
+    /*
     handleAttendeeChange(event){
         let opps = event.detail;
         console.log('opps :',opps);
@@ -505,20 +534,25 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.attendeeObj.attendeeType = opp.attendeeType;
             if(opp.attendeeType === 'Participant'){
                 this.attendeeObj.isMandatorySelection = true;
+            }else if(opp.attendeeType === 'Participant Delegate' && opp.participantAdult === false && opp.participantPrimaryDelegate){
+                this.attendeeObj.isMandatorySelection = true;
             }else{
                 this.attendeeObj.isMandatorySelection = false;
             }
+            
             this.selectedAttendeesList.push(this.attendeeObj);
+
+            
             //this.selectedAttendees.push(opp.label);
         });
         console.log('selectedAttendees :',this.selectedAttendees);
         console.log('selectedAttendeesList :',this.selectedAttendeesList);
-        this.checkSiteStaffAdded(this.selectedAttendeesList);
+        //this.checkSiteStaffAdded(this.selectedAttendeesList);
 
     }
+    */
 
-    @track itemToRemove = {name:'',id:''};
-    @track selectedItems;
+    /*
     removeSelectedItem(event){
         console.log('Inside');
         console.log('Selected Id :', event.target.dataset.id);
@@ -530,11 +564,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.selectedAttendeesList.splice(this.selectedAttendeesList.findIndex(a => a.id === this.itemToRemove.id) , 1)
         console.log('selectedAttendeesList :',this.selectedAttendeesList);
     }
+    */
     cancelTelevisit(event){
-        console.log('Cancel Id :', event.target.dataset.id);
         cancelTelevisit({TelevisitId : event.target.dataset.id})
             .then((result) => {
-                console.log(result);
                 if(result === 'Televisit Cancelled Successfully'){
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
@@ -562,4 +595,137 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.cancelTelevisitRecordId = event.target.dataset.id;
     }
 
+    @track cbComputedClass = cbClass;
+    @track isComboExpanded = false;
+    @api placeHolder = 'Search to add';
+    televisitAttendeesList = [];
+    televisitAttendeesObj = {};
+    @track selectedTelevisitAttendeesList = [];
+    @track duplicateSelectedTelevisitAttendeesList = [];
+    @track mapData= [];
+    @track noResultsFound = false;
+    @track televisitAttendeesListTemp = [];
+    isSearchMode = false;
+    closeOptionsMenu(){
+        this.isComboExpanded = false;
+        this.cbComputedClass = cbClass;        
+    }
+    openOptionsMenu(){
+        if(this.televisitAttendeesList.length>0){
+            this.isComboExpanded = true;
+            this.cbComputedClass = cbClass+isMenuOpen;
+        }else{
+            this.closeOptionsMenu();
+        }
+        
+    }
+
+    handleSelection(event){
+        this.televisitAttendeesObj = {};
+        this.televisitAttendeesObj.id =event.target.dataset.id;
+        this.televisitAttendeesObj.firstName = event.target.dataset.firstName;
+        this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
+        this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
+        this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
+        if(event.target.dataset.isMandatorySelection === 'true'){
+            this.televisitAttendeesObj.isMandatorySelection = true;
+        }else{
+            this.televisitAttendeesObj.isMandatorySelection = false;
+        }
+        this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
+        this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === event.target.dataset.id) , 1);
+        if(this.isSearchMode)
+            this.televisitAttendeesListTemp.splice(this.televisitAttendeesListTemp.findIndex(a => a.id === event.target.dataset.id) , 1);
+        this.closeOptionsMenu();
+        this.checkSiteStaffAdded(this.selectedTelevisitAttendeesList);
+    }
+    handleRemoveItems(event){
+        this.televisitAttendeesObj = {};
+        this.televisitAttendeesObj.id =event.target.dataset.id;
+        this.televisitAttendeesObj.firstName = event.target.dataset.firstName;
+        this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
+        this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
+        this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
+        if(event.target.dataset.isMandatorySelection === 'true'){
+            this.televisitAttendeesObj.isMandatorySelection = true;
+        }else{
+            this.televisitAttendeesObj.isMandatorySelection = false;
+        }
+        this.televisitAttendeesList.push(this.televisitAttendeesObj);
+        this.televisitAttendeesListTemp =  this.televisitAttendeesList;
+        this.selectedTelevisitAttendeesList.splice(this.selectedTelevisitAttendeesList.findIndex(a => a.id === event.target.dataset.id) , 1);
+        this.checkSiteStaffAdded(this.selectedTelevisitAttendeesList);
+    }
+
+    handleMandatoryAttendeesSelection(){
+        for(var i=0;i<this.televisitAttendeesList.length;i++){
+            if(this.televisitAttendeesList[i].attendeeType === 'Participant' || this.televisitAttendeesList[i].attendeeType === 'Participant Delegate'){
+                this.televisitAttendeesObj = {};
+                this.televisitAttendeesObj.id =this.televisitAttendeesList[i].id;
+                this.televisitAttendeesObj.firstName = this.televisitAttendeesList[i].firstName;
+                this.televisitAttendeesObj.lastName = this.televisitAttendeesList[i].lastName;
+                this.televisitAttendeesObj.attendeeType = this.televisitAttendeesList[i].attendeeType;
+                this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList[i].isMandatorySelection;
+                this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
+                this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === this.televisitAttendeesList[i].id) , 1);
+                //Added for Search functionality
+                this.televisitAttendeesListTemp =  this.televisitAttendeesList;
+            }
+        }
+        this.checkSiteStaffAdded(this.selectedTelevisitAttendeesList);
+        this.isLoading = false;
+    }
+
+    resetTelevisitAttendeesList(){
+        this.televisitAttendeesList = [];
+        this.selectedTelevisitAttendeesList = [];
+        this.duplicateSelectedTelevisitAttendeesList = [];
+    }
+
+    fetchTelevisitSelectedAttendees(recordId){
+        fetchSelectedAttendees({TelevisitId :recordId })
+            .then((result) => {
+                this.selectedTelevisitAttendeesList = [];
+                for(var i=0;i<result.length;i++){
+                    this.televisitAttendeesObj = {};
+                    this.televisitAttendeesObj.id =result[i].id;
+                    this.televisitAttendeesObj.firstName = result[i].firstName;
+                    this.televisitAttendeesObj.lastName = result[i].lastName;
+                    this.televisitAttendeesObj.attendeeType = result[i].attendeeType;
+                    this.televisitAttendeesObj.attendeeId = result[i].attendeeId;
+                    this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList.find(a => a.id === result[i].id).isMandatorySelection;
+                    this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
+                    this.duplicateSelectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
+                    this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === result[i].id) , 1);
+                    //Added for Search functionality
+                    this.televisitAttendeesListTemp =  this.televisitAttendeesList;
+                }
+                this.checkSiteStaffAdded(this.selectedTelevisitAttendeesList);
+                this.isLoading = false;
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    handleSearch(event) {
+        const searchKey = event.target.value;
+        this.noResultsFound = false;
+        if(searchKey){   
+            this.isSearchMode = true;       
+            this.televisitAttendeesList = this.televisitAttendeesListTemp.filter(obj => obj.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+                                                                                        obj.lastName.toLowerCase().includes(searchKey.toLowerCase()) || 
+                                                                                        obj.attendeeType.toLowerCase().includes(searchKey.toLowerCase()));
+            if(this.televisitAttendeesList.length === 0) this.noResultsFound = true;
+            this.openOptionsMenu();
+        }
+        
+        else{
+            this.isSearchMode = false; 
+            this.closeOptionsMenu();
+            this.televisitAttendeesList = this.televisitAttendeesListTemp;
+        }  
+        
+    }
 }

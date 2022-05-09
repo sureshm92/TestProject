@@ -47,7 +47,7 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Re
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
 import PG_Ref_L_Permit_IQVIA_To_Contact_By from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_By';
 import PG_Ref_L_StudySite_Consent_Mandatory from '@salesforce/label/c.PG_Ref_L_StudySite_Consent_Mandatory';
-import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
+import PG_Ref_L_Permit_Study_Outreach_By from '@salesforce/label/c.PG_Ref_L_Permit_Study_Outreach_By';
 import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
 import SMS_TEXT from '@salesforce/label/c.SMS_Text';
@@ -1073,7 +1073,7 @@ export default class Pir_participantDetail extends LightningElement {
     BTN_Verify=BTN_Verify;
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
     PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
-    PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
+    PG_Ref_L_Permit_Study_Outreach_By = PG_Ref_L_Permit_Study_Outreach_By;
     PG_Ref_L_Permit_IQVIA_To_Contact_By = PG_Ref_L_Permit_IQVIA_To_Contact_By;
     EMAIL = EMAIL;
     PHONE = PHONE;

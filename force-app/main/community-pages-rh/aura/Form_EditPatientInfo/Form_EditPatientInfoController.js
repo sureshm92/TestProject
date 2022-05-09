@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- ({
+({
     doInit: function (component, event, hepler) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
@@ -46,6 +46,12 @@
             component.set('v.resetDate', false);
             component.set('v.resetDate', true);
         }
+    },
+    
+	/**RH-5960 */
+    doRefreshStateInput: function (component, event, helper) {
+        component.set('v.resetState', false);
+        component.set('v.resetState', true);
     },
     
     doClearValidity: function (component, event, hepler) {
@@ -100,8 +106,15 @@
          var inputDate = inDate.setHours(0, 0, 0, 0);
          let needsGuardian = component.get('v.needsGuardian');
          let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
-         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
-         let emailParticipantCmp = component.find('emailInput');
+         /**RH-5960 */
+         let emailParticipantReapetCmpArray = component.find('emailParticipantRepeatField');
+         let emailParticipantCmpArray = component.find('emailInput');
+         let emailParticipantReapetCmp = Array.isArray(emailParticipantReapetCmpArray)
+         									? emailParticipantReapetCmpArray[0] : emailParticipantReapetCmpArray;
+         let emailParticipantCmp = Array.isArray(emailParticipantCmpArray)
+         									? emailParticipantCmpArray[0] : emailParticipantCmpArray;
+         //let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
+         //let emailParticipantCmp = component.find('emailInput');
          let emailValueFirst = emailParticipantCmp ? emailParticipantCmp.get('v.value') : null;
          let emailValueRepeat = emailParticipantReapetCmp
          ? emailParticipantReapetCmp.get('v.value')
@@ -112,8 +125,12 @@
              component.set('v.emailParticipantRepeat', '');
              component.set('v.participant.Phone__c', '');
              component.set('v.participant.Phone_Type__c', '');
-         } 
+         }
          
+         /**RH-5960 */
+         if((!participant.Adult__c && participant.Adult__c!=undefined) && (component.get('v.fromAddParticipantPage'))){
+         	component.resetDateInput();
+         }
          helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
          helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
          var participantDelegateOld = component.get('v.participantDelegate');
@@ -594,6 +611,10 @@
         }
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
+        /**RH-5960 */
+        if(!states.length){
+            component.refreshStateInput();
+        }
         component.set('v.participant.Mailing_State_Code__c', null);
         component.set('v.participant.Mailing_State__c', null);
         component.checkFields();
