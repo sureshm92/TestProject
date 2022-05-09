@@ -159,12 +159,14 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           this.participantrecord.Informed_Consent__c &&
           this.participantrecord.Initial_visit_scheduled_date__c != null &&
           this.participantrecord.Initial_visit_scheduled_date__c != "" &&
-          this.pe_record.Participant_Status__c != "Ready to Screen"
+          this.pe_record.Participant_Status__c != "Ready to Screen" && 
+          this.participantrecord.isBulkUpdate__c==false
         ) { 
           this.participantrecord.Participant_Status__c = "Ready to Screen";
           this.participantrecord.Non_Enrollment_Reason__c = ''; 
         }else{
           delete this.participantrecord.Participant_Status__c;  
+          this.participantrecord.isBulkUpdate__c=false;
         }
       } else {
         this.participantrecord.Initial_visit_occurred_flag__c = false;
