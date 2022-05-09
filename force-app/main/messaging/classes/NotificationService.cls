@@ -55,6 +55,12 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
     };
+    static public Set<String> welcomemsgNoticationtypes = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+    };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
