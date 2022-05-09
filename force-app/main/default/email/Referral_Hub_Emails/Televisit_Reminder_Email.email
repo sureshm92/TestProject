@@ -15,7 +15,7 @@
   <messaging:plainTextEmailBody >
      <c:EmailWireframeText recipientId="{!recipient.Id}"
                            sourceId="{!relatedTo.Id}"
-                           header="{!$Label.Televisit_Creation_Email_Header}"
+                           header="{!$Label.Televisit_Reminder_Email_Subject}"
                            greeting=""
                            signature="">
      <c:ParagraphText emailLabel="{!$Label.Televisit_Reminder_Email_Body}"/>
