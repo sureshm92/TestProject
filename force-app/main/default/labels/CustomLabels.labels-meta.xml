@@ -14,7 +14,7 @@
         <shortDescription>Televisit Cancel Email Body</shortDescription>
         <value>Dear ##PISSName1 ##PISSName2,
 
-There has been an update to Televisit ##VisitName on ##VisitDate from ##VisitTime to ##VisitEndDate at ##VisitEndTime : it was cancelled.
+There has been an update to Televisit "##VisitName" from ##VisitTime to ##VisitEndTime : it was cancelled.
 
 Thank you for participating in the IQVIA Referral Hub.
 
@@ -38,8 +38,7 @@ The IQVIA Referral Hub Support Team</value>
 
 You have been invited for a ##VisitName with ##firstname ##LastName.
 
-Televisit Date : ##VisitDate
-Time : ##VisitTime
+Televisit Date/Time : ##VisitTime
 Duration: ##VisitDuration
 
 Thank you for participating in the IQVIA Referral Hub.
@@ -64,8 +63,7 @@ The IQVIA Referral Hub Support Team</value>
 
 This is an email to inform you about upcoming televisit  ##VisitName with ##firstname  ##LastName.
 
-Televisit Date : ##VisitDate
-Time : ##VisitTime
+Televisit Date/Time : ##VisitTime
 Duration: ##VisitDuration
 
 Thank you for participating in the IQVIA Referral Hub.
@@ -90,8 +88,7 @@ The IQVIA Referral Hub Support Team</value>
 
 This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
 
-Televisit Date : ##VisitDate
-Time : ##VisitTime
+Televisit Date/Time : ##VisitTime
 Duration: ##VisitDuration
 
 Thank you for participating in the IQVIA Referral Hub.
