@@ -6,7 +6,7 @@ import getPERdetails from '@salesforce/apex/PIR_StatusDetailController.getPERdet
 import getoutcomeToReasonMap from '@salesforce/apex/PIR_StatusDetailController.getoutcomeToReasonMap';
 import getBubbleStatus from '@salesforce/apex/PIR_StatusDetailController.getBubbleStatus';
 import PWS_Received_Name from '@salesforce/label/c.PWS_Received_Name';
-
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 export default class Pir_participantStatusDetails extends LightningElement {
     @api selectedPE_ID;
     @api peCardDetails;
@@ -20,7 +20,8 @@ export default class Pir_participantStatusDetails extends LightningElement {
     backArrow = pirResources+'/pirResources/icons/triangle-left.svg';
 
     label = {
-        PWS_Received_Name
+        PWS_Received_Name,
+        BTN_Back
     };
 
     peDetail = [

@@ -361,6 +361,7 @@ public without sharing class PIR_StatusDetailController {
         Participant_Status__c,
         Study_Site__c,
         ParticipantNoShow__c,
+        isBulkUpdate__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
         Clinical_Trial_Profile__r.Final_Consent_Required__c,
         Add_televisit_for_Initial_Visit__c,

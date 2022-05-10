@@ -16260,14 +16260,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, by the means specified below, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, using the telephone number(s) and/or email they have provided, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, using the telephone number(s) and/or email they have provided, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
@@ -16344,7 +16344,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_Study_Outreach_By</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, by the means specified below, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, using the telephone number(s) and/or email they have provided, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
