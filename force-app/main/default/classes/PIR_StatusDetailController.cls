@@ -1630,8 +1630,8 @@ public without sharing class PIR_StatusDetailController {
             televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
             televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
             televisitAttendee.Attendee_Type__c = 'PI';
-                            televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
-                            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;
+            televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
+            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;   
             lstAttendees.add(televisitAttendee);
             
             Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
@@ -1644,7 +1644,7 @@ public without sharing class PIR_StatusDetailController {
             lstAttendees.add(televisitAttendee1);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
-                                List<Notification__c> notifications = new List<Notification__c>();
+                List<Notification__c> notifications = new List<Notification__c>();
                                 for (Televisit_Attendee__c attendee : lstAttendees) {
                                     if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
                                         Notification__c notification = new Notification__c();
