@@ -11479,15 +11479,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <fullName>pir_Initial_Visit_Scheduled_Date_past</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>pir_Initial Visit Scheduled Date (past)</shortDescription>
-        <value>Initial Visit Scheduled Date (past)</value>
+        <shortDescription>Oldest Initial Visit Scheduled Date</shortDescription>
+        <value>Oldest Initial Visit Scheduled Date</value>
     </labels>
     <labels>
         <fullName>pir_Initial_Visit_Scheduled_Date_upcoming</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>pir_Initial Visit Scheduled Date (upcoming)</shortDescription>
-        <value>Initial Visit Scheduled Date (upcoming)</value>
+        <shortDescription>Newest Initial Visit Scheduled Date</shortDescription>
+        <value>Newest Initial Visit Scheduled Date</value>
     </labels>
     <labels>
         <fullName>PIR_medicalAcceptedFile</fullName>
@@ -11768,6 +11768,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Edit Preset</shortDescription>
         <value>Edit Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Not_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Not Scheduled</shortDescription>
+        <value>Not Scheduled</value>
     </labels>
     <labels>
         <fullName>PIR_Initial_Visit_Not_Scheduled</fullName>
