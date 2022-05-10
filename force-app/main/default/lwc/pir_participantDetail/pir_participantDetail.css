@@ -181,13 +181,17 @@
     float: left;
 }
 .rtl .rtl-width{
-    right:-236px; 
+    right:-50%; 
 }
 .rtl .eth .text-for-check{
     padding-right: 7px;
 }
 .rtl .label-margin-top{
     margin-top:3px;
+}
+.rtl .eth .selectedValue{
+    float:right;
+    margin-right:5px;
 }
 @media (max-device-width: 767px) {
     .rtl .vertical-scroll{
@@ -197,7 +201,7 @@
         padding-right: 5px;
     }
     .rtl .rtl-width{
-        right:-162px; 
+        right:-50%; 
     }
     .rtl .eth .text-for-check{
         padding-right: 7px;
@@ -214,6 +218,7 @@
     .rtl .label-margin-top{
         margin-top: -10px;
     }
+   
 }
 /* RLT End */
 .label_align{
