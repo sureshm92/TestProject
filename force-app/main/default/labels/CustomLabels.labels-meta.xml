@@ -10211,14 +10211,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: Reminder! ##SurveyName due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -18305,49 +18305,49 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Data Available SMS</shortDescription>
-        <value>##ShortCommunityName: New ##StudyCodeName visit data is available. Please log in to view the latest data ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: New ##StudyCodeName visit data is available. Please log in to view the latest data ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Has_not_Login_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Has not Login SMS</shortDescription>
-        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_Del_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task Del SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>##ShortCommunityName: You have a new certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a new certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
-        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
@@ -22193,14 +22193,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop</value>
+        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
