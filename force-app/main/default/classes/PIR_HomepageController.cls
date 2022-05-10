@@ -7,6 +7,8 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public string firstName;
     @AuraEnabled
+    public string initialsName;
+    @AuraEnabled
     public string lastName;
     @AuraEnabled
     public string refId;
@@ -215,6 +217,7 @@ public without sharing class PIR_HomepageController {
         'Id,' +
         'Name,' +
         'Participant__r.First_Name__c,' +
+        'Participant__r.Middle_Name__c,' +
         'Participant__r.Last_Name__c,' +
         'Participant__r.Full_Name__c,' +
         'Participant__r.Phone__c,' +
@@ -294,15 +297,15 @@ public without sharing class PIR_HomepageController {
           selectedStatusList.remove(indx);
           selectedStatusList.add('Eligibility Passed');
           filterString =
-            filterString +
-            ' AND Study_Hub_Log__c != null ';
+          filterString +
+          ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
         ) {
           filterString =
             filterString +
-            ' AND Study_Hub_Log__c = null  ';
+            ' AND ((Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false) OR (Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND  Study_Site__r.Study_Site_Type__c = \'Traditional\' ))  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
           selectedStatusList.contains('Eligibility Passed')
@@ -451,8 +454,10 @@ public without sharing class PIR_HomepageController {
           qcString = qcString + filterString + sortCountQry;
         }
 
+        System.debug('qcString: ' + qcString);
         totalCount = Database.countQuery(qcString);
       }
+      System.debug('qCountString: ' + qCountString);
 
       qCountString =
         qCountString +
@@ -490,6 +495,7 @@ public without sharing class PIR_HomepageController {
           queryString = queryString + filterString + orderByString;
         }
 
+        System.debug('queryString: ' + queryString);
         perList = Database.query(queryString);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
         for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
@@ -910,6 +916,11 @@ public without sharing class PIR_HomepageController {
       ListViewWrapper wrap = new ListViewWrapper();
       wrap.firstName = lst.Participant__r.First_Name__c;
       wrap.lastName = lst.Participant__r.Last_Name__c;
+      String initialsName = '';
+      initialsName = initialsName + (lst.Participant__r.First_Name__c != null ? lst.Participant__r.First_Name__c.substring(0, 1) : '') + ' ';
+      initialsName = initialsName + (lst.Participant__r.Middle_Name__c != null ? lst.Participant__r.Middle_Name__c.substring(0, 1) : '') + ' ';
+      initialsName = initialsName + (lst.Participant__r.Last_Name__c != null ? lst.Participant__r.Last_Name__c.substring(0, 1) : '') + ' ';
+      wrap.initialsName = initialsName.toUpperCase();
       wrap.refId = lst.Name;
       wrap.studyName = lst.Clinical_Trial_Profile__r.Study_Code_Name__c;
       wrap.siteName = lst.Study_Site__r.name;
@@ -1683,14 +1694,16 @@ public without sharing class PIR_HomepageController {
   ) {
     bulkStatusReasonWrapper stWrap = new bulkStatusReasonWrapper();
     PIR_Participant_Workflow_Outcome__mdt pwr = new PIR_Participant_Workflow_Outcome__mdt();
-    if (newStatus != 'Ready to Screen') {
+    if (newStatus != 'Ready to Screen' && newStatus != 'In Wash Out Period') {
       pwr = [
         SELECT Status_Value__c, Step__c, Reasons_List__c, Order__c
         FROM PIR_Participant_Workflow_Outcome__mdt
-        WHERE Status_Value__c = :newStatus
+        WHERE Status_Value__c = :newStatus limit 1
       ];
+      if(pwr != null){
       stWrap.reason = pwr.Reasons_List__c;
       stWrap.Step = pwr.Step__c;
+      }
     }
     Clinical_Trial_Profile__c ctp = [
       SELECT Initial_Visit_Required__c, Final_Consent_Required__c
@@ -1794,7 +1807,8 @@ public without sharing class PIR_HomepageController {
           Informed_Consent__c,
           Informed_Consent_Date__c,
           Initial_visit_scheduled_time__c,
-          Initial_visit_scheduled_date__c
+          Initial_visit_scheduled_date__c,
+          isBulkUpdate__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -1810,11 +1824,18 @@ public without sharing class PIR_HomepageController {
         } else {
           pe.Final_consent__c = finalconsent;
         }
-        pe.Participant_Status_Last_Changed_Date__c = system.now();
-        if (consentSigned != null && signedDate != null) {
-          pe.Informed_Consent__c = consentSigned;
-          pe.Informed_Consent_Date__c = signedDate;
-        }
+          pe.Participant_Status_Last_Changed_Date__c = system.now();
+          if (consentSigned != null && signedDate != null) {
+              pe.Informed_Consent__c = consentSigned;
+              pe.Informed_Consent_Date__c = signedDate;
+          }
+          if( oParticipantStatus ==PEStatusState.PE_STATUS_DECLINED_CONSENT || 
+             oParticipantStatus ==PEStatusState.PE_STATUS_WITHDREW_CONSENT){
+                 pe.isBulkUpdate__c=true;
+             }
+          else{
+              pe.isBulkUpdate__c=false;
+          }
 
         if (
           pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH ||
@@ -1836,7 +1857,7 @@ public without sharing class PIR_HomepageController {
 
         SSId.add(pe.Study_Site__c);
         //logic for ready to screen start
-        if (
+        /*if (
           (oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
           oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT) &&
           (pe.Participant_Status__c != PEStatusState.PE_STATUS_READY_TO_SCREEN)
@@ -1848,7 +1869,7 @@ public without sharing class PIR_HomepageController {
               ParticipantEnrollment__c = pe.Id
             )
           );
-        }
+        }*/
         //logic for ready to screen end
         if (
           (oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||

@@ -140,6 +140,9 @@
         padding: 0 10px 20px 10px;
         z-index: 9;
         margin-left: var(--lwc-spacingXSmall,0.5rem);
+        height: 75vh;
+        overflow: auto;
+        overflow-x: hidden;
     }
     .mobile-view{
         height: 100px;
@@ -376,10 +379,7 @@
     }
     .rtl .btn-p-left{
         padding-left:0;
-    }
- .rtl .rtl-width{
-     right:-132px;
- }   
+    }  
  .rtl .filter-age{
      text-align:right;
  } 
@@ -400,7 +400,9 @@
  .rtl .p-right-rtl{
      padding-right:0px;
  } 
-
+ .rtl .rtl-width{
+    right:-50%
+} 
 @media (max-device-width: 767px) {
     .rtl .filter-area{
     margin-right: var(--lwc-spacingXSmall,0.5rem);
@@ -417,7 +419,7 @@
     }
     .rtl .eth .selectedValue{
     float: right;
-    margin-right: 4px;
+    margin-right: 2px;
     margin-top: 2px;
     margin-bottom: 2px;
     }
@@ -439,6 +441,9 @@
     }  
     .rtl .p-right-rtl{
         padding-right: var(--lwc-spacingSmall,0.75rem);
+    } 
+    .rtl .rtl-width{
+        right:-50%;
     } 
 }
 /*RTL ENd*/

@@ -62,16 +62,17 @@ import DigitalRecruitment from "@salesforce/label/c.Digital_Recruitment";
 import AF_All from "@salesforce/label/c.AF_All";
 import Male from "@salesforce/label/c.Gender_Male";
 import Female from "@salesforce/label/c.Gender_Female";
-import InitialVisitNotScheduled from "@salesforce/label/c.PIR_Initial_Visit_Not_Scheduled";
-import InitialVisitScheduled from "@salesforce/label/c.Initial_Visit_Scheduled";
 import More from "@salesforce/label/c.PIR_more";
+import pir_mm_dd_yyyy from "@salesforce/label/c.pir_mm_dd_yyyy";
+import PP_To from "@salesforce/label/c.PP_To";
+import PP_Scheduled from "@salesforce/label/c.PP_Scheduled";
+import PIR_Not_Scheduled from "@salesforce/label/c.PIR_Not_Scheduled";
+
 export default class Filtertest extends LightningElement {
   @api maindivcls;
   label = {
     AF_All,
     More,
-    InitialVisitNotScheduled,
-    InitialVisitScheduled,
     Male,
     Female,
     Active_InActive,
@@ -128,7 +129,11 @@ export default class Filtertest extends LightningElement {
     AllSources,
     ReferringProvider,
     PricipalInvestigator,
-    DigitalRecruitment
+    DigitalRecruitment,
+    pir_mm_dd_yyyy,
+    PP_To,
+    PP_Scheduled,
+    PIR_Not_Scheduled
   };
   @api
   filterClass = 'filter-area';
@@ -715,9 +720,9 @@ export default class Filtertest extends LightningElement {
   get initialvisitoptions() {
     return [
       { label: this.label.AF_All, value: "All" },
-      { label: this.label.InitialVisitScheduled, value: "Initial Visit Scheduled" },
+      { label: this.label.PP_Scheduled, value: "Initial Visit Scheduled" },
       {
-        label: this.label.InitialVisitNotScheduled,
+        label: this.label.PIR_Not_Scheduled,
         value: "Initial Visit Not Scheduled"
       }
     ];
