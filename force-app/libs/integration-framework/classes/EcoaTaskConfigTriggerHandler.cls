@@ -24,7 +24,7 @@ public class EcoaTaskConfigTriggerHandler {
                 }
                 if(eConfig.IsProcessed__c  && 
                 eConfig.Diary_Status__c == 'required' &&
-                dateChanged)                
+                dateChanged                
                 ){
                     //mark is processed false
                     eConfig.IsProcessed__c = false;
