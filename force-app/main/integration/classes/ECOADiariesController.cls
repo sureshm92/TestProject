@@ -10,6 +10,7 @@ public class ECOADiariesController {
     @AuraEnabled
     public static String getSubjectGuid() {
         try {
+            TaskService.getInstance().completeEcoaTaskForParticipant();
             return ECOAService.getSubjectGuid();
         } catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage());
