@@ -80,6 +80,10 @@
     display:inline-block;
 }
 @media (max-device-width: 767px) {
+    .vertical-scroll{
+        height: auto;
+        padding: 0px;
+    }
     .input-width{
         width: 100%;
     }
@@ -182,6 +186,9 @@
 .rtl .eth .text-for-check{
     padding-right: 7px;
 }
+.rtl .label-margin-top{
+    margin-top:3px;
+}
 @media (max-device-width: 767px) {
     .rtl .vertical-scroll{
         height: auto;
@@ -195,7 +202,18 @@
     .rtl .eth .text-for-check{
         padding-right: 7px;
     }
-  
+    .rtl .input-label{
+        text-align: right;
+    }
+    .rtl .input-text{
+        text-align: right;
+    }
+    .rtl .rtl-r-none{
+        padding-right: var(--lwc-spacingSmall,0.75rem) !important;
+    }
+    .rtl .label-margin-top{
+        margin-top: -10px;
+    }
 }
 /* RLT End */
 .label_align{
