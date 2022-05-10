@@ -23,6 +23,7 @@ public without sharing class TeleVisitRemote {
             WHERE Participant_Enrollment__c = :pState.pe.Id AND Status__c = :visitMode
             ORDER BY Visit_Date_Time__c
         ];
+        TranslateHelper.translate(teleVisits);
         if (teleVisits.size() > 0) {
             List<TelevisitWrapper> televisitWrappersList = new List<TelevisitWrapper>();
             for (Televisit__c teleObj : teleVisits) {
