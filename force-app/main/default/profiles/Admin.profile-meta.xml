@@ -8847,11 +8847,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Televisit__c.Duration__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Televisit__c.Exception__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8870,11 +8865,7 @@
         <field>Televisit__c.Session_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Televisit__c.Start_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+   
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit__c.Status__c</field>
@@ -8890,21 +8881,13 @@
         <field>Televisit__c.Televisit_Response__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Televisit__c.Title__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit__c.Visit_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Televisit__c.Visit_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit__c.Visit_End_Date_Time__c</field>
@@ -8955,11 +8938,7 @@
         <field>Televisit_Attendee__c.Participant_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Televisit_Attendee__c.Televisit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit_Attendee__c.Televisit_Scheduled_Date__c</field>
@@ -8978,11 +8957,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit_Record_Vendor__c.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Televisit_Record_Vendor__c.Televisit_Vendor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
