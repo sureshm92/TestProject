@@ -102,9 +102,21 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 
+
     // For welcome Message
     public static final String MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG = 'Message_To_PT_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
     public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+    /*
+     * MESSAGE TO TELEVISIT ATTENDEE
+     *
+     *
+     */
+    //For Participant and delegates when they are added to a televisit
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE = 'Message_to_PT_Removed_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Removed_Attendee_Del_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
+
 }

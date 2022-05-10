@@ -81,6 +81,19 @@
                             break;
                         }
                     }
+                    const teleVendors = JSON.parse(trialDetail.participantstate).teleVendors; //component.get('v.participantState.teleVendors');
+                    let isTeleVendorChecked = false;
+                    if (teleVendors != null) {
+                        for (const item in teleVendors) {
+                            if (teleVendors != null) {
+                                isTeleVendorChecked =
+                                    // teleVendors[item].Televisit_Vendor__c === 'Vonage';
+                                    teleVendors[item].Name === 'Vonage';
+                                break;
+                            }
+                        }
+                    }
+                    component.set('v.isTeleVendorEnabled', isTeleVendorChecked);
                     component.set('v.visitMode', visitMode);
                     component.set('v.currentTab', selectedTabId);
                     if (trialDetail.isTCAccepted !== null) {

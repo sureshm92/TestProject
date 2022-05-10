@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Add_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Televisit Vendor</shortDescription>
+        <value>Add Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+There has been an update to Televisit "##VisitName" from ##VisitTime to ##VisitEndTime : it was cancelled.
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Cancel Email Subject</shortDescription>
+        <value>Televisit was cancelled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+You have been invited for a ##VisitName with ##firstname ##LastName.
+
+Televisit Date/Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Subject</shortDescription>
+        <value>New Televisit was scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+This is an email to inform you about upcoming televisit  ##VisitName with ##firstname  ##LastName.
+
+Televisit Date/Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Subject</shortDescription>
+        <value>Televisit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Two_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reminder Two Email Body</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2,
+
+This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
+
+Televisit Date/Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Banner_Display_Offset_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner display</shortDescription>
+        <value>Banner display</value>
+    </labels>
+    <labels>
+        <fullName>Banner_dispose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner dispose</shortDescription>
+        <value>Banner dispose</value>
+    </labels>
+    <labels>
+        <fullName>Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Description</shortDescription>
+        <value>Description</value>
+    </labels>
+    <labels>
+        <fullName>Select_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Televisit Vendor</shortDescription>
+        <value>Select Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Record_Vendor_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Record Vendor Name</shortDescription>
+        <value>Televisit Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>offset_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>offset time</shortDescription>
+        <value>offset time</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -229,7 +368,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Dont_show_me_again_on_landing</shortDescription>
-        <value>Don't show me again on landing</value>
+        <value>Don&apos;t show me again on landing</value>
     </labels>
     <labels>
         <fullName>BulkImport_Ok</fullName>
@@ -4855,7 +4994,6 @@ By using our website, you are accepting our use of cookies.</value>
         <value>This is an email to remind you of your upcoming  task ##SurveyName.
 Due Date and Time: ##expirationDate</value>
     </labels>
-
     <labels>
         <fullName>Email_Action_Register</fullName>
         <language>en_US</language>
@@ -5813,6 +5951,72 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span  style=&quot;color:black;&quot;&gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Cancelled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Rescheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Scheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6349,6 +6553,48 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>This is a task reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Cancelled</shortDescription>
+        <value>This is to notify you that your ##VisitName televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Cancelled</shortDescription>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Rescheduled</shortDescription>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Scheduled</shortDescription>
+        <value>This is a televisit invitation for your patient</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Rescheduled</shortDescription>
+        <value>This is to notify you that your ##VisitName televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Scheduled</shortDescription>
+        <value>This is a televisit invitation</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6787,6 +7033,29 @@ Sincerely,
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Televisit_Del_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Televisit Del PT</shortDescription>
+        <value>We appreciate your patient&#39;s participation!
+
+Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Televisit_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Televisit PT</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7173,6 +7442,62 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Cancelled</shortDescription>
+        <value>televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Cancelled_P1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Cancelled P1</shortDescription>
+        <value>Your patient&#39;s</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Cancelled_P2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Cancelled P2</shortDescription>
+        <value>televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Rescheduled_P1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Rescheduled P1</shortDescription>
+        <value>Your patient&#39;s</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Rescheduled_P2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Rescheduled P2</shortDescription>
+        <value>televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Scheduled</shortDescription>
+        <value>Your patient is invited for a televisit!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Rescheduled</shortDescription>
+        <value>televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Scheduled</shortDescription>
+        <value>You are invited for a televisit!</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Delegate</fullName>
@@ -8780,6 +9105,13 @@ The expected format is REF##### to REF########</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Tele_Visit_Details_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Tele Visit Details Tab</shortDescription>
+        <value>Televisits</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Travel_Support_Action_Col</fullName>
         <categories>Home Page</categories>
         <language>en_US</language>
@@ -8971,7 +9303,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
-        <value>	Initial Visit Scheduled Date &amp; Time</value>
+        <value>Initial Visit Scheduled Date &amp; Time</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
@@ -11704,7 +12036,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>pir_presetUniqueName</shortDescription>
-        <value>preset already exists. Please enter a different preset name to continue with the action.	</value>
+        <value>preset already exists. Please enter a different preset name to continue with the action.</value>
     </labels>
     <labels>
         <fullName>pir_updatePreset</fullName>
@@ -11734,7 +12066,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Add Participant page fill mandatory fields error banner text</shortDescription>
         <value>Please review the form for required fields</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PIR_Active_InActive</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15949,7 +16281,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_By</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian consents to be contacted by the study team to keep them updated about important study-related information and activities by the means specified below.</value>
+        <value>You confirm that the participant and/or participant&apos;s legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
@@ -16096,9 +16428,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_StudySite_Consent_Mandatory</shortDescription>
-        <value>Please, confirm that your patient and/or patient's legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
+        <value>Please, confirm that your patient and/or patient&apos;s legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
     </labels>
-     
     <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
         <language>en_US</language>
@@ -19529,7 +19860,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SFMCHCP_RecordNotFound</shortDescription>
-        <value>The information you provided does not match an account we have. Please try again. </value>
+        <value>The information you provided does not match an account we have. Please try again.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
@@ -19564,21 +19895,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on:  </value>
+        <value>Authorization Requested on:</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRecordProvider</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordProvider</shortDescription>
-        <value>Medical Records Providers  </value>
+        <value>Medical Records Providers</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrieve_EmailError</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
+        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrive_Succces</fullName>
@@ -20589,7 +20920,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>This patient auth status should be 'Yes'.</value>
+        <value>This patient auth status should be &apos;Yes&apos;.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>
@@ -21121,7 +21452,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RRH_RegistratinSuccess</shortDescription>
-        <value>Registration was successful – please log in </value>
+        <value>Registration was successful – please log in</value>
     </labels>
     <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
@@ -21599,7 +21930,7 @@ communications using the toggles below.</value>
         <fullName>SS_Btn_Check_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>SS Btn Check Address</shortDescription> 
+        <shortDescription>SS Btn Check Address</shortDescription>
         <value>Check Address</value>
     </labels>
     <labels>
@@ -24646,5 +24977,64 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>PIR_Save_Preset</shortDescription>
         <value>Save Preset</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
+        <value>Your ##VisitName televisit  with ##PIName is no longer happening. This might be because the televisit no longer needs your participation.
+
+Please contact the Study Team for further updates or please login for additional details.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Removed_as_Televisit_Attendee</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Removed as Televisit Attendee</shortDescription>
+        <value>This is to notify you that your ##VisitName televisit is no longer happening.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Removed_as_Televisit_Attendee</fullName>
+        <categories>Email Subject</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
+        <value>##VisitName is not happening</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Attendees</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Attendees</shortDescription>
+        <value>Attendees</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Duration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Duration</shortDescription>
+        <value>Duration</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Time</shortDescription>
+        <value>Time</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Title</shortDescription>
+        <value>Title</value>
     </labels>
 </CustomLabels>
