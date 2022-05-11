@@ -54,6 +54,7 @@ public without sharing class TeleVisitRemote {
             return new List<TelevisitWrapper>();
     }
 
+    @AuraEnabled
     public static List<TelevisitDelegateAlunimiWrapper> getTeleVisits(String visitMode) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
