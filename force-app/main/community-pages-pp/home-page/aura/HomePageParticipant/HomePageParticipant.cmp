@@ -161,8 +161,8 @@
                                 <c:ResourceDashboardCard />
                             </aura:if>
                             <aura:if isTrue="{!(v.participantState.value == 'ALUMNI')}">
-                                <c:teleVisitsAluminiPanel isAluminiHome="true" isRTL="{!v.isRTL}">
-                                </c:teleVisitsAluminiPanel>
+                                <c:teleVisitsPreviewPanel isAluminiHome="true" isRTL="{!v.isRTL}">
+                                </c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
