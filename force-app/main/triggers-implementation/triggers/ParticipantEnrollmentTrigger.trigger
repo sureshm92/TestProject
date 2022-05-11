@@ -52,5 +52,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     );
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
 
 }
