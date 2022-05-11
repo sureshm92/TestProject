@@ -236,6 +236,9 @@
 .hideDesktop{
     display: none;
 }
+.font-dropdowns{
+    font-size:13px;
+}
 
 @media all and (max-width: 47.9375em) { 
 .hideDesktop{
