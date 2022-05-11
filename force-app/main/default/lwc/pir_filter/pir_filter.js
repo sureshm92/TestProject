@@ -933,7 +933,7 @@ export default class Filtertest extends LightningElement {
             if(this.defaultStatus == 'Sent to DCT'){
               this.defaultStatus = 'All Active Statuses';
               this.selectedStatus = "All Active Statuses";
-            }
+            } 
         }else if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
           this.statusoptions = [
             { label: this.label.AllStatuses, value: "All Active Statuses" },

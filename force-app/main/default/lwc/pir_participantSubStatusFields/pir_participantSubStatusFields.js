@@ -15,7 +15,7 @@ import Task_Type_Not_Selected from '@salesforce/label/c.Task_Type_Not_Selected';
 import PG_RP_L_Not_selected from '@salesforce/label/c.PG_RP_L_Not_selected';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_Validation';
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';

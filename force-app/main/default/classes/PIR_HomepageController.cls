@@ -209,7 +209,7 @@ public without sharing class PIR_HomepageController {
           ivScheduled = false;
         }
       }
-
+ 
       searchString = searchString.trim();
       String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
       String queryString =

@@ -215,7 +215,7 @@
     .rtl .rtl-r-none{
         padding-right: var(--lwc-spacingSmall,0.75rem) !important;
         padding-left: var(--lwc-spacingSmall,0.75rem) !important;
-    }
+    } 
     .rtl .label-margin-top{
         margin-top: -10px;
     }
