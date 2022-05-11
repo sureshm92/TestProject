@@ -3,7 +3,7 @@ import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import NO_ITEMS from '@salesforce/label/c.PG_VP_L_No_Items_display';
 import TIMEZONE from '@salesforce/i18n/timeZone';
-import getAluminiVisits from '@salesforce/apex/TeleVisitRemote.getAluminiVisits';
+import getTeleVisits from '@salesforce/apex/TeleVisitRemote.getTeleVisits';
 import TV_TH_Attendees from '@salesforce/label/c.TV_TH_Attendees';
 import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
 import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
@@ -76,7 +76,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
     loadVisits() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) this.spinner.show();
-        getAluminiVisits({ visitMode: this.searchStatus })
+        getTeleVisits({ visitMode: this.searchStatus })
             .then((result) => {
                 console.log('RK::', result);
                 //if any visits are present

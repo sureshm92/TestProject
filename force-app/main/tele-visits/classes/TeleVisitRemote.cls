@@ -54,7 +54,7 @@ public without sharing class TeleVisitRemote {
             return new List<TelevisitWrapper>();
     }
 
-    public static List<TelevisitDelegateAlunimiWrapper> getAluminiVisits(String visitMode) {
+    public static List<TelevisitDelegateAlunimiWrapper> getTeleVisits(String visitMode) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
             ))
