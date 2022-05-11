@@ -36,7 +36,7 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';
 
 import LOCALE from "@salesforce/i18n/locale";
 
