@@ -58,7 +58,7 @@ public class EcoaTaskService {
 
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
-            t.Subject = task.Diary_Name__c;
+            t.Subject = 'Ediary '+task.Diary_Name__c;
             t.Priority = 'Normal';
             t.Action_URL__c ='s/e-diaries';
             t.Start_Date__c = date.newinstance(task.Diary_Start_Date__c.year(), task.Diary_Start_Date__c.month(), task.Diary_Start_Date__c.day());//get date
