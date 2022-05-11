@@ -93,12 +93,13 @@
                 </c-ui-table>
                 <template if:true={attendeeVisibility}>
                     <div class="sv-footer">
-                        <a href="alumini-televisits" target="_self" class="ui-link">{labels.SEE_ALL}<c-web-icon
-                                icon-name="icon-chevron-right" icon-color="#297dfd" icon-width="12" icon-height="12">
-                            </c-web-icon>
-                        </a>
+                        <c-ui-link page="alumini-televisits?tab=televisits">
+                            <span slot="body">{labels.SEE_ALL}
+                                <c-web-icon icon-size="xsmall-custom" icon-name="icon-chevron-right"
+                                    icon-color="#297dfd">
+                                </c-web-icon></span>
+                        </c-ui-link>
                     </div>
-
                 </template>
             </template>
         </div>
