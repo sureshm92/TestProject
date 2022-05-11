@@ -1,5 +1,5 @@
 <template>
-    <!--<lightning-button variant="base" label="Verify"  onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
+<div class={maindivcls}>   <!--<lightning-button variant="base" label="Verify"  onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
 <template if:true={openModal}> 
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_medium">
         <template if:true={saving}>
@@ -134,16 +134,29 @@
                                 </div>
                                 <div class="slds-grid slds-wrap slds-gutters">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                                         <lightning-input type="text" value={participant.Phone__c}  onchange={changeInputValue} 
-                                         data-value="PhoneNumber" label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} required=""></lightning-input>
-                                    </div>
+                                          <!-- <lightning-input type="text" value={participant.Phone__c}  onchange={changeInputValue} 
+                                         data-value="PhoneNumber" label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} required=""></lightning-input>  -->
+                                         <div class="slds-form-element">
+
+                                            <label class="slds-form-element__label" for="text-input-id-68"  title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}>
+                                                <abbr class="slds-required" title="required">*</abbr>{utilLabels.PG_Ref_L_Primary_daytime_telephone_number}
+                                            </label>
+                                             <div class="slds-form-element__control input-margin">
+                                                  <lightning-input type="text" variant="label-hidden" required=""
+                                                  value={participant.Phone__c}  onchange={changeInputValue} 
+                                                  data-value="PhoneNumber" 
+                                                  ></lightning-input>
+                                             </div>
+                                          </div>
+                                            
+                                        </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
                                     <lightning-combobox
                                         name="Phone Type"
                                         label={utilLabels.PG_AP_F_Phone_Type}
                                         value={participant.Phone_Type__c}
                                         title={utilLabels.PG_AP_F_Phone_Type}
-                                        placeholder="Select..."
+                                        placeholder={label.PG_AC_Select}
                                         options={phoneType}
                                         onchange={changeInputValue}
                                         data-value="PhoneType"
@@ -173,7 +186,7 @@
                                         label={utilLabels.PE_State}
                                         value={participant.Mailing_State_Code__c}
                                         title={utilLabels.PE_State}
-                                        placeholder="Select..."
+                                        placeholder={label.PG_AC_Select}
                                         options={contactstates}
                                         onchange={changeInputValue}
                                         data-value="Province"
@@ -216,6 +229,7 @@
                         </div>
                         <template for:each={delegates} for:item="delegateItem" for:index="index">
                             <c-pir_participant-emancipated-delegate-list key={delegateItem}
+                                                                         maindivcls={maindivcls}   
                                                                          phone-number={delegateItem.Phone__c}   
                                                                          phone-type-value={delegateItem.Phone_Type__c} 
                                                                          email={delegateItem.Email__c}
@@ -228,7 +242,8 @@
                        </template> 
                         <!-- bg-delegate participant end-->
                         <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
-                            <c-pir_participant-emancipated-delegate participantid={selectedPE.participantId} 
+                            <c-pir_participant-emancipated-delegate  maindivcls={maindivcls}   
+                                                                    participantid={selectedPE.participantId} 
                                                                     participants={participant}
                                                                     siteid={siteid}
                                                                     isvirtualsite={isvirtualsite}
@@ -245,7 +260,7 @@
                         <div class="slds-grid slds-wrap slds-gutters">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_x-small">
                             <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_xx-small slds-m-top_medium" onclick={handleNewDelegate}>
-                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
+                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left blue-icon"></lightning-icon>
                                 {utilLabels.Add_Delegate}
                             </button>
                             </div>
@@ -291,7 +306,7 @@
                                         <div class="slds-grid slds-wrap slds-gutters">
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_x-small">
                                             <button class="slds-button apollo-btn secondary delegate-btn slds-m-top_xx-small slds-m-top_medium" onclick={handleNewHCP}>
-                                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left"></lightning-icon>
+                                                <lightning-icon icon-name="utility:add" size="x-small" class="slds-button__icon_left blue-icon"></lightning-icon>
                                                 {utilLabels.BTN_Add_Provider}
                                             </button> 
                                             </div>
@@ -351,7 +366,7 @@
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
                                             <div class="participant-subtext slds-m-bottom_x-smal">
-                                                {utilLabels.PE_Country}: {participant.Mailing_Country__c}
+                                                {utilLabels.PE_Country}: {mailingCountry}
                                             </div>
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
@@ -366,7 +381,7 @@
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
                                             <div class="participant-subtext slds-m-bottom_x-smal">
-                                                {utilLabels.PE_State}: {participant.Mailing_State__c}
+                                                {utilLabels.PE_State}: {mailingState}
                                             </div>
                                         </div> 
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
@@ -492,4 +507,5 @@
      <div class="slds-backdrop slds-backdrop_open" role="presentation"></div> 
        <!-- popup code Confirm and Manage Emancipated Participant's Access End -->
     </template>
+</div>
 </template>

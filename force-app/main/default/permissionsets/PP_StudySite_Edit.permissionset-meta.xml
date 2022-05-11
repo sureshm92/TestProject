@@ -217,6 +217,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Include_PII_on_Export__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Site__c.Override_PI_Referral_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>

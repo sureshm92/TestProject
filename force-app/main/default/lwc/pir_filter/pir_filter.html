@@ -1,4 +1,5 @@
 <template>
+  <div class={maindivcls}>
   <div class={filterClass}>
     <template if:false={loaded}>
       <lightning-spinner alternative-text="Loading"></lightning-spinner>
@@ -16,8 +17,9 @@
       </div>
         <div class="slds-col slds-size_11-of-12 w-info-text">
           <div class="info-text">
-            Use the ethnicity filtering feature to prioritize outreach to diverse
-            Participants.
+            {label.UseEthnicityFilterText}
+            <!--Use the ethnicity filtering feature to prioritize outreach to diverse
+            Participants.-->
           </div>
         </div>
       </div>
@@ -25,7 +27,7 @@
     <div class="slds-col slds-size_12-of-12 closebutton">
       <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}></lightning-icon>  
     </div>
-    <div class="slds-grid slds-wrap slds-gutters slds-m-top_large">
+    <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
       <div
         class="
           slds-col
@@ -35,7 +37,7 @@
           m-bottom-small
         "
       >
-        <div class="filter-heading">Study Information</div>
+        <div class="filter-heading">{label.Study_Information}</div>
       </div>
       <div
         class="
@@ -54,11 +56,12 @@
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
+              p-right-rtl
             "
           >
             <lightning-combobox
               name="Active/Inactive"
-              label="Active/Inactive"
+              label={label.Active_InActive}
               value={selectedActiveInactive}
               placeholder=""
               options={activeoptions}
@@ -77,7 +80,7 @@
           >
             <lightning-combobox
               name="Study"
-              label="Study"
+              label={label.Study}
               value={defaultStudy}
               placeholder=""
               options={studylist}
@@ -96,7 +99,7 @@
           >
             <lightning-combobox
               name="StudySites"
-              label="Study Sites"
+              label={label.Study_Sites}
               value={defaultSite}
               placeholder=""
               options={studySiteList}
@@ -115,7 +118,7 @@
           >
             <lightning-combobox
               name="Status"
-              label="Status"
+              label={label.Status}
               value={defaultStatus}
               placeholder=""
               options={statusoptions}
@@ -134,7 +137,7 @@
           >
             <lightning-combobox
               name="Source"
-              label="Source"
+              label={label.Source}
               value={defaultSource}
               placeholder=""
               options={sourceoptions}
@@ -156,7 +159,7 @@
           slds-large-size_2-of-12
         "
       >
-        <div class="filter-heading">Demographics</div>
+        <div class="filter-heading">{label.Demographics}</div>
       </div>
       <div
         class="
@@ -187,7 +190,7 @@
                   m-bottom-small
                 "
               >
-                <p class="filter-age">Age is between</p>
+                <p class="filter-age">{label.AgeIsBetween}</p>
               </div>
               <div
                 class="
@@ -205,8 +208,6 @@
                       type="number"
                       id="text-input-id-68"
                       name="input1"
-                      min="0"
-                      max="150"
                       value={ageStartValue}
                       data-name="agestart"
                       onchange={handleAgeStartChange}
@@ -224,7 +225,7 @@
                   p-left-none p-left-age
                 "
               >
-                <p class="filter-age and">and</p>
+                <p class="filter-age and">{label.And}</p>
               </div>
               <div
                 class="
@@ -242,8 +243,6 @@
                       type="number"
                       id="text-input-id-69"
                       name="input11"
-                      min="0"
-                      max="150"
                       value={ageEndValue}
                       data-name="ageend"
                       onchange={handleAgeEndChange}
@@ -260,7 +259,7 @@
             class="
               eth
               slds-col
-              slds-size_1-of-2
+              slds-size_1-of-1
               slds-medium-size_4-of-12
               slds-large-size_4-of-12
               outcome-form-element
@@ -269,7 +268,7 @@
           >
             <label class="slds-form-element__label slds-no-flex"
               >{RH_Ethnicity}<span class="close-icon" onclick={removeAllE}
-                >Clear all</span
+                >{label.Clear_All}</span
               ></label
             >
             <div
@@ -277,7 +276,7 @@
                 slds-form-element__control
                 slds-grow slds-input
                 slds-p-around--none
-                eBox
+                eBox dropdown-width
               "
               tabindex="0"
               onfocus={openETH}
@@ -289,7 +288,7 @@
                     slds-combobox
                     slds-dropdown-trigger
                     slds-dropdown-trigger_click
-                    eBoxOpen
+                    eBoxOpen 
                   "
                 >
                   <div
@@ -325,7 +324,7 @@
                   </div>
                   <div
                     data-id="ethinicityBox"
-                    class="slds-dropdown slds-dropdown_fluid"
+                    class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
                     role="listbox"
                   >
                     <ul
@@ -383,16 +382,17 @@
           <div
             class="
               slds-col
-              slds-size_1-of-2
+              slds-size_1-of-1
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
+              m-top-birth
             "
-          >
+          > 
             <lightning-combobox
               name="Sex at Birth"
-              label="Sex at Birth"
+              label={label.SexAtBirth}
               value={defaultSex}
               placeholder=""
               options={sexatbirthoptions}
@@ -424,7 +424,7 @@
           slds-large-size_2-of-12
         "
       >
-        <div class="filter-heading">Others</div>
+        <div class="filter-heading">{label.Others}</div>
       </div>
       <div
         class="
@@ -455,7 +455,7 @@
               >
                 <lightning-input
                   type="checkbox"
-                  label="High Risk"
+                  label={label.HighRisk}
                   name="HighRisk"
                   checked={defaultHighRisk}
                   onchange={handleHighRisk}
@@ -472,7 +472,7 @@
               >
                 <lightning-input
                   type="checkbox"
-                  label="High Priority"
+                  label={label.HighPriority}
                   name="HighPriority"
                   checked={defaultHighPriority}
                   onchange={handleHighPriority}
@@ -489,7 +489,7 @@
               >
                 <lightning-input
                   type="checkbox"
-                  label="Comorbidities"
+                  label={label.Comorbidities}
                   name="Comorbidities"
                   checked={defaultComorbidities}
                   onchange={handleComorbidities}
@@ -500,7 +500,7 @@
               >
                 <lightning-combobox
                   name="InitialVisit"
-                  label="Initial Visit"
+                  label={label.InitialVisit}
                   value={ininialvisitScheduledOption}
                   placeholder="Select"
                   options={initialvisitoptions}
@@ -540,7 +540,7 @@
                   >
                     <div class="slds-form-element">
                       <label class="slds-form-element__label" for="">
-                        Initial Visit Scheduled Date
+                        {label.InitialVisitScheduledDate}
                       </label>
                     </div>
                   </div>
@@ -558,7 +558,7 @@
                       type="date"
                       name="date1"
                       label=""
-                      placeholder="mm/dd/yyyy"
+                      placeholder={label.pir_mm_dd_yyyy}
                       disabled={isInitialVisitSelected}
                       value={initialvisitStart}
                       data-name="datestart"
@@ -573,7 +573,7 @@
                       m-top-date m-bottom-small
                     "
                   >
-                    <p class="filter-date">to</p>
+                    <p class="filter-date">{label.PP_To}</p>
                   </div>
                   <div
                     class="
@@ -587,7 +587,7 @@
                       type="date"
                       name="date2"
                       label=""
-                      placeholder="mm/dd/yyyy"
+                      placeholder={label.pir_mm_dd_yyyy}
                       disabled={isInitialVisitSelected}
                       value={initialvisitEnd}
                       data-name="dateend"
@@ -617,7 +617,7 @@
           slds-col
           slds-size_1-of-1
           slds-medium-size_12-of-12
-          slds-large-size_12-of-12
+          slds-large-size_12-of-12 btn-p-left
         "
       >
         <div class="slds-btn-right hidebutton">
@@ -629,9 +629,10 @@
               reset-btn
               slds-p-around_x-medium
             "
+            disabled={isAnythingChangedForReset}
             onclick={resetFilter}
           >
-            Reset
+            {label.Reset}
           </button>
           <button
             class="
@@ -641,10 +642,10 @@
               filter-btn
               slds-p-around_x-medium
             "
-            onclick={createPreset}
             disabled={isbuttonenabled}
+            onclick={createPreset}
           >
-            Create Preset
+            {label.CreatePreset}
           </button>
           <button
             class="
@@ -654,18 +655,19 @@
               filter-btn
               slds-p-around_x-medium apply-fil-btn
             "
-            onclick={applyFilter}
             disabled={isbuttonenabled}
+            onclick={applyFilter}
           >
-            Apply Filters
+            {label.ApplyFilters}
           </button>
         </div>
       </div>
     </div>
     <!-- button -->
   </div>
+  </div>
   <!-- filter-area -->
   <template if:true={shoulddisplaypopup}>
-      <c-pir_createpreset onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}> </c-pir_createpreset>
+      <c-pir_createpreset maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}> </c-pir_createpreset>
   </template>
 </template>

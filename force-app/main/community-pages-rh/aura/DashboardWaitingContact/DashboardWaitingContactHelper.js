@@ -51,7 +51,10 @@
     },*/
 
     showEditParticipantInformation: function (component, event, helper) {
-        var rootComponent = component.get('v.parent');
+        communityService.navigateToPage(
+            'my-referrals?perName=' + event.currentTarget.name + '&Pname=' + event.currentTarget.getAttribute('data-pername')
+        );
+       /* var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
         communityService.executeAction(
             component,
@@ -81,6 +84,6 @@
                     );
                 component.set('v.recordChanged', '');
             }
-        );
+        ); */
     }
 });

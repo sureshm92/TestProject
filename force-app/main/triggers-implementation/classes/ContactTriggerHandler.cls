@@ -420,7 +420,7 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
-            if (cont.Phone != oldMap.get(cont.Id).phone) {
+            if (cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
                 cont.Is_Invalid_Number__c = false;
             }
@@ -460,7 +460,10 @@ public without sharing class ContactTriggerHandler {
             list<task> taskList = [
                 SELECT Id, WhoId, Status
                 FROM task
-                WHERE WhoId IN :contMapForStatusUpdate.keySet()
+                WHERE
+                    WhoId IN :contMapForStatusUpdate.keySet()
+                    AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
+                    AND status = 'Open'
             ];
             for (task tl : taskList) {
                 tl.Status = 'Completed';

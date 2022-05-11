@@ -633,3 +633,22 @@
         padding: 0px;
     }
 }
+.slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.input-margin{
+    margin-top:-5px;
+}
+/* rtl start */
+
+.rtl .ipad-mode-btn{ margin-right: 12px;}
+.rtl .sitepre_Checkbox{ 
+    padding-left: 0px;
+    padding-right: 7px;
+    margin-left: 8px;
+}
+
+/* rtl end */

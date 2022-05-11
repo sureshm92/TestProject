@@ -26,6 +26,8 @@ public with sharing class Action_SendSMS implements Action {
         public String awsSponsorName;
         public String awsStudy;
         public String studySiteId;
+        public String MailingCountryCode;
+        public string stateCode;
     }
     class MessagegResponseWrapper {
         public string applicationId;
@@ -154,6 +156,7 @@ public with sharing class Action_SendSMS implements Action {
                 Notification__r.Recipient__r.MobilePhone,
                 Notification__r.Recipient__r.Language__c,
                 Notification__r.Recipient__r.MailingCountryCode,
+                Notification__r.Recipient__r.MailingStateCode,
                 Notification__r.Notification_Type__c,
                 Notification__r.Task_Id__c
             FROM Send_Result__c
@@ -162,6 +165,8 @@ public with sharing class Action_SendSMS implements Action {
                 AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
         ]) {
             String phoneNumber = smsChannel.Notification__r.Recipient__r.MobilePhone;
+            String countryCode = smsChannel.Notification__r.Recipient__r.MailingCountryCode;
+            String stateCode = smsChannel.Notification__r.Recipient__r.MailingStateCode;
             //  Boolean isPlatformLevel = true;
             // String pinPoint;
             if (
@@ -220,6 +225,8 @@ public with sharing class Action_SendSMS implements Action {
                         .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
+                msgParam.MailingCountryCode = countryCode;
+                msgParam.stateCode = stateCode;
                 /**if (
                     message.length() >
                     countryDialCodeMap.get(
@@ -349,7 +356,7 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> taskIdList = new List<Id>();
         List<Id> surveyInvitationIdList = new List<Id>();
         List<Id> ownerIdList = new List<Id>();
-        Boolean isSMSOptOutPlatFormEvent = SMSOptOutService.isSMSOptOutPlatFormEvent;
+        Boolean isPlatFormEvent = SMSOptOutService.isPlatFormEvent;
 
         for (Notification__c notificationObj : notificationsList) {
             if (notificationObj.WhatId__c != null) {
@@ -430,6 +437,7 @@ public with sharing class Action_SendSMS implements Action {
                         SELECT
                             Id,
                             IsTrialSurvey__c,
+                            Participant_Enrollment__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
@@ -494,6 +502,7 @@ public with sharing class Action_SendSMS implements Action {
 
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
+            Id peId = null;
             if (notObj.WhatId__c != null) {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
                     notObj.Notification_Type__c
@@ -524,12 +533,13 @@ public with sharing class Action_SendSMS implements Action {
                             peOBJ.Permit_SMS_Text_for_this_study__c &&
                             peOBJ.Study_Site__r.SMS_Are_Available__c;
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
-                        //If this method is called from SMSOptOutService Class
-                        if (isSMSOptOutPlatFormEvent) {
+                        //If this method is called from platform Event
+                        if (isPlatFormEvent) {
                             participantContactSponsorMap.put(
                                 peOBJ.Participant_contact__c,
                                 peOBJ.Clinical_Trial_Profile__r.Study_Sponsor__c
                             );
+                            peId = peOBJ.Id;
                         }
                     } else if (objType == 'Clinical_Trial_Profile__c') {
                         sponsorName = ctpMap.get(whatId).Sponsor_AWS__c;
@@ -551,12 +561,13 @@ public with sharing class Action_SendSMS implements Action {
                                     per.Study_Site__r.From_Number__c
                                 );
                                 pinPoint = per.Study_Site__r.Pin_Point_ProjectId__c;
-                                //If this method is called from SMSOptOutService Class
-                                if (isSMSOptOutPlatFormEvent) {
+                                //If this method is called from platform Event
+                                if (isPlatFormEvent) {
                                     participantContactSponsorMap.put(
                                         per.Participant_contact__c,
                                         per.Clinical_Trial_Profile__r.Study_Sponsor__c
                                     );
+                                    peId = per.Id;
                                 }
 
                                 break;
@@ -587,13 +598,14 @@ public with sharing class Action_SendSMS implements Action {
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
                             );
-                            //If this method is called from SMSOptOutService Class
-                            if (isSMSOptOutPlatFormEvent) {
+                            //If this method is called from platform Event
+                            if (isPlatFormEvent) {
                                 participantContactSponsorMap.put(
                                     peIdMap.get(taskMap.get(whatId).WhatId).Participant_contact__c,
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Clinical_Trial_Profile__r.Study_Sponsor__c
                                 );
+                                peId = peIdMap.get(taskMap.get(whatId).WhatId).Id;
                             }
                         }
                     }
@@ -624,14 +636,16 @@ public with sharing class Action_SendSMS implements Action {
                                     surveyInvitationMap.get(whatId)
                                         .Participant_Enrollment__r.Study_Site__r.From_Number__c
                                 );
-                                //If this method is called from SMSOptOutService Class
-                                if (isSMSOptOutPlatFormEvent) {
+                                //If this method is called from platform Event
+                                if (isPlatFormEvent) {
                                     participantContactSponsorMap.put(
                                         surveyInvitationMap.get(whatId)
                                             .Participant_Enrollment__r.Participant_contact__c,
                                         surveyInvitationMap.get(whatId)
                                             .Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c
                                     );
+                                    peId = surveyInvitationMap.get(whatId)
+                                        .Participant_Enrollment__c;
                                 }
                             } else {
                                 ctpTemplateName = surveyInvitationMap.get(whatId)
@@ -664,13 +678,14 @@ public with sharing class Action_SendSMS implements Action {
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
                             );
-                            //If this method is called from SMSOptOutService Class
-                            if (isSMSOptOutPlatFormEvent) {
+                            //If this method is called from platform Event
+                            if (isPlatFormEvent) {
                                 participantContactSponsorMap.put(
                                     peIdMap.get(taskMap.get(whatId).WhatId).Participant_contact__c,
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Clinical_Trial_Profile__r.Study_Sponsor__c
                                 );
+                                peId = peIdMap.get(taskMap.get(whatId).WhatId).Id;
                             }
                         }
                         if (
@@ -699,13 +714,13 @@ public with sharing class Action_SendSMS implements Action {
                 }
 
                 if (!isPlatformLevel) {
-                    system.debug('Inside studylevel --' + isPlatformLevel);
-                    //If this method is called from SMSOptOutService Class
-                    if (isSMSOptOutPlatFormEvent) {
+                    //If this method is called from platform Event
+                    if (isPlatFormEvent) {
                         SMSOptOutService.notIdMapOfPartContactSponsorMap.put(
                             notObj.Id,
                             participantContactSponsorMap
                         );
+                        SMSDeliveryStatusService.StudyLevelnotIdPEIdMap.put(notObj.Id, peId);
                     }
 
                     if (isSMSAvailableForPER) {
@@ -714,13 +729,10 @@ public with sharing class Action_SendSMS implements Action {
                     }
                 } else {
                     //If Notification is platform level.
-                    system.debug('Inside platformlevel --' + isPlatformLevel);
                     NotificationService.platfomLevelSMSSet.Add(notObj.Id);
                 }
-                //If this method is not called from SMSOptOutService Class
-                system.debug('outside if --' + isSMSOptOutPlatFormEvent);
-                if (!isSMSOptOutPlatFormEvent) {
-                    system.debug('inside if --' + isSMSOptOutPlatFormEvent);
+                //If this method is not called from platform Event
+                if (!isPlatFormEvent) {
                     PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
                     pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
                     pinpointWrapperObj.studyPinpoint = pinPoint;

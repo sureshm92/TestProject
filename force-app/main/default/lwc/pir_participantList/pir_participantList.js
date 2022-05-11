@@ -18,6 +18,7 @@ import ParticipantLimit from '@salesforce/label/c.ParticipantLimit';
 import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
 import Disclaimer_Text from '@salesforce/label/c.Disclaimer_Text';
 import BTN_Export from '@salesforce/label/c.BTN_Export';
+import Pdf_Not_Available from '@salesforce/label/c.Pdf_Not_Available';
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -27,6 +28,21 @@ import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.ge
 import setselectedFilterasDefault from "@salesforce/apex/PIR_HomepageController.setselectedFilterasDefault";
 import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
 import Records_all_invited from '@salesforce/label/c.Records_all_invited';
+import pir_Search_Participants from '@salesforce/label/c.pir_Search_Participants';
+import pir_Filter from '@salesforce/label/c.pir_Filter';
+import pir_Presets from '@salesforce/label/c.pir_Presets';
+import pir_Sort_By from '@salesforce/label/c.pir_Sort_By';
+import Select from '@salesforce/label/c.Select';
+import PG_MRZ_L_Last_Added from '@salesforce/label/c.PG_MRZ_L_Last_Added';
+import PG_MRZ_L_Last_Modified from '@salesforce/label/c.PG_MRZ_L_Last_Modified';
+import pir_Initial_Visit_Scheduled_Date_upcoming from '@salesforce/label/c.pir_Initial_Visit_Scheduled_Date_upcoming';
+import pir_Initial_Visit_Scheduled_Date_past from '@salesforce/label/c.pir_Initial_Visit_Scheduled_Date_past';
+import pir_No_Preset from '@salesforce/label/c.pir_No_Preset';
+import RPR_Actions from '@salesforce/label/c.RPR_Actions';
+import pir_Please_wait_as_your_page_loads from '@salesforce/label/c.pir_Please_wait_as_your_page_loads';
+import Action_Required from '@salesforce/label/c.Action_Required';
+import High_Priority from '@salesforce/label/c.High_Priority';
+import High_Risk from '@salesforce/label/c.High_Risk';
 
 export default class Pir_participantList extends LightningElement {    
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
@@ -37,7 +53,7 @@ export default class Pir_participantList extends LightningElement {
     @api cancelCheck;
     dropDownChange=false;
     valueChecked=false;
-    @api dropDownLabel="Actions";
+   
     enableStatus=false;
     dctCheck=false;
     selectedCheckboxes = [];
@@ -54,9 +70,12 @@ export default class Pir_participantList extends LightningElement {
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
+    hideActiononSearch=false;
     enteredSearchString = '';
     filterWrapper= {};
-
+    disablePresetPicklist = false;
+    
+    @api maindivcls;
     @api get fetch(){
         return true;
     }
@@ -74,13 +93,16 @@ export default class Pir_participantList extends LightningElement {
     }
     /* Params from Url */
     urlStudyId = null;
-    urlSiteId = null;
+    urlSiteId = null; 
+    urlPerName = null;
+    urlrefid = null;
 
     label = {
         RH_RP_No_Item_To_Display,
         Janssen_Community_Template_Name,
         Records_sent_to_SH,
         ParticipantLimit,
+        Pdf_Not_Available,
         Records_all_invited,
         Send_to_DCT,
         Invite_to_Patient_Portal,
@@ -88,9 +110,24 @@ export default class Pir_participantList extends LightningElement {
         ListView_ChangeStatus,
         BTN_Export,
         RH_PP_Add_New_Participant,
-        Disclaimer_Text
-    };
-    
+        Disclaimer_Text,
+        pir_Search_Participants,
+        pir_Filter,
+        pir_Presets,
+        pir_Sort_By,
+        Select,
+        PG_MRZ_L_Last_Added,
+        PG_MRZ_L_Last_Modified,
+        pir_Initial_Visit_Scheduled_Date_upcoming,
+        pir_Initial_Visit_Scheduled_Date_past,
+        pir_No_Preset,
+        RPR_Actions,
+        pir_Please_wait_as_your_page_loads,
+        Action_Required,
+        High_Priority,
+        High_Risk
+    }; 
+    @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
 
@@ -164,7 +201,7 @@ export default class Pir_participantList extends LightningElement {
     @api hideCheckbox(){
         this.isCheckboxhidden=false;
         this.selectedCheckboxes=[];
-        this.dropDownLabel="Actions";
+        this.dropDownLabel=this.label.RPR_Actions;
         this.dropDownChange=false;
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("slds-p-bottom--x-small");
@@ -187,6 +224,8 @@ export default class Pir_participantList extends LightningElement {
     setParametersBasedOnUrl() {
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
+       this.urlrefid = this.urlStateParameters.perName || null ;  
+       this.urlPerName = this.urlStateParameters.Pname || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
@@ -235,20 +274,30 @@ export default class Pir_participantList extends LightningElement {
         this.keyScope += 'ren';        
     }
     searchCounter =0;
+    keepsearchFocus = false;
     @api
     handleParticipantsearch(event){
+        this.urlPerName=null;
+        this.urlrefid = null;
         this.searchCounter++ ;
         this.enteredSearchString = '';
         this.disabledFilter = false;
+        this.disablePreset = false ;
+        this.disablePresetPicklist = false;
+        this.hideActiononSearch=false;
+        this.keepsearchFocus = true;
         if(event.target.value.length != 0)
         {
           this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
+            this.hideActiononSearch=true;
             if(event.target.value.length <= 2 )
                 return;
         } 
         else{
-          
+            this.disablePreset = this.isEditPresetFromListDisable ;
           this.template.querySelector('[data-id="filterdiv"]').classList.remove('disablefilter');
         }
         if(event.target.value && event.target.value.length > 2 )
@@ -275,6 +324,7 @@ export default class Pir_participantList extends LightningElement {
         
     }
     @api studyIDList;
+    srchTxt='';
     @api fetchList(){
         var searchCount = this.searchCounter;
         this.selectall = false;
@@ -283,6 +333,16 @@ export default class Pir_participantList extends LightningElement {
         this.participantList=null;
         this.sortInitialVisit = false;        
         this.showFilter =true; 
+        if(this.urlPerName)
+        {       
+            this.srchTxt = this.urlPerName;            
+            this.enteredSearchString = this.urlrefid;
+            this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
+            this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
+            this.hideActiononSearch=true;
+        }
         console.log('filter:'+JSON.stringify(this.filterWrapper));
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
@@ -570,7 +630,11 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                    cards[j].focus();
+                        if(!this.keepsearchFocus){
+                            
+                            cards[j].focus();
+                        }
+                        this.keepsearchFocus = false;
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
@@ -612,6 +676,13 @@ export default class Pir_participantList extends LightningElement {
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
     }
+    get checknewStatus(){
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
+    }
   
     changeStatus = false;
     handlenewOnSelect(event){
@@ -621,7 +692,7 @@ export default class Pir_participantList extends LightningElement {
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
-        if( this.dropDownLabel != this.label.ListView_ChangeStatus){
+        if( this.dropDownLabel != 'Change Status'){
             console.log('changestatus');
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
                 L.classList.remove("slds-p-bottom--x-large");
@@ -638,22 +709,20 @@ export default class Pir_participantList extends LightningElement {
             L.classList.add("participantStatus");
         });
        }
-        if(selectedVal != this.label.RH_PP_Add_New_Participant){ 
+        if(selectedVal != 'Add New Participant'){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
         }else{
             this.isCheckboxhidden=false;
         }
-        if(event.target.dataset.id == this.label.Invite_to_Patient_Portal){
+        if(event.target.dataset.id == 'Invite to Patient Portal'){
             this.isPPFiltered = true;
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.fetchList();
         }
-        
-        
-        if( this.dropDownLabel==this.label.ListView_ChangeStatus){
+        if( this.dropDownLabel=='Change Status'){
             console.log('change status');
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
@@ -690,8 +759,9 @@ export default class Pir_participantList extends LightningElement {
             this.enableStatus=false;
         }
 
-        if( this.dropDownLabel==this.label.Send_to_DCT){
-            this.dctCheck=true;
+        if( this.dropDownLabel=='Send to DCT'){
+            this.dctCheck=true; 
+            console.log('DCT LABEL');
             //this.saving = true;
             // this.totalRecordCount = -1;
             // this.isResetPagination = true;
@@ -702,7 +772,7 @@ export default class Pir_participantList extends LightningElement {
         }
 
 
-        if(this.dropDownLabel != this.label.RH_PP_Add_New_Participant){
+        if(this.dropDownLabel != 'Add New Participant'){
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: this.isCheckboxhidden
             });
@@ -712,6 +782,15 @@ export default class Pir_participantList extends LightningElement {
             detail: this.dropDownLabel
           });
           this.dispatchEvent(selectedEventnew);
+    }
+    handleMobileExport(event){
+        const evt = new ShowToastEvent({
+            title: this.label.Pdf_Not_Available,
+            message: this.label.Pdf_Not_Available,
+            duration:100,
+            mode: 'dismissible'
+        });
+        this.dispatchEvent(evt);
     }
     exportData;
     @api handleExport(){
@@ -990,9 +1069,9 @@ export default class Pir_participantList extends LightningElement {
                     csvStringResult += '" "' + ',';
                 }
     
-                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Age__c'] !== undefined) {
+                if (partList[i] ['Participant__r'] !== undefined && partList[i] ['Participant__r']['Present_Age__c'] !== undefined) {
                     csvStringResult +=
-                        '"' + partList[i] ['Participant__r']['Age__c'] + '"' + ',';
+                        '"' + partList[i] ['Participant__r']['Present_Age__c'] + '"' + ',';
                 } else {
                     csvStringResult += '" "' + ',';
                 }
@@ -1272,27 +1351,52 @@ export default class Pir_participantList extends LightningElement {
         total = this.selectedCheckboxes.length + countvalue;
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
-                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!=this.label.Send_to_DCT) ){
-                    checkboxes[i].checked = event.target.checked;
-                    if(checkboxes[i].checked==true){
-                        if(!this.selectedCheckboxes.includes(this.participantList[i].id))
-                        {
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
-                                this.selectedCheckboxes.push(this.participantList[i].id);
+                if(this.checknewStatus){
+                    if(this.participantList[i].screeningId){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
-                            else{ 
-                                event.target.checked=false;
-                                checkboxes[i].checked=false;
-                            }
+                            
                         }
-                        
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
                     }
-                    else{
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
-                                var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
-                                this.selectedCheckboxes.splice(index,1 );
+                }else{
+                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
+                            
                         }
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
+                    }
                 }
             }
             const selectedEvent = new CustomEvent("countvaluecheckbox", {
@@ -1386,14 +1490,14 @@ export default class Pir_participantList extends LightningElement {
     sortType = 0;
     get sortOptions() {
        var opts =  [
-            { label: 'Last Added', value: ' ORDER BY PerCounter__c DESC ' },
-            { label: 'Last Modified', value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
+            { label: this.label.PG_MRZ_L_Last_Added, value: ' ORDER BY PerCounter__c DESC ' },
+            { label: this.label.PG_MRZ_L_Last_Modified, value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
             // { label: 'Alphabetical (A-Z)', value: 'asc' },
             // { label: 'Alphabetical (Z-A)', value: 'desc' }       
         ];
         if(this.sortInitialVisit){
-            opts.push({ label: 'Initial Visit Scheduled Date (upcoming)', value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
-            opts.push({ label: 'Initial Visit Scheduled Date (past)', value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
+            opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_upcoming, value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
+            opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_past, value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
         }      
         return opts;
     }
@@ -1425,15 +1529,17 @@ export default class Pir_participantList extends LightningElement {
     showEditPreset =false;
     showFilter =false;
     disablePreset = true;
+    isEditPresetFromListDisable = true;
     fetchAllPreset(){
         var presets = [];
-        presets.push({label:"No Preset",value:"no preset"});
+        presets.push({label:this.label.pir_No_Preset,value:"no preset"});
         this.presetSel="no preset";
         fetchPreset()
         .then(data => {
             this.sysPresets = data;
             for(var i = 0; i<data.length ; i++){
                 this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
                 if(data[i].isDefault){
                     if((Object.keys(this.filterWrapper).length === 0)){
                         this.filterWrapper= data[i];                    
@@ -1452,13 +1558,15 @@ export default class Pir_participantList extends LightningElement {
     }
     refreshAllPreset(){
         var presets = [];
-        presets.push({label:"No Preset",value:"no preset"});
+        presets.push({label:this.label.pir_No_Preset,value:"no preset"});
         fetchPreset()
         .then(data => {
             this.sysPresets = data;
             this.disablePreset = true;
+            this.isEditPresetFromListDisable = true;
             for(var i = 0; i<data.length ; i++){
                 this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
                 presets.push({ label: data[i].presetName, value: data[i].presetId });
             }
             this.presetOpts = presets;
@@ -1486,13 +1594,15 @@ export default class Pir_participantList extends LightningElement {
             }
             else if(event.detail.upList.includes(this.presetSel)){
                 var presets = [];
-                presets.push({label:"No Preset",value:"no preset"});
+                presets.push({label:this.label.pir_No_Preset,value:"no preset"});
                 fetchPreset()
                 .then(data => {
                     this.sysPresets = data;
                     this.disablePreset = true;
+                    this.isEditPresetFromListDisable = true;
                     for(var i = 0; i<data.length ; i++){
                         this.disablePreset = false;
+                        isEditPresetFromListDisable = false;
                         presets.push({ label: data[i].presetName, value: data[i].presetId });
                     }
                     this.presetOpts = presets;
@@ -1550,25 +1660,25 @@ export default class Pir_participantList extends LightningElement {
                         detail: ''
                     });
                     this.dispatchEvent(selectEvent);
-                    this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]); 
-                    setselectedFilterasDefault ({selectedPresetId :this.presetSel })
-                    .then((result) => {
-        
-                    })
-                    .catch((error) => {
-                        console.error("Error:", error);
-                    });
+                    this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]);                     
                     break;
-                }
+                }                
             }
         }
+        setselectedFilterasDefault ({selectedPresetId :event.detail.value })
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
     }
     get filterCount(){
         if(!(Object.keys(this.filterWrapper).length === 0)){
-            var count = 10;
+            var count = 7;
             if(this.filterWrapper.ethnicityList){
                 if(this.filterWrapper.ethnicityList.length>0){
                     count++;
@@ -1577,7 +1687,15 @@ export default class Pir_participantList extends LightningElement {
             if((this.filterWrapper.ageFrom && this.filterWrapper.ageFrom!="") || (this.filterWrapper.ageTo && this.filterWrapper.ageTo!="")){
                 count++;
             }
-            
+            if(JSON.stringify(this.filterWrapper.highRisk)=='true'){
+                count++;
+            }
+            if(JSON.stringify(this.filterWrapper.comorbidities)=='true'){
+                count++;
+            }
+            if(this.filterWrapper.highPriority){
+                count++;
+            }
             return "("+count+")";
         }
         return "";

@@ -6,7 +6,7 @@ import getPERdetails from '@salesforce/apex/PIR_StatusDetailController.getPERdet
 import getoutcomeToReasonMap from '@salesforce/apex/PIR_StatusDetailController.getoutcomeToReasonMap';
 import getBubbleStatus from '@salesforce/apex/PIR_StatusDetailController.getBubbleStatus';
 import PWS_Received_Name from '@salesforce/label/c.PWS_Received_Name';
-
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 export default class Pir_participantStatusDetails extends LightningElement {
     @api selectedPE_ID;
     @api peCardDetails;
@@ -20,7 +20,8 @@ export default class Pir_participantStatusDetails extends LightningElement {
     backArrow = pirResources+'/pirResources/icons/triangle-left.svg';
 
     label = {
-        PWS_Received_Name
+        PWS_Received_Name,
+        BTN_Back
     };
 
     peDetail = [
@@ -35,7 +36,9 @@ export default class Pir_participantStatusDetails extends LightningElement {
     outcomeValue = {};
     visitPlan = {};
     showStatus = false;
-  
+    @api isrtl = false;
+    maindivcls;
+
     curentMobileView = "list";
     mobileViewToggle(){
         if(this.curentMobileView=="list"){
@@ -61,6 +64,12 @@ export default class Pir_participantStatusDetails extends LightningElement {
 
     @api
     doSelectedPI(){
+        
+        if(this.isrtl){
+            this.maindivcls = 'rtl';
+        }else{
+            this.maindivcls = 'ltr';
+        }
        if(this.selectedPE_ID)
        { 
            this.count = this.count + 1;
@@ -90,6 +99,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
             .then((result) => {
                 if(internalCount == this.count)
                 { 
+                    console.log('card details-->'+JSON.stringify(result));
                     this.peCardDetails = result;               
                     var groupName = '';
                     var gpicon = '';
@@ -104,6 +114,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                     this.groupnme = groupName;
                     this.groupIcons = gpicon;
                     this.latestStatusGrp = this.groupnme;
+                    console.log('grpName'+this.groupnme+'Latest'+this.latestStatusGrp);
                }
             }) 
             .then(() => {
@@ -176,6 +187,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             this.saveSpinner = false;
                             this.userDate = result.userDt;
                             this.contSuccessReason = result.contSuccessReason;
+                            console.log('sreason-'+this.contSuccessReason);
                             const tabEvent = new CustomEvent("handletabs", {});
                             this.dispatchEvent(tabEvent);
                             }).catch(error => {
