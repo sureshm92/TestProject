@@ -12147,8 +12147,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <fullName>PIR_Study_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PIR_Study Information</shortDescription>
-        <value>Study Information</value>
+        <shortDescription>PIR_Participant Information</shortDescription>
+        <value>Participant Information</value>
     </labels>
     <labels>
         <fullName>PIR_Update</fullName>

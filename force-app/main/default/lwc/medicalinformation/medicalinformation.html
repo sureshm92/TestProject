@@ -614,12 +614,7 @@
                         class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium"
                       >
                         <div class="slds-grid slds-grid_vertical">
-                          <template if:true={returnpervalue.booldisplaymrrgizmo}>  
-                            <div class="slds-col slds-border_top slds-border_left slds-border_right">
-                              <label class="slds-form-element__label" for="High Risk">
-                                <b>  {label.PE_MedicalRecordReview}</b>
-                              </label>
-                            </div>
+                          <template if:true={returnpervalue.booldisplaymrrgizmo}>
                             <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
                               <template if:true={decodeMRRResult}>
                                 <!-- <lightning-formatted-rich-text
@@ -637,12 +632,7 @@
                               </template>
                             </div>
                           </template>
-                          <template if:true={returnpervalue.booldisplayprescreenergizmo}>
-                            <div class="slds-col  slds-border_top slds-border_left slds-border_right">
-                              <label class="slds-form-element__label" for="High Risk">
-                                <b>{label.RH_Pre_screen}</b>
-                              </label>
-                            </div>                       
+                          <template if:true={returnpervalue.booldisplayprescreenergizmo}>                      
                             <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
                               <template if:true={decodePreScreenerResult}>
                                 <!-- <lightning-formatted-rich-text
