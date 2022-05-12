@@ -930,6 +930,10 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
           ];
+            if(this.defaultStatus == 'Sent to DCT'){
+              this.defaultStatus = 'All Active Statuses';
+              this.selectedStatus = "All Active Statuses";
+            } 
         }else if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
           this.statusoptions = [
             { label: this.label.AllStatuses, value: "All Active Statuses" },
@@ -959,6 +963,10 @@ export default class Filtertest extends LightningElement {
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
+            if(this.defaultStatus == 'Sent to DCT'){
+              this.defaultStatus = 'All Active Statuses';
+              this.selectedStatus = "All Active Statuses";
+            }
         }
 
       }else  if(this.selectedActiveInactive == 'Inactive'){
