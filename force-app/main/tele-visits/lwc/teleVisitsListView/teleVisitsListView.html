@@ -28,7 +28,7 @@
                                 <td>{visitWrapper.title}</td>
                                 <td>
                                     <lightning-formatted-date-time
-                                        value={visitWrapper.visitDate}
+                                        value={visitWrapper.visitDateTime}
                                         year="numeric"
                                         month="short"
                                         day="2-digit"
@@ -38,7 +38,7 @@
                                 </td>
                                 <td>
                                     <lightning-formatted-date-time
-                                        value={visitWrapper.visitTime}
+                                        value={visitWrapper.visitDateTime}
                                         hour="numeric"
                                         minute="numeric"
                                         time-zone={timeZone}
