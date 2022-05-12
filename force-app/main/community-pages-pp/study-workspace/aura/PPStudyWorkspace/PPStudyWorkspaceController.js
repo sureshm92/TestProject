@@ -71,15 +71,8 @@
                     if (
                         !trialDetail.showVisits ||
                         !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c
-                    )
-                        visitMode = 'TravelSupportDetails';
-                    //find tab
-                    var selectedTabId = trialDetail.tabs[0].id;
-                    for (var i = 0; i < trialDetail.tabs.length; i++) {
-                        if (tabId === trialDetail.tabs[i].id) {
-                            selectedTabId = tabId;
-                            break;
-                        }
+                    ) {
+                        visitMode = 'TeleVisitDetails';
                     }
                     const teleVendors = JSON.parse(trialDetail.participantstate).teleVendors; //component.get('v.participantState.teleVendors');
                     let isTeleVendorChecked = false;
@@ -94,6 +87,21 @@
                         }
                     }
                     component.set('v.isTeleVendorEnabled', isTeleVendorChecked);
+                    if (
+                        !trialDetail.pe.Clinical_Trial_Profile__r
+                            .Televisit_Vendor_is_Available__c ||
+                        !isTeleVendorChecked
+                    ) {
+                        visitMode = 'TravelSupportDetails';
+                    }
+                    //find tab
+                    var selectedTabId = trialDetail.tabs[0].id;
+                    for (var i = 0; i < trialDetail.tabs.length; i++) {
+                        if (tabId === trialDetail.tabs[i].id) {
+                            selectedTabId = tabId;
+                            break;
+                        }
+                    }
                     component.set('v.visitMode', visitMode);
                     component.set('v.currentTab', selectedTabId);
                     if (trialDetail.isTCAccepted !== null) {
