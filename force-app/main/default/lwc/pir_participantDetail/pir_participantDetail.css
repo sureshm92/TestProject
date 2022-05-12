@@ -233,3 +233,12 @@
 .label_spacing{
     margin-left: -10px;
 }
+.consent_label{
+    height: 48px;
+    width: 812px;
+    font-size: 16px !important;
+    color: black !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
