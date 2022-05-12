@@ -1,4 +1,4 @@
-public without sharing class Batch_TelevisitReminder implements Database.Batchable<sObject> {
+public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
             [
@@ -77,6 +77,19 @@ public without sharing class Batch_TelevisitReminder implements Database.Batchab
         }
     }
     
-    public void finish(Database.BatchableContext BC) {
+    public override Type getType() {
+        return Batch_PatientTaskReminder.class;
+    }
+
+    public override String getBatchDescription() {
+        return 'Sends Email Reminders about upcoming televisits';
+    }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
     }
 }
