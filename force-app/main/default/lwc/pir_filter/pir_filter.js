@@ -612,8 +612,7 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-
-    if (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150)) {
+    if ((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -626,9 +625,14 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1;
       this.filterWrapper.ageFrom = a2;
     }
-    this.template
+    var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
@@ -636,7 +640,7 @@ export default class Filtertest extends LightningElement {
     this.ageEndValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if (Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150)) {
+    if ((Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -649,9 +653,14 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1;
       this.filterWrapper.ageFrom = a2;
     }
-    this.template
+    var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
