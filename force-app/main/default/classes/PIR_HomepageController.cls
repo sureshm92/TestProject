@@ -1057,7 +1057,7 @@ public without sharing class PIR_HomepageController {
           Participant_Contact__r.Is_Patient_User_Created__c,
           Invited_To_PP_Date__c,
           MRR_Survey_Results_URL__c,
-          Pre_Screener_Survey_Response__c,
+          Pre_screening_Status__c,
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
