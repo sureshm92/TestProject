@@ -613,7 +613,7 @@ export default class Filtertest extends LightningElement {
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
 
-    if (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150)) {
+    if (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150)) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -624,6 +624,7 @@ export default class Filtertest extends LightningElement {
         .setCustomValidity("");
       this.isbuttonenabled = false;
       this.filterWrapper.ageTo = a1;
+      this.filterWrapper.ageFrom = a2;
     }
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
@@ -635,7 +636,7 @@ export default class Filtertest extends LightningElement {
     this.ageEndValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if (Number(a1) > Number(a2) ||  (Number(a2) < 0 ||  Number(a2) > 150)) {
+    if (Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150)) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -645,6 +646,7 @@ export default class Filtertest extends LightningElement {
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("");
       this.isbuttonenabled = false;
+      this.filterWrapper.ageTo = a1;
       this.filterWrapper.ageFrom = a2;
     }
     this.template
@@ -933,7 +935,7 @@ export default class Filtertest extends LightningElement {
             if(this.defaultStatus == 'Sent to DCT'){
               this.defaultStatus = 'All Active Statuses';
               this.selectedStatus = "All Active Statuses";
-            } 
+            }
         }else if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
           this.statusoptions = [
             { label: this.label.AllStatuses, value: "All Active Statuses" },
