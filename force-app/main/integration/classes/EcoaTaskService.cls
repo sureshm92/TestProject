@@ -64,7 +64,7 @@ public class EcoaTaskService {
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
             t.Subject = 'Ediary '+task.Diary_Name__c;
             t.Priority = 'Normal';
-            t.Action_URL__c ='s/e-diaries';
+            t.Action_URL__c ='e-diaries';
             t.Start_Date__c = date.newinstance(task.Window_Begin__c.year(), task.Window_Begin__c.month(), task.Window_Begin__c.day());//get date
             t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
