@@ -35,7 +35,7 @@ public class EcoaTaskService {
 
             Datetime remTime;
             if(task.Reminder_config__c != null){
-                remTime = task.Diary_End_Date__c.addHours(Integer.valueOf(-task.Reminder_config__c));
+                remTime = task.Window_End__c.addHours(Integer.valueOf(-task.Reminder_config__c));
             }
             User userObj = userContactIdMap.get(task.ContactId__c);
             User delegateUserObj;
@@ -53,16 +53,20 @@ public class EcoaTaskService {
                 }
             }
             Timezone tz = Timezone.getTimeZone(timeZoneVal);
-            Integer offset = tz.getOffset(task.Diary_End_Date__c);
-            Datetime userlocaltime = task.Diary_End_Date__c.addSeconds(offset / 1000);
+            Integer offset = tz.getOffset(task.Window_Begin__c);
+
+            Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);
+
+            System.debug('offset::'+offset);
+            System.debug('offset::'+userlocaltime);
 
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
             t.Subject = 'Ediary '+task.Diary_Name__c;
             t.Priority = 'Normal';
             t.Action_URL__c ='s/e-diaries';
-            t.Start_Date__c = date.newinstance(task.Diary_Start_Date__c.year(), task.Diary_Start_Date__c.month(), task.Diary_Start_Date__c.day());//get date
-            t.Activity_Datetime__c = task.Diary_End_Date__c;
+            t.Start_Date__c = date.newinstance(task.Window_Begin__c.year(), task.Window_Begin__c.month(), task.Window_Begin__c.day());//get date
+            t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
             t.Reminder_Date__c = remTime;
             t.Ecoa_Task_Configuration_del__c = task.Id; // ecoa config id
