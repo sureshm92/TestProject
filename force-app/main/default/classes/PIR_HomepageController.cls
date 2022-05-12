@@ -209,7 +209,7 @@ public without sharing class PIR_HomepageController {
           ivScheduled = false;
         }
       }
-
+ 
       searchString = searchString.trim();
       String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
       String queryString =
@@ -291,7 +291,7 @@ public without sharing class PIR_HomepageController {
       if (selectedStatusList != null) {
         if (
           selectedStatusList.contains('Sent to DCT') &&
-          !selectedStatusList.contains('Eligibility Passed')
+          !selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -301,14 +301,14 @@ public without sharing class PIR_HomepageController {
           ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           filterString =
             filterString +
             ' AND ((Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false) OR (Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND  Study_Site__r.Study_Site_Type__c = \'Traditional\' ))  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() > 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -1676,7 +1676,7 @@ public without sharing class PIR_HomepageController {
       }
     }
 
-    StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
+    //StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
     for (String st : availableStatusList) {
       String t = st.replaceAll('[\\s\\-()]', '_');
       if (t == 'Contacted___Not_Suitable') {
