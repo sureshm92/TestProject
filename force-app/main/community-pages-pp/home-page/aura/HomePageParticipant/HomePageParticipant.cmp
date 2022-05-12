@@ -2,7 +2,11 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote" extends="c:CommunityContext">
+<aura:component
+    description="HomePageParticipant"
+    controller="HomePageParticipantRemote"
+    extends="c:CommunityContext"
+>
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object" />
     <aura:attribute name="showMedicalCard" type="Boolean" default="true" />
@@ -33,7 +37,10 @@
                 </div>
                 <aura:if isTrue="{!v.showTrialSearch}">
                     <div style="@media screen and (max-width: 600px) {width: 20%}">
-                        <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
+                        <button
+                            class="{!'apollo-btn primary dark'}"
+                            onclick="{!c.navigateToTrialSearchPage}"
+                        >
                             <c:RRIcon iconName="search-results" />
                             {!$Label.c.TrialSearch_Find_Another_Study}
                         </button>
@@ -47,14 +54,17 @@
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                                     <aura:if
-                                        isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                        isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}"
+                                    >
                                         <div class="rr-white-panel hp-logo-panel">
                                             <img
-                                                src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}" />
+                                                src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"
+                                            />
                                         </div>
                                     </aura:if>
                                     <aura:if
-                                        isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                        isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}"
+                                    >
                                         <div class="rr-white-panel hp-logo-panel logo-text">
                                             {!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
                                         </div>
@@ -63,27 +73,42 @@
                                 <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                     <div class="rr-width-limiter">
                                         <aura:if
-                                            isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}">
-                                            <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}" />
+                                            isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}"
+                                        >
+                                            <img
+                                                class="contrast-logo"
+                                                src="{!$Resource.PH_logo + '/iqvia.png'}"
+                                            />
                                         </aura:if>
-                                        <aura:if isTrue="{!equals(v.participantState.communityName, 'GSK Community')}">
-                                            <img class="contrast-logo" src="{!$Resource.GSK_Logos + '/gsk-full.png'}" />
+                                        <aura:if
+                                            isTrue="{!equals(v.participantState.communityName, 'GSK Community')}"
+                                        >
+                                            <img
+                                                class="contrast-logo"
+                                                src="{!$Resource.GSK_Logos + '/gsk-full.png'}"
+                                            />
                                         </aura:if>
                                     </div>
                                 </aura:if>
                             </div>
                             <div class="slds-col slds-size_1-of-1">
-                                <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}" />
+                                <c:OpenTaskPreviewPanel
+                                    isAlumni="{!v.participantState.value == 'ALUMNI'}"
+                                />
                             </div>
                             <aura:if
-                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.showPastStudies)}">
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.showPastStudies)}"
+                            >
                                 <div class="slds-col">
-                                    <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}" />
+                                    <c:MedicalRecordRetrievalPanel
+                                        participantState="{!v.participantState}"
+                                    />
                                 </div>
                             </aura:if>
 
                             <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, or(v.participantState.value == 'PARTICIPANT',and(v.participantState.value == 'REFERRAL',or(v.participantState.showTravelCardInPreEnrollment)))))}">
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, or(v.participantState.value == 'PARTICIPANT',and(v.participantState.value == 'REFERRAL',or(v.participantState.showTravelCardInPreEnrollment)))))}"
+                            >
                                 <div class="slds-col">
                                     <c:TravelSupportPanel isRTL="{!v.isRTL}" />
                                 </div>
@@ -97,23 +122,24 @@
                         <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                             <c:ParticipantStatePanel />
                             <c:VisitResultsDashboardCard
-                                ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}" />
+                                ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                            />
                         </aura:if>
                         <aura:if
-                            isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.participantState.showVisits,v.participantState.isPremium)}">
+                            isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.participantState.showVisits,v.participantState.isPremium)}"
+                        >
                             <c:UpcomingVisitsPreviewPanel isRTL="{!v.isRTL}" />
                         </aura:if>
-                        <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
-                     v.participantState.payCardLink != null))}">
+                        <aura:if
+                            isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
+                     v.participantState.payCardLink != null))}"
+                        >
                             <c:PaymentsPanel />
                         </aura:if>
                         <aura:if
-                            isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                            isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
+                        >
                             <c:ResourceDashboardCard />
-                        </aura:if>
-                        <aura:if isTrue="{!(v.participantState.value == 'ALUMNI')}">
-                            <c:teleVisitsPreviewPanel isAluminiHome="true" isRTL="{!v.isRTL}">
-                            </c:teleVisitsPreviewPanel>
                         </aura:if>
                     </div>
                 </div>
@@ -133,7 +159,10 @@
                     </div>
                     <aura:if isTrue="{!v.showTrialSearch}">
                         <div style="@media screen and (max-width: 600px) {width: 20%}">
-                            <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
+                            <button
+                                class="{!'apollo-btn primary dark'}"
+                                onclick="{!c.navigateToTrialSearchPage}"
+                            >
                                 <c:RRIcon iconName="search-results" />
                                 {!$Label.c.TrialSearch_Find_Another_Study}
                             </button>
@@ -146,23 +175,24 @@
                             <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                                 <c:ParticipantStatePanel />
                                 <c:VisitResultsDashboardCard
-                                    ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}" />
+                                    ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                                />
                             </aura:if>
                             <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.participantState.showVisits,v.participantState.isPremium)}">
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c,v.participantState.showVisits,v.participantState.isPremium)}"
+                            >
                                 <c:UpcomingVisitsPreviewPanel isRTL="{!v.isRTL}" />
                             </aura:if>
-                            <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
-                     v.participantState.payCardLink != null))}">
+                            <aura:if
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
+                     v.participantState.payCardLink != null))}"
+                            >
                                 <c:PaymentsPanel />
                             </aura:if>
                             <aura:if
-                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
+                            >
                                 <c:ResourceDashboardCard />
-                            </aura:if>
-                            <aura:if isTrue="{!(v.participantState.value == 'ALUMNI')}">
-                                <c:teleVisitsPreviewPanel isAluminiHome="true" isRTL="{!v.isRTL}">
-                                </c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -170,14 +200,17 @@
                                 <div class="slds-col slds-size_1-of-1">
                                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                                         <aura:if
-                                            isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                            isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}"
+                                        >
                                             <div class="rr-white-panel hp-logo-panel">
                                                 <img
-                                                    src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}" />
+                                                    src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"
+                                                />
                                             </div>
                                         </aura:if>
                                         <aura:if
-                                            isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                            isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}"
+                                        >
                                             <div class="rr-white-panel hp-logo-panel logo-text">
                                                 {!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
                                             </div>
@@ -186,22 +219,32 @@
                                     <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                         <div class="rr-width-limiter">
                                             <aura:if
-                                                isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}">
-                                                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}" />
+                                                isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}"
+                                            >
+                                                <img
+                                                    class="contrast-logo"
+                                                    src="{!$Resource.PH_logo + '/iqvia.png'}"
+                                                />
                                             </aura:if>
                                             <aura:if
-                                                isTrue="{!equals(v.participantState.communityName, 'GSK Community')}">
-                                                <img class="contrast-logo"
-                                                    src="{!$Resource.GSK_Logos + '/gsk-full.png'}" />
+                                                isTrue="{!equals(v.participantState.communityName, 'GSK Community')}"
+                                            >
+                                                <img
+                                                    class="contrast-logo"
+                                                    src="{!$Resource.GSK_Logos + '/gsk-full.png'}"
+                                                />
                                             </aura:if>
                                         </div>
                                     </aura:if>
                                 </div>
                                 <div class="slds-col slds-size_1-of-1">
-                                    <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}" />
+                                    <c:OpenTaskPreviewPanel
+                                        isAlumni="{!v.participantState.value == 'ALUMNI'}"
+                                    />
                                 </div>
                                 <aura:if
-                                    isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}">
+                                    isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}"
+                                >
                                     <div class="slds-col">
                                         <c:TravelSupportPanel isRTL="{!v.isRTL}" />
                                     </div>
