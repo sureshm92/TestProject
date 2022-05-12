@@ -1493,7 +1493,7 @@ public without sharing class PIR_StatusDetailController {
                             televisitRecord.Visit_Date__c = perRecord.Initial_visit_scheduled_date__c;
                             televisitRecord.Participant_Enrollment__c = perRecord.Id;
                             Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
-                            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(15);
+                            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(15); 
                             televisitRecord.Visit_Date_Time__c = visitDateTime;
                             insert televisitRecord;
                             
