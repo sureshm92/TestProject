@@ -1138,7 +1138,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
             Status = TaskService.TASK_STATUS_OPEN,
             Priority = TaskService.TASK_PRIORITY_CRITICAL,
-            Action_URL__c ='s/e-diaries',
+            Action_URL__c ='e-diaries',
             WhatId = per.Participant__c,
             WhoId = per.Participant_Contact__c,
             Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
