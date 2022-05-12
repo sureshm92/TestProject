@@ -1678,7 +1678,7 @@ public without sharing class PIR_HomepageController {
       }
     }
 
-    StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
+    //StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
     for (String st : availableStatusList) {
       String t = st.replaceAll('[\\s\\-()]', '_');
       if (t == 'Contacted___Not_Suitable') {
