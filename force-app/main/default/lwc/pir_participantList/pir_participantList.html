@@ -3,11 +3,11 @@
     <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
         
                 <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none" onclick={resetPagination}>
-                    <div class="slds-form-element slds-m-left_x-small labelHide">
+                    <div class="slds-form-element slds-m-left_x-small labelHide rtl-margin-right">
                         <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
                             <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title={label.pir_Search_Participants} class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
                             <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
-                             <lightning-input type="text" id="searchText" placeholder={label.pir_Search_Participants} variant="label-hidden"  onchange={handleParticipantsearch} >
+                             <lightning-input type="text" id="searchText" value={srchTxt} placeholder={label.pir_Search_Participants} variant="label-hidden"  onchange={handleParticipantsearch} >
                                  
                                  </lightning-input>
                         </div>
@@ -40,16 +40,16 @@
                 <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
         </div>
         <div class="slds-col slds-size_12-of-12">
-            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
+            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small rtl-marg">
                 <div class="textBolds slds-m-bottom--xx-small">{label.pir_Presets}
-                    <span if:false={disablePreset} class="enablePreset" onclick={editPreset}>
+                    <span if:false={disablePreset} class="enablePreset rtl-p-r" onclick={editPreset}>
                         <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
                     </span>
-                    <span if:true={disablePreset} class="disablePreset" title="No Preset Available to perform edit">
+                    <span if:true={disablePreset} class="disablePreset rtl-p-r" title="No Preset Available to perform edit">
                         <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
                     </span>
                 </div>
-                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}
+                <lightning-combobox name="preset" variant="label-hidden" onchange={handlePresetChange}  disabled={disablePresetPicklist}
                 placeholder={label.Select} options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
             <template if:true={showEditPreset}> 
@@ -72,7 +72,7 @@
                              <span><lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down" class="slds-icon-text-primary"></lightning-icon></span>
                         </button>
                             <div class="slds-dropdown slds-dropdown_left w-100" >
-                                <ul class="slds-dropdown__list" role="menu" aria-label={dropDownLabel}>
+                                <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label={dropDownLabel}>
                                    <template if:false={hideActiononSearch}>
                                     <template if:false={noRecords}>
                                    <template if:true={showDCT}>
@@ -92,8 +92,11 @@
                                     </template>
                                 </template>
                             </template>
-                                    <li class="slds-dropdown__item" role="presentation" data-id='Export'>
-                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect} > <span class="slds-truncate" title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                    <li class="slds-dropdown__item showDesktop " role="presentation" data-id='Export'>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handlenewOnSelect} > <span class="slds-truncate showDesktop" title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
+                                    </li>
+                                    <li class="slds-dropdown__item hideDesktop " role="presentation" data-id='Export'>
+                                        <a href="#" role="menuitem" data-id='Export' onmousedown={handleMobileExport} > <span class="slds-truncate " title={label.BTN_Export} data-id='Export'>{label.BTN_Export}</span> </a>
                                     </li>
                                     <template if:true={showAddParticipant}>   
                                         <li class="slds-dropdown__item" role="presentation" data-id='Add New Participant'>
@@ -109,7 +112,7 @@
                     <template if:true={changeStatus}>
                         <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
                             <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
-                              options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                            placeholder="Select a status"  options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
                         </div> 
                     </template>
                 </template>
@@ -166,7 +169,7 @@
                 </template>
             <template if:true={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop rtl-pad-right">
                         <div class="card-content checkboxdisplay">  
                             <template if:false={enableStatus}>
                                <template if:true={checknewStatus}>
@@ -197,7 +200,8 @@
                                 <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>{label.High_Risk}</span></template>
                             </div>
                             <div class="slds-text-heading--small breakW" >
-                                {p.firstName} {p.lastName}  
+                                <!-- {p.firstName} {p.lastName}   -->
+                                {p.initialsName}
                             </div>
                             <div class="tooltip">
                                 <div class="subInfo slds-truncate" >
@@ -212,7 +216,7 @@
             </template>
             <template if:false={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop rtl-pad-right">
                         <div class="flags">
                             <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>{label.Action_Required}</span></template>
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>{label.High_Priority}</span></template>
@@ -220,7 +224,8 @@
                         </div>
                         <div class="card-content ">  
                             <div class="slds-text-heading--small breakW" >
-                                {p.firstName} {p.lastName}  
+                                <!-- {p.firstName} {p.lastName}   -->
+                                {p.initialsName}
                             </div>
                             <div class="tooltip">
                                 <div class="subInfo slds-truncate" >

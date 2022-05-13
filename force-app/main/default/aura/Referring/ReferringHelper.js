@@ -8,8 +8,13 @@
                 if (e.data.messageType === 'SurveyGizmoResult') {
                     if (e.data.success) {
                         component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
+                        var pe =component.get('v.pEnrollment');
+                        pe.Pre_Screener_Survey_Response__c = e.data.pdfContent;
+                        component.set('v.pEnrollment',pe);
                         window.scrollTo(0, 0);
                     } else {
+                        var pe =component.get('v.pEnrollment');
+                        pe.Pre_Screener_Survey_Response__c =e.data.pdfContent;
                         helper.doFailedReferral(
                             component,
                             'Failed Pre-Eligibility Screening',
@@ -17,7 +22,7 @@
                                 component.set('v.currentState', 'Questionare Failed');
                                 window.scrollTo(0, 0);
                             }
-                        );
+                        );                        
                     }
                     console.log('Gizmo prescreeinig result' + e.data.pdfContent);
                 } else if (e.data.messageType === 'SurveyGizmoHeight') {
@@ -119,7 +124,7 @@
             }else{
                 component.set('v.pyear',null);
             }
-            
+             
             if( (( pe.Mailing_Country_Code__c == 'US' && pe.Permit_SMS_Text_for_this_study__c) || 
                    pe.Mailing_Country_Code__c != 'US' ) && 
                  pe.Permit_Voice_Text_contact_for_this_study__c && 
@@ -136,17 +141,17 @@
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
-            
+
             if(pe.Mailing_Country_Code__c != null && pe.Mailing_Country_Code__c != undefined 
-               && pe.Mailing_Country_Code__c != ''){
-                component.set('v.mailingCountryCode',pe.Mailing_Country_Code__c);
-            }else if(pe.Study_Site__r.Site__r.BillingCountryCode != null && pe.Study_Site__r.Site__r.BillingCountryCode != undefined
-                     && pe.Study_Site__r.Site__r.BillingCountryCode != ''){
-                component.set('v.mailingCountryCode',pe.Study_Site__r.Site__r.BillingCountryCode);
-            }else{
-                component.set('v.mailingCountryCode','US');
-            }
-            
+                && pe.Mailing_Country_Code__c != ''){
+                 component.set('v.mailingCountryCode',pe.Mailing_Country_Code__c);
+             }else if(pe.Study_Site__r.Site__r.BillingCountryCode != null && pe.Study_Site__r.Site__r.BillingCountryCode != undefined
+                      && pe.Study_Site__r.Site__r.BillingCountryCode != ''){
+                 component.set('v.mailingCountryCode',pe.Study_Site__r.Site__r.BillingCountryCode);
+             }else{
+                 component.set('v.mailingCountryCode','US');
+             }
+             
             if (pe.HCP__r) {
                 participant.Mailing_Country_Code__c =
                     pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
@@ -211,7 +216,7 @@
         let emailVaild = emailCmp && communityService.isValidEmail(participant.Email__c);
         let emailRepeatValid = emailRepeatCmp && communityService.isValidEmail(emailRepeat);
         let selectedCountry = participant.Mailing_Country_Code__c;
-        let selectedState = participant.Mailing_State_Code__c;
+        let selectedState = participant.Mailing_State_Code__c;        
         component.set('v.agreePolicy',false);
         let per = component.get('v.pEnrollment');
         if( per != null && per != undefined && per != '' &&

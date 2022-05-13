@@ -62,16 +62,17 @@ import DigitalRecruitment from "@salesforce/label/c.Digital_Recruitment";
 import AF_All from "@salesforce/label/c.AF_All";
 import Male from "@salesforce/label/c.Gender_Male";
 import Female from "@salesforce/label/c.Gender_Female";
-import InitialVisitNotScheduled from "@salesforce/label/c.PIR_Initial_Visit_Not_Scheduled";
-import InitialVisitScheduled from "@salesforce/label/c.Initial_Visit_Scheduled";
 import More from "@salesforce/label/c.PIR_more";
+import pir_mm_dd_yyyy from "@salesforce/label/c.pir_mm_dd_yyyy";
+import PP_To from "@salesforce/label/c.PP_To";
+import PP_Scheduled from "@salesforce/label/c.PP_Scheduled";
+import PIR_Not_Scheduled from "@salesforce/label/c.PIR_Not_Scheduled";
+
 export default class Filtertest extends LightningElement {
   @api maindivcls;
   label = {
     AF_All,
     More,
-    InitialVisitNotScheduled,
-    InitialVisitScheduled,
     Male,
     Female,
     Active_InActive,
@@ -128,7 +129,11 @@ export default class Filtertest extends LightningElement {
     AllSources,
     ReferringProvider,
     PricipalInvestigator,
-    DigitalRecruitment
+    DigitalRecruitment,
+    pir_mm_dd_yyyy,
+    PP_To,
+    PP_Scheduled,
+    PIR_Not_Scheduled
   };
   @api
   filterClass = 'filter-area';
@@ -607,8 +612,7 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-
-    if (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150)) {
+    if ((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -619,10 +623,16 @@ export default class Filtertest extends LightningElement {
         .setCustomValidity("");
       this.isbuttonenabled = false;
       this.filterWrapper.ageTo = a1;
+      this.filterWrapper.ageFrom = a2;
     }
-    this.template
+    var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
@@ -630,7 +640,7 @@ export default class Filtertest extends LightningElement {
     this.ageEndValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if (Number(a1) > Number(a2) ||  (Number(a2) < 0 ||  Number(a2) > 150)) {
+    if ((Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -640,11 +650,17 @@ export default class Filtertest extends LightningElement {
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("");
       this.isbuttonenabled = false;
+      this.filterWrapper.ageTo = a1;
       this.filterWrapper.ageFrom = a2;
     }
-    this.template
+    var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
@@ -715,9 +731,9 @@ export default class Filtertest extends LightningElement {
   get initialvisitoptions() {
     return [
       { label: this.label.AF_All, value: "All" },
-      { label: this.label.InitialVisitScheduled, value: "Initial Visit Scheduled" },
+      { label: this.label.PP_Scheduled, value: "Initial Visit Scheduled" },
       {
-        label: this.label.InitialVisitNotScheduled,
+        label: this.label.PIR_Not_Scheduled,
         value: "Initial Visit Not Scheduled"
       }
     ];
@@ -925,6 +941,10 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
           ];
+            if(this.defaultStatus == 'Sent to DCT'){
+              this.defaultStatus = 'All Active Statuses';
+              this.selectedStatus = "All Active Statuses";
+            }
         }else if(this.studyToPrmoteDCT[this.defaultStudy] && this.studyToFinalStep[this.defaultStudy] == 'Enrollment'){
           this.statusoptions = [
             { label: this.label.AllStatuses, value: "All Active Statuses" },
@@ -954,6 +974,10 @@ export default class Filtertest extends LightningElement {
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
+            if(this.defaultStatus == 'Sent to DCT'){
+              this.defaultStatus = 'All Active Statuses';
+              this.selectedStatus = "All Active Statuses";
+            }
         }
 
       }else  if(this.selectedActiveInactive == 'Inactive'){

@@ -36,7 +36,7 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save'; 
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -89,7 +89,11 @@ export default class Medicalinformation extends LightningElement {
   detailedReport;
   lstEnrollmenthistry;
   decodeResult;
+  decodeMRRResult;
+  decodePreScreenerResult;
   decodeResultGizmo;
+  decodeMRRResultGizmo;
+  decodePreScreenerResultGizmo;
   loadSurvey;
   isRequestHistrySuccess;
   ismodelPopup = false;
@@ -244,10 +248,16 @@ export default class Medicalinformation extends LightningElement {
             this.ismediaFileAvailable = true;
           }
         }
-        if (result.booldisplaygizmo) {
-          this.formatgizmoresponse();
+        if (result.booldisplaymrrgizmo) {
+          let result = this.formatgizmoresponse(this.returnpervalue.strMRRSurveyResult);
+          this.decodeMRRResultGizmo = result.data;
+          this.decodeMRRResult = result.decodeResult;
         }
-
+        if (result.booldisplayprescreenergizmo) {
+          let result = this.formatgizmoresponse(this.returnpervalue.strPreScreenerSurveyResult);
+          this.decodePreScreenerResultGizmo = result.data;
+          this.decodePreScreenerResult = result.decodeResult;
+        }
         this.loadSurvey = true;
         this.isMedicalDataLoaded = true;
         this.isFilesRetrieved = true;
@@ -262,6 +272,11 @@ export default class Medicalinformation extends LightningElement {
 
       });
   }
+
+  get displayGizmoResult (){
+    return this.returnpervalue.booldisplaymrrgizmo||this.returnpervalue.booldisplayprescreenergizmo;
+  }
+  
   /*Method for HighRisk and High Priority */
   handlevalueupdateRisk(event) {
     
@@ -676,9 +691,9 @@ export default class Medicalinformation extends LightningElement {
   }
 
   @api
-  formatgizmoresponse() {
-    this.decodeResult = false;
-    let GizmoResult = this.returnpervalue.strMRRSurveyResult;
+  formatgizmoresponse(GizmoResult) {
+
+    let result = {data : undefined, decodeResult : false};
     
     if (!GizmoResult.includes("http")) {
       var Base64 = {
@@ -740,9 +755,9 @@ export default class Medicalinformation extends LightningElement {
       var data = Base64.decode(GizmoResult).toString();
       data = data.replace("<h1>", '<h1 class="hide-survey-header">');
       console.log(">>data>>" + data);
-      this.decodeResultGizmo = data;
-      this.decodeResult = true;
+      result = {data : data, decodeResult : true};
     }
+    return result;
   }
 
   //Accordian contact
@@ -759,8 +774,14 @@ export default class Medicalinformation extends LightningElement {
       });
     if (event.currentTarget.dataset.name == "screenerOneAcc") {
       console.log(">>coming in screner accordian");
-      this.template.querySelector(".screener").innerHTML =
-        this.decodeResultGizmo;
+      if(this.decodeMRRResultGizmo){
+          this.template.querySelector(".screener1").innerHTML =
+            this.decodeMRRResultGizmo;
+      }
+      if(this.decodePreScreenerResultGizmo){
+          this.template.querySelector(".screener2").innerHTML =
+            this.decodePreScreenerResultGizmo;
+      }
       console.log(">>coming in screner accordian end>>");
     }
   }

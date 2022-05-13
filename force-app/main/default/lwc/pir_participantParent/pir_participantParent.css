@@ -136,6 +136,7 @@
 }
 /* Scrollbar Code End */
 @media (max-device-width: 767px) {
+    .rtl { direction: rtl;}
     .vertical-scroll-pop{
         height: unset;
         overflow: unset;

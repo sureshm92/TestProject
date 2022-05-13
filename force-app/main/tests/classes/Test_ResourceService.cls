@@ -71,6 +71,7 @@ public class Test_ResourceService {
         rs.init('ResourceService.RESOURCE_TYPE_ARTICLE');
         rs.getResourceWrapperContainer();
         rs.getParticipantLanguage();
+        ResourceService.sortResourcesByCOI(wrappers);
         Test.stopTest();
         System.assertEquals(false, wrappers[0].isFavorite);
         System.assertEquals(false, wrappers[0].isVoted);

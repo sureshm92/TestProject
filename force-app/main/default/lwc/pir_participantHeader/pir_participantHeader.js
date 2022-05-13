@@ -18,6 +18,7 @@ import Records_sent_to_SH from '@salesforce/label/c.Records_sent_to_SH';
 import Records_all_invited from '@salesforce/label/c.Records_all_invited';
 import PG_MRR_R_Failed from '@salesforce/label/c.PG_MRR_R_Failed';
 import PG_MRR_R_Passed from '@salesforce/label/c.PG_MRR_R_Passed';
+import RH_Complete_Pre_Screener from '@salesforce/label/c.RH_Complete_Pre_Screener';
 import PG_MRR_BTN_Back_to_My_Participant from '@salesforce/label/c.PG_MRR_BTN_Back_to_My_Participant';
 import RH_Referred_by from '@salesforce/label/c.RH_Referred_by';
 import RH_Pre_screen from '@salesforce/label/c.RH_Pre_screen'; 
@@ -36,6 +37,7 @@ export default class Pir_participantHeader extends LightningElement {
         PG_MRR_R_Failed,
         PG_MRR_R_Passed,
         PG_MRR_BTN_Back_to_My_Participant,
+        RH_Complete_Pre_Screener,
         RH_Referred_by,
         RH_Pre_screen,
         Invited_to_Patient_Portal,
@@ -62,9 +64,15 @@ export default class Pir_participantHeader extends LightningElement {
     @api showActiondt = false;
     @api showActiondateTime = '';
     @api openMRR_Modal = false;
+    @api openPreScreener_Modal = false;
     @api mrrLink = '';
+    @api preScreenerLink = '';
+    @api showPreScreener_Button = false;
     @api mrrResults = false;
     @api mrrPassed = false;
+    @api preScreenerPassed = false;
+    @api preScreenerCompleted = false;
+    @api mrrCompleted = false;
     @api studySiteName = '';
     @api showPreScreen = false;
     @api participantName = '';
@@ -72,6 +80,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api showPrinticon = false;
     @api isrtl = false;
     maindivcls;
+    initialsName;
 
     connectedCallback() {
         loadStyle(this, PIR_Community_CSS)
@@ -90,6 +99,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.peId = this.selectedPE.id;
         this.firstName = this.selectedPE.firstName;
         this.lastName = this.selectedPE.lastName;
+        this.initialsName = this.selectedPE.initialsName;
         this.refNumber = this.selectedPE.refId;
         this.phoneNumber = this.selectedPE.participantPhone;
         this.studyName = this.selectedPE.studyName;
@@ -105,6 +115,7 @@ export default class Pir_participantHeader extends LightningElement {
                  this.per = result.per;
                  this.isAllowedForSH = result.isAllowedForSH;
                  this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
+                 this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
                     if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
                         this.showAction = true;
@@ -159,10 +170,19 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showAction = false;
                         this.showActionName = 'NOPP';
                     }
-                 if(!this.per.MRR_Survey_Results_URL__c && this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && result.preScreenAccess){
+                 if(((!this.per.MRR_Survey_Results_URL__c && 
+                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false) ||
+                    (!this.per.Pre_screening_Status__c && 
+                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false)) && 
+                    result.preScreenAccess){
+                        
                       this.showPreScreen = true;
                  }else{
                      this.showPreScreen = false;
+                 }
+                 if(!this.per.Pre_screening_Status__c && 
+                    this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
+                    this.showPreScreener_Button = true;
                  }
  
              })
@@ -191,12 +211,32 @@ export default class Pir_participantHeader extends LightningElement {
     }
 
     doPrescreen(){
+        if(!this.per.MRR_Survey_Results_URL__c && 
+            this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false){
         this.openMRR_Modal = true;
+            }else if (!this.per.Pre_screening_Status__c && 
+                this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false){
+                    this.openPreScreener_Modal = true;
+                }
     }
 
     closeMRR_Modal(){
         this.openMRR_Modal = false;
         this.mrrResults = false;
+    }
+
+
+    
+    pre_Eligibility(){
+        this.mrrResults = false;
+        this.openMRR_Modal = false;
+        this.openPreScreener_Modal = true;
+    }
+
+    closePreScreener_Modal(){
+        this.mrrResults = false;
+        this.preScreenerResults = false;
+        this.openPreScreener_Modal = false;
     }
 
     get checkAction(){
@@ -212,11 +252,34 @@ export default class Pir_participantHeader extends LightningElement {
        this.mrrResults = true;
        if(event.detail.result == 'Pass'){
           this.mrrPassed = true;
-          this.showPreScreen = false;
        }else{
           this.mrrPassed = false;
-          this.showPreScreen = false;
        }
+       if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
+           this.mrrCompleted = true;
+       }
+       if(!this.per.Pre_screening_Status__c && 
+        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.mrrCompleted && this.showPreScreen){
+            this.showPreScreen = true;
+        }
+    }
+
+    @api
+    doPreScreenerResult(event){
+       console.log(event.detail.result);
+       this.preScreenerResults = true;
+       if(event.detail.result == 'Pass'){
+          this.preScreenerPassed = true;
+          this.showPreScreen = false;
+          this.showPreScreener_Button = false;
+       }else{
+          this.preScreenerPassed = false;
+          this.showPreScreen = false;
+          this.showPreScreener_Button = false;
+       }
+       if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
+        this.preScreenerCompleted = true;
+    }
     }
 
     doAction(){
