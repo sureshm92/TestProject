@@ -557,6 +557,10 @@ export default class Filtertest extends LightningElement {
         .querySelector('lightning-input[data-name="datestart"]')
         .reportValidity();
       this.isInitialVisitSelected = true;
+      this.filterWrapper.initialVisitStartDate = '';
+      this.filterWrapper.initialVisitEndDate = '';
+      this.initialvisitStart = '';
+      this.initialvisitEnd = '';
     }
 
     this.filterWrapper.initialVisit = event.target.value;
@@ -566,20 +570,26 @@ export default class Filtertest extends LightningElement {
 
   handleInitialVisitStartDateChange(event) {
     this.initialvisitStart = event.target.value;
-    var d1 = new Date(this.initialvisitStart);
-    var d2 = new Date(this.initialvisitEnd);
-    if (d1 > d2) {
-      this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .setCustomValidity("Start Date cannot be greater than End Date");
-      this.isbuttonenabled = true;
-    } else {
-      this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .setCustomValidity("");
-      this.isbuttonenabled = false;
-      this.filterWrapper.initialVisitStartDate = d1.toISOString().split('T')[0];
+    if(this.initialvisitStart == null){
+      this.initialvisitStart = '';
+      this.filterWrapper.initialVisitStartDate = '';
+    }else{
+      var d1 = new Date(this.initialvisitStart);
+      var d2 = new Date(this.initialvisitEnd);
+      if (d1 > d2) {
+        this.template
+          .querySelector('lightning-input[data-name="datestart"]')
+          .setCustomValidity("Start Date cannot be greater than End Date");
+        this.isbuttonenabled = true;
+      } else {
+        this.template
+          .querySelector('lightning-input[data-name="datestart"]')
+          .setCustomValidity("");
+        this.isbuttonenabled = false;
+        this.filterWrapper.initialVisitStartDate = d1.toISOString().split('T')[0];
+      }
     }
+    
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
@@ -588,20 +598,26 @@ export default class Filtertest extends LightningElement {
 
   handleInitialVisitEndDateChange(event) {
     this.initialvisitEnd = event.target.value;
-    var d1 = new Date(this.initialvisitStart);
-    var d2 = new Date(this.initialvisitEnd);
-    if (d1 > d2) {
-      this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .setCustomValidity("Start Date cannot be greater than End Date");
-      this.isbuttonenabled = true;
-    } else {
-      this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .setCustomValidity("");
-      this.isbuttonenabled = false;
-      this.filterWrapper.initialVisitEndDate = d2.toISOString().split('T')[0];
+    if(this.initialvisitEnd == null){
+      this.initialvisitEnd = '';
+      this.filterWrapper.initialVisitEndDate  = '';
+    }else{
+      var d1 = new Date(this.initialvisitStart);
+      var d2 = new Date(this.initialvisitEnd);
+      if (d1 > d2) {
+        this.template
+          .querySelector('lightning-input[data-name="datestart"]')
+          .setCustomValidity("Start Date cannot be greater than End Date");
+        this.isbuttonenabled = true;
+      } else {
+        this.template
+          .querySelector('lightning-input[data-name="datestart"]')
+          .setCustomValidity("");
+        this.isbuttonenabled = false;
+        this.filterWrapper.initialVisitEndDate = d2.toISOString().split('T')[0];
+      }
     }
+    
     this.template
       .querySelector('lightning-input[data-name="datestart"]')
       .reportValidity();
@@ -622,8 +638,8 @@ export default class Filtertest extends LightningElement {
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("");
       this.isbuttonenabled = false;
-      this.filterWrapper.ageTo = a1;
-      this.filterWrapper.ageFrom = a2;
+      this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
+      this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
     var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
@@ -650,8 +666,8 @@ export default class Filtertest extends LightningElement {
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("");
       this.isbuttonenabled = false;
-      this.filterWrapper.ageTo = a1;
-      this.filterWrapper.ageFrom = a2;
+      this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
+      this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
     var temp = this.template
       .querySelector('lightning-input[data-name="agestart"]')
@@ -875,21 +891,31 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.presetName = "";
     this.isAnythingChangedForReset = true;
 
-
     this.template
-        .querySelector('lightning-input[data-name="agestart"]')
-        .setCustomValidity("");
+    .querySelector('lightning-input[data-name="agestart"]')
+    .setCustomValidity("");
+    var temp = this.template
+    .querySelector('lightning-input[data-name="agestart"]')
+    .reportValidity();
+    this.template
+    .querySelector('lightning-input[data-name="datestart"]')
+    .setCustomValidity("");
+    this.template
+    .querySelector('lightning-input[data-name="datestart"]')
+        .reportValidity();
+      this.isbuttonenabled = false;
+      window.clearTimeout(this.delayTimeout);
+  
+      this.delayTimeout = setTimeout(this.setAgeValidity.bind(this), 50);
+      
+  }
+  setAgeValidity(){
     this.template
       .querySelector('lightning-input[data-name="agestart"]')
       .reportValidity();
     this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .setCustomValidity("");
-    this.template
-        .querySelector('lightning-input[data-name="datestart"]')
-        .reportValidity();
-      this.isbuttonenabled = false;
-    
+      .querySelector('lightning-input[data-name="ageend"]')
+      .reportValidity();
   }
   sendFilterUpdates(){
     if(this.filterClass=="edit"){
