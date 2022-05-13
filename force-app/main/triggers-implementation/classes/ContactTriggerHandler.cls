@@ -420,7 +420,7 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
-            if (cont.Phone != oldMap.get(cont.Id).phone) {
+            if (cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
                 cont.Is_Invalid_Number__c = false;
             }
