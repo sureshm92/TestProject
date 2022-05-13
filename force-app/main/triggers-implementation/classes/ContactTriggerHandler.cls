@@ -23,11 +23,16 @@ public without sharing class ContactTriggerHandler {
     }
 
     public class UpdatePhoneNumberContactsHandler extends TriggerHandler {
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            //createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
-        }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
+            
+        }
+    }
+    /*For Welcome Msg -- Added by Anitha Start*/
+    public class createNotificationsHandler extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            retryWelcomeMsg(newList, (Map<Id, Contact>) oldMap);
+            createNotificationforWelcomemsg(newList, (Map<Id, Contact>) oldMap);        
         }
     }
 
@@ -401,6 +406,224 @@ public without sharing class ContactTriggerHandler {
         if (!toActivateUser.isEmpty())
             CommunityService.ActivateUsers(toActivateUser);
     }
+
+    @TestVisible
+    private static List<Notification__c> platformLevelNotifications(
+        Set<ID> conlst,
+        Map<Id, Contact> oldMap,
+        List<Contact> newList,
+        String operationtype
+    ) {
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        Map<Id, Participant__c> participantcontact = new Map<Id, Participant__c>();
+        List<ID> participantids = new List<ID>();
+        Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
+        Map<Id,Participant__c> participantconMap;
+        Map<Id, Participant__c> particpantmap = new Map<Id, Participant__c>(
+            [SELECT Id, Contact__c,Adult__c FROM Participant__c WHERE Contact__c IN :conlst]
+        );
+        system.debug('particpantmap:::'+particpantmap);
+        if (!particpantmap.isEmpty()) {
+            for (Participant__c participant : particpantmap.values()) {
+                participantcontact.put(participant.Contact__c, participant);
+                participantids.add(participant.Id);
+                 system.debug('participantcontact:::'+participantcontact);
+            }
+            if (participantids.size() > 0) {
+                partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                    participantIds
+                );
+                system.debug('partPerDelegateIds:::'+partPerDelegateIds);
+                /*if(!partPerDelegateIds.isEmpty()){
+                    participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, Participant__c, Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r ) From Participant__c where ID IN : partPerDelegateIds.keyset()]);
+                }*/
+            }
+        }
+        for (Contact con : newList) {
+            if (participantcontact.containskey(con.Id)) {
+                if(operationtype == 'Mobile' && con.Welcome_Message_Sent__c && !con.Welcome_Message_Delivered__c){
+                    system.debug('platform level contact');
+                    if(particpantmap.get(participantcontact.get(con.Id).Id).Adult__c){
+                        /*Platform Level PT mEsg*/
+                        welcomemsgnotifications.addAll(
+                            ContactService.addwelcomeNotifications(
+                                con.Id,
+                                participantcontact.get(con.Id).Id,
+                                NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                            )
+                        );
+                    }
+                    if(!partPerDelegateIds.isEmpty()){
+                        for (Id delegateconId : partPerDelegateIds.get(participantcontact.get(con.Id).Id)) {
+                            /*Platform Level Delegate*/
+                            system.debug('platform level del contact');
+                            // Adding for adult 
+                            //if(participantconMap.containskey(participantcontact.get(con.Id).Id) && participantconMap.get(participantcontact.get(con.Id).Id).Adult__c){
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        delegateconId,
+                                        participantcontact.get(con.Id).Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    )
+                                );
+                            /*}*/
+                        }
+                    }
+                }
+                else if(operationtype == 'smsoptin'){
+                    /*Platform Level PT mEsg*/
+                    if(!con.Welcome_Message_Sent__c){
+                        if(particpantmap.get(participantcontact.get(con.Id).Id).Adult__c){
+                            welcomemsgnotifications.addAll(
+                                ContactService.addwelcomeNotifications(
+                                    con.Id,
+                                    participantcontact.get(con.Id).Id,
+                                    NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                                )
+                            );
+                        }
+                    }
+                    if(!partPerDelegateIds.isEmpty()){
+                        for (Id delegateconId : partPerDelegateIds.get(participantcontact.get(con.Id).Id)) {
+                            /*Platform Level Delegate*/
+                            welcomemsgnotifications.addAll(
+                                ContactService.addwelcomeNotifications(
+                                    delegateconId,
+                                    participantcontact.get(con.Id).Id,
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return welcomemsgnotifications;
+    }
+
+    @TestVisible
+    //This method is used When the sms consent goes from off to on send welcome message at contact
+    private static void createNotificationforWelcomemsg(
+        List<Contact> newList,
+        Map<Id, Contact> oldMap
+    ) {
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        Set<ID> booleanupdateconidslst = new Set<ID>();
+        for (Contact con : newList) {
+             if (
+                oldMap != null &&
+                con.Participant_Opt_In_Status_SMS__c !=
+                oldMap.get(con.Id).Participant_Opt_In_Status_SMS__c &&
+                !con.Participant_Opt_In_Status_SMS__c
+            ) {
+                con.Welcome_Message_Sent__c = false;
+                con.Welcome_Message_Delivered__c = false;
+            } else if (
+                oldMap != null &&
+                !con.Welcome_Message_Sent__c &&
+                ((con.Participant_Opt_In_Status_SMS__c !=
+                oldMap.get(con.Id).Participant_Opt_In_Status_SMS__c &&
+                con.Participant_Opt_In_Status_SMS__c))
+            ) {
+                booleanupdateconidslst.add(con.Id);
+            }
+        }
+        /*Sending Platform Level SMS for Participant_Opt_In_Status_SMS__c update*/
+        if (booleanupdateconidslst.size() > 0) {
+            system.debug('contact platform');
+            welcomemsgnotifications.addAll(
+                platformLevelNotifications(booleanupdateconidslst, oldMap, newList,'smsoptin')
+            );
+        } 
+        if (!welcomemsgnotifications.isEmpty())
+            insert welcomemsgnotifications;
+    }
+     @TestVisible
+    //This method is to retry the welcome msg whenever is_Invalid_number__c field is true  and Mobile no is updated at contact
+    private static void retryWelcomeMsg(
+        List<Contact> newList,
+        Map<Id, Contact> oldMap
+    ){
+        Set<ID> mbleupdateconidslst = new Set<ID>();
+        Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
+        List<ID> participantids = new List<ID>();
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
+        List<Task> taskForUpdatePhoneNumber = new List<Task>();
+
+        for (contact cont : newList) {
+            if (cont.is_Invalid_number__c && cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
+                contMapForStatusUpdate.put(cont.Id, cont);
+                 mbleupdateconidslst.add(cont.Id);
+                 cont.Is_Invalid_Number__c = false;
+            }  
+        }
+        if (mbleupdateconidslst.size() > 0) {
+            /*Sending Study level and Platform Level SMS for Mobile no update*/
+            Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
+                [
+                    SELECT Id, Participant_Contact__c, Participant__c,Participant__r.Adult__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c IN :mbleupdateconidslst
+                ]
+            );
+            if (!peIdMap.isEmpty()) {
+                for (Participant_Enrollment__c per : peIdMap.values()) {
+                    participantIds.add(per.Participant__c);
+                }
+                if (participantids.size() > 0) {
+                    partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                        participantIds
+                    );
+                }
+                for (Participant_Enrollment__c per : peIdMap.values()) {
+                    if(per.Welcome_Message_Sent__c && !per.Welcome_Message_Delivered__c){
+                        if(!String.isBlank(per.Participant__c) && per.Participant__r.Adult__c){
+                            /*Study Level Welcome Msg to PT*/
+                            welcomemsgnotifications.addAll(
+                                ContactService.addwelcomeNotifications(
+                                    per.Participant_Contact__c,
+                                    per.Id,
+                                    NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                                )
+                            );
+                        }
+                        for (Id delegateconId : partPerDelegateIds.get(per.Participant__c)) {
+                            /*Study Level Delegate*/
+                            welcomemsgnotifications.addAll(
+                                ContactService.addwelcomeNotifications(
+                                    delegateconId,
+                                    per.Id,
+                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+            /*Send Platform Level Msg*/
+            welcomemsgnotifications.addAll(
+                platformLevelNotifications(mbleupdateconidslst, oldMap, newList,'Mobile')
+            );
+        }
+        if (contMapForStatusUpdate != null && !contMapForStatusUpdate.isEmpty()) {
+            list<task> taskList = [
+                SELECT Id, WhoId, Status
+                FROM task
+                WHERE
+                    WhoId IN :contMapForStatusUpdate.keySet()
+                    AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
+                    AND status = 'Open'
+            ];
+            for (task tl : taskList) {
+                tl.Status = 'Completed';
+                taskForUpdatePhoneNumber.add(tl);
+            }
+        }
+        update taskForUpdatePhoneNumber;
+        if (!welcomemsgnotifications.isEmpty())
+            insert welcomemsgnotifications;
+    }
     @TestVisible
     //This method creates a task to update phone number whenever is_Invalid_number__c field is updated to true at contact
     private static void createTaskToUpdatePhoneNumber(
@@ -420,12 +643,7 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
-            if (cont.Phone != oldMap.get(cont.Id).phone) {
-                contMapForStatusUpdate.put(cont.Id, cont);
-                cont.Is_Invalid_Number__c = false;
-            }
         }
-
         if (contMap != null && !contMap.isEmpty()) {
             //get the user from the contact list
             list<user> userList = [
@@ -456,20 +674,6 @@ public without sharing class ContactTriggerHandler {
                 }
             }
         }
-        if (contMapForStatusUpdate != null && !contMapForStatusUpdate.isEmpty()) {
-            list<task> taskList = [
-                SELECT Id, WhoId, Status
-                FROM task
-                WHERE
-                    WhoId IN :contMapForStatusUpdate.keySet()
-                    AND subject = :TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER
-                    AND status = 'Open'
-            ];
-            for (task tl : taskList) {
-                tl.Status = 'Completed';
-                taskForUpdatePhoneNumber.add(tl);
-            }
-        }
-        upsert taskForUpdatePhoneNumber;
+        insert taskForUpdatePhoneNumber;
     }
 }

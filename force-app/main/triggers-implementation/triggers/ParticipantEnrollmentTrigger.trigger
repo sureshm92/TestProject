@@ -27,7 +27,10 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
     );
-
+    /*For Welcome Msg -- Added by Anitha*/
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.createNotifications.class
+    );
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
     );
