@@ -1514,12 +1514,18 @@ export default class Pir_participantList extends LightningElement {
                 this.sortType = -1;
             }
         }
-        this.totalRecordCount = -1;
-        this.isResetPagination = true;
-        const selectEvent = new CustomEvent('resetparent', {
-            detail: ''
-        });
-        this.dispatchEvent(selectEvent);
+        if(this.totalRecordCount == 0){
+            this.totalRecordCount = -1;
+            this.fetchList();
+        }
+        else{
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
     }
     //PRESET
     presetOpts;
