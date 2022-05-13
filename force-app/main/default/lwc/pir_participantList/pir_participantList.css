@@ -236,6 +236,9 @@
 .hideDesktop{
     display: none;
 }
+.font-dropdowns{
+    font-size:12px;
+}
 
 @media all and (max-width: 47.9375em) { 
 .hideDesktop{
@@ -286,6 +289,9 @@
 } 
 .rtl .noRecords{
     margin-right:3rem;
+}
+.rtl .text-width{
+    text-align:right;
 }
 @media (max-device-width: 767px) {
     .rtl .w-filter{
