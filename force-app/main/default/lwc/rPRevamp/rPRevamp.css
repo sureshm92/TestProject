@@ -17,7 +17,7 @@
 
 .mobileCards .buffermain .slds-card {
     height: 100%;
-   /* min-height: 52vh; */
+    /* min-height: 52vh; */
     overflow-y: auto;
 }
 
@@ -26,15 +26,15 @@
     padding-right: 0;
 }
 
-.bulk-import{
-    line-height:21px !important;
+.bulk-import {
+    line-height: 21px !important;
 }
 
 .bulk-import-files {
     height: 30px;
     width: 304px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     letter-spacing: 0;
     line-height: 30px;
@@ -43,7 +43,7 @@
 
 .bulk-import-buttons {
     padding-right: 16px;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 550;
     letter-spacing: 0;
@@ -55,23 +55,23 @@
 }
 */
 .neutral-button {
-    color: #0768FD;
+    color: #0768fd;
 }
 
 .table-header-label {
-    color: #7A7A7A;
-    font-family: "Proxima Nova";
+    color: #7a7a7a;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 21px;
-  }
+}
 
-  .inprogress {
+.inprogress {
     height: 24px;
     width: 166px;
-    color: #EB8100;
-    font-family: "Proxima Nova";
+    color: #eb8100;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0;
@@ -79,43 +79,41 @@
     position: absolute;
     top: -42px;
     right: 124px;
-  }
-  .completed{
+}
+.completed {
     color: green;
-  }
+}
 
-  .table-header {
+.table-header {
     height: 30px;
     width: 1174px;
-    background-color: #F8F9FB;
-  }
-  
-  .table-data {
+    background-color: #f8f9fb;
+}
+
+.table-data {
     text-align: center;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 21px;
-  }
-
-  .table-row {
-    height: 49px;
-    width: 1173.6px;
-  }
-
-  .table-row:nth-child(even) {
-    background-color: #F8F9FB;
 }
 
+.table-row {
+    height: 49px;
+    width: 1173.6px;
+}
 
+.table-row:nth-child(even) {
+    background-color: #f8f9fb;
+}
 
-.table-rejected{
-    color: #E20000;
+.table-rejected {
+    color: #e20000;
     font-weight: bold;
 }
 
-.table-text-left{
+.table-text-left {
     text-align: left;
 }
 
@@ -125,53 +123,51 @@
     border-color: #297dfd;
 }
 .saveButton:hover {
-    background-color:#1c577f;
+    background-color: #1c577f;
     border-color: #1c577f;
-
 }
-.modalBody{
+.modalBody {
     /* font-family: "Inv Maison Neue","Maison Neue",-apple-system,BlinkMacSystemFont,"Open Sans",open-sans,sans-serif;*/
     min-height: 250px;
 }
 .modalBody .label {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     letter-spacing: 0;
     line-height: 24px;
-  }
-.modalBody .slds-progress-bar__value{
-    background-color: #0768FD;
 }
-.fileInput{
+.modalBody .slds-progress-bar__value {
+    background-color: #0768fd;
+}
+.fileInput {
     width: 100%;
     height: 117px;
     position: absolute;
 }
-.fileBox{
+.fileBox {
     width: 100%;
-    height: 117px;
-    border: 1px dashed #B5B5B5;
+    height: 120px;
+    border: 1px dashed #b5b5b5;
     border-radius: 4px;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     position: absolute;
     pointer-events: none;
-
 }
-.fileHolder{
+.fileHolder {
     min-height: 130px;
 }
-.uploadLabel{
+.uploadLabel {
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
 }
-.linkLabel{
-    color: #0768fd;    
+.linkLabel {
+    color: #0768fd;
 }
-.fileName{    
+.fileName {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0;
@@ -179,13 +175,13 @@
     margin-top: 1rem;
 }
 
-.elipsis{
+.elipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .iconBlue {
-    fill : #297dfd;
+    fill: #297dfd;
 }
 .progressBar {
     width: 95%;
@@ -206,87 +202,84 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.importInfo ol{
-    list-style : decimal;
+.importInfo ol {
+    list-style: decimal;
 }
-.importInfo ol>li>ol{
-    list-style : lower-alpha;
+.importInfo ol > li > ol {
+    list-style: lower-alpha;
     padding-left: 2rem;
 }
-.importInfo>.processTextBody>ol>li 
-{
+.importInfo > .processTextBody > ol > li {
     padding-bottom: 10px;
     margin-left: 23px;
 }
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size: 14px;
 }
-.processtext
-{
+.processtext {
     overflow-y: scroll;
     height: 22rem;
 }
 .importInfo .header1 {
     position: absolute;
     top: -20px;
-   /* left: 24px;  not required for desktop */
+    /* left: 24px;  not required for desktop */
     font-size: 24px;
     font-weight: 600;
 }
-.okButton{
+.okButton {
     height: 40px;
     width: 80px;
 }
-.disabledB{
-    opacity : 0.5;
+.disabledB {
+    opacity: 0.5;
 }
-.leftMargin{
+.leftMargin {
     margin: 0px 8px 0px 8px;
 }
 
-.label-icon-color{
-    -webkit-text-fill-color:  #297dfd;
-    --lwc-colorTextIconDefault:  #297dfd;
-  }
+.label-icon-color {
+    -webkit-text-fill-color: #297dfd;
+    --lwc-colorTextIconDefault: #297dfd;
+}
 
 /*mobile*/
 
-.mobileCards{
-    display:none;
+.mobileCards {
+    display: none;
 }
 
 @media (max-device-width: 768px) {
-    .desktopList{
-        display:none;
+    .desktopList {
+        display: none;
     }
 
     .slds-card__body.slds-card__body_inner div {
         padding-bottom: 2px;
     }
 
-    .mobileCards
-    .bulk-import-files,
+    .mobileCards .bulk-import-files,
     .inprogress {
         padding: unset;
     }
     .inprogress {
         top: -17px;
         right: 7rem;
-      }
-
-    .bufferSides{
-        float: left;
-        width: 10%;
-        border: .1px solid white;
     }
 
-    .slds-dropdown_right, 
-    .slds-dropdown--right{
+    .bufferSides {
+        float: left;
+        width: 10%;
+        border: 0.1px solid white;
+    }
+
+    .slds-dropdown_right,
+    .slds-dropdown--right {
         top: 55px;
         width: 175px;
         right: 10px;
     }
-    .bulk-importButton{
+    .bulk-importButton {
         background: #0768fd;
         color: white !important;
     }
@@ -304,12 +297,12 @@
         padding-left: 0;
     }
 
-     .bulkUploadBtn .slds-icon-utility-down {
-       display: none;
+    .bulkUploadBtn .slds-icon-utility-down {
+        display: none;
     }
 
-     .bulkUploadBtn:after {
-        content: "";
+    .bulkUploadBtn:after {
+        content: '';
         position: absolute;
         background-image: url(/resource/1630921848000/IconTriangleDownBlue);
         background-size: 16px 16px;
@@ -317,19 +310,19 @@
         width: 16px;
         top: 25px;
         right: 19px;
-     }
-    
-    .processtext{
+    }
+
+    .processtext {
         height: auto;
     }
-    .processBody{
+    .processBody {
         zoom: 0.8;
     }
-    .importInfo .header1{
+    .importInfo .header1 {
         top: -27px;
         left: -5px;
     }
-    .importInfo{
+    .importInfo {
         padding: 10px 12px 10px 30px;
     }
 
@@ -339,11 +332,10 @@
         max-height: 60vh;
         overflow-y: auto;
     }
-    .mobileCards{
-        display:block;
+    .mobileCards {
+        display: block;
     }
 }
-
 
 @media (max-device-width: 486px) {
     .popUpDisplay {
@@ -360,7 +352,7 @@
     /* .processtext{
         height: auto;
     } */
-    .processBody{
+    .processBody {
         zoom: 0.8;
     }
 
@@ -386,7 +378,6 @@
     .bulkUploadTitle .slds-dropdown_right {
         top: 55px;
         right: 10px;
-
     }
 
     .slds-dropdown__item > a {
@@ -405,5 +396,4 @@
     .uploadLabel {
         word-break: break-word;
     }
-
 }

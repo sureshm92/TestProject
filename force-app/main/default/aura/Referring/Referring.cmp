@@ -1380,10 +1380,10 @@
                                                                 <div class="slds-col slds-size_1-of-3">
                                                                     <lightning:layout horizontalAlign="space">
                                                                         <lightning:layoutItem >
-                                                                            <div class="label">
+                                                                            <div class="label sameline">
                                                                                 <abbr title="required" class="slds-required"
                                                                                       >*</abbr
-                                                                                    >{!$Label.c.RH_RP_Birth_Month}
+                                                                                    ><legend class= "overlaptext " title="{!$Label.c.RH_RP_Birth_Month}">{!$Label.c.RH_RP_Birth_Month}</legend>
                                                                             </div>
                                                                             <div style="width:80px">
                                                                                 <c:rrSelect
@@ -1401,10 +1401,10 @@
                                                                 <div class="slds-col slds-size_1-of-3">
                                                                     <lightning:layout horizontalAlign="space">
                                                                         <lightning:layoutItem >
-                                                                            <div class="label" style="padding-left:2px">
+                                                                            <div class="label sameline" style="padding-left:2px">
                                                                                 <abbr title="required" class="slds-required"
                                                                                       >*</abbr
-                                                                                    >{!$Label.c.RH_RP_Birth_Day}
+                                                                                    ><legend class= "overlaptext " title="{!$Label.c.RH_RP_Birth_Day}">{!$Label.c.RH_RP_Birth_Day}</legend>
                                                                             </div>
                                                                             <div style="width:67px;padding-right:1px;padding-left:4px">
                                                                                 <c:rrSelect
@@ -1422,12 +1422,12 @@
                                                                 <div class="slds-col slds-size_1-of-3">
                                                                     <lightning:layout horizontalAlign="space">
                                                                         <lightning:layoutItem >
-                                                                            <div class="label" style="padding-left:4px;">
+                                                                            <div class="label sameline" style="padding-left:4px;">
                                                                                 <abbr title="required" class="slds-required"
                                                                                       >*</abbr
-                                                                                    >{!$Label.c.RH_RP_Birth_Year}
+                                                                                    ><legend class= "overlaptext " title="{!$Label.c.RH_RP_Birth_Year}">{!$Label.c.RH_RP_Birth_Year}</legend>
                                                                             </div>
-                                                                            <div style="width:81px;padding-left:4px;">
+                                                                            <div style="width: 70px;padding-left:4px;">
                                                                                 <c:rrSelect
                                                                                             options="{!v.years}"
                                                                                             value="{!v.pyear}"
@@ -1539,11 +1539,16 @@
                                                          style="height: 20px"
                                                          ></div>
                                                     <div class="slds-col slds-size--1-of-2">
+                                                        <div class="tooltip">
+                                                            <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
+                                                                <abbr title="required" class="slds-required"
+                                                                  >{!v.needsGuardian ? '*' : ''}</abbr
+                                                                >{!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
                                                         <!-- REF-3070 - Added disabled -->
                                                         <lightning:input
                                                                          aura:id="emailRepeatField"
                                                                          type="text"
-                                                                         label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
+                                                                         variant="label-hidden"
                                                                          value="{!v.emailRepeat}"
                                                                          pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                          required="{!!v.needsGuardian}"
@@ -1551,21 +1556,32 @@
                                                                          onblur="{!c.doCheckfields}"
                                                                          messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                                                          />
+                                                                         <span>{!$Label.c.PG_Ref_L_Re_enter_email_address}</span>
                                                     </div>
                                                 </div>
+                                            </div>
                                                 <div
                                                      class="slds-grid slds-gutters slds-wrap rr-form-element"
                                                      >
                                                     <div class="slds-col slds-size--1-of-2">
+                                                        <div class="tooltip">
+                                                            <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
+                                                                <abbr title="required" class="slds-required"
+                                                                      >{!v.needsGuardian ? '*' : ''}</abbr
+                                                                    >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
                                                         <!-- REF-3070 - Added disabled -->
                                                         <lightning:input
                                                                          type="text"
-                                                                         label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
+                                                                         variant="label-hidden"
                                                                          value="{!v.participant.Phone__c}"
                                                                          required="{!!v.needsGuardian}"
                                                                          disabled="{!v.enableGuardian}"
                                                                          onblur="{!c.doCheckfields}"
                                                                          />
+                                                                         <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                     </div>
+                                    </div>
+                                    </div>
                                                     </div>
                                                     <div
                                                          class="slds-col rr-medium-up-hide"
@@ -1716,16 +1732,23 @@
                                                              style="height: 20px"
                                                              ></div>
                                                         <div class="slds-col slds-size--1-of-2">
+                                                            <div class="tooltip">
+                                                                <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
+                                                                   <abbr title="required" class="slds-required"
+                                                                          >{!!v.needsGuardian ? '*' : ''}</abbr
+                                                                        >{!$Label.c.PG_Ref_L_Re_enter_email_address}</legend>
                                                             <lightning:input
                                                                              aura:id="emailDelegateRepeatField"
                                                                              type="text"
-                                                                             label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
+                                                                             variant="label-hidden"
                                                                              value="{!v.emailDelegateRepeat}"
                                                                              pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                              required="{!v.hasGaurdian}"
                                                                              onblur="{!c.doCheckfields}"
                                                                              messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                                                              />
+                                                                             <span>{!$Label.c.PG_Ref_L_Re_enter_email_address}</span>
+                                                         </div>
                                                         </div>
                                                     </div>
                                                     <aura:if
@@ -1739,14 +1762,21 @@
                                                          class="slds-grid slds-gutters slds-wrap rr-form-element"
                                                          >
                                                         <div class="slds-col slds-size--1-of-2">
+                                                            <div class="tooltip">
+                                                                <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 5PX;">
+                                                                    <abbr title="required" class="slds-required"
+                                                                          >{!v.needsGuardian ? '*' : ''}</abbr
+                                                                        >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</legend>
                                                             <lightning:input
                                                                              type="text"
-                                                                             label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
+                                                                             variant="label-hidden"
                                                                              value="{!v.delegateParticipant.Phone__c}"
                                                                              required="{!v.hasGaurdian}"
                                                                              onblur="{!c.doCheckfields}"
                                                                              aura:id="delegate-phone"
                                                                              />
+                                                                             <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                                          </div>                  
                                                         </div>
                                                         <div
                                                              class="slds-col rr-medium-up-hide"
