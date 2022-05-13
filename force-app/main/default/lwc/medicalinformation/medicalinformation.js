@@ -36,9 +36,7 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
-import PE_MedicalRecordReview from "@salesforce/label/c.PE_MedicalRecordReview";
-import RH_Pre_screen from "@salesforce/label/c.RH_Pre_screen";
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save'; 
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -73,9 +71,7 @@ export default class Medicalinformation extends LightningElement {
     pir_BmiHelptext,
     RH_MedicalRecords_NoPermitEmail,
     PIR_Download,
-    RH_RP_Record_Saved_Successfully,
-    RH_Pre_screen,
-    PE_MedicalRecordReview
+    RH_RP_Record_Saved_Successfully
   };
 
   @api selectedPe;

@@ -47,7 +47,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
+<<<<<<< HEAD
     
+=======
+
+    public class DefaultEcoaTask extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createDefaultTaskForEcoa(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+>>>>>>> 560243f174e6a27fda26aa9e20cb081b3318efee
     public class CompleteEnrollmentTasks extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks(
@@ -1239,7 +1249,55 @@ proccessedParticipants.add(pe.Participant__c);*/
             update peshList;
         }
     }
+<<<<<<< HEAD
     
+=======
+
+    @TestVisible
+    private static void createDefaultTaskForEcoa(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
+        Set<Id> participantContactIds = new Set<Id>();
+        for (Participant_Enrollment__c per : newList) {
+            Boolean subjectGuidAdded = oldMap.get(per.Id).Subject_GUID__c != per.Subject_GUID__c ? true : false;
+            if(subjectGuidAdded && per.Subject_GUID__c != null && per.Subject_GUID__c != '') {
+                participantContactIds.add(per.Participant_Contact__c);
+                enrollments.add(per);
+            }
+        }
+        Map<Id, User> usersByContactId = new Map<Id, User>();
+        List<Task> taskList = new List<Task>();
+        for (User user : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+            usersByContactId.put(user.ContactId, user);
+        }
+        for(Participant_Enrollment__c per : enrollments){
+           Task t = new Task(
+            Subject = TaskService.TASK_CODE_ECOA_TASK,
+            Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
+            Status = TaskService.TASK_STATUS_OPEN,
+            Priority = TaskService.TASK_PRIORITY_CRITICAL,
+            Action_URL__c ='e-diaries',
+            WhatId = per.Participant__c,
+            WhoId = per.Participant_Contact__c,
+            Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
+            Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
+            );
+            if (usersByContactId.get(per.Participant_Contact__c) != null) {
+                //if user exist then assign to him:
+                t.OwnerId = usersByContactId.get(per.Participant_Contact__c).Id;
+            } else {
+                //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                t.Owner_Contact__c = per.Participant_Contact__c;
+            }
+            taskList.add(t);
+        }
+        if (!taskList.isEmpty())
+        insert taskList;
+
+    }
+>>>>>>> 560243f174e6a27fda26aa9e20cb081b3318efee
     public static void CreateEcoaEvents(
         List<Participant_Enrollment__c> newList,
         Map<Id, Participant_Enrollment__c> oldMap

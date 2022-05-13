@@ -643,6 +643,13 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
+<<<<<<< HEAD
+=======
+            if (cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
+                contMapForStatusUpdate.put(cont.Id, cont);
+                cont.Is_Invalid_Number__c = false;
+            }
+>>>>>>> 560243f174e6a27fda26aa9e20cb081b3318efee
         }
         if (contMap != null && !contMap.isEmpty()) {
             //get the user from the contact list

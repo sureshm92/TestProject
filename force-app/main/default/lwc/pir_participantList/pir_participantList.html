@@ -72,7 +72,7 @@
                              <span><lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down" class="slds-icon-text-primary"></lightning-icon></span>
                         </button>
                             <div class="slds-dropdown slds-dropdown_left w-100" >
-                                <ul class="slds-dropdown__list" role="menu" aria-label={dropDownLabel}>
+                                <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label={dropDownLabel}>
                                    <template if:false={hideActiononSearch}>
                                     <template if:false={noRecords}>
                                    <template if:true={showDCT}>
@@ -112,7 +112,7 @@
                     <template if:true={changeStatus}>
                         <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
                             <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
-                              options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                            placeholder="Select a status"  options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
                         </div> 
                     </template>
                 </template>
