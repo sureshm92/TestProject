@@ -41,5 +41,13 @@
     //Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP
     onClickHelp: function () {
         communityService.navigateToPage('help');
+    },
+    handleClick: function (component, event, helper) {
+        var showHide = component.get('v.isPPonPhone');
+        if (showHide == false) {
+            component.set('v.isPPonPhone', true);
+        } else {
+            component.set('v.isPPonPhone', false);
+        }
     }
 });

@@ -5,6 +5,7 @@
 <aura:component description="CommunityNavigationMobile" extends="c:AbstractNavigation">
     <!-- attributes: -->
     <aura:attribute name="showSideMenu" type="Boolean" access="public" />
+    <aura:attribute name="isPPonPhone" type="Boolean" access="public" />
     <aura:attribute name="class" type="String" />
     <aura:attribute name="userMode" type="String" />
 
@@ -14,10 +15,53 @@
         onclick="{!c.hideMenu}"
         style="{!if(v.showSideMenu, '', 'visibility:hidden')}"
     ></div>
-    <nav
-        class="{!v.class + ' cnm-z-order overlay ' + if(v.showSideMenu, ' dark ', '')}"
-        onclick="{!c.hideMenu}"
-    >
+    <aura:if isTrue="{!v.communityTemplate != 'PatientPortal'}">
+        <nav
+            class="{!v.class + ' cnm-z-order overlay ' + if(v.showSideMenu, ' dark ', '')}"
+            onclick="{!c.hideMenu}"
+        >
+            <ul class="{!'mobile-menu-background nav-menu ' + if(v.showSideMenu, 'show', '')}">
+                <aura:iteration items="{!v.menuItems}" var="item">
+                    <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
+                        <div class="nav-menu-item-content">
+                            <c:RRIcon
+                                iconName="{!item.icon}"
+                                color="white"
+                                class="navigation-icon"
+                            />
+                            <c:CommunityResourcesNavigation
+                                itemResource="{!v.item}"
+                                communityTemplate="{!v.communityTemplate}"
+                                currentUserMode="{!v.userMode}"
+                            />
+                        </div>
+                        <aura:set attribute="else">
+                            <li
+                                class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}"
+                                data-page-name="{!item.page}"
+                                onclick="{!c.onClick}"
+                            >
+                                <div class="nav-menu-item-content">
+                                    <c:RRIcon
+                                        iconName="{!item.icon}"
+                                        color="white"
+                                        class="navigation-icon"
+                                    />
+                                    <span>{!item.label}</span>
+                                    <aura:if isTrue="{!equals(item.page, 'messages')}">
+                                        <c:navMessageCounter
+                                            isOnPage="{!item.page == v.currentPage}"
+                                        />
+                                    </aura:if>
+                                </div>
+                            </li>
+                        </aura:set>
+                    </aura:if>
+                </aura:iteration>
+            </ul>
+        </nav>
+    </aura:if>
+    <aura:if isTrue="{!v.isPPonPhone}">
         <ul class="{!'mobile-menu-background nav-menu ' + if(v.showSideMenu, 'show', '')}">
             <aura:iteration items="{!v.menuItems}" var="item">
                 <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
@@ -26,7 +70,7 @@
                         <c:CommunityResourcesNavigation
                             itemResource="{!v.item}"
                             communityTemplate="{!v.communityTemplate}"
-                            currentUserMode = "{!v.userMode}"                            
+                            currentUserMode="{!v.userMode}"
                         />
                     </div>
                     <aura:set attribute="else">
@@ -51,5 +95,5 @@
                 </aura:if>
             </aura:iteration>
         </ul>
-    </nav>
+    </aura:if>
 </aura:component>

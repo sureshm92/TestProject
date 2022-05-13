@@ -15,6 +15,34 @@
         <value>Discard Changes?</value>
     </labels>
     <labels>
+        <fullName>PIR_Decentralized_Trials</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Decentralized_Trials</shortDescription>
+        <value>Decentralized Trials</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Initial_Visit_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Initial_Visit_Validation</shortDescription>
+        <value>Initial Visit Attended Date cannot be future date</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Save_Changes</shortDescription>
+        <value>Save Changes?</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Unsaved_Changes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Unsaved_Changes</shortDescription>
+        <value>You have unsaved changes on this tab. Your changes will be lost if they are not saved.</value>
+    </labels>
+    <labels>
         <fullName>PIR_PopupMessage</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11615,6 +11643,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
     </labels>
+     <labels>
+        <fullName>Send_to_DCT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to DCT</shortDescription>
+        <value>Send to DCT</value>
+    </labels>
+     <labels>
+        <fullName>RH_ExportSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ExportSelected</shortDescription>
+        <value>Export Selected</value>
+    </labels>
+     <labels>
+        <fullName>RH_ParticipantSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ParticipantSelected</shortDescription>
+        <value>Participant(s) Selected</value>
+    </labels>
     <labels>
         <fullName>pir_Received_History</fullName>
         <language>en_US</language>
@@ -15672,11 +15721,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW</shortDescription>
+        <value>By checking any of the boxes below, you confirm that your patient and/or patient&apos;s legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities and other opportunities to help advance medical research, by the means specified below and according to the terms of IQVIA&apos;s Privacy Policy.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities and other opportunities to help advance medical research, according to the terms of IQVIA&apos;s Privacy Policy.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
         <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian consents to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
@@ -15700,6 +15770,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>that IQVIA or its affiliates may contact the patient via SMS/text messaging regarding this study</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US</shortDescription>
+        <value>Your patient or patient&apos;s legal guardian also consents to be contacted by SMS/text for these purposes.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15712,6 +15789,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_ShareInformation</shortDescription>
         <value>to share the above information with IQVIA and its affiliates</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -18455,6 +18539,13 @@ communications using the toggles below.</value>
         <value>Opening this link is only supported using the web browser experience</value>
     </labels>
     <labels>
+        <fullName>Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
         <fullName>Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20009,6 +20100,13 @@ communications using the toggles below.</value>
         <value>Export to Excel</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Outreach_already_initiated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach already initiated</shortDescription>
+        <value>Outreach already initiated</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Outreach_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20028,6 +20126,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH_RP_OutreachEmail</shortDescription>
         <value>Initiate a request to send an outreach email to the selected patients.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_was_sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP Outreach was sent</shortDescription>
+        <value>Outreach was sent</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patients_Selected</fullName>
@@ -20574,6 +20679,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP want to include patients</shortDescription>
         <value>Are you sure you want to include the patient(s)?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_YOB</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH RP YOB</shortDescription>
+        <value>YOB</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
@@ -21214,6 +21326,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>SGT Pending Your Action</shortDescription>
         <value>Pending Your Action</value>
+    </labels>
+    <labels>
+        <fullName>SMS_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SMS_Text</shortDescription>
+        <value>SMS/Text</value>
     </labels>
     <labels>
         <fullName>SS_Add_A_Member</fullName>

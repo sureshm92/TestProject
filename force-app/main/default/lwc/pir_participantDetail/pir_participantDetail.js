@@ -74,6 +74,7 @@ export default class Pir_participantDetail extends LightningElement {
     delegateMinor =false;
     disableEdit = false;
     saveoffCount = 100;
+    isOutreachUpdated = false;
     fieldMap = new Map([["src" , "MRN_Id__c"],
 				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
@@ -923,7 +924,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,delegateCriteria:this.delOp})
+        doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
         .then(result => {
             this.dispatchEvent(new CustomEvent('toggleclick'));
             this.dispatchEvent(new CustomEvent('handletab'));
@@ -963,6 +964,21 @@ export default class Pir_participantDetail extends LightningElement {
         }        
         return false;
     }
+
+    handleConsentUpdate(event){
+        if(event.detail.consentMap.cType == 'study'){
+            this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
+            this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = event.detail.consentMap.pe.Permit_SMS_Text_for_this_study__c;
+            this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c;
+        }
+        if(event.detail.consentMap.cType == 'outreach'){
+            this.isOutreachUpdated = true;
+            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
+            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
+            this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
+        }
+    }
+
     //Labels
     BTN_Participant_Information=BTN_Participant_Information;
     PG_AS_F_First_name=PG_AS_F_First_name;

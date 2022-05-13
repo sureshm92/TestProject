@@ -59,7 +59,8 @@
                 allowPhone: component.get('v.isPhone'),
                 allowSMS: component.get('v.isSMS'),
                 allowContact: component.get('v.doContact'),
-                allowDelegateContact: isDelegate
+                allowDelegateContact: isDelegate,
+                contactConsentJSON: JSON.stringify(component.get('v.contactConsent'))
             },
             function (createdPE) {
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
@@ -68,7 +69,7 @@
                 if (!component.get('v.doContact')) {
                     component.set('v.createUsers', false);
                 }
-                component.find('checkbox-Contact').set('v.checked', false);
+                component.find('consent-Manager').reInitialize();
                 component.set('v.attestAge', false);
             },
             null,
