@@ -290,6 +290,9 @@
 .rtl .noRecords{
     margin-right:3rem;
 }
+.rtl .text-width{
+    text-align:right;
+}
 @media (max-device-width: 767px) {
     .rtl .w-filter{
         margin-left: 0px;
