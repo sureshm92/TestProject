@@ -78,7 +78,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
     }
     
     public override Type getType() {
-        return Batch_PatientTaskReminder.class;
+        return Batch_TelevisitReminder.class;
     }
 
     public override String getBatchDescription() {
