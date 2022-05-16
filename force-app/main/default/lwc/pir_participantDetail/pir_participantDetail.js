@@ -70,7 +70,7 @@ import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
 import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save' 
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];

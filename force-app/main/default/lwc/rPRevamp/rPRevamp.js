@@ -37,6 +37,19 @@ import BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files from '@salesfo
 import BulkImport_TableHeading from '@salesforce/label/c.BulkImport_TableHeading';
 import BulkImport_Initial_Total_Records from '@salesforce/label/c.BulkImport_Initial_Total_Records';
 import BulkImport_No_files_to_display from '@salesforce/label/c.BulkImport_No_files_to_display';
+import RH_RP_Bulk_format from '@salesforce/label/c.RH_RP_Bulk_format';
+import RH_RP_Patients from '@salesforce/label/c.RH_RP_Patients';
+import RH_RP_Study_Name from '@salesforce/label/c.RH_RP_Study_Name';
+import RH_RP_file from '@salesforce/label/c.RH_RP_file';
+import RH_RP_Complete_Select from '@salesforce/label/c.RH_RP_Complete_Select';
+import RH_RP_Records from '@salesforce/label/c.RH_RP_Records';
+import RH_RP_Referred_Tab from '@salesforce/label/c.RH_RP_Referred_Tab';
+import RH_RP_Result_Sheet from '@salesforce/label/c.RH_RP_Result_Sheet';
+import RH_RP_Validation_Errors from '@salesforce/label/c.RH_RP_Validation_Errors';
+import RH_RP_Rejection_Reason from '@salesforce/label/c.RH_RP_Rejection_Reason';
+import RH_RP_File_Name from '@salesforce/label/c.RH_RP_File_Name';
+import RH_RP_Rejected_Records from '@salesforce/label/c.RH_RP_Rejected_Records';
+
 const MAX_FILE_SIZE = 2621440; // 4500000; max file size prog can handle
 const CHUNK_SIZE = 9000; //750000; max chunk size prog can handle
 
@@ -66,6 +79,18 @@ export default class RPRevamp extends LightningElement {
     BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files = BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
     BulkImport_TableHeading = BulkImport_TableHeading;
     BulkImport_Initial_Total_Records = BulkImport_Initial_Total_Records;
+    RH_RP_Rejected_Records = RH_RP_Rejected_Records;
+    RH_RP_File_Name = RH_RP_File_Name;
+    RH_RP_Rejection_Reason = RH_RP_Rejection_Reason;
+    RH_RP_Validation_Errors = RH_RP_Validation_Errors;
+    RH_RP_Result_Sheet = RH_RP_Result_Sheet;
+    RH_RP_Referred_Tab = RH_RP_Referred_Tab;
+    RH_RP_Records = RH_RP_Records;
+    RH_RP_Complete_Select = RH_RP_Complete_Select;
+    RH_RP_file = RH_RP_file;
+    RH_RP_Study_Name = RH_RP_Study_Name;
+    RH_RP_Patients = RH_RP_Patients;
+    RH_RP_Bulk_format = RH_RP_Bulk_format;
 
     templateFile = downloadBulkTemplate;
     instructionsSvgURL = bulkicons + '/instructions.svg';

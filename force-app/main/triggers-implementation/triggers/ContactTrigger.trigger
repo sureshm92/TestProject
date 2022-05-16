@@ -16,6 +16,11 @@ trigger ContactTrigger on Contact(
         TriggerHandlerExecutor.execute(
             ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
         );
+        /*For Welcome Msg -- Added by Anitha Start*/
+        TriggerHandlerExecutor.execute(
+            ContactTriggerHandler.createNotificationsHandler.class
+        );
+        
         TriggerHandlerExecutor.execute(
             ContactTriggerHandler.CreateUserForDelegateContactHandler.class
         );
