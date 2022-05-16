@@ -2,6 +2,12 @@
   padding: 0.5rem 15px 0 0;
 }
 
+.textoverflow{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .searchGroup {
   flex-wrap: nowrap;
   display: flex;
