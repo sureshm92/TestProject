@@ -562,7 +562,7 @@ public without sharing class ContactTriggerHandler {
             /*Sending Study level and Platform Level SMS for Mobile no update*/
             Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
                 [
-                    SELECT Id, Participant_Contact__c, Participant__c,Participant__r.Adult__c
+                    SELECT Id, Participant_Contact__c, Welcome_Message_Delivered__c,Participant__c,Welcome_Message_Sent__c,Participant__r.Adult__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c IN :mbleupdateconidslst
                 ]
@@ -643,13 +643,6 @@ public without sharing class ContactTriggerHandler {
             ) {
                 contMap.put(cont.Id, cont);
             }
-<<<<<<< HEAD
-=======
-            if (cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
-                contMapForStatusUpdate.put(cont.Id, cont);
-                cont.Is_Invalid_Number__c = false;
-            }
->>>>>>> 560243f174e6a27fda26aa9e20cb081b3318efee
         }
         if (contMap != null && !contMap.isEmpty()) {
             //get the user from the contact list

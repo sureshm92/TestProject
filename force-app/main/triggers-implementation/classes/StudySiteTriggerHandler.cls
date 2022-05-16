@@ -98,16 +98,21 @@ public without sharing class StudySiteTriggerHandler {
                || (ss.Sponsor_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Sponsor_AWS__c == null && (ss.Sponsor_AWS__c != oldMap.get(ss.Id).Sponsor_AWS__c))
                || (ss.Study_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Study_AWS__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Study_AWS__c))));
             
+            Boolean pinPointProjectdtl = (ss.Pin_Point_ProjectId__c != null && oldMap != null && oldMap.get(ss.Id).Pin_Point_ProjectId__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Pin_Point_ProjectId__c));
+            
+            Boolean fromNumberdtl = (ss.From_Number__c != null && oldMap != null && oldMap.get(ss.Id).From_Number__c == null && (ss.From_Number__c != oldMap.get(ss.Id).From_Number__c));
+            
+            Boolean sponserDtl = (ss.Sponsor_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Sponsor_AWS__c == null && (ss.Sponsor_AWS__c != oldMap.get(ss.Id).Sponsor_AWS__c));
+            
+            Boolean studyAWSDtl = (ss.Study_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Study_AWS__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Study_AWS__c));	   
+
             if((ss.SMS_Are_Available__c == true &&  oldMap != null && ss.SMS_Are_Available__c != oldMap.get(ss.Id).SMS_Are_Available__c)
-               || (ss.Pin_Point_ProjectId__c != null && oldMap != null && oldMap.get(ss.Id).Pin_Point_ProjectId__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Pin_Point_ProjectId__c))
-               || (ss.From_Number__c != null && oldMap != null && oldMap.get(ss.Id).From_Number__c == null && (ss.From_Number__c != oldMap.get(ss.Id).From_Number__c))
-               || (ss.Sponsor_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Sponsor_AWS__c == null && (ss.Sponsor_AWS__c != oldMap.get(ss.Id).Sponsor_AWS__c))
-               || (ss.Study_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Study_AWS__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Study_AWS__c))){
+               || (pinPointProjectdtl) || (fromNumberdtl) || (sponserDtl) || (studyAWSDtl)){
                    welcomesmsIDS.put(ss.Id,ss);                                                   
                }
         }
         if(!welcomesmsIDS.isEmpty()){
-            Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>([Select Id,Participant_contact__c,Participant__c,Study_Site__c,Welcome_Message_Sent__c,Participant__r.Adult__c from Participant_Enrollment__c where Study_Site__c IN : welcomesmsIDS.keyset()]);
+            Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>([Select Id,Participant_contact__c,Is_Participant_Adult__c,Participant__c,Study_Site__c,Welcome_Message_Sent__c,Participant__r.Adult__c from Participant_Enrollment__c where Study_Site__c IN : welcomesmsIDS.keyset()]);
             if(!peIdMap.isEmpty()){
                 for(Participant_Enrollment__c per : peIdMap.values()){
                     if(!per.Welcome_Message_Sent__c && !String.isBlank(per.Participant__c) && per.Participant__r.Adult__c){
