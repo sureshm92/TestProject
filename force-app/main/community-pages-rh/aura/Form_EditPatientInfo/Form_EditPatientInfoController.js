@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, hepler) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
@@ -49,6 +49,12 @@
     },
     
 	/**RH-5960 */
+    doRefreshDOBInput: function (component, event, helper) {
+        if(!component.get('v.participant.Adult__c')){
+            component.set('v.resetDOB', false);
+            component.set('v.resetDOB', true);
+        }
+    },
     doRefreshStateInput: function (component, event, helper) {
         component.set('v.resetState', false);
         component.set('v.resetState', true);
@@ -125,11 +131,13 @@
              component.set('v.emailParticipantRepeat', '');
              component.set('v.participant.Phone__c', '');
              component.set('v.participant.Phone_Type__c', '');
-         }
+			 emailParticipantCmp.setCustomValidity('');
+             emailParticipantCmp.reportValidity();
+         } 
          
          /**RH-5960 */
          if((!participant.Adult__c && participant.Adult__c!=undefined) && (component.get('v.fromAddParticipantPage'))){
-         	component.resetDateInput();
+         	component.refreshDOBInput();
          }
          helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
          helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
