@@ -2,37 +2,34 @@
  * Created by Leonid Bartenev
  */
 /*  Tooltip for Text length overflow -added by Enugothula Srinath */
-.THIS .tooltip span
-{
+.THIS .tooltip span {
     text-decoration: none;
     position: absolute;
     background-color: #002448;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: .850rem;
+    font-size: 0.85rem;
     font-weight: 400;
     text-align: left;
     width: max-content;
     max-width: 360px;
-    top:0;
-    left:50%;
+    top: 0;
+    left: 50%;
     margin-top: -10px;
     visibility: hidden;
     opacity: 0;
 }
-.THIS .tooltip:hover{
+.THIS .tooltip:hover {
     position: relative;
 }
-.THIS .tooltip:hover span
-{
+.THIS .tooltip:hover span {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -100%) scale(1);
     animation: pulse 1s;
 }
-.THIS .tooltip:hover span::after
-{
+.THIS .tooltip:hover span::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -53,14 +50,13 @@
     cursor: pointer;
     white-space: nowrap;
 }
-.THIS .textoverlap
-{
+.THIS .textoverlap {
     width: 14rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     color: #444;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 /* ----------------END-----------*/
@@ -81,8 +77,9 @@
     margin-top: 8px;
 }
 
-.THIS .rtlView{
-    /* @noflip */  direction: rtl;
+.THIS .rtlView {
+    /* @noflip */
+    direction: rtl;
 }
 .THIS .rr-card .rr-card-ico {
     width: 16px;
@@ -95,8 +92,10 @@
     width: 16px;
     height: 25px;
     fill: black;
-      /* @noflip */  float: right;
-       /* @noflip */ margin-left: 5px;
+    /* @noflip */
+    float: right;
+    /* @noflip */
+    margin-left: 5px;
 }
 
 .THIS .rr-secondary-text {
@@ -113,27 +112,29 @@
     font-weight: 600;
 }
 
- .THIS.rr-body-content > .rr-width-limiter {
+.THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
 .THIS.rr-body-content > .rr-width-limiterRTL {
     margin-top: 50px;
-    /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
-.THIS .slds-form-element__label1111{
+.THIS .slds-form-element__label1111 {
     font-size: 20px !important;
     font-weight: 550;
-    color: black; 
+    color: black;
 }
-.THIS .slds-checkbox_faux{
+.THIS .slds-checkbox_faux {
     border-color: black;
 }
 
-.THIS .rr-error{
+.THIS .rr-error {
     color: #e20000;
 }
 .THIS .rightAlign .slds-input__icon_right {
-  /* @noflip */  margin-right: 81%;
+    /* @noflip */
+    margin-right: 81%;
 }
 .THIS .slds-datepicker table {
     table-layout: fixed;
@@ -168,12 +169,12 @@
     fill: #e63f5b;
 }
 
-.THIS .part-header{
+.THIS .part-header {
     size: 16px;
     margin-top: 75px;
 }
 
-.THIS .part-header-removed{
+.THIS .part-header-removed {
     size: 16px;
     margin-top: 20px;
 }
@@ -256,7 +257,8 @@
     font-size: 24px;
     font-weight: 600;
     line-height: 36px;
-    /* @noflip */   text-align: right;
+    /* @noflip */
+    text-align: right;
     padding: 35px 0 0;
 }
 
@@ -300,7 +302,7 @@
     text-align: center;
 }
 
-.THIS .rr-sub-title {  
+.THIS .rr-sub-title {
     font-size: 17px;
     line-height: 22px;
     font-weight: 600;
@@ -516,11 +518,23 @@
         padding-right: 10px;
     }
 
-    .THIS .rr-body-content  > .rr-width-limiter-half > .slds-grid > .slds-col > .slds-grid > .slds-size--1-of-2 {
+    .THIS
+        .rr-body-content
+        > .rr-width-limiter-half
+        > .slds-grid
+        > .slds-col
+        > .slds-grid
+        > .slds-size--1-of-2 {
         min-width: 100%;
     }
 
-    .THIS .rr-body-content  > .rr-width-limiter-half > .slds-grid > .slds-col > .slds-grid > .slds-size--1-of-4 {
+    .THIS
+        .rr-body-content
+        > .rr-width-limiter-half
+        > .slds-grid
+        > .slds-col
+        > .slds-grid
+        > .slds-size--1-of-4 {
         min-width: 50%;
     }
 
@@ -553,8 +567,8 @@
     .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
         margin-top: 0;
     }
-    .THIS .rr-card{
-        margin-top:0px;
+    .THIS .rr-card {
+        margin-top: 0px;
     }
 }
 
@@ -613,8 +627,7 @@
     display: none !important;
 }
 
-
-.THIS .slds-checkbox{
+.THIS .slds-checkbox {
     display: inline-flex;
 }
 @media all and (min-width: 1024px) {
@@ -623,15 +636,29 @@
         padding-right: 30px;
     }
     .THIS .left-columnRTL {
-      /* @noflip */  border-left: 1px solid #d9d9d9;
-       /* @noflip */ padding-right: 0px;
+        /* @noflip */
+        border-left: 1px solid #d9d9d9;
+        /* @noflip */
+        padding-right: 0px;
     }
     .THIS .right-columnRTL {
-           /* @noflip */ padding-right: 20px;
-          /* @noflip */  min-height: 500px;
+        /* @noflip */
+        padding-right: 20px;
+        /* @noflip */
+        min-height: 500px;
     }
     .THIS .right-column {
         padding-left: 20px;
         min-height: 500px;
     }
+}
+.THIS .overlaptext {
+    width: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.THIS .sameline {
+    display: flex;
 }
