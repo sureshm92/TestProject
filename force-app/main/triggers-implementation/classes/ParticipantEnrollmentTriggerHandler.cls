@@ -1238,6 +1238,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                     per.Participant_Status__c = 'Successfully Contacted';
                     peList.add(per);
                 }
+                peList.add(per);
             }
         }
         for (Participant_Enrollment_Status_History__c pesh : [
