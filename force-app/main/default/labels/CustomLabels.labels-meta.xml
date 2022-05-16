@@ -912,7 +912,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your Ecoa Ediaries</value>
+        <value>Activate Your eDiaries</value>
     </labels>
     <labels>
         <fullName>AdHoc_CheckBox_Help_Text</fullName>
