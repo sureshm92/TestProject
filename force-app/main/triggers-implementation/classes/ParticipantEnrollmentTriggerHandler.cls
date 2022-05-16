@@ -1094,8 +1094,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             ) {
                 if(per.Status_Order__c > 3){
                 per.Participant_Status__c = 'Successfully Contacted';
-                peList.add(per);
                 }
+                peList.add(per);
+                
             }
         }
         for (Participant_Enrollment_Status_History__c pesh : [
