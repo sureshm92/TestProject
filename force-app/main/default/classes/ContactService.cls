@@ -433,4 +433,23 @@ public without sharing class ContactService {
               update consToBeUpdated;
     }
 
+    /**
+     * @description: This method will be used adding up the notifications for the welcome Message story.
+     * @author: Anitha Chavva
+     * @param: recepientId
+     * @param: whatid
+     * @param: notificationtype
+     **/
+    public static List<Notification__c> addwelcomeNotifications(String recepientId,String whatId, String notificationtype){
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+         welcomemsgnotifications.add(
+                            new Notification__c(
+                                Recipient__c = recepientId,//per.Participant_contact__c,
+                                WhatId__c = whatId,
+                                Notification_Type__c = notificationtype
+                            )
+                        );
+        return  welcomemsgnotifications;
+    }
+    
 }
