@@ -6,7 +6,11 @@
 public without sharing class NotificationService {
     public static Set<Id> platfomLevelSMSSet = new Set<Id>();
     public static Set<Id> studyLevelSMSSet = new Set<Id>();
-
+    public static Map<Id,Boolean> skipSMSLevelMap = new Map<Id,Boolean>();// Added by Anitha For Skipping SMS if AWS details were not there
+    public static Map<Id,Boolean> nonskipSMSLevelMap = new Map<Id,Boolean>();// Added by Anitha For Skipping SMS if AWS details were not there
+    public static Map<Id,Boolean> welcomemsgSent = new Map<Id,Boolean>();// Added by Anitha
+     public static Map<Id,Boolean> welcomemsgDelivered = new Map<Id,Boolean>();// Added by Anitha    
+    
     static public List<String> participantStatusListForHCP = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED,
         PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
@@ -16,7 +20,7 @@ public without sharing class NotificationService {
 
     static public List<String> participantStatusListForPT = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED
-    };
+    }; 
 
     static public List<String> notificationWithoutPermissions = new List<String>{
         NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE,
@@ -319,6 +323,7 @@ public without sharing class NotificationService {
                 taskIds.add(n.Task_Id__c);
             }
         }
+        System.debug('whatIds:::'+whatIds+'recipientIds::'+recipientIds+'taskIds:::'+taskIds);
         if (!taskIds.isEmpty()) {
             taskMap = new Map<Id, Task>(
                 [
@@ -328,6 +333,7 @@ public without sharing class NotificationService {
                 ]
             );
         }
+         System.debug('taskMap:::'+taskMap+'recipientIds::'+recipientIds+'taskIds:::'+taskIds);
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(
             recipientIds,
             whatIds
@@ -340,6 +346,7 @@ public without sharing class NotificationService {
 
         //Check if SMS is applicable to send for Study level notification.
         Action_SendSMS obj = new Action_SendSMS(notifications);
+         System.debug('obj:::'+obj);
 
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
@@ -361,6 +368,7 @@ public without sharing class NotificationService {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
             );
+            System.debug('notificationType:::'+notificationType);
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
@@ -428,12 +436,24 @@ public without sharing class NotificationService {
                         );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
+                        System.debug('availabilityService:::'+availabilityService+'nonskipSMSLevelMap'+nonskipSMSLevelMap);
                     //if Number is not Invalid at contact, proceed for sending SMS else skip the SMS.
-                    if (!availabilityService.isInvalidNumber(n.Recipient__c)) {
+                    //For skipping sms   
+                    if (!availabilityService.isInvalidNumber(n.Recipient__c) && nonskipSMSLevelMap.containsKey(n.Id)
+                       && nonskipSMSLevelMap.get(n.Id)) { // Added by Anitha  welcomemsg false
                         Boolean isSMSAvailableAtPlatformLevel =
                             platfomLevelSMSSet.contains(n.Id) &&
                             availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
-                        if (isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id)) {
+                           System.debug('isSMSAvailable::: '+isSMSAvailableAtPlatformLevel+' studyLevelSMSSet::: '+studyLevelSMSSet.contains(n.Id)+'welcomemsgSent:::'+welcomemsgSent);
+                           System.debug('welcomemsg.Contains::: '+welcomemsgNoticationtypes.Contains(n.Notification_Type__c)+' !welcomemsgSent.get(n.Id)::: '+(welcomemsgSent.get(n.Id))+' welcomemsgSent::: '+welcomemsgSent
+                                        +' welcomemsgDelivered.get(n.Id) '+welcomemsgDelivered.get(n.Id));
+                           // Added by Anitha -- complete if condition change
+                               //TODO:Add comment
+                           if ((isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id))
+                           && ((!welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
+                           && welcomemsgSent.get(n.Id) && welcomemsgDelivered.get(n.Id)) 
+                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id)))){
+                            System.debug('If:::'+isSMSAvailableAtPlatformLevel+'studyLevelSMSSet:::'+studyLevelSMSSet+'taskAndVisitReminderTypes::'+taskAndVisitReminderTypes+'taskSurveyReminderTypes'+taskSurveyReminderTypes);
                             if (
                                 (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                 (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
@@ -447,17 +467,21 @@ public without sharing class NotificationService {
                                     (instantNotificationTypes.contains(n.Notification_Type__c) &&
                                     taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
                                 ) {
+                                    System.debug('Line no: 444');
                                     smsNotifications.add(n);
                                     sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                                 }
                             } else {
+                                 System.debug('Line no: 449');
                                 smsNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             }
                         } else {
+                            System.debug('Line no: 454');
                             sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                         }
                     } else {
+                         System.debug('Line no: 458');
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
@@ -520,7 +544,7 @@ public without sharing class NotificationService {
         }
 
         sendResultService.updateResults();
-        //Send emails:
+        //Send emails: 
         if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
         }

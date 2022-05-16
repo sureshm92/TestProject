@@ -57,6 +57,8 @@
     <aura:attribute name="resetDate" type="Boolean" default="true"/>
     <!--RH-5960 -->
     <aura:attribute name="resetState" type="Boolean" default="true"/>
+    <aura:attribute name="resetDOB" type="Boolean" default="true"/>
+    
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="emailDelegate" type="String" />
     
@@ -86,6 +88,7 @@
     <aura:method name="resetDateInput" action="{!c.doRefreshDateInput}" access="public" />
     <!--RH-5960 -->
     <aura:method name="refreshStateInput" action="{!c.doRefreshStateInput}" access="public" />
+    <aura:method name="refreshDOBInput" action="{!c.doRefreshDOBInput}" access="public" />
     
     <c:RRSpinner aura:id="spinner" size="medium"  fixed="true" />
     
@@ -510,7 +513,7 @@
                             </div>
                         <!-- REF-3070 Added disabled-->
                         <!-- REF-5960-->
-                        <aura:if isTrue="{!v.resetDate}">
+                        <aura:if isTrue="{!v.resetDOB}">
                         	<lightning:input
                                          aura:id="emailParticipantRepeatField"
                                          type="text"
@@ -540,9 +543,9 @@
                                     >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                             </div>
                             <!-- REF-3070 Added disabled-->
-                            <!-- REF-5960-->
-                        	<aura:if isTrue="{!v.resetDate}">
-                            	<lightning:input
+                            <!--RH-5960 -->
+                            <aura:if isTrue="{!v.resetDOB}">
+                            <lightning:input
                                              type="text"
                                              value="{!v.participant.Phone__c}"
                                              required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
@@ -569,16 +572,16 @@
                                     <span>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
                                 </div>
                                 <!-- REF-3070 Added disabled-->
-                                <!-- REF-5960-->
-                        		<aura:if isTrue="{!v.resetDate}">
-                                	<lightning:input
+                                <!-- RH-5960-->
+                                <aura:if isTrue="{!v.resetDOB}">
+                                <lightning:input
                                                  type="text"
                                                  value="{!v.participant.Phone__c}"
                                                  required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                                  disabled="{!!v.participant.Adult__c}"
                                                  onblur="{!c.doCheckFields}"
                                                  />
-                                </aura:if>
+                                    </aura:if>
                             </div>
                         </aura:set>
                 </aura:if>
@@ -597,8 +600,9 @@
                                 >{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
                         <!-- REF-3070  Added disabled-->
-                        <aura:if isTrue="{!v.resetDate}">
-                            <c:rrSelect
+                        <!-- RH-5960-->
+                        <aura:if isTrue="{!v.resetDOB}">
+                        	<c:rrSelect
                                     options="{!v.formData.phoneTypeLVList}"
                                     value="{!v.participant.Phone_Type__c}"
                                     placeholder="{!$Label.c.PG_AC_Select}"
@@ -606,7 +610,7 @@
                                     disabled="{!!v.participant.Adult__c}"
                                     onchange="{!c.doCheckFields}"
                                     />
-                        </aura:if>
+                       	</aura:if>
                     </div>
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
@@ -644,7 +648,7 @@
                                     useSentenceFont="false"
                                     onchange="{!c.doStateChange}"
                                     />
-                        </aura:if>
+						</aura:if>
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
@@ -890,7 +894,7 @@
                             <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                                  >
-                                 <div class="label tooltip">
+                                <div class="label tooltip">
                                     <div class="textoverlapDaytimeTelephoneNumbe3">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
                                     <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</span> 
                                    </div> 
