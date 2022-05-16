@@ -913,18 +913,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 !pe.Welcome_Message_Sent__c &&
                 pe.Study_Site__c != null &&
                 pe.Participant__c != null &&
-                pe.Is_Participant_Adult__c &&
                 ((studylevelPTInsert) || (studylevelPTUpdate))
             ) {
                 system.debug('Study Level PT');
                 /*Study Level PT mEsg*/
-                welcomemsgnotifications.addAll(
-                    ContactService.addwelcomeNotifications(
-                        pe.Participant_Contact__c,
-                        pe.Id,
-                        NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
-                    )
-                );
+                if (pe.Is_Participant_Adult__c) {
+                    system.debug('Study Level PT is added');
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            pe.Participant_Contact__c,
+                            pe.Id,
+                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                        )
+                    );
+                }
                 //For study level Delegates
                 if (!String.isBlank(pe.Participant__c)) {
                     participantids.add(pe.Participant__c);
