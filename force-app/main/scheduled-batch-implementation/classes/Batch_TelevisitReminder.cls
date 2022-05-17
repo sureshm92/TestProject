@@ -14,7 +14,8 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 Televisit__r.Status__c,
                 Televisit__r.Title__c,
                 Is_Second_Reminder_Sent__c,
-                Is_First_Reminder_Sent__c
+                Is_First_Reminder_Sent__c,
+                Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Televisit_Attendee__c
                 WHERE
                 (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND
@@ -51,9 +52,27 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 attendee.Televisit__r.Visit_Date_Time__c >= Datetime.now().addHours(1) &&
                 attendee.Televisit__r.Visit_Date_Time__c <= Datetime.now().addHours(1).addMinutes(2)
             ){
-                notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two';
+                if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_Jan';
+                }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_GSK';
+                }else{
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two';
+                }
+
+                
             }else{
+                if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_Janssen';
+                }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_GSK';
+                }else{
+                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder';
                 notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder'; 
+                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder';
+                } 
+            }
+                } 
             }
             
             notifications.add(notification);

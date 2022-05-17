@@ -41,7 +41,7 @@ Public without sharing Class TelevisitCreationScreenController {
         televisitRecord.Visit_Date_Time__c = visitDateTime;
         televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(wrapper.duration.remove(' minutes')));
         upsert televisitRecord;
-        
+        Televisit__c televisit = [Select id,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Televisit__c where ID =:televisitRecord.Id];
         if(wrapper.id==''){
             List<AttendeesWrapper> attendeesWrapperList = wrapper.attendeesList;
             List<String> ids = new List<String>();
@@ -89,6 +89,18 @@ Public without sharing Class TelevisitCreationScreenController {
                             notification.Recipient__c = attendee.Contact__c;
                             notification.WhatId__c = attendee.Id;
                             notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                            
+                            if(televisit != null && televisit.Participant_Enrollment__c != null && televisit.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                                if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
+                                }else if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_GSK';
+                                }else{
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                                }
+
+                            }
+                            
                             notifications.add(notification);
                         }                          
                     }
@@ -301,13 +313,23 @@ Public without sharing Class TelevisitCreationScreenController {
         try{
             update updateTelevisit;
             List<Notification__c> notifications = new List<Notification__c>();
-            List<Televisit_Attendee__c> attendeesList = [Select id,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
+            List<Televisit_Attendee__c> attendeesList = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
                                                          where Televisit__c =:TelevisitId AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
             for(Televisit_Attendee__c attendee:attendeesList){
                 Notification__c notification = new Notification__c();
                 notification.Recipient__c = attendee.Contact__c;
                 notification.WhatId__c = attendee.Id;
-                notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancellation';
+                if(attendeesList != null &&  attendeesList[0].Televisit__c != null && attendeesList[0].Televisit__r.Participant_Enrollment__c != null && 
+                   attendeesList[0].Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                    if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancel_Janssen';
+                    }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancellation_GSK';
+                    }else{
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancellation';
+                    }
+
+                }
                 notifications.add(notification);
             }
             if(!notifications.isEmpty()){
