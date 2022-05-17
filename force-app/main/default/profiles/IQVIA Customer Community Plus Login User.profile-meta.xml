@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantComorbiditiesTriggerHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PIR_ParticipantDetailController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5143,6 +5147,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.HCP_Contact__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.isBulkUpdate__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

@@ -3,7 +3,7 @@
     <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
         
                 <div class="slds-col slds-size_9-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-right_none" onclick={resetPagination}>
-                    <div class="slds-form-element slds-m-left_x-small labelHide">
+                    <div class="slds-form-element slds-m-left_x-small labelHide rtl-margin-right">
                         <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right labelhide_1">
                             <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title={label.pir_Search_Participants} class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
                             <!-- <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" onblur={handlesearch} /> -->
@@ -40,12 +40,12 @@
                 <c-pir_filter maindivcls={maindivcls} sponser={communityTemplate} onpresetcreated={refreshAllPreset} ongetdefaultfilter={setDefaultFilter} urlstudyid={urlStudyId} urlsiteid={urlSiteId} onapplyfilterevent={handleFilterEvent} selectedstatusvalue={selectedStatusValue} filters={filterWrapper} onclosefilter={toggleFilter}></c-pir_filter>
         </div>
         <div class="slds-col slds-size_12-of-12">
-            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small">
+            <div class="slds-m-left_x-small slds-m-right_small slds-m-top--x-small rtl-marg">
                 <div class="textBolds slds-m-bottom--xx-small">{label.pir_Presets}
-                    <span if:false={disablePreset} class="enablePreset" onclick={editPreset}>
+                    <span if:false={disablePreset} class="enablePreset rtl-p-r" onclick={editPreset}>
                         <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
                     </span>
-                    <span if:true={disablePreset} class="disablePreset" title="No Preset Available to perform edit">
+                    <span if:true={disablePreset} class="disablePreset rtl-p-r" title="No Preset Available to perform edit">
                         <img class="slds-button__icon slds-m-left_xx-small pen" src={editIcon}/>                    
                     </span>
                 </div>
@@ -71,8 +71,8 @@
                              <span class="slds-truncate text-width" >{dropDownLabel}</span> 
                              <span><lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down" class="slds-icon-text-primary"></lightning-icon></span>
                         </button>
-                            <div class="slds-dropdown slds-dropdown_left w-100" >
-                                <ul class="slds-dropdown__list" role="menu" aria-label={dropDownLabel}>
+                            <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex"  >
+                                <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label={dropDownLabel}>
                                    <template if:false={hideActiononSearch}>
                                     <template if:false={noRecords}>
                                    <template if:true={showDCT}>
@@ -110,9 +110,10 @@
                 
                 <template if:true={isCheckboxhidden}>
                     <template if:true={changeStatus}>
+                       
                         <div class="slds-col slds-size_12-of-12 slds-p-bottom_small slds-p-top_medium slds-p-right_xx-small ">
                             <lightning-combobox name="ChangeStatusTo" variant="label-hidden"  value={statusSelected}
-                              options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
+                            placeholder="Select a status"  options={statusChangeList}  onchange={handleChangeOfStatus} ></lightning-combobox>
                         </div> 
                     </template>
                 </template>
@@ -169,7 +170,7 @@
                 </template>
             <template if:true={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-small slds-p-top--xx-small dividerTop rtl-pad-right">
                         <div class="card-content checkboxdisplay">  
                             <template if:false={enableStatus}>
                                <template if:true={checknewStatus}>
@@ -200,7 +201,8 @@
                                 <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>{label.High_Risk}</span></template>
                             </div>
                             <div class="slds-text-heading--small breakW" >
-                                {p.firstName} {p.lastName}  
+                                <!-- {p.firstName} {p.lastName}   -->
+                                {p.initialsName}
                             </div>
                             <div class="tooltip">
                                 <div class="subInfo slds-truncate" >
@@ -215,7 +217,7 @@
             </template>
             <template if:false={isCheckboxhidden}>
                 <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop rtl-pad-right">
                         <div class="flags">
                             <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>{label.Action_Required}</span></template>
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>{label.High_Priority}</span></template>
@@ -223,7 +225,8 @@
                         </div>
                         <div class="card-content ">  
                             <div class="slds-text-heading--small breakW" >
-                                {p.firstName} {p.lastName}  
+                                <!-- {p.firstName} {p.lastName}   -->
+                                {p.initialsName}
                             </div>
                             <div class="tooltip">
                                 <div class="subInfo slds-truncate" >
@@ -234,6 +237,52 @@
                         </div>
                     </div>
                 </template>
+            </template>
+            <template if:true={showStatusPopup}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+    <div class="slds-modal_small ">
+      <div class="slds-modal__container model-small">
+         <div class="slds-modal__content" id="modal-content-id-4548"> 
+            <div class="bar"></div>
+            <div class="slds-p-around_large">
+               <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                  <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                     <span class="title">{label.RH_InvalidAction}</span> 
+                  </div>
+                <!--  <div class="slds-col slds-size_1-of-12 close-icon">
+                     <div onclick={handleCloseAllStatus}>
+                        <lightning-icon icon-name="utility:close"
+                           alternative-text="close"
+                           size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                     </div>
+                  </div>-->
+               </div>
+               <slot name="body">   
+                  <div class="slds-grid slds-wrap slds-gutters ">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="participant-text">
+                           {label.RH_ChangeStatusErrorMsg}
+                           </div> 
+                       </div>
+                   
+                   </div>
+                   <div class="slds-grid slds-wrap slds-m-top_large">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                      <div class="slds-float_right mobile-width">                  
+                          <button class="slds-button apollo-btn primary btn-height save-btn" title={label.BTN_OK} onclick={handleCloseAllStatus} disabled={handleContinue}> {label.BTN_OK} </button>
+                      </div>     
+                    </div>
+                 </div>
+               </slot>
+            </div>
+         </div>
+      </div>
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    
             </template>
             </template>
             <template if:true={noRecords}>

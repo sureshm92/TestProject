@@ -18,6 +18,7 @@ import ParticipantLimit from '@salesforce/label/c.ParticipantLimit';
 import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
 import Disclaimer_Text from '@salesforce/label/c.Disclaimer_Text';
 import BTN_Export from '@salesforce/label/c.BTN_Export';
+import BTN_OK from '@salesforce/label/c.BTN_OK';
 import Pdf_Not_Available from '@salesforce/label/c.Pdf_Not_Available';
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
@@ -43,6 +44,8 @@ import pir_Please_wait_as_your_page_loads from '@salesforce/label/c.pir_Please_w
 import Action_Required from '@salesforce/label/c.Action_Required';
 import High_Priority from '@salesforce/label/c.High_Priority';
 import High_Risk from '@salesforce/label/c.High_Risk';
+import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
+import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
 
 export default class Pir_participantList extends LightningElement {    
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
@@ -65,6 +68,7 @@ export default class Pir_participantList extends LightningElement {
     showPP=false;
     saving=false;
     @api showStatus=false;
+    showStatusPopup=false;
     selectedStatusList;
     selectedStatusValue = 'Received';isPPFiltered = false;
     statusChangeList;statusSelected='';
@@ -109,6 +113,9 @@ export default class Pir_participantList extends LightningElement {
         Change_Participant_Status,
         ListView_ChangeStatus,
         BTN_Export,
+        BTN_OK,
+        RH_ChangeStatusErrorMsg,
+        RH_InvalidAction,
         RH_PP_Add_New_Participant,
         Disclaimer_Text,
         pir_Search_Participants,
@@ -371,15 +378,13 @@ export default class Pir_participantList extends LightningElement {
                 console.log('result.filterWrapper--->'+result.filterWrapper);
                 console.log('StatusList--->'+result.filterWrapper.status);
                 this.studyIDList = result.studyIdlist;
-                if((result.filterWrapper.status == undefined || result.filterWrapper.status.length == 1) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
+                
+                if((result.filterWrapper.status == undefined || result.filterWrapper.status!=null) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
                     this.showStatus=true;
-                    console.log('showstatus'+this.showStatus);
                 }
                 else{
                     this.showStatus=false;
-                    console.log('dontshowstatus'+this.showStatus); 
                 }
-            
                 this.showDCT=false;
                 for(var i=0 ; i<result.listViewWrapper.length;i++){
                     this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
@@ -689,6 +694,16 @@ export default class Pir_participantList extends LightningElement {
         console.log('change status0');
         var selectedVal=event.target.dataset.id;
         this.dropDownLabel=selectedVal;
+
+        if(this.dropDownLabel=='Change Status'){
+            if(this.filterWrapper.status != undefined && this.filterWrapper.status.length > 1){
+                this.showStatusPopup=true;
+            }
+            else{
+                this.showStatusPopup=false;
+            }
+        }
+
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
@@ -704,12 +719,12 @@ export default class Pir_participantList extends LightningElement {
                 L.classList.remove("participantStatus");
             });
        }
-       else{
+       else if(this.showStatusPopup==false){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.add("participantStatus");
         });
        }
-        if(selectedVal != 'Add New Participant'){ 
+        if(selectedVal != 'Add New Participant' && this.showStatusPopup==false){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
         }else{
@@ -722,7 +737,8 @@ export default class Pir_participantList extends LightningElement {
             this.isResetPagination = true;
             this.fetchList();
         }
-        if( this.dropDownLabel=='Change Status'){
+       
+        if( this.dropDownLabel=='Change Status' && this.showStatusPopup==false){
             console.log('change status');
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
@@ -733,13 +749,14 @@ export default class Pir_participantList extends LightningElement {
             console.log('filterstatus:'+''+this.filterWrapper.status);
             let study =  this.studyIDList.toString();
             let status;
+            let studySite =JSON.stringify(this.filterWrapper.siteList);
             if(this.filterWrapper.status == undefined){
                 status='Received'
             }else{
                 status = this.filterWrapper.status.toString();
             }
-           
-            getAvailableStatuses({ status: status, StudyId: study })
+            
+            getAvailableStatuses({ status: status, StudyId: study , SiteId: studySite})
             .then(result => {
                 this.statusChangeList = result;
                 this.statusSelected = 'null';
@@ -762,17 +779,17 @@ export default class Pir_participantList extends LightningElement {
         if( this.dropDownLabel=='Send to DCT'){
             this.dctCheck=true; 
             console.log('DCT LABEL');
-            //this.saving = true;
-            // this.totalRecordCount = -1;
-            // this.isResetPagination = true;
-            // this.fetchList(); 
+            this.saving = true;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            this.fetchList(); 
         }
         else{
             this.dctCheck=false;
         }
 
 
-        if(this.dropDownLabel != 'Add New Participant'){
+        if(this.dropDownLabel != 'Add New Participant' && this.showStatusPopup==false){
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: this.isCheckboxhidden
             });
@@ -783,6 +800,10 @@ export default class Pir_participantList extends LightningElement {
           });
           this.dispatchEvent(selectedEventnew);
     }
+    handleCloseAllStatus(){
+        this.showStatusPopup=false;
+        this.hideCheckbox();
+      }
     handleMobileExport(event){
         const evt = new ShowToastEvent({
             title: this.label.Pdf_Not_Available,
@@ -1514,12 +1535,18 @@ export default class Pir_participantList extends LightningElement {
                 this.sortType = -1;
             }
         }
-        this.totalRecordCount = -1;
-        this.isResetPagination = true;
-        const selectEvent = new CustomEvent('resetparent', {
-            detail: ''
-        });
-        this.dispatchEvent(selectEvent);
+        if(this.totalRecordCount == 0){
+            this.totalRecordCount = -1;
+            this.fetchList();
+        }
+        else{
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
     }
     //PRESET
     presetOpts;
@@ -1602,7 +1629,7 @@ export default class Pir_participantList extends LightningElement {
                     this.isEditPresetFromListDisable = true;
                     for(var i = 0; i<data.length ; i++){
                         this.disablePreset = false;
-                        isEditPresetFromListDisable = false;
+                        this.isEditPresetFromListDisable = false;
                         presets.push({ label: data[i].presetName, value: data[i].presetId });
                     }
                     this.presetOpts = presets;

@@ -69,6 +69,7 @@ public without sharing class PatientDelegateTriggerHandler {
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
+   
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
@@ -121,13 +122,82 @@ public without sharing class PatientDelegateTriggerHandler {
 
         createNotifications(activatedDelegates, 'DelReactivatedNotifType');
     }
-
+    private static List<Notification__c> createwelcomemsgSMSNotifications(
+        List<Patient_Delegate__c> patientDelegates
+    ) {
+        Set<Id> participantIdSet = new Set<Id>();
+        Set<Id> proccessedPlatDelCon = new Set<Id>();
+         Set<Id> proccessedStudyDelCon = new Set<Id>();
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        Map<Id, List<Id>> participantsByDelContId = new Map<Id, List<Id>>();
+        for (Patient_Delegate__c delegate : patientDelegates) {
+            if (!participantsByDelContId.containsKey(delegate.Contact__c)) {
+                participantsByDelContId.put(delegate.Contact__c, new List<Id>());
+            }
+            participantsByDelContId.get(delegate.Contact__c).add(delegate.Participant__c); /// For each del contact list of participnats
+            participantIdSet.add(delegate.Participant__c); /// this is list of participnat contacts
+        }
+         //For minor participants Study level
+        Map<Id,Participant_Enrollment__c> perEnrollments = new Map<Id,Participant_Enrollment__c>([
+            SELECT Id, Welcome_Message_Sent__c,Participant__c,Participant_Contact__c,Welcome_Message_Delivered__c
+            FROM Participant_Enrollment__c
+            WHERE Participant__c IN :participantIdSet
+        ]);
+        if(perEnrollments.size()>0){
+            for(Participant_Enrollment__c per : perEnrollments.values()){
+                if(!per.Welcome_Message_Sent__c){
+                    for(Id con : participantsByDelContId.keySet()){ // delegate contacts iterate -- list of participants
+                        if(!proccessedStudyDelCon.contains(con)){
+                            proccessedStudyDelCon.add(con);
+                            for(Id par : participantsByDelContId.get(con)){
+                                if(par == per.Participant__c){
+                                    /*Study Level Delegate*/
+                                    welcomemsgnotifications.addAll(
+                                        ContactService.addwelcomeNotifications(
+                                            con,
+                                            per.Id,
+                                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                        )
+                                    );
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Map<Id,Contact> delconMaplst = new Map<Id,Contact>([Select Id,Welcome_Message_Sent__c,Welcome_Message_Delivered__c from Contact where ID IN : participantsByDelContId.keyset()]); // Added by Anitha
+        if(!participantsByDelContId.isEmpty()){
+            for (Id delCont : participantsByDelContId.keySet()) {
+                if(!proccessedPlatDelCon.contains(delCont) && delconMaplst.containskey(delCont) && !delconMaplst.get(delCont).Welcome_Message_Sent__c && participantsByDelContId.get(delCont) != null){
+                    proccessedPlatDelCon.add(delCont);
+                    for (Id parId : participantsByDelContId.get(delCont)) {
+                        //Platform Level Delegates
+                        welcomemsgnotifications.addAll(
+                            ContactService.addwelcomeNotifications(
+                                delCont,
+                                parId,
+                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                            )
+                        );  
+                        
+                    }
+                }
+            }
+        }
+        return welcomemsgnotifications;
+    }
     private static void createNotifications(
         List<Patient_Delegate__c> patientDelegates,
         String templateProperty
     ) {
         Set<Id> participantContacts = new Set<Id>();
+        List<Notification__c> notifications = new List<Notification__c>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
+        if(templateProperty == 'DelReactivatedNotifType'){
+            notifications.addAll(createwelcomemsgSMSNotifications(patientDelegates));
+        }
         for (Patient_Delegate__c delegate : patientDelegates) {
             if (!participantsByDelContId.containsKey(delegate.Contact__c)) {
                 participantsByDelContId.put(delegate.Contact__c, new List<Participant__c>());
@@ -168,7 +238,6 @@ public without sharing class PatientDelegateTriggerHandler {
                 .add(assignment.PermissionSet.Name);
         }
 
-        List<Notification__c> notifications = new List<Notification__c>();
         for (Id delCont : participantsByDelContId.keySet()) {
             if (!permissionsByContact.containsKey(delCont))
                 continue;
@@ -191,6 +260,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 }
                 for (CommunityTemplate template : communityTemplates) {
                     if (delPermissions.contains(template.permissionSet)) {
+                        system.debug('template.properties.get(templateProperty)'+template.properties.get(templateProperty));
                         notifications.add(
                             new Notification__c(
                                 Notification_Type__c = template.properties.get(templateProperty),

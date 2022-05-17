@@ -48,6 +48,18 @@
         }
     },
     
+	/**RH-5960 */
+    doRefreshDOBInput: function (component, event, helper) {
+        if(!component.get('v.participant.Adult__c')){
+            component.set('v.resetDOB', false);
+            component.set('v.resetDOB', true);
+        }
+    },
+    doRefreshStateInput: function (component, event, helper) {
+        component.set('v.resetState', false);
+        component.set('v.resetState', true);
+    },
+    
     doClearValidity: function (component, event, hepler) {
         console.log('clearValidity start');
 
@@ -100,8 +112,15 @@
          var inputDate = inDate.setHours(0, 0, 0, 0);
          let needsGuardian = component.get('v.needsGuardian');
          let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
-         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
-         let emailParticipantCmp = component.find('emailInput');
+         /**RH-5960 */
+         let emailParticipantReapetCmpArray = component.find('emailParticipantRepeatField');
+         let emailParticipantCmpArray = component.find('emailInput');
+         let emailParticipantReapetCmp = Array.isArray(emailParticipantReapetCmpArray)
+         									? emailParticipantReapetCmpArray[0] : emailParticipantReapetCmpArray;
+         let emailParticipantCmp = Array.isArray(emailParticipantCmpArray)
+         									? emailParticipantCmpArray[0] : emailParticipantCmpArray;
+         //let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
+         //let emailParticipantCmp = component.find('emailInput');
          let emailValueFirst = emailParticipantCmp ? emailParticipantCmp.get('v.value') : null;
          let emailValueRepeat = emailParticipantReapetCmp
          ? emailParticipantReapetCmp.get('v.value')
@@ -112,8 +131,14 @@
              component.set('v.emailParticipantRepeat', '');
              component.set('v.participant.Phone__c', '');
              component.set('v.participant.Phone_Type__c', '');
+			 emailParticipantCmp.setCustomValidity('');
+             emailParticipantCmp.reportValidity();
          } 
          
+         /**RH-5960 */
+         if((!participant.Adult__c && participant.Adult__c!=undefined) && (component.get('v.fromAddParticipantPage'))){
+         	component.refreshDOBInput();
+         }
          helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
          helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
          var participantDelegateOld = component.get('v.participantDelegate');
@@ -594,6 +619,10 @@
         }
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
+        /**RH-5960 */
+        if(!states.length){
+            component.refreshStateInput();
+        }
         component.set('v.participant.Mailing_State_Code__c', null);
         component.set('v.participant.Mailing_State__c', null);
         component.checkFields();

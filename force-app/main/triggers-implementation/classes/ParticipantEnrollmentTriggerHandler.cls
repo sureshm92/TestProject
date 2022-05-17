@@ -47,7 +47,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
+    public class DefaultEcoaTask extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createDefaultTaskForEcoa(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
     public class CompleteEnrollmentTasks extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks(
@@ -74,6 +78,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+    /*For Welcome Msg -- Added by Anitha*/
+    public class createNotifications extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createnotificationforwelcomemsg(newList, null);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createnotificationforwelcomemsg(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
     public class CreateMissingStatuses extends TriggerHandler {
@@ -852,7 +865,144 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }
+    /*For Welcome Msg -- Added by Anitha Start*/
+    @TestVisible
+    private static void createnotificationforwelcomemsg(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        Map<Id, Participant_Enrollment__c> perParticipant = new Map<Id, Participant_Enrollment__c>();
+        Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
+        List<ID> participantids = new List<ID>();
+        List<ID> delegateconids = new List<ID>();
+        Set<ID> proccessedParticipants = new Set<ID>();
+        Map<ID, Map<Id, Boolean>> delegatewelcomemsg = new Map<ID, Map<ID, Boolean>>();
+        Map<Id, Participant__c> participantconMap;
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        List<Participant_Enrollment__c> perToBeUpdated = new List<Participant_Enrollment__c>(); //For updating the welcome msg flag - Added by Sonal
 
+        for (Participant_Enrollment__c pe : newList) {
+            if (
+                oldMap == null &&
+                pe.Participant__c != null &&
+                pe.Is_Participant_Adult__c &&
+                pe.Participant_Contact__c != null &&
+                !pe.Is_Contact_welcome_Message_Sent__c
+            ) {
+                system.debug('platform Level');
+                /*Platform Level PT mEsg*/
+                welcomemsgnotifications.addAll(
+                    ContactService.addwelcomeNotifications(
+                        pe.Participant_Contact__c,
+                        pe.Participant__c,
+                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                    )
+                );
+            }
+            Boolean studylevelPTUpdate = (oldMap != null &&
+            pe.Permit_SMS_Text_for_this_study__c &&
+            pe.Is_Study_Site_SMS_Are_Available__c &&
+            (pe.Permit_SMS_Text_for_this_study__c !=
+            oldMap.get(pe.Id).Permit_SMS_Text_for_this_study__c));
+
+            Boolean studylevelPTInsert = (oldMap == null &&
+            pe.Permit_SMS_Text_for_this_study__c &&
+            pe.Is_Study_Site_SMS_Are_Available__c);
+
+            if (
+                !pe.Welcome_Message_Sent__c &&
+                pe.Study_Site__c != null &&
+                pe.Participant__c != null &&
+                ((studylevelPTInsert) || (studylevelPTUpdate))
+            ) {
+                system.debug('Study Level PT');
+                /*Study Level PT mEsg*/
+                if (pe.Is_Participant_Adult__c) {
+                    system.debug('Study Level PT is added');
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            pe.Participant_Contact__c,
+                            pe.Id,
+                            NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                        )
+                    );
+                }
+                //For study level Delegates
+                if (!String.isBlank(pe.Participant__c)) {
+                    participantids.add(pe.Participant__c);
+                }
+            } else if (
+                oldMap != null &&
+                pe.Permit_SMS_Text_for_this_study__c !=
+                oldMap.get(pe.Id).Permit_SMS_Text_for_this_study__c &&
+                !pe.Permit_SMS_Text_for_this_study__c
+            ) {
+                Participant_Enrollment__c tempPer = new Participant_Enrollment__c(Id = pe.Id); //For updating the welcome msg flag - Added by Sonal
+                tempPer.Welcome_Message_Sent__c = false;
+                tempPer.Welcome_Message_Delivered__c = false;
+                perToBeUpdated.add(tempPer);
+            }
+        }
+        if (participantids.size() > 0) {
+            partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                participantIds
+            );
+            // needed for code for now will delete later
+            /*if(!partPerDelegateIds.isEmpty()){
+Map<Id,Boolean> delcon = new Map<Id,Boolean>();
+participantconMap = new Map<Id,Participant__c>([Select Id, (SELECT Id, Participant__c, Status__c,Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r where Status__c = 'Active' ) From Participant__c where ID IN : participantids]);
+if(!participantconMap.isEmpty()){
+for(Participant__c per : participantconMap.values()){
+for(Patient_Delegate__c del : per.Participants__r){
+delcon.put(del.Contact__c, del.Contact__r.Welcome_Message_Sent__c);
+}
+delegatewelcomemsg.put(per.Id,delcon);
+delcon = new Map<Id,Boolean>();
+system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
+}   
+}
+}*/
+        }
+        //Added for study Level Delegate
+        for (Participant_Enrollment__c pe : newList) {
+            if (
+                oldMap == null &&
+                !partPerDelegateIds.keySet().isEmpty() &&
+                partPerDelegateIds.containsKey(pe.Participant__c)
+            ) {
+                /*if(!proccessedParticipants.contains(pe.Participant__c)){
+                 proccessedParticipants.add(pe.Participant__c);*/
+                for (Id delegateId : partPerDelegateIds.get(pe.Participant__c)) {
+                    /*Study Level Delegate*/
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            delegateId,
+                            pe.Id,
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                        )
+                    );
+
+                    /*Platform Level Delegate*/
+                    //if(delegatewelcomemsg.get(pe.Participant__c).Contact__c != null && !participantconMap.get(pe.Participant__c).Contact__r.Welcome_Message_Sent__c){
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            delegateId,
+                            pe.Participant__c,
+                            NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                        )
+                    );
+                }
+                /*}*/
+            }
+        }
+        if (!welcomemsgnotifications.isEmpty())
+            insert welcomemsgnotifications;
+        if (
+            !perToBeUpdated.isEmpty() //For updating the welcome msg flag - Added by Sonal
+        )
+            update perToBeUpdated;
+    }
+    /*For Welcome Msg -- Added by Anitha End*/
     @TestVisible
     private static void updateParticipantStudyStatus(
         List<Participant_Enrollment__c> newList,
@@ -1086,10 +1236,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ((per.Initial_visit_scheduled_date__c == null &&
                 per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true)
             ) {
-                if(per.Status_Order__c > 3){
-                per.Participant_Status__c = 'Successfully Contacted';
-                peList.add(per);
+                if (per.Status_Order__c > 3) {
+                    per.Participant_Status__c = 'Successfully Contacted';
+                    peList.add(per);
                 }
+                peList.add(per);
             }
         }
         for (Participant_Enrollment_Status_History__c pesh : [
@@ -1106,7 +1257,51 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             update peshList;
         }
     }
-
+    @TestVisible
+    private static void createDefaultTaskForEcoa(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
+        Set<Id> participantContactIds = new Set<Id>();
+        for (Participant_Enrollment__c per : newList) {
+            Boolean subjectGuidAdded = oldMap.get(per.Id).Subject_GUID__c != per.Subject_GUID__c
+                ? true
+                : false;
+            if (subjectGuidAdded && per.Subject_GUID__c != null && per.Subject_GUID__c != '') {
+                participantContactIds.add(per.Participant_Contact__c);
+                enrollments.add(per);
+            }
+        }
+        Map<Id, User> usersByContactId = new Map<Id, User>();
+        List<Task> taskList = new List<Task>();
+        for (User user : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+            usersByContactId.put(user.ContactId, user);
+        }
+        for (Participant_Enrollment__c per : enrollments) {
+            Task t = new Task(
+                Subject = TaskService.TASK_CODE_ECOA_TASK,
+                Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
+                Status = TaskService.TASK_STATUS_OPEN,
+                Priority = TaskService.TASK_PRIORITY_CRITICAL,
+                Action_URL__c = 'e-diaries',
+                WhatId = per.Participant__c,
+                WhoId = per.Participant_Contact__c,
+                Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
+                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
+            );
+            if (usersByContactId.get(per.Participant_Contact__c) != null) {
+                //if user exist then assign to him:
+                t.OwnerId = usersByContactId.get(per.Participant_Contact__c).Id;
+            } else {
+                //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                t.Owner_Contact__c = per.Participant_Contact__c;
+            }
+            taskList.add(t);
+        }
+        if (!taskList.isEmpty())
+            insert taskList;
+    }
     public static void CreateEcoaEvents(
         List<Participant_Enrollment__c> newList,
         Map<Id, Participant_Enrollment__c> oldMap

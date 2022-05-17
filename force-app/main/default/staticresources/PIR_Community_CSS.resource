@@ -37,3 +37,12 @@
     border-radius:80px;
     height: calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px);
 }
+@media (max-device-width: 767px) {
+    .pir-parent .slds-tabs_default__nav{
+        justify-content: space-between;
+    }
+    .pir-parent .slds-tabs_default__link {
+      max-width: 190px;
+    }
+   
+}

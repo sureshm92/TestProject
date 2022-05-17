@@ -21,6 +21,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
 
+    public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
@@ -28,6 +29,7 @@ public without sharing class TaskService {
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
+    public static final String TASK_CODE_ECOA_TASK = 'Activate_Ecoa_Ediaries';
     public static final String TASK_CODE_UPDATE_YOUR_PHONE_NUMBER = 'Update_Your_Phone_Number';
     public static final String TASK_CODE_SELECT_COI = 'Select_COI';
 
@@ -568,6 +570,18 @@ public without sharing class TaskService {
         List<Task> tasks = getTasksCommon(
             'Task_Code__c =\'' +
             TASK_CODE_COMPLETE_YOUR_PROFILE +
+            '\' AND ' +
+            getOpenTasksFilter()
+        );
+        if (tasks.size() > 0) {
+            completeTask(tasks[0]);
+            update tasks[0];
+        }
+    }
+    public void completeEcoaTaskForParticipant() {
+        List<Task> tasks = getTasksCommon(
+            'Task_Code__c =\'' +
+            TASK_CODE_ECOA_TASK +
             '\' AND ' +
             getOpenTasksFilter()
         );

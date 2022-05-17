@@ -7,6 +7,8 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public string firstName;
     @AuraEnabled
+    public string initialsName;
+    @AuraEnabled
     public string lastName;
     @AuraEnabled
     public string refId;
@@ -215,6 +217,7 @@ public without sharing class PIR_HomepageController {
         'Id,' +
         'Name,' +
         'Participant__r.First_Name__c,' +
+        'Participant__r.Middle_Name__c,' +
         'Participant__r.Last_Name__c,' +
         'Participant__r.Full_Name__c,' +
         'Participant__r.Phone__c,' +
@@ -288,7 +291,7 @@ public without sharing class PIR_HomepageController {
       if (selectedStatusList != null) {
         if (
           selectedStatusList.contains('Sent to DCT') &&
-          !selectedStatusList.contains('Eligibility Passed')
+          !selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -298,14 +301,14 @@ public without sharing class PIR_HomepageController {
           ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           filterString =
             filterString +
             ' AND ((Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false) OR (Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND  Study_Site__r.Study_Site_Type__c = \'Traditional\' ))  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() > 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -913,6 +916,11 @@ public without sharing class PIR_HomepageController {
       ListViewWrapper wrap = new ListViewWrapper();
       wrap.firstName = lst.Participant__r.First_Name__c;
       wrap.lastName = lst.Participant__r.Last_Name__c;
+      String initialsName = '';
+      initialsName = initialsName + (lst.Participant__r.First_Name__c != null ? lst.Participant__r.First_Name__c.substring(0, 1) : '') + ' ';
+      initialsName = initialsName + (lst.Participant__r.Middle_Name__c != null ? lst.Participant__r.Middle_Name__c.substring(0, 1) : '') + ' ';
+      initialsName = initialsName + (lst.Participant__r.Last_Name__c != null ? lst.Participant__r.Last_Name__c.substring(0, 1) : '') + ' ';
+      wrap.initialsName = initialsName.toUpperCase();
       wrap.refId = lst.Name;
       wrap.studyName = lst.Clinical_Trial_Profile__r.Study_Code_Name__c;
       wrap.siteName = lst.Study_Site__r.name;
@@ -1049,7 +1057,7 @@ public without sharing class PIR_HomepageController {
           Participant_Contact__r.Is_Patient_User_Created__c,
           Invited_To_PP_Date__c,
           MRR_Survey_Results_URL__c,
-          Pre_Screener_Survey_Response__c,
+          Pre_screening_Status__c,
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
@@ -1619,7 +1627,8 @@ public without sharing class PIR_HomepageController {
   @AuraEnabled
   public static List<LabelValueItem> getAvailableStatuses(
     String status,
-    Id StudyId
+    Id StudyId,
+    List<Id> SiteId
   ) {
     List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
     List<String> availableStatusList = new List<String>();
@@ -1635,6 +1644,15 @@ public without sharing class PIR_HomepageController {
       FROM Clinical_Trial_Profile__c
       WHERE Id = :StudyId
     ];
+      
+      //Added for RH-6979
+      List<Study_Site__c> ssList = [SELECT 
+                          Study_Site_Type__c 
+                          FROM Study_Site__c
+                          WHERE Id IN: SiteId
+                         ];
+      
+      //
 
     Boolean isPromoteToSH = ctp.Promote_to_SH__c;
     Boolean isInitialVisit = ctp.Initial_Visit_Required__c;
@@ -1667,8 +1685,17 @@ public without sharing class PIR_HomepageController {
         availableStatusList = lvs.Available_Statuses__c.split(',');
       }
     }
+      
+      //RH-6979
+      if(!isInitialVisit){
+          if(availableStatusList.contains('Declined Consent')){
+              integer x = availableStatusList.indexOf('Declined Consent');
+              availableStatusList.remove(x);
+          }
+      }
+      //
 
-    StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
+    //StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
     for (String st : availableStatusList) {
       String t = st.replaceAll('[\\s\\-()]', '_');
       if (t == 'Contacted___Not_Suitable') {
@@ -1799,7 +1826,8 @@ public without sharing class PIR_HomepageController {
           Informed_Consent__c,
           Informed_Consent_Date__c,
           Initial_visit_scheduled_time__c,
-          Initial_visit_scheduled_date__c
+          Initial_visit_scheduled_date__c,
+          isBulkUpdate__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -1815,11 +1843,18 @@ public without sharing class PIR_HomepageController {
         } else {
           pe.Final_consent__c = finalconsent;
         }
-        pe.Participant_Status_Last_Changed_Date__c = system.now();
-        if (consentSigned != null && signedDate != null) {
-          pe.Informed_Consent__c = consentSigned;
-          pe.Informed_Consent_Date__c = signedDate;
-        }
+          pe.Participant_Status_Last_Changed_Date__c = system.now();
+          if (consentSigned != null && signedDate != null) {
+              pe.Informed_Consent__c = consentSigned;
+              pe.Informed_Consent_Date__c = signedDate;
+          }
+          if( oParticipantStatus ==PEStatusState.PE_STATUS_DECLINED_CONSENT || 
+             oParticipantStatus ==PEStatusState.PE_STATUS_WITHDREW_CONSENT){
+                 pe.isBulkUpdate__c=true;
+             }
+          else{
+              pe.isBulkUpdate__c=false;
+          }
 
         if (
           pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH ||
