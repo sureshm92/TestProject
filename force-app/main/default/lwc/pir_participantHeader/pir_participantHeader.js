@@ -172,7 +172,7 @@ export default class Pir_participantHeader extends LightningElement {
                     }
                  if(((!this.per.MRR_Survey_Results_URL__c && 
                     this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false) ||
-                    (!this.per.Pre_screening_Status__c && 
+                    ((!this.per.Pre_screening_Status__c || this.per.Pre_screening_Status__c=='Not Required') &&
                         this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false)) && 
                     result.preScreenAccess){
                         
