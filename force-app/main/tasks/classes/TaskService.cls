@@ -21,6 +21,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
 
+    public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
