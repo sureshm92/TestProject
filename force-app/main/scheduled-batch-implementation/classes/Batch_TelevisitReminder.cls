@@ -68,10 +68,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_GSK';
                 }else{
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder';
-                notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder'; 
-                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder';
-                } 
-            }
                 } 
             }
             
