@@ -8,8 +8,8 @@
     </values>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">SponsorName = Study_Site__r.Sponsor_AWS__c
-StudyName = Study_Site__r.Study_AWS__c</value>
+        <value xsi:type="xsd:string">SponsorName = Study_Site__r.Clinical_Trial_Profile__c.ShortCommunityName__c
+StudyName = Study_Site__r.Clinical_Trial_Profile__c.Study_Code_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
