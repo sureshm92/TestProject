@@ -167,7 +167,10 @@
                               <lightning-input type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={delegateReq} data-lvl="3" name="dphone" value={pd.delegate.Participant_Delegate__r.Phone__c} onchange={handleValChange} ></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3"></div>
-
+                        <div if:true={noYOB} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
+                              <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
+                        </div>
                         <div if:true={showDelYear} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
                               <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
                               <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
