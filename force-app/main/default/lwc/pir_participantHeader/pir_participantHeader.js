@@ -172,7 +172,7 @@ export default class Pir_participantHeader extends LightningElement {
                     }
                  if(((!this.per.MRR_Survey_Results_URL__c && 
                     this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false) ||
-                    ((!this.per.Pre_screening_Status__c || this.per.Pre_screening_Status__c=='Not Required') &&
+                    ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') &&
                         this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false)) && 
                     result.preScreenAccess){
                         
@@ -180,7 +180,7 @@ export default class Pir_participantHeader extends LightningElement {
                  }else{
                      this.showPreScreen = false;
                  }
-                 if((!this.per.Pre_screening_Status__c || this.per.Pre_screening_Status__c=='Not Required') && 
+                 if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
                     this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
                     this.showPreScreener_Button = true;
                  }
@@ -214,7 +214,7 @@ export default class Pir_participantHeader extends LightningElement {
         if(!this.per.MRR_Survey_Results_URL__c && 
             this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false){
         this.openMRR_Modal = true;
-            }else if ((!this.per.Pre_screening_Status__c || this.per.Pre_screening_Status__c=='Not Required') && 
+            }else if ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
                 this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false){
                     this.openPreScreener_Modal = true;
                 }
@@ -258,7 +258,7 @@ export default class Pir_participantHeader extends LightningElement {
        if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
            this.mrrCompleted = true;
        }
-       if((!this.per.Pre_screening_Status__c || this.per.Pre_screening_Status__c=='Not Required') && 
+       if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
         this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.mrrCompleted && this.showPreScreen){
             this.showPreScreen = true;
         }
