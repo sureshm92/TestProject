@@ -53,7 +53,7 @@ import ScreeningFailed from "@salesforce/label/c.Screening_Failed";
 import WithdrewConsentAfterScreening from "@salesforce/label/c.Withdrew_Consent_After_Screening";
 import Randomization_Failed from "@salesforce/label/c.Randomization_Failed";
 import DeclinedFinalConsent from "@salesforce/label/c.Declined_Final_Consent";
-import Enrollment_Failed from "@salesforce/label/c.PWS_Received_Name";
+import Enrollment_Failed from "@salesforce/label/c.Enrollment_Failed";
 import AllStatuses from "@salesforce/label/c.PG_MRR_L_All_Statuses";
 import AllSources from "@salesforce/label/c.PG_MRR_L_All_sources";
 import ReferringProvider from "@salesforce/label/c.Referring_Provider";
