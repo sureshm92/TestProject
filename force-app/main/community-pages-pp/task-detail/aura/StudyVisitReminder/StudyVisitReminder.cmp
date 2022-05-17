@@ -26,7 +26,7 @@
     <aura:attribute name="visitData" type="Object" description="Wrapper from c:StudyVisits" />
     <aura:attribute name="taskData" type="Object" description="Wrapper from c:TasksTab" />
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
-    <aura:attribute name="PatientVisit" type="Patient_Visit__c" />
+    <!--<aura:attribute name="PatientVisit" type="Patient_Visit__c" />-->
     <aura:attribute name="reRender" default="true" type="boolean" />
     <aura:attribute name="isUpcomingVisits" type="boolean" />
     <aura:attribute name="isUpcoming" type="boolean" />
