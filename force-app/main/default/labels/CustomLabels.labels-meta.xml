@@ -11854,6 +11854,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Health Information</value>
     </labels>
     <labels>
+        <fullName>RH_ChangeStatusErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ChangeStatusErrorMsg</shortDescription>
+        <value>Please select a status from the filters to continue with your action.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InvalidAction</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InvalidAction</shortDescription>
+        <value>Invalid Action</value>
+    </labels>
+    <labels>
         <fullName>RH_Send_to_DCT_Platform</fullName>
         <language>en_US</language>
         <protected>false</protected>

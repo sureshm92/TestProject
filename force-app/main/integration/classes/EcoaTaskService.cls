@@ -66,7 +66,7 @@ public class EcoaTaskService {
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c ='e-diaries';
-            t.Start_Date__c = date.newinstance(task.Window_Begin__c.year(), task.Window_Begin__c.month(), task.Window_Begin__c.day());//get date
+            t.Start_Date__c = date.newinstance(task.Window_End__c.year(), task.Window_End__c.month(), task.Window_End__c.day());//get date
             t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
             t.Reminder_Date__c = remTime;
