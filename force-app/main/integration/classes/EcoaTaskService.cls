@@ -56,9 +56,7 @@ public class EcoaTaskService {
             Integer offset = tz.getOffset(task.Window_Begin__c);
 
             Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);
-
-            System.debug('offset::'+offset);
-            System.debug('offset::'+userlocaltime);
+            
 
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
@@ -66,7 +64,7 @@ public class EcoaTaskService {
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c ='e-diaries';
-            t.Start_Date__c = date.newinstance(task.Window_Begin__c.year(), task.Window_Begin__c.month(), task.Window_Begin__c.day());//get date
+            t.Start_Date__c = date.newinstance(userlocaltime.year(), userlocaltime.month(), userlocaltime.day());//get date
             t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
             t.Reminder_Date__c = remTime;
