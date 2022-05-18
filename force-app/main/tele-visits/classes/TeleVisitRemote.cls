@@ -2,7 +2,7 @@ public without sharing class TeleVisitRemote {
     @TestVisible
     @AuraEnabled
     public static List<TelevisitWrapper> getVisits(String visitMode, Boolean isAlumniOrDelegate) {
-        if (isAlumniOrDelegate) {
+        if (isAlumniOrDelegate != null & isAlumniOrDelegate) {
             return getTeleVisits(visitMode);
         }
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(

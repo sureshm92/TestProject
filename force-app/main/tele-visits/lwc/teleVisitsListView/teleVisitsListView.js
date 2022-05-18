@@ -89,7 +89,7 @@ export default class TeleVisitsListView extends LightningElement {
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
                         ];
                         let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
-                        if (teleVisitStatus.length > 1) {
+                        if (teleVisitStatus.length >= 1) {
                             for (let tvStatus of teleVisitStatus) {
                                 let visitOption = {
                                     label:
@@ -114,9 +114,6 @@ export default class TeleVisitsListView extends LightningElement {
                                 this.teleVisits = this.filterVisits(allTeleVisits, 'Cancelled');
                             }
                             this.isFilterAvailable = true;
-                        } else {
-                            this.searchStatus = teleVisitStatus[0];
-                            this.teleVisits = allTeleVisits;
                         }
                         this.isInitialized = true;
                         this.isDisplayTable = true;

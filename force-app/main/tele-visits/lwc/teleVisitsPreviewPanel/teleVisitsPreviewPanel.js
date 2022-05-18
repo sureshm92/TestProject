@@ -98,7 +98,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                         let teleVisitStatus = [
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
                         ];
-                        if (teleVisitStatus.length > 1) {
+                        if (teleVisitStatus.length >= 1) {
                             for (let tvStatus of teleVisitStatus) {
                                 //  let tvStatusLabel =
                                 let visitOption = {
@@ -136,9 +136,6 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                                 });
                             }
                             this.isFilterAvailable = true;
-                        } else {
-                            this.searchStatus = teleVisitStatus[0];
-                            this.teleVisits = allTeleVisits;
                         }
                         this.isInitialized = true;
                     } else {
