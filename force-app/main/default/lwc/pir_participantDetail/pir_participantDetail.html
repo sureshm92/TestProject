@@ -56,9 +56,9 @@
                         </div>
                         
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_5-of-12 outcome-form-element">
-                              <div class="slds-grid slds-wrap slds-gutters"> 
+                              <div class="slds-grid slds-wrap slds-gutters">  
                                     
-                                    <div class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_medium rtl-r-none">
+                                    <div class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_medium ltl-r-none rtl-r-none">
                                           
                                           <lightning-combobox
                                           name="Date of Birth"
@@ -69,7 +69,7 @@
                                           options={optionsMM}
                                           onchange={handleMMChange} required=""></lightning-combobox>
                                     </div>
-                                    <div class="slds-col slds-p-right_none slds-size_1-of-2 slds-medium-size_3-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_medium label-margin-top rtl-r-none">
+                                    <div class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_medium label-margin-top ltl-r-none rtl-r-none">
                                           <lightning-combobox
                                           label=""
                                           value={valueDD}
@@ -77,7 +77,7 @@
                                           options={optionsDD}
                                           onchange={handleDDChange} ></lightning-combobox>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_4-of-12 outcome-form-element slds-m-bottom_medium label-margin-top">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 outcome-form-element slds-m-bottom_medium label-margin-top">
                                           
                                           <lightning-combobox
                                           label=""
@@ -167,7 +167,10 @@
                               <lightning-input type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={delegateReq} data-lvl="3" name="dphone" value={pd.delegate.Participant_Delegate__r.Phone__c} onchange={handleValChange} ></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3"></div>
-
+                        <div if:true={noYOB} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
+                              <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
+                        </div>
                         <div if:true={showDelYear} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
                               <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
                               <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
@@ -285,7 +288,7 @@
                         </div> 
                         <lightning-layout multiple-rows="true">
                         <div>
-                              <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_To_Contact_By}</label>
+                              <label class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_IQVIA_To_Contact_By}</label>
                         </div>
                         <div class="label_align">
                         <lightning-input 
@@ -295,7 +298,7 @@
                                                 name="studyPhoneConsent" 
                                                 checked={pd.pe.Permit_Voice_Text_contact_for_this_study__c} 
                                                 onchange={handleCheckboxChange}></lightning-input>
-                                          <span> <label class="label_spacing" for="studyPhoneConsent">{PHONE}</label></span>
+                                          <span> <label class="label_spacing consent_label" for="studyPhoneConsent">{PHONE}</label></span>
                         </div>
                         <div class="label_align">
                         <lightning-input 
@@ -305,7 +308,7 @@
                                                 name="studyEmailConsent" 
                                                 checked={pd.pe.Permit_Mail_Email_contact_for_this_study__c} 
                                                 onchange={handleCheckboxChange}></lightning-input>
-                                          <span><label class="label_spacing" for="studyEmailConsent">{EMAIL}</label></span>
+                                          <span><label class="label_spacing consent_label" for="studyEmailConsent">{EMAIL}</label></span>
                         </div>
                         <div class="label_align">
                         <lightning-input 
@@ -315,12 +318,12 @@
                                                 name="studySMSConsent" 
                                                 checked={pd.pe.Permit_SMS_Text_for_this_study__c} 
                                                 onchange={handleCheckboxChange}></lightning-input>
-                                          <span><label class="label_spacing" for="studySMSConsent">{SMS_TEXT}</label></span>
+                                          <span><label class="label_spacing consent_label" for="studySMSConsent">{SMS_TEXT}</label></span>
                         </div>
                         </br> </br>
                         <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
                               <div>
-                                    <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_Study_Outreach_By}</label>
+                                    <label class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_Study_Outreach_By}</label>
                               </div> 
                               </br> </br> 
                               <div class="label_align">
@@ -331,7 +334,7 @@
                                                       name="outreachPhoneConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span> <label class="label_spacing" for="outreachPhoneConsent">{PHONE}</label></span>
+                                                <span> <label class="label_spacing consent_label" for="outreachPhoneConsent">{PHONE}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -341,7 +344,7 @@
                                                       name="outreachEmailConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label class="label_spacing" for="outreachEmailConsent">{EMAIL}</label></span>
+                                                <span><label class="label_spacing consent_label" for="outreachEmailConsent">{EMAIL}</label></span>
                               </div>
                               <div class="label_align">
                               <lightning-input 
@@ -350,7 +353,7 @@
                                                       name="outreachSMSConsent" 
                                                       checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c} 
                                                       onchange={handleCheckboxChange}></lightning-input>
-                                                <span><label class="label_spacing" for="outreachEmailConsent">{SMS_TEXT}</label></span>
+                                                <span><label class="label_spacing consent_label" for="outreachEmailConsent">{SMS_TEXT}</label></span>
                               </div>
                         </template>
                   </lightning-layout>

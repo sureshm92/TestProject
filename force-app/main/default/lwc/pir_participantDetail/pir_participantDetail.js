@@ -70,7 +70,7 @@ import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
 import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save' 
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -83,6 +83,7 @@ export default class Pir_participantDetail extends LightningElement {
     disableScreening = false;
     delegateMinor =false;
     disableEdit = false;
+    noYOB = false;
     saveoffCount = 100;
     isOutreachUpdated = false;
     fieldMap = new Map([["src" , "MRN_Id__c"],
@@ -141,6 +142,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.delegateMinor =false;
         this.stateReq = false;
         this.disableEdit = false;
+        this.noYOB = false;
         if(this.isrtl) {
             this.maindivcls = 'rtl';
         }else{
@@ -197,6 +199,10 @@ export default class Pir_participantDetail extends LightningElement {
                             this.altIsNotAdult = false;
                         }
                     }                    
+                }
+                if(this.pd.delegate.Participant_Delegate__r.Attestation__c){
+                    if(!this.pd.delegate.Participant_Delegate__r.Birth_Year__c)
+                        this.noYOB = true;
                 }
                 window.clearTimeout(this.delayTimeout);
                 this.delayTimeout = setTimeout(this.setEth.bind(this), 50);
@@ -731,6 +737,7 @@ export default class Pir_participantDetail extends LightningElement {
             if(!initDel.Id){
                 this.delOp= 'insertDelegate';
                 this.showDelYear = true;
+                this.noYOB = false;
                 isNew = true;
             }      
             checkExisitingParticipant( {strFirstName:this.pd.delegate.Participant_Delegate__r.First_Name__c,
@@ -819,6 +826,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd.delegate.Participant_Delegate__r.Birth_Year__c='';
             this.newDel.Birth_Year__c = null;
             this.showDelYear = true;            
+            this.noYOB = false;    
             this.delOp = 'insertDelegate';
         }
         window.clearTimeout(this.delayTimeout);
@@ -903,6 +911,8 @@ export default class Pir_participantDetail extends LightningElement {
         if(this.showDupMsg || this.showUpdateMsg){
             return false;
         } else if(this.delegateMinor && this.showDelYear){
+            return false;
+        } else if(this.delegateMinor && this.noYOB){
             return false;
         }
        var inp = this.template.querySelectorAll("lightning-input");

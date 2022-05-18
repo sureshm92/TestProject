@@ -70,6 +70,9 @@ export default class Pir_participantHeader extends LightningElement {
     @api showPreScreener_Button = false;
     @api mrrResults = false;
     @api mrrPassed = false;
+    @api preScreenerPassed = false;
+    @api preScreenerCompleted = false;
+    @api mrrCompleted = false;
     @api studySiteName = '';
     @api showPreScreen = false;
     @api participantName = '';
@@ -168,16 +171,16 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActionName = 'NOPP';
                     }
                  if(((!this.per.MRR_Survey_Results_URL__c && 
-                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c) ||
-                    (!this.per.Pre_Screener_Survey_Response__c && 
-                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c)) && 
+                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false) ||
+                    ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') &&
+                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false)) && 
                     result.preScreenAccess){
                         
                       this.showPreScreen = true;
                  }else{
                      this.showPreScreen = false;
                  }
-                 if(!this.per.Pre_Screener_Survey_Response__c && 
+                 if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
                     this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
                     this.showPreScreener_Button = true;
                  }
@@ -209,10 +212,10 @@ export default class Pir_participantHeader extends LightningElement {
 
     doPrescreen(){
         if(!this.per.MRR_Survey_Results_URL__c && 
-            this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c){
+            this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false){
         this.openMRR_Modal = true;
-            }else if (!this.per.Pre_Screener_Survey_Response__c && 
-                this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
+            }else if ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
+                this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false){
                     this.openPreScreener_Modal = true;
                 }
     }
@@ -249,11 +252,16 @@ export default class Pir_participantHeader extends LightningElement {
        this.mrrResults = true;
        if(event.detail.result == 'Pass'){
           this.mrrPassed = true;
-          this.showPreScreen = false;
        }else{
           this.mrrPassed = false;
-          this.showPreScreen = false;
        }
+       if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
+           this.mrrCompleted = true;
+       }
+       if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
+        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.mrrCompleted && this.showPreScreen){
+            this.showPreScreen = true;
+        }
     }
 
     @api
@@ -269,6 +277,9 @@ export default class Pir_participantHeader extends LightningElement {
           this.showPreScreen = false;
           this.showPreScreener_Button = false;
        }
+       if(event.detail.result == 'Pass' || event.detail.result == 'Fail'){
+        this.preScreenerCompleted = true;
+    }
     }
 
     doAction(){

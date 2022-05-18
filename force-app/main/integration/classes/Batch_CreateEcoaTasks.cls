@@ -7,9 +7,9 @@ public without sharing class Batch_CreateEcoaTasks extends Batch_ScheduledAbstra
         Datetime dayAftrtomorrow = Date.today().addDays(2);
        return Database.getQueryLocator(
             [
-               SELECT Id,Diary_Name__c,Participant_Enrollment__c,Window_Begin__c,Diary_End_Date__c,Diary_Start_Date__c,Reminder_config__c,ParticipantId__c,ContactId__c 
+               SELECT Id,Diary_Name__c,Participant_Enrollment__c,Window_Begin__c,Window_End__c,Diary_End_Date__c,Diary_Start_Date__c,Reminder_config__c,ParticipantId__c,ContactId__c 
                FROM Ecoa_Task_Configuration__c 
-               WHERE Window_Begin__c  > :tomorrowDT AND Window_Begin__c  < :dayAftrtomorrow AND 
+               WHERE Window_Begin__c  >= TODAY AND 
                IsProcessed__c = FALSE
             ]
         );

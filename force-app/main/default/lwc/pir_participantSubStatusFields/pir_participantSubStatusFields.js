@@ -15,7 +15,7 @@ import Task_Type_Not_Selected from '@salesforce/label/c.Task_Type_Not_Selected';
 import PG_RP_L_Not_selected from '@salesforce/label/c.PG_RP_L_Not_selected';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_Validation';
-import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
@@ -88,7 +88,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         event.target.checked;
     } else if (event.target.dataset.value === "Reason") {
       if(event.target.value == null || event.target.value == ' '){
-        console.log('reason null');
         this.participantrecord.Non_Enrollment_Reason__c = '';
         this.selectedreason = '';
         if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -99,7 +98,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           }
         }
       }else{
-        console.log('not null'); console.log('value->'+event.target.value);
         this.participantrecord.Non_Enrollment_Reason__c = event.target.value;
         this.selectedreason = event.target.value;
         if (this.selectedOutcomeIV == "Declined_Consent") {
@@ -116,7 +114,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     } else if (event.target.dataset.value === "InitialVisitTime") {
       this.participantrecord.Initial_visit_scheduled_time__c =
         event.target.value;
-        console.log('time-->'+event.target.value);
         this.customButtonValidation();
     } else if (event.target.dataset.value === "additionalNotes") {
       this.additionalNote = event.target.value;
@@ -366,7 +363,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     this.notesNeeded = [];
     this.statusChanged = false;
     this.participantrecord = JSON.parse(JSON.stringify(this.pe_record));
-    console.log('pe record old'+JSON.stringify(this.pe_record));
     this.consentSigned = this.pe_record.Informed_Consent__c;
     this.reVisitDt = this.participantrecord.Revisit_Date__c;
 
@@ -409,7 +405,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   get checkContactStatus() {
     if (this.grpicons == "success") {
       if (this.isinitialvisit) {
-        console.log('contactstatus-->'+this.isinitialvisitpresent +''+this.pe_record.Informed_Consent__c+''+this.pe_record.Initial_visit_occurred_flag__c)
         if (this.isinitialvisitpresent || (this.pe_record.Informed_Consent__c && this.pe_record.Initial_visit_occurred_flag__c)) {
           return false;
         } else {
@@ -855,6 +850,13 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     this.isdataChanged();
   }
   get reasonDisabled() {
+      if (this.selectedOutcomeIV == "BTN_Yes") {
+        let elements = this.template.querySelector(
+          '[data-value="' + 'Reason' + '"]'
+        );
+        elements.setCustomValidity("");
+        elements.reportValidity();
+      }
       return this.reasoneoptions == 0;
   }
   get screeningReasonDisabled() {
@@ -1192,10 +1194,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       });
       this.template.querySelectorAll("."+event.currentTarget.dataset.name+"Bg").forEach(function (L) {
         L.classList.toggle("bg-white");
-    });console.log('lateststatusgrp'+this.latestStatusGrp);
+    });
     getContactHistory({ pe: this.peid ,groupName: this.latestStatusGrp})
       .then((result) => {
-        console.log('contacthistory'+JSON.stringify(result));
         if (result == null || result.length == 0) {
           this.historyNull = true;
         } else {
@@ -1267,7 +1268,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           var historyLists = [];
           var conts =  this.historyResults;
           for (var key in conts) {
-                console.log('key value'+key+JSON.stringify(conts[key])+':'+conts[key].title+''+conts[key].number);
                 if(conts[key].number != undefined){
                   for (var i = 0; i < result.length; i++) {
                     if (result[i].isAdditionalNote && (result[i].noteKey == conts[key].number)) {
@@ -1282,7 +1282,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
                   historyLists.push(result[i]);
             }
           }
-          console.log('Finalcontact:'+JSON.stringify(historyLists));
           this.contactHistorys = historyLists;
           this.historyNull = false;
         }
@@ -1534,8 +1533,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.handleTelevisitOpenModal();
       return;
     }
-    console.log("<----Old Value--->");
-    console.log("per record" + JSON.stringify(this.pe_record));
     // if(this.additionalNote != null && this.additionalNote !=''){
     if (this.statusChanged) {
       if ((this.additionalNote != "") & (this.additionalNote != null)) {
@@ -1571,9 +1568,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.participantrecord.Participant_Status__c = 'Unable to Reach';
       this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
     }
-    console.log(
-      "STATUS TO UPDATE-->" + this.participantrecord.Participant_Status__c
-    );
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1591,11 +1585,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           this.participantrecord.Final_consent__c = false;
     }
 
-    console.log("<----Save--->");
-    console.log(JSON.stringify(this.participantrecord));
-    console.log("Additional NOte-->" + this.additionalNote);
-    console.log("Additional NOteIV-->" + this.additionalNoteIV);
-    console.log("Selected Outcome-->" + this.selectedOutcome);
+   
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
@@ -1607,7 +1597,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       let visitPln = 'null';
       if(this.participantrecord.Visit_Plan__c){
         visitPln = this.participantrecord.Visit_Plan__c;
-        console.log('vp:'+visitPln);
       }
       if(this.pe_record.Participant_Status__c == 'Ready to Screen' && this.participantrecord.Participant_Status__c == 'Ready to Screen'){
          delete this.participantrecord.Participant_Status__c;
@@ -1616,7 +1605,6 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.dispatchEvent(selectedEvent);
       doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
         .then((result) => {
-          console.log("--SUCCESS--");
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);

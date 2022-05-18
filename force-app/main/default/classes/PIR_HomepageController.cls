@@ -291,7 +291,7 @@ public without sharing class PIR_HomepageController {
       if (selectedStatusList != null) {
         if (
           selectedStatusList.contains('Sent to DCT') &&
-          !selectedStatusList.contains('Eligibility Passed')
+          !selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -301,14 +301,14 @@ public without sharing class PIR_HomepageController {
           ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' ';
         } else if (
           !selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() < 2)
         ) {
           filterString =
             filterString +
             ' AND ((Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false) OR (Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true AND  Study_Site__r.Study_Site_Type__c = \'Traditional\' ))  ';
         } else if (
           selectedStatusList.contains('Sent to DCT') &&
-          selectedStatusList.contains('Eligibility Passed')
+          selectedStatusList.contains('Eligibility Passed') && (selectedStatusList.size() > 2)
         ) {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
@@ -1059,7 +1059,7 @@ public without sharing class PIR_HomepageController {
           Participant_Contact__r.Is_Patient_User_Created__c,
           Invited_To_PP_Date__c,
           MRR_Survey_Results_URL__c,
-          Pre_Screener_Survey_Response__c,
+          Pre_screening_Status__c,
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
@@ -1629,7 +1629,8 @@ public without sharing class PIR_HomepageController {
   @AuraEnabled
   public static List<LabelValueItem> getAvailableStatuses(
     String status,
-    Id StudyId
+    Id StudyId,
+    List<Id> SiteId
   ) {
     List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
     List<String> availableStatusList = new List<String>();
@@ -1645,6 +1646,15 @@ public without sharing class PIR_HomepageController {
       FROM Clinical_Trial_Profile__c
       WHERE Id = :StudyId
     ];
+      
+      //Added for RH-6979
+      List<Study_Site__c> ssList = [SELECT 
+                          Study_Site_Type__c 
+                          FROM Study_Site__c
+                          WHERE Id IN: SiteId
+                         ];
+      
+      //
 
     Boolean isPromoteToSH = ctp.Promote_to_SH__c;
     Boolean isInitialVisit = ctp.Initial_Visit_Required__c;
@@ -1677,6 +1687,15 @@ public without sharing class PIR_HomepageController {
         availableStatusList = lvs.Available_Statuses__c.split(',');
       }
     }
+      
+      //RH-6979
+      if(!isInitialVisit){
+          if(availableStatusList.contains('Declined Consent')){
+              integer x = availableStatusList.indexOf('Declined Consent');
+              availableStatusList.remove(x);
+          }
+      }
+      //
 
     //StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
     for (String st : availableStatusList) {
