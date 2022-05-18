@@ -2,7 +2,9 @@
 public class Test_RPRecordReviewLogController {
     @TestSetup
     static void setup() {
-      
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
     }
     @isTest
     public static void TestM1(){
@@ -162,6 +164,7 @@ public class Test_RPRecordReviewLogController {
         RPRecordReviewLogController.updatePeRecords(pe);
         RPRecordReviewLogController.delegateUpdatePeRecords(pe);
         RPRecordReviewLogController.peInitData pei =  new RPRecordReviewLogController.peInitData(null,null,null);
+        system.assert(pei!=null);
         
     }
      @isTest
@@ -289,7 +292,39 @@ public class Test_RPRecordReviewLogController {
         RPRecordReviewLogController.getSelectedPeDetails(pe.Id,'','');
         RPRecordReviewLogController.updatePeRecords(pe);
         }
+        system.assert(pe!=null);
     }
     
+    
+    @isTest
+    public static void TestM2(){
+        Contact delegateCon = [select Id from contact where LastName = 'PIDelTD'];
+        Participant_Enrollment__c pe = [select Id from Participant_Enrollment__c limit 1];
+        TestData testData = new TestData();
+        RPRecordReviewLogController.getPEDetails('Delegate',delegateCon.Id);  
+        RPRecordReviewLogController.getRecordsDetails();  
+        RPRecordReviewLogController.getContactList();  
+        RPRecordReviewLogController.getPECountDetails('Delegate',delegateCon.Id);  
+        RPRecordReviewLogController.dateFormatChange(system.today());
+        RPRecordReviewLogController.peInitData pei =  new RPRecordReviewLogController.peInitData(null,null,null);
+        system.assert(pei!=null);
+    }
+    @isTest
+    public static void TestM4(){
+        Contact delegateCon = [select Id from contact where LastName = 'PIDelTD'];
+        List<Participant_Enrollment__c> peList = [select Id from Participant_Enrollment__c];
+        List<String> piIds = new List<String>();
+        for(Participant_Enrollment__c pe : peList){
+            piIds.add(pe.Id);
+        }
+        //User usr = [select Id from user where contactId = :delegateCon.Id];
+        TestData testData = new TestData();
+        
+        RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring(piIds);
+        RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring(piIds);
+        RPRecordReviewLogController.getExportRecords(piIds);
+        List<RPRecordReviewLogController.peNoteData> notes = RPRecordReviewLogController.getNotesDetails(piIds[0]);
+        system.assert(notes!=null);
+    }
     
 }
