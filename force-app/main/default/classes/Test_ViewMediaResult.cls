@@ -3,11 +3,11 @@ public class Test_ViewMediaResult {
     @IsTest
     public static void runTest() {
         //TestData.loadTestData();
-		TriggerHandlerExecutor.bypassHandler(
+        TriggerHandlerExecutor.bypassHandler(
             UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
         );
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
-		insert portalTC;
+        insert portalTC;
 
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
@@ -215,9 +215,25 @@ public class Test_ViewMediaResult {
             } catch (exception e) {
             }
             try {
+                System.runAs(admin) {
                 viewMediaResult.getInterdependentFilterData(lstMo, MediaOutreachServices.FILTER_FIELD_MAP);
+                }
             } catch (exception e) {
             }
+            try {
+                 System.runAs(admin) {
+                   viewMediaResult.UpdateRecord(
+                        MO_inprogress1.ID,
+                        'media',
+                        false,
+                        true,
+                        'file',
+                        true
+                    );
+                    }
+                   } catch (exception e) {
+                }
+               ViewMediaResult.CommunityPreferred wrapp = new  ViewMediaResult.CommunityPreferred();    
         }
         Test.stopTest();
     }
