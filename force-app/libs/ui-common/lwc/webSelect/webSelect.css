@@ -58,3 +58,8 @@
     height: max-content;
     width: 120px;
 }
+.select-list-rtl {
+    margin-right: 10%;
+    height: max-content;
+    width: 120px;
+}

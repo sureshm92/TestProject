@@ -25,3 +25,10 @@
 .tooltip:hover {
     fill: #595959 !important;
 }
+
+.rr-icon_xsmall-custom {
+    height: 12px;
+    width: 12px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}

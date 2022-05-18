@@ -25151,6 +25151,27 @@ Please contact the Study Team for further updates or please login for additiona
         <value>##VisitName is not happening</value>
     </labels>
     <labels>
+        <fullName>Televisit_Canceled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Canceled</shortDescription>
+        <value>Canceled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Past</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Past</shortDescription>
+        <value>Past</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Upcoming</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Upcoming</shortDescription>
+        <value>Upcoming</value>
+    </labels>
+    <labels>
         <fullName>TV_TH_Attendees</fullName>
         <language>en_US</language>
         <protected>true</protected>

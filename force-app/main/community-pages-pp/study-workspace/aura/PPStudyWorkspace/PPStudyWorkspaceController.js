@@ -76,23 +76,29 @@
                     }
                     const teleVendors = JSON.parse(trialDetail.participantstate).teleVendors; //component.get('v.participantState.teleVendors');
                     let isTeleVendorChecked = false;
+                    let showTelevisits = JSON.parse(trialDetail.participantstate).showTeleVisits;
                     if (teleVendors != null) {
                         for (const item in teleVendors) {
-                            if (teleVendors != null) {
                                 isTeleVendorChecked =
                                     // teleVendors[item].Televisit_Vendor__c === 'Vonage';
                                     teleVendors[item].Name === 'Vonage';
                                 break;
                             }
                         }
-                    }
+                    component.set('v.displayTelevisitsButton', showTelevisits);
                     component.set('v.isTeleVendorEnabled', isTeleVendorChecked);
+                    var visConfig =
+                        !trialDetail.showVisits ||
+                        !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
                     if (
                         !trialDetail.pe.Clinical_Trial_Profile__r
                             .Televisit_Vendor_is_Available__c ||
-                        !isTeleVendorChecked
+                        !isTeleVendorChecked ||
+                        !showTelevisits
                     ) {
+                        if (visConfig) {
                         visitMode = 'TravelSupportDetails';
+                    }
                     }
                     //find tab
                     var selectedTabId = trialDetail.tabs[0].id;

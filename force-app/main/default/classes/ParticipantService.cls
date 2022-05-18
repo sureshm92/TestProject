@@ -35,6 +35,8 @@ public without sharing class ParticipantService {
         @AuraEnabled
         public Boolean showVisits;
         @AuraEnabled
+        public Boolean showTeleVisits;
+        @AuraEnabled
         public Boolean showResults;
         @AuraEnabled
         public Boolean isPremium;
@@ -62,6 +64,7 @@ public without sharing class ParticipantService {
             isPremium = false;
             showTerms = false;
             showVisits = false;
+            showTeleVisits = false;
             showVisitsInPreTrial = false;
             showResults = false;
             communityName = '';
@@ -142,6 +145,7 @@ public without sharing class ParticipantService {
                 ) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
+                    participantState.showTeleVisits = showTeleVisits();
                     /**PEH-525 START*/
                     participantState.showVisitsInPreTrial = participantState.showVisits;
                     /**PEH-525 END*/
@@ -151,6 +155,7 @@ public without sharing class ParticipantService {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
                     participantState.showVisits = showVisits();
+                    participantState.showTeleVisits = showTeleVisits();
                     participantState.showVisitsInPreTrial = showVisits();
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
                     /**PEH-525 END*/
@@ -254,6 +259,37 @@ public without sharing class ParticipantService {
             ];
             Boolean VisitEnabled = participantState.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
             return (!patientVisit.isEmpty());
+        }
+        return false;
+    }
+
+    @TestVisible
+    private Boolean showTeleVisits() {
+        ///**ParticipantState ps = getParticipantState();
+        if (participantState.pe != null) {
+            List<Televisit__c> tvList = [
+                SELECT
+                    Id,
+                    Name,
+                    Title__c,
+                    Duration__c,
+                    Start_Time__c,
+                    Visit_Date__c,
+                    Visit_Date_Time__c,
+                    Status__c,
+                    (
+                        SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c
+                        FROM Televisit_Attendee__r
+                    )
+                FROM Televisit__c
+                WHERE
+                    Id IN (
+                        SELECT Televisit__c
+                        FROM Televisit_Attendee__c
+                        WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
+                    )
+            ];
+            return (!tvList.isEmpty());
         }
         return false;
     }
