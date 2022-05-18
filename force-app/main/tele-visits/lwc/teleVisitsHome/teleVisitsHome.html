@@ -1,0 +1,20 @@
+<template>
+    <c-web-spinner fixed="true"></c-web-spinner>
+    <div class={containerClass}>
+        <div class="navigation rr-width-limiter side-padding">
+            <div class="showDesktop">
+                <div class="ui-link" onclick={navigateToHome}>
+                    <lightning-icon icon-name="utility:home" size="x-small" alternative-text={labels.NAVIGATION_HOME}>
+                    </lightning-icon>
+                </div>
+                <div class="ui-link-current">
+                    <lightning-icon icon-name={iconChevron} size="xx-small" alternative-text=">">
+                    </lightning-icon>
+                    &nbsp;&nbsp;{labels.TV_TITLE}
+                </div>
+            </div>
+        </div>
+        <c-tele-visits-list-view is-mobile-app={isMobileapp} is-r-t-l={isRTL} is-alumni-or-delegate="true">
+        </c-tele-visits-list-view>
+    </div>
+</template>

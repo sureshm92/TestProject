@@ -27,6 +27,7 @@
     <aura:attribute name="displayVitalsButton" type="Boolean" default="false" />
     <aura:attribute name="displayLabsButton" type="Boolean" default="false" />
     <aura:attribute name="displayBiomarkersButton" type="Boolean" default="false" />
+    <aura:attribute name="displayTelevisitsButton" type="Boolean" default="false" />
 
     <aura:attribute name="isReportsTabInitialized" type="Boolean" />
     <aura:attribute name="isReferralsTabInitialized" type="Boolean" />
@@ -234,7 +235,7 @@
                             </button>
                         </aura:if>
                         <aura:if
-                            isTrue="{!and(v.studyDetail.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,v.isTeleVendorEnabled)}"
+                            isTrue="{!and(and(v.studyDetail.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,v.isTeleVendorEnabled),v.displayTelevisitsButton)}"
                         >
                             <button
                                 id="changeVisitMode"

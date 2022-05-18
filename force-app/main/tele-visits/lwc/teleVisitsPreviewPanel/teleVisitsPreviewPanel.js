@@ -1,32 +1,36 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 import FILTER_LABEL from '@salesforce/label/c.Home_Page_StudyVisit_Show_Filter_Visits';
 import NO_ITEMS from '@salesforce/label/c.PG_VP_L_No_Items_display';
 import TIMEZONE from '@salesforce/i18n/timeZone';
-import getVisits from '@salesforce/apex/TeleVisitRemote.getVisits';
+import getTeleVisits from '@salesforce/apex/TeleVisitRemote.getTeleVisits';
 import TV_TH_Attendees from '@salesforce/label/c.TV_TH_Attendees';
 import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
 import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
 import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
 import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
-import FORM_FACTOR from '@salesforce/client/formFactor';
+import TV_TITLE from '@salesforce/label/c.Home_Page_Tele_Visit_Details_Tab';
 import TV_UPCOMING from '@salesforce/label/c.Televisit_Upcoming';
+
 import TV_PAST from '@salesforce/label/c.Televisit_Past';
+
 import TV_CANCELED from '@salesforce/label/c.Televisit_Canceled';
 
-const ENTRIES_ON_PAGE = 4;
-export default class TeleVisitsListView extends LightningElement {
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import SEE_ALL from '@salesforce/label/c.Resources_See_All';
+const ENTRIES_ON_PAGE = 5;
+export default class TeleVisitsPreviewPanel extends LightningElement {
     @api isMobileApp;
     @api isRTL;
     @track teleVisits = [];
     @track tabTeleVisits = [{}];
     allRecordsCount;
     entriesOnPage = ENTRIES_ON_PAGE;
-    pageNumber = 1;
     isDisplayTable = false;
+    isVisitAvailable = false;
     isFilterAvailable = false;
-    searchStatus = 'Scheduled';
-    @api isAlumniOrDelegate = false;
+    searchStatus = '';
+
     labels = {
         RTL_Languages,
         FILTER_LABEL,
@@ -36,13 +40,14 @@ export default class TeleVisitsListView extends LightningElement {
         TV_TH_Duration,
         TV_TH_Date,
         TV_TH_Attendees,
+        SEE_ALL,
+        TV_TITLE,
         TV_UPCOMING,
         TV_PAST,
         TV_CANCELED
     };
 
-    fullname;
-    options = [];
+    @track options = [];
 
     isInitialized = false;
     timeZone = TIMEZONE;
@@ -56,7 +61,7 @@ export default class TeleVisitsListView extends LightningElement {
     }
 
     get containerClass() {
-        return 'tv-body' + (this.isInitialized ? '' : 'hidden');
+        return 'tv-body' + (this.isInitialized ? '' : ' hidden');
     }
     get isDesktop() {
         return FORM_FACTOR === 'Large';
@@ -64,54 +69,71 @@ export default class TeleVisitsListView extends LightningElement {
     get titleClass() {
         return 'tv-title' + (this.isRTL ? ' tile-rtl' : '');
     }
-    get selectClass() {
-        return 'select-list' + (this.isRTL ? '-rtl' : '');
-    }
+
     statusHandler(event) {
         this.searchStatus = event.detail;
         this.loadVisits();
     }
-    handlePaginatorChanges(event) {
-        this.tabTeleVisits = JSON.parse(JSON.stringify(event.detail));
-    }
-    loadVisits() {
-        if (!this.isInitialized) {
-            this.searchStatus = '';
+
+    handleStatusChange(value) {
+        if (value.length > 5) {
+            value.splice(5);
         }
+        this.tabTeleVisits = JSON.parse(JSON.stringify(value));
+    }
+
+    loadVisits() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) this.spinner.show();
-        getVisits({ visitMode: this.searchStatus, isAlumniOrDelegate: this.isAlumniOrDelegate })
+        getTeleVisits({ visitMode: this.searchStatus })
             .then((result) => {
-                let allTeleVisits = result;
-                if (!this.isInitialized) {
-                    if (allTeleVisits != null && allTeleVisits.length > 0) {
-                        let teleVisitStatusOptions = [
+                //if any visits are present
+                this.allRecordsCount = result.length;
+                this.isVisitAvailable = this.allRecordsCount > 0;
+                this.isDisplayTable = this.allRecordsCount > 0;
+                if (this.isVisitAvailable) {
+                    let allTeleVisits = result;
+                    //create options for filter on initialization
+                    if (!this.isInitialized) {
+                        let teleVisitStatus = [
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
                         ];
-                        let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
                         if (teleVisitStatus.length > 1) {
                             for (let tvStatus of teleVisitStatus) {
+                                //  let tvStatusLabel =
                                 let visitOption = {
                                     label:
-                                        tvStatus === 'Scheduled'
+                                        tvStatus == 'Scheduled'
                                             ? this.labels.TV_UPCOMING
-                                            : tvStatus === 'Completed'
+                                            : tvStatus == 'Completed'
                                             ? this.labels.TV_PAST
                                             : this.labels.TV_CANCELED,
                                     value: tvStatus
                                 };
                                 this.options = [...this.options, visitOption];
                             }
-                            this.options.sort(this.sortVisitStatus('value'));
+                            //assign default filter
                             if (teleVisitStatus.includes('Scheduled')) {
                                 this.searchStatus = 'Scheduled';
-                                this.teleVisits = this.filterVisits(allTeleVisits, 'Scheduled');
+                                allTeleVisits.map((visit) => {
+                                    if (visit.visitStatus === 'Scheduled') {
+                                        this.teleVisits = [...this.teleVisits, visit];
+                                    }
+                                });
                             } else if (teleVisitStatus.includes('Completed')) {
                                 this.searchStatus = 'Completed';
-                                this.teleVisits = this.filterVisits(allTeleVisits, 'Completed');
+                                allTeleVisits.map((visit) => {
+                                    if (visit.visitStatus === 'Completed') {
+                                        this.teleVisits = [...this.teleVisits, visit];
+                                    }
+                                });
                             } else {
                                 this.searchStatus = 'Cancelled';
-                                this.teleVisits = this.filterVisits(allTeleVisits, 'Cancelled');
+                                allTeleVisits.map((visit) => {
+                                    if (visit.visitStatus === 'Cancelled') {
+                                        this.teleVisits = [...this.teleVisits, visit];
+                                    }
+                                });
                             }
                             this.isFilterAvailable = true;
                         } else {
@@ -119,45 +141,18 @@ export default class TeleVisitsListView extends LightningElement {
                             this.teleVisits = allTeleVisits;
                         }
                         this.isInitialized = true;
-                        this.isDisplayTable = true;
-                    }
-                } else {
-                    if (allTeleVisits != null && allTeleVisits.length > 0) {
-                        this.teleVisits = allTeleVisits;
-                        this.isDisplayTable = true;
                     } else {
-                        this.teleVisits = [];
-                        this.isDisplayTable = false;
+                        this.teleVisits = allTeleVisits;
                     }
                 }
+                this.handleStatusChange(this.teleVisits);
                 if (this.spinner) {
                     this.spinner.hide();
                 }
             })
             .catch((error) => {
-                console.log('error', error);
+                console.error('error', error);
             });
-    }
-
-    filterVisits(initialArray, filterValue) {
-        let filteredArray = [];
-        initialArray.map((visit) => {
-            if (visit.visitStatus === filterValue) {
-                filteredArray = [...filteredArray, visit];
-            }
-        });
-        return filteredArray;
-    }
-
-    sortVisitStatus(sortAttribute) {
-        return function (elementOne, elementTwo) {
-            if (elementOne[sortAttribute] > elementTwo[sortAttribute]) {
-                return -1;
-            } else if (elementOne[sortAttribute] < elementTwo[sortAttribute]) {
-                return 1;
-            }
-            return 0;
-        };
     }
 
     displayData(event) {

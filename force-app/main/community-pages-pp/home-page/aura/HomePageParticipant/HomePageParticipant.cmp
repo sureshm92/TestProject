@@ -141,6 +141,10 @@
                         >
                             <c:ResourceDashboardCard />
                         </aura:if>
+                        <aura:if
+                            isTrue="{!v.participantState.value == 'ALUMNI'}">
+                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
+                        </aura:if>
                     </div>
                 </div>
                 <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}" />
@@ -193,6 +197,10 @@
                                 isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
                             >
                                 <c:ResourceDashboardCard />
+                            </aura:if>
+                            <aura:if
+                                isTrue="{!v.participantState.value == 'ALUMNI'}">
+                                <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
