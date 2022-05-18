@@ -126,3 +126,6 @@
         padding-top: 0;
     }
 }
+.my-icon{
+    --slds-c-icon-color-foreground: #999999;
+}

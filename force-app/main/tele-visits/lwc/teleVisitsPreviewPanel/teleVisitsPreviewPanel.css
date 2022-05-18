@@ -26,7 +26,7 @@
 }
 
 .tile-rtl {
-    margin-right: 10px;
+    margin-right: 25px;
 }
 
 .tv-body td {
@@ -92,6 +92,13 @@
     color: #666666;
 }
 
+.select-container-rtl {
+    display: flex;
+    padding: 0 25px 2% 2%;
+    align-items: center;
+    color: #666666;
+}
+
 .sv-panel {
     display: flex;
     flex-direction: column;
@@ -147,4 +154,12 @@
         margin-bottom: 1.5rem;
         padding-top: 0;
     }
+}
+
+.rr-table th,  .rr-table td {
+    padding: 4px 10px 4px 25px;
+}
+
+.my-icon{
+    --slds-c-icon-color-foreground: #999999;
 }
