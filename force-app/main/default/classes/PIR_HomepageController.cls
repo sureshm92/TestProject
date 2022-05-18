@@ -209,7 +209,7 @@ public without sharing class PIR_HomepageController {
           ivScheduled = false;
         }
       }
- 
+
       searchString = searchString.trim();
       String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
       String queryString =
@@ -1629,7 +1629,8 @@ public without sharing class PIR_HomepageController {
   @AuraEnabled
   public static List<LabelValueItem> getAvailableStatuses(
     String status,
-    Id StudyId
+    Id StudyId,
+    List<Id> SiteId
   ) {
     List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
     List<String> availableStatusList = new List<String>();
@@ -1645,6 +1646,15 @@ public without sharing class PIR_HomepageController {
       FROM Clinical_Trial_Profile__c
       WHERE Id = :StudyId
     ];
+      
+      //Added for RH-6979
+      List<Study_Site__c> ssList = [SELECT 
+                          Study_Site_Type__c 
+                          FROM Study_Site__c
+                          WHERE Id IN: SiteId
+                         ];
+      
+      //
 
     Boolean isPromoteToSH = ctp.Promote_to_SH__c;
     Boolean isInitialVisit = ctp.Initial_Visit_Required__c;
@@ -1677,6 +1687,15 @@ public without sharing class PIR_HomepageController {
         availableStatusList = lvs.Available_Statuses__c.split(',');
       }
     }
+      
+      //RH-6979
+      if(!isInitialVisit){
+          if(availableStatusList.contains('Declined Consent')){
+              integer x = availableStatusList.indexOf('Declined Consent');
+              availableStatusList.remove(x);
+          }
+      }
+      //
 
     //StatusList.add(new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
     for (String st : availableStatusList) {
