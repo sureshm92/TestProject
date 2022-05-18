@@ -53,7 +53,7 @@ import ScreeningFailed from "@salesforce/label/c.Screening_Failed";
 import WithdrewConsentAfterScreening from "@salesforce/label/c.Withdrew_Consent_After_Screening";
 import Randomization_Failed from "@salesforce/label/c.Randomization_Failed";
 import DeclinedFinalConsent from "@salesforce/label/c.Declined_Final_Consent";
-import Enrollment_Failed from "@salesforce/label/c.PWS_Received_Name";
+import Enrollment_Failed from "@salesforce/label/c.Enrollment_Failed";
 import AllStatuses from "@salesforce/label/c.PG_MRR_L_All_Statuses";
 import AllSources from "@salesforce/label/c.PG_MRR_L_All_sources";
 import ReferringProvider from "@salesforce/label/c.Referring_Provider";
@@ -641,9 +641,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = this.template
-      .querySelector('lightning-input[data-name="agestart"]')
-      .reportValidity();
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
@@ -669,9 +667,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = this.template
-      .querySelector('lightning-input[data-name="agestart"]')
-      .reportValidity();
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
