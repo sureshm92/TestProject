@@ -6,10 +6,10 @@
      <c:EmailWireframe recipientId="{!recipient.Id}"
                         sourceId="{!relatedTo.Id}"
                         header="{!$Label.Televisit_Reminder_Email_Subject}"
-                        communityTemplate="Janssen"
-                        greeting=""
-                        signature="">
-     <c:Paragraph emailLabel="{!$Label.Televisit_Reminder_Two_Email_Body}"/>
+                        greeting="{!$Label.Televisit_Greeting}"
+                        signature="{!$Label.Televisit_Signature}"
+                        communityTemplate="Janssen">
+     <c:Paragraph emailLabel="{!$Label.Televisit_Reminder_Email_Body}"/>
      <!--<c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframe>
   </messaging:htmlEmailBody> 
@@ -17,10 +17,10 @@
      <c:EmailWireframeText recipientId="{!recipient.Id}"
                            sourceId="{!relatedTo.Id}"
                            header="{!$Label.Televisit_Reminder_Email_Subject}"
-                           communityTemplate="Janssen"
-                           greeting=""
-                           signature="">
-     <c:ParagraphText emailLabel="{!$Label.Televisit_Reminder_Two_Email_Body}"/>
+                           greeting="{!$Label.Televisit_Greeting}"
+                           signature="{!$Label.Televisit_Signature}"
+                           communityTemplate="Janssen">
+     <c:ParagraphText emailLabel="{!$Label.Televisit_Reminder_Email_Body}"/>
      <!--<c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframeText>
    </messaging:plainTextEmailBody>

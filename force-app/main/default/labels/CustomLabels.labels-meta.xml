@@ -8,69 +8,85 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
-        <fullName>Televisit_Cancel_Email_Body</fullName>
+        <fullName>Televisit_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Televisit Cancel Email Body</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2,
-
-There has been an update to Televisit "##VisitName" from ##VisitTime to ##VisitEndTime : it was cancelled.
-
-Thank you for participating in the IQVIA Referral Hub.
+        <shortDescription>Televisit Signature</shortDescription>
+        <value>Thank you.
 
 Sincerely,
 
 The IQVIA Referral Hub Support Team</value>
     </labels>
+<labels>
+        <fullName>Televisit_Greeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Greeting</shortDescription>
+        <value>Dear ##PISSName1 ##PISSName2 ,</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Header</shortDescription>
+        <value>Televisit cancellation</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Header</shortDescription>
+        <value>New Televisit</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Body</shortDescription>
+        <value>This is an email to inform you that the following televisit was &lt;b&gt;cancelled.&lt;/b&gt;
+
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime
+Duration: ##VisitDuration</value>
+    </labels>
+    
     <labels>
         <fullName>Televisit_Cancel_Email_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Cancel Email Subject</shortDescription>
-        <value>Televisit was cancelled</value>
+        <value>Televisit was cancellation</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Body</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Creation Email Body</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2,
+        <value>This is an email to inform you about an upcoming televisit for the ##StudyCodeName Study.
 
-You have been invited for a ##VisitName with ##firstname ##LastName.
-
-Televisit Date/Time : ##VisitTime
-Duration: ##VisitDuration
-
-Thank you for participating in the IQVIA Referral Hub.
-
-Sincerely,
-
-The IQVIA Referral Hub Support Team</value>
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime 
+Duration: ##VisitDuration</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Subject</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Creation Email Subject</shortDescription>
-        <value>New Televisit was scheduled</value>
+        <value>New Televisit scheduled</value>
     </labels>
+    
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Reminder Email Body</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2,
+        <value>This is an email to remind you about an upcoming televisit for the ##StudyCodeName Study.
 
-This is an email to inform you about upcoming televisit  ##VisitName with ##firstname  ##LastName.
-
-Televisit Date/Time : ##VisitTime
-Duration: ##VisitDuration
-
-Thank you for participating in the IQVIA Referral Hub.
-
-Sincerely,
-
-The IQVIA Referral Hub Support Team</value>
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime 
+Duration: ##VisitDuration</value>
     </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Subject</fullName>
