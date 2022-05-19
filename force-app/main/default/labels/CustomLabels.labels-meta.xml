@@ -44,7 +44,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Cancel Email Body</shortDescription>
-        <value>This is an email to inform you that the following televisit was <b>cancelled.</b>
+        <value>This is an email to inform you that the following televisit was &lt;b&gt;cancelled.&lt;/b&gt;
 
 Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime
