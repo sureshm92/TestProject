@@ -1,15 +1,21 @@
-@isTest
+@IsTest
 public class Test_Batch_UpdatePESHStatuses {
-    @isTest
+    @TestSetup
     static void testBehavior() {
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-        );
-        TestDataFactory.createInitData();
-
-        id peId = [SELECT Id FROM Participant_Enrollment__c].id;
         Test.startTest();
-        Database.executeBatch(new Batch_UpdatePESHStatuses(peId));
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+    @isTest
+    static void Test() {
+        TestData testdata = new TestData();
+        Test.startTest();
+        string peId;
+        peId = testdata.pe.Id;
+        Set<String> peIds = new Set<String>();
+        DataBase.executeBatch(new Batch_UpdatePEStatuses());
+        DataBase.executeBatch(new Batch_UpdatePEStatuses(peId));
+        DataBase.executeBatch(new Batch_UpdatePEStatuses(peIds));
         Test.stopTest();
     }
 }

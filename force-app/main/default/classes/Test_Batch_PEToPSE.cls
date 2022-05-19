@@ -1,17 +1,17 @@
-@isTest
+@IsTest
 public class Test_Batch_PEToPSE {
-    @isTest
+    @TestSetup
     static void testBehavior() {
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-        );
-        TestDataFactory.createInitData();
-        List<Id> pId = new List<Id>();
-        for (Participant_Enrollment__c peId : [SELECT Id FROM Participant_Enrollment__c]) {
-            pId.add(peId.Id);
-        }
         Test.startTest();
-        Database.executeBatch(new Batch_PEToPSE(pId));
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+    @isTest
+    static void Test() {
+        TestData testdata = new TestData();
+        List<Id> peIds = new List<Id>();
+        Test.startTest();
+        DataBase.executeBatch(new Batch_PEToPSE(peIds));
         Test.stopTest();
     }
 }
