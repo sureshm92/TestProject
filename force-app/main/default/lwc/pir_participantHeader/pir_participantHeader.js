@@ -112,6 +112,8 @@ export default class Pir_participantHeader extends LightningElement {
              this.showPrinticon = true;
              getPEData({ peId: this.peId })
              .then((result) => {
+                 this.preScreenerCompleted = false;
+                 this.mrrCompleted = false;
                  this.per = result.per;
                  this.isAllowedForSH = result.isAllowedForSH;
                  this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
@@ -171,9 +173,9 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActionName = 'NOPP';
                     }
                  if(((!this.per.MRR_Survey_Results_URL__c && 
-                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && this.mrrCompleted === false) ||
+                    this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c) ||
                     ((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') &&
-                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c && this.preScreenerCompleted === false)) && 
+                        this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c)) && 
                     result.preScreenAccess){
                         
                       this.showPreScreen = true;
