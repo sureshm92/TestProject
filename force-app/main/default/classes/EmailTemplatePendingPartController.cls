@@ -40,7 +40,7 @@ global without sharing class EmailTemplatePendingPartController {
                             Participant_Status_Last_Changed_Date__c
                         FROM Participant_Enrollment__c
                         WHERE
-                            Participant_Status__c = 'Received'
+                            Participant_Status__c IN ('Received','Contact Attempted','Pre-review Passed','Successfully Contacted')
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE 

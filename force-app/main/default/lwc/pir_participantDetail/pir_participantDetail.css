@@ -96,7 +96,11 @@
     .alert-box .alert-img{
         width: 64px;
     }
-}.eth .slds-no-flex{
+    .ltl-r-none{
+        padding-right: var(--lwc-spacingSmall,0.75rem)!important;
+    }
+}
+.eth .slds-no-flex{
     width: 100%;
 }
 .eth .close-icon{
@@ -215,7 +219,7 @@
     .rtl .rtl-r-none{
         padding-right: var(--lwc-spacingSmall,0.75rem) !important;
         padding-left: var(--lwc-spacingSmall,0.75rem) !important;
-    } 
+    }
     .rtl .label-margin-top{
         margin-top: -10px;
     }
