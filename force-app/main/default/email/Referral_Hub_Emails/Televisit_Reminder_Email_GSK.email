@@ -6,9 +6,9 @@
      <c:EmailWireframe recipientId="{!recipient.Id}"
                         sourceId="{!relatedTo.Id}"
                         header="{!$Label.Televisit_Reminder_Email_Subject}"
-                        communityTemplate="GSK"
-                        greeting=""
-                        signature="">
+                        greeting="{!$Label.Televisit_Greeting}"
+                        signature="{!$Label.Televisit_Signature}"
+                        communityTemplate="GSK">
      <c:Paragraph emailLabel="{!$Label.Televisit_Reminder_Email_Body}"/>
      <!--<c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframe>
@@ -17,9 +17,9 @@
      <c:EmailWireframeText recipientId="{!recipient.Id}"
                            sourceId="{!relatedTo.Id}"
                            header="{!$Label.Televisit_Reminder_Email_Subject}"
-                           communityTemplate="GSK"
-                           greeting=""
-                           signature="">
+                           greeting="{!$Label.Televisit_Greeting}"
+                           signature="{!$Label.Televisit_Signature}"
+                           communityTemplate="GSK">
      <c:ParagraphText emailLabel="{!$Label.Televisit_Reminder_Email_Body}"/>
      <!--<c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframeText>

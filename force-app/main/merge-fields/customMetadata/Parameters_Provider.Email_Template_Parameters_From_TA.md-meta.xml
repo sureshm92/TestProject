@@ -19,7 +19,8 @@ LastName = Participant_Last_Name__c
 VisitTime = Televisit__r.Visit_Date_Time__c
 PISSName1 = Firstname__c
 PISSName2 = Lastname__c
-VisitEndTime = Televisit__r.Visit_End_Date_Time__c</value>
+VisitEndTime = Televisit__r.Visit_End_Date_Time__c
+StudyCodeName=Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
