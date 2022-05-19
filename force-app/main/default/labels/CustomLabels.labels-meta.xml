@@ -39,14 +39,6 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Televisit Creation Email Header</shortDescription>
         <value>New Televisit</value>
     </labels>
-        
-    <labels>
-        <fullName>Televisit_Cancel_Email_Subject</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Televisit Cancel Email Subject</shortDescription>
-        <value>Televisit was cancellation</value>
-    </labels>
     <labels>
         <fullName>Televisit_Cancel_Email_Body</fullName>
         <language>en_US</language>
@@ -57,6 +49,14 @@ The IQVIA Referral Hub Support Team</value>
 Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime
 Duration: ##VisitDuration</value>
+    </labels>
+    
+    <labels>
+        <fullName>Televisit_Cancel_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Cancel Email Subject</shortDescription>
+        <value>Televisit was cancellation</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Body</fullName>
