@@ -49,7 +49,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean isMobileApp;
         Boolean hasIQVIAStudiesPI;
     }
-
+    @testvisible
     private class CommunityType {
         String value;
         String label;
@@ -304,7 +304,7 @@ public without sharing class CommunityFacadeRemote {
         }
         return false;
     }
-
+    @testVisible
     private static String getSponsorName(String communityName) {
         String sponsorName = null;
         Map<String, String> rhSponsorsByCommunity = CommunityModeService.rhSponsorsByCommunity;
