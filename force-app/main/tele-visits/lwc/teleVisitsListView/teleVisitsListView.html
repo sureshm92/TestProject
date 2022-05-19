@@ -4,7 +4,7 @@
         <template if:true={isFilterAvailable}>
             <div class="select-container">
                 {labels.FILTER_LABEL}
-                <c-web-select value="Scheduled" options={options} container-class={selectClass}
+                <c-web-select value={searchStatus} options={options} container-class={selectClass}
                     onpasstotelevisitparent={statusHandler}>
                 </c-web-select>
             </div>
