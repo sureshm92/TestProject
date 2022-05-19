@@ -11,7 +11,7 @@ private without sharing class Test_ReferringRemote {
         TestData testDataInstance = new TestData();
         String checkNeeds;
         String delAge;
-      
+
         System.runAs(testDataInstance.hcpUser) {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 HCP__c = testDataInstance.hcpEnrollment.Id,
@@ -39,61 +39,65 @@ private without sharing class Test_ReferringRemote {
                 Mailing_State_Code__c = 'AL'
             );
             checkNeeds = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
-            delAge = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
-             List<Resource__c> resources = new List<Resource__c>{
-            new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US'),
-            new Resource__c(
-                Language__c = 'en_US',
-                Resource_Visibility__c = 'PI',
-                RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
-                    .get('Study Document')
-                    .getRecordTypeId()
-            )
-        };
-        insert resources;
-        Res_study__c studyRes = new Res_study__c(
-            Resource__c = resources[1].Id,
-            Visible_To_PI__c = true,Visible_To_RP__c = TRUE,
-            Clinical_Trial_Profile__c = testDataInstance.ctp.Id
-            
-        );
-        insert studyRes; 
+            delAge = ReferringRemote.checkDelegateAge(
+                JSON.serialize(participant),
+                JSON.serialize(participantDelegate)
+            );
+            List<Resource__c> resources = new List<Resource__c>{
+                new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US'),
+                new Resource__c(
+                    Language__c = 'en_US',
+                    Resource_Visibility__c = 'PI',
+                    RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
+                        .get('Study Document')
+                        .getRecordTypeId()
+                )
+            };
+            insert resources;
+            Res_study__c studyRes = new Res_study__c(
+                Resource__c = resources[1].Id,
+                Visible_To_PI__c = true,
+                Visible_To_RP__c = true,
+                Clinical_Trial_Profile__c = testDataInstance.ctp.Id
+            );
+            insert studyRes;
             ReferringRemote.saveParticipant(
                 testDataInstance.hcpEnrollment.Id,
                 JSON.serialize(pe),
                 JSON.serialize(participant),
                 JSON.serialize(participantDelegate),
                 null,
-                null,null
+                null,
+                null
             );
-            
+
             ReferringRemote.setfailedReferral(
                 JSON.serialize(pe),
                 ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING
             );
-              try {
-               ReferringRemote.setfailedReferral(
-                'pe',
-                ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING
-            );
+            try {
+                ReferringRemote.setfailedReferral(
+                    'pe',
+                    ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING
+                );
             } catch (exception e) {
             }
             try {
-              ReferringRemote.saveParticipant(
-                testDataInstance.hcpEnrollment.Id,
-                'pe',
-                'participant',
-                'participantDelegate',
-                null,
-                null,null
-            );
+                ReferringRemote.saveParticipant(
+                    testDataInstance.hcpEnrollment.Id,
+                    'pe',
+                    'participant',
+                    'participantDelegate',
+                    null,
+                    null,
+                    null
+                );
             } catch (exception e) {
             }
-            
         }
-         Participant_Enrollment__c per = [Select Id from Participant_Enrollment__c limit 1];
+        Participant_Enrollment__c per = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
         ReferringRemote.saveUpdatedPER(per.Id);
-        
+
         Test.stopTest();
         List<Participant__c> testParticipants = [
             SELECT Id
@@ -117,7 +121,8 @@ private without sharing class Test_ReferringRemote {
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
                 CommunityService.USER_MODE_HCP,
-                null,null
+                null,
+                null
             );
         }
         Test.stopTest();
@@ -127,17 +132,16 @@ private without sharing class Test_ReferringRemote {
         );
         System.assertEquals(1, initData.studies.size());
     }
-    
 
-     @IsTest
+    @IsTest
     static void deletefile() {
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
         String checkNeeds;
         String delAge;
-  
-       List<Resource__c> resources = new List<Resource__c>{
+
+        List<Resource__c> resources = new List<Resource__c>{
             new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US'),
             new Resource__c(
                 Language__c = 'en_US',
@@ -150,9 +154,9 @@ private without sharing class Test_ReferringRemote {
         insert resources;
         Res_study__c studyRes = new Res_study__c(
             Resource__c = resources[1].Id,
-            Visible_To_PI__c = true,Visible_To_RP__c = TRUE,
+            Visible_To_PI__c = true,
+            Visible_To_RP__c = true,
             Clinical_Trial_Profile__c = testDataInstance.ctp.Id
-            
         );
         insert studyRes;
 
@@ -176,19 +180,17 @@ private without sharing class Test_ReferringRemote {
             LinkedEntityId = resources[1].Id
         );
         insert DDL;
-         
-         ReferringRemote.deleteFile(Documents[0].id);
-         
-         string lang= 'en_US';
-           ReferringRemote.getContentDocumentLink(testDataInstance.ctp.Id,lang);
-           ReferringRemote.checkDuplicateDelegate('testtttt@dsfsss.com','fn','ln');
-             try {
-                ReferringRemote.saveUpdatedPER('studyid');
-            } catch (exception e) {
-            }
-           
+
+        ReferringRemote.deleteFile(Documents[0].id);
+
+        string lang = 'en_US';
+        ReferringRemote.getContentDocumentLink(testDataInstance.ctp.Id, lang);
+        ReferringRemote.checkDuplicateDelegate('testtttt@dsfsss.com', 'fn', 'ln');
+        try {
+            ReferringRemote.saveUpdatedPER('studyid');
+        } catch (exception e) {
+        }
+
         Test.stopTest();
-       
-    }  
-   
+    }
 }
