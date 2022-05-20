@@ -13,7 +13,7 @@ public class EcoaTaskConfigTriggerHandler {
             for(Ecoa_Task_Configuration__c eConfig :(List<Ecoa_Task_Configuration__c>)newList){
                 Ecoa_Task_Configuration__c oldEconfig = (Ecoa_Task_Configuration__c)oldMap.get(eConfig.id);
                 Boolean statusChanged = oldEconfig.Diary_Status__c != eConfig.Diary_Status__c ? true : false;
-                Boolean dateChanged = oldEconfig.Diary_Start_Date__c != eConfig.Diary_Start_Date__c ? true : false;
+                Boolean dateChanged = oldEconfig.Window_Begin__c != eConfig.Window_Begin__c ? true : false;
                 if(eConfig.IsProcessed__c  && 
                 statusChanged &&
                 eConfig.Diary_Status__c == 'completed'){ // task completion logic
