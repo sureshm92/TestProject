@@ -16,9 +16,11 @@ private class Test_PENotificationTriggerHandler {
         testData.ctp.Status__c = 'Completed';
         update testData.ctp;
         Test.stopTest();
+        List<Participant_Enrollment__c> newList = new List<Participant_Enrollment__c>();
         List<Notification__c> notifications = new List<Notification__c>();
         notifications = [SELECT Id, Notification_Type__c, Status__c FROM Notification__c];
         System.debug('<<<<<<<<<<<' + JSON.serializePretty(notifications));
+        PENotificationTriggerHandler.referredToNewStudyDelegateNotifications(newList);
     }
     //
     //    @IsTest
