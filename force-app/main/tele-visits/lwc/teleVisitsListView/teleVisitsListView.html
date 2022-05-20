@@ -1,8 +1,11 @@
 <template>
     <c-web-spinner fixed="true"></c-web-spinner>
     <div class={containerClass}>
+        <template if:true={isAlumniOrDelegate}>
+            <div class={titleClass}>{labels.TV_TITLE}</div>
+        </template>
         <template if:true={isFilterAvailable}>
-            <div class="select-container">
+            <div class={selectContainer}>
                 {labels.FILTER_LABEL}
                 <c-web-select value={searchStatus} options={options} container-class={selectClass}
                     onpasstotelevisitparent={statusHandler}>
