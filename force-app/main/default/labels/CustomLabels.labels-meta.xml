@@ -18859,14 +18859,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Platform Level Welcome Msg Body to Del</shortDescription>
-        <value>IQVIA Your Patient ##PatientFullName opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>IQVIA:Your Patient ##PatientFullName opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Platform_Level_Welcome_Msg_SMS_Body_to_PT</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Platform Level Welcome Msg SMS Body to PT</shortDescription>
-        <value>IQVIA You have opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>IQVIA:You have opted in or been opted in to receive messages for updates about new clinical trial opportunities. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Poput_ICF</fullName>
@@ -22000,14 +22000,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to Del</shortDescription>
-        <value>##SponsorName Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Level_Welcome_Msg_Body_to_PT</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to PT</shortDescription>
-        <value>##SponsorName You have opted in or been opted in to receive messages for the ##StudyName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: You have opted in or been opted in to receive messages for the ##StudyCodeName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Version_GUID_Error_Message</fullName>
