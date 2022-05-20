@@ -16,17 +16,17 @@
 }
 
 .tv-title {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 24px;
-    padding: 20px 0 15px 25px;
+    padding: 20px 0 15px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .tile-rtl {
-    margin-right: 25px;
+    margin-right: 10px;
 }
 
 .tv-body td {
@@ -87,14 +87,14 @@
 
 .select-container {
     display: flex;
-    padding: 0 2% 2% 25px;
+    padding: 0 2% 2% 10px;
     align-items: center;
     color: #666666;
 }
 
 .select-container-rtl {
     display: flex;
-    padding: 0 25px 2% 2%;
+    padding: 0 10px 2% 2%;
     align-items: center;
     color: #666666;
 }

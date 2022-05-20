@@ -9,6 +9,7 @@ import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
 import TV_TH_Duration from '@salesforce/label/c.TV_TH_Duration';
 import TV_TH_Time from '@salesforce/label/c.TV_TH_Time';
 import TV_TH_Title from '@salesforce/label/c.TV_TH_Title';
+import TV_TITLE from '@salesforce/label/c.Home_Page_Tele_Visit_Details_Tab';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import TV_UPCOMING from '@salesforce/label/c.Televisit_Upcoming';
 import TV_PAST from '@salesforce/label/c.Televisit_Past';
@@ -38,7 +39,8 @@ export default class TeleVisitsListView extends LightningElement {
         TV_TH_Attendees,
         TV_UPCOMING,
         TV_PAST,
-        TV_CANCELED
+        TV_CANCELED,
+        TV_TITLE
     };
 
     fullname;
@@ -63,6 +65,9 @@ export default class TeleVisitsListView extends LightningElement {
     }
     get titleClass() {
         return 'tv-title' + (this.isRTL ? ' tile-rtl' : '');
+    }
+    get selectContainer() {
+        return 'select-container' + (this.isRTL ? '-rtl' : '');
     }
     get selectClass() {
         return 'select-list' + (this.isRTL ? '-rtl' : '');
@@ -96,8 +101,8 @@ export default class TeleVisitsListView extends LightningElement {
                                         tvStatus === 'Scheduled'
                                             ? this.labels.TV_UPCOMING
                                             : tvStatus === 'Completed'
-                                            ? this.labels.TV_PAST
-                                            : this.labels.TV_CANCELED,
+                                                ? this.labels.TV_PAST
+                                                : this.labels.TV_CANCELED,
                                     value: tvStatus
                                 };
                                 this.options = [...this.options, visitOption];
