@@ -33,6 +33,8 @@
     <aura:attribute name="communityName" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
+    <aura:attribute name="communityServ" type="Object" />
+    <aura:attribute name="loggedInCommunityName" type="String" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -61,7 +63,7 @@
                         </div>
                         <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                             <aura:if
-                                isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.currentMode.userMode == 'Participant')}"
+                                isTrue="{!and(v.loggedInCommunityName == 'IQVIA_Patient_Portal1',v.currentMode.userMode == 'Participant')}"
                             >
                                 <img
                                     src="{!$Resource.icon_hamburgerMenu}"
@@ -159,16 +161,7 @@
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
                     <aura:if isTrue="{!v.isPPonPhone}">
-                        <c:CommunityNavigationMobile
-                            aura:id="navigationMobile"
-                            showSideMenu="{!!v.isPPonPhone}"
-                            isPPonPhone="{!v.isPPonPhone}"
-                            mode="{!v.currentMode.userMode}"
-                            hasMessage="{!v.hasMessage}"
-                            class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
-                            communityTemplate="{!v.template}"
-                            userMode="{!v.currentMode.userMode}"
-                        />
+                        <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
                     </aura:if>
                     <aura:if isTrue="{!!v.isPPonPhone}">
                         <c:CommunityNavigationMobile

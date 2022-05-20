@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         if (communityService.isInitialized()) {
+            component.set('v.communityServ', communityService);
             communityService.executeAction(component, 'checkStudyMessage', null, function (
                 returnValue
             ) {

@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Permission_Set_Developer_Name__c</field>
-        <value xsi:type="xsd:string">IQVIA_Patient_Portal</value>
+        <value xsi:type="xsd:string">Community_PP</value>
     </values>
     <values>
         <field>ShortCommunityName__c</field>
