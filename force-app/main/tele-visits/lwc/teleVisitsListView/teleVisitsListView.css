@@ -91,6 +91,13 @@
     color: #666666;
 }
 
+.select-container-rtl {
+    display: flex;
+    padding: 2% 10px 2% 2%;
+    align-items: center;
+    color: #666666;
+}
+
 @media (max-width: 768px) {
     .rr-table .tableHeader {
         display: none;
