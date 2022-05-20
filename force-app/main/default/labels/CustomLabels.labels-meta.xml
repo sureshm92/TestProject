@@ -2215,6 +2215,48 @@
         <value>Received</value>
     </labels>
     <labels>
+        <fullName>CC_Welcome_Call_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Welcome Call Complete</shortDescription>
+        <value>Welcome Call Complete</value>
+    </labels>	
+    <labels>
+        <fullName>CC_First_Referral_Call_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_First Referral Call Complete</shortDescription>
+        <value>First Referral Call Complete</value>
+     </labels>	
+     <labels>
+        <fullName>CC_Aged_Referral_Call_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Aged Referral Call Complete</shortDescription>
+        <value>Aged Referral Call Complete</value>
+    </labels>
+    <labels>
+        <fullName>CC_Left_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Left Message</shortDescription>
+        <value>Left Message</value>
+    </labels>
+    <labels>
+        <fullName>CC_No_Answer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_No Answer</shortDescription>
+        <value>No Answer</value>
+    </labels>	
+     <labels>
+        <fullName>CC_Follow_up_needed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Follow up needed</shortDescription>
+        <value>Follow up needed</value>
+    </labels>
+    <labels>
         <fullName>CC_Save_All_And_Close</fullName>
         <language>en_US</language>
         <protected>true</protected>

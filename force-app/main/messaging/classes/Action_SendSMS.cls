@@ -422,13 +422,28 @@ public with sharing class Action_SendSMS implements Action {
                     Id,
                     WhatId,
                     OwnerId,
+                    Task_Type__c, //KK
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Survey_Invitation__r.IsTrialSurvey__c
+                    Survey_Invitation__r.IsTrialSurvey__c,
+                    Ecoa_Task_Configuration_del__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Participant_contact__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.From_Number__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Task
                 WHERE Id IN :taskIdList OR Survey_Invitation__c IN :surveyInvitationIdList
             ]
@@ -628,6 +643,8 @@ public with sharing class Action_SendSMS implements Action {
                             }
                         }
                     } else if (objType == 'Task') {
+                        System.debug('644: '+String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()));//String.valueOf(taskMap.get(whatId).Task_Type__c)
+                        System.debug('645: '+String.valueOf(taskMap.get(whatId).Task_Type__c));
                         if (
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant_Enrollment__c'
@@ -666,6 +683,57 @@ public with sharing class Action_SendSMS implements Action {
                                         .Clinical_Trial_Profile__r.Study_Sponsor__c
                                 );
                                 peId = peIdMap.get(taskMap.get(whatId).WhatId).Id;
+                            }
+                        }else if (
+                            String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
+                            'Participant__c' &&
+                            String.valueOf(taskMap.get(whatId).Task_Type__c) == 'Ecoa' //TODO: check if Task_Type__c String =  eCOA is correct. 
+                        ) {
+                            /* kk - Start */
+                            //Specific for eCOA Task Notification.
+                            System.debug('ecoa::'+taskMap);
+                            pinPoint = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
+                            sponsorName = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
+                            sponsorNameSms = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
+                            studyName = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
+                            ctpTemplateName = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                            studySiteId = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c;
+                            fromNumber = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.From_Number__c;
+                            welcomemsgsent = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                            welcomemsgDelivered = taskMap.get(whatId)
+                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+
+                            isSMSAvailableForPER =
+                                taskMap.get(whatId)
+                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                    .Permit_SMS_Text_for_this_study__c &&
+                                taskMap.get(whatId)
+                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                    .Study_Site__r.SMS_Are_Available__c;
+                            studySiteToFromNoMap.put(
+                                studySiteId,
+                                taskMap.get(whatId)
+                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.From_Number__c
+                            );
+                            //If this method is called from platform Event
+                            if (isPlatFormEvent) {
+                                participantContactSponsorMap.put(
+                                    taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Participant_contact__c,
+                                    taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                        .Clinical_Trial_Profile__r.Study_Sponsor__c
+                                );
+                                peId = taskMap.get(whatId)
+                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__c;
                             }
                         }
                     }
