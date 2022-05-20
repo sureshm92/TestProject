@@ -739,14 +739,11 @@ export default class Pir_participantList extends LightningElement {
         }
        
         if( this.dropDownLabel=='Change Status' && this.showStatusPopup==false){
-            console.log('change status');
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
             this.changeStatus=true;
             this.enableStatus=true;
             this.statusChangeList = '';this.statusSelected='';
-            console.log('filterstudylen:'+''+ this.studyIDList);
-            console.log('filterstatus:'+''+this.filterWrapper.status);
             let study =  this.studyIDList.toString();
             let status;
             let studySite =JSON.stringify(this.filterWrapper.siteList);
@@ -769,6 +766,10 @@ export default class Pir_participantList extends LightningElement {
                const selectedEvent = new CustomEvent("getstatus");
                this.dispatchEvent(selectedEvent);
             });
+            this.saving = true;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            this.fetchList();
             
         }
         else{
