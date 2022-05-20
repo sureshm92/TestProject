@@ -43,7 +43,9 @@ public without sharing class NotificationService {
 
     static public List<String> instantNotificationTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
