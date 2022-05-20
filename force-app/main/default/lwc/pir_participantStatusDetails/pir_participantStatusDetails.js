@@ -99,7 +99,6 @@ export default class Pir_participantStatusDetails extends LightningElement {
             .then((result) => {
                 if(internalCount == this.count)
                 { 
-                    console.log('card details-->'+JSON.stringify(result));
                     this.peCardDetails = result;               
                     var groupName = '';
                     var gpicon = '';
@@ -114,7 +113,6 @@ export default class Pir_participantStatusDetails extends LightningElement {
                     this.groupnme = groupName;
                     this.groupIcons = gpicon;
                     this.latestStatusGrp = this.groupnme;
-                    console.log('grpName'+this.groupnme+'Latest'+this.latestStatusGrp);
                }
             }) 
             .then(() => {
@@ -187,7 +185,6 @@ export default class Pir_participantStatusDetails extends LightningElement {
                             this.saveSpinner = false;
                             this.userDate = result.userDt;
                             this.contSuccessReason = result.contSuccessReason;
-                            console.log('sreason-'+this.contSuccessReason);
                             const tabEvent = new CustomEvent("handletabs", {});
                             this.dispatchEvent(tabEvent);
                             }).catch(error => {
