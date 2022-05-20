@@ -253,16 +253,16 @@ export default class Medicalinformation extends LightningElement {
           this.decodeMRRResultGizmo = result.data;
           this.decodeMRRResult = result.decodeResult;
         }else{
-          this.decodeMRRResultGizmo = undefined;
-          this.decodeMRRResult = undefined;
+          this.decodeMRRResultGizmo = '';
+          this.decodeMRRResult = '';
         }
         if (result.booldisplayprescreenergizmo) {
           let result = this.formatgizmoresponse(this.returnpervalue.strPreScreenerSurveyResult);
           this.decodePreScreenerResultGizmo = result.data;
           this.decodePreScreenerResult = result.decodeResult;
         }else{
-          this.decodePreScreenerResultGizmo = undefined;
-          this.decodePreScreenerResult = undefined;
+          this.decodePreScreenerResultGizmo = '';
+          this.decodePreScreenerResult = '';
         }
         this.loadSurvey = true;
         this.isMedicalDataLoaded = true;
