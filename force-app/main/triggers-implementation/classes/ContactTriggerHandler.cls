@@ -629,7 +629,8 @@ public without sharing class ContactTriggerHandler {
                     AND status = 'Open'
             ];
             for (task tl : taskList) {
-                tl.Status = 'Completed';
+                tl.Status = TaskService.TASK_STATUS_COMPLETED;
+                tl.Completed_Date__c = Datetime.now();
                 taskForUpdatePhoneNumber.add(tl);
             }
         }
