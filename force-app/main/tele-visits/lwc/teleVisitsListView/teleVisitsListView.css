@@ -16,10 +16,10 @@
 }
 
 .tv-title {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 24px;
-    padding: 20px 0 15px 25px;
+    padding: 20px 0 15px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,7 +86,7 @@
 
 .select-container {
     display: flex;
-    padding: 2% 2% 2% 25px;
+    padding: 2% 2% 2% 10px;
     align-items: center;
     color: #666666;
 }
