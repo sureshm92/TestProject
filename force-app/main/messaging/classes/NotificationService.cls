@@ -43,7 +43,9 @@ public without sharing class NotificationService {
 
     static public List<String> instantNotificationTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> televisitNotificationTypes = new List<String>{
@@ -59,7 +61,9 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> taskSurveyReminderTypes = new List<String>{
@@ -454,11 +458,13 @@ public without sharing class NotificationService {
                            && welcomemsgSent.get(n.Id) && welcomemsgDelivered.get(n.Id)) 
                            || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id)))){
                             System.debug('If:::'+isSMSAvailableAtPlatformLevel+'studyLevelSMSSet:::'+studyLevelSMSSet+'taskAndVisitReminderTypes::'+taskAndVisitReminderTypes+'taskSurveyReminderTypes'+taskSurveyReminderTypes);
+                            System.debug('n.Notification_Type__c::'+n.Notification_Type__c);
                             if (
                                 (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                 (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
                                 !String.isBlank(n.Task_Id__c))
                             ) {
+                                System.debug('458::'+n.Notification_Type__c);
                                 if (
                                     !String.isBlank(n.Task_Id__c) &&
                                     taskMap != null &&

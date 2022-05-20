@@ -39,16 +39,13 @@
 }
 
 .header-label {
-    height: 70px;
-    /* width: 114px; */
+    height: 20px;
+    width: 114px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0;
-    line-height: 21px;
-    word-break: break-word;
-    overflow-y: auto;
 }
 
 .label-value {
