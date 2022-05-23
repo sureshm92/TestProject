@@ -48,10 +48,18 @@ public class EcoaTaskService {
                 }
             }
             Timezone tz = Timezone.getTimeZone(timeZoneVal);
-            Integer offset = tz.getOffset(task.Window_Begin__c);
+            Integer offset = tz.getOffset(task.Window_Begin__c);//-5 : 20th 5AM (UTC)
 
-            Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);
-
+            Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);  //local : 20 th12 AM
+            Date userDate = date.newinstance(
+                userlocaltime.year(),
+                userlocaltime.month(),
+                userlocaltime.day()
+            );
+            Datetime dt = Datetime.now();
+            if(userlocaltime.day() == dt.day()){
+                userlocaltime=userlocaltime.addDays(1);
+            }
             Integer endoffset = tz.getOffset(task.Window_End__c);
             Datetime WindoEndlocaltime = task.Window_End__c.addSeconds(endoffset / 1000);
 
@@ -62,9 +70,9 @@ public class EcoaTaskService {
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c = 'e-diaries';
             t.Start_Date__c = date.newinstance(
-                WindoEndlocaltime.year(),
-                WindoEndlocaltime.month(),
-                WindoEndlocaltime.day()
+                userlocaltime.year(),
+                userlocaltime.month(),
+                userlocaltime.day()
             ); //get date
             t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
