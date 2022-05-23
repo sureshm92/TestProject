@@ -143,10 +143,10 @@
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
 
-            if(pe.Mailing_Country_Code__c != null && pe.Mailing_Country_Code__c != undefined 
+            if(pe.Mailing_Country_Code__c != undefined && pe.Mailing_Country_Code__c != null 
                 && pe.Mailing_Country_Code__c != ''){
                  component.set('v.mailingCountryCode',pe.Mailing_Country_Code__c);
-             }else if(pe.Study_Site__c !=undefined  && pe.Study_Site__r.Site__c!=undefined && pe.Study_Site__r.Site__r.BillingCountryCode != null && pe.Study_Site__r.Site__r.BillingCountryCode != undefined
+             }else if(pe.Study_Site__c !=undefined  && pe.Study_Site__r.Site__c!=undefined && pe.Study_Site__r.Site__r.BillingCountryCode != undefined && pe.Study_Site__r.Site__r.BillingCountryCode != null 
                       && pe.Study_Site__r.Site__r.BillingCountryCode != ''){
                  component.set('v.mailingCountryCode',pe.Study_Site__r.Site__r.BillingCountryCode);
              }else{
