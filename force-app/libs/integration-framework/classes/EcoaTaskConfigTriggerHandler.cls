@@ -52,6 +52,7 @@ public class EcoaTaskConfigTriggerHandler {
                         Status = 'Open'
             ]){
                 t.Status = 'Completed';
+                t.Completed_Date__c = Date.today();
                 completeTasks.add(t);
             }
             try{
