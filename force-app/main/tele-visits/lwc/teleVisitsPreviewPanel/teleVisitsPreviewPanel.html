@@ -8,8 +8,12 @@
             <template if:true={isFilterAvailable}>
                 <div class={selectContainer}>
                     {labels.FILTER_LABEL}
-                    <c-web-select value={searchStatus} options={options} container-class={selectClass}
-                        onpasstotelevisitparent={statusHandler}>
+                    <c-web-select
+                        value={searchStatus}
+                        options={options}
+                        container-class={selectClass}
+                        onpasstotelevisitparent={statusHandler}
+                    >
                     </c-web-select>
                 </div>
             </template>
@@ -31,13 +35,22 @@
                                 <tr key={visitWrapper.tvId}>
                                     <td>{visitWrapper.title}</td>
                                     <td>
-                                        <lightning-formatted-date-time value={visitWrapper.visitDateTime} year="numeric"
-                                            month="short" day="2-digit" time-zone={timeZone}>
+                                        <lightning-formatted-date-time
+                                            value={visitWrapper.visitDateTime}
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            time-zone={timeZone}
+                                        >
                                         </lightning-formatted-date-time>
                                     </td>
                                     <td>
-                                        <lightning-formatted-date-time value={visitWrapper.visitDateTime} hour="2-digit"
-                                            minute="2-digit" time-zone={timeZone}>
+                                        <lightning-formatted-date-time
+                                            value={visitWrapper.visitDateTime}
+                                            hour="2-digit"
+                                            minute="2-digit"
+                                            time-zone={timeZone}
+                                        >
                                         </lightning-formatted-date-time>
                                     </td>
                                     <td>{visitWrapper.duration}</td>
@@ -53,41 +66,75 @@
                                 <th>{labels.TV_TH_Date}</th>
                                 <th>{labels.TV_TH_Time}</th>
                             </tr>
-                            <template for:each={tabTeleVisits} for:item="visitWrapper" for:index="index">
-                                <tr key={visitWrapper.tvId}>
+                            <template
+                                for:each={tabTeleVisits}
+                                for:item="visitWrapper"
+                                for:index="index"
+                            >
+                                <tr
+                                    key={visitWrapper.tvId}
+                                    class="televisit_table_container"
+                                    data-index={index}
+                                >
                                     <td>
-                                        {visitWrapper.title} <br />
+                                        <span class="title-txt-overflow">
+                                            <span> {visitWrapper.title}</span> </span
+                                        ><br />
                                         <div class="tv-att-row hidden" data-index={index}>
-                                            <span class="tv-att-row_header">{labels.TV_TH_Attendees}
-                                            </span><br />{visitWrapper.attendeeList}
+                                            <span class="tv-att-row_header"
+                                                >{labels.TV_TH_Attendees} </span
+                                            ><br />{visitWrapper.attendeeList}
                                         </div>
-
                                     </td>
                                     <td>
-                                        <lightning-formatted-date-time value={visitWrapper.visitDateTime} year="numeric"
-                                            month="short" day="2-digit" time-zone={timeZone}>
+                                        <lightning-formatted-date-time
+                                            value={visitWrapper.visitDateTime}
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            time-zone={timeZone}
+                                        >
                                         </lightning-formatted-date-time>
-
                                     </td>
                                     <td>
-                                        <lightning-formatted-date-time value={visitWrapper.visitDateTime} hour="2-digit"
-                                            minute="2-digit" time-zone={timeZone}>
+                                        <lightning-formatted-date-time
+                                            value={visitWrapper.visitDateTime}
+                                            hour="2-digit"
+                                            minute="2-digit"
+                                            time-zone={timeZone}
+                                        >
                                         </lightning-formatted-date-time>
                                         &nbsp;&nbsp;
                                         <span class="tv-data-btn" data-index={index}>
-                                            <lightning-button-icon icon-name="utility:chevrondown" size="medium"
-                                                class="my-icon" variant="bare" alternative-text="View More"
-                                                value={index} onclick={displayData}></lightning-button-icon>
+                                            <lightning-button-icon
+                                                icon-name="utility:chevrondown"
+                                                size="medium"
+                                                class="my-icon"
+                                                variant="bare"
+                                                alternative-text="View More"
+                                                value={index}
+                                                onclick={displayData}
+                                            ></lightning-button-icon>
                                         </span>
                                         <span class="tv-data-btn hidden" data-index={index}>
-                                            <lightning-button-icon icon-name="utility:chevronup" size="medium"
-                                                class="my-icon" variant="bare" alternative-text="View Less"
-                                                value={index} onclick={displayData}></lightning-button-icon>
+                                            <lightning-button-icon
+                                                icon-name="utility:chevronup"
+                                                size="medium"
+                                                class="my-icon"
+                                                variant="bare"
+                                                alternative-text="View Less"
+                                                value={index}
+                                                onclick={displayData}
+                                            ></lightning-button-icon>
                                         </span>
                                         <br />
-                                        <div class="tv-dur-row hidden" data-index={index}>
-                                            <span class="tv-dur-row_header">{labels.TV_TH_Duration}
-                                            </span><br />{visitWrapper.duration}
+                                        <div
+                                            class="tv-dur-row tv-dur-row_alignment hidden"
+                                            data-index={index}
+                                        >
+                                            <span class="tv-dur-row_header"
+                                                >{labels.TV_TH_Duration} </span
+                                            ><br />{visitWrapper.duration}
                                         </div>
                                     </td>
                                 </tr>
@@ -98,18 +145,27 @@
             </template>
             <!-- No Visits Message -->
             <template if:false={isDisplayTable}>
-                <c-web-empty-list css-class="main-container_no-visits" target-list={teleVisits} icon-name="none"
-                    message={labels.NO_ITEMS}></c-web-empty-list>
+                <c-web-empty-list
+                    css-class="main-container_no-visits"
+                    target-list={teleVisits}
+                    icon-name="none"
+                    message={labels.NO_ITEMS}
+                ></c-web-empty-list>
             </template>
-                <!-- SEE ALL footer -->
-                <div class="sv-footer">
-                    <c-ui-link page="televisits?tab=televisits">
-                    <span slot="body">{labels.SEE_ALL}
-                        <c-web-icon icon-size="xsmall-custom" icon-name={iconChevron} icon-color="#297dfd">
+            <!-- SEE ALL footer -->
+            <div class="sv-footer">
+                <c-ui-link page="televisits?tab=televisits">
+                    <span slot="body"
+                        >{labels.SEE_ALL}
+                        <c-web-icon
+                            icon-size="xsmall-custom"
+                            icon-name={iconChevron}
+                            icon-color="#297dfd"
+                        >
                         </c-web-icon>
                     </span>
-                    </c-ui-link>
-                </div>
+                </c-ui-link>
+            </div>
         </div>
     </template>
 </template>

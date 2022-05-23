@@ -50,14 +50,26 @@
                             <th>{labels.TV_TH_Date}</th>
                             <th>{labels.TV_TH_Time}</th>
                         </tr>
-                        <template for:each={tabTeleVisits} for:item="visitWrapper" for:index="index">
-                            <tr key={visitWrapper.tvId}>
+                        <template
+                            for:each={tabTeleVisits}
+                            for:item="visitWrapper"
+                            for:index="index"
+                        >
+                            <tr
+                                key={visitWrapper.tvId}
+                                class="televisit_table_container"
+                                data-index={index}
+                            >
                                 <td>
-                                    {visitWrapper.title}
+                                    <span class="title-txt-overflow">
+                                        <span> {visitWrapper.title}</span>
+                                    </span>
+
                                     <br />
                                     <div class="tv-att-row hidden" data-index={index}>
-                                        <span class="tv-att-row_header">{labels.TV_TH_Attendees}
-                                        </span><br />{visitWrapper.attendeeList}
+                                        <span class="tv-att-row_header"
+                                            >{labels.TV_TH_Attendees} </span
+                                        ><br />{visitWrapper.attendeeList}
                                     </div>
                                 </td>
                                 <td>
@@ -82,9 +94,13 @@
                                             onclick={displayData}></lightning-button-icon>
                                     </span>
                                     <br />
-                                    <div class="tv-dur-row hidden" data-index={index}>
-                                        <span class="tv-dur-row_header">{labels.TV_TH_Duration}
-                                        </span><br />{visitWrapper.duration}
+                                    <div
+                                        class="tv-dur-row tv-dur-row_alignment hidden"
+                                        data-index={index}
+                                    >
+                                        <span class="tv-dur-row_header"
+                                            >{labels.TV_TH_Duration} </span
+                                        ><br />{visitWrapper.duration}
                                     </div>
                                 </td>
                             </tr>

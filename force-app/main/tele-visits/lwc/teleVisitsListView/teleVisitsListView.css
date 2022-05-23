@@ -132,7 +132,45 @@
         margin-bottom: 1.5rem;
         padding-top: 0;
     }
+    .title-txt-truncate {
+        width: 90px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: grid;
+    }
+    .tv-dur-row_alignment {
+        padding-top: 1.8rem;
+    }
+    .televisit-tr-bgcolor {
+        background: linear-gradient(to top, #f8f9fb 80%, #ffffff 20%);
+    }
+    .tv-att-row {
+        padding: 30px 0px 7px 0px;
+    }
+
+    .title-txt-overflow {
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        float: left;
+        width: 90px !important;
+    }
+
+    .title-txt-overflow:hover {
+        overflow: visible;
+    }
+
+    .title-txt-overflow:hover span {
+        position: relative;
+        background-color: white;
+        border: 1px solid #000;
 }
-.my-icon{
+    .tv-body td {
+        padding: 10px 10px;
+    }
+}
+.my-icon {
     --slds-c-icon-color-foreground: #999999;
 }
