@@ -14,7 +14,7 @@ public with sharing class Action_SendSMS implements Action {
     public static final String PIN_POINT_PROJECT_ID = 'PinpointProjectId';
     public static final String PL_SPONSOR = 'Sponsor';
     public static final String PL_STUDY = 'Study';
-     /*Added by Anitha*/
+    /*Added by Anitha*/
 
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
@@ -64,19 +64,19 @@ public with sharing class Action_SendSMS implements Action {
         public String studyName;
         public String ctpTemplate;
         public String studySiteId;
-        public String fromNumber;// Added by Anitha
+        public String fromNumber; // Added by Anitha
     }
 
     public Action_SendSMS(List<Notification__c> notifications) {
-        system.debug('notifications:::'+notifications);
+        system.debug('notifications:::' + notifications);
         this.notificationIds = SObjectHelper.toIdsList(notifications);
         this.pinPointWrapperMap = processPlatformLevelCheck(notifications);
-        system.debug('pinPointWrapperMap:::'+pinPointWrapperMap);
-        system.debug('notificationIds:::'+notificationIds);
+        system.debug('pinPointWrapperMap:::' + pinPointWrapperMap);
+        system.debug('notificationIds:::' + notificationIds);
     }
 
     public void execute() {
-                system.debug('excecute:::');
+        system.debug('excecute:::');
         List<MessageParameters> messageParametersList = new List<MessageParameters>();
         Map<Id, Task> taskMap;
         List<Notification__c> notifications = [
@@ -182,9 +182,11 @@ public with sharing class Action_SendSMS implements Action {
             String stateCode = smsChannel.Notification__r.Recipient__r.MailingStateCode;
             //  Boolean isPlatformLevel = true;
             // String pinPoint;
-            system.debug('participantMap:::'+participantMap);
-            system.debug('participantMap:::'+participantMap.get(smsChannel.Notification__r.Recipient__c));
-            system.debug('phoneNumber:::'+phoneNumber);
+            system.debug('participantMap:::' + participantMap);
+            system.debug(
+                'participantMap:::' + participantMap.get(smsChannel.Notification__r.Recipient__c)
+            );
+            system.debug('phoneNumber:::' + phoneNumber);
             if (
                 phoneNumber == null &&
                 participantMap.get(smsChannel.Notification__r.Recipient__c) != null
@@ -199,7 +201,7 @@ public with sharing class Action_SendSMS implements Action {
             /*String title = parametrizedMessageService.getMessage(
                 smsChannel.Notification__c + '_title'
             );*/
-            system.debug('phoneNumber:::'+phoneNumber);
+            system.debug('phoneNumber:::' + phoneNumber);
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
             message = message.replace(
                 '##PTFirstName',
@@ -276,10 +278,14 @@ public with sharing class Action_SendSMS implements Action {
                         pinPointWrapperObj.isPlatformlevel ||
                         pinPointWrapperObj.ctpTemplate == 'Default'
                     ) {
-                        shortCommunityName = pinPointWrapperObj.sponsorNameSms==null? 'IQVIA': pinPointWrapperObj.sponsorNameSms; //label.IQVIA_Patient_Portal;
+                        shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
+                            ? 'IQVIA'
+                            : pinPointWrapperObj.sponsorNameSms; //label.IQVIA_Patient_Portal;
                     } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
                         //shortCommunityName = label.Gather_Share_Know;
-                        shortCommunityName = pinPointWrapperObj.sponsorNameSms==null? 'IQVIA': pinPointWrapperObj.sponsorNameSms;;
+                        shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
+                            ? 'IQVIA'
+                            : pinPointWrapperObj.sponsorNameSms;
                     }
                     url = CommunityService.getCommunityURLFromTemplateName(
                         pinPointWrapperObj.ctpTemplate
@@ -303,7 +309,7 @@ public with sharing class Action_SendSMS implements Action {
             }
         }
         if (!messageParametersList.isEmpty()) {
-            system.debug('messageParametersList::'+messageParametersList);
+            system.debug('messageParametersList::' + messageParametersList);
             RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageParametersList);
             // remoteCallSendSMS.execute();
             String respBody = (String) remoteCallSendSMS.execute();
@@ -371,7 +377,7 @@ public with sharing class Action_SendSMS implements Action {
     ) {
         Map<Id, PinpointWrapper> pinPointWrapperMapObj = new Map<Id, PinpointWrapper>();
         List<Id> peIdList = new List<Id>();
-        List<Id> participantIdList = new List<Id>();// Added by Anitha
+        List<Id> participantIdList = new List<Id>(); // Added by Anitha
         List<Id> ctpIdList = new List<Id>();
         List<Id> taskIdList = new List<Id>();
         List<Id> surveyInvitationIdList = new List<Id>();
@@ -382,7 +388,7 @@ public with sharing class Action_SendSMS implements Action {
             if (notificationObj.WhatId__c != null) {
                 Id whatId = Id.valueOf(notificationObj.WhatId__c);
                 String objType = String.valueOf(whatId.getSobjectType());
-                 system.debug('objType:::'+objType);
+                system.debug('objType:::' + objType);
 
                 if (objType == 'Participant_Enrollment__c') {
                     peIdList.add(whatId);
@@ -391,18 +397,18 @@ public with sharing class Action_SendSMS implements Action {
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
                 }
-                
+
                 if (objType == 'SurveyInvitation') {
                     surveyInvitationIdList.add(whatId);
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
-                }
-                else if (objType == 'Participant__c') { // Added by Anitha
+                } else if (objType == 'Participant__c') {
+                    // Added by Anitha
                     participantIdList.add(whatId);
                 }
             }
         }
-        system.debug('peIdList:::'+peIdList+'ctpIdList::'+ctpIdList);
+        system.debug('peIdList:::' + peIdList + 'ctpIdList::' + ctpIdList);
         Map<Id, SurveyInvitation> surveyInvitationMap = new Map<Id, SurveyInvitation>();
 
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
@@ -411,7 +417,10 @@ public with sharing class Action_SendSMS implements Action {
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(
             [
                 SELECT
-                    Id,Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c
+                    Id,
+                    Contact__c,
+                    Contact__r.Welcome_Message_Sent__c,
+                    Contact__r.Welcome_Message_Delivered__c
                 FROM Participant__c
                 WHERE Id IN :participantIdList
             ]
@@ -448,7 +457,7 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :taskIdList OR Survey_Invitation__c IN :surveyInvitationIdList
             ]
         );
-                system.debug('taskMap:::'+taskMap+'taskMap::'+taskMap.values());
+        system.debug('taskMap:::' + taskMap + 'taskMap::' + taskMap.values());
         for (Task tObj : taskMap.values()) {
             if (tobj.whatId != null) {
                 if (String.valueOf(tobj.whatId.getSobjectType()) == 'Participant_Enrollment__c') {
@@ -458,14 +467,14 @@ public with sharing class Action_SendSMS implements Action {
                     ownerIdList.add(tobj.OwnerId);
                 }
             }
-             system.debug('peIdList:::'+peIdList+'ownerIdList::'+ownerIdList);
+            system.debug('peIdList:::' + peIdList + 'ownerIdList::' + ownerIdList);
             if (tobj.Survey_Invitation__c != null) {
                 // if (tobj.Survey_Invitation__r.IsTrialSurvey__c) {
                 peIdList.add(tobj.Survey_Invitation__r.Participant_Enrollment__c);
                 // }
             }
         }
-                system.debug('peIdList:::'+peIdList);
+        system.debug('peIdList:::' + peIdList);
 
         Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
             [
@@ -478,7 +487,9 @@ public with sharing class Action_SendSMS implements Action {
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Clinical_Trial_Profile__r.Study_Sponsor__c,
                     Study_Site__r.site__r.BillingCountryCode,
-                    Participant_contact__c,Welcome_Message_Sent__c,Welcome_Message_Delivered__c,
+                    Participant_contact__c,
+                    Welcome_Message_Sent__c,
+                    Welcome_Message_Delivered__c,
                     Study_Site__r.Pin_Point_ProjectId__c,
                     Study_Site__r.From_Number__c,
                     Study_Site__c,
@@ -513,14 +524,14 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :peIdList OR Clinical_Trial_Profile__c IN :ctpIdList
             ]
         );
-        system.debug('peIdMap:::'+peIdMap);
+        system.debug('peIdMap:::' + peIdMap);
         for (Participant_Enrollment__c peObj : peIdMap.values()) {
             Clinical_Trial_Profile__c ctpObj = new Clinical_Trial_Profile__c();
             ctpObj.Pin_Point_ProjectId__c = peObj.Study_Site__r.Pin_Point_ProjectId__c;
             ctpObj.Sponsor_AWS__c = peObj.Study_Site__r.Sponsor_AWS__c;
             ctpObj.Study_AWS__c = peObj.Study_Site__r.Study_AWS__c;
             ctpObj.CommunityTemplate__c = peObj.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            ctpObj.Study_Sponsor__c = peObj.Clinical_Trial_Profile__r.Study_Sponsor__c;// From Number Is missing Anitha
+            ctpObj.Study_Sponsor__c = peObj.Clinical_Trial_Profile__r.Study_Sponsor__c; // From Number Is missing Anitha
 
             ctpMap.put(peObj.Clinical_Trial_Profile__c, ctpObj);
 
@@ -555,7 +566,7 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :ownerIdList
             ]
         );
-        system.debug('notificationsList:::'+notificationsList);
+        system.debug('notificationsList:::' + notificationsList);
 
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
@@ -564,7 +575,7 @@ public with sharing class Action_SendSMS implements Action {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
                     notObj.Notification_Type__c
                 );
-                        system.debug('messageType:::'+messageType);
+                system.debug('messageType:::' + messageType);
                 Boolean isPlatformLevel = true;
                 String pinPoint;
                 String sponsorName;
@@ -572,14 +583,14 @@ public with sharing class Action_SendSMS implements Action {
                 String studyName;
                 String ctpTemplateName;
                 String studySiteId;
-                String fromNumber;// Added by Anitha
-                Boolean welcomemsgsent= false;// Added by Anitha
-                Boolean welcomemsgDelivered= false;// Added by Anitha
+                String fromNumber; // Added by Anitha
+                Boolean welcomemsgsent = false; // Added by Anitha
+                Boolean welcomemsgDelivered = false; // Added by Anitha
                 Id whatId = Id.valueOf(notObj.WhatId__c);
                 Boolean isSMSAvailableForPER = false;
 
                 String objType = String.valueOf(whatId.getSobjectType());
-        system.debug('objType:::'+objType+'whatId:::'+whatId);
+                system.debug('objType:::' + objType + 'whatId:::' + whatId);
 
                 if (messageType.IsStudyLevel__c) {
                     isPlatformLevel = false;
@@ -591,9 +602,9 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = peOBJ.Study_Site__r.Study_AWS__c;
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
-                        fromNumber = peOBJ.Study_Site__r.From_Number__c;//Added by Anitha
-                        welcomemsgsent = peOBJ.Welcome_Message_Sent__c;//Added by Anitha
-                        welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;//Added by Anitha
+                        fromNumber = peOBJ.Study_Site__r.From_Number__c; //Added by Anitha
+                        welcomemsgsent = peOBJ.Welcome_Message_Sent__c; //Added by Anitha
+                        welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
                         isSMSAvailableForPER =
                             peOBJ.Permit_SMS_Text_for_this_study__c &&
                             peOBJ.Study_Site__r.SMS_Are_Available__c;
@@ -626,11 +637,11 @@ public with sharing class Action_SendSMS implements Action {
                                     per.Study_Site__r.From_Number__c
                                 );
                                 pinPoint = per.Study_Site__r.Pin_Point_ProjectId__c;
-                                fromNumber = per.Study_Site__r.From_Number__c;//Added by Anitha
-                                welcomemsgsent = per.Welcome_Message_Sent__c;//Added by Anitha
-                        welcomemsgDelivered = per.Welcome_Message_Delivered__c;//Added by Anitha
-                        
-                                 //If this method is called from platform Event
+                                fromNumber = per.Study_Site__r.From_Number__c; //Added by Anitha
+                                welcomemsgsent = per.Welcome_Message_Sent__c; //Added by Anitha
+                                welcomemsgDelivered = per.Welcome_Message_Delivered__c; //Added by Anitha
+
+                                //If this method is called from platform Event
                                 if (isPlatFormEvent) {
                                     participantContactSponsorMap.put(
                                         per.Participant_contact__c,
@@ -643,8 +654,10 @@ public with sharing class Action_SendSMS implements Action {
                             }
                         }
                     } else if (objType == 'Task') {
-                        System.debug('644: '+String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()));//String.valueOf(taskMap.get(whatId).Task_Type__c)
-                        System.debug('645: '+String.valueOf(taskMap.get(whatId).Task_Type__c));
+                        System.debug(
+                            '644: ' + String.valueOf(taskMap.get(whatId).WhatId.getSobjectType())
+                        ); //String.valueOf(taskMap.get(whatId).Task_Type__c)
+                        System.debug('645: ' + String.valueOf(taskMap.get(whatId).Task_Type__c));
                         if (
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant_Enrollment__c'
@@ -661,16 +674,18 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
                             studySiteId = peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__c;
                             fromNumber = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Study_Site__r.From_Number__c;//Added by Anitha
+                                .Study_Site__r.From_Number__c; //Added by Anitha
 
                             isSMSAvailableForPER =
                                 peIdMap.get(taskMap.get(whatId).WhatId)
                                     .Permit_SMS_Text_for_this_study__c &&
                                 peIdMap.get(taskMap.get(whatId).WhatId)
                                     .Study_Site__r.SMS_Are_Available__c;
-                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId).Welcome_Message_Sent__c;//Added by Anitha
-                        welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId).Welcome_Message_Delivered__c;//Added by Anitha
-                        
+                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                .Welcome_Message_Sent__c; //Added by Anitha
+                            welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
+                                .Welcome_Message_Delivered__c; //Added by Anitha
+
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -684,14 +699,14 @@ public with sharing class Action_SendSMS implements Action {
                                 );
                                 peId = peIdMap.get(taskMap.get(whatId).WhatId).Id;
                             }
-                        }else if (
+                        } else if (
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant__c' &&
-                            String.valueOf(taskMap.get(whatId).Task_Type__c) == 'Ecoa' //TODO: check if Task_Type__c String =  eCOA is correct. 
+                            String.valueOf(taskMap.get(whatId).Task_Type__c) == 'Ecoa' //TODO: check if Task_Type__c String =  eCOA is correct.
                         ) {
                             /* kk - Start */
                             //Specific for eCOA Task Notification.
-                            System.debug('ecoa::'+taskMap);
+                            System.debug('ecoa::' + taskMap);
                             pinPoint = taskMap.get(whatId)
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
                             sponsorName = taskMap.get(whatId)
@@ -745,7 +760,7 @@ public with sharing class Action_SendSMS implements Action {
                                 pinPoint = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
                                 fromNumber = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Study_Site__r.From_Number__c;//Added by Anitha
+                                    .Participant_Enrollment__r.Study_Site__r.From_Number__c; //Added by Anitha
                                 sponsorName = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
                                 sponsorNameSms = surveyInvitationMap.get(whatId)
@@ -762,10 +777,10 @@ public with sharing class Action_SendSMS implements Action {
                                     surveyInvitationMap.get(whatId)
                                         .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                                 welcomemsgsent = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Welcome_Message_Sent__c;//Added by Anitha
-                        welcomemsgDelivered = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c;//Added by Anitha
-                        
+                                    .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                welcomemsgDelivered = surveyInvitationMap.get(whatId)
+                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+
                                 studySiteToFromNoMap.put(
                                     studySiteId,
                                     surveyInvitationMap.get(whatId)
@@ -796,7 +811,7 @@ public with sharing class Action_SendSMS implements Action {
                             pinPoint = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Pin_Point_ProjectId__c;
                             fromNumber = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Study_Site__r.From_Number__c;//Added by Anitha
+                                .Study_Site__r.From_Number__c; //Added by Anitha
                             sponsorName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Study_Site__r.Sponsor_AWS__c;
                             sponsorNameSms = peIdMap.get(taskMap.get(whatId).WhatId)
@@ -811,9 +826,11 @@ public with sharing class Action_SendSMS implements Action {
                                     .Permit_SMS_Text_for_this_study__c &&
                                 peIdMap.get(taskMap.get(whatId).WhatId)
                                     .Study_Site__r.SMS_Are_Available__c;
-                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId).Welcome_Message_Sent__c;//Added by Anitha
-                             welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId).Welcome_Message_Delivered__c;//Added by Anitha
-                        
+                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                .Welcome_Message_Sent__c; //Added by Anitha
+                            welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
+                                .Welcome_Message_Delivered__c; //Added by Anitha
+
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 peIdMap.get(taskMap.get(whatId).WhatId).Study_Site__r.From_Number__c
@@ -832,7 +849,7 @@ public with sharing class Action_SendSMS implements Action {
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant__c'
                         ) {
-                             System.debug('I am here PlatformLevel'+isPlatformLevel);
+                            System.debug('I am here PlatformLevel' + isPlatformLevel);
                             if (
                                 userIdMap.get(taskMap.get(whatId).OwnerId) != null &&
                                 userIdMap.get(taskMap.get(whatId).OwnerId)
@@ -862,7 +879,7 @@ public with sharing class Action_SendSMS implements Action {
                         );
                         SMSDeliveryStatusService.StudyLevelnotIdPEIdMap.put(notObj.Id, peId);
                     }
-                    system.debug('isSMSAvailableForPER'+isSMSAvailableForPER);
+                    system.debug('isSMSAvailableForPER' + isSMSAvailableForPER);
                     if (isSMSAvailableForPER) {
                         //If Notification is Study level and SMS is opt in at PER and Study site both.
                         NotificationService.studyLevelSMSSet.Add(notObj.Id);
@@ -872,12 +889,14 @@ public with sharing class Action_SendSMS implements Action {
                     NotificationService.platfomLevelSMSSet.Add(notObj.Id);
                 }
                 ///Added by Anitha for SkipLevel SMS if AWS were not Present
-                if(isPlatformLevel){
+                if (isPlatformLevel) {
                     whatId = Id.valueOf(notObj.WhatId__c);
                     objType = String.valueOf(whatId.getSobjectType());
-                    if (objType == 'Participant__c'){
-                       welcomemsgsent = participantMap.get(whatId).Contact__r.Welcome_Message_Sent__c;
-                       welcomemsgDelivered = participantMap.get(whatId).Contact__r.Welcome_Message_Delivered__c;
+                    if (objType == 'Participant__c') {
+                        welcomemsgsent = participantMap.get(whatId)
+                            .Contact__r.Welcome_Message_Sent__c;
+                        welcomemsgDelivered = participantMap.get(whatId)
+                            .Contact__r.Welcome_Message_Delivered__c;
                     }
                     Map<String, Config_API_Param__mdt> apiParamsMap = new Map<String, Config_API_Param__mdt>();
                     for (Config_API_Param__mdt mdt : [
@@ -887,26 +906,30 @@ public with sharing class Action_SendSMS implements Action {
                     ]) {
                         apiParamsMap.put(mdt.DeveloperName, mdt);
                     }
-                    if(!apiParamsMap.isEmpty()){
+                    if (!apiParamsMap.isEmpty()) {
                         pinPoint = apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c;
                         sponsorName = apiParamsMap.get(PL_SPONSOR).ParamValue__c;
                         studyName = apiParamsMap.get(PL_STUDY).ParamValue__c;
                         fromNumber = apiParamsMap.get(FROM_NUMBER).ParamValue__c;
                     }
-                } 
-                NotificationService.welcomemsgSent.put(notObj.Id,welcomemsgsent);
-                NotificationService.welcomemsgDelivered.put(notObj.Id,welcomemsgDelivered);
-                if(!String.isBlank(pinPoint) && !String.isBlank(sponsorName) && !String.isBlank(studyName) && !String.isBlank(fromNumber)){
-                    if(!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)){
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id,True);
+                }
+                NotificationService.welcomemsgSent.put(notObj.Id, welcomemsgsent);
+                NotificationService.welcomemsgDelivered.put(notObj.Id, welcomemsgDelivered);
+                if (
+                    !String.isBlank(pinPoint) &&
+                    !String.isBlank(sponsorName) &&
+                    !String.isBlank(studyName) &&
+                    !String.isBlank(fromNumber)
+                ) {
+                    if (!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)) {
+                        NotificationService.nonskipSMSLevelMap.put(notObj.Id, true);
+                    }
+                } else {
+                    if (!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)) {
+                        NotificationService.nonskipSMSLevelMap.put(notObj.Id, false);
                     }
                 }
-                else{
-                   if(!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)){
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id,False);
-                    } 
-                }
-               //If this method is not called from platform Event
+                //If this method is not called from platform Event
                 if (!isPlatFormEvent) {
                     PinpointWrapper pinpointWrapperObj = new PinpointWrapper();
                     pinpointWrapperObj.isPlatformlevel = isPlatformLevel;
@@ -916,7 +939,7 @@ public with sharing class Action_SendSMS implements Action {
                     pinpointWrapperObj.studyName = studyName;
                     pinpointWrapperObj.ctpTemplate = ctpTemplateName;
                     pinpointWrapperObj.studySiteId = studySiteId;
-                    pinpointWrapperObj.fromNumber = fromNumber;// Added by Anitha
+                    pinpointWrapperObj.fromNumber = fromNumber; // Added by Anitha
                     pinPointWrapperMapObj.put(notObj.Id, pinpointWrapperObj);
                 }
             }
