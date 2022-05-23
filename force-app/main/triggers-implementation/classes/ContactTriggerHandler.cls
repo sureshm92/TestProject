@@ -601,15 +601,17 @@ public without sharing class ContactTriggerHandler {
                                 )
                             );
                         }
-                        for (Id delegateconId : partPerDelegateIds.get(per.Participant__c)) {
-                            /*Study Level Delegate*/
-                            welcomemsgnotifications.addAll(
-                                ContactService.addwelcomeNotifications(
-                                    delegateconId,
-                                    per.Id,
-                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
-                                )
-                            );
+                        if (partPerDelegateIds.containsKey(per.Participant__c)) {
+                            for (Id delegateconId : partPerDelegateIds.get(per.Participant__c)) {
+                                /*Study Level Delegate*/
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        delegateconId,
+                                        per.Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                    )
+                                );
+                            }
                         }
                     }
                 }

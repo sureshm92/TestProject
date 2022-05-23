@@ -163,7 +163,9 @@ export default class ConsentManager extends LightningElement {
                 }
                 this.consentModel.ranOnce = true;
             }
-            this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+            if(this.pe.Clinical_Trial_Profile__c != undefined){
+                this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__c;
+            }
             this.updateStudyConsentChecks();
             this.updateOutreachConsentChecks();
         }
