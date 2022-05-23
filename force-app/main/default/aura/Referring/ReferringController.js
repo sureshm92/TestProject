@@ -505,7 +505,7 @@
             component.set('v.states', []);
         }
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
-        if(participant.Mailing_Country_Code__c != null && participant.Mailing_Country_Code__c !=undefined &&
+        if(participant != undefined && participant.Mailing_Country_Code__c !=undefined && participant.Mailing_Country_Code__c != null && 
            participant.Mailing_Country_Code__c != ''){
            component.set('v.mailingCountryCode', participant.Mailing_Country_Code__c);
         }
