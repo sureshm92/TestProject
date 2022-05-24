@@ -312,7 +312,6 @@ export default class Pir_participantList extends LightningElement {
             this.enteredSearchString = event.target.value;
         }
         //call the method with search string
-        console.log('>>>searchCounter>>'+this.searchCounter);
         if(this.totalRecordCount > 0){        
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -350,7 +349,6 @@ export default class Pir_participantList extends LightningElement {
             this.disablePresetPicklist = true;
             this.hideActiononSearch=true;
         }
-        console.log('filter:'+JSON.stringify(this.filterWrapper));
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
             sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
              isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
@@ -372,11 +370,6 @@ export default class Pir_participantList extends LightningElement {
                 }else{
                     this.noRecords = true;
                 }
-            
-                console.log('result value:'+JSON.stringify(result));
-                console.log('studyIdList--->'+result.studyIdlist.length);
-                console.log('result.filterWrapper--->'+result.filterWrapper);
-                console.log('StatusList--->'+result.filterWrapper.status);
                 this.studyIDList = result.studyIdlist;
                 
                 if((result.filterWrapper.status == undefined || result.filterWrapper.status!=null) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
@@ -691,7 +684,6 @@ export default class Pir_participantList extends LightningElement {
   
     changeStatus = false;
     handlenewOnSelect(event){
-        console.log('change status0');
         var selectedVal=event.target.dataset.id;
         this.dropDownLabel=selectedVal;
 
@@ -779,7 +771,6 @@ export default class Pir_participantList extends LightningElement {
 
         if( this.dropDownLabel=='Send to DCT'){
             this.dctCheck=true; 
-            console.log('DCT LABEL');
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -1558,6 +1549,7 @@ export default class Pir_participantList extends LightningElement {
     showFilter =false;
     disablePreset = true;
     isEditPresetFromListDisable = true;
+    faultyPreset = false;
     fetchAllPreset(){
         var presets = [];
         presets.push({label:this.label.pir_No_Preset,value:"no preset"});
@@ -1572,6 +1564,7 @@ export default class Pir_participantList extends LightningElement {
                     if((Object.keys(this.filterWrapper).length === 0)){
                         this.filterWrapper= data[i];                    
                         this.presetSel=data[i].presetId;
+                        this.faultyPreset = data[i].isFault;
                     }
                 }
                 presets.push({ label: data[i].presetName, value: data[i].presetId });
@@ -1609,8 +1602,8 @@ export default class Pir_participantList extends LightningElement {
             this.showEditPreset = true;
         }
     }
-    closepresetmodel(event){console.log("D::"+JSON.stringify(event.detail));
-
+    closepresetmodel(event){        
+        this.disableClose = false;
         if(event.detail.upd){
             if(event.detail.delList.includes(this.presetSel)){
                 this.presetSel = "no preset";
@@ -1670,6 +1663,7 @@ export default class Pir_participantList extends LightningElement {
         this.showEditPreset = false;
     }
     handlePresetChange(event){
+        this.faultyPreset = false;
         if(event.detail.value=="no preset"){
             this.template.querySelector("c-pir_filter").resetFilter(event);
             this.template.querySelector("c-pir_filter").applyFilter();
@@ -1680,6 +1674,7 @@ export default class Pir_participantList extends LightningElement {
                 if(event.detail.value==this.sysPresets[i].presetId){
                     this.filterWrapper = this.sysPresets[i];
                     this.presetSel=this.sysPresets[i].presetId;
+                    this.faultyPreset = this.sysPresets[i].isFault;
                     this.isPPFiltered = false;
                     this.totalRecordCount = -1;
                     this.isResetPagination = true;
@@ -1700,6 +1695,12 @@ export default class Pir_participantList extends LightningElement {
         .catch((error) => {
             console.error("Error:", error);
         });
+    }
+    disableClose = false;
+    editInvalid(){
+        this.faultyPreset = false;
+        this.disableClose = true;
+        this.showEditPreset = true;        
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
