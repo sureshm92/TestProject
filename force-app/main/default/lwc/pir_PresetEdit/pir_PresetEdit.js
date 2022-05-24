@@ -13,9 +13,10 @@ import Cancel from "@salesforce/label/c.RH_RP_Cancel";
 import Update from "@salesforce/label/c.PIR_Update";
 import Delete from "@salesforce/label/c.pir_Delete_Btn";
 import NoPresetText from "@salesforce/label/c.PIR_No_presets_available_to_edit";
+import PIR_InvalidPresetClose from "@salesforce/label/c.PIR_InvalidPresetClose";
 
 export default class Pir_PresetEdit extends LightningElement {
-
+    PIR_InvalidPresetClose= PIR_InvalidPresetClose;
     label = { pir_presetUniqueName ,
               pir_updatePreset,
               PresetInformation,
@@ -42,10 +43,12 @@ export default class Pir_PresetEdit extends LightningElement {
     selectedPresetWrapper;
     shoulddisplaydelete = false;
     updatedWR={};
-    
+    invalidFilter = false;
+    @api disableClose;
     @api
     get selectedFilter(){ return true;}
     set selectedFilter(value){
+        this.invalidFilter = false;
         if(this.presetSel != "no preset"){
             this.filterVal = JSON.parse(JSON.stringify(value));;
             this.selectedPresetWrapper = JSON.parse(JSON.stringify(value));;
@@ -53,6 +56,7 @@ export default class Pir_PresetEdit extends LightningElement {
             this.presetSelectedName=value.presetName;
             this.seletedPresetName = value.presetName;
             this.updatedWR  = JSON.parse(JSON.stringify(value));
+            this.invalidFilter = this.allPresets[0].isFault;
         }
         else{
             this.presetSel = this.allPresets[0].presetId;
@@ -62,12 +66,26 @@ export default class Pir_PresetEdit extends LightningElement {
             this.presetSelectedName=this.allPresets[0].presetName;
             this.seletedPresetName = this.allPresets[0].presetName;
             this.updatedWR  = JSON.parse(JSON.stringify(this.allPresets[0]));
+            this.invalidFilter = this.allPresets[0].isFault;
         }
         var optsTemp =[];
         for(var i = 1; i<this.opts.length;i++){
             optsTemp.push(this.opts[i]);
         }
         this.opts=optsTemp;
+        if(this.disableClose){
+            this.editname();
+        }
+    }
+    filterloaded(){
+        window.clearTimeout(this.delayTimeout);  
+        this.delayTimeout = setTimeout(this.emptyStudyNSite.bind(this), 200);
+    }
+    emptyStudyNSite(){
+        if(this.invalidFilter){
+            this.template.querySelector("c-pir_filter").defaultSite = '';
+            this.template.querySelector("c-pir_filter").defaultStudy = '';
+        }
     }
     closeModel(){
         const closeEventModel = new CustomEvent("closepresetmodel", {
@@ -76,6 +94,7 @@ export default class Pir_PresetEdit extends LightningElement {
         this.dispatchEvent(closeEventModel);
     }
     handlePresetChange(event){
+        this.invalidFilter = false;
         for(var i=0;i<this.allPresets.length;i++){
             if(event.detail.value==this.allPresets[i].presetId){                
                 this.selectedPresetWrapper = this.allPresets[i];
@@ -86,26 +105,23 @@ export default class Pir_PresetEdit extends LightningElement {
                 this.presetSel = this.allPresets[i].presetId;
                 this.presetSelectedName = this.allPresets[i].presetName;
                 this.seletedPresetName = this.allPresets[i].presetName;
+                this.invalidFilter = this.allPresets[i].isFault;
                 this.updatedWR = JSON.parse(JSON.stringify(this.allPresets[i]));
-                console.log('>>>presetName on handle>>'+this.allPresets[i].presetName);
                 break;
             }
         }
+        this.emptyStudyNSite();
     }
     cantUpdate = true;
    
     filterErr=false;
     filterUpdated=false;
     checkUpd(event){
-        console.log('>>coming 75>'+event.detail.err);
         var updWraper = event.detail.fw;
         this.updatedWR = updWraper;
         this.filterErr=event.detail.err;
         this.filterUpdated=JSON.stringify(this.selectedPresetWrapper)!=JSON.stringify(updWraper).replace(',"ethnicityList":[]', '').replace(',"sex":""','');
-        console.log('>>coming 80>'+JSON.stringify(this.selectedPresetWrapper));
-        console.log('>>coming 81>'+JSON.stringify(updWraper).replace(',"ethnicityList":[]', '').replace(',"sex":""',''));
         if(event.detail.err || JSON.stringify(this.selectedPresetWrapper)==JSON.stringify(updWraper).replace(',"ethnicityList":[]', '').replace(',"sex":""','')){
-            console.log(this.seletedPresetName+">>"+this.presetSelectedName);
             if(!event.detail.err && this.seletedPresetName!=this.presetSelectedName) {
                 this.cantUpdate = false;;
             }
@@ -119,20 +135,18 @@ export default class Pir_PresetEdit extends LightningElement {
         
         if(this.seletedPresetName == ""){
             this.cantUpdate = true;
+        }        
+        var defaultSiteValue = this.template.querySelector("c-pir_filter").defaultSite;
+        var defaultStudyValue = this.template.querySelector("c-pir_filter").defaultStudy;
+        if(defaultSiteValue == "" || defaultStudyValue == ""){
+            this.cantUpdate = true;
         }
     }
     updatePR(){
         this.isUpdating = true;
-         
-        // if(Object.keys(this.updatedWR).length === 0){
-        //     console.log('>>>811>>'+JSON.stringify(this.selectedPresetWrapper));
-        //     this.updatedWR=JSON.parse(JSON.stringify(this.selectedPresetWrapper));
-        // }
-        
         this.updatedWR.presetName = this.seletedPresetName;
         let successMessage = this.updatedWR.presetName + " " +this.label.pir_updatePreset;
         let uniqueNameMessage = this.updatedWR.presetName + " " +this.label.pir_presetUniqueName;
-        console.log('>>updatedwr123>>'+JSON.stringify(this.updatedWR));
         createPreset({strPresetwrapper : JSON.stringify(this.updatedWR),isUpdate:true})
         .then((result) => {
             this.isUpdating = false;
@@ -179,9 +193,7 @@ export default class Pir_PresetEdit extends LightningElement {
         .then(data => {
             this.allPresets = data;
             for(var i=0;i<data.length;i++){
-                console.log('>>>129>>'+data[i].presetName);
                 if(this.presetSel == data[i].presetId){
-                    console.log('>>>131>>'+data[i].presetName);
                     this.template.querySelector("c-pir_filter").presetWrapperSet(data[i]); 
                     this.cantUpdate = true;
                     this.filterErr=false;
@@ -190,7 +202,6 @@ export default class Pir_PresetEdit extends LightningElement {
                     this.presetSel = data[i].presetId;
                     this.presetSelectedName = data[i].presetName;
                     this.seletedPresetName = data[i].presetName;
-                    console.log('>>>140>>'+data[i].presetName);                    
                      
                 }
                 presets.push({ label: data[i].presetName, value: data[i].presetId });
