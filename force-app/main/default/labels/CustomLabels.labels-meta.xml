@@ -29,6 +29,27 @@
         <value>Initial Visit Attended Date cannot be future date</value>
     </labels>
     <labels>
+        <fullName>PIR_InvailPresetMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvailPresetMessage</shortDescription>
+        <value>The preset selected is no longer valid. Please update or delete the preset to continue.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_InvalidPreset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvalidPreset</shortDescription>
+        <value>Invalid Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_InvalidPresetClose</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvalidPresetClose</shortDescription>
+        <value>Cannot close the edit window, please update or delete the preset.</value>
+    </labels>
+    <labels>
         <fullName>PIR_Save_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
