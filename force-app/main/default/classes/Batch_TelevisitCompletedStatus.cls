@@ -1,22 +1,31 @@
-global class Batch_TelevisitCompletedStatus implements Database.Batchable<sObject> {
-     global Database.QueryLocator start( Database.BatchableContext BC ) {
-        String query = 'SELECT Id,Status__c,Visit_Date__c,Start_Time__c FROM Televisit__c ';
-        return Database.getQueryLocator( query );
- 
+public without sharing class Batch_TelevisitCompletedStatus extends Batch_ScheduledAbstract implements Database.AllowsCallouts {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator([SELECT Id,Status__c,Visit_Date_Time__c,Visit_Date__c,Start_Time__c 
+                                        FROM Televisit__c WHERE Status__c != 'Cancelled' AND Status__c != 'Completed']);
     }
-   
-    global void execute( Database.BatchableContext BC, List< Televisit__c > scope ) {
-         for (Televisit__c tv : scope) {
-             if(tv.Visit_Date__c < system.today()+1 && tv.Status__c != 'Cancelled'){
-                 tv.Status__c = 'Completed';  
-             }
-                           
-         }
-         update scope;
- 
-    }   
+
+    public void execute(Database.BatchableContext BC, List<Televisit__c> scope) {
+        for (Televisit__c tv : scope) {
+            if(tv.Visit_Date_Time__c < system.now()){
+                tv.Status__c = 'Completed';  
+            }
+        }
+        update scope;
+    }
+
+    public override Type getType() {
+        return Batch_TelevisitCompletedStatus.class;
+    }
+
+    public override virtual String getBatchDescription() {
+        return 'Update televisit status to completed';
+    }
     
-    global void finish( Database.BatchableContext BC ) {
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
     }
- 
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 12;
+    }
 }

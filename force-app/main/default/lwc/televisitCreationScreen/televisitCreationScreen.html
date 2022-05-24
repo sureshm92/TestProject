@@ -89,7 +89,7 @@
                                 <abbr class="slds-required">*</abbr>
                                 <label class="inputFields">Duration</label>
                                 &nbsp;
-                                <div class="tooltip"> 
+                                <div class="tooltip" > 
                                     <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
                                     <span class="tooltiptextBottom ">Call will be ended after the planned duration time</span> 
                                 </div>
@@ -111,6 +111,13 @@
                             </div>
                         </div>
                         <br/>
+                        <!--
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <lightning-input type="datetime" name="input1" label="Enter a date/time value" ></lightning-input>
+                            </div>
+                        </div>
+                        -->
                         <div class="slds-grid slds-wrap">
                             <div class="slds-col slds-size_12-of-12">
                                 <abbr class="slds-required">*</abbr>
@@ -227,7 +234,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="3">
                             <lightning-layout >
-                                <lightning-layout-item padding="around-small" style="display:none;">
+                                <lightning-layout-item padding="around-small" >
                                     <template if:true={tv.meetingUrl} >
                                         <button class="slds-button apollo-btn primary save-btn" style=" margin-top: -20px;margin-right: 15px;" value={tv.meetingUrl}  onclick={openTelevisitWindow}> Join </button>
                                     </template>
