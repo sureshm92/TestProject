@@ -70,7 +70,7 @@ export default class Pir_participantList extends LightningElement {
     @api showStatus=false;
     showStatusPopup=false;
     selectedStatusList;
-    selectedStatusValue = 'Received';isPPFiltered = false;
+    selectedStatusValue = 'Received';isPPFiltered = false;isDCTFiltered = false;
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
@@ -225,6 +225,12 @@ export default class Pir_participantList extends LightningElement {
             this.isResetPagination = true; 
             this.fetchList();
         }
+        if(this.isDCTFiltered == true){
+            this.isDCTFiltered = false;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true; 
+            this.fetchList();
+        }
         
     }
 
@@ -268,6 +274,8 @@ export default class Pir_participantList extends LightningElement {
         this.siteIdlist = [];
         this.siteIdlist.push(this.urlSiteId);   
        }
+      
+       
     }
     rendered=false;
     renderedCallback(){
@@ -350,7 +358,7 @@ export default class Pir_participantList extends LightningElement {
             this.hideActiononSearch=true;
         }
         getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
-            sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),
+            sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
              isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
         .then(result => {
             if(searchCount == this.searchCounter){
@@ -371,7 +379,6 @@ export default class Pir_participantList extends LightningElement {
                     this.noRecords = true;
                 }
                 this.studyIDList = result.studyIdlist;
-                
                 if((result.filterWrapper.status == undefined || result.filterWrapper.status!=null) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
                     this.showStatus=true;
                 }
@@ -392,6 +399,7 @@ export default class Pir_participantList extends LightningElement {
                     this.participantList[i].getlabel=this.dropDownLabel;
                     
                     this.participantList[i].showActionbtnDisabled = true;
+                   
                     
                     if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
                     {
@@ -400,7 +408,8 @@ export default class Pir_participantList extends LightningElement {
                     }
                     else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
                     {
-                        this.participantList[i].showActionbtnDisabled = true;
+                        //this.participantList[i].showActionbtnDisabled = true;
+                        this.participantList[i].showActionbtnDisabled = false;
                     }
                     else{
                         this.participantList[i].showActionbtnDisabled = false;
@@ -414,6 +423,7 @@ export default class Pir_participantList extends LightningElement {
                     
                 }
                 this.showPP = result.isEnablePP;
+                this.showDCT= result.isEnableDCT;
                 if(!(Object.keys(this.filterWrapper).length === 0)){
                     if(this.filterWrapper.studyList.length != 1){
                         this.showDCT=false;
@@ -628,11 +638,13 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
+                   
                         if(!this.keepsearchFocus){
                             
                             cards[j].focus();
                         }
                         this.keepsearchFocus = false;
+                   
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
@@ -673,6 +685,7 @@ export default class Pir_participantList extends LightningElement {
           });
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
+      
     }
     get checknewStatus(){
         if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
@@ -727,6 +740,7 @@ export default class Pir_participantList extends LightningElement {
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
+            this.pageNumber = 1;
             this.fetchList();
         }
        
@@ -762,7 +776,6 @@ export default class Pir_participantList extends LightningElement {
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.fetchList();
-            
         }
         else{
             this.changeStatus = false;
@@ -770,10 +783,12 @@ export default class Pir_participantList extends LightningElement {
         }
 
         if( this.dropDownLabel=='Send to DCT'){
+            this.isDCTFiltered = true;
             this.dctCheck=true; 
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
+            this.pageNumber = 1;
             this.fetchList(); 
         }
         else{
@@ -1478,7 +1493,7 @@ export default class Pir_participantList extends LightningElement {
         // }else{
         //     selectedStatusListOptions.push(event.detail.selectedStatus);
         // }
-        this.isPPFiltered = false;
+        this.isPPFiltered = false;this.isDCTFiltered = false;
         // this.selectedStatusList = selectedStatusListOptions;
         this.totalRecordCount = -1;
         this.toggleFilter();
@@ -1631,7 +1646,7 @@ export default class Pir_participantList extends LightningElement {
                         if(this.presetSel==this.sysPresets[i].presetId){
                             this.filterWrapper = this.sysPresets[i];
                             this.presetSel=this.sysPresets[i].presetId;
-                            this.isPPFiltered = false;
+                            this.isPPFiltered = false;this.isDCTFiltered = false;
                             this.totalRecordCount = -1;
                             this.isResetPagination = true;
                             this.fetchList();
@@ -1675,7 +1690,7 @@ export default class Pir_participantList extends LightningElement {
                     this.filterWrapper = this.sysPresets[i];
                     this.presetSel=this.sysPresets[i].presetId;
                     this.faultyPreset = this.sysPresets[i].isFault;
-                    this.isPPFiltered = false;
+                    this.isPPFiltered = false;this.isDCTFiltered = false;
                     this.totalRecordCount = -1;
                     this.isResetPagination = true;
                     this.fetchList();
@@ -1700,7 +1715,8 @@ export default class Pir_participantList extends LightningElement {
     editInvalid(){
         this.faultyPreset = false;
         this.disableClose = true;
-        this.showEditPreset = true;        
+        this.showEditPreset = true;
+        
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
