@@ -274,4 +274,9 @@ public without sharing class OpenTokClientController {
         public String name {get; set;}
         public String connectionId {get; set;}
     } 
+    
+    public String[] getExtendMeetingOptions() {
+        String[] extendMeetingOptions = System.Label.RH_TelevisitExtendMeetingOptions.split(',');
+        return extendMeetingOptions;
+    }
 }

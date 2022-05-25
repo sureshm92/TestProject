@@ -25496,4 +25496,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>RH_TelevisitWindowBannerStartTime</shortDescription>
         <value>5</value>
     </labels>
+    <labels>
+        <fullName>RH_TelevisitExtendMeetingOptions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitExtendMeetingOptions</shortDescription>
+        <value>10,30</value>
+    </labels>
 </CustomLabels>
