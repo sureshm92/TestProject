@@ -96,6 +96,8 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public Boolean isEnablePP;
     @AuraEnabled
+    public Boolean isEnableDCT;
+    @AuraEnabled
     public Boolean sortInitialVisit;
     @AuraEnabled
     public PresetWrapper filterWrapper;
@@ -160,6 +162,7 @@ public without sharing class PIR_HomepageController {
     String sponsorName,
     String filterWrapper,
     Boolean isPPFiltered,
+    Boolean isDCTFiltered,
     String searchString,
     String sortOn,
     Integer sortType
@@ -177,7 +180,7 @@ public without sharing class PIR_HomepageController {
       String highRisk;
       Boolean highPriority = false;
       String comorbidities;
-      Boolean ivScheduled;
+      Boolean ivScheduled = null;
       String ivStartDate;
       String ivEndDate;
 
@@ -214,6 +217,7 @@ public without sharing class PIR_HomepageController {
 
       searchString = searchString.trim();
       String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
+      String qCountStringDCT = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
       String queryString =
         'SELECT ' +
         'Id,' +
@@ -271,6 +275,19 @@ public without sharing class PIR_HomepageController {
         ' AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: janssenLabel' +
         ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
 
+      List<String> pshStatus = new List<String>();
+      for (Promote_to_SH__mdt psl : [
+        SELECT DeveloperName, status__c
+        FROM Promote_to_SH__mdt
+      ]) {
+        pshStatus.add(psl.status__c);
+      }
+       
+      String filterStringDCT = ' AND Clinical_Trial_Profile__r.Promote_to_SH__c = true AND Study_Site__r.Study_Site_Type__c != \'Traditional\' AND Participant_Status__c != \'Eligibility Passed\'' +
+                               ' AND Participant_Status__c IN:pshStatus '+
+                               ' AND (Study_Hub_Log__c = NULL OR (Study_Hub_Log__c != null AND Study_Hub_Log__r.Response_Status_Code__c != 201))';
+      
+      
       // if (String.isNotBlank(searchString)) {
       //   return getSearchRecords(
       //     sponsorName,
@@ -383,10 +400,14 @@ public without sharing class PIR_HomepageController {
       }
 
       //For Initial Visit
-      if (ivScheduled != null) {
+      if (ivScheduled != null && ivScheduled) {
         filterString =
           filterString +
-          ' AND Initial_visit_scheduled_flag__c = : ivScheduled ';
+          ' AND Initial_visit_scheduled_date__c != null  ';
+      }else if(ivScheduled != null && !ivScheduled){
+        filterString =
+          filterString +
+          ' AND Initial_visit_scheduled_date__c = null  ';
       }
 
       //For Initial Visit Date range
@@ -452,14 +473,14 @@ public without sharing class PIR_HomepageController {
         String qcString = qCountString;
         if (isPPFiltered == true) {
           qcString = qcString + filterString + filterStringPP + sortCountQry;
-        } else {
+        }else if(isDCTFiltered == true){
+           qcString = qcString + filterString + filterStringDCT+ sortCountQry;
+        }else {
           qcString = qcString + filterString + sortCountQry;
         }
 
-        System.debug('qcString: ' + qcString);
         totalCount = Database.countQuery(qcString);
       }
-      System.debug('qCountString: ' + qCountString);
 
       qCountString =
         qCountString +
@@ -467,6 +488,12 @@ public without sharing class PIR_HomepageController {
         filterStringPP +
         sortCountQry;
       Integer totalCountPP = Database.countQuery(qCountString);
+       qCountStringDCT =
+        qCountStringDCT +
+        filterString +
+        filterStringDCT +
+        sortCountQry;
+      Integer totalCountDCT = Database.countQuery(qCountStringDCT);
 
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
       if (String.isNotBlank(searchString)) {
@@ -493,7 +520,13 @@ public without sharing class PIR_HomepageController {
             filterString +
             filterStringPP +
             orderByString;
-        } else {
+        }else if(isDCTFiltered == true){
+          queryString =
+            queryString +
+            filterString +
+            filterStringDCT+
+            orderByString;
+        }else {
           queryString = queryString + filterString + orderByString;
         }
 
@@ -519,7 +552,13 @@ public without sharing class PIR_HomepageController {
             filterString +
             filterStringPP +
             orderByString;
-        } else {
+        }else if(isDCTFiltered == true){
+            queryString =
+            queryString +
+            filterString +
+            filterStringDCT +
+            orderByString;
+        }else {
           queryString = queryString + filterString + orderByString;
         }
 
@@ -531,6 +570,12 @@ public without sharing class PIR_HomepageController {
       } else {
         listViewReturnWrapper.isEnablePP = true;
       }
+      if (totalCountDCT == 0) {
+        listViewReturnWrapper.isEnableDCT = false;
+      } else {
+        listViewReturnWrapper.isEnableDCT = true;
+      }
+      
       listViewReturnWrapper.listViewWrapper = listViewWrapper;
       listViewReturnWrapper.totalRecordCount = totalCount;
       listViewReturnWrapper.studyIdlist = studyIdlist;
@@ -1732,7 +1777,6 @@ public without sharing class PIR_HomepageController {
       }
     }
       
-      //RH-6979
       if(!isInitialVisit){
           if(availableStatusList.contains('Declined Consent')){
               integer x = availableStatusList.indexOf('Declined Consent');
@@ -1749,6 +1793,8 @@ public without sharing class PIR_HomepageController {
       }
       StatusList.add(new LabelValueItem(TranslateHelper.getLabelValue(t), st));
     }
+      
+    
     return StatusList;
   }
   //Getting the Reason and Notes for popup
