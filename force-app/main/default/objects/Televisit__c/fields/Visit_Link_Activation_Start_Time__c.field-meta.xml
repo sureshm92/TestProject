@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Visit_Link_Activation_Start_Time__c</fullName>
+    <externalId>false</externalId>
+    <formula>Visit_Date_Time__c  - (  Participant_Enrollment__r.Clinical_Trial_Profile__r.Banner_Display_Offset_Time__c /  1440)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Visit Link Activation Start Time</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

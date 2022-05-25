@@ -1,0 +1,26 @@
+a {
+    text-decoration: underline;
+}
+a:hover {
+    color: #FFFFFF;
+}
+.divBody {
+    background-color: #e3066a;
+    position: relative;
+    top: -12px;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+}
+.allVisits {
+    z-index: 100;
+    position: absolute;
+    background: white;
+    z-index: 100;
+    position: absolute;
+    top: 166px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
