@@ -16,9 +16,9 @@
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
 
+
         <apex:outputPanel id="jspanel">
             <script>  
-                //alert('{!bannerEndTime}');
                 jsBannerEndTime = '{!bannerEndTime}';
                 jsAutoDisconnectMeetingTime = '{!autoDisconnectMeetingTime}';
                 enableExtendCallDropDown = false;
@@ -35,18 +35,16 @@
                     select.appendChild(option);
                 }
 
-                var bc = new BroadcastChannel('televisit_channel');
-                bc.postMessage(jsBannerEndTime + '::' + jsAutoDisconnectMeetingTime); /* send */
-                //Have to send auto disconnect time to subscribers
+
+                var bc = new BroadcastChannel('{!sessionId}');
+                bc.postMessage(jsBannerEndTime + '::' + jsAutoDisconnectMeetingTime);
                 bc.onmessage = function (ev) {
-                    console.log(ev);
-                    console.log(ev.data);
+                    //console.log(ev);
+                    //console.log(ev.data);
                     jsBannerEndTime = ev.data.split('::')[0];
                     jsAutoDisconnectMeetingTime = ev.data.split('::')[1];
                     enableExtendCallDropDown = false;
-                } /* receive */
-
-
+                }
             </script>
         </apex:outputPanel>
 
@@ -60,7 +58,21 @@
             <apex:inputHidden id="isAttendeeEmailValid" value="{!isAttendeeEmailValid}" />
 
         </apex:outputPanel>
-
+        <script>
+            var preventDuplicate = '{!sessionId}' + '{!$User.Id}';
+            var channel = new BroadcastChannel(preventDuplicate);
+            channel.postMessage(preventDuplicate);
+            channel.addEventListener('message', (msg) => {
+                if (msg.data === preventDuplicate) {
+                    if (document.getElementById('welcome-container').classList.contains("slds-hide")) {
+                        disconnectFromSession();
+                    } else {
+                        toggle('#welcome-container', 'slds-hide');
+                        disconnectFromSession();
+                    }
+                }
+            });
+        </script>
     </apex:form>
 
     <head>
@@ -146,6 +158,8 @@
             /*        Session Management
             /*-------------------------------------*/
 
+
+
             function getSessionId() {
                 return '{!JSENCODE($CurrentPage.parameters.sessionId)}';
             }
@@ -220,6 +234,8 @@
 
                 session.publish(publisher);
             }
+
+
 
             function handleSubscriberStreamCreated(event) {
                 var attendeeId = event.stream.connection.data;
@@ -892,6 +908,7 @@
             var jsBannerEndTime;
             var jsAutoDisconnectMeetingTime;
             var callDisconnected = false;
+
             var timer = {
                 timeElement: null,
                 timerObj: null,
@@ -973,10 +990,9 @@
             }
 
             function callExtendedMinutes() {
+
                 var x = document.getElementById("extendcallminutes").value;
                 extendedMeetingInterval(x);
-
-
             }
 
 
@@ -994,8 +1010,8 @@
                 apiKey = "{!ApiKey}";
                 sessionId = "{!JSENCODE(sessionId)}";
                 userName = "{!JSENCODE(userName)}";
-                isExternalUser = {!isExternalUser
-            };
+                isExternalUser = {!isExternalUser            
+};
 
             sfSessionId = "{!session}";
 
@@ -1882,8 +1898,6 @@
                                 <span>Warning - 5 minutes left in call.</span>
                                 <select name="extendcallminutes" id="extendcallminutes" style="margin-left: 30px;" onchange="callExtendedMinutes()">
                                     <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">Extend Call</option>
-                                    <option value="1">1 minute</option>
-                                    <option value="2">2 minutes</option>
                                     <option value="10">10 minutes</option>
                                     <option value="30">30 minutes</option>
                                 </select>

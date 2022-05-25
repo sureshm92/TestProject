@@ -25489,4 +25489,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Welcome Modal Video</shortDescription>
         <value>Video</value>
     </labels>
+    <labels>
+        <fullName>RH_TelevisitWindowBannerStartTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitWindowBannerStartTime</shortDescription>
+        <value>5</value>
+    </labels>
 </CustomLabels>

@@ -7,6 +7,7 @@ import fetchSelectedAttendees from "@salesforce/apex/TelevisitCreationScreenCont
 import updateAttendees from "@salesforce/apex/TelevisitCreationScreenController.updateAttendees";
 import cancelTelevisit from "@salesforce/apex/TelevisitCreationScreenController.cancelTelevisit";
 import { NavigationMixin } from "lightning/navigation";
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
 const isMenuOpen = ' slds-is-open';
 
@@ -76,7 +77,14 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             //this.fetchSelectedAttendees(event.target.dataset.id);
             this.isLoading = true;
             this.startTimeChanged = false;
+            
             this.fetchAttendees();
+
+            var today = new Date();
+            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE })
+            newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
+            this.defaultTime = newdatetimezone;
+            this.currentTime = newdatetimezone;
         }else{
             this.televisitEditView = false;
             this.televisitRecordId = '';
@@ -84,21 +92,40 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.visitDate = '';
             this.startTime = '';
             this.duration = '';
-            const today = new Date();
+            
+            var today = new Date();
             let h = today.getHours();
             let m = today.getMinutes();
             h = h < 10 ? '0' + h : h;
             m = m < 10 ? '0' + m : m;
-            this.currentTime = h+':' + m + ':00.000Z';
-            this.defaultTime = this.currentTime;
-            this.startTimeChanged = false;
+            //this.currentTime = h+':' + m + ':00.000Z';
+            //this.defaultTime = this.currentTime;
             //this.startTime = this.msToTime(event.target.dataset.starttime);
             
+            
+            
+            this.startTimeChanged = false;
+            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE })
+            newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
+            this.defaultTime = newdatetimezone;
+            this.currentTime = newdatetimezone;
+
             //this.fetchRequiredAttendees();
             this.isLoading = true;
             this.fetchAttendees();
+
+            
             
         }
+    }
+
+    getTwentyFourHourTime(amPmString) { 
+        var d = new Date("1/1/2013 " + amPmString); 
+        let h = d.getHours();
+        let m = d.getMinutes();
+        h = h < 10 ? '0' + h : h;
+        m = m < 10 ? '0' + m : m;
+        return h + ':' + m + ':00.000Z'; 
     }
 
     checkSiteStaffAdded(localSelectedAttendeesList){
