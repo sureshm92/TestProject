@@ -279,12 +279,12 @@ public with sharing class Action_SendSMS implements Action {
                         pinPointWrapperObj.ctpTemplate == 'Default'
                     ) {
                         shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
-                            ? 'IQVIA'
+                            ? ''
                             : pinPointWrapperObj.sponsorNameSms; //label.IQVIA_Patient_Portal;
                     } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
                         //shortCommunityName = label.Gather_Share_Know;
                         shortCommunityName = pinPointWrapperObj.sponsorNameSms == null
-                            ? 'IQVIA'
+                            ? ''
                             : pinPointWrapperObj.sponsorNameSms;
                     }
                     url = CommunityService.getCommunityURLFromTemplateName(
