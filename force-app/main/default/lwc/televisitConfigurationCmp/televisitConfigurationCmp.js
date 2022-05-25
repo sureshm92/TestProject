@@ -23,6 +23,7 @@ import bannerdisposeLabel from '@salesforce/label/c.Banner_dispose';
 import offsetTimeLabel from '@salesforce/label/c.offset_time';
 import selectallLabel from '@salesforce/label/c.Select_All_PI';
 import clearallLabel from '@salesforce/label/c.RPR_Clear_All';
+import permissionLabel from '@salesforce/label/c.permissionIssue';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class TelevisitConfigurationCmp extends LightningElement {
@@ -43,8 +44,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         bannerdisposeLabel,
         offsetTimeLabel,
         selectallLabel,
-        clearallLabel
-        
+        clearallLabel,
+        permissionLabel
 
     };
     @api recordId;   
@@ -58,6 +59,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     countryArraySet = [];
     vendorArray = [];
     studysiteArray = [];
+    vendorArrayupdate = false;
+    vendoriddescmap = new Map();;
     showOppLookup1 = false;
     showOppLookup2 = false;
     showOppLookup3 = false;
@@ -65,6 +68,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     selectedStudysite;
     selectedcountrylist;
     selectedcountry = [];
+    selectedvendorArray = [];
+    selectedsiteArray = [];
     rowNumberOffset;
     telelength;
     uparrow = true;
@@ -76,6 +81,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     showpagenation = false;
     vendercreationcheck = true;
     showTelevisitscreen = false;
+    permissioncheck = true;
     connectedCallback() {
         this.getteledetails(this.recordId);
     }
@@ -85,10 +91,17 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.totalstudysitelist = [];
         this.showpagenation = false;
 
-        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendor:this.selectedVendors,study:this.selectedStudysite,sortingOrder:this.sortingorder })
+        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendorList:this.selectedvendorArray,studyList:this.selectedsiteArray,sortingOrder:this.sortingorder })
         .then((result) => {
             this.venders = result.trvList;
-            this.showTelevisitscreen = result.televisitpermissioncheck;
+            for(let i=0; i< result.trvList.length;i++){
+                this.vendoriddescmap.set(result.trvList[i].Id, result.trvList[i].Description__c);
+            }
+
+            if(this.permissioncheck){
+                this.showTelevisitscreen = result.televisitpermissioncheck;
+                this.permissioncheck = false;
+            }
             this.televisitdetails = result.ResponeWrapperList;
             this.totalstudysitelist = result.ResponeWrapperList;
             this.telelength = this.televisitdetails.length;
@@ -107,12 +120,13 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 }
             }
             this.showOppLookup1 = true;
-            this.vendorArray = [];
-            for(let i=0; i<result.trvList.length; i++){
-                let obj = {id: result.trvList[i].Id, value: result.trvList[i].Name, icon:'utility:check'};
-                this.vendorArray.push(obj);
+            if(!this.vendorArrayupdate){ 
+                this.vendorArray = [];
+                for(let i=0; i<result.trvList.length; i++){
+                   let obj = {id: result.trvList[i].Id, value: result.trvList[i].Name, icon:'utility:check'};
+                   this.vendorArray.push(obj);
+                }
             }
-            
             this.showOppLookup2 = true;
             for(let i=0; i<result.studysiteList.length; i++){
                 let obj = {id: result.studysiteList[i].Id, value: result.studysiteList[i].Name, icon:'utility:check'};
@@ -130,12 +144,14 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.vendorId = '';
         this.vendername = '';
         this.isModalOpen = true;
-        this.vendorId = '';
+        this.venderdescription = '';
+
     }
     closeModal() {
         this.vendorId = '';
         this.vendername = '';
         this.isModalOpen = false;
+        this.venderdescription = '';
     }
     submitDetails(){
             createtelevisitvendor({ name:this.vendername,description:this.venderdescription,vendorId:this.vendorId})
@@ -154,6 +170,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                     this.isModalOpen = true;
                 }else{
                     this.isModalOpen = false;
+                    this.vendorArrayupdate = false;
                     this.getteledetails(this.recordId);
                 }
             })
@@ -165,7 +182,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     } 
     updatevendername(event){
         this.vendername = event.target.value;
-        if(this.vendername != '' && this.vendername != '' && this.vendername != undefined && this.vendername.trim() != '' ){
+        if(this.vendername != '' && this.vendername != undefined && this.vendername.trim() != '' ){
             this.vendercreationcheck = false;
         }else{
             this.vendercreationcheck = true;
@@ -174,6 +191,9 @@ export default class TelevisitConfigurationCmp extends LightningElement {
 
     updatevenderdesc(event){
         this.venderdescription = event.target.value;
+        if(this.vendorId  || this.vendername ){
+            this.vendercreationcheck = false;
+        }
     }
 
     handleOppsChange(event){
@@ -184,7 +204,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.selectedcountrylist += opp.id+';';
         });
         let splt = this.selectedcountrylist.split(';');
-            this.selectedcountry=[];
+        this.selectedcountry=[];
         for(let i=0; i<splt.length; i++){
             if(splt[i] != '' && splt[i] != undefined){
                 this.selectedcountry.push(splt[i]);
@@ -201,6 +221,14 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.selectedVendors += opp.id+';';
             
         });
+        let splt = this.selectedVendors.split(';');
+        this.selectedvendorArray=[];
+        for(let i=0; i<splt.length; i++){
+            if(splt[i] != '' && splt[i] != undefined){
+                this.selectedvendorArray.push(splt[i]);
+            }
+        }
+        this.vendorArrayupdate = true; 
         this.getteledetails(this.recordId);
     }
 
@@ -211,6 +239,14 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         opps.forEach(opp => {
             this.selectedStudysite += opp.id+';';
         });
+        let splt = this.selectedStudysite.split(';');
+        this.selectedsiteArray=[];
+        for(let i=0; i<splt.length; i++){
+            if(splt[i] != '' && splt[i] != undefined){
+                this.selectedsiteArray.push(splt[i]);
+            }
+        }
+        
         this.getteledetails(this.recordId);
     }
 
@@ -313,6 +349,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         if(selectedVal == 'Clone'){
             this.vendorId = '';
             this.vendername = vendorName + selectedVal;
+            this.venderdescription = this.vendoriddescmap.get(vendorId);
             this.isModalOpen = true;
         }else if(selectedVal == 'Remove'){
             deletevendordetails({ vendorId:vendorId})
@@ -329,6 +366,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.isModalOpen = true;
             this.toupsertcheck = true;
             this.vendorId = vendorId;
+            this.venderdescription = this.vendoriddescmap.get(vendorId); 
+            this.vendercreationcheck = true;
         }
     }
     handleTypeChange(event){

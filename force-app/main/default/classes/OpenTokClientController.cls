@@ -29,6 +29,7 @@ public without sharing class OpenTokClientController {
     public String autoDisconnectMeetingTime {get;set;}
     public List<Televisit__c>  lstTelevisit{get;set;}
     TokBoxSettings2__c settings;
+    Public Integer endMinutes;
 
     public OpenTokClientController() {
         //OMSF-5206 Starts
@@ -61,15 +62,17 @@ public without sharing class OpenTokClientController {
         );*/
         
         lstTelevisit = new List<Televisit__c>();
-        lstTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Duration__c,(SELECT Id,Firstname__c,Lastname__c FROM Televisit_Attendee__r WHERE User__c =:currentUserId) 
+        lstTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c,(SELECT Id,Firstname__c,Lastname__c FROM Televisit_Attendee__r WHERE User__c =:currentUserId) 
                         FROM Televisit__c WHERE Session_Id__c = :sessionId Order by CreatedDate Desc LIMIT 1];
         
         
         if (!lstTelevisit.isEmpty()) {
             this.session = lstTelevisit.get(0);
             
-            bannerEndTime = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.addMinutes(2).timeGmt()).remove('.000Z');
-            autoDisconnectMeetingTime = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.addMinutes(3).timeGmt()).remove('.000Z');
+            endMinutes = -Integer.valueOf(System.Label.RH_TelevisitWindowBannerStartTime); 
+            
+            bannerEndTime = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
+            autoDisconnectMeetingTime = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
             
             system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
             if(!this.session.Televisit_Attendee__r.isEmpty()){
@@ -88,19 +91,20 @@ public without sharing class OpenTokClientController {
         system.debug('meetingInterval:'+meetingInterval);
         system.debug('bannerEndTime'+bannerEndTime);
         List<Televisit__c> updatedTelevisit = new List<Televisit__c>();
-        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Duration__c
+        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c
                             FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
         //system.debug(meetingInterval);
         Televisit__c tvUpdate = new Televisit__c();
         tvUpdate.id = lstTelevisit[0].Id;
         tvUpdate.Visit_Date_Time__c = updatedTelevisit[0].Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
         update tvUpdate;
         
-        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Duration__c 
+        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c 
                         FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
         
-        bannerEndTime = String.valueOf(updatedTelevisit[0].Visit_Date_Time__c.addMinutes(2).timeGmt()).remove('.000Z');
-        autoDisconnectMeetingTime = String.valueOf(updatedTelevisit[0].Visit_Date_Time__c.addMinutes(3).timeGmt()).remove('.000Z');
+        bannerEndTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
+        autoDisconnectMeetingTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
         system.debug('bannerEndTime'+bannerEndTime);
         return null;
     }
@@ -245,7 +249,6 @@ public without sharing class OpenTokClientController {
 
     private String generateToken(String sessionId, String attendeeId) {
         OpenTokSession session = new OpenTokSession(sessionId, TokboxSettings.API_KEY, TokboxSettings.API_SECRET);
-
         return session.generateToken(new OpenTokTokenOption(OpenTokRoles.PUBLISHER, 30, attendeeId));
     }
 
@@ -271,4 +274,9 @@ public without sharing class OpenTokClientController {
         public String name {get; set;}
         public String connectionId {get; set;}
     } 
+    
+    public String[] getExtendMeetingOptions() {
+        String[] extendMeetingOptions = System.Label.RH_TelevisitExtendMeetingOptions.split(',');
+        return extendMeetingOptions;
+    }
 }

@@ -1,24 +1,19 @@
 public without sharing class  televisitConfigurationController {
     
     @AuraEnabled
-    Public static WrapperResult getinitData(String ctpId,String[] countryList,String vendor,String study,String sortingOrder){
+    Public static WrapperResult getinitData(String ctpId,String[] countryList,String[] vendorList,String[] studyList,String sortingOrder){
         List<Televisit_Record_Vendor__c> trvList ;
-        if(vendor != null && vendor != ''){
-            List<String> vendorList = vendor.split(';');
-            trvList = [Select id,Name,Televisit_Vendor__c from Televisit_Record_Vendor__c where ID IN:vendorList];
+        if(!vendorList.isEmpty()){
+            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c where ID IN:vendorList];
         }else{
-            trvList = [Select id,Name,Televisit_Vendor__c from Televisit_Record_Vendor__c];
-        }
-        List<String> studyList;
-        if(study != null && study != ''){
-            studyList = study.split(';');
+            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c];
         }
         List<Study_Site__c> studysiteList ;
-        if(!countryList.isEmpty() && studyList != null ){
+        if(!countryList.isEmpty() && !studyList.isEmpty() ){
             studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and Site__r.BillingCountry IN:countryList and ID IN:studyList order by name ' +sortingOrder);
-        }else if(!countryList.isEMpty() && studyList == null){
+        }else if(!countryList.isEmpty() && studyList.isEmpty()){
             studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and Site__r.BillingCountry IN:countryList order by Name ' + sortingOrder);
-        }else if(countryList.isEmpty() && studyList != null){
+        }else if(countryList.isEmpty() && !studyList.isEmpty()){
             studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and ID IN:studyList order by Name ' + sortingOrder);
         }else{
             studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId order by Name ' + sortingOrder);
@@ -78,9 +73,9 @@ public without sharing class  televisitConfigurationController {
         wr.picklistvalues = pickListValuesList;
         if(!studysiteList.isempty()){
             wr.televisitpermissioncheck = studysiteList[0].Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c;
-            
+        }else{
+            wr.televisitpermissioncheck = false;
         }
-        system.debug('===========>'+wr.ResponeWrapperList);
         return wr;
     }
     
@@ -89,9 +84,17 @@ public without sharing class  televisitConfigurationController {
         Televisit_Record_Vendor__c Televisit = new Televisit_Record_Vendor__c();
         Televisit.name = name;
         Televisit.Description__c = description;
-        List<Televisit_Record_Vendor__c> trvList = [select id,name from Televisit_Record_Vendor__c where name=:name];
-        if(vendorId != null && vendorId != '' && trvList.isEmpty()){
-            
+        List<Televisit_Record_Vendor__c> trvList = [select id,Description__c,name from Televisit_Record_Vendor__c where name=:name.trim()];
+        if(trvList.isempty() && (vendorId == null || vendorId == '')){
+            try{
+                    insert Televisit;
+                    return '';
+                }catch(exception e){
+                    return e.getMessage();
+                }
+
+        }else if( vendorId != null  && vendorId != '' && (trvList.isEmpty() || 
+                (!trvList.isEmpty() &&  trvList[0].Description__c !=description.trim() && vendorId == trvList[0].Id) )){
             Televisit.Id = vendorId;
             try{
                 update Televisit;
@@ -100,20 +103,10 @@ public without sharing class  televisitConfigurationController {
                 return e.getMessage();
             }
             
-        }else{
-            if(trvList.isEmpty()){
-                try{
-                    insert Televisit;
-                    return '';
-                }catch(exception e){
-                    return e.getMessage();
-                }
-            }else{
-                return 'Already exists the vendor which you are trying to add.';
-            }
-            
+        }else if(!trvList.isEmpty() && trvList[0].name == name.trim()){
+            return 'Already exists the vendor which you are trying to add.';
         }
-        
+        return '';
     }
     @AuraEnabled
     public static void createorupdatetvsrecord(Id studyId , Id vendorId,Boolean isEnable){

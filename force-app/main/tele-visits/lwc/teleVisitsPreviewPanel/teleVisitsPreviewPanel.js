@@ -98,9 +98,11 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                 let allTeleVisits = result;
                 if (!this.isInitialized) {
                     if (allTeleVisits != null && allTeleVisits.length > 0) {
-                        let teleVisitStatusOptions = [...new Set(allTeleVisits.map(visit => visit.visitStatus))];
+                        let teleVisitStatusOptions = [
+                            ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
+                        ];
                         //removing blank values
-                        let teleVisitStatus = teleVisitStatusOptions.filter(tv => tv);
+                        let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
                         if (teleVisitStatus.length >= 1) {
                             //configute  filter
                             for (let tvStatus of teleVisitStatus) {
@@ -109,13 +111,13 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                                         tvStatus == 'Scheduled'
                                             ? this.labels.TV_UPCOMING
                                             : tvStatus == 'Completed'
-                                                ? this.labels.TV_PAST
-                                                : this.labels.TV_CANCELED,
+                                            ? this.labels.TV_PAST
+                                            : this.labels.TV_CANCELED,
                                     value: tvStatus
                                 };
                                 this.options = [...this.options, visitOption];
                             }
-                            this.options.sort(this.sortVisitStatus("value"));
+                            this.options.sort(this.sortVisitStatus('value'));
                             //assign default filter
                             if (teleVisitStatus.includes('Scheduled')) {
                                 this.searchStatus = 'Scheduled';
@@ -157,7 +159,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
 
     filterVisits(initialArray, filterValue) {
         let filteredArray = [];
-        initialArray.map(visit => {
+        initialArray.map((visit) => {
             if (visit.visitStatus === filterValue) {
                 filteredArray = [...filteredArray, visit];
             }
@@ -173,11 +175,24 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                 return 1;
             }
             return 0;
-        }
+        };
     }
 
     displayData(event) {
         let index = event.target.value;
+        let tableContainer = this.template.querySelectorAll('.televisit_table_container');
+        tableContainer.forEach(function (ele) {
+            if (ele.classList.contains('hidden')) {
+                ele.classList.remove('televisit-tr-bgcolor');
+            }
+        });
+        tableContainer.forEach(function (ele) {
+            let trIndex = ele.getAttribute('data-index');
+            if (index == trIndex) {
+                ele.classList.toggle('televisit-tr-bgcolor');
+            }
+        });
+
         let dataElements = this.template.querySelectorAll("div[data-index='" + index + "']");
         dataElements.forEach(function (ele) {
             ele.classList.toggle('hidden');
@@ -187,5 +202,4 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
             spn.classList.toggle('hidden');
         });
     }
-
 }

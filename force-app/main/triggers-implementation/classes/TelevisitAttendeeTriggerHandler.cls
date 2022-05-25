@@ -36,10 +36,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
         for (Televisit_Attendee__c attendee : [
-            SELECT Id, Contact__c, Televisit__c
+            SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
             FROM Televisit_Attendee__c
             WHERE Id IN :attendeeList
         ]) {
+            if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
             attendeeTelevisitMap.put(attendee.Contact__c, attendee.Televisit__c);
             Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
                 participantIdsByDelegates,
@@ -48,6 +49,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             if (delContactId != null) {
                 attendeeDelTelevisitMap.put(delContactId, attendee.Televisit__c);
             }
+        }
         }
 
         createAttendeeNotifications(attendeeTelevisitMap, 'Message_to_PT_Added_Attendee_Type');
@@ -71,7 +73,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         Map<Id, Id> delConTeleMap = new Map<Id, Id>();
 
         for (Televisit_Attendee__c attendee : [
-            SELECT Id, Contact__c, Televisit__c
+            SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
             FROM Televisit_Attendee__c
             WHERE
                 Id IN :attendeeList
@@ -79,7 +81,9 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 AND isDeleted = TRUE
             ALL ROWS
         ]) {
+            if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
             delConTeleMap.put(attendee.Contact__c, attendee.Televisit__c);
+        }
         }
         if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(

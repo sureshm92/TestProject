@@ -8,6 +8,13 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>permissionIssue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>permissionIssue</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing televisit permission.</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25481,5 +25488,19 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Welcome Modal Video</shortDescription>
         <value>Video</value>
+    </labels>
+    <labels>
+        <fullName>RH_TelevisitWindowBannerStartTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitWindowBannerStartTime</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>RH_TelevisitExtendMeetingOptions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitExtendMeetingOptions</shortDescription>
+        <value>10,30</value>
     </labels>
 </CustomLabels>
