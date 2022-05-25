@@ -36,7 +36,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
         for (Televisit_Attendee__c attendee : [
-            SELECT Id, Contact__c, Televisit__c
+            SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
             FROM Televisit_Attendee__c
             WHERE Id IN :attendeeList
         ]) {
@@ -73,7 +73,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         Map<Id, Id> delConTeleMap = new Map<Id, Id>();
 
         for (Televisit_Attendee__c attendee : [
-            SELECT Id, Contact__c, Televisit__c
+            SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
             FROM Televisit_Attendee__c
             WHERE
                 Id IN :attendeeList
