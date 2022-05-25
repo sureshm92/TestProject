@@ -149,6 +149,8 @@ public without sharing class PIR_HomepageController {
     public String presetName;
     @AuraEnabled
     public Boolean isDefault;
+    @AuraEnabled
+    public Boolean isFault;
   }
 
   @AuraEnabled
@@ -683,6 +685,23 @@ public without sharing class PIR_HomepageController {
   //presets
   @AuraEnabled
   public static list<presetwrapper> fetchPreset() {
+    set<String> studies = new set<String>();
+    set<String> sites = new set<String>();
+    String sponsorName = UserContext.getCurrentUserMode().template.templateName;
+    String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
+    for(Study_Site__c ss: getStudySite()){
+      if (sponsorName == janssen) {
+        if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName) {          
+          studies.add(ss.Clinical_Trial_Profile__c);
+          sites.add(ss.id);
+        }
+      } else {
+        if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {        
+          studies.add(ss.Clinical_Trial_Profile__c);
+          sites.add(ss.id);
+        }
+      }          
+    }
     list<presetwrapper> pwList = new List<presetwrapper>();
     for (Preset_Filter__c pf : [
       SELECT
@@ -726,10 +745,37 @@ public without sharing class PIR_HomepageController {
         pw.ethnicityList = pf.Ethnicity__c.split(';');
       pw.source = pf.Source__c.split(';');
       pw.status = pf.Status__c.split(';');
-      pw.studyList = pf.StudyId__c.split(';');
-      pw.siteList = pf.Study_Site_Id__c.split(';');
       pw.isDefault = pf.Default_Preset__c;
       pw.presetId = pf.id;
+      pw.studyList = new list<string>();
+      pw.siteList = new list<string>();
+      pw.isFault = false;
+      for(string s : pf.StudyId__c.split(';')){
+        if(studies.contains(s)){
+          pw.studyList.add(s);
+        }
+        else if(pf.StudyId__c.split(';').size()>1){
+          pw.studyList = new list<string>();
+          pw.studyList.addAll(studies);
+          break;
+        } 
+        else{
+          pw.isFault = true;
+        }
+      }
+      for(string ss : pf.Study_Site_Id__c.split(';')){
+        if(sites.contains(ss)){
+          pw.siteList.add(ss);
+        }        
+        else if(pf.Study_Site_Id__c.split(';').size()>1){
+          pw.siteList = new list<string>();
+          pw.siteList.addAll(sites);
+          break;
+        } 
+        else{
+          pw.isFault = true;
+        }
+      }
       pwList.add(pw);
     }
 

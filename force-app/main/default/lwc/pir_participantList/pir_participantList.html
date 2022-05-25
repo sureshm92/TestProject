@@ -53,7 +53,10 @@
                 placeholder={label.Select} options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
             <template if:true={showEditPreset}> 
-                <c-pir_-preset-edit maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+                <c-pir_-preset-edit maindivcls={maindivcls} disable-close={disableClose} onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+            </template>
+            <template if:true={faultyPreset}>
+                <c-pir_preset-invalid oneditpr={editInvalid}></c-pir_preset-invalid>
             </template>
         </div>
         <div class="slds-col slds-size_12-of-12 dropsize">
@@ -294,4 +297,4 @@
     
         
     </div>
-    </template>
+</template>

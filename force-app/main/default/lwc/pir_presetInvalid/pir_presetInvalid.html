@@ -1,0 +1,39 @@
+<template>
+    <!--  Change Status Model Start  -->  
+    <div class={maindivcls}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open container_popup">
+            <div class="slds-modal_small">
+                <div class="slds-modal__container model-small ">
+                    <div class="slds-modal__content" id="modal-content-id-1">
+                        <div class="bar"></div>
+                        <div class="slds-p-around_large">
+                            <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                            <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                                <span class="title">{label.PIR_InvalidPreset}</span> 
+                            </div>
+                        </div>
+                            <slot name="body">   
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                    <div class="participant-text">
+                                    {label.PIR_InvailPresetMessage}
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-m-top_large">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                    <div class="slds-float_right mobile-width">                  
+                                        <button title="" class="slds-button apollo-btn primary btn-height save-btn" onclick={editPreset}> {label.BTN_OK} </button>
+                                    </div>    
+                                </div>
+                            </div>
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </section>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open containerbackdrop_popup"></div>
+</template>
