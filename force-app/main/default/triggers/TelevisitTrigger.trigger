@@ -7,5 +7,6 @@ trigger TelevisitTrigger on Televisit__c(after insert, after update) {
         TelevisitTriggerHandler.SendRequestToVonageAPI(televisitRecordIdsSet );
     }  */
     TriggerHandlerExecutor.execute(TelevisitTriggerHandler.NotifyAttendees.class);
+    TriggerHandlerExecutor.execute(TelevisitTriggerHandler.TelevisitEventTrigger.class);
 
 }

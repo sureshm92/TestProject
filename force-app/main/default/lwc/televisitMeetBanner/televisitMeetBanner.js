@@ -5,22 +5,25 @@ import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSess
 import getVisits from '@salesforce/apex/TelevisitMeetBannerController.getVisits';
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
+import USER_ID from '@salesforce/user/Id';
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
     hasVisits = false;
     cometd;
     subscription;
     currentVisit = {};
-    userTimeZone = USER_TIME_ZONE;
+    USER_TIME_ZONE = USER_TIME_ZONE;
+    USER_ID = USER_ID;
     meetMainInfo = 'Text'; 
     meetLinkUrl; 
+    singleMeetDetail = {};
     singleActiveVisit = true;
     showMoreVisits = false;
     moreVisitIconName = '';
     allVisits = [];
     allActiveVisits = [];
     hasActiveVisits = false;
-    userTimeZoneOffset;
+    
     // Initializes the component
     connectedCallback() {      
         this.getVisits(); 
@@ -59,9 +62,11 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.cometd.handshake( (status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe( this.channel , (message) => {
-                    
+                            let reLoadRequired = (message.data.payload.Payload__c.includes(USER_ID));
                             //TODO check update banner cases
+                            if(reLoadRequired){
                             this.getVisits();
+                            }
                         });
                     } else {
                         console.log(status);
@@ -114,12 +119,14 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             this.hasActiveVisits = true;
         }
         if(activeVisits.length == 1){
-            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c ;//activeVisits[0].
+            this.singleMeetDetail = activeVisits[0];
+            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' with '+activeVisits[0].Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c 
+            +' will take place at ';//activeVisits[0].
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c ;
         }else if(activeVisits.length > 1){
             this.singleActiveVisit = false;
-            this.meetMainInfo = activeVisits.length +' Upcomming or Active Visits';
+            this.meetMainInfo = activeVisits.length +' Upcomming or Active Televisits';
         }
         //this.currentVisit = visitData[0];
         //console.log('loadVisitData ::'+this.currentVisit.Televisit__r.Title__c);
