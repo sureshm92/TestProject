@@ -8,6 +8,13 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>permissionIssue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>permissionIssue</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing televisit permission.</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
