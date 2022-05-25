@@ -8,6 +8,13 @@
         <value>Add Televisit Vendor</value>
     </labels>
     <labels>
+        <fullName>permissionIssue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>permissionIssue</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing televisit permission.</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25263,5 +25270,223 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>TV_TH_Title</shortDescription>
         <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Apply</fullName>
+        <categories>OMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>Certify_Identity</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Certify Identity</shortDescription>
+        <value>I am the intended attendee who was invited to join the meeting.</value>
+    </labels>
+    <labels>
+        <fullName>Certify_Identity_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Certify Identity Error</shortDescription>
+        <value>Please agree to this statement in order to join the call.</value>
+    </labels>
+    <labels>
+        <fullName>CloseTab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close Tab</shortDescription>
+        <value>Close this tab to exit.</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_AudioSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Audio Source</shortDescription>
+        <value>Microphone</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Header</shortDescription>
+        <value>Device Settings</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_VideoSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Video Source</shortDescription>
+        <value>Video</value>
+    </labels>
+    <labels>
+        <fullName>Email_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Validation Error</shortDescription>
+        <value>Please enter your email address.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Validation_Failure_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Validation Failure Error</shortDescription>
+        <value>This email does not match with the invited attendee. Please re-enter your email or contact the meeting organizer.</value>
+    </labels>
+    <labels>
+        <fullName>EndCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>End the call.</shortDescription>
+        <value>End Call</value>
+    </labels>
+    <labels>
+        <fullName>Error_Publish</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Publish</shortDescription>
+        <value>Publish error</value>
+    </labels>
+    <labels>
+        <fullName>Error_RetrieveAudioVideoSources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Retrieve Audio Video Sources</shortDescription>
+        <value>Error retrieving audio and video sources:</value>
+    </labels>
+    <labels>
+        <fullName>Error_ScreenShareNotSupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Screen Share Not Supported</shortDescription>
+        <value>Screen sharing not supported</value>
+    </labels>
+    <labels>
+        <fullName>Error_ScreenSharePublish</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Screen Share Publish</shortDescription>
+        <value>Error publishing screenshare</value>
+    </labels>
+    <labels>
+        <fullName>Error_UpdateAudioSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Update Audio Source</shortDescription>
+        <value>Error updating audio source:</value>
+    </labels>
+    <labels>
+        <fullName>First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>First_Name_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Name Validation Error</shortDescription>
+        <value>Please enter your first name.</value>
+    </labels>
+    <labels>
+        <fullName>Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>Last_Name_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Name Validation Error</shortDescription>
+        <value>Please enter your last name.</value>
+    </labels>
+    <labels>
+        <fullName>Participants</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participants label</shortDescription>
+        <value>Participants</value>
+    </labels>
+    <labels>
+        <fullName>ScreenSharePublisherUsernameText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Text displaying screen-share publisher username text.</shortDescription>
+        <value>Viewing {0}&apos;&apos;s screen</value>
+    </labels>
+    <labels>
+        <fullName>Session_Unavailable_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Session Unavailable Header</shortDescription>
+        <value>Oops! Looks like this call is unavailable.</value>
+    </labels>
+    <labels>
+        <fullName>Session_Unavailable_Sub_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Session Unavailable Sub Header</shortDescription>
+        <value>This call has either not started, has ended or was canceled. If you have any further questions, please contact the meeting organizer.</value>
+    </labels>
+    <labels>
+        <fullName>StartCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StartCall</shortDescription>
+        <value>Start Call</value>
+    </labels>
+    <labels>
+        <fullName>StopCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StopCall</shortDescription>
+        <value>Stop Call</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Header</shortDescription>
+        <value>You are about to join a televisit.</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Join</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Join</shortDescription>
+        <value>Join</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Microphone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Microphone</shortDescription>
+        <value>Microphone</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Subheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Subheader</shortDescription>
+        <value>Welcome to {0}</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Video</shortDescription>
+        <value>Video</value>
     </labels>
 </CustomLabels>
