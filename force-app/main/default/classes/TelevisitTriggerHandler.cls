@@ -24,7 +24,11 @@ public class TelevisitTriggerHandler {
             televisitRecordIdsSet.add(teleVisObj.Id);
         }
         List<Televisit__c> televisitsList = [
-            SELECT Id, Status__c, (SELECT Id, Contact__c FROM Televisit_Attendee__r)
+            SELECT
+                Id,
+                Status__c,
+                Visit_Date_Time__c,
+                (SELECT Id, Contact__c, Attendee_Type__c FROM Televisit_Attendee__r)
             FROM Televisit__c
             WHERE Id IN :televisitRecordIdsSet
         ];
@@ -95,8 +99,9 @@ public class TelevisitTriggerHandler {
                 }
                 }
                 if (
-                    teleObj.Status__c == 'Scheduled' &
-                    oldMap.get(teleObj.Id).Meeting_URL__c != null
+                    teleObj.Status__c == 'Scheduled' &&
+                    oldMap.get(teleObj.Id).Meeting_URL__c != null &&
+                    oldMap.get(teleObj.Id).Visit_Date_Time__c != teleObj.Visit_Date_Time__c
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
                         if (
