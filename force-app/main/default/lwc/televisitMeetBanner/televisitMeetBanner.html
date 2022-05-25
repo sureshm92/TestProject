@@ -1,0 +1,51 @@
+<template>
+    <template if:true={hasActiveVisits}>
+    <div class="divBody  slds-p-around_medium slds-text-color_inverse">
+    
+        <lightning-layout>
+            <lightning-layout-item size="2" ></lightning-layout-item>
+            <lightning-layout-item size="9" >
+                <div class="slds-align_absolute-center slds-grid slds-col_bump-left">
+                    <div class="slds-p-right_small">
+                        <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-p-right_xx-small">
+                        {meetMainInfo}
+                        <!--lightning-formatted-date-time value={currentVisit.Televisit__r.Visit_Date_Time__c} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time-->
+                    </div>
+                    <template if:true={singleActiveVisit}>
+                        <lightning-formatted-date-time value={singleMeetDetail.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
+                    </template>
+                    <template if:false={singleActiveVisit}>
+                        <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"  onclick={handleOpenCloseVisits} alternative-text="Show Visits" ></lightning-button-icon>
+                    </template>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="1">
+                <template if:true={singleActiveVisit}>
+                    <a class="slds-text-color_inverse"  href="javascript:void(0);" onclick={handleSingleMeetJoin}>
+                        Join
+                    </a>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+        
+    </div>
+    <lightning-layout>
+    <div  class="allVisits" if:true={showMoreVisits}>
+        <template  for:each={allActiveVisits} for:item="visit" >
+            <div key={visit.Id}>
+                <lightning-layout>
+                    <lightning-layout-item size="10" >{visit.Televisit__r.Title__c} with {visit.Televisit__r.Participant_Enrollment__r. PI_Contact__r.Full_Name__c } will take up at  
+                        <lightning-formatted-date-time value={visit.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" >
+                        <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label="Join" title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </div>
+    </lightning-layout>
+</template>
+</template>

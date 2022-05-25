@@ -8,6 +8,12 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         }
     }
 
+    public class TelevisitEventTrigger extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            checkTelevisitEventNotification(newList);
+        }
+    }
+
     @TestVisible
     private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
         //Insert notifications for new attendees
@@ -109,5 +115,18 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             );
         }
         Database.insert(notifications);
+    }
+
+    @TestVisible
+    private static void checkTelevisitEventNotification(List<Televisit_Attendee__c> attendeeList) {
+        system.debug('checkTelevisitEventNotification');
+        Set<Id> televisitIds = new Set<Id>();
+        for(Televisit_Attendee__c teleAttendee : attendeeList){
+            if(teleAttendee.Televisit__c!=null)
+                televisitIds.add(teleAttendee.Televisit__c);
+}
+        if(televisitIds.size()>0){
+            TelevisitTriggerHandler.createTelevisitEvent(televisitIds);
+        }
     }
 }

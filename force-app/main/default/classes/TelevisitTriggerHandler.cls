@@ -16,6 +16,16 @@ public class TelevisitTriggerHandler {
         }
     }
 
+    public class TelevisitEventTrigger extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            checkForTelevisitEventCreation(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            checkForTelevisitEventCreation(newList);
+        }
+    }
+
     @TestVisible
     public static void alertAttendees(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
@@ -195,6 +205,51 @@ public class TelevisitTriggerHandler {
         updateTelevisitRecord.Session_Id__c = wrap.session_id;
         updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
         update updateTelevisitRecord;
+    }
+
+    public static void checkForTelevisitEventCreation(List<SObject> newList){
+        datetime currentTime = datetime.now();
+        datetime twoDaysAhead = datetime.now().addDays(2);
+        Set<Id> televisitIds = new Set<Id>();
+        
+        for(sObject televisitRecord : newList){
+            Televisit__c teleVisit = (Televisit__c) televisitRecord;
+            if(teleVisit.Visit_Link_Activation_End_Time__c >= currentTime && teleVisit.Visit_Link_Activation_End_Time__c <= twoDaysAhead){
+                televisitIds.add(teleVisit.Id);
+            }
+        }
+        if(televisitIds.size()>0)
+            createTelevisitEvent(televisitIds);
+    }
+
+    public static void createTelevisitEvent(Set<Id> televisitIds){
+        Map<String,Set<Id>> televisitAttendees = new Map<String,Set<Id>>();
+        List<Televisit_Event__e> televisitEventInsertion = new List<Televisit_Event__e>();
+        for(Televisit_Attendee__c relatedAttendees : [select Id,User__c,Televisit__c from Televisit_Attendee__c where Televisit__c IN:televisitIds]){
+            if(televisitAttendees.containsKey(relatedAttendees.Televisit__c)){
+                Set<Id> attendeeIds = televisitAttendees.get(relatedAttendees.Televisit__c);
+                attendeeIds.add(relatedAttendees.User__c);
+                televisitAttendees.put(relatedAttendees.Televisit__c,attendeeIds);
+            }else{
+                televisitAttendees.put(relatedAttendees.Televisit__c,new Set<Id>{relatedAttendees.User__c});
+            }
+        }
+        for(String visitId : televisitIds){
+            if(televisitAttendees.containsKey(visitId)){
+                Televisit_Event__e teleEvevent = new Televisit_Event__e();
+                teleEvevent.payLoad__c = televisitAttendees.get(visitId).toString();
+                televisitEventInsertion.add(teleEvevent);
+            }
+        }
+        system.debug(televisitEventInsertion);
+        if(televisitEventInsertion.size()>0)
+            EventBus.publish(televisitEventInsertion);
+    }
+
+    public static void createTelevisitEvent(){
+        Televisit_Event__e teleEvevent = new Televisit_Event__e();
+        teleEvevent.payLoad__c = 'DELETE';
+        EventBus.publish(teleEvevent);
     }
 
     public class TelevisitWrapper {

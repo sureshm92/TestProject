@@ -1941,6 +1941,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TelevisitMeetBannerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TemplateLinkController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2578,6 +2582,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Banner_Display_Offset_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Banner_Dispose_Offset_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7965,6 +7979,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Televisit__c.Visit_End_Date_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Televisit__c.Visit_Link_Activation_End_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Televisit__c.Visit_Link_Activation_Start_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
