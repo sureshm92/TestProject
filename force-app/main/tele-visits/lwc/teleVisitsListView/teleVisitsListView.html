@@ -7,8 +7,12 @@
         <template if:true={isFilterAvailable}>
             <div class={selectContainer}>
                 {labels.FILTER_LABEL}
-                <c-web-select value={searchStatus} options={options} container-class={selectClass}
-                    onpasstotelevisitparent={statusHandler}>
+                <c-web-select
+                    value={searchStatus}
+                    options={options}
+                    container-class={selectClass}
+                    onpasstotelevisitparent={statusHandler}
+                >
                 </c-web-select>
             </div>
         </template>
@@ -28,13 +32,22 @@
                             <tr key={visitWrapper.tvId}>
                                 <td>{visitWrapper.title}</td>
                                 <td>
-                                    <lightning-formatted-date-time value={visitWrapper.visitDateTime} year="numeric"
-                                        month="short" day="2-digit" time-zone={timeZone}>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDateTime}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
                                     </lightning-formatted-date-time>
                                 </td>
                                 <td>
-                                    <lightning-formatted-date-time value={visitWrapper.visitDateTime} hour="2-digit"
-                                        minute="2-digit" time-zone={timeZone}>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDateTime}
+                                        hour="2-digit"
+                                        minute="2-digit"
+                                        time-zone={timeZone}
+                                    >
                                     </lightning-formatted-date-time>
                                 </td>
                                 <td>{visitWrapper.duration}</td>
@@ -61,10 +74,12 @@
                                 data-index={index}
                             >
                                 <td>
-                                    <span class="title-txt-overflow">
-                                        <span> {visitWrapper.title}</span>
+                                    <span class="title-txt-truncate lgc-bg">
+                                        {visitWrapper.title}
+                                        <lightning-helptext
+                                            content={visitWrapper.title}
+                                        ></lightning-helptext>
                                     </span>
-
                                     <br />
                                     <div class="tv-att-row hidden" data-index={index}>
                                         <span class="tv-att-row_header"
@@ -73,25 +88,45 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <lightning-formatted-date-time value={visitWrapper.visitDateTime} year="numeric"
-                                        month="short" day="2-digit" time-zone={timeZone}>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDateTime}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        time-zone={timeZone}
+                                    >
                                     </lightning-formatted-date-time>
-
                                 </td>
                                 <td>
-                                    <lightning-formatted-date-time value={visitWrapper.visitDateTime} hour="2-digit"
-                                        minute="2-digit" time-zone={timeZone}>
+                                    <lightning-formatted-date-time
+                                        value={visitWrapper.visitDateTime}
+                                        hour="2-digit"
+                                        minute="2-digit"
+                                        time-zone={timeZone}
+                                    >
                                     </lightning-formatted-date-time>
                                     &nbsp;&nbsp;
                                     <span class="tv-data-btn" data-index={index}>
-                                        <lightning-button-icon icon-name="utility:chevrondown" size="medium"
-                                            class="my-icon" variant="bare" alternative-text="View More" value={index}
-                                            onclick={displayData}></lightning-button-icon>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevrondown"
+                                            size="medium"
+                                            class="my-icon"
+                                            variant="bare"
+                                            alternative-text="View More"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
                                     </span>
                                     <span class="tv-data-btn hidden" data-index={index}>
-                                        <lightning-button-icon icon-name="utility:chevronup" size="medium"
-                                            class="my-icon" variant="bare" alternative-text="View Less" value={index}
-                                            onclick={displayData}></lightning-button-icon>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronup"
+                                            size="medium"
+                                            class="my-icon"
+                                            variant="bare"
+                                            alternative-text="View Less"
+                                            value={index}
+                                            onclick={displayData}
+                                        ></lightning-button-icon>
                                     </span>
                                     <br />
                                     <div
@@ -111,11 +146,20 @@
         </template>
 
         <div class="pagination">
-            <c-web-pagination-remote current-page={pageNumber} records-count={allRecordsCount} entries={entriesOnPage}
-                onpaginatorchange={handlePaginatorChanges} records-list={teleVisits}></c-web-pagination-remote>
+            <c-web-pagination-remote
+                current-page={pageNumber}
+                records-count={allRecordsCount}
+                entries={entriesOnPage}
+                onpaginatorchange={handlePaginatorChanges}
+                records-list={teleVisits}
+            ></c-web-pagination-remote>
         </div>
 
-        <c-web-empty-list css-class="main-container_no-visits" target-list={teleVisits} icon-name="none"
-            message={labels.NO_ITEMS}></c-web-empty-list>
+        <c-web-empty-list
+            css-class="main-container_no-visits"
+            target-list={teleVisits}
+            icon-name="none"
+            message={labels.NO_ITEMS}
+        ></c-web-empty-list>
     </div>
 </template>

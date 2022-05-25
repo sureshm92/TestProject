@@ -77,9 +77,13 @@
                                     data-index={index}
                                 >
                                     <td>
-                                        <span class="title-txt-overflow">
-                                            <span> {visitWrapper.title}</span> </span
-                                        ><br />
+                                        <span class="title-txt-truncate lgc-bg">
+                                            {visitWrapper.title}
+                                            <lightning-helptext
+                                                content={visitWrapper.title}
+                                            ></lightning-helptext>
+                                        </span>
+                                        <br />
                                         <div class="tv-att-row hidden" data-index={index}>
                                             <span class="tv-att-row_header"
                                                 >{labels.TV_TH_Attendees} </span

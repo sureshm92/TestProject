@@ -137,7 +137,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        display: grid;
+        display: inline-block;
     }
     .tv-dur-row_alignment {
         padding-top: 1.8rem;
@@ -145,30 +145,15 @@
     .televisit-tr-bgcolor {
         background: linear-gradient(to top, #f8f9fb 80%, #ffffff 20%);
     }
+    span lightning-helptext {
+        position: absolute;
+        left: 17px;
+    }
     .tv-att-row {
-        padding: 30px 0px 7px 0px;
+        padding: 30px 0px 0px 0px;
     }
-
-    .title-txt-overflow {
-        overflow: hidden;
-        -ms-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        float: left;
-        width: 90px !important;
-    }
-
-    .title-txt-overflow:hover {
-        overflow: visible;
-    }
-
-    .title-txt-overflow:hover span {
-        position: relative;
-        background-color: white;
-        border: 1px solid #000;
-}
     .tv-body td {
-        padding: 10px 10px;
+        padding: 10px 0px 10px 20px;
     }
 }
 .my-icon {
