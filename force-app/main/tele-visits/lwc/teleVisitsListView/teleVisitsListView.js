@@ -164,6 +164,19 @@ export default class TeleVisitsListView extends LightningElement {
 
     displayData(event) {
         let index = event.target.value;
+        let tableContainer = this.template.querySelectorAll('.televisit_table_container');
+        tableContainer.forEach(function (ele) {
+            if (ele.classList.contains('hidden')) {
+                ele.classList.remove('televisit-tr-bgcolor');
+            }
+        });
+        tableContainer.forEach(function (ele) {
+            let trIndex = ele.getAttribute('data-index');
+            if (index == trIndex) {
+                ele.classList.toggle('televisit-tr-bgcolor');
+            }
+        });
+
         let dataElements = this.template.querySelectorAll("div[data-index='" + index + "']");
         dataElements.forEach(function (ele) {
             ele.classList.toggle('hidden');

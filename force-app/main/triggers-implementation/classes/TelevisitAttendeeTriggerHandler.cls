@@ -40,6 +40,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             FROM Televisit_Attendee__c
             WHERE Id IN :attendeeList
         ]) {
+            if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
             attendeeTelevisitMap.put(attendee.Contact__c, attendee.Televisit__c);
             Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
                 participantIdsByDelegates,
@@ -48,6 +49,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             if (delContactId != null) {
                 attendeeDelTelevisitMap.put(delContactId, attendee.Televisit__c);
             }
+        }
         }
 
         createAttendeeNotifications(attendeeTelevisitMap, 'Message_to_PT_Added_Attendee_Type');
@@ -79,7 +81,9 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 AND isDeleted = TRUE
             ALL ROWS
         ]) {
+            if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
             delConTeleMap.put(attendee.Contact__c, attendee.Televisit__c);
+        }
         }
         if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(

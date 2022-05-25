@@ -132,7 +132,30 @@
         margin-bottom: 1.5rem;
         padding-top: 0;
     }
+    .title-txt-truncate {
+        width: 90px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .tv-dur-row_alignment {
+        padding-top: 1.8rem;
+    }
+    .televisit-tr-bgcolor {
+        background: linear-gradient(to top, #f8f9fb 80%, #ffffff 20%);
+    }
+    span lightning-helptext {
+        position: absolute;
+        left: 17px;
+    }
+    .tv-att-row {
+        padding: 30px 0px 0px 0px;
+    }
+    .tv-body td {
+        padding: 10px 0px 10px 20px;
+    }
 }
-.my-icon{
+.my-icon {
     --slds-c-icon-color-foreground: #999999;
 }

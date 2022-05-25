@@ -64,6 +64,10 @@ public class TelevisitTriggerHandler {
                     teleObj.Status__c == 'Cancelled'
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
+                        if (
+                            teleAttendee.Attendee_Type__c != 'Site Staff' &&
+                            teleAttendee.Attendee_Type__c != 'PI'
+                        ) {
                         Id delegateContactId = getPrimaryDelegateContactId(
                             participantIdsByDelegates,
                             teleAttendee.Contact__c
@@ -89,11 +93,16 @@ public class TelevisitTriggerHandler {
                         }
                     }
                 }
+                }
                 if (
                     teleObj.Status__c == 'Scheduled' &
                     oldMap.get(teleObj.Id).Meeting_URL__c != null
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
+                        if (
+                            teleAttendee.Attendee_Type__c != 'Site Staff' &&
+                            teleAttendee.Attendee_Type__c != 'PI'
+                        ) {
                         Id delegateContactId = getPrimaryDelegateContactId(
                             participantIdsByDelegates,
                             teleAttendee.Contact__c
@@ -120,6 +129,7 @@ public class TelevisitTriggerHandler {
                     }
                 }
             }
+        }
         }
         if (!notificationsList.isEmpty()) {
             insert notificationsList;
