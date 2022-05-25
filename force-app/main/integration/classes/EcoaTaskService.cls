@@ -5,12 +5,13 @@ public class EcoaTaskService {
         Map<Id, User> userContactIdMap = new Map<Id, User>();
         Map<Id, Id> primarydelegateContactMap = new Map<Id, Id>();
         List<Ecoa_Task_Configuration__c> updatedTaskConfigList = new List<Ecoa_Task_Configuration__c>();
-
+        System.debug('taskConfig::'+taskConfig);
         for (Ecoa_Task_Configuration__c task : taskConfig) {
             if (task.ContactId__c != null) {
                 contactIds.add(task.ContactId__c);
             }
         }
+        System.debug('contactIds::'+contactIds);
         List<Patient_Delegate__c> patientdelegatesList = [
             SELECT Contact__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
@@ -27,6 +28,7 @@ public class EcoaTaskService {
             FROM User
             WHERE ContactId IN :contactIds
         ];
+        System.debug('participantUsers'+participantUsers);
         for (User userObj : participantUsers) {
             userContactIdMap.put(userObj.ContactId, userObj);
         }
@@ -63,6 +65,8 @@ public class EcoaTaskService {
             Integer endoffset = tz.getOffset(task.Window_End__c);
             Datetime WindoEndlocaltime = task.Window_End__c.addSeconds(endoffset / 1000);
 
+            System.debug('userObj::'+userObj);
+             System.debug('delegateUserObj::'+delegateUserObj);
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
             t.Subject = 'Ediary ' + task.Diary_Name__c;
@@ -94,6 +98,22 @@ public class EcoaTaskService {
             update updatedTaskConfigList;
         } catch (exception e) {
             System.debug('error::' + e);
+        }
+    }
+    public static void completeTask(List<Task> tasksToComplete) {
+        List<Task> completedTasks = new List<Task>();
+        if(tasksToComplete != null){
+            for(Task task:tasksToComplete){
+                task.Status = 'Completed';
+                task.Completed_Date__c = Datetime.now();
+                completedTasks.add(task);
+            }
+            try{
+                update completedTasks;
+            }Catch(Exception e){
+                System.debug('err:'+ e.getMessage());
+                System.debug('err:'+ e.getStackTraceString());
+            }
         }
     }
 }
