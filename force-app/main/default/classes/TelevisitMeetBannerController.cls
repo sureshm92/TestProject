@@ -1,4 +1,4 @@
-public with sharing class TelevisitMeetBannerController {
+public without sharing class TelevisitMeetBannerController {
     @AuraEnabled
     public static String getSessionId() {
         return UserInfo.getSessionId();
