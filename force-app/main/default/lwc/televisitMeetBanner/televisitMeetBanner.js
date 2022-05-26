@@ -32,6 +32,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
 
     loadCometdScript(){
+        console.log('loadCometdScript');
         if(!this.subscription){
             Promise.all([
                 loadScript(this, cometdStaticResource)
@@ -50,8 +51,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
 
     loadSessionId(){
+        console.log('loadSessionId');
         getSessionId()
             .then(sessionId => {
+                console.log('sessionId');
                 this.cometd = new window.org.cometd.CometD();
                 this.cometd.configure({
                     url: window.location.protocol + '//' + window.location.hostname + '/cometd/49.0/',
@@ -61,11 +64,15 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.cometd.websocketEnabled = false;
                 this.cometd.handshake( (status) => {
                     if (status.successful) {
+                        //console.log('status.successful::'+status.successful);
                         this.subscription = this.cometd.subscribe( this.channel , (message) => {
+                            //console.log('s::');
+                            console.log('Payload::'+JSON.stringify(message.data.payload));
                             let reLoadRequired = (message.data.payload.Payload__c.includes(USER_ID));
+                            console.log('reLoadRequired::'+reLoadRequired);
                             //TODO check update banner cases
                             if(reLoadRequired){
-                            this.getVisits();
+                                this.getVisits();
                             }
                         });
                     } else {
@@ -82,11 +89,13 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             });
     }
     getVisits() {
+        console.log('getVisits');
         this.hasVisits = true;
         getVisits()
         .then(result => {
             var televisitInformation = JSON.parse(result);
             if (televisitInformation) {
+                console.log('televisitInformation :: '+televisitInformation);
                 let visitData = Object.assign(televisitInformation);
                 this.loadVisitData(visitData);
             }
@@ -97,17 +106,26 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         });
     }
     loadVisitData(visitData){
-        
         //console.log('visitData : '+JSON.stringify(visitData));
         this.allVisits = visitData;
         this.hasActiveVisits = false;
         var activeVisits = [];
         visitData.forEach( visitInfo => {
+            console.log('visitData : '+JSON.stringify(visitInfo));
             let visitDetail = visitInfo;
             var now = new Date();
             let dateNow = new Date(now);
-           let scheduledDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
-            let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
+            console.log(dateNow.getTime());
+            
+            let scheduledDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
+            let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_End_Date_Time__c);
+           
+            console.log('scheduledEndDate::'+scheduledEndDate);
+            //scheduledEndDate.setMinutes(date.getMinutes() + visitInfo.Televisit__r.Duration__c);
+            console.log('visitInfo.Televisit__r.Visit_Date_Time__c :: Title'+visitInfo.Televisit__r.Title__c);
+            console.log('visitInfo.Televisit__r.Visit_Date_Time__c :: date now'+dateNow);
+            console.log('visitInfo.Televisit__r.Visit_Date_Time__c :: record detail'+visitInfo.Televisit__r.Visit_Date_Time__c);
+            console.log('visitInfo.Televisit__r.Visit_Date_Time__c :: scheduled date'+scheduledDate);
             visitDetail.scheduledTime = scheduledDate; 
             visitDetail.scheduledEndTime = scheduledEndDate; 
             let bannerStartTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c);
@@ -116,17 +134,21 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 activeVisits.push(visitDetail);
             }
         });
+        //console.log('loadVisitData 1'+activeVisits.length);
         this.allActiveVisits = activeVisits;
         if(activeVisits.length > 0 ){
+            //console.log('loadVisitData 2');
             this.hasActiveVisits = true;
         }
         if(activeVisits.length == 1){
+            //console.log('loadVisitData 3');
             this.singleMeetDetail = activeVisits[0];
             this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' with '+activeVisits[0].Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c 
             +' will take place at ';//activeVisits[0].
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c ;
         }else if(activeVisits.length > 1){
+            //console.log('loadVisitData 4');
             this.singleActiveVisit = false;
             this.meetMainInfo = activeVisits.length +' Upcomming or Active Televisits';
         }
@@ -134,6 +156,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         //console.log('loadVisitData ::'+this.currentVisit.Televisit__r.Title__c);
     }
     handleJoinClick(event){
+        console.log('handleJoinClick');
+        console.log(event.target.dataset.name);
         let url = event.target.dataset.name;
         this[NavigationMixin.GenerateUrl]({
             type: 'standard__webPage',
