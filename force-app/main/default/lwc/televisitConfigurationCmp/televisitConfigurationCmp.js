@@ -84,6 +84,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     permissioncheck = true;
     fixedsiteset = [];
     fixedcountryset = [];
+    fixedvendorarray = [];
     connectedCallback() {
         this.getteledetails(this.recordId);
     }
@@ -118,6 +119,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                    let obj = {id: result.trvList[i].Id, value: result.trvList[i].Name, icon:'utility:check'};
                    this.vendorArray.push(obj);
                 }
+                this.fixedvendorarray = this.vendorArray;
             }
             this.showOppLookup2 = true;
             this.showOppLookup3 = true;
@@ -176,6 +178,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 }else{
                     this.isModalOpen = false;
                     this.vendorArrayupdate = false;
+                    //this.selectedvendorArray=[];
                     this.getteledetails(this.recordId);
                 }
             })
@@ -249,7 +252,29 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 this.selectedvendorArray.push(splt[i]);
             }
         }
-        this.vendorArrayupdate = true; 
+
+        if(this.selectedvendorArray.length > 0){
+            this.vendorArrayupdate = true; 
+        }else{
+            this.vendorArrayupdate = false; 
+        }
+
+        if(this.selectedvendorArray.length > 0){
+            var showrec = [];
+            this.vendorArray = [];
+            for(let i=0;i<this.fixedvendorarray.length;i++){
+                if(!this.selectedvendorArray.includes(this.fixedvendorarray[i].id)){
+                    let obj = {id: this.fixedvendorarray[i].id, value:this.fixedvendorarray[i].value, icon:'utility:check'};
+                    showrec.push(obj);
+                }
+    
+            }
+            this.vendorArray = showrec;
+        }else{
+            var showrec = [];
+            this.vendorArray = this.fixedvendorarray;
+        }
+        
         this.getteledetails(this.recordId);
     }
 
