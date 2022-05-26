@@ -97,6 +97,9 @@
     align-items: center;
     color: #666666;
 }
+.my-icon {
+    --slds-c-icon-color-foreground: #999999;
+}
 
 @media (max-width: 768px) {
     .rr-table .tableHeader {
@@ -137,10 +140,10 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        display: inline-block;
+        display: block;
     }
     .tv-dur-row_alignment {
-        padding-top: 1.8rem;
+        padding-top: 1.6rem;
     }
     .televisit-tr-bgcolor {
         background: linear-gradient(to top, #f8f9fb 80%, #ffffff 20%);
@@ -150,12 +153,15 @@
         left: 17px;
     }
     .tv-att-row {
-        padding: 30px 0px 0px 0px;
+        padding: 5px 0px 0px 0px;
+    }
+    .tv-body td .txt-padding {
+        padding-left: 0.6rem;
     }
     .tv-body td {
-        padding: 10px 0px 10px 20px;
+        padding: 15px 5px 0px 10px !important;
     }
-}
-.my-icon {
-    --slds-c-icon-color-foreground: #999999;
+    .tv-data-btn {
+        float: right;
+    }
 }
