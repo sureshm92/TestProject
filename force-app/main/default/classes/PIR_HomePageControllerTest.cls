@@ -78,21 +78,15 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         System.runAs(testData.piUser) {    
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,'test','',1);
-            PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,'','',1);
-            PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,'','',1);
-            
+            //PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1);
+           
             try{
-                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,'','AND',1);
+                 PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
+                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,false,'','AND',1);
                 
             }
             catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
@@ -103,13 +97,78 @@ public without sharing class PIR_HomePageControllerTest {
        
         Test.stopTest();
     }
-    
+    @isTest static void testgetListViewDataNew() {
+        // TestData.loadTestData();
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<String> ctpIdList = new List<String>();
+        List<Id> ssIdList = new List<Id>();
+        
+        
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id); 
+        ssIdList.add(ssList[0].Id);
+        Test.startTest();
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
+        partEnroll.Study_Site__c=ssList[0].Id;
+        partEnroll.Participant_Status__c='Received';
+        partEnroll.Referral_Source__c='Principal Investigator';
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Eligibility Passed"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnew = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Not Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT","Eligibility Passed"],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
+        
+        
+        System.runAs(testData.piUser) {    
+           // PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
+            
+            
+            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,'test','',1);
+            PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,false,'','',1);
+            PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
+             
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,true,'','',1);
+            
+            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1);
+            try{
+                 PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
+                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,false,'','AND',1);
+                
+            }
+            catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
+            
+            
+            
+        }
+       
+        Test.stopTest();
+    }
     @isTest 
     static void testgetStudySite() {
         TestData testData = new TestData();
         //TestData.loadTestData();
         Test.startTest();
-        System.runAs(testData.participantUser) {            
+        System.runAs(testData.piUser) {            
             PIR_HomepageController.getStudySite();
         }
         Test.stopTest();
@@ -391,7 +450,7 @@ public without sharing class PIR_HomePageControllerTest {
         String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
         String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":[],"activeInactive":"Inactive"}';
         String filterlistSiteNull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
-        Test.startTest(); 
+         Test.startTest();
         List<Clinical_Trial_Profile__c> ctpListnew = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpListnew[0].CommunityTemplate__c='Janssen';
         update ctpListnew;
@@ -401,20 +460,20 @@ public without sharing class PIR_HomePageControllerTest {
        
         System.runAs(testData.piUser) {
             try{
-                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,true,'','',1);
-                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,false,'','',1);
+                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,true,true,'','',1);
+                PIR_HomepageController.getListViewData(205,2,'Default',filterlist,false,false,'','',1);
                 PIR_HomepageController.getStudyStudySiteDetails();
                 PIR_HomepageController.fetchCurrentUserLanguage();
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistSiteNull,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistJanseen,true,'test','',1); 
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistSiteNull,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,'test','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistSiteNull,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'test','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistJanseen,true,true,'test','',1); 
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'test','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistSiteNull,true,true,'','',1);
+                //PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'test','',1);
+                //PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
                 
             } catch(Exception ex) {
                 
@@ -422,7 +481,47 @@ public without sharing class PIR_HomePageControllerTest {
         }
         Test.stopTest();        
     }
-    
+    @isTest
+    static void testgetPEDataAdditionalMethodNew() {
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<Id> ctpIdList = new List<Id>();
+        List<Id> ssIdList = new List<Id>();
+        
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id);
+        ssIdList.add(ssList[0].Id);
+        List<Participant_Enrollment__c> partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+        ];
+        
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlistSiteNull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+         Test.startTest();
+        List<Clinical_Trial_Profile__c> ctpListnew = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpListnew[0].CommunityTemplate__c='Janssen';
+        update ctpListnew;
+        
+        String filterlistJanseen = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpListnew[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        
+       
+        System.runAs(testData.piUser) {
+            try{
+                
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'test','',1);
+                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
+                
+            } catch(Exception ex) {
+                
+            }
+        }
+        Test.stopTest();        
+    }
     @isTest 
     static void testgetPESiteStaffData() {
         TestData testData = new TestData();
@@ -497,7 +596,7 @@ public without sharing class PIR_HomePageControllerTest {
             FROM Contact
             WHERE Id = :testData.participant.Contact__c
         ];
-        User u = [SELECT ContactId, Id, IsActive FROM User WHERE ContactId=:testData.participant.Contact__c];
+        //User u = [SELECT ContactId, Id, IsActive FROM User WHERE ContactId=:testData.participant.Contact__c];
         Study_Site__c ssn= [select id from Study_Site__c];
         List<Site_Staff__c> ssList = new List<Site_Staff__c>();
         for (Integer i = 1; i < 3; i++) {
@@ -572,6 +671,7 @@ public without sharing class PIR_HomePageControllerTest {
         
         System.runAs(testData.piUser){
             PIR_HomepageController.getStudyStudySite();
+            PIR_HomepageController.fetchPreset();
             PIR_HomepageController.getStudyStudySite();
         }
         Test.stopTest();
@@ -780,6 +880,7 @@ public without sharing class PIR_HomePageControllerTest {
         }
         Test.stopTest();
     }
+    
     @isTest
     static void testcreatePreset() {
         TestData testData = new TestData();
@@ -931,6 +1032,7 @@ public without sharing class PIR_HomePageControllerTest {
         System.runAs(testData.piUser){
             PIR_HomepageController.setselectedFilterasDefault(presetFilter1.id);
             PIR_HomepageController.setselectedFilterasDefault('no preset');
+            PIR_HomepageController.fetchPreset();
             string cretePre= PIR_HomepageController.createPreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"'+presetFilter.id+'","presetName":"","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}',true);
             PIR_HomepageController.createPreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}',false);
             //System.assertEquals('duplicateName',cretePre);
