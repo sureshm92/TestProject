@@ -53,7 +53,10 @@
                 placeholder={label.Select} options={presetOpts} value={presetSel}></lightning-combobox>
             </div>     
             <template if:true={showEditPreset}> 
-                <c-pir_-preset-edit maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+                <c-pir_-preset-edit maindivcls={maindivcls} disable-close={disableClose} onclosepresetmodel={closepresetmodel} all-presets={sysPresets} opts={presetOpts} preset-sel={presetSel} selected-filter={filterWrapper}></c-pir_-preset-edit>
+            </template>
+            <template if:true={faultyPreset}>
+                <c-pir_preset-invalid oneditpr={editInvalid}></c-pir_preset-invalid>
             </template>
         </div>
         <div class="slds-col slds-size_12-of-12 dropsize">
@@ -61,7 +64,7 @@
                 <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
                     <div class="slds-p-top--x-small textBolds">{label.pir_Sort_By}</div>
                 </div>
-                <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12">
+                <div class="slds-col slds-size_4-of-12 slds-medium-size_5-of-12 slds-large-size_4-of-12 dropdown-fonts">
                     <lightning-combobox  options={sortOptions} value={sortValue} onchange={handleSortChange}  variant="label-hidden"></lightning-combobox>
                 </div>
                 <div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 w-action">
@@ -288,7 +291,10 @@
             <template if:true={noRecords}>
                 <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
             </template>
+            
         </div>
     </div>
+    
+        
     </div>
-    </template>
+</template>

@@ -61,7 +61,8 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall {
     public override Type getType() {
         return RemoteCall_SendPEToStudyHub.class;
     }
-
+	
+    @TestVisible
     protected override String buildRequestBody() {
         Participant_Enrollment__c pe = [
             SELECT
@@ -134,6 +135,7 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall {
         return JSON.serializePretty(integrationMessage, true);
     }
 
+    @TestVisible
     protected override Object parseResponse(String responseBody) {
         return null;
     }
