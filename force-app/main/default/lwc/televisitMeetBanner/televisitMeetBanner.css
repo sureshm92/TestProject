@@ -26,3 +26,11 @@ a:hover {
     padding-top: 8px;
     text-align: center;
 }
+
+@media all and (max-width: 768px){
+    .allVisits{
+        width: 90%;
+        margin: 0 auto;
+        text-align: left;
+    }
+}

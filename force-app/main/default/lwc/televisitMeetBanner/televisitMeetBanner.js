@@ -19,7 +19,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     singleMeetDetail = {};
     singleActiveVisit = true;
     showMoreVisits = false;
-    moreVisitIconName = '';
+    moreVisitIconName = 'utility:chevronright';
     allVisits = [];
     allActiveVisits = [];
     hasActiveVisits = false;
