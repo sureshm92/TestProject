@@ -413,18 +413,7 @@ public with sharing class Action_SendSMS implements Action {
 
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
         Map<id, List<Participant_Enrollment__c>> contactIdPERMap = new Map<id, List<Participant_Enrollment__c>>();
-        ///Added by Anitha
-        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(
-            [
-                SELECT
-                    Id,
-                    Contact__c,
-                    Contact__r.Welcome_Message_Sent__c,
-                    Contact__r.Welcome_Message_Delivered__c
-                FROM Participant__c
-                WHERE Id IN :participantIdList
-            ]
-        );
+
         Map<Id, Task> taskMap = new Map<Id, Task>(
             [
                 SELECT
@@ -465,6 +454,7 @@ public with sharing class Action_SendSMS implements Action {
                 }
                 if (String.valueOf(tobj.whatId.getSobjectType()) == 'Participant__c') {
                     ownerIdList.add(tobj.OwnerId);
+                    participantIdList.add(tObj.whatId);
                 }
             }
             system.debug('peIdList:::' + peIdList + 'ownerIdList::' + ownerIdList);
@@ -475,7 +465,18 @@ public with sharing class Action_SendSMS implements Action {
             }
         }
         system.debug('peIdList:::' + peIdList);
-
+        ///Added by Anitha
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(
+            [
+                SELECT
+                    Id,
+                    Contact__c,
+                    Contact__r.Welcome_Message_Sent__c,
+                    Contact__r.Welcome_Message_Delivered__c
+                FROM Participant__c
+                WHERE Id IN :participantIdList
+            ]
+        );
         Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
             [
                 SELECT
@@ -588,7 +589,7 @@ public with sharing class Action_SendSMS implements Action {
                 Boolean welcomemsgDelivered = false; // Added by Anitha
                 Id whatId = Id.valueOf(notObj.WhatId__c);
                 Boolean isSMSAvailableForPER = false;
-
+                String recipientID = notObj.Recipient__c;
                 String objType = String.valueOf(whatId.getSobjectType());
                 system.debug('objType:::' + objType + 'whatId:::' + whatId);
 
@@ -849,7 +850,12 @@ public with sharing class Action_SendSMS implements Action {
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
                             'Participant__c'
                         ) {
-                            System.debug('I am here PlatformLevel' + isPlatformLevel);
+                            if (participantMap.containsKey(taskMap.get(whatId).WhatId)) {
+                                welcomemsgsent = participantMap.get(taskMap.get(whatId).WhatId)
+                                    .Contact__r.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = participantMap.get(taskMap.get(whatId).WhatId)
+                                    .Contact__r.Welcome_Message_Delivered__c;
+                            }
                             if (
                                 userIdMap.get(taskMap.get(whatId).OwnerId) != null &&
                                 userIdMap.get(taskMap.get(whatId).OwnerId)
