@@ -109,6 +109,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
            let scheduledDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
             let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
             visitDetail.scheduledTime = scheduledDate; 
+            visitDetail.scheduledEndTime = scheduledEndDate; 
             let bannerStartTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c);
             let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
             if(dateNow >= bannerStartTime && dateNow <= bannerEndTime){

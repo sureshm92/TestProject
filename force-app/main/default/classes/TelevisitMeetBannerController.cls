@@ -9,7 +9,7 @@ public without sharing class TelevisitMeetBannerController {
         Datetime next24HoursDateTime = Datetime.now().addHours(24);
         List<Televisit_Attendee__c > allVisitis = [select Televisit__r.Id,Televisit__r.Title__c,Televisit__r.Visit_Date_Time__c,
                     Televisit__r.Visit_Link_Activation_End_Time__c,Televisit__r.Visit_Link_Activation_Start_Time__c,Televisit__r.Meeting_URL__c,
-                    Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c 
+                    Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c,Televisit__r.Duration__c,Televisit__r.Visit_End_Date_Time__c
                     from Televisit_Attendee__c where User__c  =:UserInfo.getUserId() and Televisit__r.Visit_Link_Activation_End_Time__c >=:currentDateTime and Televisit__r.Visit_Link_Activation_End_Time__c <=:next24HoursDateTime ];
 
         return JSON.serialize(allVisitis);

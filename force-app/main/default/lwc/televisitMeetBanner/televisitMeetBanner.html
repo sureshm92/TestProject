@@ -38,7 +38,7 @@
                 <lightning-layout>
                     <lightning-layout-item size="10" >{visit.Televisit__r.Title__c} with {visit.Televisit__r.Participant_Enrollment__r. PI_Contact__r.Full_Name__c } will 
                         take up at <lightning-formatted-date-time value={visit.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; to &nbsp;
-                        <lightning-formatted-date-time value={visit.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
+                        <lightning-formatted-date-time value={visit.scheduledEndTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
                     </lightning-layout-item>
                     <lightning-layout-item size="2" >
                         <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label="Join" title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
