@@ -54,7 +54,8 @@ export default class MultiLookup extends LightningElement {
 
     handleSelection(event) {
         let index = event.target.id.split('-')[0];
-        this.selOptionsMap.set(''+index, this._options[index]);
+        let indexvalue = this._options[index];
+        this.selOptionsMap.set(''+indexvalue.id, this._options[index]);
         this.selectedOptions = Array.from(this.selOptionsMap.values());
         this.showSelectedOptions = true;
         this.closeOptionsMenu();

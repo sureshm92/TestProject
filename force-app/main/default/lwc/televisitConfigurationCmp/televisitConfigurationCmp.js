@@ -80,8 +80,10 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     picklistoptions =[];
     showpagenation = false;
     vendercreationcheck = true;
-    showTelevisitscreen = false;
+    showTelevisitscreen = true;
     permissioncheck = true;
+    fixedsiteset = [];
+    fixedcountryset = [];
     connectedCallback() {
         this.getteledetails(this.recordId);
     }
@@ -97,28 +99,18 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             for(let i=0; i< result.trvList.length;i++){
                 this.vendoriddescmap.set(result.trvList[i].Id, result.trvList[i].Description__c);
             }
-
-            if(this.permissioncheck){
-                this.showTelevisitscreen = result.televisitpermissioncheck;
-                this.permissioncheck = false;
-            }
             this.televisitdetails = result.ResponeWrapperList;
             this.totalstudysitelist = result.ResponeWrapperList;
             this.telelength = this.televisitdetails.length;
+            if(this.telelength.length > 0){
+                this.showpagenation = true;
+            }
             let options = [];
                  
             for (var key in result.picklistvalues) {
                 options.push({ label: result.picklistvalues[key], value: result.picklistvalues[key]  });
             }
             this.picklistoptions = options;
-            for(let i=0; i<result.studysiteList.length; i++){
-                if(result.studysiteList[i].Site__r.BillingCountry != '' && result.studysiteList[i].Site__r.BillingCountry != undefined &&
-                !this.countryArraySet.includes(result.studysiteList[i].Site__r.BillingCountry)){
-                    let obj = {id: result.studysiteList[i].Site__r.BillingCountry, value: result.studysiteList[i].Site__r.BillingCountry, icon:'utility:check'};
-                    this.countryArray.push(obj);
-                    this.countryArraySet.push(result.studysiteList[i].Site__r.BillingCountry);
-                }
-            }
             this.showOppLookup1 = true;
             if(!this.vendorArrayupdate){ 
                 this.vendorArray = [];
@@ -128,12 +120,25 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 }
             }
             this.showOppLookup2 = true;
-            for(let i=0; i<result.studysiteList.length; i++){
-                let obj = {id: result.studysiteList[i].Id, value: result.studysiteList[i].Name, icon:'utility:check'};
-                this.studysiteArray.push(obj);
-            }
             this.showOppLookup3 = true;
-            this.showpagenation = true;
+            if(this.permissioncheck){
+                for(let i=0; i<result.studysiteList.length; i++){
+                    if(result.studysiteList[i].Site__r.BillingCountry != '' && result.studysiteList[i].Site__r.BillingCountry != undefined &&
+                    !this.countryArraySet.includes(result.studysiteList[i].Site__r.BillingCountry)){
+                        let obj = {id: result.studysiteList[i].Site__r.BillingCountry, value: result.studysiteList[i].Site__r.BillingCountry, icon:'utility:check'};
+                        this.countryArray.push(obj);
+                        this.fixedcountryset.push(obj);
+                        this.countryArraySet.push(result.studysiteList[i].Site__r.BillingCountry);
+                    }
+                }
+                for(let i=0; i<result.studysiteList.length; i++){
+                    let obj = {id: result.studysiteList[i].Id, value: result.studysiteList[i].Name, icon:'utility:check'};
+                    this.studysiteArray.push(obj);
+                }
+                this.fixedsiteset = this.studysiteArray;
+                this.showTelevisitscreen = result.televisitpermissioncheck;
+                this.permissioncheck = false;
+            }
         })
         .catch((error) => {
             console.log(JSON.stringify(error));
@@ -210,6 +215,22 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 this.selectedcountry.push(splt[i]);
             }
         }
+        if(this.selectedcountry.length > 0){
+            var showrec = [];
+            this.countryArray = [];
+            for(let i=0;i<this.fixedcountryset.length;i++){
+                if(!this.selectedcountry.includes(this.fixedcountryset[i].id)){
+                    let obj = {id: this.fixedcountryset[i].id, value:this.fixedcountryset[i].value, icon:'utility:check'};
+                    showrec.push(obj);
+                }
+    
+            }
+            this.countryArray = showrec;
+        }else{
+            var showrec = [];
+            this.countryArray = this.fixedcountryset;
+        }
+
         this.getteledetails(this.recordId);
 
     }
@@ -245,6 +266,21 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             if(splt[i] != '' && splt[i] != undefined){
                 this.selectedsiteArray.push(splt[i]);
             }
+        }
+        if(this.selectedsiteArray.length > 0){
+            var showrec = [];
+            this.studysiteArray = [];
+            for(let i=0;i<this.fixedsiteset.length;i++){
+                if(!this.selectedsiteArray.includes(this.fixedsiteset[i].id)){
+                    let obj = {id: this.fixedsiteset[i].id, value:this.fixedsiteset[i].value, icon:'utility:check'};
+                    showrec.push(obj);
+                }
+    
+            }
+            this.studysiteArray = showrec;
+        }else{
+            var showrec = [];
+            this.studysiteArray = this.fixedsiteset;
         }
         
         this.getteledetails(this.recordId);
@@ -373,8 +409,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     handleTypeChange(event){
         let studysiteid = event.currentTarget.dataset.id;
         let  comboboxname = event.target.dataset.targetId;
-        let  selectedValue = event.detail.value;
-        console.log('============='+selectedValue);
+        let  selectedValue = event.target.value;
         var totalRecords = [];
 
         for(var i in this.totalstudysitelist) {
