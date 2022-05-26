@@ -121,10 +121,32 @@
            </td>
         </template>
         <td>
-          <lightning-combobox data-target-id = "displyoffsettime" name="displyoffsettime" data-id = {row.studysiteid} value={row.bannerdisplayoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> 
+         <!-- <lightning-combobox dropdown-alignment = "auto" data-target-id = "displyoffsettime" name="displyoffsettime" data-id = {row.studysiteid} value={row.bannerdisplayoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox>-->
+         <select class="slds-select" 
+                        onchange={handleTypeChange} 
+                        data-target-id = "displyoffsettime"
+                        name="displyoffsettime" 
+                        data-id = {row.studysiteid} 
+                      >
+                    <option value="" selected hidden disabled>{row.bannerdisplayoffsettime}</option>
+                    <template for:each={picklistoptions} for:item="option">
+                        <option key={option.label}  class="" value={option.value}>{option.value}</option>
+                    </template>
+                </select> 
         </td>
         <td>
-          <lightning-combobox data-target-id = "disposeoffsettime" name="disposeoffsettime" data-id = {row.studysiteid}  value={row.bannerdisposeoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> 
+          <!--<lightning-combobox dropdown-alignment = "auto" data-target-id = "disposeoffsettime" name="disposeoffsettime" data-id = {row.studysiteid}  value={row.bannerdisposeoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> -->
+          <select class="slds-select" 
+                        onchange={handleTypeChange} 
+                        data-target-id = "disposeoffsettime"
+                        name="disposeoffsettime" 
+                        data-id = {row.studysiteid} 
+                      >
+                    <option value="" selected hidden disabled>{row.bannerdisposeoffsettime}</option>
+                    <template for:each={picklistoptions} for:item="option">
+                        <option key={option.label}  class="" value={option.value}>{option.value}</option>
+                    </template>
+                </select> 
         </td>
       </tr>
     </template>
