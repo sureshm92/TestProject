@@ -5,12 +5,13 @@ public class EcoaTaskService {
         Map<Id, User> userContactIdMap = new Map<Id, User>();
         Map<Id, Id> primarydelegateContactMap = new Map<Id, Id>();
         List<Ecoa_Task_Configuration__c> updatedTaskConfigList = new List<Ecoa_Task_Configuration__c>();
-
+        System.debug('taskConfig::'+taskConfig);
         for (Ecoa_Task_Configuration__c task : taskConfig) {
             if (task.ContactId__c != null) {
                 contactIds.add(task.ContactId__c);
             }
         }
+        System.debug('contactIds::'+contactIds);
         List<Patient_Delegate__c> patientdelegatesList = [
             SELECT Contact__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
@@ -27,6 +28,7 @@ public class EcoaTaskService {
             FROM User
             WHERE ContactId IN :contactIds
         ];
+        System.debug('participantUsers'+participantUsers);
         for (User userObj : participantUsers) {
             userContactIdMap.put(userObj.ContactId, userObj);
         }
@@ -48,13 +50,23 @@ public class EcoaTaskService {
                 }
             }
             Timezone tz = Timezone.getTimeZone(timeZoneVal);
-            Integer offset = tz.getOffset(task.Window_Begin__c);
+            Integer offset = tz.getOffset(task.Window_Begin__c);//-5 : 20th 5AM (UTC)
 
-            Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);
-
+            Datetime userlocaltime = task.Window_Begin__c.addSeconds(offset / 1000);  //local : 20 th12 AM
+            Date userDate = date.newinstance(
+                userlocaltime.year(),
+                userlocaltime.month(),
+                userlocaltime.day()
+            );
+            Datetime dt = Datetime.now();
+            if(userlocaltime.day() == dt.day()){
+                userlocaltime=userlocaltime.addDays(1);
+            }
             Integer endoffset = tz.getOffset(task.Window_End__c);
             Datetime WindoEndlocaltime = task.Window_End__c.addSeconds(endoffset / 1000);
 
+            System.debug('userObj::'+userObj);
+             System.debug('delegateUserObj::'+delegateUserObj);
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
             t.Subject = 'Ediary ' + task.Diary_Name__c;
@@ -62,9 +74,9 @@ public class EcoaTaskService {
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c = 'e-diaries';
             t.Start_Date__c = date.newinstance(
-                WindoEndlocaltime.year(),
-                WindoEndlocaltime.month(),
-                WindoEndlocaltime.day()
+                userlocaltime.year(),
+                userlocaltime.month(),
+                userlocaltime.day()
             ); //get date
             t.Activity_Datetime__c = task.Window_End__c;
             t.ReminderDateTime = remTime;
@@ -86,6 +98,22 @@ public class EcoaTaskService {
             update updatedTaskConfigList;
         } catch (exception e) {
             System.debug('error::' + e);
+        }
+    }
+    public static void completeTask(List<Task> tasksToComplete) {
+        List<Task> completedTasks = new List<Task>();
+        if(tasksToComplete != null){
+            for(Task task:tasksToComplete){
+                task.Status = 'Completed';
+                task.Completed_Date__c = Datetime.now();
+                completedTasks.add(task);
+            }
+            try{
+                update completedTasks;
+            }Catch(Exception e){
+                System.debug('err:'+ e.getMessage());
+                System.debug('err:'+ e.getStackTraceString());
+            }
         }
     }
 }

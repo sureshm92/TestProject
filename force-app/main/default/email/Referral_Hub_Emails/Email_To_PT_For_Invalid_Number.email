@@ -24,5 +24,4 @@
                                   />
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
-
 </messaging:emailTemplate>
