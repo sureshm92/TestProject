@@ -64,7 +64,7 @@ public class TestData {
                 piDelUser = user;
             if (user.LastName == 'HCPDelTD')
                 hcpDelUser = user;
-            if (user.LastName == participant.Name)
+            if (user.LastName == participant.Name) 
                 participantUser = user;
             if (user.LastName == 'CCID')
                 ccUser = user;
@@ -611,6 +611,24 @@ public class TestData {
         peList.add(pe6);
         insert peList;
 
+        List<Participant_Enrollment_Status_History__c> peshList = [
+          SELECT Id
+          FROM Participant_Enrollment_Status_History__c
+          WHERE ParticipantEnrollment__c = :peList[0].Id
+        ];
+        if(peshList.size() <= 0) {
+            Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+                pesh.Date__c = Datetime.now();
+                pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+                pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
+                pesh.ParticipantEnrollment__c = peList[0].Id;
+            insert pesh;
+        }
+        List<Participant_Enrollment_Status_History__c> peshList1 = [
+            SELECT Id
+            FROM Participant_Enrollment_Status_History__c
+            WHERE ParticipantEnrollment__c = :peList[0].Id
+          ];
         Referral_Network__c referralNetwork = new Referral_Network__c(
             Name = 'Test Referral Network'
         );
