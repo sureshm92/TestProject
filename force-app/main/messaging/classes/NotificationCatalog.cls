@@ -119,8 +119,13 @@ public without sharing class NotificationCatalog {
      */
     //For Participant and delegates when they are added to a televisit
     public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Added_Attendee_Del_Type';
     public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE = 'Message_to_PT_Removed_Attendee_Type';
     public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Removed_Attendee_Del_Type';
     public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE = 'Message_to_PT_Televisit_Rescheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL = 'Message_to_PT_Televisit_Rescheduled_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE = 'Message_to_PT_Televisit_Cancelled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY = 'Message_to_PT_Televisit_Cancelled_Del_Ty';
 
 }

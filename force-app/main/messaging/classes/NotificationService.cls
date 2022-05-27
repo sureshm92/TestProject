@@ -52,7 +52,12 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
@@ -442,9 +447,9 @@ public without sharing class NotificationService {
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                         System.debug('availabilityService:::'+availabilityService+'nonskipSMSLevelMap'+nonskipSMSLevelMap);
                     //if Number is not Invalid at contact, proceed for sending SMS else skip the SMS.
-                    //For skipping sms   
+                    //For skipping sms  
                     if (!availabilityService.isInvalidNumber(n.Recipient__c) && nonskipSMSLevelMap.containsKey(n.Id)
-                       && nonskipSMSLevelMap.get(n.Id)) { // Added by Anitha  welcomemsg false
+                       && nonskipSMSLevelMap.get(n.Id)) { // Added by Anitha  welcomemsg false                       
                         Boolean isSMSAvailableAtPlatformLevel =
                             platfomLevelSMSSet.contains(n.Id) &&
                             availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
@@ -456,7 +461,8 @@ public without sharing class NotificationService {
                            if ((isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id))
                            && ((!welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
                            && welcomemsgSent.get(n.Id) && welcomemsgDelivered.get(n.Id)) 
-                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id)))){
+                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id))
+						   || (televisitNotificationTypes.contains(n.Notification_Type__c)))){
                             System.debug('If:::'+isSMSAvailableAtPlatformLevel+'studyLevelSMSSet:::'+studyLevelSMSSet+'taskAndVisitReminderTypes::'+taskAndVisitReminderTypes+'taskSurveyReminderTypes'+taskSurveyReminderTypes);
                             System.debug('n.Notification_Type__c::'+n.Notification_Type__c);
                             if (

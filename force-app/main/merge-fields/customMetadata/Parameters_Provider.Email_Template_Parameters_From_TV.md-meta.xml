@@ -14,7 +14,10 @@ VisitDate=Visit_Date__c
 VisitDuration=Duration__c
 VisitDttime=Visit_Date_Time__c
 PIFirstName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.FirstName
-PILastName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName</value>
+PILastName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName
+StudyCodeName=Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+ParticipantFirstName=Participant_Enrollment__r.Participant__r.First_Name__c
+ParticipantLastName=Participant_Enrollment__r.Participant__r.Last_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
