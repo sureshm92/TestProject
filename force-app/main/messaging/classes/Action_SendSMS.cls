@@ -376,6 +376,7 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> taskIdList = new List<Id>();
         List<Id> surveyInvitationIdList = new List<Id>();
         List<Id> ownerIdList = new List<Id>();
+        List<Id> televisitIdList = new List<Id>();
         Boolean isPlatFormEvent = SMSOptOutService.isPlatFormEvent;
 
         for (Notification__c notificationObj : notificationsList) {
@@ -390,6 +391,8 @@ public with sharing class Action_SendSMS implements Action {
                     ctpIdList.add(whatId);
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
+                } else if (objType == 'Televisit__c') {
+                    televisitIdList.add(whatId);
                 }
                 
                 if (objType == 'SurveyInvitation') {
@@ -553,6 +556,20 @@ public with sharing class Action_SendSMS implements Action {
                     )
                 FROM User
                 WHERE Id IN :ownerIdList
+            ]
+        );
+
+        Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
+            [
+                SELECT
+                    Id, Participant_Enrollment__c, Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c, Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c, 
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Participant_Enrollment__r.Study_Site__r.From_Number__c
+                FROM Televisit__c
+                WHERE Id IN :televisitIdList
             ]
         );
         system.debug('notificationsList:::'+notificationsList);
@@ -736,6 +753,15 @@ public with sharing class Action_SendSMS implements Action {
                                     .Ecoa_Task_Configuration_del__r.Participant_Enrollment__c;
                             }
                         }
+                    } else if(objType == 'Televisit__c'){
+                        Televisit__c tvOBJ = televisitIdMap.get(whatId);
+                        pinPoint = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                        sponsorName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
+                        sponsorNameSms = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
+                        ctpTemplateName = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
+                        isSMSAvailableForPER = tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c && tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                        fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
                     }
                 } else {
                     if (objType == 'SurveyInvitation') {
@@ -896,7 +922,7 @@ public with sharing class Action_SendSMS implements Action {
                 } 
                 NotificationService.welcomemsgSent.put(notObj.Id,welcomemsgsent);
                 NotificationService.welcomemsgDelivered.put(notObj.Id,welcomemsgDelivered);
-                if(!String.isBlank(pinPoint) && !String.isBlank(sponsorName) && !String.isBlank(studyName) && !String.isBlank(fromNumber)){
+                 if(!String.isBlank(pinPoint) && !String.isBlank(sponsorName) && !String.isBlank(studyName) && !String.isBlank(fromNumber)){
                     if(!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)){
                         NotificationService.nonskipSMSLevelMap.put(notObj.Id,True);
                     }
