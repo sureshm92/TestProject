@@ -912,11 +912,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             patientdelegateUpdateList.add(delegateWrap);
                         }
                         //Ends : Delegate wrapper creation
+                        ParticipantDuplicateService.ParticipantWithDelegate partWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+                        partWithDelegate.participant = participant;
+                        partWithDelegate.delegate = participantDelegate;
 
                         //Duplicates check
                         Boolean isDuplicate = false;
                         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
-                            participant
+                            partWithDelegate
                         );
                         Participant__c participantDuplicate = duplicateService.findDuplicate(
                             participant
@@ -989,17 +992,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                    if(!String.isEmpty(PostalCode)){
                                     participantDuplicate.Mailing_Zip_Postal_Code__c =  PostalCode;
                                 }
-                                                                //Added for REF-3951
-                                /*if(participantDuplicate.Email__c != NULL ||
-                                   participantDuplicate.Phone__c != NULL){
-                                       participantDuplicate.Email__c = EmailAddress;
-                                       participantDuplicate.Phone__c = Phone;
-                                       participantPatient.add(participantDuplicate);
-                                   }*/
-                                if(String.isNotBlank(EmailAddress)){
+                                if(String.isNotBlank(EmailAddress) && participantDuplicate.Adult__c){
                                     participantDuplicate.Email__c =  EmailAddress;
                                 }
-                                if(String.isNotBlank(Phone)){
+                                if(String.isNotBlank(Phone) && participantDuplicate.Adult__c){
                                     participantDuplicate.Phone__c =  Phone;
                                 }
                                if(String.isNotBlank(MiddleName)){
@@ -1014,13 +1010,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 if(String.isNotBlank(DateOfBirth)){
                                     participantDuplicate.Date_of_Birth__c =  DateOfBirth;
                                 }
-                                if(String.isNotBlank(PhoneType)){
+                                if(String.isNotBlank(PhoneType) && participantDuplicate.Adult__c){
                                     participantDuplicate.Phone_Type__c =  PhoneType;
                                 }
-                                if(String.isNotBlank(Phone2)){
+                                if(String.isNotBlank(Phone2) && participantDuplicate.Adult__c){
                                     participantDuplicate.Alternative_Phone_Number__c =  Phone2;
                                 }
-                                if(String.isNotBlank(PhoneType2)){
+                                if(String.isNotBlank(PhoneType2) && participantDuplicate.Adult__c){
                                     participantDuplicate.Alternative_Phone_Type__c =  PhoneType2;
                                 }
                                 participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language) ? uploadUser.Contact.Language__c : Language);
