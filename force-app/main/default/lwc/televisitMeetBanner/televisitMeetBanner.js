@@ -85,6 +85,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.hasVisits = true;
         getVisits()
         .then(result => {
+            this.showMoreVisits = false;
             var televisitInformation = JSON.parse(result);
             if (televisitInformation) {
                 let visitData = Object.assign(televisitInformation);
