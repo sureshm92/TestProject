@@ -17,6 +17,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean allowEmail;
     private Boolean allowPhone;
     private Boolean allowSMS;
+    //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
     private Boolean outreachEmail;
     private Boolean outreachPhone;
     private Boolean outreachSMS;
@@ -36,7 +37,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     public static boolean isCalloutFromUploadParticipantsBatch = true; 
     global List<Id> PERecIds = new List<Id>(); 
     private Set<String> uniqueConcatenateSet = new Set<String>();
-
+    //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
     public UploadParticipantsBatch(
         List<List<String>> csvFileLines,
         String header,

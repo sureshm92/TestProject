@@ -71,8 +71,40 @@
                     if (
                         !trialDetail.showVisits ||
                         !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c
-                    )
-                        visitMode = 'TravelSupportDetails';
+                    ) {
+                        visitMode = 'TeleVisitDetails';
+                    }
+                    let isTeleVendorChecked = false;
+                    let showTelevisits = false;
+                    if (JSON.parse(trialDetail.participantstate) != null) {
+                        const teleVendors = JSON.parse(trialDetail.participantstate).teleVendors;
+                        showTelevisits = JSON.parse(trialDetail.participantstate).showTeleVisits;
+                        if (teleVendors != null) {
+                            for (const item in teleVendors) {
+                                isTeleVendorChecked =
+                                    // teleVendors[item].Televisit_Vendor__c === 'Vonage';
+                                    teleVendors[item].Name === 'Vonage';
+                                break;
+                            }
+                        }
+                        component.set('v.displayTelevisitsButton', showTelevisits);
+                    }
+                    component.set('v.isTeleVendorEnabled', isTeleVendorChecked);
+                    var visConfig =
+                        !trialDetail.showVisits ||
+                        !trialDetail.pe.Clinical_Trial_Profile__r.Visits_are_Available__c;
+                    if (
+                        (trialDetail.pe != null &&
+                            trialDetail.pe.Clinical_Trial_Profile__r != null &&
+                            !trialDetail.pe.Clinical_Trial_Profile__r
+                                .Televisit_Vendor_is_Available__c) ||
+                        !isTeleVendorChecked ||
+                        !showTelevisits
+                    ) {
+                        if (visConfig) {
+                            visitMode = 'TravelSupportDetails';
+                        }
+                    }
                     //find tab
                     var selectedTabId = trialDetail.tabs[0].id;
                     for (var i = 0; i < trialDetail.tabs.length; i++) {

@@ -54,6 +54,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @api currentuserdate = "";  
   @api latestStatusGrp=''; 
   @api isrtl = false;
+  @api addTelevisitForInitialVisit = false;
+  @track disableTelevisitCheckbox = true;
+  @track isTelevisitModalOpen = false;
+  @track proceedSaveRecord = false;
   maindivcls;
   label = {
     FD_PE_Field_Initial_Visit_Attended_Validation,
@@ -199,6 +203,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       
     }
     this.isdataChanged();
+	this.validateTelevisitVisibility();
   }
 
   customFieldValidation(dataValue) {
@@ -778,6 +783,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.customButtonValidation();
     }
     this.isdataChanged();
+	  this.validateTelevisitVisibility();
   }
   outcomeHandleChangeIV(event) {
     let datavalue = event.target.dataset.value;
@@ -1523,6 +1529,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
 
   getSaved() {
+	  if(this.addTelevisitForInitialVisit && !this.proceedSaveRecord){
+      this.handleTelevisitOpenModal();
+      return;
+    }
     // if(this.additionalNote != null && this.additionalNote !=''){
     if (this.statusChanged) {
       if ((this.additionalNote != "") & (this.additionalNote != null)) {
@@ -1642,5 +1652,39 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       mode: "dismissible"
     });
     this.dispatchEvent(evt);
+  }
+  handleTelevisitCheckboxChange(event){
+    this.addTelevisitForInitialVisit = event.target.checked;
+    this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+    
+  }
+  validateTelevisitVisibility(){
+    var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
+    var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+    //!this.template.querySelector('[data-value="televisitCheckbox"]').checked
+    if(this.selectedOutcome === 'Successfully_Contacted' && 
+      !this.template.querySelector('[data-value="televisitCheckbox"]').checked &&
+      initialVisitDateValue != null && 
+      initialVisitDateValue != undefined && 
+      initialVisitDateValue != '' &&
+      initialVisitTimeValue != null && 
+      initialVisitTimeValue != undefined && 
+      initialVisitTimeValue != '' ){
+        this.disableTelevisitCheckbox = false;
+    }else{
+      this.disableTelevisitCheckbox = true;
+    }
+  }
+  handleTelevisitCloseModal(){
+    this.isTelevisitModalOpen = false;
+    this.proceedSaveRecord = false;
+  }
+  proceedTelevisitSave(){
+    this.isTelevisitModalOpen = false;
+    this.proceedSaveRecord = true;
+    this.getSaved();
+  }
+  handleTelevisitOpenModal(){
+    this.isTelevisitModalOpen = true;
   }
 }
