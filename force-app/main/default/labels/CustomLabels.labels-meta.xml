@@ -22084,7 +22084,6 @@ communications using the toggles below.</value>
         <value>Pending Your Action</value>
     </labels>
     <labels>
-    <labels>
         <fullName>SMS_Body_Televisit_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -22132,6 +22131,7 @@ communications using the toggles below.</value>
         <shortDescription>SMS_Body_Televisit_Rescheduled</shortDescription>
         <value>##ShortCommunityName: Your ##StudyCodeName televisit on ##VisitDttime has been rescheduled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
+    <labels>
         <fullName>SMS_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
