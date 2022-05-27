@@ -65,7 +65,6 @@ export default class Pir_participantPagination extends LightningElement {
                     page: this.pageNumber
                 }
             });
-            console.log('>>>>calculatecalculate>>>>');
             this.dispatchEvent(pagechange);
         }
     }
