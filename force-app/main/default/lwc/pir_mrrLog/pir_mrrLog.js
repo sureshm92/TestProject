@@ -18,7 +18,6 @@ export default class Pir_mrrLog extends LightningElement {
       }
 
     listenForMessage(message){
-        console.log('eventhandled-->'+JSON.stringify(message.data)); 
        if(message.data.messageType === 'SurveyGizmoResult'){
             if (message.data.pdfContent) {
                 this.gizmoData = message.data.pdfContent;
@@ -30,10 +29,7 @@ export default class Pir_mrrLog extends LightningElement {
             }else{this.result = false;
                   status ='Fail';
             }
-            console.log('Result---------->'+this.result);
-            console.log('Result---------->'+this.gizmoData);
             if(this.mrrorprescreener === 'prescreener'){
-                console.log('start callout---------->');
                 setPreScreenerStatus({ peId: this.peid, status: status, surveyGizmoData: this.gizmoData })
                 .then((result) => {
                     const preScreenerResult = new CustomEvent('prescreenerresult',{
@@ -41,7 +37,6 @@ export default class Pir_mrrLog extends LightningElement {
                             result : status
                         }
                     });
-                    console.log('return result callout---------->');
                     this.dispatchEvent(preScreenerResult);
                 })
                 .catch((error) => {
