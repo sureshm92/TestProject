@@ -734,6 +734,17 @@ public without sharing class PIR_StatusDetailControllerTest {
         update parList;
           Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
+        List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Screening In Progress',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = parList[2].Id,
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        peshList.add(pehistory1);
+        //byPassTriggersMethod();
+        insert peshList;
         Test.startTest();
         PIR_StatusDetailController.doSaveStatusDetails(parList[0],'');
         PIR_StatusDetailController.doSaveStatusDetails(parList[1],'');
