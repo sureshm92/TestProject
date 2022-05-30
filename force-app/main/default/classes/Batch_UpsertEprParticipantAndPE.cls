@@ -122,14 +122,16 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         Participant__c participantExisting;
-        
+        list<ParticipantDuplicateService.ParticipantWithDelegate> partDelegateWrapperList =  new list<ParticipantDuplicateService.ParticipantWithDelegate>();
         for (Integration_Patient_Referral__c ipr : scope) { 
-            
+            ParticipantDuplicateService.ParticipantWithDelegate partDelegateWrapper = new ParticipantDuplicateService.ParticipantWithDelegate();
+            partDelegateWrapper.participant = new Participant__c();
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
             Account participantAccount = new Account(Id = ss.Site__c);
             objParticipant.Site__c = ss.Site__c;
             newParticipantsMap.put(ipr.referralID__c, objParticipant);
+            partDelegateWrapper.participant = objParticipant;
             if (
                 ss != null &&
                 !String.isBlank(ipr.Delegate_First_Name__c) &&
@@ -149,14 +151,19 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 String duplicateKey = ipr.Delegate_Email_Address__c?.toLowerCase() + ipr.Delegate_First_Name__c?.toLowerCase() + ipr.Delegate_Last_Name__c?.toLowerCase();
                 IPRContDupKeyPhoneTypeMap.put(duplicateKey, ipr.Delegate_Phone_Number_Type__c); 
                 IPRContDupKeyDelDayTimePhoneNoMap.put(duplicateKey, ipr.Delegate_Daytime_Phone_Number__c); 
-                IPRContDupKeyDelAltPhoneNoMap.put(duplicateKey, ipr.Delegate_Alternative_Phone_Number__c); 
-               
+                IPRContDupKeyDelAltPhoneNoMap.put(duplicateKey, ipr.Delegate_Alternative_Phone_Number__c);                 
+                partDelegateWrapper.delegate = new Participant__c();
+                partDelegateWrapper.delegate.Email__c = ipr.Delegate_Email_Address__c;
+                partDelegateWrapper.delegate.First_Name__c = ipr.Delegate_First_Name__c;
+                partDelegateWrapper.delegate.Last_Name__c = ipr.Delegate_Last_Name__c;
+                partDelegateWrapper.delegate.Phone__c = ipr.Delegate_Daytime_Phone_Number__c;
             }
+            partDelegateWrapperList.add(partDelegateWrapper);
         }
 
         //Duplicates check and upsert participant
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
-            newParticipantsMap.values()
+            partDelegateWrapperList
         );
         Map<String, String> participantsByEmailRefid = new Map<String, String>();
         Map<String,Contact> iprAndContactsToInsert = new Map<String,Contact>();
