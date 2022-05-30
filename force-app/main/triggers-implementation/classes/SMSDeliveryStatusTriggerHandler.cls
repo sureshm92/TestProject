@@ -69,7 +69,12 @@ public with sharing class SMSDeliveryStatusTriggerHandler {
         }
 
         //Update the is Invalid Number to true for contact.
-        if (contactIdSet != null && !contactIdSet.isEmpty()) {
+        if (
+            contactIdSet != null &&
+            !contactIdSet.isEmpty() &&
+            !System.isBatch() &&
+            !System.isFuture()
+        ) {
             SMSDeliveryStatusService.updateGlobalFlag(contactIdSet);
         }
 

@@ -6,6 +6,7 @@ public with sharing class SMSDeliveryStatusService {
      * @param: contactIdSet
      * @return:
      **/
+    @future
     public static void updateGlobalFlag(Set<Id> contactIdSet) {
         List<contact> conToUpdate = new List<Contact>();
         for (contact con : [
