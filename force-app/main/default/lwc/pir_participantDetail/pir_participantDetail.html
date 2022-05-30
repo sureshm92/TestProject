@@ -155,28 +155,28 @@
                   </div>  
                   <div class="slds-grid slds-wrap slds-gutters delFields">       
                         <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input type="text" label={PG_AS_F_First_name} required={delegateReq} data-lvl="3" name="dfirstname" value={pd.delegate.Participant_Delegate__r.First_Name__c} onchange={handleValChange} onblur={setshowDupMsg}></lightning-input>
+                              <lightning-input type="text" label={PG_AS_F_First_name} required={delegateReq} data-lvl="3" name="dfirstname" value={pd.delegate.Participant_Delegate__r.First_Name__c} onchange={handleValChange} onblur={setshowDupMsg} disabled={checkDelLevels}></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input type="text" label={PG_AS_F_Last_name} required={delegateReq} data-lvl="3" name="dlstname" value={pd.delegate.Participant_Delegate__r.Last_Name__c} onchange={handleValChange} onblur={setshowDupMsg}></lightning-input>
+                              <lightning-input type="text" label={PG_AS_F_Last_name} required={delegateReq} data-lvl="3" name="dlstname" value={pd.delegate.Participant_Delegate__r.Last_Name__c} onchange={handleValChange} onblur={setshowDupMsg} disabled={checkDelLevels}></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input type="email" label={PG_AS_F_Email_address} required={delegateReq} data-lvl="3" name="demail" value={pd.delegate.Participant_Delegate__r.Email__c} onchange={handleValChange} onblur={setshowDupMsg}></lightning-input>
+                              <lightning-input type="email" label={PG_AS_F_Email_address} required={delegateReq} data-lvl="3" name="demail" value={pd.delegate.Participant_Delegate__r.Email__c} onchange={handleValChange} onblur={setshowDupMsg} disabled={checkDelLevels}></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={delegateReq} data-lvl="3" name="dphone" value={pd.delegate.Participant_Delegate__r.Phone__c} onchange={handleValChange} ></lightning-input>
+                              <lightning-input type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={delegateReq} data-lvl="3" name="dphone" value={pd.delegate.Participant_Delegate__r.Phone__c} onchange={handleValChange} disabled={checkDelLevels}></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3"></div>
                         <div if:true={noYOB} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
-                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
+                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange} disabled={checkDelLevels}></lightning-combobox>
                               <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
                         </div>
                         <div if:true={showDelYear} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
-                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
+                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange} disabled={checkDelLevels}></lightning-combobox>
                               <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
                         </div>
                         <div if:true={showDelYear} class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 slds-m-top_medium slds-m-bottom_medium check-box-m-top">
-                              <lightning-input type="checkbox" class="checkbox-text" label={RH_DelegateAttestation} name="input2"  required={showDelYear} onchange={delAttest}></lightning-input>
+                              <lightning-input type="checkbox" class="checkbox-text" label={RH_DelegateAttestation} name="input2"  required={showDelYear} onchange={delAttest} disabled={checkDelLevels}></lightning-input>
                         </div>                         
                   </div> 
                   <template if:true={showDupMsg}>
