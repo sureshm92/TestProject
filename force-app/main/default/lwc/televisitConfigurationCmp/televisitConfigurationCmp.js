@@ -85,7 +85,10 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     fixedsiteset = [];
     fixedcountryset = [];
     fixedvendorarray = [];
+    isSpinner = false;
+    isSpinnerCheck = false;
     connectedCallback() {
+        this.isSpinnerCheck = true;
         this.getteledetails(this.recordId);
     }
 
@@ -141,9 +144,11 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 this.showTelevisitscreen = result.televisitpermissioncheck;
                 this.permissioncheck = false;
             }
+            this.isSpinnerCheck = false;
         })
         .catch((error) => {
             console.log(JSON.stringify(error));
+            this.isSpinnerCheck = false;
         });
     }
 
@@ -205,6 +210,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     }
 
     handleOppsChange(event){
+        this.isSpinnerCheck = true;
         let opps = event.detail;
         this.selectedcountrylist = '';
         
@@ -239,6 +245,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     }
 
     selectedVendor(event){
+        this.isSpinnerCheck = true;
         let opps = event.detail;
         this.selectedVendors = '';
         opps.forEach(opp => {
@@ -279,7 +286,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     }
 
     selectedStusysite(event){
-
+        this.isSpinnerCheck = true;
         let opps = event.detail;
         this.selectedStudysite = '';
         opps.forEach(opp => {
@@ -312,6 +319,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     }
 
     handleClick(event) {
+        this.isSpinner = true;
         let targetId = event.target.dataset.targetId;
         let studyId = event.currentTarget.dataset.id;
         var totalRecords = [];
@@ -338,14 +346,17 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         createorupdatetvs({ studyId:studyId,vendorId:targetId,isEnable:event.target.checked})
             .then((result) => {
                 console.log('result-->'+result);
+                this.isSpinner = false;
             })
             .catch((error) => {
                 console.log(JSON.stringify(error));
+                this.isSpinner = false;
             });
     }
 
     //Select all records
     selectallstudysites(event){
+        this.isSpinner =true;
         let vendorRecId = event.currentTarget.dataset.id;
         console.log(vendorRecId);
         var totalRecords = [];
@@ -366,13 +377,16 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         selectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
         .then((result) => {
             console.log('result-->'+result);
+            this.isSpinner =false;
         })
         .catch((error) => {
             console.log(JSON.stringify(error));
+            this.isSpinner =false;
         });
     }
 
     deselectallstudysites(event){
+        this.isSpinner =true;
         let vendorRecId = event.currentTarget.dataset.id;
         var totalRecords = [];
                     
@@ -392,11 +406,13 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         deselectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
         .then((result) => {
             console.log('result-->'+result);
+            this.isSpinner =false;
             //  this.televisitdetails = result;
             // this.getteledetails(this.recordId);
         })
         .catch((error) => {
             console.log(JSON.stringify(error));
+            this.isSpinner =false;
         });
     }
 
@@ -407,11 +423,13 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.vendername = '';
         this.venderdescription = '';
         this.toupsertcheck = false;
+        this.vendercreationcheck = true;
         if(selectedVal == 'Clone'){
             this.vendorId = '';
             this.vendername = vendorName + selectedVal;
             this.venderdescription = this.vendoriddescmap.get(vendorId);
             this.isModalOpen = true;
+            this.vendercreationcheck = false;
         }else if(selectedVal == 'Remove'){
             deletevendordetails({ vendorId:vendorId})
             .then((result) => {
@@ -432,6 +450,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         }
     }
     handleTypeChange(event){
+        this.isSpinner = true;
         let studysiteid = event.currentTarget.dataset.id;
         let  comboboxname = event.target.dataset.targetId;
         let  selectedValue = event.target.value;
@@ -454,15 +473,18 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         updatestudysitedetails({ studysiteId:studysiteid,comboboxname:comboboxname,selValue:selectedValue})
         .then((result) => {
             console.log('result-->'+result);
+            this.isSpinner = false;
           //  this.getteledetails(this.recordId);
         })
         .catch((error) => {
+            this.isSpinner = false;
             console.log(JSON.stringify(error));
         });
         
     }
     
     sortRecs(event){
+        this.isSpinnerCheck = true;
         if(this.uparrow){
             this.downarrow = true;
             this.uparrow = false;

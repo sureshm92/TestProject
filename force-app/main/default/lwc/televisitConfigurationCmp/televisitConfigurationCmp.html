@@ -1,5 +1,8 @@
 <template>
 <template if:true={showTelevisitscreen}>
+  <template if:true={isSpinnerCheck}>
+    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+  </template>
 <lightning-card >
         <lightning-layout>
             <lightning-layout-item  size="6" padding="around-small" >
@@ -60,6 +63,9 @@
 </template>
 <div class="slds-scrollable">
 <table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+  <template if:true={isSpinner}>
+    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+  </template>
   <thead>
     <tr>
 
@@ -94,12 +100,12 @@
        </th>
       </template>
       <th class="" scope="col">
-        <div class="slds-truncate" title="Some Custom Column" ><a href="">{label.bannerdisplayLabel}</a></div>
-        <div class="slds-truncate" title="Some Custom Column"><a href="">{label.offsetTimeLabel}</a></div>
+        <div class="slds-truncate" title="Some Custom Column" ><a>{label.bannerdisplayLabel}</a></div>
+        <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
     </th>
     <th class="" scope="col">
-      <div class="slds-truncate" title="Some Custom Column"><a href="">{label.bannerdisposeLabel}</a></div>
-      <div class="slds-truncate" title="Some Custom Column"><a href="">{label.offsetTimeLabel}</a></div>
+      <div class="slds-truncate" title="Some Custom Column"><a>{label.bannerdisposeLabel}</a></div>
+      <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
   </th>
     </tr>
   </thead>
