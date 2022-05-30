@@ -1414,6 +1414,7 @@
                                                     participantEnrollment="{!v.pEnrollment}"
                                                     participantCountry="{!v.mailingCountryCode}"
                                                     callSource="ReferParticipantRP"
+                                                    studySiteId="{!v.siteId}"
                                                 ></c:consentManager>
                                             </aura:if>
                                             <button

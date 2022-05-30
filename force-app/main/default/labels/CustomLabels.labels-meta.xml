@@ -191,6 +191,27 @@ The IQVIA Referral Hub Support Team</value>
         <value>Initial Visit Attended Date cannot be future date</value>
     </labels>
     <labels>
+        <fullName>PIR_InvailPresetMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvailPresetMessage</shortDescription>
+        <value>The preset selected is no longer valid. Please update or delete the preset to continue.</value>
+    </labels>
+    <labels>
+        <fullName>PIR_InvalidPreset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvalidPreset</shortDescription>
+        <value>Invalid Preset</value>
+    </labels>
+    <labels>
+        <fullName>PIR_InvalidPresetClose</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_InvalidPresetClose</shortDescription>
+        <value>Cannot close the edit window, please update or delete the preset.</value>
+    </labels>
+    <labels>
         <fullName>PIR_Save_Changes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11124,6 +11145,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             Where applicable, click Invite to Patient Portal to grant a participant access to track their study progress and view resources designed to enhance their study participation experience.</value>
     </labels>
     <labels>
+        <fullName>OT_DPI_S7_T_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_DPI_S7_T_New</shortDescription>
+        <value>Click Actions to perform bulk actions on the participant records or Add a participant in the respective study.
+
+            Click Filters to shortlist participants based on their participant Information,demographics and other parameters.</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S8_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11132,6 +11162,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
 
             IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
+    </labels>
+    <labels>
+        <fullName>OT_DPI_S8_T_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_DPI_S8_T_New</shortDescription>
+        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+
+        IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S9_T</fullName>
@@ -11533,6 +11572,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             Where applicable, click Invite to Patient Portal to grant a participant access to track their study progress and view resources designed to enhance their study participation experience.</value>
     </labels>
     <labels>
+        <fullName>OT_PI_S7_T_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_PI_S7_T_New</shortDescription>
+        <value>Click Actions to perform bulk actions on the participant records or Add a participant in the respective study.
+
+            Click Filters to shortlist participants based on their participant Information,demographics and other parameters.</value>
+    </labels>
+    <labels>
         <fullName>OT_PI_S8_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11541,6 +11589,15 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
 
             IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
+    </labels>
+    <labels>
+        <fullName>OT_PI_S8_T_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_PI_S8_T_New</shortDescription>
+        <value>Tabs at the top of the section allow you to view and manage personal demographic and contact details, manage participants&apos;s health information,manage  participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available. Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
+
+        IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S9_T</fullName>

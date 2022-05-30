@@ -61,7 +61,7 @@ public with sharing class SMSDeliveryStatusTriggerHandler {
                 if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
                     //If the delivery Receipt  status is INVALID.
                     notificationIdStatusMap.put(sr.Notification__c, INVALID);
-                } else if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(INVALID)) {
+                } else if (messageIdStatusMap.get(sr.Msg_Id__c).equalsIgnoreCase(DELIVERED)) {
                     //If the delivery Receipt  status is DELEVERED.
                     notificationIdStatusMap.put(sr.Notification__c, DELIVERED);
                 }
