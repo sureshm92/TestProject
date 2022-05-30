@@ -8,17 +8,16 @@ public without sharing class  televisitConfigurationController {
         }else{
             trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c];
         }
-        List<Study_Site__c> studysiteList ;
-        if(!countryList.isEmpty() && !studyList.isEmpty() ){
-            studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and Site__r.BillingCountry IN:countryList and ID IN:studyList order by name ' +sortingOrder);
-        }else if(!countryList.isEmpty() && studyList.isEmpty()){
-            studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and Site__r.BillingCountry IN:countryList order by Name ' + sortingOrder);
-        }else if(countryList.isEmpty() && !studyList.isEmpty()){
-            studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId and ID IN:studyList order by Name ' + sortingOrder);
-        }else{
-            studysiteList = database.query('select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId order by Name ' + sortingOrder);
-        }
         
+        String query = 'select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId';
+        if(!countryList.isEmpty()){
+            query += ' and Site__r.BillingCountry IN:countryList';
+        }
+        if(!studyList.isEmpty()){
+            query += ' and ID IN:studyList';
+        }
+        query += ' order by Name ' + sortingOrder ;
+        List<Study_Site__c> studysiteList = database.query(query);
         List<String> pickListValuesList= new List<String>();
         Schema.DescribeFieldResult fieldResult = Study_Site__c.Banner_Display_Offset_Time__c.getDescribe();
         List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
@@ -136,7 +135,7 @@ public without sharing class  televisitConfigurationController {
     }
     
     @AuraEnabled
-    public static /*List<ResponeWrapper>*/ void selectallstudysites(String vendorId,String ctpId,string respwrapper){
+    public static void selectallstudysites(String vendorId,String ctpId,string respwrapper){
         list<ResponeWrapper> respwrapperlist = (List<ResponeWrapper> )JSON.deserialize(respwrapper, List<ResponeWrapper>.class);
         Set<Id> studyidSet = new Set<Id>();
         List<Id> existstudyidSet = new List<Id>();
@@ -182,30 +181,10 @@ public without sharing class  televisitConfigurationController {
                 system.debug('==================>'+e.getMessage());
             }
         }
-        /*
-List<ResponeWrapper> lrw = new List<ResponeWrapper>();
-for(ResponeWrapper rw:respwrapperlist){
-ResponeWrapper r =new ResponeWrapper();
-r=rw;
-list<vendorwrapper> vendorrapperlist = new list<vendorwrapper>();
-for(vendorwrapper v:rw.vendorrapperlist){
-vendorwrapper vw = new vendorwrapper();
-vw.vendorId = v.vendorId;
-if(v.vendorId == vendorId){
-vw.isEnable = true;
-}else{
-vw.isEnable = v.isEnable;
-}
-vendorrapperlist.add(vw);
-}
-r.vendorrapperlist = vendorrapperlist;
-lrw.add(r);
-}
-return lrw;*/
         
     }
     @AuraEnabled
-    public static/*List<ResponeWrapper>*/ void deselectallstudysites(Id vendorId,Id ctpId,string respwrapper){
+    public static void deselectallstudysites(Id vendorId,Id ctpId,string respwrapper){
         list<ResponeWrapper> respwrapperlist = (List<ResponeWrapper> )JSON.deserialize(respwrapper, List<ResponeWrapper>.class);
         Set<Id> toselectstudyIds = new Set<Id>();
         for(ResponeWrapper rw:respwrapperlist){
@@ -234,26 +213,6 @@ return lrw;*/
                 system.debug('==================>'+e.getMessage());
             }
         }
-        /*
-List<ResponeWrapper> lrw = new List<ResponeWrapper>();
-for(ResponeWrapper rw:respwrapperlist){
-ResponeWrapper r =new ResponeWrapper();
-r=rw;
-list<vendorwrapper> vendorrapperlist = new list<vendorwrapper>();
-for(vendorwrapper v:rw.vendorrapperlist){
-vendorwrapper vw = new vendorwrapper();
-vw.vendorId = v.vendorId;
-if(v.vendorId == vendorId){
-vw.isEnable = false;
-}else{
-vw.isEnable = v.isEnable;
-}
-vendorrapperlist.add(vw);
-}
-r.vendorrapperlist = vendorrapperlist;
-lrw.add(r);
-}
-return lrw;*/
     }
     @AuraEnabled
     public static void  deleteVendor( string vendorId ){
