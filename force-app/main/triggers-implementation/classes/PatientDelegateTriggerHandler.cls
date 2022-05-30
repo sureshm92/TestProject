@@ -17,18 +17,18 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class UpdatePermissionSetAssignments extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-             List<Patient_Delegate__c> lstPd = (Patient_Delegate__c[])newList;
-            List<Patient_Delegate__c> tempListPD = new List<Patient_Delegate__c> ();
-            for(Patient_Delegate__c objPd : lstPd)
-            {
-                if(objPd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
-                {
+            List<Patient_Delegate__c> lstPd = (Patient_Delegate__c[]) newList;
+            List<Patient_Delegate__c> tempListPD = new List<Patient_Delegate__c>();
+            for (Patient_Delegate__c objPd : lstPd) {
+                if (
+                    objPd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                ) {
                     tempListPD.add(objPd);
                     break;
                 }
             }
-            if(!tempListPD.isEmpty())
-            	updatePermissionSets(newList);
+            if (!tempListPD.isEmpty())
+                updatePermissionSets(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -45,20 +45,20 @@ public without sharing class PatientDelegateTriggerHandler {
             createDelegateAssignmentNotification(newList);
         }
     }
-    
-    public class CreatePrimaryDelegateForMinor extends TriggerHandler{
-        public override void beforeInsert(List<SObject> newList){
+
+    public class CreatePrimaryDelegateForMinor extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
             checkPrimaryDelegate(newList);
-            updateDelegateParticipant(newList,Null);
+            updateDelegateParticipant(newList, null);
         }
-        
-        public override void beforeDelete(List<SObject> newList){
+
+        public override void beforeDelete(List<SObject> newList) {
             notDeletePrimaryDelegate(newList);
         }
-        
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
-       //     updatePrimaryDelegate(newList,(Map<Id, Patient_Delegate__c>) oldMap);
-       		  updateDelegateParticipant(newList,(Map<Id, Patient_Delegate__c>) oldMap);
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            //     updatePrimaryDelegate(newList,(Map<Id, Patient_Delegate__c>) oldMap);
+            updateDelegateParticipant(newList, (Map<Id, Patient_Delegate__c>) oldMap);
         }
     }
 
@@ -69,11 +69,11 @@ public without sharing class PatientDelegateTriggerHandler {
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
-   
+
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
-            if(participantDelegate.Status__c == NULL){
+            if (participantDelegate.Status__c == null) {
                 participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
             }
         }
@@ -94,7 +94,7 @@ public without sharing class PatientDelegateTriggerHandler {
         List<Patient_Delegate__c> newPatientDelegates = [
             SELECT Contact__c, Participant__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
-            WHERE Id IN :patientDelegates AND Status__c =:PATIENT_DELEGATE_ACTIVE_STATUS
+            WHERE Id IN :patientDelegates AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
         ];
         createNotifications(newPatientDelegates, 'DelNewAssignNotifType');
     }
@@ -127,61 +127,98 @@ public without sharing class PatientDelegateTriggerHandler {
     ) {
         Set<Id> participantIdSet = new Set<Id>();
         Set<Id> proccessedPlatDelCon = new Set<Id>();
-         Set<Id> proccessedStudyDelCon = new Set<Id>();
+        Set<Id> proccessedStudyDelCon = new Set<Id>();
+        Map<Id, Patient_Delegate__c> patientdelegateslist = new Map<Id, Patient_Delegate__c>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, List<Id>> participantsByDelContId = new Map<Id, List<Id>>();
         for (Patient_Delegate__c delegate : patientDelegates) {
             if (!participantsByDelContId.containsKey(delegate.Contact__c)) {
                 participantsByDelContId.put(delegate.Contact__c, new List<Id>());
             }
+            patientdelegateslist.put(delegate.Contact__c, delegate);
             participantsByDelContId.get(delegate.Contact__c).add(delegate.Participant__c); /// For each del contact list of participnats
             participantIdSet.add(delegate.Participant__c); /// this is list of participnat contacts
         }
-         //For minor participants Study level
-        Map<Id,Participant_Enrollment__c> perEnrollments = new Map<Id,Participant_Enrollment__c>([
-            SELECT Id, Welcome_Message_Sent__c,Participant__c,Participant_Contact__c,Welcome_Message_Delivered__c
-            FROM Participant_Enrollment__c
-            WHERE Participant__c IN :participantIdSet
-        ]);
-        if(perEnrollments.size()>0){
-            for(Participant_Enrollment__c per : perEnrollments.values()){
-                if(!per.Welcome_Message_Sent__c){
-                    for(Id con : participantsByDelContId.keySet()){ // delegate contacts iterate -- list of participants
-                        if(!proccessedStudyDelCon.contains(con)){
-                            proccessedStudyDelCon.add(con);
-                            for(Id par : participantsByDelContId.get(con)){
-                                if(par == per.Participant__c){
-                                    /*Study Level Delegate*/
-                                    welcomemsgnotifications.addAll(
-                                        ContactService.addwelcomeNotifications(
-                                            con,
-                                            per.Id,
-                                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
-                                        )
-                                    );
+        //For minor participants Study level
+        Map<Id, Participant_Enrollment__c> perEnrollments;
+        if (participantIdSet.size() > 0) {
+            perEnrollments = new Map<Id, Participant_Enrollment__c>(
+                [
+                    SELECT
+                        Id,
+                        Welcome_Message_Sent__c,
+                        Permit_SMS_Text_for_this_study__c,
+                        Participant__c,
+                        Participant_Contact__c,
+                        Welcome_Message_Delivered__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant__c IN :participantIdSet
+                ]
+            );
+        }
+        if (perEnrollments.size() > 0) {
+            for (Participant_Enrollment__c per : perEnrollments.values()) {
+                if (!per.Welcome_Message_Sent__c) {
+                    if (participantsByDelContId.size() > 0) {
+                        for (Id con : participantsByDelContId.keySet()) {
+                            // delegate contacts iterate -- list of participants
+                            if (!proccessedStudyDelCon.contains(con)) {
+                                proccessedStudyDelCon.add(con);
+                                for (Id par : participantsByDelContId.get(con)) {
+                                    if (
+                                        par == per.Participant__c &&
+                                        per.Permit_SMS_Text_for_this_study__c
+                                    ) {
+                                        /*Study Level Delegate*/
+                                        welcomemsgnotifications.addAll(
+                                            ContactService.addwelcomeNotifications(
+                                                con,
+                                                per.Id,
+                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                            )
+                                        );
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
                 }
             }
         }
-        Map<Id,Contact> delconMaplst = new Map<Id,Contact>([Select Id,Welcome_Message_Sent__c,Welcome_Message_Delivered__c from Contact where ID IN : participantsByDelContId.keyset()]); // Added by Anitha
-        if(!participantsByDelContId.isEmpty()){
+        Map<Id, Contact> delconMaplst = new Map<Id, Contact>(
+            [
+                SELECT Id, Welcome_Message_Sent__c, Welcome_Message_Delivered__c
+                FROM Contact
+                WHERE ID IN :participantsByDelContId.keyset()
+            ]
+        ); // Added by Anitha
+        if (!participantsByDelContId.isEmpty()) {
             for (Id delCont : participantsByDelContId.keySet()) {
-                if(!proccessedPlatDelCon.contains(delCont) && delconMaplst.containskey(delCont) && !delconMaplst.get(delCont).Welcome_Message_Sent__c && participantsByDelContId.get(delCont) != null){
+                if (
+                    !proccessedPlatDelCon.contains(delCont) &&
+                    delconMaplst.containskey(delCont) &&
+                    !delconMaplst.get(delCont).Welcome_Message_Sent__c &&
+                    participantsByDelContId.get(delCont) != null
+                ) {
                     proccessedPlatDelCon.add(delCont);
                     for (Id parId : participantsByDelContId.get(delCont)) {
                         //Platform Level Delegates
-                        welcomemsgnotifications.addAll(
-                            ContactService.addwelcomeNotifications(
-                                delCont,
-                                parId,
-                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
-                            )
-                        );  
-                        
+                        Boolean isDelegateActiveNotification =
+                            ContactService.patientdelList.containskey(delCont) &&
+                            ContactService.patientdelList.get(delCont)
+                                .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                            !(ContactService.patientdelList.get(delCont)
+                                .Contact__r.Welcome_Message_Sent__c);
+                        if (isDelegateActiveNotification) {
+                            welcomemsgnotifications.addAll(
+                                ContactService.addwelcomeNotifications(
+                                    delCont,
+                                    parId,
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                )
+                            );
+                        }
                     }
                 }
             }
@@ -195,7 +232,10 @@ public without sharing class PatientDelegateTriggerHandler {
         Set<Id> participantContacts = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
-        if(templateProperty == 'DelReactivatedNotifType'){
+        if (
+            templateProperty == 'DelReactivatedNotifType' ||
+            templateProperty == 'DelNewAssignNotifType'
+        ) {
             notifications.addAll(createwelcomemsgSMSNotifications(patientDelegates));
         }
         for (Patient_Delegate__c delegate : patientDelegates) {
@@ -260,7 +300,10 @@ public without sharing class PatientDelegateTriggerHandler {
                 }
                 for (CommunityTemplate template : communityTemplates) {
                     if (delPermissions.contains(template.permissionSet)) {
-                        system.debug('template.properties.get(templateProperty)'+template.properties.get(templateProperty));
+                        system.debug(
+                            'template.properties.get(templateProperty)' +
+                            template.properties.get(templateProperty)
+                        );
                         notifications.add(
                             new Notification__c(
                                 Notification_Type__c = template.properties.get(templateProperty),
@@ -293,26 +336,26 @@ public without sharing class PatientDelegateTriggerHandler {
         );
         insert newNotifications;
     }
-    
-     public static void checkPrimaryDelegate (List<Patient_Delegate__c> patientDelegates){
+
+    public static void checkPrimaryDelegate(List<Patient_Delegate__c> patientDelegates) {
         Map<Id, List<Patient_Delegate__c>> pdMap = new Map<Id, List<Patient_Delegate__c>>();
-        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c> ();
-        Set<Id> participantIdList = new Set<Id> ();
-        for(Patient_Delegate__c pd : patientDelegates){
+        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c>();
+        Set<Id> participantIdList = new Set<Id>();
+        for (Patient_Delegate__c pd : patientDelegates) {
             participantIdList.add(pd.Participant__c);
         }
-        For(Participant__c pList: [SELECT Id,Adult__c,(SELECT Id,Primary_Delegate__c
-                                                       FROM Participants__r)
-                                   FROM Participant__c
-                                   WHERE Id IN: participantIdList])
-        {
-            pdMap.put(pList.Id, pList.Participants__r); 
+        for (Participant__c pList : [
+            SELECT Id, Adult__c, (SELECT Id, Primary_Delegate__c FROM Participants__r)
+            FROM Participant__c
+            WHERE Id IN :participantIdList
+        ]) {
+            pdMap.put(pList.Id, pList.Participants__r);
         }
-        for(Id p : pdMap.keySet()){
-            for(Patient_Delegate__c pdel: pdMap.get(p) ){
-                for(Patient_Delegate__c pdList : patientDelegates){
-                    if(pdList.Primary_Delegate__c == True && pdList.Participant__c == p){
-                        pdel.Primary_Delegate__c = False;
+        for (Id p : pdMap.keySet()) {
+            for (Patient_Delegate__c pdel : pdMap.get(p)) {
+                for (Patient_Delegate__c pdList : patientDelegates) {
+                    if (pdList.Primary_Delegate__c == true && pdList.Participant__c == p) {
+                        pdel.Primary_Delegate__c = false;
                         updatedList.add(pdel);
                     }
                 }
@@ -324,99 +367,92 @@ public without sharing class PatientDelegateTriggerHandler {
         update updatedList;
     }
     //Method to update the delegate particiapnt Field , REF-3858
-    public static void updateDelegateParticipant(List<Patient_Delegate__c> lstpatientDelegates,
-                                                 Map<Id, Patient_Delegate__c> oldMap)
-    {
-        List<Id> lstContactId = new List<Id> ();
-        Map<Id,Id> mapDelConToDelPart = new Map<Id,Id> ();
-        Map<String,Id> mapParticipantToContact = new Map<String,Id> ();
+    public static void updateDelegateParticipant(
+        List<Patient_Delegate__c> lstpatientDelegates,
+        Map<Id, Patient_Delegate__c> oldMap
+    ) {
+        List<Id> lstContactId = new List<Id>();
+        Map<Id, Id> mapDelConToDelPart = new Map<Id, Id>();
+        Map<String, Id> mapParticipantToContact = new Map<String, Id>();
         List<Patient_Delegate__c> lstpatientDelegatesUpdated = new List<Patient_Delegate__c>();
-        
-        if(oldMap != Null){
-            for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
-            {
-                if(objPatientDel.Contact__c != oldMap.get(objPatientDel.Id).Contact__c)
+
+        if (oldMap != null) {
+            for (Patient_Delegate__c objPatientDel : lstpatientDelegates) {
+                if (objPatientDel.Contact__c != oldMap.get(objPatientDel.Id).Contact__c)
                     lstpatientDelegatesUpdated.add(objPatientDel);
-                
             }
         }
-        
-        if((oldMap != Null && !lstpatientDelegatesUpdated.isEmpty()) 
-           || oldMap == Null) {
-               for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
-               {
-                   String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
-                   lstContactId.add(objPatientDel.Contact__c);
-                   mapParticipantToContact.put(strUniqueKey, objPatientDel.Contact__c); 
-               } 
-               for(Participant__c objParticipant : [SELECT ID,Contact__c from participant__c Where
-                                                    Contact__c IN:lstContactId])
-               {
-                   mapDelConToDelPart.put(objParticipant.contact__c, objParticipant.id);
-                   
-               }
-               for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
-               {
-                   String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
-                   objPatientDel.Participant_Delegate__c = mapDelConToDelPart.get(mapParticipantToContact.get(strUniqueKey));
-               }
-           } 
-        
+
+        if ((oldMap != null && !lstpatientDelegatesUpdated.isEmpty()) || oldMap == null) {
+            for (Patient_Delegate__c objPatientDel : lstpatientDelegates) {
+                String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
+                lstContactId.add(objPatientDel.Contact__c);
+                mapParticipantToContact.put(strUniqueKey, objPatientDel.Contact__c);
+            }
+            for (Participant__c objParticipant : [
+                SELECT ID, Contact__c
+                FROM participant__c
+                WHERE Contact__c IN :lstContactId
+            ]) {
+                mapDelConToDelPart.put(objParticipant.contact__c, objParticipant.id);
+            }
+            for (Patient_Delegate__c objPatientDel : lstpatientDelegates) {
+                String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
+                objPatientDel.Participant_Delegate__c = mapDelConToDelPart.get(
+                    mapParticipantToContact.get(strUniqueKey)
+                );
+            }
+        }
     }
-    
-    
-    
-    
-    public static void notDeletePrimaryDelegate(List <Patient_Delegate__c> patientDelegates){
-        for(Patient_Delegate__c pd: patientDelegates){
-            if(pd.Primary_Delegate__c == True){
+
+    public static void notDeletePrimaryDelegate(List<Patient_Delegate__c> patientDelegates) {
+        for (Patient_Delegate__c pd : patientDelegates) {
+            if (pd.Primary_Delegate__c == true) {
                 pd.addError('Cannot delete Primary Delegate');
             }
         }
     }
-    
+
     public static void updatePrimaryDelegate(
         List<Patient_Delegate__c> patientDelegates,
         Map<Id, Patient_Delegate__c> oldMap
-    ){
+    ) {
         Map<Id, List<Patient_Delegate__c>> pdMap = new Map<Id, List<Patient_Delegate__c>>();
-        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c> ();
-        List<Patient_Delegate__c> errorList = new List<Patient_Delegate__c> ();
-        Set<Id> participantIdList = new Set<Id> ();
-        for(Patient_Delegate__c pd : patientDelegates){
+        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> errorList = new List<Patient_Delegate__c>();
+        Set<Id> participantIdList = new Set<Id>();
+        for (Patient_Delegate__c pd : patientDelegates) {
             participantIdList.add(pd.Participant__c);
         }
-        For(Participant__c pList: [SELECT Id,Adult__c,(SELECT Id,Primary_Delegate__c
-                                                       FROM Participants__r)
-                                   FROM Participant__c
-                                   WHERE Id IN: participantIdList])
-        {
-            pdMap.put(pList.Id, pList.Participants__r); 
+        for (Participant__c pList : [
+            SELECT Id, Adult__c, (SELECT Id, Primary_Delegate__c FROM Participants__r)
+            FROM Participant__c
+            WHERE Id IN :participantIdList
+        ]) {
+            pdMap.put(pList.Id, pList.Participants__r);
         }
-        for(Id p : pdMap.keySet()){
-            for(Patient_Delegate__c pdList : patientDelegates){
-                if(pdList.Primary_Delegate__c == True){
-                    if(oldMap.get(pdList.Id).Primary_Delegate__c == False ){
-                        for(Patient_Delegate__c pdel: pdMap.get(p)){
-                            pdel.Primary_Delegate__c = False;
+        for (Id p : pdMap.keySet()) {
+            for (Patient_Delegate__c pdList : patientDelegates) {
+                if (pdList.Primary_Delegate__c == true) {
+                    if (oldMap.get(pdList.Id).Primary_Delegate__c == false) {
+                        for (Patient_Delegate__c pdel : pdMap.get(p)) {
+                            pdel.Primary_Delegate__c = false;
                             updatedList.add(pdel);
                         }
-                        
-                    }   
-                }
-                else{
-                    if(oldMap.get(pdList.Id).Primary_Delegate__c == True ){
+                    }
+                } else {
+                    if (oldMap.get(pdList.Id).Primary_Delegate__c == true) {
                         pdList.addError('Select any other primary delegate');
                         break;
                     }
                 }
-                if(updatedList.contains(pdList)){
+                if (updatedList.contains(pdList)) {
                     integer a = updatedList.indexOf(pdList);
                     updatedList.remove(a);
                 }
             }
         }
-        if(!updatedList.isEmpty()){
+        if (!updatedList.isEmpty()) {
             update updatedList;
         }
     }
