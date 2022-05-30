@@ -43,6 +43,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track selectedvisitplan;
   selectedreason = "";
   selectedreasonIV = "";
+  revisitDateReq=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -138,7 +139,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Washout_Run_In_Applies__c = false;
         this.runinwashout = "No";
         this.reVisitDt = "";
-        delete this.participantrecord.Revisit_Date__c;
+        this.participantrecord.Revisit_Date__c=null; // patch release
         this.customButtonValidation();
       }
     } else if (event.target.dataset.value === "InitialVisitAttended") {
@@ -987,6 +988,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
 
     //2.
     if (this.runinwashout == "Yes") {
+        this.revisitDateReq=true; //patch release
       if (this.participantrecord.Revisit_Date__c) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);
@@ -995,6 +997,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         validationList.push(btnValidationSuccess);
       }
     } else {
+      this.revisitDateReq=false; //patch release
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
