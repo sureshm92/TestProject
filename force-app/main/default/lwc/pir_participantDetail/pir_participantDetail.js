@@ -231,6 +231,13 @@ export default class Pir_participantDetail extends LightningElement {
             return this.BTN_Verify;
         }
     }
+    get checkDelLevels(){
+        if(this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2'){
+            return true;
+        }else{
+            return false;
+        }
+    }
     handleClick(){
         if(this.delegateLevels != 'Level 3' && this.delegateLevels != 'Level 2'){
             this.template.querySelector('c-pir_participant-emancipated').doExecute();
