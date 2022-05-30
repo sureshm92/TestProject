@@ -160,7 +160,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>offset time</shortDescription>
-        <value>offset time</value>
+        <value>offset time(minutes)</value>
     </labels>
     <labels>
         <fullName>PIR_Discard</fullName>

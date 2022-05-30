@@ -15,7 +15,7 @@
                             <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
                                 <span if:true={option.hasIcon} class="slds-media__figure slds-listbox__option-icon">
                                     <span class="slds-icon_container">
-                                        <lightning-icon icon-name={option.icon} size="x-small" class="slds-icon-text-default"></lightning-icon>
+                                        <lightning-icon icon-name={option.icon} size="small" class="slds-icon-text-default"></lightning-icon>
                                     </span>
                                 </span>
                                 <span class="slds-media__body">
@@ -26,7 +26,7 @@
                             </div>
                         </li>
                     </template>
-                    <li if:true={noResultsFound} class="slds-p-left_small">&#9785; No results found</li>
+                    <li if:true={noResultsFound} class="slds-p-left_small">No results found</li>
                 </ul>
             </div>
         </div>
