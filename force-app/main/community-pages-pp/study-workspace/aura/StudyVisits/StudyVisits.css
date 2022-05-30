@@ -11,7 +11,8 @@
     margin-top: -15px;
 }
 .THIS .cRRTable.rr-table .wrapText {
-    white-space: nowrap;
+    /* white-space: nowrap; */
+    word-break: break-word;
 }
 
 .THIS.sv-body .rr-white-panel {
