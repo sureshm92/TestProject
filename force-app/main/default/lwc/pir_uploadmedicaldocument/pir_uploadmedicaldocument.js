@@ -59,9 +59,6 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
         
         if(event.target.files.length > 0) {
             this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
-           // this.template.querySelector('c-popup-l-w-c').querySelector('[data-id="browsedivClose"]').classList.add('disabledrag');
-            //this.template.querySelector('[data-id="browsedivClose"]').classList.add('disabledrag');
-            console.log('>57>>'+JSON.stringify(event.target.files[0]));
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
             this.fileName = event.target.files[0].name; 
@@ -164,7 +161,6 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
                 this.progressWidth = 'width :'+this.progress+'%;background-color: #00C221;';
                 this.isLoading = false;   
                 this.isFileAdded = true;  
-               // this.template.querySelector('[data-id="browsedivClose"]').classList.remove('disabledrag');
                  
          
             }

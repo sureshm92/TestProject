@@ -29,6 +29,11 @@
                 <default>false</default>
                 <label>Survey</label>
             </value>
+            <value>
+                <fullName>Ecoa</fullName>
+                <default>false</default>
+                <label>Ecoa</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -53,7 +53,7 @@ import ScreeningFailed from "@salesforce/label/c.Screening_Failed";
 import WithdrewConsentAfterScreening from "@salesforce/label/c.Withdrew_Consent_After_Screening";
 import Randomization_Failed from "@salesforce/label/c.Randomization_Failed";
 import DeclinedFinalConsent from "@salesforce/label/c.Declined_Final_Consent";
-import Enrollment_Failed from "@salesforce/label/c.PWS_Received_Name";
+import Enrollment_Failed from "@salesforce/label/c.Enrollment_Failed";
 import AllStatuses from "@salesforce/label/c.PG_MRR_L_All_Statuses";
 import AllSources from "@salesforce/label/c.PG_MRR_L_All_sources";
 import ReferringProvider from "@salesforce/label/c.Referring_Provider";
@@ -141,11 +141,11 @@ export default class Filtertest extends LightningElement {
   loaded = false;
   studylist;
   studyToStudySite;
-  studySiteList;
+  @api studySiteList;
   @api urlstudyid;
   @api urlsiteid;
-  defaultStudy;
-  defaultSite;
+  @api defaultStudy;
+  @api defaultSite;
   selectedStudy;
   selectedSite;
   statusoptions;
@@ -254,6 +254,10 @@ export default class Filtertest extends LightningElement {
           this.defaultStatus = this.selectedstatusvalue;
           this.selectedStatus = this.selectedstatusvalue;
           this.loaded = !this.loaded;
+          const loadComplete = new CustomEvent("loadcomplete", {
+            detail: true
+          });
+          this.dispatchEvent(loadComplete);
           this.filterWrapper.status = [];
           this.filterWrapper.status.push('Received');
           if(!(Object.keys(value).length === 0)){
@@ -493,7 +497,6 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.status = [];
       this.filterWrapper.status.push(filterStatus);
     }
-    console.log("filterWrapper: " + JSON.stringify(this.filterWrapper));
   }
   get getFirstSelecedEth(){
     if(this.selectedEthinicity){
@@ -565,6 +568,12 @@ export default class Filtertest extends LightningElement {
 
     this.filterWrapper.initialVisit = event.target.value;
     this.ininialvisitScheduledOption = event.target.value;
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
@@ -628,7 +637,7 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if ((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) {
+    if (((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) || ((a2 == '') && (Number(a1) < 0 || Number(a1) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -641,9 +650,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = this.template
-      .querySelector('lightning-input[data-name="agestart"]')
-      .reportValidity();
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
@@ -656,7 +663,7 @@ export default class Filtertest extends LightningElement {
     this.ageEndValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if ((a2 != '') && (Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150))) {
+    if (((a2 != '') && (Number(a1) > Number(a2) || (Number(a2) < 0 ||  Number(a2) > 150) || (Number(a1) < 0 || Number(a1) > 150))) || ((a2 == '') && (Number(a1) < 0 || Number(a1) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
@@ -669,9 +676,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = this.template
-      .querySelector('lightning-input[data-name="agestart"]')
-      .reportValidity();
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
@@ -946,7 +951,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
-            {label: this.label.InWashOutPeriod, value: "In Wash Out Period" },
+            {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
             { label: this.label.SentToDCT, value: "Sent to DCT" },
@@ -961,7 +966,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
-            {label: this.label.InWashOutPeriod, value: "In Wash Out Period" },
+            {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
@@ -979,7 +984,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
-            {label: this.label.InWashOutPeriod, value: "In Wash Out Period" },
+            {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
@@ -994,7 +999,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
-            {label: this.label.InWashOutPeriod, value: "In Wash Out Period" },
+            {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
@@ -1048,7 +1053,7 @@ export default class Filtertest extends LightningElement {
           { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
           { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
           { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
-          {label: this.label.InWashOutPeriod, value: "In Wash Out Period" },
+          {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
           { label: this.label.ScreeningPassed, value: "Screening Passed" },
           { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
           { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
