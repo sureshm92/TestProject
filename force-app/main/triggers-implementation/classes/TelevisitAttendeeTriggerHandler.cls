@@ -14,6 +14,15 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         }
     }
 
+    public class TelevisitAttendeeTrigger extends TriggerHandler {
+        public override void afterDelete(List<SObject> oldList) {
+            notifyRemovedAttendees(oldList);
+        }
+        public override void afterInsert(List<SObject> newList) {
+            notifyTelevisitAttendees(newList);
+        }
+    }
+
     @TestVisible
     private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
         //Insert notifications for new attendees
@@ -128,5 +137,64 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         if(televisitIds.size()>0){
             TelevisitTriggerHandler.createTelevisitEvent(televisitIds);
         }
+    }
+
+    @TestVisible
+    private static void notifyTelevisitAttendees(List<Televisit_Attendee__c> attendeeList) {
+        List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
+                                                    where Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
+        try{
+            List<Notification__c> notifications = new List<Notification__c>();
+            for(Televisit_Attendee__c attendee:listAttendee){
+                Notification__c notification = new Notification__c();
+                notification.Recipient__c = attendee.Contact__c;
+                notification.WhatId__c = attendee.Id;
+                if(attendee.Televisit__c != null && attendee.Televisit__r.Participant_Enrollment__c != null && 
+                   attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                    if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
+                    }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_GSK';
+                    }else{
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                    }
+
+                }
+                notifications.add(notification);
+            }
+            if(!notifications.isEmpty()){
+                insert notifications;
+            }
+
+        }catch(exception ex){
+            system.debug('++++++++++++++++'+ex.getMessage());
+        }
+        
+    }
+    @TestVisible
+    private static void notifyRemovedAttendees(List<Televisit_Attendee__c> attendeeList) {
+        List<Notification__c> notifications = new List<Notification__c>();
+        for(Televisit_Attendee__c tvAttendeeRecord : [Select id,Televisit__c,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
+                                                      where Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){ 
+            Notification__c notification = new Notification__c();
+            notification.Recipient__c = tvAttendeeRecord.Contact__c;
+            notification.WhatId__c = tvAttendeeRecord.Televisit__c;
+            if(tvAttendeeRecord.Televisit__c != null && tvAttendeeRecord.Televisit__r.Participant_Enrollment__c != null && 
+                tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_Janssen';
+                }else if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_GSK';
+                }else{
+                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove';
+                }
+
+            }
+              notifications.add(notification);                          
+        }
+        if(notifications != null && notifications.size() > 0){
+           insert notifications;
+        }
+        
     }
 }
