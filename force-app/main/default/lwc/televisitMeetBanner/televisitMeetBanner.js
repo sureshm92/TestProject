@@ -83,9 +83,9 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
     getVisits() {
         this.hasVisits = true;
+        this.showMoreVisits = false;
         getVisits()
         .then(result => {
-            this.showMoreVisits = false;
             var televisitInformation = JSON.parse(result);
             if (televisitInformation) {
                 let visitData = Object.assign(televisitInformation);
@@ -118,12 +118,13 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             }
         });
         this.allActiveVisits = activeVisits;
+        this.showMoreVisits = (this.showMoreVisits && (activeVisits.length == 0 || activeVisits.length == 1) ? false : this.showMoreVisits);
         if(activeVisits.length > 0 ){
             this.hasActiveVisits = true;
         }
         if(activeVisits.length == 1){
             this.singleMeetDetail = activeVisits[0];
-            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' with '+activeVisits[0].Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c 
+            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' with '+activeVisits[0].Televisit__r.Participant_Enrollment__r.Participant_Contact__r.Full_Name__c
             +' will take place at ';//activeVisits[0].
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c ;

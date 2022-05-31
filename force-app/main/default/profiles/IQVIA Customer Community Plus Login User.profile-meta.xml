@@ -2586,16 +2586,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Banner_Display_Offset_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Banner_Dispose_Offset_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Chart_Review__c</field>
         <readable>true</readable>
     </fieldPermissions>
