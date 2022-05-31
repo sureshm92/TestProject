@@ -7,6 +7,7 @@ global without sharing class EmailTemplatePendingPartController {
     global List<ParticipantInfoWrapper> participants {
         get {
             List<ParticipantInfoWrapper> delegateStudyNames = new List<ParticipantInfoWrapper>();
+             List<ParticipantInfoWrapper> passParticipantDelegate = new List<ParticipantInfoWrapper>();
             if (
                 sourceIdValue != null &&
                 sourceIdValue.getSobjectType() == Contact.getSObjectType()
@@ -37,14 +38,15 @@ global without sharing class EmailTemplatePendingPartController {
                         SELECT
                             Name,
                             Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            Participant_Status_Last_Changed_Date__c
+                            Participant_Status_Last_Changed_Date__c,High_Priority__c
                         FROM Participant_Enrollment__c
                         WHERE
-                            Participant_Status__c = 'Received'
+                            Participant_Status__c IN ('Received','Contact Attempted','Pre-review Passed','Successfully Contacted')
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE 
                             AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
+                            ORDER BY High_Priority__c DESC NULLS LAST
                             LIMIT 10
                     ]) {
                             delegateStudyNames.add(
@@ -52,7 +54,8 @@ global without sharing class EmailTemplatePendingPartController {
                                     pe.Name,
                                     pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                     pe.Participant_Status_Last_Changed_Date__c,
-                                    user[0].timezonesidkey
+                                    user[0].timezonesidkey,
+                                    pe.High_Priority__c
                                 )
                             );	
                     }
@@ -67,7 +70,9 @@ global without sharing class EmailTemplatePendingPartController {
         global String refId { get; set; }
         global String studyName { get; set; }
         global String lastRecievedDate { get; set; }
-
+        //global boolean highPriorityFlag { get; set; }
+        global String yesNoPriority { get; set; }
+        
         public ParticipantInfoWrapper() {
         }
 
@@ -75,7 +80,8 @@ global without sharing class EmailTemplatePendingPartController {
             String Name,
             String studyCodeName,
             DateTime lastRecievedDate,
-            String timezonesidkey
+            String timezonesidkey,
+            boolean highPriorityFlag
         ) {
             this.refId = Name;
             this.studyName = studyCodeName;
@@ -89,6 +95,13 @@ global without sharing class EmailTemplatePendingPartController {
                 lastRecievedDate.secondGmt()
             );
             this.lastRecievedDate = gmt.format('yyyy-MM-dd', timezonesidkey);
+            //this.highPriorityFlag = highPriorityFlag;
+			this.yesNoPriority = yesNoPriority;
+			if(highPriorityFlag == true){
+                this.yesNoPriority = 'Yes';
+                }else{
+                 this.yesNoPriority = 'No';
+                }
         }
 
         global Integer compareTo(Object compareTo) {
