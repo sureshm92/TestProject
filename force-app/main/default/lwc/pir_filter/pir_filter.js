@@ -141,11 +141,11 @@ export default class Filtertest extends LightningElement {
   loaded = false;
   studylist;
   studyToStudySite;
-  studySiteList;
+  @api studySiteList;
   @api urlstudyid;
   @api urlsiteid;
-  defaultStudy;
-  defaultSite;
+  @api defaultStudy;
+  @api defaultSite;
   selectedStudy;
   selectedSite;
   statusoptions;
@@ -254,6 +254,10 @@ export default class Filtertest extends LightningElement {
           this.defaultStatus = this.selectedstatusvalue;
           this.selectedStatus = this.selectedstatusvalue;
           this.loaded = !this.loaded;
+          const loadComplete = new CustomEvent("loadcomplete", {
+            detail: true
+          });
+          this.dispatchEvent(loadComplete);
           this.filterWrapper.status = [];
           this.filterWrapper.status.push('Received');
           if(!(Object.keys(value).length === 0)){
@@ -493,7 +497,6 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.status = [];
       this.filterWrapper.status.push(filterStatus);
     }
-    console.log("filterWrapper: " + JSON.stringify(this.filterWrapper));
   }
   get getFirstSelecedEth(){
     if(this.selectedEthinicity){
@@ -628,7 +631,7 @@ export default class Filtertest extends LightningElement {
     this.ageStartValue = event.target.value;
     var a1 = this.ageStartValue;
     var a2 = this.ageEndValue;
-    if ((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) {
+    if (((a2 != '') && (Number(a1) > Number(a2) || (Number(a1) < 0 || Number(a1) > 150) || (Number(a2) < 0 ||  Number(a2) > 150))) || ((a2 == '') && (Number(a1) < 0 || Number(a1) > 150))) {
       this.template
         .querySelector('lightning-input[data-name="agestart"]')
         .setCustomValidity("Allowed range 0-150");
