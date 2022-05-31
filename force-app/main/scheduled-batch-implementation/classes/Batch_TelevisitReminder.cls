@@ -73,7 +73,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             }
         }
         for (Patient_Delegate__c pd : patientDelegates) {
-            // allContactIds.add(pd.Contact__c);
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
         for (Televisit_Attendee__c attendee : attendeeList) {
@@ -113,12 +112,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 }
             }
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
-                /** if (
-                    (attendee.Televisit__r.Visit_Date_Time__c.dateGmt() ==
-                    Datetime.now().addDays(1).dateGmt() &&
-                    attendee.Televisit__r.Visit_Date_Time__c <= Datetime.now().addDays(1))
-                ) {  */
-                // if (attendee.Is_First_Reminder_Sent__c == false) {
                 if (
                     attendee.Televisit__r.Visit_Date_Time__c.dateGmt() ==
                     Datetime.now().addDays(1).dateGmt()
