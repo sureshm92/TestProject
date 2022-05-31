@@ -434,6 +434,12 @@ public without sharing class NotificationAvailabilityService {
                     piDelegateHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c)) ||
                     (piHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
                     piHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c));
+            }else if(objType == TELEVISIT_OBJ_NAME){
+                checkForNotification =
+                    (piDelegateHasSiteWithEnabledEmailMap.containsKey(contactId) &&
+                    piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
+                    (piHasSiteWithEnabledEmailMap.containsKey(contactId) &&
+                    piHasSiteWithEnabledEmailMap.get(contactId));
             }
         }
         return checkForNotification;

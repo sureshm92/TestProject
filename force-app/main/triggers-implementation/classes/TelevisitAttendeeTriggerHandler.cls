@@ -142,7 +142,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     @TestVisible
     private static void notifyTelevisitAttendees(List<Televisit_Attendee__c> attendeeList) {
         List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
-                                                    where Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
+                                                    where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
         try{
             List<Notification__c> notifications = new List<Notification__c>();
             for(Televisit_Attendee__c attendee:listAttendee){
@@ -175,7 +175,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     private static void notifyRemovedAttendees(List<Televisit_Attendee__c> attendeeList) {
         List<Notification__c> notifications = new List<Notification__c>();
         for(Televisit_Attendee__c tvAttendeeRecord : [Select id,Televisit__c,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
-                                                      where Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){ 
+                                                      where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){ 
             Notification__c notification = new Notification__c();
             notification.Recipient__c = tvAttendeeRecord.Contact__c;
             notification.WhatId__c = tvAttendeeRecord.Televisit__c;
