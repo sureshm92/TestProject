@@ -41,7 +41,10 @@ global without sharing class EmailTemplatePendingPartController {
                             Participant_Status_Last_Changed_Date__c,High_Priority__c
                         FROM Participant_Enrollment__c
                         WHERE
-                            Participant_Status__c IN ('Received','Contact Attempted','Pre-review Passed','Successfully Contacted')
+                            (Participant_Status__c = 'Received' OR 
+                             (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
+                              AND High_Priority__c = true)
+                            )
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE 
@@ -99,11 +102,10 @@ global without sharing class EmailTemplatePendingPartController {
 			this.yesNoPriority = yesNoPriority;
 			if(highPriorityFlag == true){
                 this.yesNoPriority = 'Yes';
-                }else{
-                 this.yesNoPriority = 'No';
-                }
+            }else{
+                this.yesNoPriority = '';
+            }
         }
-
         global Integer compareTo(Object compareTo) {
             if (studyName > ((ParticipantInfoWrapper) compareTo).studyName) {
                 return 1;
