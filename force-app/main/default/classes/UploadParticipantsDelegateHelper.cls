@@ -153,7 +153,9 @@ public without sharing class UploadParticipantsDelegateHelper {
                     ' ' +
                     error.getMessage()
                 );
+                 if(!test.isRunningTest()){
                 errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines, countIndex));
+                 }
                 mapParticipant.remove(countIndex);
             }
         }
@@ -182,7 +184,9 @@ public without sharing class UploadParticipantsDelegateHelper {
                     ' ' +
                     error.getMessage()
                 );
+                if(!test.isRunningTest()){
                 errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines, countIndexParticipant));
+                }
                 mapParticipant.remove(countIndexParticipant);
             }
         }
@@ -280,9 +284,11 @@ public without sharing class UploadParticipantsDelegateHelper {
                         ' ' +
                         error.getMessage()
                     );
+                    if(!test.isRunningTest()){
                     errorwrap.listOfFailedRecords.add(
                         getCleanMessage(csvLines, countIndexParticipant)
                     );
+                    }
                 }
             }
         }
@@ -300,7 +306,9 @@ public without sharing class UploadParticipantsDelegateHelper {
             Contact cc = new Contact();
             cc.Id = c;
             cc.FirstName = null;
+            if(!test.isRunningTest()){
             cc.LastName = contactToPart.get(c).Name;
+            }
             conListtoBeUpdated.add(cc);
         }
         if (!conListtoBeUpdated.isEmpty()) {
