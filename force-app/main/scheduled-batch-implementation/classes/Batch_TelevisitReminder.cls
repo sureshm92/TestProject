@@ -33,13 +33,11 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     OR Attendee_Type__c = 'Participant')
                     AND Televisit__r.Status__c = 'Scheduled'
                     AND ((Is_First_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c >= TOMORROW
                     AND Televisit__r.Visit_Date_Time__c <= :Datetime.now().addDays(1).addMinutes(3)
                     AND Televisit__r.Visit_Date_Time__c >= :Datetime.now()
                         .addDays(1)
                         .addMinutes(-3))
-                    OR (Is_First_Reminder_Sent__c = TRUE
-                    AND Is_Second_Reminder_Sent__c = FALSE
+                    OR (Is_Second_Reminder_Sent__c = FALSE
                     AND Televisit__r.Visit_Date_Time__c >= :Datetime.now().addMinutes(-3)
                     AND Televisit__r.Visit_Date_Time__c <= :Datetime.now()
                         .addHours(1)
@@ -75,7 +73,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             }
         }
         for (Patient_Delegate__c pd : patientDelegates) {
-            // allContactIds.add(pd.Contact__c);
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
         for (Televisit_Attendee__c attendee : attendeeList) {
@@ -115,12 +112,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 }
             }
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
-                /** if (
-                    (attendee.Televisit__r.Visit_Date_Time__c.dateGmt() ==
-                    Datetime.now().addDays(1).dateGmt() &&
-                    attendee.Televisit__r.Visit_Date_Time__c <= Datetime.now().addDays(1))
-                ) {  */
-                if (attendee.Is_First_Reminder_Sent__c == false) {
+                if (
+                    attendee.Televisit__r.Visit_Date_Time__c.dateGmt() ==
+                    Datetime.now().addDays(1).dateGmt()
+                ) {
+                    attendee.Is_First_Reminder_Sent__c = true;
+
                     attendeeDayTelevisitMap.put(attendee.Contact__c, attendee.Id);
                     Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
                         participantIdsByDelegates,
@@ -129,26 +126,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     if (delContactId != null) {
                         attendeeDayDelTelevisitMap.put(delContactId, attendee.Id);
                     }
-                    /** notifications.addAll(
-                        createAttendeeNotifications(
-                            attendeeDayTelevisitMap,
-                            'Message_to_PT_Televisit_Day_Reminder_Typ'
-                        )
-                    );
-                    notifications.addAll(
-                        createAttendeeNotifications(
-                            attendeeDayDelTelevisitMap,
-                            'Message_to_PT_Televisit_Day_Reminder_Del'
-                        )
-                    );  */
-                    // attendeeDayTelevisitMap.clear();
-                    // attendeeDayDelTelevisitMap.clear();
                 }
                 if (
-                    attendee.Is_First_Reminder_Sent__c &&
-                    attendee.Is_Second_Reminder_Sent__c == false
+                    attendee.Televisit__r.Visit_Date_Time__c.dateGmt() == Datetime.now().dateGmt()
                 ) {
                     attendeeHourTelevisitMap.put(attendee.Contact__c, attendee.Id);
+                    attendee.Is_Second_Reminder_Sent__c = true;
                     Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
                         participantIdsByDelegates,
                         attendee.Contact__c
@@ -156,22 +139,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     if (delContactId != null) {
                         attendeeHourDelTelevisitMap.put(delContactId, attendee.Id);
                     }
-                    /**  notifications.addAll(
-                        createAttendeeNotifications(
-                            attendeeHourTelevisitMap,
-                            'Message_to_PT_Televisit_Hour_Reminder_Ty'
-                        )
-                    );
-                   notifications.addAll(
-                        createAttendeeNotifications(
-                            attendeeHourDelTelevisitMap,
-                            'Message_to_PT_Televisit_Hour_Reminder_De'
-                        )
-                    );  */
-                    // attendeeHourTelevisitMap.clear();
-                    //attendeeHourDelTelevisitMap.clear();
                 }
-                /**}  */
             }
 
             notifications.add(notification);
@@ -223,17 +191,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 ) {
                     t.Is_Second_Reminder_Sent__c = true;
                 } else {
-                    t.Is_First_Reminder_Sent__c = true;
-                }
-            }
-            if (
-                t.Attendee_Type__c == 'Participant Delegate' ||
-                t.Attendee_Type__c == 'Participant'
-            ) {
-                if (t.Is_First_Reminder_Sent__c && t.Is_Second_Reminder_Sent__c == false) {
-                    t.Is_Second_Reminder_Sent__c = true;
-                }
-                if (t.Is_First_Reminder_Sent__c == false && t.Is_Second_Reminder_Sent__c == false) {
                     t.Is_First_Reminder_Sent__c = true;
                 }
             }
