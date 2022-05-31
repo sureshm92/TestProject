@@ -22,8 +22,12 @@ private class Test_Batch_CreatePartLoginNotification {
                 AND Current_Participant_Enrollment__c != NULL
         ];
 
-       
         Batch_CreateParticipantLoginNotification.createNearestLogOutNotification(contacts);
+        Batch_CreateParticipantLoginNotification bcpln = new Batch_CreateParticipantLoginNotification();
+        bcpln.getType();
+        bcpln.getBatchDescription();
+        bcpln.getRecommendedIntervalMode();
+        bcpln.getRecommendedRelaunchInterval();
         Test.stopTest();
 
         List<Notification__c> notifications = [
