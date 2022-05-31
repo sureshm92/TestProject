@@ -163,6 +163,32 @@ The IQVIA Referral Hub Support Team</value>
         <value>offset time(minutes)</value>
     </labels>
     <labels>
+        <fullName>Televisit_Remove_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Body</shortDescription>
+        <value>Dear Site Staff/PI ,
+
+Your have been removed from the televisit ##VisitName .
+
+Televisit  Date/Time : ##VisitDate
+Duration: ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Remove_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Header</shortDescription>
+        <value>Televisit Removed</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Remove_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Subject</shortDescription>
+        <value>Televisit was removed</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>

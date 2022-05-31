@@ -9,4 +9,5 @@ trigger TelevisitAttendeeTrigger on Televisit_Attendee__c(
 ) {
     TriggerHandlerExecutor.execute(TelevisitAttendeeTriggerHandler.ManageAttendees.class);
     TriggerHandlerExecutor.execute(TelevisitAttendeeTriggerHandler.TelevisitEventTrigger.class);
+    TriggerHandlerExecutor.execute(TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger.class);
 }
