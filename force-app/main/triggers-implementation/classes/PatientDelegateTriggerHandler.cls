@@ -156,7 +156,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 ]
             );
         }
-        if (perEnrollments.size() > 0) {
+        if (perEnrollments != null && perEnrollments.size() > 0) {
             for (Participant_Enrollment__c per : perEnrollments.values()) {
                 if (!per.Welcome_Message_Sent__c) {
                     if (participantsByDelContId.size() > 0) {
