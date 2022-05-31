@@ -98,6 +98,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Non_Enrollment_Reason__c = event.target.value;
         this.selectedreason = event.target.value;
         if (this.selectedOutcomeIV == "Declined_Consent") {
+           //Patch Release
+          this.statusChanged = true;
+          this.participantrecord.Participant_Status__c = "Declined Consent";
+          this.participantrecord.Informed_Consent__c = false;
+
           if (this.selectedreason == "PWS_Picklist_Value_Other") {
             this.selectedreasonIV = "PWS_Picklist_Value_Other"; 
           } else {
@@ -170,7 +175,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Initial_visit_occurred_flag__c = false;
         this.initialvisitattended = "No";
         this.customFieldValidation(datavalue);
-        delete this.participantrecord.Initial_visit_occurred_date__c;
+        //Patch Release Fix--------------------
+        //delete this.participantrecord.Initial_visit_occurred_date__c;
+         this.participantrecord.Initial_visit_occurred_date__c ='';
+         
         if (this.selectedOutcomeIV != "BTN_Yes") {
           this.customFieldValidation("Consent Signed"); 
         }
