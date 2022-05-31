@@ -85,6 +85,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.hasVisits = true;
         getVisits()
         .then(result => {
+            this.showMoreVisits = false;
             var televisitInformation = JSON.parse(result);
             if (televisitInformation) {
                 let visitData = Object.assign(televisitInformation);
@@ -107,7 +108,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             var now = new Date();
             let dateNow = new Date(now);
            let scheduledDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
-            let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
+            let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_End_Date_Time__c);
             visitDetail.scheduledTime = scheduledDate; 
             visitDetail.scheduledEndTime = scheduledEndDate; 
             let bannerStartTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c);

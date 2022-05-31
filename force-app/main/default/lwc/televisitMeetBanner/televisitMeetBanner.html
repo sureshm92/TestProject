@@ -14,7 +14,7 @@
                     </div>
                     <template if:true={singleActiveVisit}>
                         <lightning-formatted-date-time value={singleMeetDetail.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; to &nbsp;
-                        <lightning-formatted-date-time value={singleMeetDetail.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
+                        <lightning-formatted-date-time value={singleMeetDetail.scheduledEndTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
                     </template>
                     <template if:false={singleActiveVisit}>
                         <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"  onclick={handleOpenCloseVisits} alternative-text="Show Visits" ></lightning-button-icon>
