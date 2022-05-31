@@ -70,7 +70,7 @@
                         communityService.getCurrentCommunityMode().currentDelegateId
                     );
                     if (component.get('v.userMode') === 'Participant') {
-                        if (initData.participant.Adult__c) {
+                        if (initData.participant.Adult__c && initData.delegateUserName != null) {
                             component.set('v.userEmail', initData.delegateUserName.Username);
                         }
                     }

@@ -12,38 +12,38 @@ public with sharing class IntegrationVisitResultService {
 
     public void updateVisitResults(List<Integration_VisitResult__c> iResults) {
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
-
-        Set<String> externalKeys = this.getKeys(iResults);
+        Set<String> externalKeys = this.getKeys(iResults, false);
+        Set<String> externalKeysVisitResult = this.getKeys(iResults, true);
         Map<String, Patient_Visit__c> visitsByExternalIds = this.getPatientVisitsMap(externalKeys);
-        Map<String, Visit_Result__c> resultsByExternalIds = this.getVisitResultsMap(externalKeys);
-
+        Map<String, Visit_Result__c> resultsByExternalIds = this.getVisitResultsMap(externalKeysVisitResult);
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         List<Visit_Result__c> resultsToDelete = new List<Visit_Result__c>();
         List<Visit_Result__c> resultsToUpdate = new List<Visit_Result__c>();
-
         for (Integration_VisitResult__c iResult : iResults) {
             String codeResult = iResult.TESTCD__c.toUpperCase();
             if (resultTypesByCodes.containsKey(codeResult)) {
                 String visitKey = iResult.USUBJID__c + iResult.VISIT__c + iResult.VSDTC__c;
-                String key = visitKey + resultTypesByCodes.get(codeResult).DeveloperName;
+                String upatedVisitKey = visitKey + iResult.VISITNUM__c.stripTrailingZeros().toPlainString();
+                //String key = visitKey + resultTypesByCodes.get(codeResult).DeveloperName;
+                String key = upatedVisitKey + resultTypesByCodes.get(codeResult).DeveloperName;
 
                 if (resultsByExternalIds.containsKey(key)) {
                     Visit_Result__c result = resultsByExternalIds.get(key);
                     if (iResult.IsDeletedInSDH__c == 'N') {
-                        resultsToUpdate.add(this.populateVisitResult(result, visitKey, iResult));
+                        resultsToUpdate.add(this.populateVisitResult(result, upatedVisitKey, iResult));
                     } else {
                         resultsToDelete.add(result);
                     }
                 } else if (visitsByExternalIds.containsKey(visitKey)) {
                     newResults.add(
-                        this.createNewResult(visitsByExternalIds.get(visitKey), visitKey, iResult)
+                        this.createNewResult(visitsByExternalIds.get(visitKey), upatedVisitKey, iResult)
                     );
                 }
             }
         }
 
         update resultsToUpdate;
-        delete resultsToDelete;
+		delete resultsToDelete;
         insert newResults;
         update iResults;
     }
@@ -73,7 +73,7 @@ public with sharing class IntegrationVisitResultService {
         };
     }
 
-    private Set<String> getKeys(List<Integration_VisitResult__c> results) {
+    private Set<String> getKeys(List<Integration_VisitResult__c> results, Boolean visitNumberFlag) {
         Set<String> externalKeys = new Set<String>();
         for (Integration_VisitResult__c visitResult : results) {
             visitResult.Work_Status__c = 'Failed';
@@ -82,18 +82,28 @@ public with sharing class IntegrationVisitResultService {
                 visitResult.STUDYID__c != null &&
                 visitResult.VISIT__c != null &&
                 visitResult.VSDTC__c != null &&
-                visitResult.TESTCD__c != null
+                visitResult.TESTCD__c != null &&
+                visitResult.VISITNUM__c != null
             ) {
-                externalKeys.add(
-                    visitResult.USUBJID__c +
-                    visitResult.VISIT__c +
-                    visitResult.VSDTC__c
-                );
+                if(visitNumberFlag){
+                    externalKeys.add(
+                        visitResult.USUBJID__c +
+                        visitResult.VISIT__c +
+                        visitResult.VSDTC__c +
+                        visitResult.VISITNUM__c.stripTrailingZeros().toPlainString()
+                    );
+                }else{
+                    externalKeys.add(
+                        visitResult.USUBJID__c +
+                        visitResult.VISIT__c +
+                        visitResult.VSDTC__c
+                    );
+                }
             }
         }
         return externalKeys;
     }
-
+    
     private Map<String, Visit_Result_TypeM__mdt> getVisitResultTypesMap() {
         List<Visit_Result_TypeM__mdt> resultTypes = [
             SELECT DeveloperName, Visit_Result_Code__c

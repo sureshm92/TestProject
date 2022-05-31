@@ -95,6 +95,7 @@ private class Test_Batch_IntegrationVisitProcess {
             Vital_or_Lab__c = 'Lab',
             STUDYID__c = '10',
             TESTCD__c = 'BUNCC',
+            VISITNUM__c = 1,
             VSDTC__c = Date.today(),
             VISIT__c = 'New Visit 1',
             IsDeletedInSDH__c = 'N'
@@ -106,6 +107,7 @@ private class Test_Batch_IntegrationVisitProcess {
             TESTCD__c = 'NYESO-1',
             VSDTC__c = Date.today(),
             VISIT__c = 'New Visit 1',
+            VISITNUM__c = 1,
             STRESN__c = 1,
             IsDeletedInSDH__c = 'N'
         );

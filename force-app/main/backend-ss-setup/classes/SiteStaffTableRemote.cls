@@ -166,6 +166,10 @@ public with sharing class SiteStaffTableRemote {
                 FROM Study_Site__c
                 WHERE Id = :ssId
             ];
+			Contact staffcontact = new Contact();
+            staffcontact.Id = contactId;
+            staffcontact.UserCommunityIsDelegate__c = true;
+            Update staffcontact;
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             if (
                 CommunityService.getCommunityUsersByContactIds(new Set<Id>{ contactId }).isEmpty()

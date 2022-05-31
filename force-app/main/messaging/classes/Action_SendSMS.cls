@@ -449,20 +449,21 @@ public with sharing class Action_SendSMS implements Action {
             }
             //populate PER records for each Contact in Map. 
             if(contactIdPERMap.containsKey(peObj.Participant_contact__c)){
-				list<Participant_Enrollment__c> perTempList = contactIdPERMap.get(peOBJ.Participant_contact__c);
-				perTempList.Add(peOBJ);
-				contactIdPERMap.put(peObj.Participant_contact__c,perTempList);
-			}else{
-				list<Participant_Enrollment__c> perTempList = new list<Participant_Enrollment__c>();
-				perTempList.Add(peOBJ);
-				contactIdPERMap.put(peObj.Participant_contact__c,perTempList);
-			}
+                list<Participant_Enrollment__c> perTempList = contactIdPERMap.get(peOBJ.Participant_contact__c);
+                perTempList.Add(peOBJ);
+                contactIdPERMap.put(peObj.Participant_contact__c,perTempList);
+            }else{
+                list<Participant_Enrollment__c> perTempList = new list<Participant_Enrollment__c>();
+                perTempList.Add(peOBJ);
+                contactIdPERMap.put(peObj.Participant_contact__c,perTempList);
+            }
 
             sponsorNameSet.add(peObj.Clinical_Trial_Profile__r.CommunityTemplate__c); 
             countryCodeSet.add(peObj.Study_Site__r.site__r.BillingCountryCode); 
-            if(!sponsorNameSet.isEmpty() && !countryCodeSet.isEmpty()){
-                createCountrySponsorFromNoMap(countryCodeSet, sponsorNameSet); 
-            }
+            
+        }
+        if(!sponsorNameSet.isEmpty() && !countryCodeSet.isEmpty()){
+            createCountrySponsorFromNoMap(countryCodeSet, sponsorNameSet); 
         }
         Map<Id, User> userIdMap = new Map<Id, User>(
             [
@@ -508,13 +509,13 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = ctpMap.get(whatId).Study_AWS__c;
                         ctpTemplateName = ctpMap.get(whatId).CommunityTemplate__c;
                         //Iterate over all the PERs for recipient and populate the countrySponsorKey for matching CTP with Notification whatId. 
-						for(Participant_Enrollment__c per: contactIdPERMap.get(notObj.recipient__c)){
-							if(per.Clinical_Trial_Profile__c == whatId){
-								countrySponsorKey = per.Study_Site__r.site__r.BillingCountryCode + '_' + per.Clinical_Trial_Profile__r.CommunityTemplate__c; 
-								break;
-							}
-							
-						}
+                        for(Participant_Enrollment__c per: contactIdPERMap.get(notObj.recipient__c)){
+                            if(per.Clinical_Trial_Profile__c == whatId){
+                                countrySponsorKey = per.Study_Site__r.site__r.BillingCountryCode + '_' + per.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                                break;
+                            }
+                            
+                        }
                     } else if (objType == 'Task') {
                         if (
                             String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
@@ -614,6 +615,6 @@ public with sharing class Action_SendSMS implements Action {
         for(Sponsor_Country_Code__c scc: [SELECT id,Country__c, Sponsor_Name__c, From_Number__c from Sponsor_Country_Code__c WHERE Country__c IN: countryCodeSet AND Sponsor_Name__c IN: sponsorNameSet]){
             String countrySponsorKey = scc.Country__c + '_' + scc.Sponsor_Name__c;
             countrySponsorFromNoMap.put(countrySponsorKey,scc.From_Number__c);
-        }         
+        }
     }
 }

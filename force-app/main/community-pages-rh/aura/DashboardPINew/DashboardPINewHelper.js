@@ -66,7 +66,11 @@
                 component.set('v.piData', responseData);
                 component.set('v.piCTPPicklist', responseData.piCTPPicklist);
                 var currentData = component.get('v.piData');
-                component.set('v.currentPi', currentData.selectedPi);
+                let currentPiValue = component.get('v.currentPi');
+                if(currentPiValue==undefined || currentPiValue==null){
+                    component.set('v.currentPi', currentData.selectedPi);
+                }
+                
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
                 helper.showPPDashboard(component,helper,responseData);//RH-5163
                 if(component.get('v.isPPDashboard')) { //RH-5163
