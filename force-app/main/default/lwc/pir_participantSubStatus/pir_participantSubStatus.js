@@ -75,13 +75,6 @@ export default class Pir_participantSubStatus extends LightningElement {
            }else{
               return this.utilLabels[this.groupstatus];
            }
-          // if(this.groupstatus == "Eligibility_Passed" && this.groupname == "PWS_Initial_Visit_Card_Name"){
-          //   console.log('epassed');
-          //   return this.utilLabels[this.groupname];
-          //  }
-           //else{ console.log('enotpassed');
-          //   return this.utilLabels[this.groupstatus];
-          // }
         }
       } else {
         return this.utilLabels[this.groupname];
