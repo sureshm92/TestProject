@@ -6053,6 +6053,55 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Del Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of ##ParticipantFirstName ##ParticipantLastName&apos;s upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If  ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Del_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Del Signature</shortDescription>
+        <value>We appreciate your patient&apos;s participation!
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Signature</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Televisit_Del_Cancelled</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6084,6 +6133,57 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Del Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of ##ParticipantFirstName ##ParticipantLastName&apos;s upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Del_Signature</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Del Signature</shortDescription>
+        <value>We appreciate your patient&apos;s participation!
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Signature</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Signature</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Rescheduled</fullName>
@@ -6653,6 +6753,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>This is to notify you that your ##VisitName televisit is canceled</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Day Del  Reminder</shortDescription>
+        <value>This is a reminder of your patient&apos;s upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Day Reminder</shortDescription>
+        <value>This is a reminder of your upcoming televisit</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Televisit_Del_Cancelled</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6672,6 +6788,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email Header Televisit Del Scheduled</shortDescription>
         <value>This is a televisit invitation for your patient</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Hour Del Reminder</shortDescription>
+        <value>This is a reminder of your patient&apos;s upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Hour Reminder</shortDescription>
+        <value>This is a reminder of your upcoming televisit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Televisit_Rescheduled</fullName>
@@ -7544,6 +7676,22 @@ Sincerely,
         <value>televisit is canceled</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Day Del Reminder</shortDescription>
+        <value>Your patient has a televisit tomorrow</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Day Reminder</shortDescription>
+        <value>You have a televisit tomorrow</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Televisit_Del_Cancelled_P1</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7577,6 +7725,22 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Televisit Del Scheduled</shortDescription>
         <value>Your patient is invited for a televisit!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Hour Del Reminder</shortDescription>
+        <value>Your patient has a televisit in an hour</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Hour Reminder</shortDescription>
+        <value>You have a televisit in an hour</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Rescheduled</fullName>
