@@ -82,31 +82,6 @@ Public without sharing Class TelevisitCreationScreenController {
             if(!lsttelevisitAttendees.isEmpty()){
                  try{
                     insert lsttelevisitAttendees;
-                    List<Notification__c> notifications = new List<Notification__c>();
-                    for (Televisit_Attendee__c attendee : lsttelevisitAttendees) {
-                        if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
-                            Notification__c notification = new Notification__c();
-                            notification.Recipient__c = attendee.Contact__c;
-                            notification.WhatId__c = attendee.Id;
-                            notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
-                            
-                            if(televisit != null && televisit.Participant_Enrollment__c != null && televisit.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
-                                if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
-                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
-                                }else if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
-                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_GSK';
-                                }else{
-                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
-                                }
-
-                            }
-                            
-                            notifications.add(notification);
-                        }                          
-                    }
-                    if(!notifications.isEmpty()){
-                        insert notifications;
-                    }
 
                 }catch(exception ex){
                     return ex.getMessage();
