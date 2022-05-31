@@ -1,7 +1,10 @@
-@isTest public class Test_UploadParticipantsDelegateHelper {
-    
+@isTest
+public class Test_UploadParticipantsDelegateHelper {
     @IsTest
     private static void testWrapperCreartion() {
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
         UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [
             SELECT Id
@@ -13,19 +16,19 @@
             SELECT Id, Username, UserRoleId
             FROM User
             WHERE
-            Profile.Name = 'System Administrator'
-            AND UserRoleId = :userRole_1.Id
-            AND IsActive = TRUE
+                Profile.Name = 'System Administrator'
+                AND UserRoleId = :userRole_1.Id
+                AND IsActive = TRUE
             LIMIT 1
         ];
         User user_1;
         System.runAs(admin) {
             Account usraccount = new Account(Name = 'Community');
             insert usraccount;
-            
+
             Contact usrcontact = new Contact(AccountId = usraccount.Id, LastName = 'xgeek');
             insert usrcontact;
-            
+
             user_1 = new User(
                 Email = 'yourusername@gmail.com',
                 ProfileId = profile_1.Id,
@@ -66,7 +69,7 @@
                 Name = 'Study Site Account',
                 BillingCountry = 'United States'
             );
-            
+
             insert SiteAccount;
             Contact con = new Contact(
                 FirstName = 'ParticipantTD',
@@ -74,14 +77,14 @@
                 AccountId = SiteAccount.Id
             );
             insert con;
-            
+
             Contact delegatecontact = new Contact(
                 FirstName = 'delegateparticipant',
                 LastName = 'delegatepart',
                 AccountId = SiteAccount.Id
             );
             insert delegatecontact;
-            
+
             // List<Clinical_Trial_Profile__c> clinicalLST = new List<Clinical_Trial_Profile__c>();
             Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456790',
@@ -93,7 +96,7 @@
                 Suppress_Participant_Emails__c = false
             );
             insert clinical;
-            
+
             Study_Site__c studySite = new Study_Site__c(
                 Name = 'Test',
                 //Principal_Investigator__c = con.Id,
@@ -118,14 +121,18 @@
                 Ethnicity__c = ''
             );
             insert participant;
-            TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+            );
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
             );
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
             );
-            TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantTriggerHandler.CheckBecomesAdultHandler.class
+            );
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
             );
@@ -144,24 +151,24 @@
                 Contact__c = delegatecontact.Id
             );
             insert delparticipant;
-            
+
             Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
                 Contact__c = delegatecontact.Id,
                 Contact__r = delegatecontact,
                 Participant__c = participant.Id,
                 Participant__r = participant,
                 Status__c = 'Disconnected',
-                Is_Created_by_Bulk_Import__c=true
+                Is_Created_by_Bulk_Import__c = true
             );
             insert patientDelegate;
-            
+
             Account minorSiteAccount = new Account(
                 Name = 'Study Site Account',
                 BillingCountry = 'United States'
             );
-            
+
             insert minorSiteAccount;
-            
+
             Contact minorcont = new Contact(
                 FirstName = 'ParticipantTD11',
                 LastName = 'ParticipantTD12',
@@ -174,7 +181,7 @@
                 AccountId = minorSiteAccount.Id
             );
             insert delegateMinorContact;
-            
+
             Participant__c minorParticipant = new Participant__c(
                 First_Name__c = 'ParticipantTD11',
                 Last_Name__c = 'ParticipantTD12',
@@ -188,10 +195,10 @@
                 Ethnicity__c = ''
             );
             insert minorParticipant;
-            
-            Participant_Enrollment__c receiveenrollment = new Participant_Enrollment__c(); 
+
+            Participant_Enrollment__c receiveenrollment = new Participant_Enrollment__c();
             receiveenrollment.Medical_Record_Review_Status__c = 'Pass';
-            receiveenrollment.Pre_screening_Status__c= 'Pass';
+            receiveenrollment.Pre_screening_Status__c = 'Pass';
             receiveenrollment.Participant_Name__c = minorParticipant.First_Name__c;
             receiveenrollment.Participant_Surname__c = minorParticipant.Last_Name__c;
             receiveenrollment.Patient_ID__c = '12345678';
@@ -199,14 +206,14 @@
             receiveenrollment.Referral_Source__c = 'Participant';
             receiveenrollment.Study_Site__c = studySite.Id;
             receiveenrollment.Participant__c = minorParticipant.Id;
-            
+
             insert receiveenrollment;
-            
+
             receiveenrollment.Participant_Name__c = participant.First_Name__c;
             receiveenrollment.Participant_Surname__c = participant.Last_Name__c;
             receiveenrollment.Participant__c = participant.Id;
             update receiveenrollment;
-            
+
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
             );
@@ -225,7 +232,7 @@
             TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateTriggerHandler.CreatePrimaryDelegateForMinor.class
             );
-            
+
             Participant__c minorDelParticipant = new Participant__c(
                 First_Name__c = 'delegateparticipant22',
                 Last_Name__c = 'delegatepart14',
@@ -246,10 +253,10 @@
                 Participant__c = minorParticipant.Id,
                 Participant__r = minorParticipant,
                 Status__c = 'Disconnected',
-                Is_Created_by_Bulk_Import__c=true
+                Is_Created_by_Bulk_Import__c = true
             );
             insert minorpatientDelegate;
-            
+
             Contact minorPhBlankContact = new Contact(
                 FirstName = 'Albert',
                 LastName = 'Thomas',
@@ -262,7 +269,7 @@
                 AccountId = minorSiteAccount.Id
             );
             insert delegateMinorPhBlankContact;
-            
+
             Participant__c minorPhBlankParticipant = new Participant__c(
                 First_Name__c = 'Albert',
                 Last_Name__c = 'Thomas',
@@ -276,7 +283,7 @@
                 Ethnicity__c = ''
             );
             insert minorPhBlankParticipant;
-            
+
             Participant__c minorPhBlankDelegate = new Participant__c(
                 First_Name__c = 'delegateparticipant44',
                 Last_Name__c = 'delegatepart45',
@@ -289,17 +296,17 @@
                 Alternative_Phone_Number__c = '3333333333'
             );
             insert minorPhBlankDelegate;
-            
+
             Patient_Delegate__c minorPhBlankpatientDelegate = new Patient_Delegate__c(
                 Contact__c = delegateMinorPhBlankContact.Id,
                 Contact__r = delegateMinorPhBlankContact,
                 Participant__c = minorPhBlankParticipant.Id,
                 Participant__r = minorPhBlankParticipant,
                 Status__c = 'Disconnected',
-                Is_Created_by_Bulk_Import__c=true
+                Is_Created_by_Bulk_Import__c = true
             );
-            insert minorPhBlankpatientDelegate;   
-            
+            insert minorPhBlankpatientDelegate;
+
             Contact contactDupCheck = new Contact(
                 FirstName = 'dell001',
                 LastName = 'Hp001',
@@ -307,7 +314,7 @@
                 AccountId = minorSiteAccount.Id
             );
             insert contactDupCheck;
-            
+
             Participant__c participantDupCheck = new Participant__c(
                 First_Name__c = 'dell001',
                 Last_Name__c = 'Hp001',
@@ -320,17 +327,17 @@
                 Contact__c = contactDupCheck.Id
             );
             insert participantDupCheck;
-            
+
             Patient_Delegate__c patientDrefDupCheck = new Patient_Delegate__c(
                 Contact__c = contactDupCheck.Id,
                 Contact__r = contactDupCheck,
                 Participant__c = participant.Id,
                 Participant__r = participant,
                 Status__c = 'Disconnected',
-                Is_Created_by_Bulk_Import__c=true
+                Is_Created_by_Bulk_Import__c = true
             );
             insert patientDrefDupCheck;
-            
+
             Contact mergeContact = new Contact(
                 FirstName = 'AIQH001',
                 LastName = 'Human002',
@@ -338,7 +345,7 @@
                 AccountId = minorSiteAccount.Id
             );
             insert mergeContact;
-            
+
             Participant__c mergeParticipant = new Participant__c(
                 First_Name__c = 'AIQH001',
                 Last_Name__c = 'Human002',
@@ -352,66 +359,66 @@
                 Alternative_Phone_Number__c = '2121212121'
             );
             insert mergeParticipant;
-            
+
             Patient_Delegate__c mergePatientDelegate = new Patient_Delegate__c(
                 Contact__c = mergeContact.Id,
                 Contact__r = mergeContact,
                 Participant__c = mergeParticipant.Id,
                 Participant__r = mergeParticipant,
                 Status__c = 'Disconnected',
-                Is_Created_by_Bulk_Import__c=true
+                Is_Created_by_Bulk_Import__c = true
             );
             insert mergePatientDelegate;
-            
-            list<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrpaaerLST = new list<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
-            
+
+            list<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrpaaerLST = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
+
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo1 = ReferHealthcareProviderRemote.checkDuplicate(
                 null,
                 'datarecord+001@email.com',
                 'data001',
                 'record002',
                 null
-            ); 
+            );
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper delegateNullCheck = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             delegateNullCheck.DelegateYOB = participantDupCheck.Birth_Year__c;
             //participantDupCheck.Attestation__c = true;
-            delegateNullCheck.DelegateFirstName =participantDupCheck.First_Name__c;
-            delegateNullCheck.DelegateLastName =participantDupCheck.Last_Name__c;
+            delegateNullCheck.DelegateFirstName = participantDupCheck.First_Name__c;
+            delegateNullCheck.DelegateLastName = participantDupCheck.Last_Name__c;
             // delegateNullCheck.DelegatePhoneType ='Home';
             //pWrapper.DelegatePhoneNo = delparticipant.Phone__c;
             delegateNullCheck.mainparticipant = participant;
             delegateNullCheck.mainparticipant.Adult__c = participant.Adult__c;
             delegateWrpaaerLST.add(delegateNullCheck);
-            
+
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
                 null,
                 'testpart@email.com',
                 'delegateparticipant',
                 'delegatepart',
                 null
-            ); 
+            );
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper pWrapper = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             pWrapper.DelegateYOB = delparticipant.Email__c;
-            pWrapper.DelegateFirstName =delparticipant.First_Name__c;
-            pWrapper.DelegateLastName =delparticipant.Last_Name__c;
-            pWrapper.DelegatePhoneType ='Home';
+            pWrapper.DelegateFirstName = delparticipant.First_Name__c;
+            pWrapper.DelegateLastName = delparticipant.Last_Name__c;
+            pWrapper.DelegatePhoneType = 'Home';
             //pWrapper.DelegatePhoneNo = delparticipant.Phone__c;
             pWrapper.mainparticipant = participant;
             pWrapper.mainparticipant.Adult__c = participant.Adult__c;
             pWrapper.isParticipantAdult = true;
             delegateWrpaaerLST.add(pWrapper);
-            
+
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper minorpWrapper = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             minorpWrapper.DelegateEmail = minorPhBlankDelegate.Email__c;
-            minorpWrapper.DelegateFirstName =minorPhBlankDelegate.First_Name__c;
-            minorpWrapper.DelegateLastName =minorPhBlankDelegate.Last_Name__c;
-            minorpWrapper.DelegatePhoneType ='Home';
+            minorpWrapper.DelegateFirstName = minorPhBlankDelegate.First_Name__c;
+            minorpWrapper.DelegateLastName = minorPhBlankDelegate.Last_Name__c;
+            minorpWrapper.DelegatePhoneType = 'Home';
             //minorpWrapper.DelegatePhoneNo = minorPhBlankDelegate.Phone__c;
             minorpWrapper.mainparticipant = minorPhBlankParticipant;
             minorpWrapper.mainparticipant.Adult__c = minorPhBlankParticipant.Adult__c;
             minorpWrapper.isParticipantAdult = false;
             delegateWrpaaerLST.add(minorpWrapper);
-            
+
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper minorPhNotBlank = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             minorPhNotBlank.DelegateEmail = minorDelParticipant.Email__c;
             minorPhNotBlank.DelegateFirstName = minorDelParticipant.First_Name__c;
@@ -423,19 +430,19 @@
             minorPhNotBlank.mainparticipant.Adult__c = minorParticipant.Adult__c;
             minorPhNotBlank.isParticipantAdult = false;
             delegateWrpaaerLST.add(minorPhNotBlank);
-            
+
             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper participantdelegate = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
             participantdelegate.DelegateYOB = mergeParticipant.Email__c;
-            participantdelegate.DelegateFirstName =mergeParticipant.First_Name__c;
-            participantdelegate.DelegateLastName =mergeParticipant.Last_Name__c;
-            participantdelegate.DelegatePhoneType ='Home';
+            participantdelegate.DelegateFirstName = mergeParticipant.First_Name__c;
+            participantdelegate.DelegateLastName = mergeParticipant.Last_Name__c;
+            participantdelegate.DelegatePhoneType = 'Home';
             pWrapper.DelegatePhoneNo = mergeParticipant.Phone__c;
             participantdelegate.mainparticipant = minorParticipant;
             // participantdelegate.mainparticipant.Adult__c = minorParticipant.Adult__c;
             participantdelegate.isParticipantAdult = false;
             delegateWrpaaerLST.add(participantdelegate);
-            
-            List<List<String>> csvLines = new  List<List<String>>();
+
+            List<List<String>> csvLines = new List<List<String>>();
             List<String> csvFileLines = new List<String>();
             csvFileLines.add('a');
             csvFileLines.add('b');
@@ -451,20 +458,23 @@
             csvLines.add(csvFileLines);
             csvLines.add(csvFileLines2);
             csvLines.add(csvFileLines3);
-            
-            System.assertEquals(False, participantdelegate.isParticipantAdult);
-            System.assertEquals(True, pWrapper.isParticipantAdult);
+
+            System.assertEquals(false, participantdelegate.isParticipantAdult);
+            System.assertEquals(true, pWrapper.isParticipantAdult);
             System.assertEquals('Home', participantdelegate.DelegatePhoneType);
             System.assertEquals(participant, pWrapper.mainparticipant);
-            System.assertEquals(False, minorpWrapper.isParticipantAdult);
-            System.assertEquals(False, minorPhNotBlank.isParticipantAdult);
-            
-            UploadParticipantsDelegateHelper.getCleanMessage(csvLines,1);
-            UploadParticipantsDelegateHelper.createPatientDelegate(null,null);
+            System.assertEquals(false, minorpWrapper.isParticipantAdult);
+            System.assertEquals(false, minorPhNotBlank.isParticipantAdult);
+
+            UploadParticipantsDelegateHelper.getCleanMessage(csvLines, 1);
+            UploadParticipantsDelegateHelper.createPatientDelegate(null, null);
             UploadParticipantsDelegateHelper.updateDelegateRecords(delegateWrpaaerLST);
-            UploadParticipantsDelegateHelper.createDelegateRecords(delegateWrpaaerLST,studySite,csvLines);
+            UploadParticipantsDelegateHelper.createDelegateRecords(
+                delegateWrpaaerLST,
+                studySite,
+                csvLines
+            );
         }
         Test.stopTest();
     }
-    
 }
