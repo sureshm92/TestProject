@@ -232,16 +232,26 @@ public without sharing class NotificationAvailabilityService {
             if (objType == TELEVISIT_ATTN_OBJ_NAME) {
                 List<Televisit_Attendee__c> televisitAttendees = [
                     SELECT
-                    Id,
-                    Attendee_Type__c,
-                    Contact__c,
-                    Firstname__c,
-                    Lastname__c,
-                    Televisit_Scheduled_Date__c,
-                    User__c,
-                    Televisit__r.Visit_Date_Time__c,
-                    Televisit__r.Status__c,
-                    Televisit__r.Title__c
+                        Id,
+                        Attendee_Type__c,
+                        Contact__c,
+                        Firstname__c,
+                        Lastname__c,
+                        Televisit_Scheduled_Date__c,
+                        User__c,
+                        Televisit__r.Visit_Date_Time__c,
+                        Televisit__r.Status__c,
+                        Televisit__r.Title__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                     FROM Televisit_Attendee__c
                     WHERE Id IN :objectsByStrings.get(objType)
                 ];
@@ -249,7 +259,7 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(ta.Id, ta);
                 }
             }
-            //End            
+            //End
 
             //TODO for other objects passing in WhatID
         }
@@ -349,6 +359,25 @@ public without sharing class NotificationAvailabilityService {
                 ) {
                     checkForNotification = true;
                 }
+            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
+                Contact contact = contactByIdMap.get(contactId);
+                if (
+                    pe != null &&
+                    contact != null &&
+                    ((contact.UserCommunityIsDelegate__c &&
+                    contact.Participant_Opt_In_Status_Emails__c) ||
+                    (!contact.UserCommunityIsDelegate__c &&
+                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
+                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
+                ) {
+                    checkForNotification = true;
+                }
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
@@ -396,8 +425,10 @@ public without sharing class NotificationAvailabilityService {
                     piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
                     (piHasSiteWithEnabledEmailMap.containsKey(contactId) &&
                     piHasSiteWithEnabledEmailMap.get(contactId));
-            }else if(objType == TELEVISIT_ATTN_OBJ_NAME ){ 
-                Televisit_Attendee__c teleAttendee = (Televisit_Attendee__c) objectsByIds.get(Id.valueOf(whatId));
+            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                Televisit_Attendee__c teleAttendee = (Televisit_Attendee__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
                 checkForNotification =
                     (piDelegateHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
                     piDelegateHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c)) ||
