@@ -115,6 +115,20 @@ public without sharing class TemplatePropertiesService {
                         )
                         .templateName;
                 }
+            } else if (whatId.getSobjectType() == Televisit_Attendee__c.getSObjectType()) {
+                Televisit_Attendee__c taObj = [
+                    SELECT
+                        Id,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Televisit_Attendee__c
+                    WHERE Id = :whatId
+                ];
+                if (taObj != null) {
+                    return CommunityTemplateService.getTemplate(
+                            taObj.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        )
+                        .templateName;
+                }
             }
         } catch (Exception e) {
             EmailService.sendException(e, null);
