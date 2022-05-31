@@ -71,6 +71,7 @@ public class TelevisitTriggerHandler {
         List<Id> scheduledContactIds = new List<Id>();
         Map<Id, List<Id>> idMap = new Map<Id, List<Id>>();
         List<Notification__c> notificationsList = new List<Notification__c>();
+        List<Televisit_Attendee__c> taList = new List<Televisit_Attendee__c>();
         for (Televisit__c teleObj : televisitsList) {
             if (oldMap != null & oldMap.containsKey(teleObj.Id)) {
                 if (
@@ -141,13 +142,24 @@ public class TelevisitTriggerHandler {
                                 )
                             );
                         }
+                            teleAttendee.Is_First_Reminder_Sent__c = false;
+                            teleAttendee.Is_Second_Reminder_Sent__c = false;
+                            taList.add(teleAttendee);
                     }
                 }
             }
         }
         }
+        List<SObject> sObjectsList = new List<SObject>();
+        if (!taList.isEmpty()) {
+            sObjectsList.addAll(taList);
+        }
         if (!notificationsList.isEmpty()) {
-            insert notificationsList;
+            sObjectsList.addAll(notificationsList);
+        }
+        if (sObjectsList.size() > 0) {
+            sObjectsList.sort();
+            Database.upsert(sObjectsList, false);
         }
     }
 
