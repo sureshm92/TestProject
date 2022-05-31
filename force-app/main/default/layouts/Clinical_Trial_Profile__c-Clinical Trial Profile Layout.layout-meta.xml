@@ -565,14 +565,6 @@
                 <behavior>Edit</behavior>
                 <field>US_FDA_Regulated_Product__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Banner_Display_Offset_Time__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Banner_Dispose_Offset_Time__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
