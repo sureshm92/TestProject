@@ -9,6 +9,9 @@ private class Test_Batch_UpdatePE_PermitContactFlag {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
         );
+         TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
         TestDataFactory.createInitData();
 
         Integer peSize = [

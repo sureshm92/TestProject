@@ -3,6 +3,7 @@
  */
 
 public without sharing class ContactService {
+    public static Map<Id, Patient_Delegate__c> patientdelList = new Map<Id, Patient_Delegate__c>(); // Added by Anitha
     public class PastStudyWrapper {
         @AuraEnabled
         public Clinical_Trial_Profile__c ctp;
@@ -197,12 +198,12 @@ public without sharing class ContactService {
             }
         }
         List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
-        if(!peList.isEmpty()){
-          peshList = [
-            SELECT ParticipantEnrollment__c, Status__c
-            FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c IN :peList
-        ];
+        if (!peList.isEmpty()) {
+            peshList = [
+                SELECT ParticipantEnrollment__c, Status__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE ParticipantEnrollment__c IN :peList
+            ];
         }
         Map<Id, Set<String>> historyStatusesByPEIdMap = new Map<Id, Set<String>>();
         for (Participant_Enrollment_Status_History__c pesh : peshList) {
@@ -387,50 +388,59 @@ public without sharing class ContactService {
     }
     public static void updateContactSite(List<Participant__c> participants) {
         List<Participant_Enrollment__c> enrollments = [
-            SELECT Id, Participant__c, Participant_Status__c,Study_Site__r.Site__c,Participant_Contact__c
+            SELECT
+                Id,
+                Participant__c,
+                Participant_Status__c,
+                Study_Site__r.Site__c,
+                Participant_Contact__c
             FROM Participant_Enrollment__c
             WHERE Participant__c IN :participants
             ORDER BY Participant__c
         ];
-          Set<Id> conIds = new Set<Id>();
-          for (Participant_Enrollment__c pe : enrollments) {
-            conIds.add(pe.Participant_Contact__c);
-         }
-        List<Contact> consToBeUpdated = new List<Contact>();
-        List<Contact> consToUpdate = [Select Id ,AccountId from Contact where Id IN : conIds];
-        List<Patient_Delegate__c> pds = [Select Id,Contact__c,Participant__c,Participant__r.Contact__r.AccountId from Patient_Delegate__c where Contact__c IN:conIds];
-          for(Contact con:consToUpdate){
-              for (Participant_Enrollment__c pe : enrollments) {
-                  if(pe.Participant_Contact__c == con.Id){
-                      con.AccountId = pe.Study_Site__r.Site__c;
-                  }
-               }
-              consToBeUpdated.add(con);
-          } 
-          if(consToBeUpdated.size()>0)
-              update consToBeUpdated;
-          if(pds.size()>0){
-              updatePatientDelegates(pds);
-          }
-    }
-    
-    public static void updatePatientDelegates(List<Patient_Delegate__c> patientDelegates){
         Set<Id> conIds = new Set<Id>();
-        for(Patient_Delegate__c pds:patientDelegates){
+        for (Participant_Enrollment__c pe : enrollments) {
+            conIds.add(pe.Participant_Contact__c);
+        }
+        List<Contact> consToBeUpdated = new List<Contact>();
+        List<Contact> consToUpdate = [SELECT Id, AccountId FROM Contact WHERE Id IN :conIds];
+        List<Patient_Delegate__c> pds = [
+            SELECT Id, Contact__c, Participant__c, Participant__r.Contact__r.AccountId
+            FROM Patient_Delegate__c
+            WHERE Contact__c IN :conIds
+        ];
+        for (Contact con : consToUpdate) {
+            for (Participant_Enrollment__c pe : enrollments) {
+                if (pe.Participant_Contact__c == con.Id) {
+                    con.AccountId = pe.Study_Site__r.Site__c;
+                }
+            }
+            consToBeUpdated.add(con);
+        }
+        if (consToBeUpdated.size() > 0)
+            update consToBeUpdated;
+        if (pds.size() > 0) {
+            updatePatientDelegates(pds);
+        }
+    }
+
+    public static void updatePatientDelegates(List<Patient_Delegate__c> patientDelegates) {
+        Set<Id> conIds = new Set<Id>();
+        for (Patient_Delegate__c pds : patientDelegates) {
             conIds.add(pds.Contact__c);
         }
         List<Contact> consToBeUpdated = new List<Contact>();
-        List<Contact> consToUpdate = [Select Id , AccountId from Contact where Id IN : conIds];
-         for(Contact con:consToUpdate){
-             for(Patient_Delegate__c pd:patientDelegates){
-                 if(pd.Contact__c == con.Id){
-                   con.AccountId = pd.Participant__r.Contact__r.AccountId;
-                 }
-             }
-               consToBeUpdated.add(con);
-           }
-          if(consToBeUpdated.size()>0)
-              update consToBeUpdated;
+        List<Contact> consToUpdate = [SELECT Id, AccountId FROM Contact WHERE Id IN :conIds];
+        for (Contact con : consToUpdate) {
+            for (Patient_Delegate__c pd : patientDelegates) {
+                if (pd.Contact__c == con.Id) {
+                    con.AccountId = pd.Participant__r.Contact__r.AccountId;
+                }
+            }
+            consToBeUpdated.add(con);
+        }
+        if (consToBeUpdated.size() > 0)
+            update consToBeUpdated;
     }
 
     /**
@@ -440,16 +450,19 @@ public without sharing class ContactService {
      * @param: whatid
      * @param: notificationtype
      **/
-    public static List<Notification__c> addwelcomeNotifications(String recepientId,String whatId, String notificationtype){
+    public static List<Notification__c> addwelcomeNotifications(
+        String recepientId,
+        String whatId,
+        String notificationtype
+    ) {
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
-         welcomemsgnotifications.add(
-                            new Notification__c(
-                                Recipient__c = recepientId,//per.Participant_contact__c,
-                                WhatId__c = whatId,
-                                Notification_Type__c = notificationtype
-                            )
-                        );
-        return  welcomemsgnotifications;
+        welcomemsgnotifications.add(
+            new Notification__c(
+                Recipient__c = recepientId, //per.Participant_contact__c,
+                WhatId__c = whatId,
+                Notification_Type__c = notificationtype
+            )
+        );
+        return welcomemsgnotifications;
     }
-    
 }

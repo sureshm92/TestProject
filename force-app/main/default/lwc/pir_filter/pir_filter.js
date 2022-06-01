@@ -568,6 +568,12 @@ export default class Filtertest extends LightningElement {
 
     this.filterWrapper.initialVisit = event.target.value;
     this.ininialvisitScheduledOption = event.target.value;
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
+      if(temp){
+        this.isbuttonenabled = false;
+      }else{
+        this.isbuttonenabled = true;
+      }
     this.sendFilterUpdates();
   }
 
@@ -644,7 +650,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity());
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
@@ -670,7 +676,7 @@ export default class Filtertest extends LightningElement {
       this.filterWrapper.ageTo = a1 != '' ? (Number(a1).toFixed()) : '';
       this.filterWrapper.ageFrom = a2 != '' ? (Number(a2).toFixed()) : '';
     }
-    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity());
+    var temp = (this.template.querySelector('lightning-input[data-name="agestart"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="ageend"]').reportValidity() &&  this.template.querySelector('lightning-input[data-name="datestart"]').reportValidity());
       if(temp){
         this.isbuttonenabled = false;
       }else{
