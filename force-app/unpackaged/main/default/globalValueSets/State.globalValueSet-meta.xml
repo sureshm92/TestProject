@@ -363,7 +363,7 @@
     <customValue>
         <fullName>CLAR</fullName>
         <default>false</default>
-        <label>Araucanía</label>
+        <label>AraucanÃ­a</label>
     </customValue>
     <customValue>
         <fullName>CLAP</fullName>
@@ -378,12 +378,12 @@
     <customValue>
         <fullName>CLAY</fullName>
         <default>false</default>
-        <label>Aysén</label>
+        <label>AysÃ©n</label>
     </customValue>
     <customValue>
         <fullName>CLBI</fullName>
         <default>false</default>
-        <label>Biobío</label>
+        <label>BiobÃ­o</label>
     </customValue>
     <customValue>
         <fullName>CLCO</fullName>
@@ -398,7 +398,7 @@
     <customValue>
         <fullName>CLLR</fullName>
         <default>false</default>
-        <label>Los Ríos</label>
+        <label>Los RÃ­os</label>
     </customValue>
     <customValue>
         <fullName>CLMA</fullName>
@@ -413,7 +413,7 @@
     <customValue>
         <fullName>CLNB</fullName>
         <default>false</default>
-        <label>Ñuble</label>
+        <label>Ã‘uble</label>
     </customValue>
     <customValue>
         <fullName>CLHG</fullName>
@@ -428,7 +428,7 @@
     <customValue>
         <fullName>CLTA</fullName>
         <default>false</default>
-        <label>Tarapacá</label>
+        <label>TarapacÃ¡</label>
     </customValue>
     <customValue>
         <fullName>CLVS</fullName>
@@ -448,7 +448,7 @@
     <customValue>
         <fullName>PEAPU</fullName>
         <default>false</default>
-        <label>Apurímac</label>
+        <label>ApurÃ­mac</label>
     </customValue>
     <customValue>
         <fullName>PEARE</fullName>
@@ -483,7 +483,7 @@
     <customValue>
         <fullName>PEHUC</fullName>
         <default>false</default>
-        <label>Huánuco</label>
+        <label>HuÃ¡nuco</label>
     </customValue>
     <customValue>
         <fullName>PEICA</fullName>
@@ -493,7 +493,7 @@
     <customValue>
         <fullName>PEJUN</fullName>
         <default>false</default>
-        <label>Junín</label>
+        <label>JunÃ­n</label>
     </customValue>
     <customValue>
         <fullName>PELAL</fullName>
@@ -543,7 +543,7 @@
     <customValue>
         <fullName>PESAM</fullName>
         <default>false</default>
-        <label>San Martín</label>
+        <label>San MartÃ­n</label>
     </customValue>
     <customValue>
         <fullName>PETAC</fullName>
