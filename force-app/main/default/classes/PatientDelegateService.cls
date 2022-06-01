@@ -560,7 +560,13 @@ public without sharing class PatientDelegateService {
         List<Id> participantIds
     ) {
         List<Patient_Delegate__c> delegatesList = [
-            SELECT Id, Participant__c, Contact__c
+            SELECT
+                Id,
+                Participant__c,
+                Contact__c,
+                Contact__r.Participant_Opt_In_Status_SMS__c,
+                Contact__r.Welcome_Message_Sent__c,
+                Contact__r.Welcome_Message_Delivered__c
             FROM Patient_Delegate__c
             WHERE Participant__c IN :participantIds AND Status__c = 'Active'
         ];
@@ -571,6 +577,7 @@ public without sharing class PatientDelegateService {
                 delegatedContacts = new List<Id>();
             delegatedContacts.add(pd.Contact__c);
             delegatedContactsByParticipantMap.put(pd.Participant__c, delegatedContacts);
+            ContactService.patientdelList.put(pd.Contact__c, pd);
         }
         return delegatedContactsByParticipantMap;
     }

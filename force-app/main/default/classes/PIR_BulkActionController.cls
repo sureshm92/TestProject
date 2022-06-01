@@ -3,7 +3,6 @@ public without sharing class PIR_BulkActionController {
     //Added for Bulk Action- Invite to PP
    @AuraEnabled
    public static void createUserForPatientProtal(List<string> peId, Boolean sendEmails) {
-       system.debug('ListSize'+peId.size());
        try {
            List<Participant_Enrollment__c> per = [SELECT Id,
                                                   Participant_Contact__c,
@@ -386,7 +385,6 @@ public without sharing class PIR_BulkActionController {
                filter += ' AND Study_Site__c IN: siteIds ';
            
                     
-              system.debug('querystringcount-->' + qCountString + filter);
            
            
            
