@@ -279,4 +279,15 @@ public without sharing class OpenTokClientController {
         String[] extendMeetingOptions = System.Label.RH_TelevisitExtendMeetingOptions.split(',');
         return extendMeetingOptions;
     }
+    
+    Public void fetchUpdatedTelevisitDetails(){
+        List<Televisit__c> updatedTelevisit = new List<Televisit__c>();
+        
+        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c 
+                        FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
+        
+        bannerEndTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
+        autoDisconnectMeetingTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
+        //turn null;
+    }
 }

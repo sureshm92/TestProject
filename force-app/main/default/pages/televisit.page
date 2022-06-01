@@ -1,6 +1,9 @@
 <apex:page controller="OpenTokClientController" showHeader="false" sidebar="false" standardStylesheets="false" lightningStylesheets="true"
     applyBodyTag="False" applyHtmlTag="False" docType="html-5.0">
-
+    <apex:includeScript value="{!$Resource.cometdTV1}" />
+    <apex:includeScript value="{!$Resource.jqueryTV1}" />
+    <apex:includeScript value="{!$Resource.jsonTV1}" />
+    <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
     <apex:form>
         <apex:actionPoller action="{!maintainSession}" interval="180" />
         <apex:actionFunction name="rerenderControllerValues" action="{!rerenderControllerValues}" rerender="controller-values" />
@@ -15,6 +18,8 @@
         <apex:actionFunction name="extendedMeetingInterval" action="{!extendedMeetingInterval}" rerender="jspanel,televisitBanner,controller-values">
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
+        <apex:actionFunction name="fetchUpdatedTelevisitDetails" action="{!fetchUpdatedTelevisitDetails}" rerender="jspanel,televisitBanner,controller-values"
+        />
 
 
         <apex:outputPanel id="jspanel">
@@ -45,6 +50,19 @@
                     jsAutoDisconnectMeetingTime = ev.data.split('::')[1];
                     enableExtendCallDropDown = false;
                 }
+                var url = 'https://sandbox-inspiration-customer-1348-de-180f0c2a943.cs24.force.com/cometd/40.0/';
+                console.log('URL Subs' + url);
+                $.cometd.init({
+                    url: url,
+                    requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}' },
+                    appendMessageTypeToURL: false
+                });
+
+                $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
+                    console.log('Message' + message);
+                    console.log('call getUpdatedTelevisitDetails');
+                    fetchUpdatedTelevisitDetails();
+                });
             </script>
         </apex:outputPanel>
 
@@ -1010,8 +1028,8 @@
                 apiKey = "{!ApiKey}";
                 sessionId = "{!JSENCODE(sessionId)}";
                 userName = "{!JSENCODE(userName)}";
-                isExternalUser = {!isExternalUser            
-};
+                isExternalUser = {!isExternalUser
+            };
 
             sfSessionId = "{!session}";
 
