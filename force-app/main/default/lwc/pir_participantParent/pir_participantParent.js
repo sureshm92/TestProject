@@ -206,7 +206,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isSPModalOpen = false;
     this.isSharingTab = false;
 
-    console.log("pe-parent" + JSON.stringify(this.selectedPE));
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
     {

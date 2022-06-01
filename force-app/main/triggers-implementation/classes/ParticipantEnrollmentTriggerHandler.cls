@@ -887,7 +887,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant__c != null &&
                 pe.Is_Participant_Adult__c &&
                 pe.Participant_Contact__c != null &&
-                !pe.Is_Contact_welcome_Message_Sent__c
+                !pe.Is_Contact_welcome_Message_Sent__c &&
+                pe.Is_Participant_Contact_Opt_in_SMS__c
             ) {
                 system.debug('platform Level');
                 /*Platform Level PT mEsg*/
@@ -981,16 +982,24 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                             NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
                         )
                     );
+                    Boolean isDelegatePlatformNotification =
+                        ContactService.patientdelList.containskey(delegateId) &&
+                        ContactService.patientdelList.get(delegateId)
+                            .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                        !(ContactService.patientdelList.get(delegateId)
+                            .Contact__r.Welcome_Message_Sent__c);
 
                     /*Platform Level Delegate*/
                     //if(delegatewelcomemsg.get(pe.Participant__c).Contact__c != null && !participantconMap.get(pe.Participant__c).Contact__r.Welcome_Message_Sent__c){
-                    welcomemsgnotifications.addAll(
-                        ContactService.addwelcomeNotifications(
-                            delegateId,
-                            pe.Participant__c,
-                            NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
-                        )
-                    );
+                    if (isDelegatePlatformNotification) {
+                        welcomemsgnotifications.addAll(
+                            ContactService.addwelcomeNotifications(
+                                delegateId,
+                                pe.Participant__c,
+                                NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                            )
+                        );
+                    }
                 }
                 /*}*/
             }
