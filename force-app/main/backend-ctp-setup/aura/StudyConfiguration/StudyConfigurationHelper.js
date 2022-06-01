@@ -11,10 +11,16 @@
             let stValue = component.find('stToggle').get('v.checked');
             component.find('vsToggle').set('v.checked', !stValue);
         }
-       if (source === 'medicalVendorToggle') {
+        if (source === 'medicalVendorToggle') {
             let stValue = component.find('mdToggle').get('v.checked');
             component.find('mdToggle').set('v.checked', stValue);
         }
+        //Teleevisit Starts
+        if (source === 'TelevisitToggle') {
+            let stValue = component.find('teleToggle').get('v.checked');
+            component.find('teleToggle').set('v.checked', stValue);
+        }
+        //Ends
         if(source === 'saveDelayDays'){
             component.set('v.delay_days', component.get("v.ctp.Delayed_No_Of_Days__c"));
         }
@@ -54,11 +60,11 @@
                     component.find('spinner').hide();
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
-        	);
+            );
         }
         else{
             component.find('spinner').hide();
-          //  communityService.showToast('Error', 'error', 'The incentive program already exists');
+            //  communityService.showToast('Error', 'error', 'The incentive program already exists');
         }
         if (source === 'tasksToggle') {
             $A.get('e.force:refreshView').fire();

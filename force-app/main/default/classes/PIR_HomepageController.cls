@@ -391,6 +391,8 @@ public without sharing class PIR_HomepageController {
       //For High Priority
       if (highPriority != null && highPriority == true) {
         filterString = filterString + ' AND High_Priority__c = : highPriority ';
+      } else {
+        filterString = filterString + ' AND High_Priority__c = false ';
       }
 
       //For High comorbidities
