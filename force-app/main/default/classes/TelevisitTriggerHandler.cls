@@ -142,14 +142,14 @@ public class TelevisitTriggerHandler {
                                 )
                             );
                         }
-                            teleAttendee.Is_First_Reminder_Sent__c = false;
-                            teleAttendee.Is_Second_Reminder_Sent__c = false;
-                            taList.add(teleAttendee);
+                        teleAttendee.Is_First_Reminder_Sent__c = false;
+                        teleAttendee.Is_Second_Reminder_Sent__c = false;
+                        taList.add(teleAttendee);
                     }
                 }
             }
         }
-        }
+    }
         List<SObject> sObjectsList = new List<SObject>();
         if (!taList.isEmpty()) {
             sObjectsList.addAll(taList);
@@ -183,6 +183,7 @@ public class TelevisitTriggerHandler {
     }
     @Future(callout=true)
     public static Void SendRequestToVonageAPI(list<Id> listTelevisitId) {
+        TokBoxSettings2__c tokbox = TokBoxSettings2__c.getOrgDefaults();
         Televisit__c televisitRecord = [SELECT Id FROM Televisit__c WHERE Id = :listTelevisitId[0]];
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.opentok.com/session/create');
@@ -191,9 +192,9 @@ public class TelevisitTriggerHandler {
         req.setHeader(
             'X-OPENTOK-AUTH',
             new OpenTokJWT(
-                    'https://api.opentok.com',
-                    '47459271',
-                    'eb094c1b6355f340f708c92f6151cc8377097f24'
+                    tokbox.API_URL__c,
+                    tokbox.API_Key__c,
+                    tokbox.API_Secret__c
                 )
                 .getAuthJWTHeader()
         );

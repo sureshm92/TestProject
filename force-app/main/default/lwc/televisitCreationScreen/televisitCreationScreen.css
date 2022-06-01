@@ -1,33 +1,33 @@
-.bar {    
+.bar {
     height: 4px;
-    background: linear-gradient(270deg,#0076ae,#250056);
+    background: linear-gradient(270deg, #0076ae, #250056);
     position: relative;
 }
-.title{
+.title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
 }
-.btn-height{
+.btn-height {
     height: 36px;
 }
-.save-btn{
-    float: right;
+.save-btn {
+    float: left;
     margin-left: 15px;
 }
-.discard-btn{
+.discard-btn {
     border: 1px solid #ffffff;
     box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
 }
-.save-btn-p{
-    text-align:right;
+.save-btn-p {
+    text-align: right;
     padding: 12px 27px;
 }
 
-.lightningCard{
+.lightningCard {
     border: 1px solid #dedede;
     margin: 10px 0px 10px 0px;
     border-radius: 3px;
@@ -35,20 +35,19 @@
     font-family: Proxima Nova;
 }
 
-.closeButtopnIcon:hover{
+.closeButtopnIcon:hover {
     background-color: #ff4d4a;
     --lwc-colorTextIconDefault: white;
 }
 
-.inputFields{
-    font-size:16px;
+.inputFields {
+    font-size: 16px;
 }
 
-
-.vertical-scroll{
+.vertical-scroll {
     height: 51vh;
     overflow: auto;
-    padding: 0px 5px 0px 0px;
+    /* padding: 0px 5px 0px 0px; */
     overflow-x: hidden;
     margin-top: 10px;
 }
@@ -57,16 +56,16 @@
     width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-    background: #999999; 
+    background: #999999;
     border-radius: 4px;
-    cursor:pointer;
+    cursor: pointer;
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #858383;
 }
 /* Scrollbar Code End */
 
-textdecoration{
+textdecoration {
     color: #000000 !important;
     font-family: 'Proxima Nova' !important;
     font-size: 16px !important;
@@ -79,7 +78,7 @@ textdecoration{
 .tooltip {
     position: relative;
     display: inline-flex;
-  }
+}
 .tooltip .tooltiptextTop {
     visibility: hidden;
     width: auto;
@@ -95,22 +94,22 @@ textdecoration{
     bottom: 100%;
     left: 50%;
     margin-left: -60px;
-  }
-  .tooltip .tooltiptextTop::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 7px;
-      border-style: solid;
-      border-color: #444444 transparent transparent transparent;
-  }
-  .tooltip:hover .tooltiptextTop {
+}
+.tooltip .tooltiptextTop::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: #444444 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptextTop {
     visibility: visible;
-  }
-  /* --------END Top --------------- */
-  .tooltip .tooltiptextBottom {
+}
+/* --------END Top --------------- */
+.tooltip .tooltiptextBottom {
     visibility: hidden;
     width: 200px;
     background-color: #444444;
@@ -125,10 +124,10 @@ textdecoration{
     top: 150%;
     left: -200%;
     margin-left: -60px;
-  }
-  
-  .tooltip .tooltiptextBottom::after {
-    content: "";
+}
+
+.tooltip .tooltiptextBottom::after {
+    content: '';
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -136,33 +135,36 @@ textdecoration{
     border-width: 7px;
     border-style: solid;
     border-color: transparent transparent #444444 transparent;
-  }
-  
-  .tooltip:hover .tooltiptextBottom {
-    visibility: visible;
-  }
+}
 
-.CancelledTag{
-    background-color: #FF3232;
+.tooltip:hover .tooltiptextBottom {
+    visibility: visible;
+}
+
+.CancelledTag {
+    background-color: #ff3232;
     padding: 4px 6px 4px 6px;
     color: white;
     border-radius: 4px 4px 4px 4px;
     font-size: 14px;
 }
 
-.layoutStyleCss{
+.layoutStyleCss {
     padding-bottom: 20px;
 }
 
-.spinnerHolder{
+.spinnerHolder {
     position: relative;
     display: inline-block;
     width: 100%;
     height: 80px;
-    
 }
 
-.noRecordsFound{
+.mainSpinnerHolder {
+    position: relative;
+}
+
+.noRecordsFound {
     text-align: center;
     padding: 50px;
     font-weight: 400;
@@ -174,21 +176,21 @@ textdecoration{
 .zoom:hover {
     -ms-transform: scale(1.1); /* IE 9 */
     -webkit-transform: scale(1.1); /* Safari 3-8 */
-    transform: scale(1.1); 
-  }
+    transform: scale(1.1);
+}
 
-  .slds-dropdown{
+.slds-dropdown {
     margin-top: 0 !important;
 }
-.slds-listbox_vertical .slds-listbox__option_has-meta .slds-media__figure{
+.slds-listbox_vertical .slds-listbox__option_has-meta .slds-media__figure {
     margin-top: 0;
 }
 .slds-listbox_selection-group {
-    padding-right: .75rem !important;
+    padding-right: 0.75rem !important;
     overflow: unset !important;
 }
-.slds-pill{
-    padding-left: .5rem !important;
+.slds-pill {
+    padding-left: 0.5rem !important;
 }
 .vk-scrollbar::-webkit-scrollbar {
     width: 7px;
@@ -197,12 +199,156 @@ textdecoration{
 .vk-scrollbar::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px #bfbfbf;
     -webkit-box-shadow: inset 0 0 6px #bfbfbf;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
 .vk-scrollbar::-webkit-scrollbar-thumb {
     background: #95989d;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
 .vk-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #313235; 
+    background: #313235;
+}
+.view_btn {
+    margin-top: -25px;
+}
+.visit-date,
+.start-time {
+    padding-right: 16px;
+}
+.televisit_acion_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.televisit {
+    margin-top: -3px;
+}
+.televisit {
+    --slds-c-button-outline-brand-color-border: #d4d4d4 !important;
+}
+.pgHeadMob {
+    height: 40px;
+    font-size: 16px;
+    color: #0768fd;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.backArrow {
+    width: 16px;
+    margin-right: 6px;
+}
+.hideDesktopView,
+.attendees_list:last-child .attendee_span,
+.televisit_hr {
+    display: none;
+}
+.tv_date {
+    width: auto;
+}
+.tv_attendees {
+    display: flex;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .visit-date,
+    .start-time {
+        padding-right: 16px;
+    }
+    .televisit_acion_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: unset;
+        width: unset;
+    }
+    .televisit {
+        float: right;
+        margin-left: unset;
+        display: unset;
+        width: unset;
+        margin-top: -2px;
+    }
+
+    .televisit {
+        --slds-c-button-brand-outline-sizing-min-height: 32px !important;
+        --slds-c-button-outline-brand-color-border: #d4d4d4 !important;
+    }
+}
+
+/* iphones */
+@media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
+    only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
+    only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
+    only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2),
+    only screen and (min-device-width: 414px) and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3),
+    only screen and (min-device-width: 375px) and (max-device-height: 812px) and (-webkit-device-pixel-ratio: 3),
+    only screen and (min-device-width: 390px) and (max-device-height: 844px) and (-webkit-device-pixel-ratio: 3),
+    only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 2),
+    only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 3),
+    only screen and (min-device-width: 428px) and (max-device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+    .hideDesktopView {
+        display: block;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .televisit {
+        float: none;
+        margin-left: 0;
+        display: grid;
+        width: 100%;
+    }
+    .view_btn {
+        width: 100%;
+    }
+    .televisit_acion_btn {
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+    .televisit_acion_btn button {
+        margin: 8px 0;
+        padding: 8px 0;
+    }
+    .televisit_modal {
+        height: 75vh;
+        overflow: auto;
+    }
+    .attendees_lookup {
+        padding: 8px 0;
+        display: block;
+    }
+    .visit-date,
+    .start-time {
+        padding-right: unset;
+    }
+    .save-btn {
+        float: left;
+        margin-left: -35px;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .save-btn {
+        float: left;
+        margin-left: -25px;
+        height: 40px;
+        min-width: 75px;
+    }
+    .televisit_hr {
+        display: block;
+        width: 100% !important;
+        margin: 12px 0 0 0 !important;
+    }
+    .tv_time {
+        padding-left: 40px;
+    }
+    .tv_span {
+        display: none;
+    }
+    .tv_attendees {
+        display: block;
+    }
 }
