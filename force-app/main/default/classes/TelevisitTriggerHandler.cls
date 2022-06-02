@@ -83,31 +83,31 @@ public class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
-                        Id delegateContactId = getPrimaryDelegateContactId(
-                            participantIdsByDelegates,
-                            teleAttendee.Contact__c
-                        );
-                        notificationsList.add(
-                            new Notification__c(
-                                Recipient__c = teleAttendee.Contact__c,
-                                WhatId__c = teleObj.Id,
-                                Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Type'
-                            )
-                        );
-                        if (delegateContactId != null) {
+                            Id delegateContactId = getPrimaryDelegateContactId(
+                                participantIdsByDelegates,
+                                teleAttendee.Contact__c
+                            );
                             notificationsList.add(
                                 new Notification__c(
-                                    Recipient__c = getPrimaryDelegateContactId(
-                                        participantIdsByDelegates,
-                                        teleAttendee.Contact__c
-                                    ),
+                                    Recipient__c = teleAttendee.Contact__c,
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Del_Ty'
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE
                                 )
                             );
+                            if (delegateContactId != null) {
+                                notificationsList.add(
+                                    new Notification__c(
+                                        Recipient__c = getPrimaryDelegateContactId(
+                                            participantIdsByDelegates,
+                                            teleAttendee.Contact__c
+                                        ),
+                                        WhatId__c = teleObj.Id,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY
+                                    )
+                                );
+                            }
                         }
                     }
-                }
                 }
                 if (
                     teleObj.Status__c == 'Scheduled' &&
@@ -119,36 +119,36 @@ public class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
-                        Id delegateContactId = getPrimaryDelegateContactId(
-                            participantIdsByDelegates,
-                            teleAttendee.Contact__c
-                        );
-                        notificationsList.add(
-                            new Notification__c(
-                                Recipient__c = teleAttendee.Contact__c,
-                                WhatId__c = teleObj.Id,
-                                Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Type'
-                            )
-                        );
-                        if (delegateContactId != null) {
+                            Id delegateContactId = getPrimaryDelegateContactId(
+                                participantIdsByDelegates,
+                                teleAttendee.Contact__c
+                            );
                             notificationsList.add(
                                 new Notification__c(
-                                    Recipient__c = getPrimaryDelegateContactId(
-                                        participantIdsByDelegates,
-                                        teleAttendee.Contact__c
-                                    ),
+                                    Recipient__c = teleAttendee.Contact__c,
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Del'
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE
                                 )
                             );
-                        }
+                            if (delegateContactId != null) {
+                                notificationsList.add(
+                                    new Notification__c(
+                                        Recipient__c = getPrimaryDelegateContactId(
+                                            participantIdsByDelegates,
+                                            teleAttendee.Contact__c
+                                        ),
+                                        WhatId__c = teleObj.Id,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL
+                                    )
+                                );
+                            }
                             teleAttendee.Is_First_Reminder_Sent__c = false;
                             teleAttendee.Is_Second_Reminder_Sent__c = false;
                             taList.add(teleAttendee);
+                        }
                     }
                 }
             }
-        }
         }
         List<SObject> sObjectsList = new List<SObject>();
         if (!taList.isEmpty()) {
@@ -219,46 +219,56 @@ public class TelevisitTriggerHandler {
         update updateTelevisitRecord;
     }
 
-    public static void checkForTelevisitEventCreation(List<SObject> newList){
+    public static void checkForTelevisitEventCreation(List<SObject> newList) {
         datetime currentTime = datetime.now();
         datetime twoDaysAhead = datetime.now().addDays(2);
         Set<Id> televisitIds = new Set<Id>();
-        
-        for(sObject televisitRecord : newList){
+
+        for (sObject televisitRecord : newList) {
             Televisit__c teleVisit = (Televisit__c) televisitRecord;
-            if(teleVisit.Visit_Link_Activation_End_Time__c >= currentTime && teleVisit.Visit_Link_Activation_End_Time__c <= twoDaysAhead){
+            if (
+                teleVisit.Visit_Link_Activation_End_Time__c >= currentTime &&
+                teleVisit.Visit_Link_Activation_End_Time__c <= twoDaysAhead
+            ) {
                 televisitIds.add(teleVisit.Id);
             }
         }
-        if(televisitIds.size()>0)
+        if (televisitIds.size() > 0)
             createTelevisitEvent(televisitIds);
     }
 
-    public static void createTelevisitEvent(Set<Id> televisitIds){
-        Map<String,Set<Id>> televisitAttendees = new Map<String,Set<Id>>();
+    public static void createTelevisitEvent(Set<Id> televisitIds) {
+        Map<String, Set<Id>> televisitAttendees = new Map<String, Set<Id>>();
         List<Televisit_Event__e> televisitEventInsertion = new List<Televisit_Event__e>();
-        for(Televisit_Attendee__c relatedAttendees : [select Id,User__c,Televisit__c from Televisit_Attendee__c where Televisit__c IN:televisitIds]){
-            if(televisitAttendees.containsKey(relatedAttendees.Televisit__c)){
+        for (Televisit_Attendee__c relatedAttendees : [
+            SELECT Id, User__c, Televisit__c
+            FROM Televisit_Attendee__c
+            WHERE Televisit__c IN :televisitIds
+        ]) {
+            if (televisitAttendees.containsKey(relatedAttendees.Televisit__c)) {
                 Set<Id> attendeeIds = televisitAttendees.get(relatedAttendees.Televisit__c);
                 attendeeIds.add(relatedAttendees.User__c);
-                televisitAttendees.put(relatedAttendees.Televisit__c,attendeeIds);
-            }else{
-                televisitAttendees.put(relatedAttendees.Televisit__c,new Set<Id>{relatedAttendees.User__c});
+                televisitAttendees.put(relatedAttendees.Televisit__c, attendeeIds);
+            } else {
+                televisitAttendees.put(
+                    relatedAttendees.Televisit__c,
+                    new Set<Id>{ relatedAttendees.User__c }
+                );
             }
         }
-        for(String visitId : televisitIds){
-            if(televisitAttendees.containsKey(visitId)){
+        for (String visitId : televisitIds) {
+            if (televisitAttendees.containsKey(visitId)) {
                 Televisit_Event__e teleEvevent = new Televisit_Event__e();
                 teleEvevent.payLoad__c = televisitAttendees.get(visitId).toString();
                 televisitEventInsertion.add(teleEvevent);
             }
         }
         system.debug(televisitEventInsertion);
-        if(televisitEventInsertion.size()>0)
+        if (televisitEventInsertion.size() > 0)
             EventBus.publish(televisitEventInsertion);
     }
 
-    public static void createTelevisitEvent(){
+    public static void createTelevisitEvent() {
         Televisit_Event__e teleEvevent = new Televisit_Event__e();
         teleEvevent.payLoad__c = 'DELETE';
         EventBus.publish(teleEvevent);
