@@ -38,7 +38,8 @@ global without sharing class EmailTemplatePendingPartController {
                         SELECT
                             Name,
                             Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            Participant_Status_Last_Changed_Date__c,High_Priority__c
+                            Participant_Status_Last_Changed_Date__c,
+                        	High_Priority__c
                         FROM Participant_Enrollment__c
                         WHERE
                             (Participant_Status__c = 'Received' OR 
