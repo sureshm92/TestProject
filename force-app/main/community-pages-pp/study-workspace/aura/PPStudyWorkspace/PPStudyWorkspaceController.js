@@ -81,10 +81,14 @@
                         showTelevisits = JSON.parse(trialDetail.participantstate).showTeleVisits;
                         if (teleVendors != null) {
                             for (const item in teleVendors) {
+                                if (teleVendors[item] != null) {
+                                    if (teleVendors[item].Name == 'Vonage') {
                                 isTeleVendorChecked =
                                     // teleVendors[item].Televisit_Vendor__c === 'Vonage';
                                     teleVendors[item].Name === 'Vonage';
-                                break;
+                                        break;
+                                    }
+                                }
                             }
                         }
                         component.set('v.displayTelevisitsButton', showTelevisits);
