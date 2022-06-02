@@ -44,10 +44,6 @@
         );
         var ssId = communityService.getUrlParameter('ssId');
         var isDelegate = component.get('v.createUserForDelegate');
-        if(!component.get('v.needsGuardian')) {
-            component.get('v.participantDelegate') = null;
-            component.get('v.delegateDuplicateInfo') = null;
-        }
         communityService.executeAction(
             component,
             'saveParticipant',
