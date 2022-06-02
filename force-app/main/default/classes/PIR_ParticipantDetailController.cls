@@ -187,6 +187,9 @@ public without sharing class PIR_ParticipantDetailController {
         perToUpdate.MRN_Id__c = perRecord.MRN_Id__c;
 
         update perToUpdate;
+      }else{
+        perToUpdate.Id = perRecord.Id;
+        update perToUpdate;
       }
 
       //Update Participant record
@@ -239,6 +242,10 @@ public without sharing class PIR_ParticipantDetailController {
         }
       }
 
+      if(isOutreachUpdated == null){
+        isOutreachUpdated = false;
+      }
+      
       if(isOutreachUpdated){
         TriggerHandlerExecutor.bypassHandler(
           ContactTriggerHandler.CreateUserForDelegateContactHandler.class
