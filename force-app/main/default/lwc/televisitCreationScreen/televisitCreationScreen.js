@@ -8,6 +8,21 @@ import updateAttendees from "@salesforce/apex/TelevisitCreationScreenController.
 import cancelTelevisit from "@salesforce/apex/TelevisitCreationScreenController.cancelTelevisit";
 import { NavigationMixin } from "lightning/navigation";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import pirResources from '@salesforce/resourceUrl/pirResources';
+import RH_TV_View from '@salesforce/label/c.RH_TV_View';
+import RH_TV_CreateTelevisit from '@salesforce/label/c.RH_TV_CreateTelevisit';
+import RH_TV_EditTelevisit from '@salesforce/label/c.RH_TV_EditTelevisit';
+import RH_TV_CancelTelevisit from '@salesforce/label/c.RH_TV_CancelTelevisit';
+import RH_TV_CancelMessage from '@salesforce/label/c.RH_TV_CancelMessage';
+import RH_TV_NoRecordsFoundMessage from '@salesforce/label/c.RH_TV_NoRecordsFoundMessage';
+import RH_TV_SiteStaffRequiredErrorMessage from '@salesforce/label/c.RH_TV_SiteStaffRequiredErrorMessage';
+
+import RH_TV_Discard from '@salesforce/label/c.RH_TV_Discard';
+import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
+import RH_TV_Close from '@salesforce/label/c.RH_TV_Close';
+import RH_TV_Remove from '@salesforce/label/c.RH_TV_Remove';
+import RH_TV_Save from '@salesforce/label/c.RH_TV_Save';
+
 const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
 const isMenuOpen = ' slds-is-open';
 
@@ -33,7 +48,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         console.log('fetchTelevisitRecord3');
         this.fetchTelevisitRecord();
     }
-    
+    backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
     value = 'Scheduled';
     duration;
     @track startTime;
@@ -55,6 +70,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     televisitRecordId='';
     siteStaffAdded = true;
     isLoading = true;
+    isMainSpinnerLoading = false;
     currentTime;
     startTimeChanged = false;
     @track defaultTime;
@@ -64,6 +80,34 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     @track selectedAttendeesList = [];
     @track itemToRemove = {name:'',id:''};
     @track selectedItems;
+    label = {
+        RH_TV_View,
+        RH_TV_CreateTelevisit,
+        RH_TV_EditTelevisit,
+        RH_TV_CancelTelevisit,
+        RH_TV_CancelMessage,
+        RH_TV_NoRecordsFoundMessage,
+        RH_TV_SiteStaffRequiredErrorMessage,
+        RH_TV_Discard,
+        RH_TV_Confirm,
+        RH_TV_Close,
+        RH_TV_Remove,
+        RH_TV_Save,
+
+    }
+
+    //bishwa starts
+    renderedCallback() {
+        const style = document.createElement('style'); 
+        style.innerText = "lightning-combobox[data-id=Duration] .slds-combobox__input{  padding: 4px;}"; 
+        if (window.innerWidth == 768) {           
+            this.template.querySelector('lightning-combobox[data-id=Duration]').appendChild(style);
+        }
+    }
+    goBackHandler(){
+        window.history.back();
+    }
+    //bishwa ends
     openModal(event) {
         this.isModalOpen = true;
         if(event.target.dataset.id !== null && event.target.dataset.id !== '' && event.target.dataset.id !== undefined){
@@ -193,11 +237,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                         deletedAttendeesRecord:deletedAttendeesRecord,
                         newlyAddedAttendeesRecord:newlyAddedAttendeesRecord})
             .then((result) => {
-                //console.log(result);
                 this.fetchTelevisitRecord();
-                //this.selectedAttendees = [];
-                //this.selectedAttendeesList = [];
-                //this.selectedItems = [];
                 this.resetTelevisitAttendeesList();
             })
             .catch((error) => {
@@ -228,19 +268,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         var deletedAttendeesRecord = [];
         var newlyAddedAttendeesRecord = [];
         if(event.target.dataset.id ==='Update'){
-            /*
-            deletedAttendeesRecord = this.compareArrayOfObjects(this.selectedItems,this.selectedAttendeesList);
-            newlyAddedAttendeesRecord = this.compareArrayOfObjects(this.selectedAttendeesList,this.selectedItems);
-            this.updateAttendees(this.televisitRecordId, JSON.stringify(deletedAttendeesRecord), JSON.stringify(newlyAddedAttendeesRecord));
-            */
             deletedAttendeesRecord = this.compareArrayOfObjects(this.duplicateSelectedTelevisitAttendeesList,this.selectedTelevisitAttendeesList);
             newlyAddedAttendeesRecord = this.compareArrayOfObjects(this.selectedTelevisitAttendeesList,this.duplicateSelectedTelevisitAttendeesList);
             this.updateAttendees(this.televisitRecordId, JSON.stringify(deletedAttendeesRecord), JSON.stringify(newlyAddedAttendeesRecord));
         }
-        
         //this.resetTelevisitAttendeesList();
-     
-                
     }
     get options() {
         return [
@@ -401,14 +433,19 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitRecord.duration = this.duration;
         this.televisitRecord.peid = this.peid.id;
         this.televisitRecord.attendeesList = this.selectedTelevisitAttendeesList;
+        this.isMainSpinnerLoading = true;
+        
         //this.televisitRecord.attendeesList = this.selectedAttendees;
         sendRecord({wrapperText:JSON.stringify(this.televisitRecord)})
             .then((result) => {
                 if(result !== null){
                     this.showToastSuccess();
+                    this.isMainSpinnerLoading = false;
                     this.isModalOpen = false;
                     this.fetchTelevisitRecord();
-                    this.resetTelevisitAttendeesList();
+                    if(!this.televisitEditView){
+                        this.resetTelevisitAttendeesList();
+                    }
                 }
                 
             })
