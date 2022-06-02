@@ -531,7 +531,6 @@ export default class Pir_sharingFormFields extends LightningElement {
     useDuplicateRecord() {
         this.isDuplicateDelegate = false;
         this.isValid = false;
-        console.log('this.sharingObject:'+JSON.stringify(this.sharingObject));
     }
 
     stopSharing() {

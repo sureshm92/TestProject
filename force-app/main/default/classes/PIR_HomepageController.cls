@@ -1957,6 +1957,15 @@ public without sharing class PIR_HomepageController {
           pe.Initial_visit_scheduled_date__c = null;
           pe.Initial_visit_scheduled_time__c = null;
         }
+
+        //Patch Release Fix June
+        if (
+          pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH 
+        ) {
+          pe.Initial_visit_occurred_date__c= null;
+          pe.Initial_visit_occurred_flag__c= false;
+        }
+
         PEUpdateList.add(pe);
         PeId.add(pe.Id);
         if (
