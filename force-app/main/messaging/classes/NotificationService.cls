@@ -453,8 +453,7 @@ public without sharing class NotificationService {
                            if ((isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id))
                            && ((!welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
                            && welcomemsgSent.get(n.Id) && welcomemsgDelivered.get(n.Id)) 
-                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id))
-						   || (televisitNotificationTypes.contains(n.Notification_Type__c)))){
+                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id)))){
                             if (
                                 (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                 (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
