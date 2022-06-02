@@ -25,14 +25,13 @@ public without sharing class ContactTriggerHandler {
     public class UpdatePhoneNumberContactsHandler extends TriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createTaskToUpdatePhoneNumber(newList, (Map<Id, Contact>) oldMap);
-            
         }
     }
     /*For Welcome Msg -- Added by Anitha Start*/
     public class createNotificationsHandler extends TriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             retryWelcomeMsg(newList, (Map<Id, Contact>) oldMap);
-            createNotificationforWelcomemsg(newList, (Map<Id, Contact>) oldMap);        
+            createNotificationforWelcomemsg(newList, (Map<Id, Contact>) oldMap);
         }
     }
 
@@ -418,62 +417,39 @@ public without sharing class ContactTriggerHandler {
         Map<Id, Participant__c> participantcontact = new Map<Id, Participant__c>();
         List<ID> participantids = new List<ID>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
-        Map<Id,Participant__c> participantconMap;
+        Map<Id, Participant__c> participantconMap;
         Map<Id, Participant__c> particpantmap = new Map<Id, Participant__c>(
-            [SELECT Id, Contact__c,Adult__c FROM Participant__c WHERE Contact__c IN :conlst]
+            [SELECT Id, Contact__c, Adult__c FROM Participant__c WHERE Contact__c IN :conlst]
         );
-        system.debug('particpantmap:::'+particpantmap);
+        system.debug('particpantmap:::' + particpantmap);
         if (!particpantmap.isEmpty()) {
             for (Participant__c participant : particpantmap.values()) {
                 participantcontact.put(participant.Contact__c, participant);
                 participantids.add(participant.Id);
-                 system.debug('participantcontact:::'+participantcontact);
+                system.debug('participantcontact:::' + participantcontact);
             }
             if (participantids.size() > 0) {
                 partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds
                 );
-                system.debug('partPerDelegateIds:::'+partPerDelegateIds);
+                system.debug('partPerDelegateIds:::' + partPerDelegateIds);
                 /*if(!partPerDelegateIds.isEmpty()){
-                    participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, Participant__c, Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r ) From Participant__c where ID IN : partPerDelegateIds.keyset()]);
-                }*/
+participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, Participant__c, Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r ) From Participant__c where ID IN : partPerDelegateIds.keyset()]);
+}*/
             }
         }
         for (Contact con : newList) {
             if (participantcontact.containskey(con.Id)) {
-                if(operationtype == 'Mobile' && con.Welcome_Message_Sent__c && !con.Welcome_Message_Delivered__c){
+                if (operationtype == 'Mobile') {
                     system.debug('platform level contact');
-                    if(particpantmap.get(participantcontact.get(con.Id).Id).Adult__c){
-                        /*Platform Level PT mEsg*/
-                        welcomemsgnotifications.addAll(
-                            ContactService.addwelcomeNotifications(
-                                con.Id,
-                                participantcontact.get(con.Id).Id,
-                                NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
-                            )
-                        );
-                    }
-                    if(!partPerDelegateIds.isEmpty()){
-                        for (Id delegateconId : partPerDelegateIds.get(participantcontact.get(con.Id).Id)) {
-                            /*Platform Level Delegate*/
-                            system.debug('platform level del contact');
-                            // Adding for adult 
-                            //if(participantconMap.containskey(participantcontact.get(con.Id).Id) && participantconMap.get(participantcontact.get(con.Id).Id).Adult__c){
-                                welcomemsgnotifications.addAll(
-                                    ContactService.addwelcomeNotifications(
-                                        delegateconId,
-                                        participantcontact.get(con.Id).Id,
-                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
-                                    )
-                                );
-                            /*}*/
-                        }
-                    }
-                }
-                else if(operationtype == 'smsoptin'){
-                    /*Platform Level PT mEsg*/
-                    if(!con.Welcome_Message_Sent__c){
-                        if(particpantmap.get(participantcontact.get(con.Id).Id).Adult__c){
+                    if (
+                        particpantmap.get(participantcontact.get(con.Id).Id).Adult__c &&
+                        con.Participant_Opt_In_Status_SMS__c &&
+                        !con.Welcome_Message_Sent__c &&
+                        !con.Welcome_Message_Delivered__c
+                    ) {
+                        if (con.UserCommunityIsDelegate__c == false) {
+                            // Means he is only purely a participant - not a delegate of another participant - Sent Platfomr level SMS for Participant
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
                                     con.Id,
@@ -481,18 +457,94 @@ public without sharing class ContactTriggerHandler {
                                     NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
                                 )
                             );
-                        }
-                    }
-                    if(!partPerDelegateIds.isEmpty()){
-                        for (Id delegateconId : partPerDelegateIds.get(participantcontact.get(con.Id).Id)) {
-                            /*Platform Level Delegate*/
+                        } else if (con.UserCommunityIsDelegate__c == true) {
+                            //Menans contact is having delegate role, if yes, Send Platform Level SMS to the Same contact for Delegate Type.
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
-                                    delegateconId,
+                                    con.Id,
                                     participantcontact.get(con.Id).Id,
                                     NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
                                 )
                             );
+                        }
+                    }
+                    if (!partPerDelegateIds.isEmpty()) {
+                        for (
+                            Id delegateconId : partPerDelegateIds.get(
+                                participantcontact.get(con.Id).Id
+                            )
+                        ) {
+                            /*Platform Level Delegate*/
+                            system.debug('platform level del contact');
+                            // Adding for adult
+                            //if(participantconMap.containskey(participantcontact.get(con.Id).Id) && participantconMap.get(participantcontact.get(con.Id).Id).Adult__c){
+                            Boolean isDelegateretryNotification =
+                                ContactService.patientdelList.containskey(delegateconId) &&
+                                ContactService.patientdelList.get(delegateconId)
+                                    .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                                !(ContactService.patientdelList.get(delegateconId)
+                                    .Contact__r.Welcome_Message_Sent__c) &&
+                                !(ContactService.patientdelList.get(delegateconId)
+                                    .Contact__r.Welcome_Message_Delivered__c);
+                            if (isDelegateretryNotification) {
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        delegateconId,
+                                        participantcontact.get(con.Id).Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    )
+                                );
+                            }
+                            /*}*/
+                        }
+                    }
+                } else if (operationtype == 'smsoptin') {
+                    /*Platform Level PT mEsg*/
+                    if (!con.Welcome_Message_Sent__c && con.Participant_Opt_In_Status_SMS__c) {
+                        if (particpantmap.get(participantcontact.get(con.Id).Id).Adult__c) {
+                            if (con.UserCommunityIsDelegate__c == false) {
+                                // Means he is only purely a participant - not a delegate of another participant - Sent Platfomr level SMS for Participant
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        con.Id,
+                                        participantcontact.get(con.Id).Id,
+                                        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
+                                    )
+                                );
+                            } else if (con.UserCommunityIsDelegate__c == true) {
+                                //Menans contact is having delegate role, if yes, Send Platform Level SMS to the Same contact for Delegate Type.
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        con.Id,
+                                        participantcontact.get(con.Id).Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    )
+                                );
+                            }
+                        }
+                    }
+                    if (!partPerDelegateIds.isEmpty()) {
+                        for (
+                            Id delegateconId : partPerDelegateIds.get(
+                                participantcontact.get(con.Id).Id
+                            )
+                        ) {
+                            Boolean isDelegateOptInNotification =
+                                ContactService.patientdelList.containskey(delegateconId) &&
+                                ContactService.patientdelList.get(delegateconId)
+                                    .Contact__r.Participant_Opt_In_Status_SMS__c &&
+                                !(ContactService.patientdelList.get(delegateconId)
+                                    .Contact__r.Welcome_Message_Sent__c);
+                            if (isDelegateOptInNotification) {
+                                /*Platform Level Delegate*/
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        delegateconId,
+                                        participantcontact.get(con.Id).Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    )
+                                );
+                            }
                         }
                     }
                 }
@@ -510,7 +562,7 @@ public without sharing class ContactTriggerHandler {
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Set<ID> booleanupdateconidslst = new Set<ID>();
         for (Contact con : newList) {
-             if (
+            if (
                 oldMap != null &&
                 con.Participant_Opt_In_Status_SMS__c !=
                 oldMap.get(con.Id).Participant_Opt_In_Status_SMS__c &&
@@ -532,18 +584,15 @@ public without sharing class ContactTriggerHandler {
         if (booleanupdateconidslst.size() > 0) {
             system.debug('contact platform');
             welcomemsgnotifications.addAll(
-                platformLevelNotifications(booleanupdateconidslst, oldMap, newList,'smsoptin')
+                platformLevelNotifications(booleanupdateconidslst, oldMap, newList, 'smsoptin')
             );
-        } 
+        }
         if (!welcomemsgnotifications.isEmpty())
             insert welcomemsgnotifications;
     }
-     @TestVisible
+    @TestVisible
     //This method is to retry the welcome msg whenever is_Invalid_number__c field is true  and Mobile no is updated at contact
-    private static void retryWelcomeMsg(
-        List<Contact> newList,
-        Map<Id, Contact> oldMap
-    ){
+    private static void retryWelcomeMsg(List<Contact> newList, Map<Id, Contact> oldMap) {
         Set<ID> mbleupdateconidslst = new Set<ID>();
         Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
         List<ID> participantids = new List<ID>();
@@ -554,15 +603,21 @@ public without sharing class ContactTriggerHandler {
         for (contact cont : newList) {
             if (cont.is_Invalid_number__c && cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
-                 mbleupdateconidslst.add(cont.Id);
-                 cont.Is_Invalid_Number__c = false;
-            }  
+                mbleupdateconidslst.add(cont.Id);
+                cont.Is_Invalid_Number__c = false;
+            }
         }
         if (mbleupdateconidslst.size() > 0) {
             /*Sending Study level and Platform Level SMS for Mobile no update*/
             Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>(
                 [
-                    SELECT Id, Participant_Contact__c, Welcome_Message_Delivered__c,Participant__c,Welcome_Message_Sent__c,Participant__r.Adult__c
+                    SELECT
+                        Id,
+                        Participant_Contact__c,
+                        Welcome_Message_Delivered__c,
+                        Participant__c,
+                        Welcome_Message_Sent__c,
+                        Participant__r.Adult__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c IN :mbleupdateconidslst
                 ]
@@ -577,8 +632,8 @@ public without sharing class ContactTriggerHandler {
                     );
                 }
                 for (Participant_Enrollment__c per : peIdMap.values()) {
-                    if(per.Welcome_Message_Sent__c && !per.Welcome_Message_Delivered__c){
-                        if(!String.isBlank(per.Participant__c) && per.Participant__r.Adult__c){
+                    if (!per.Welcome_Message_Sent__c && !per.Welcome_Message_Delivered__c) {
+                        if (!String.isBlank(per.Participant__c) && per.Participant__r.Adult__c) {
                             /*Study Level Welcome Msg to PT*/
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
@@ -588,22 +643,24 @@ public without sharing class ContactTriggerHandler {
                                 )
                             );
                         }
-                        for (Id delegateconId : partPerDelegateIds.get(per.Participant__c)) {
-                            /*Study Level Delegate*/
-                            welcomemsgnotifications.addAll(
-                                ContactService.addwelcomeNotifications(
-                                    delegateconId,
-                                    per.Id,
-                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
-                                )
-                            );
+                        if (partPerDelegateIds.containsKey(per.Participant__c)) {
+                            for (Id delegateconId : partPerDelegateIds.get(per.Participant__c)) {
+                                /*Study Level Delegate*/
+                                welcomemsgnotifications.addAll(
+                                    ContactService.addwelcomeNotifications(
+                                        delegateconId,
+                                        per.Id,
+                                        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                    )
+                                );
+                            }
                         }
                     }
                 }
             }
             /*Send Platform Level Msg*/
             welcomemsgnotifications.addAll(
-                platformLevelNotifications(mbleupdateconidslst, oldMap, newList,'Mobile')
+                platformLevelNotifications(mbleupdateconidslst, oldMap, newList, 'Mobile')
             );
         }
         if (contMapForStatusUpdate != null && !contMapForStatusUpdate.isEmpty()) {
@@ -616,7 +673,8 @@ public without sharing class ContactTriggerHandler {
                     AND status = 'Open'
             ];
             for (task tl : taskList) {
-                tl.Status = 'Completed';
+                tl.Status = TaskService.TASK_STATUS_COMPLETED;
+                tl.Completed_Date__c = Datetime.now();
                 taskForUpdatePhoneNumber.add(tl);
             }
         }

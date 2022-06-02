@@ -226,6 +226,40 @@ public without sharing class TaskTriggerHandler {
             }
             if (
                 task.InitialTaskNotification__c &&
+                task.Task_Type__c == TaskService.TASK_TYPE_ECOA
+            ) {
+                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                    notifications.add(
+                        new Notification__c(
+                            Recipient__c = task.WhoId,
+                            Task_Id__c = task.Id,
+                            WhatId__c = task.Id,
+                            Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Type',
+                            StartDate__c = task.Start_Date__c,
+                            RemindUsing__c = 'Email'
+                        )
+                    );
+                }
+                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    if (delegates != null && !delegates.isEmpty()) {
+                        for (Contact delContact : delegates) {
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = delContact.Id,
+                                    Task_Id__c = task.Id,
+                                    WhatId__c = task.Id,
+                                    Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
+                                    StartDate__c = task.Start_Date__c,
+                                    RemindUsing__c = 'Email'
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+            if (
+                task.InitialTaskNotification__c &&
                 task.Task_Type__c == TaskService.TASK_TYPE_NOT_SELECTED
             ) {
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {

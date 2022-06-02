@@ -34,16 +34,17 @@ public without sharing class SendResultTriggerHandler {
             }
         }
         if(sendresultmap.size()>0){
-            Map<Id,Notification__c> notificationmap = new Map<Id,Notification__c>([Select Id,WhatId__c,Notification_Type__c From Notification__c where ID IN: sendresultmap.keyset()]);
+            Map<Id,Notification__c> notificationmap = new Map<Id,Notification__c>([Select Id,WhatId__c,Notification_Type__c, Recipient__c From Notification__c where ID IN: sendresultmap.keyset()]);
             if(notificationmap.size()>0){
                 for (Id ss : notificationmap.keyset()){
                     if(NotificationService.welcomemsgNoticationtypes.Contains(notificationmap.get(ss).Notification_Type__c)){
                         Id whatId = Id.valueOf(notificationmap.get(ss).WhatId__c);
+                        Id recipientId = Id.valueOf(notificationmap.get(ss).Recipient__c);
                         if(String.valueOf(whatId.getSobjectType()) == 'Participant_Enrollment__c'){
                             perids.add(whatId);    
                         }
-                        else if(String.valueOf(whatId.getSobjectType()) == 'Contact'){
-                            conids.add(whatId);    
+                        else if(String.valueOf(whatId.getSobjectType()) == 'Participant__c'){
+                            conids.add(recipientId);    
                             
                         }  
                     }

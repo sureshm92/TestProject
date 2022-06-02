@@ -46,7 +46,7 @@ export default class Pir_participantSubStatus extends LightningElement {
   get checkGroupName() {
     if (this.groupicon == "success") {
       if (this.groupstatus != undefined) {
-          if(this.index == 2 && this.isinitialvisit){console.log('isInitialvisit');
+          if(this.index == 2 && this.isinitialvisit){
                  return this.utilLabels['PWS_Initial_Visit_Card_Name'];
           }else{
         return this.utilLabels[this.groupstatus];}
@@ -70,19 +70,11 @@ export default class Pir_participantSubStatus extends LightningElement {
         ) {
           return this.utilLabels[this.groupname];
         } else {
-          console.log('iiiiiiii'+this.groupstatus+this.groupname+this.index);
-          if(this.index == 2 && this.isinitialvisit){console.log('isInitialvisit');
+          if(this.index == 2 && this.isinitialvisit){
               return this.utilLabels['PWS_Initial_Visit_Card_Name'];
            }else{
               return this.utilLabels[this.groupstatus];
            }
-          // if(this.groupstatus == "Eligibility_Passed" && this.groupname == "PWS_Initial_Visit_Card_Name"){
-          //   console.log('epassed');
-          //   return this.utilLabels[this.groupname];
-          //  }
-           //else{ console.log('enotpassed');
-          //   return this.utilLabels[this.groupstatus];
-          // }
         }
       } else {
         return this.utilLabels[this.groupname];
@@ -123,7 +115,6 @@ export default class Pir_participantSubStatus extends LightningElement {
   get checkGroupStatus() {
     if (this.groupicon == "success"){
           if(this.groupname == "PWS_Contact_Name"){
-              console.log('reasonsucc'+this.consussessreason);
               if(this.consussessreason){
                 return this.consussessreason;
               }else{  return '';}
@@ -132,10 +123,8 @@ export default class Pir_participantSubStatus extends LightningElement {
           }
     } else if (this.groupicon == "failure") {
       if(this.non_enrollment_reason){
-        console.log('map js'+this.reasons.get(this.non_enrollment_reason));
         let reasonvalue = this.reasons.get(this.non_enrollment_reason);
         if(reasonvalue != undefined){
-          console.log('map get js'+this.utilLabels[reasonvalue]);
           return this.utilLabels[reasonvalue];
         }else{
           return this.non_enrollment_reason;
