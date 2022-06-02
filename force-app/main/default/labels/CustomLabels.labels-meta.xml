@@ -22331,6 +22331,22 @@ communications using the toggles below.</value>
         <value>Pending Your Action</value>
     </labels>
     <labels>
+        <fullName>SMS_Body_Removed_as_Televisit_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Removed_as_Televisit_Attendee</shortDescription>
+        <value>##ShortCommunityName: You have been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+	<labels>
+        <fullName>SMS_Body_Removed_as_Televisit_Del_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Removed_as_Televisit_Del_Attendee</shortDescription>
+        <value>##ShortCommunityName: Your patient ##ParticipantFirstName ##ParticipantLastName has been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
         <fullName>SMS_Body_Televisit_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
