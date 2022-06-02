@@ -304,7 +304,7 @@ public with sharing class Action_SendSMS implements Action {
                      public String awsStudy; */
                 }
                 // Pinpoint code Ends
-
+                
                 messageParametersList.add(msgParam);
             }
         }
@@ -574,12 +574,17 @@ public with sharing class Action_SendSMS implements Action {
         Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
             [
                 SELECT
-                    Id, Participant_Enrollment__c, Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c, Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Id, Participant_Enrollment__c, 
+                    Participant_Enrollment__r.Study_Site__c,
+                    Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                    Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c, 
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
                     Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
                     Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Participant_Enrollment__r.Study_Site__r.From_Number__c
+                    Participant_Enrollment__r.Study_Site__r.From_Number__c,
+                    Participant_Enrollment__r.Welcome_Message_Sent__c,
+                    Participant_Enrollment__r.Welcome_Message_Delivered__c
                 FROM Televisit__c
                 WHERE Id IN :televisitIdList
             ]
@@ -771,13 +776,16 @@ public with sharing class Action_SendSMS implements Action {
                         }
                     } else if(objType == 'Televisit__c'){
                         Televisit__c tvOBJ = televisitIdMap.get(whatId);
-                        pinPoint = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                        pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
+                        studySiteId = tvOBJ.Participant_Enrollment__r.Study_Site__c;
                         sponsorName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
                         sponsorNameSms = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
                         ctpTemplateName = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
                         isSMSAvailableForPER = tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c && tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
                         fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
+                        welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                        welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
                     }
                 } else {
                     if (objType == 'SurveyInvitation') {
