@@ -69,7 +69,7 @@ public class EcoaTaskService {
              System.debug('delegateUserObj::'+delegateUserObj);
             Task t = new Task();
             t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
-            t.Subject = 'Ediary ' + task.Diary_Name__c;
+            t.Subject = 'eDiary ' + task.Diary_Name__c;
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c = 'e-diaries';
