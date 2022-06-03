@@ -82,7 +82,7 @@ Public without sharing Class TelevisitCreationScreenController {
             if(!lsttelevisitAttendees.isEmpty()){
                  try{
                     insert lsttelevisitAttendees;
-
+                    
                 }catch(exception ex){
                     return ex.getMessage();
                 }
@@ -216,6 +216,7 @@ Public without sharing Class TelevisitCreationScreenController {
         Participant_Enrollment__c  per = [SELECT Id,Participant__c,Participant__r.Adult__c,Participant_Contact__c,PI_Contact__c,PI_Contact__r.FirstName, PI_Contact__r.LastName, Study_Site__c,
                                           Participant__r.First_Name__c,Participant__r.Last_Name__c FROM Participant_Enrollment__c 
                                           WHERE Id =:ParticipantEnrollmentId];
+        User usrRecord = [SELECT Id,FirstName,LastName FROM User WHERE ContactId =:per.PI_Contact__c LIMIT 1];
         if(per.Participant__r.Adult__c){
             AttendeesWrapper wrap3 = new AttendeesWrapper();
             wrap3.firstName= per.Participant__r.First_Name__c;
@@ -235,6 +236,10 @@ Public without sharing Class TelevisitCreationScreenController {
             AttendeesWrapper wrap1 = new AttendeesWrapper();
             wrap1.firstName= per.PI_Contact__r.FirstName;
             wrap1.lastName= per.PI_Contact__r.LastName;
+            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && usrRecord != null){
+                wrap1.firstName= usrRecord.FirstName;
+                wrap1.lastName= usrRecord.LastName;
+            }
             wrap1.attendeeType= 'PI';
             wrap1.contactId= per.PI_Contact__c;
             lstAttendeesWrapper.add(wrap1);
