@@ -11,7 +11,7 @@ public class Test_CommunityService {
 	@IsTest
     static void test_LanguageSwitcher() {
         Set<Id> contactId = new Set<Id>();
-        List<User> usrLst = [select Id,contactId from user where contactId!=null];
+        List<User> usrLst = [select Id,contactId from user where contactId!=null LIMIT 5];
         User piUsr = [select Id,Contact.userCommunytyType__c,contactId  from user where contactId!=null  and Contact.userCommunytyType__c='PI'];
         Test.startTest();
         System.runAs(piUsr) {
