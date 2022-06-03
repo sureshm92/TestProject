@@ -91,7 +91,7 @@ public class TelevisitTriggerHandler {
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
                                 WhatId__c = teleObj.Id,
-                                Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Type'
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE
                             )
                         );
                         if (delegateContactId != null) {
@@ -102,7 +102,7 @@ public class TelevisitTriggerHandler {
                                         teleAttendee.Contact__c
                                     ),
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Del_Ty'
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY
                                 )
                             );
                         }
@@ -127,7 +127,7 @@ public class TelevisitTriggerHandler {
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
                                 WhatId__c = teleObj.Id,
-                                Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Type'
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE
                             )
                         );
                         if (delegateContactId != null) {
@@ -138,7 +138,7 @@ public class TelevisitTriggerHandler {
                                         teleAttendee.Contact__c
                                     ),
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Del'
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL
                                 )
                             );
                         }

@@ -148,7 +148,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notifications.addAll(
                 createAttendeeNotifications(
                     attendeeDayTelevisitMap,
-                    'Message_to_PT_Televisit_Day_Reminder_Typ'
+                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP
                 )
             );
         }
@@ -156,7 +156,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notifications.addAll(
                 createAttendeeNotifications(
                     attendeeDayDelTelevisitMap,
-                    'Message_to_PT_Televisit_Day_Reminder_Del'
+                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL
                 )
             );
         }
@@ -164,7 +164,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notifications.addAll(
                 createAttendeeNotifications(
                     attendeeHourTelevisitMap,
-                    'Message_to_PT_Televisit_Hour_Reminder_Ty'
+                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
                 )
             );
         }
@@ -172,7 +172,7 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notifications.addAll(
                 createAttendeeNotifications(
                     attendeeHourDelTelevisitMap,
-                    'Message_to_PT_Televisit_Hour_Reminder_De'
+                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
                 )
             );
         }
