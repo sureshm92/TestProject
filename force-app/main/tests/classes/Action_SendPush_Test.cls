@@ -96,7 +96,7 @@ public class Action_SendPush_Test {
         update pa;
 
         List<Notification__c> notification = [
-            SELECT Id, WhatId__c, Notification_Type__c
+            SELECT Id, WhatId__c, Notification_Type__c, Recipient__c
             FROM Notification__c
             WHERE Notification_Type__c = 'Message_To_PT_Task_Reminder_Vis_Type'
         ];
