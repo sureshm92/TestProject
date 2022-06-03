@@ -383,6 +383,7 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> surveyInvitationIdList = new List<Id>();
         List<Id> ownerIdList = new List<Id>();
         List<Id> televisitIdList = new List<Id>();
+        List<Id> televisitAttendeeIdList = new List<Id>();
         Boolean isPlatFormEvent = SMSOptOutService.isPlatFormEvent;
 
         for (Notification__c notificationObj : notificationsList) {
@@ -399,6 +400,8 @@ public with sharing class Action_SendSMS implements Action {
                     taskIdList.add(whatId);
                 } else if (objType == 'Televisit__c') {
                     televisitIdList.add(whatId);
+                } else if (objType == 'Televisit_Attendee__c') {
+                    televisitAttendeeIdList.add(whatId);
                 }
 
                 if (objType == 'SurveyInvitation') {
@@ -589,8 +592,26 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :televisitIdList
             ]
         );
-        system.debug('notificationsList:::'+notificationsList);
-
+        Map<Id, Televisit_Attendee__c> televisitAttendeeIdMap = new Map<Id, Televisit_Attendee__c>(
+            [
+                SELECT
+                    Id,
+                    Televisit__r.Participant_Enrollment__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Televisit__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.From_Number__c,
+                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
+                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Delivered__c
+                FROM Televisit_Attendee__c
+                WHERE Id IN :televisitAttendeeIdList
+            ]
+        );
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
             Id peId = null;
@@ -774,8 +795,16 @@ public with sharing class Action_SendSMS implements Action {
                                     .Ecoa_Task_Configuration_del__r.Participant_Enrollment__c;
                             }
                         }
-                    } else if(objType == 'Televisit__c'){
-                        Televisit__c tvOBJ = televisitIdMap.get(whatId);
+                    } else if (objType == 'Televisit__c' || objType == 'Televisit_Attendee__c') {
+                        Televisit__c tvOBJ = null;
+                        if (objType == 'Televisit__c') {
+                            tvOBJ = televisitIdMap.get(whatId);
+                        }
+                        if (objType == 'Televisit_Attendee__c') {
+                            Televisit_Attendee__c tva = televisitAttendeeIdMap.get(whatId);
+                            tvOBJ = tva.Televisit__r;
+                        }
+                        if (tvOBJ != null) {
                         pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
                         studySiteId = tvOBJ.Participant_Enrollment__r.Study_Site__c;
                         sponsorName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
@@ -786,6 +815,7 @@ public with sharing class Action_SendSMS implements Action {
                         fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
                         welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
                         welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                    }
                     }
                 } else {
                     if (objType == 'SurveyInvitation') {

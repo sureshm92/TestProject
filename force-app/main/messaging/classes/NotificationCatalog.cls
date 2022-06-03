@@ -106,7 +106,6 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 
-
     // For welcome Message
     public static final String MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG = 'Message_To_PT_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
@@ -127,5 +126,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL = 'Message_to_PT_Televisit_Rescheduled_Del';
     public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE = 'Message_to_PT_Televisit_Cancelled_Type';
     public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY = 'Message_to_PT_Televisit_Cancelled_Del_Ty';
-
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP = 'Message_to_PT_Televisit_Day_Reminder_Typ';
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL = 'Message_to_PT_Televisit_Day_Reminder_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY = 'Message_to_PT_Televisit_Hour_Reminder_Ty';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE = 'Message_to_PT_Televisit_Hour_Reminder_De';
 }
