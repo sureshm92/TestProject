@@ -19,7 +19,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     singleMeetDetail = {};
     singleActiveVisit = true;
     showMoreVisits = false;
-    moreVisitIconName = 'utility:chevronright';
+    moreVisitIconName = 'utility:chevrondown';
     allVisits = [];
     allActiveVisits = [];
     hasActiveVisits = false;
@@ -162,7 +162,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
     handleOpenCloseVisits(event){
         this.showMoreVisits = (!this.showMoreVisits);
-        this.moreVisitIconName = (this.moreVisitIconName == 'utility:chevronright' ? 'utility:chevrondown' : 'utility:chevronright');
+        this.moreVisitIconName = (this.moreVisitIconName == 'utility:chevrondown' ? 'utility:chevronup' : 'utility:chevrondown');
     }
     timeInterval(){
         setInterval(() => {
