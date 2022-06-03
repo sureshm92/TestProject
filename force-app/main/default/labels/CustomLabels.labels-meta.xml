@@ -19021,34 +19021,6 @@ communications using the toggles below.</value>
         <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
     <labels>
-        <fullName>PT_Televisit_Day_Del_Reminder_SMS</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PT Televisit Day Del Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: ##ParticipantFirstName ##ParticipantLastName has a ##StudyCodeName Study televisit on ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>PT_Televisit_Day_Reminder_SMS</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PT Televisit Day Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyCodeName televisit on ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>PT_Televisit_Hour_Del_Reminder_SMS</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PT Televisit Hour Del Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: ##ParticipantFirstName ##ParticipantLastName has a ##StudyCodeName Study televisit today at ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>PT_Televisit_Hour_Reminder_SMS</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PT Televisit Hour Reminder SMS</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyCodeName televisit today at ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25841,5 +25813,89 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>RH_TelevisitExtendMeetingOptions</shortDescription>
         <value>10,30</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CancelMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CancelMessage</shortDescription>
+        <value>Are you sure you want to cancel a Televisit?</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CancelTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CancelTelevisit</shortDescription>
+        <value>Cancel Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CreateTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CreateTelevisit</shortDescription>
+        <value>Create Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Discard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Discard</shortDescription>
+        <value>Discard</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_EditTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_EditTelevisit</shortDescription>
+        <value>Edit Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_NoRecordsFoundMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_NoRecordsFoundMessage</shortDescription>
+        <value>Oh no, there are no items to display.</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_SiteStaffRequiredErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_SiteStaffRequiredErrorMessage</shortDescription>
+        <value>At least one site staff member is required to attend. Add Attendees above.</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_View</shortDescription>
+        <value>View:</value>
     </labels>
 </CustomLabels>
