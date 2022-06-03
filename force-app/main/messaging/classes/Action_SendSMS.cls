@@ -612,8 +612,6 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :televisitAttendeeIdList
             ]
         );
-        system.debug('notificationsList:::' + notificationsList);
-
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
             Id peId = null;
