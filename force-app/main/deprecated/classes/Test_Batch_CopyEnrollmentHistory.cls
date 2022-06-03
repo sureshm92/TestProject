@@ -175,7 +175,9 @@ private class Test_Batch_CopyEnrollmentHistory {
         TriggerHandlerExecutor.bypassHandler(
             StudySiteTriggerHandler.CreateStatusHistoryHandler.class
         );
-
+        TriggerHandlerExecutor.bypassHandler(
+        	ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
         Batch_CopyEnrollmentHistory.disableTriggers();
     }
 }
