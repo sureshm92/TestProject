@@ -91,7 +91,7 @@ public class TelevisitTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = teleAttendee.Contact__c,
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE
+                                    Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Type'
                                 )
                             );
                             if (delegateContactId != null) {
@@ -102,7 +102,7 @@ public class TelevisitTriggerHandler {
                                             teleAttendee.Contact__c
                                         ),
                                         WhatId__c = teleObj.Id,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY
+                                        Notification_Type__c = 'Message_to_PT_Televisit_Cancelled_Del_Ty'
                                     )
                                 );
                             }
@@ -127,7 +127,7 @@ public class TelevisitTriggerHandler {
                                 new Notification__c(
                                     Recipient__c = teleAttendee.Contact__c,
                                     WhatId__c = teleObj.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE
+                                    Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Type'
                                 )
                             );
                             if (delegateContactId != null) {
@@ -138,7 +138,7 @@ public class TelevisitTriggerHandler {
                                             teleAttendee.Contact__c
                                         ),
                                         WhatId__c = teleObj.Id,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL
+                                        Notification_Type__c = 'Message_to_PT_Televisit_Rescheduled_Del'
                                     )
                                 );
                             }
@@ -183,6 +183,7 @@ public class TelevisitTriggerHandler {
     }
     @Future(callout=true)
     public static Void SendRequestToVonageAPI(list<Id> listTelevisitId) {
+        TokBoxSettings2__c tokbox = TokBoxSettings2__c.getOrgDefaults();
         Televisit__c televisitRecord = [SELECT Id FROM Televisit__c WHERE Id = :listTelevisitId[0]];
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.opentok.com/session/create');
@@ -190,11 +191,7 @@ public class TelevisitTriggerHandler {
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setHeader(
             'X-OPENTOK-AUTH',
-            new OpenTokJWT(
-                    'https://api.opentok.com',
-                    '47459271',
-                    'eb094c1b6355f340f708c92f6151cc8377097f24'
-                )
+            new OpenTokJWT(tokbox.API_URL__c, tokbox.API_Key__c, tokbox.API_Secret__c)
                 .getAuthJWTHeader()
         );
         req.setHeader('Accept', 'application/json');
