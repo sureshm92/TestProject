@@ -7,6 +7,7 @@ global without sharing class EmailTemplatePendingPartController {
     global List<ParticipantInfoWrapper> participants {
         get {
             List<ParticipantInfoWrapper> delegateStudyNames = new List<ParticipantInfoWrapper>();
+             List<ParticipantInfoWrapper> passParticipantDelegate = new List<ParticipantInfoWrapper>();
             if (
                 sourceIdValue != null &&
                 sourceIdValue.getSobjectType() == Contact.getSObjectType()
@@ -41,7 +42,10 @@ global without sharing class EmailTemplatePendingPartController {
                         	High_Priority__c
                         FROM Participant_Enrollment__c
                         WHERE
-                            Participant_Status__c IN ('Received','Contact Attempted','Pre-review Passed','Successfully Contacted')
+                            (Participant_Status__c = 'Received' OR 
+                             (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
+                              AND High_Priority__c = true)
+                            )
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE 
@@ -70,8 +74,9 @@ global without sharing class EmailTemplatePendingPartController {
         global String refId { get; set; }
         global String studyName { get; set; }
         global String lastRecievedDate { get; set; }
+        //global boolean highPriorityFlag { get; set; }
         global String yesNoPriority { get; set; }
-
+        
         public ParticipantInfoWrapper() {
         }
 
@@ -94,14 +99,14 @@ global without sharing class EmailTemplatePendingPartController {
                 lastRecievedDate.secondGmt()
             );
             this.lastRecievedDate = gmt.format('yyyy-MM-dd', timezonesidkey);
-            this.yesNoPriority = yesNoPriority;
+            //this.highPriorityFlag = highPriorityFlag;
+			this.yesNoPriority = yesNoPriority;
 			if(highPriorityFlag == true){
                 this.yesNoPriority = 'Yes';
-                }else{
-                 this.yesNoPriority = 'No';
-                }
+            }else{
+                this.yesNoPriority = '';
+            }
         }
-
         global Integer compareTo(Object compareTo) {
             if (studyName > ((ParticipantInfoWrapper) compareTo).studyName) {
                 return 1;
