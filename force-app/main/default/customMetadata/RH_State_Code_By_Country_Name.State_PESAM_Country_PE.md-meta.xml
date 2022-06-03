@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>State_Name__c</field>
-        <value xsi:type="xsd:string">San MartÃ­n</value>
+        <value xsi:type="xsd:string">San Martín</value>
     </values>
 </CustomMetadata>

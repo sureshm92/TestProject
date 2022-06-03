@@ -146,10 +146,15 @@ public class TelevisitTriggerHandler {
                             teleAttendee.Is_Second_Reminder_Sent__c = false;
                             taList.add(teleAttendee);
                         }
+                        }
+                        teleAttendee.Is_First_Reminder_Sent__c = false;
+                        teleAttendee.Is_Second_Reminder_Sent__c = false;
+                        taList.add(teleAttendee);
                     }
                 }
             }
         }
+    }
         List<SObject> sObjectsList = new List<SObject>();
         if (!taList.isEmpty()) {
             sObjectsList.addAll(taList);
@@ -191,7 +196,15 @@ public class TelevisitTriggerHandler {
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setHeader(
             'X-OPENTOK-AUTH',
+<<<<<<< HEAD
             new OpenTokJWT(tokbox.API_URL__c, tokbox.API_Key__c, tokbox.API_Secret__c)
+=======
+            new OpenTokJWT(
+                    tokbox.API_URL__c,
+                    tokbox.API_Key__c,
+                    tokbox.API_Secret__c
+                )
+>>>>>>> 93830babce48131a1a6c20aa37aa7c6e166a4213
                 .getAuthJWTHeader()
         );
         req.setHeader('Accept', 'application/json');
