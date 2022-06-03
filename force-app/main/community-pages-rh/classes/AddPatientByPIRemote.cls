@@ -211,9 +211,10 @@ public without sharing class AddPatientByPIRemote {
             Participant__c.class
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
-        if (
+        if (((participant.Email__c != null 
+            ||participant.Phone__c != Null || !participant.Adult__c) ||
             (participant.Email__c != null 
-            ||participant.Phone__c != Null) &&
+            ||participant.Phone__c != Null || participant.Adult__c)) &&
             participant.First_Name__c != null &&
             participant.Last_Name__c != null
         ) {
