@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>State_Name__c</field>
-        <value xsi:type="xsd:string">Ã‘uble</value>
+        <value xsi:type="xsd:string">Ñuble</value>
     </values>
 </CustomMetadata>

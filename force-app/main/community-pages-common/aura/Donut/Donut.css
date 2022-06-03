@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS .dt-legend-circle-col {
+.THIS .dt-legend-circle-col {
     flex: 0 0 16px;
 }
 
@@ -17,8 +17,9 @@
     color: #333333;
 }
 .THIS .dt-legend-item-RTL {
-   /* @noflip */ margin-right: 6px;
-                color: #333333;
+    /* @noflip */
+    margin-right: 6px;
+    color: #333333;
 }
 .THIS .dt-legend-value {
     color: #666666;
@@ -29,9 +30,12 @@
     overflow: hidden;
 }
 .THIS .dt-legend-section-RTL {
-   /* @noflip */ padding-right: 20px;
-   /* @noflip */ overflow: hidden;
-    /* @noflip */  direction: rtl;
+    /* @noflip */
+    padding-right: 20px;
+    /* @noflip */
+    overflow: hidden;
+    /* @noflip */
+    direction: rtl;
 }
 .THIS .dt-link {
     display: inline-flex;
@@ -59,12 +63,14 @@
     position: absolute;
     top: 0;
     bottom: 0;
-/* @noflip */    left: 0;
-/* @noflip */     right: 0;
+    /* @noflip */
+    left: 0;
+    /* @noflip */
+    right: 0;
     padding: 22%;
     text-align: center;
     font-size: 14px;
-    line-height: 14px;
+    line-height: 16px;
     color: #666666;
 }
 
