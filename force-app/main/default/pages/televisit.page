@@ -50,8 +50,9 @@
                     jsAutoDisconnectMeetingTime = ev.data.split('::')[1];
                     enableExtendCallDropDown = false;
                 }
-                var url = 'https://sandbox-inspiration-customer-1348-de-180f0c2a943.cs24.force.com/cometd/40.0/';
-                console.log('URL Subs' + url);
+                //var url = 'https://sandbox-inspiration-customer-1348-de-180f0c2a943.cs24.force.com/cometd/40.0/';
+                var url = window.location.protocol + '//' + window.location.hostname + '/cometd/40.0/';
+                //console.log('URL Subs'+url);
                 $.cometd.init({
                     url: url,
                     requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}' },
@@ -59,8 +60,6 @@
                 });
 
                 $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
-                    console.log('Message' + message);
-                    console.log('call getUpdatedTelevisitDetails');
                     fetchUpdatedTelevisitDetails();
                 });
             </script>
@@ -113,6 +112,7 @@
             var lastActiveId;
             var hiddenId;
             var selfContainerId;
+
 
             var countFlag;
             var subsCounts;
@@ -966,11 +966,11 @@
                     if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
                     if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
                     var currentTime = currentHours + ':' + currentMinutes + ':' + currentSeconds;
-                    console.log(currentTime);
+                    //console.log(currentTime);
 
                     //console.log('{!bannerEndTime}');
-                    console.log(jsBannerEndTime);
-                    console.log('autoDisconnectMeetingTime:', jsAutoDisconnectMeetingTime);
+                    //console.log(jsBannerEndTime);
+                    //console.log('autoDisconnectMeetingTime:',jsAutoDisconnectMeetingTime);
 
                     //&& currentTime < jsAutoDisconnectMeetingTime
                     if (currentTime > jsBannerEndTime) {
@@ -986,7 +986,6 @@
                     } else {
                         document.getElementById("televisitBanner").setAttribute("class", "hideBanner");
                     }
-
 
                     if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
