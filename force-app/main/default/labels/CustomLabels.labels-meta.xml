@@ -83,6 +83,27 @@ Duration: ##VisitDuration</value>
         <shortDescription>Televisit Creation Email Subject</shortDescription>
         <value>New Televisit scheduled</value>
     </labels>
+    <labels>
+        <fullName>Televisit_Meet_Sub1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub1</shortDescription>
+        <value>with</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Meet_Sub2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub2</shortDescription>
+        <value>will take up at</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Upcoming_Meet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Upcoming_Meet</shortDescription>
+        <value>Upcoming or Active Televisits</value>
+    </labels>
     
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
@@ -25848,6 +25869,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>RH_TV_CancelMessage</shortDescription>
         <value>Are you sure you want to cancel a Televisit?</value>
+    </labels>
+    <labels>
+        <fullName>RH_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_To</shortDescription>
+        <value>to</value>
     </labels>
     <labels>
         <fullName>RH_TV_CancelTelevisit</fullName>
