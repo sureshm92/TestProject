@@ -310,4 +310,9 @@
             </div>
         </div>
     </aura:if>
+
+    <lightning:messageChannel
+    type="rhrefresh__c"
+    aura:id="sampleMessageChannel"
+  />
 </aura:component>
