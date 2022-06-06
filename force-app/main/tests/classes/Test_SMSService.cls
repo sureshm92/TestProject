@@ -51,7 +51,10 @@ public with sharing class Test_SMSService {
 
     @IsTest
     static void sendTest() {
-        List<Notification__c> notifications = [SELECT Id,WhatId__c,Notification_Type__c FROM Notification__c];
+        List<Notification__c> notifications = [
+            SELECT Id, WhatId__c, Notification_Type__c, Recipient__c
+            FROM Notification__c
+        ];
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new RemoteCallHttpCalloutMock());

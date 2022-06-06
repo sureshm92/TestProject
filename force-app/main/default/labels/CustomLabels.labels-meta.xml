@@ -19862,7 +19862,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH RP File Name</shortDescription>
-        <value>&amp;nbsp;&amp;nbsp;&amp;nbsp d.Do not change the file name and follow Step 2 above.</value>
+        <value>Do not change the file name and follow Step 2 above.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Referred_Tab</fullName>
@@ -19883,14 +19883,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH RP Rejection Reason</shortDescription>
-        <value>&amp;nbsp;&amp;nbsp;&amp;nbsp c.Make changes based on the rejection reason and save the file</value>
+        <value>Make changes based on the rejection reason and save the file</value>
     </labels>
     <labels>
         <fullName>RH_RP_Result_Sheet</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH RP Result Sheet</shortDescription>
-        <value>&amp;nbsp;&amp;nbsp;&amp;nbsp a. Download the result sheet from the action icon in the last column</value>
+        <value>Download the result sheet from the action icon in the last column</value>
     </labels>
     <labels>
         <fullName>rhpp_loginerror</fullName>
@@ -19919,7 +19919,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH RP Validation Errors</shortDescription>
-        <value>&amp;nbsp;&amp;nbsp;&amp;nbsp b.Check the column &lt;b&gt;Validation Errors&lt;/b&gt; in the sheet for the rejection reason</value>
+        <value>Check the column &lt;b&gt;Validation Errors&lt;/b&gt; in the sheet for the rejection reason</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>
