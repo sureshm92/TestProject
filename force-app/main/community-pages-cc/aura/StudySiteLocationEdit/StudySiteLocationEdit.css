@@ -19,6 +19,13 @@
     min-width: 21.75rem;
 }
 
+.THIS .text-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 9rem;
+}
+
 .THIS .ss-lightning-input label {
     height: 21px;
     color: #666666;

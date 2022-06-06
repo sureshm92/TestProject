@@ -15,6 +15,7 @@ private class Test_TaskEditRemote {
         Datetime dateNow = Datetime.now();
 
         Test.startTest();
+
         System.runAs(testData.participantUser) {
             List<Task> tasks = new List<Task>();
             Task task = new Task();
@@ -236,7 +237,6 @@ private class Test_TaskEditRemote {
             Patient_Visit__c pv = new Patient_Visit__c();
             pv.Planned_Date__c = datetime.now();
             insert pv;
-
             List<Task> tasks = new List<Task>();
             Task task = new Task();
             task.Subject = 'test';
@@ -244,8 +244,9 @@ private class Test_TaskEditRemote {
             task.ReminderDateTime = dateNow;
             task.Activity_Datetime__c = Datetime.now().addDays(1);
             task.OwnerId = testData.participantUser.Id;
+            //     task.WhatId = testData.participant.Id;
             task.Visible_For__c = 'Owner';
-            task.Task_Code__c = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE;
+            //    task.Task_Code__c = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE;
             task.Patient_Visit__c = pv.Id;
             tasks.add(task);
 
