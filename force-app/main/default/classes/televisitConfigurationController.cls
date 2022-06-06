@@ -240,6 +240,33 @@ public without sharing class  televisitConfigurationController {
         }
         
         try{
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.PrepareAdditionalFieldsHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SwitchContactUserModeHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreateHCPEnrollmentsForRPInWhiteListHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
+                        );
             update ss;
         }catch(exception e){
             system.debug('==================>'+e.getMessage());

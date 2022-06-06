@@ -58,6 +58,14 @@
                 },
                 function () {
                     component.find('spinner').hide();
+                    
+                    if(source === 'TelevisitToggle'){
+                        const lmsTest = {
+                            recordId: "TestRecord",
+                            name: "Burlington Textiles of America"
+                          };
+                        component.find("sampleMessageChannel").publish(lmsTest);
+                    }
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
             );

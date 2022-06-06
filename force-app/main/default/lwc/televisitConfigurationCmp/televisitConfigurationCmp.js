@@ -1,4 +1,4 @@
-import { LightningElement,api,track} from 'lwc';
+import { LightningElement,api,track,wire} from 'lwc';
 import gettelevisitrecorddetails from '@salesforce/apex/televisitConfigurationController.getinitData';
 import createtelevisitvendor from '@salesforce/apex/televisitConfigurationController.createtelevisitvendorrecord';
 import createorupdatetvs from '@salesforce/apex/televisitConfigurationController.createorupdatetvsrecord';
@@ -25,8 +25,21 @@ import selectallLabel from '@salesforce/label/c.Select_All_PI';
 import clearallLabel from '@salesforce/label/c.RPR_Clear_All';
 import permissionLabel from '@salesforce/label/c.permissionIssue';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import {
+    subscribe,
+    unsubscribe,
+    MessageContext
+  } from "lightning/messageService";
+import REFRESH_CHANNEL from "@salesforce/messageChannel/rhrefresh__c";
 
 export default class TelevisitConfigurationCmp extends LightningElement {
+
+    @wire(MessageContext)
+     messageContext;
+
+    receivedMessage;
+    subscription = null;
+
     label = {
         saveLabel,
         cancelLabel,
@@ -90,6 +103,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     connectedCallback() {
         this.isSpinnerCheck = true;
         this.getteledetails(this.recordId);
+        this.handleSubscribe();
+        //alert('From connect call back');
     }
 
     getteledetails(itemId) {
@@ -502,4 +517,42 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.televisitdetails = event.detail;
         this.rowNumberOffset = this.televisitdetails[0].rowNumber - 1;
     }
+
+    handleSubscribe() {
+        console.log("in handle subscribe");
+        if (this.subscription) {
+            return;
+        }
+
+        //4. Subscribing to the message channel
+        this.subscription = subscribe(
+            this.messageContext,
+            REFRESH_CHANNEL,
+            (message) => {
+                console.log('LMS Message'+message);
+            this.handleMessage(message);
+            }
+        );
+    }
+
+    handleMessage(message) {
+        this.showTelevisitscreen = !this.showTelevisitscreen;
+        console.log('LMS Message'+message);
+        this.receivedMessage = message
+        ? JSON.stringify(message, null, "\t")
+        : "no message";
+    }
+
+    handleUnsubscribe() {
+        console.log("in handle unsubscribe");
+    
+        unsubscribe(this.subscription);
+        this.subscription = null;
+      }
+    
+      handleClear() {
+        this.receivedMessage = null;
+      }
+
+    
 }
