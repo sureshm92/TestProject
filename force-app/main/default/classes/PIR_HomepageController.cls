@@ -1919,6 +1919,8 @@ public without sharing class PIR_HomepageController {
           Informed_Consent_Date__c,
           Initial_visit_scheduled_time__c,
           Initial_visit_scheduled_date__c,
+          Initial_visit_occurred_date__c,
+          Initial_visit_occurred_flag__c,
           isBulkUpdate__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
@@ -1957,6 +1959,15 @@ public without sharing class PIR_HomepageController {
           pe.Initial_visit_scheduled_date__c = null;
           pe.Initial_visit_scheduled_time__c = null;
         }
+
+        //Patch Release Fix June
+        if (
+          pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH 
+        ) {
+          pe.Initial_visit_occurred_date__c= null;
+          pe.Initial_visit_occurred_flag__c= false;
+        }
+
         PEUpdateList.add(pe);
         PeId.add(pe.Id);
         if (
@@ -1968,11 +1979,13 @@ public without sharing class PIR_HomepageController {
 
         SSId.add(pe.Study_Site__c);
         //logic for ready to screen start
-        /*if (
-          (oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
-          oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT) &&
-          (pe.Participant_Status__c != PEStatusState.PE_STATUS_READY_TO_SCREEN)
-        ) {
+          if (
+              (oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
+               oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT) &&
+              (pe.Participant_Status__c != PEStatusState.PE_STATUS_READY_TO_SCREEN &&
+               StatusToUpdate != PEStatusState.PE_STATUS_DECLINED_CONSENT &&
+               StatusToUpdate != PEStatusState.PE_STATUS_WITHDREW_CONSENT)
+          ) {
           histories.add(
             new Participant_Enrollment_Status_History__c(
               Date__c = pe.Participant_Status_Last_Changed_Date__c,
@@ -1980,7 +1993,7 @@ public without sharing class PIR_HomepageController {
               ParticipantEnrollment__c = pe.Id
             )
           );
-        }*/
+        }
         //logic for ready to screen end
         if (
           (oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||

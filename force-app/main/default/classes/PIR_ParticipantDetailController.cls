@@ -133,24 +133,20 @@ public without sharing class PIR_ParticipantDetailController {
           val = curr - 48;
         }
         if ((val & 8) == 8) {
-          system.debug(baseCount + 0);
           wrap.stateMap.get(countVals[baseCount + 0].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
         }
         if ((val & 4) == 4) {
           wrap.stateMap.get(countVals[baseCount + 1].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 1);
         }
         if ((val & 2) == 2) {
           wrap.stateMap.get(countVals[baseCount + 2].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 2);
         }
         if ((val & 1) == 1) {
           wrap.stateMap.get(countVals[baseCount + 3].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 3);
         }
         baseCount += 4;
       }
@@ -190,6 +186,9 @@ public without sharing class PIR_ParticipantDetailController {
         perToUpdate.Permit_Voice_Text_contact_for_this_study__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
         perToUpdate.MRN_Id__c = perRecord.MRN_Id__c;
 
+        update perToUpdate;
+      }else{
+        perToUpdate.Id = perRecord.Id;
         update perToUpdate;
       }
 
@@ -243,6 +242,10 @@ public without sharing class PIR_ParticipantDetailController {
         }
       }
 
+      if(isOutreachUpdated == null){
+        isOutreachUpdated = false;
+      }
+      
       if(isOutreachUpdated){
         TriggerHandlerExecutor.bypassHandler(
           ContactTriggerHandler.CreateUserForDelegateContactHandler.class

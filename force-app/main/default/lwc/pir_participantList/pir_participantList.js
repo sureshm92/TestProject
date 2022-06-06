@@ -88,7 +88,6 @@ export default class Pir_participantList extends LightningElement {
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
         }).then(() => {
-            //this.fetchList(); 
             this.fetchAllPreset(); 
         }).catch((error) => {
              console.log('Error: ' + error.message);
@@ -240,6 +239,13 @@ export default class Pir_participantList extends LightningElement {
        this.urlrefid = this.urlStateParameters.perName || null ;  
        this.urlPerName = this.urlStateParameters.Pname || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
+        setselectedFilterasDefault ({selectedPresetId :"no preset"})
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
         this.filterWrapper.siteList.push(this.urlSiteId);
@@ -408,7 +414,6 @@ export default class Pir_participantList extends LightningElement {
                     }
                     else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
                     {
-                        //this.participantList[i].showActionbtnDisabled = true;
                         this.participantList[i].showActionbtnDisabled = false;
                     }
                     else{
@@ -428,7 +433,6 @@ export default class Pir_participantList extends LightningElement {
                     if(this.filterWrapper.studyList.length != 1){
                         this.showDCT=false;
                         this.showPP=false;
-                        console.log('showstatus'+  this.showDCT);
                     }
                 }
                 if(selectCount==this.participantList.length){
@@ -474,11 +478,6 @@ export default class Pir_participantList extends LightningElement {
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.fetchList();
-            // var ttlcount = this.totalRecordCount;
-            // const selectEvent = new CustomEvent('resetpagination', {
-            //     detail: ttlcount
-            // });
-            // this.dispatchEvent(selectEvent);
             const selectedEvent = new CustomEvent("resetcount");
             this.dispatchEvent(selectedEvent); 
         })
@@ -496,12 +495,6 @@ export default class Pir_participantList extends LightningElement {
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
             this.isResetPagination = true;
-            //this.fetchList();
-            // var ttlcount = this.totalRecordCount;
-            // const selectEvent = new CustomEvent('resetpagination', {
-            //     detail: ttlcount
-            // });
-            // this.dispatchEvent(selectEvent);
              const gotofirstEvent = new CustomEvent("gotofirst");
              this.dispatchEvent(gotofirstEvent); 
              
@@ -519,8 +512,6 @@ export default class Pir_participantList extends LightningElement {
     @api signedDateValue;
 
     @api updateBulkStatusChange(){   
-        // let study = this.filterWrapper.studyList.toString();
-        // let status = this.filterWrapper.status.toString();
         let study = this.studyIDList.toString();
 	    let status;
         if(this.filterWrapper.status == undefined){
@@ -540,7 +531,6 @@ export default class Pir_participantList extends LightningElement {
         })
         .then(result => {
             this.saving = true;
-            //this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -713,7 +703,6 @@ export default class Pir_participantList extends LightningElement {
             L.classList.remove("slds-is-open");
         });
         if( this.dropDownLabel != 'Change Status'){
-            console.log('changestatus');
             this.template.querySelectorAll(".dropsize").forEach(function (L) {
                 L.classList.remove("slds-p-bottom--x-large");
             });
@@ -1459,42 +1448,14 @@ export default class Pir_participantList extends LightningElement {
     handleFilterEvent(event){
         this.presetSel="no preset";
         this.filterWrapper = event.detail;
-        // this.studyIdlist = event.detail.selectedStudy;
-        // this.siteIdlist = event.detail.selectedSite;
-        // this.urlStudyId = event.detail.selectedStudy;
-        // this.urlSiteId = event.detail.selectedSite;
-        // this.selectedStatusValue = event.detail.selectedStatus;
-        // var selectedStatusListOptions = [];
-        // if(event.detail.selectedStatus == 'All Active Statuses'){
-        //     selectedStatusListOptions.push('Received');
-        //     selectedStatusListOptions.push('Pre-review Passed');
-        //     selectedStatusListOptions.push('Contact Attempted');
-        //     selectedStatusListOptions.push('Successfully Contacted');
-        //     selectedStatusListOptions.push('Screening In Progress');
-        //     selectedStatusListOptions.push('Screening In Progress - Wash Out Period');
-        //     selectedStatusListOptions.push('Screening Passed');
-        //     selectedStatusListOptions.push('Enrollment Success');
-        //     selectedStatusListOptions.push('Eligibility Passed');
-        //     selectedStatusListOptions.push('Ready to Screen');
-        //     selectedStatusListOptions.push('Randomization Success');
-        // }else if(event.detail.selectedStatus == 'All Inactive Statuses'){
-        //     selectedStatusListOptions.push('Pre-review Failed');
-        //     selectedStatusListOptions.push('Unable to Reach');
-        //     selectedStatusListOptions.push('Contacted - Not Suitable');
-        //     selectedStatusListOptions.push('Eligibility Failed');
-        //     selectedStatusListOptions.push('Declined Consent');
-        //     selectedStatusListOptions.push('Unable to Screen');
-        //     selectedStatusListOptions.push('Withdrew Consent');
-        //     selectedStatusListOptions.push('Screening Failed');
-        //     selectedStatusListOptions.push('Withdrew Consent After Screening');
-        //     selectedStatusListOptions.push('Enrollment Failed');
-        //     selectedStatusListOptions.push('Randomization Failed');
-        //     selectedStatusListOptions.push('Declined Final Consent');
-        // }else{
-        //     selectedStatusListOptions.push(event.detail.selectedStatus);
-        // }
         this.isPPFiltered = false;this.isDCTFiltered = false;
-        // this.selectedStatusList = selectedStatusListOptions;
+        setselectedFilterasDefault ({selectedPresetId :this.presetSel })
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
         this.totalRecordCount = -1;
         this.toggleFilter();
         this.isResetPagination = true;
@@ -1520,8 +1481,6 @@ export default class Pir_participantList extends LightningElement {
        var opts =  [
             { label: this.label.PG_MRZ_L_Last_Added, value: ' ORDER BY PerCounter__c DESC ' },
             { label: this.label.PG_MRZ_L_Last_Modified, value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
-            // { label: 'Alphabetical (A-Z)', value: 'asc' },
-            // { label: 'Alphabetical (Z-A)', value: 'desc' }       
         ];
         if(this.sortInitialVisit){
             opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_upcoming, value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });

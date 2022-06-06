@@ -18,7 +18,10 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
                         SELECT PI_Contact__c
                         FROM Participant_Enrollment__c
                         WHERE
-                            Participant_Status__c IN ('Received','Contact Attempted','Pre-review Passed','Successfully Contacted')
+                            (Participant_Status__c = 'Received' OR 
+                             (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
+                              AND High_Priority__c = true)
+                            ) 
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
                             AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
                     )

@@ -93,8 +93,6 @@ export default class Pir_participantHeader extends LightningElement {
         } else {
             this.maindivcls = 'ltr';
         }
-        //console.log('pe child-->'+JSON.stringify(this.selectedPE));
-        //console.log(JSON.stringify(this.selectedPE.id));
 
         this.peId = this.selectedPE.id;
         this.firstName = this.selectedPE.firstName;
@@ -268,7 +266,6 @@ export default class Pir_participantHeader extends LightningElement {
 
     @api
     doPreScreenerResult(event){
-       console.log(event.detail.result);
        this.preScreenerResults = true;
        if(event.detail.result == 'Pass'){
           this.preScreenerPassed = true;

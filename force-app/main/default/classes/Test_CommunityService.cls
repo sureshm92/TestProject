@@ -11,7 +11,7 @@ public class Test_CommunityService {
 	@IsTest
     static void test_LanguageSwitcher() {
         Set<Id> contactId = new Set<Id>();
-        List<User> usrLst = [select Id,contactId from user where contactId!=null];
+        List<User> usrLst = [select Id,contactId from user where contactId!=null LIMIT 5];
         User piUsr = [select Id,Contact.userCommunytyType__c,contactId  from user where contactId!=null  and Contact.userCommunytyType__c='PI'];
         Test.startTest();
         System.runAs(piUsr) {
@@ -81,7 +81,7 @@ public class Test_CommunityService {
         conLst.add(delegate2);
         insert conLst;
         
-        Participant_Enrollment__c pe =[select Id,Participant_Contact__c,PI_Contact__c from Participant_Enrollment__c limit 1];
+        Participant_Enrollment__c pe =[select Id,Participant_Contact__c,PI_Contact__c from Participant_Enrollment__c WHERE Screening_ID__c=:'PESCR2' limit 1];
         Map<Id, Id> createUsersMap = new Map<Id, Id>();
         createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
         CommunityService.createUserBulk(conLst[0],null,null,null);
@@ -96,15 +96,17 @@ public class Test_CommunityService {
     static void test_createUser2() {
         Participant_Enrollment__c pe =[select Id,Participant_Contact__c,PI_Contact__c from Participant_Enrollment__c limit 1];
         Map<Id, Id> createUsersMap = new Map<Id, Id>();
-        createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
-        ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-               .createParticipantUsersBulk(createUsersMap);
-        Map<Id, Id> toCreateUser = new Map<Id, Id>();
-       	pe =[select Id,Participant_Contact__c,PI_Contact__c,Participant__r.Contact__c,HCP__r.HCP_Contact__c from Participant_Enrollment__c where Participant__c!=null and Participant__r.Contact__c !=null and HCP__r.HCP_Contact__c!=null limit 1];
-        toCreateUser.put(pe.Participant__r.Contact__c, pe.HCP__r.HCP_Contact__c);
-        Set<Id> participantContactIds = new Set<Id>();
-        participantContactIds.add(pe.Participant__r.Contact__c);
-        ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                        .createParticipantUsersAsync(toCreateUser, participantContactIds);
+        try{
+            createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                   .createParticipantUsersBulk(createUsersMap);
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
+            pe =[select Id,Participant_Contact__c,PI_Contact__c,Participant__r.Contact__c,HCP__r.HCP_Contact__c from Participant_Enrollment__c where Participant__c!=null and Participant__r.Contact__c !=null and HCP__r.HCP_Contact__c!=null limit 1];
+            toCreateUser.put(pe.Participant__r.Contact__c, pe.HCP__r.HCP_Contact__c);
+            Set<Id> participantContactIds = new Set<Id>();
+            participantContactIds.add(pe.Participant__r.Contact__c);
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                            .createParticipantUsersAsync(toCreateUser, participantContactIds);
+        }catch(Exception ex){}
     }
 }
