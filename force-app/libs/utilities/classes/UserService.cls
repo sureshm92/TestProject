@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class UserService {
+public without sharing class UserService {
     public static final Map<String, String> DATE_FORMAT_BY_LOCALE = new Map<String, String>{
         'ar' => 'dd/MM/yyyy hh:mm a',
         'ar_AE' => 'a hh:mm yyyy/MM/dd',
