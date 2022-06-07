@@ -505,6 +505,10 @@
             component.set('v.states', []);
         }
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
+        if(participant != undefined && participant.Mailing_Country_Code__c !=undefined && participant.Mailing_Country_Code__c != null && 
+           participant.Mailing_Country_Code__c != ''){
+           component.set('v.mailingCountryCode', participant.Mailing_Country_Code__c);
+        }
         helper.checkFields(component, event, helper);
     },
     
@@ -526,4 +530,16 @@
     closeModal:function(component,event,helper){    
         component.set('v.openmodel',false);
     },
+    handleConsentUpdate : function(component, event, helper) {
+        if(event.getParam('consentMap') != null && event.getParam('consentMap') != undefined && event.getParam('consentMap') != ''){
+                component.set('v.pEnrollment.Participant_Opt_In_Status_Emails__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
+                component.set('v.pEnrollment.Participant_Opt_In_Status_SMS__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
+                component.set('v.pEnrollment.Participant_Phone_Opt_In_Permit_Phone__c', event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c); 
+                component.set('v.pEnrollment.Permit_SMS_Text_for_this_study__c', event.getParam('consentMap').pe.Permit_SMS_Text_for_this_study__c);
+                component.set('v.pEnrollment.Permit_Voice_Text_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Voice_Text_contact_for_this_study__c);
+                component.set('v.pEnrollment.Permit_Mail_Email_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
+                helper.checkFields(component, event, helper);
+
+        }                                      
+    }
 });

@@ -112,7 +112,7 @@ public without sharing class PIR_ParticipantDetailController {
     List<Schema.PicklistEntry> statVals = stat.getPicklistValues();
     for (Schema.PicklistEntry contVal : countVals) {
       wrap.countryMap.add(new labelVal(contVal.getLabel(), contVal.getValue()));
-      wrap.stateMap.put(contVal.getLabel(), new List<labelVal>());
+      wrap.stateMap.put(contVal.getValue(), new List<labelVal>());
     }
     for (Schema.PicklistEntry statVal : statVals) {
       String jsonString = JSON.serialize(statVal);
@@ -133,24 +133,20 @@ public without sharing class PIR_ParticipantDetailController {
           val = curr - 48;
         }
         if ((val & 8) == 8) {
-          system.debug(baseCount + 0);
-          wrap.stateMap.get(countVals[baseCount + 0].getLabel())
+          wrap.stateMap.get(countVals[baseCount + 0].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
         }
         if ((val & 4) == 4) {
-          wrap.stateMap.get(countVals[baseCount + 1].getLabel())
+          wrap.stateMap.get(countVals[baseCount + 1].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 1);
         }
         if ((val & 2) == 2) {
-          wrap.stateMap.get(countVals[baseCount + 2].getLabel())
+          wrap.stateMap.get(countVals[baseCount + 2].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 2);
         }
         if ((val & 1) == 1) {
-          wrap.stateMap.get(countVals[baseCount + 3].getLabel())
+          wrap.stateMap.get(countVals[baseCount + 3].getValue())
             .add(new labelVal(statVal.getLabel(), statVal.getValue()));
-          system.debug(baseCount + 3);
         }
         baseCount += 4;
       }

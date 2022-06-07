@@ -5,6 +5,12 @@ public class Test_Batch_UpdatePEStatuses {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
         );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateService.getDelegateContactIdsByPAContactIs.class
+        );
         TestDataFactory.createInitData();
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         id peId = [SELECT Id FROM Participant_Enrollment__c].id;

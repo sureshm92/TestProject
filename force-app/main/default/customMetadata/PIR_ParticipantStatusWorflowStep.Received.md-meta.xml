@@ -23,6 +23,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>InitialVisit__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>List_of_Statuses__c</field>
         <value xsi:type="xsd:string">PWS_Received_Name</value>
     </values>

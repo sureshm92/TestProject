@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Withdrew Consent; Declined Consent</value>
     </values>
     <values>
+        <field>InitialVisit__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>List_of_Statuses__c</field>
         <value xsi:type="xsd:string">Withdrew Consent; Declined Consent</value>
     </values>

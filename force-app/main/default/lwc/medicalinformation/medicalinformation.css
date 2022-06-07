@@ -225,6 +225,9 @@ input[type='number'] {
 .icon-search {
     padding-top: 7px;
 }
+.float-btns{
+    float:right;
+}
 @media (max-device-width: 767px) {
     .vertical-scroll {
         height: auto;
@@ -284,4 +287,69 @@ input[type='number'] {
     .mediafilecss{
         margin-top:0px;
       }
+     .searchresult {
+        position: relative;
+        width: 93.5%;
+        right: -514px;
+        top: -69px;
+    }
 }
+
+/*RTL Start */
+.rtl .upload-icon{
+    margin-left: 7px;
+    margin-right: 0;
+}
+.rtl .m-report{
+    float: left;
+    font-size: 14px;
+}
+.rtl p{
+    font-size: 14px;
+    text-align: revert;
+}
+.rtl .icon-search{
+    padding-top: 11px;
+}
+.rtl .searchresult {
+    position: relative;
+    width: 46.5%;
+    right: -514px;
+    top: 50px;
+}
+.rtl .selectedValue{
+    float:right;
+}
+.rtl .close-icon{
+    margin-right: 5px;
+}
+.rtl .float-btns{
+    float:left;
+}
+.rtl .info-icon{
+    left:0px;
+    margin-left:0px;
+}
+.rtl .rtl-width{
+    width:80px;
+}
+
+@media (max-device-width: 767px) {
+    .rtl .m-report{
+        float: right;
+    }
+    .rtl .MedicalCreatedate {
+        text-align: right;
+    }
+    .rtl .searchresult {
+        position: relative;
+        width: 93.5%;
+        right: -166px;
+        top: -72px;
+    }
+    .rtl .vertical-scroll {
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+}
+/* RTL End */

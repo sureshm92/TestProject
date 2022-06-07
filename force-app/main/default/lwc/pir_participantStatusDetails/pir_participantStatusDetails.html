@@ -1,4 +1,5 @@
 <template>  
+    <div class={maindivcls}>
     <template if:false={showStatus}>
         <div class="slds-m-around_large">
             <template if:false={showStatus} class="slds-is-relative">
@@ -15,7 +16,7 @@
         <template if:true={showStatus}>
             <template if:true={showBubbleMap}>
                 <div class="bubblechart">
-                    <c-pir_participant-Bubble-Map pathdetails={bubbleMapDetails}></c-pir_participant-Bubble-Map> 
+                    <c-pir_participant-Bubble-Map isrtl={isrtl} pathdetails={bubbleMapDetails}></c-pir_participant-Bubble-Map> 
                 </div>             
             </template>
         </template>
@@ -23,12 +24,13 @@
             <div class="list">
             <template if:true={showStatus}>
                 <template for:each={peCardDetails} for:item="currentItem" for:index="index">
-                        <c-pir_participant-Sub-Status groupname={currentItem.groupName}
+                        <c-pir_participant-Sub-Status isrtl={isrtl} groupname={currentItem.groupName} 
                                                   groupstatus={currentItem.groupStatus}
                                                   groupdate={currentItem.groupDate}
                                                   groupicon={currentItem.groupIcon}
                                                   index={index}
                                                   key={currentItem}
+                                                  isinitialvisit={isInitialVisitRequired}
                                                   non_enrollment_reason={reason}
                                                   consussessreason={contSuccessReason}
                                                   onstatuschange={hanldeStatusChange}>
@@ -41,11 +43,11 @@
             <div class="hideDesktopView">
                 <div onclick={mobileViewToggle} class="pgHeadMob slds-p-left--xx-small">
                     <img class="backArrow" src={backArrow}/>                  
-                        Back
+                        {label.BTN_Back}
                 </div>
             </div>
            <template if:true={showStatus}> 
-                <c-pir_participant-sub-status-fields pe_record={per} isfinalconsentrequired={isFinalConsentRequired} initialvisitsctime={initialVisitScheduledTime} isinitialvisitpresent={isInitialVisitsPresent} 
+                <c-pir_participant-sub-status-fields isrtl={isrtl} maindivcls={maindivcls} pe_record={per} isfinalconsentrequired={isFinalConsentRequired} initialvisitsctime={initialVisitScheduledTime} isinitialvisitpresent={isInitialVisitsPresent} 
                                                     grpicons={groupIcons} isinitialvisit={isInitialVisitRequired} outcome-to-reason-map={outcomeToReasonMap}  currentitems={selectedPeStatus} 
                                                     groupname={groupnme} isvprequired={isVisitPlanRequired} plan={selectedPlan}  visitplanoptions={visitPlan} peid={selectedPE_ID} latest-status-grp={latestStatusGrp}
                                                     onsaved={doSelectedPI}  onvalidatesavebutton={handleSaveButton} onrecordsave={doShowSpinneronSave}
@@ -54,4 +56,5 @@
            </template> 
         </div>       
     </div>
+</div>
 </template>

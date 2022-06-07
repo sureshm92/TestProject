@@ -7,7 +7,7 @@
  **/
 public without sharing class SMSOptOutService {
     public static Map<Id, Map<Id, String>> notIdMapOfPartContactSponsorMap = new Map<Id, Map<Id, String>>();
-    public static Boolean isSMSOptOutPlatFormEvent = false;
+    public static Boolean isPlatFormEvent = false;
     /**
      * @description: This Method will mark the SMS Optin flag to false at Contact level for Platform Level SMS Optout and SMS optin Flag at PER
      *               level for Study level SMS Opt Out recieved by Participant/patient Delegates.
@@ -16,18 +16,74 @@ public without sharing class SMSOptOutService {
      * @return:
      **/
     public static void processOptOUTForSMS(Set<String> messageIdSet) {
-        Set<Id> notificationIdSet = new Set<Id>();
         Set<Id> platformLevelSMSRecipientIdSet = new Set<Id>();
         Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
-        //Query the Send Result record based on matching message Id field and create set of Notification Id related to each send Result.
-        for (Send_Result__c sr : [
-            SELECT Id, Notification__c
-            FROM Send_Result__c
-            WHERE Msg_Id__c IN :messageIdSet
-        ]) {
+        Map<Id, Notification__c> notificationMap = new Map<Id, Notification__c>();
+        set<Id> notificationIdSet = new Set<Id>();
+
+        //Get Send Results
+        for (Send_Result__c sr : getSendResults(messageIdSet)) {
             notificationIdSet.Add(sr.Notification__c);
         }
+        if (notificationIdSet != null && !notificationIdSet.isEmpty()) {
+            //Get notification records
+            notificationMap = getNotifications(notificationIdSet);
 
+            //Check if notification is Platform level or Study Level.
+            isPlatFormEvent = true;
+            Action_SendSMS actionSendSMSobj = new Action_SendSMS(notificationMap.Values());
+            for (Notification__c n : notificationMap.Values()) {
+                if (NotificationService.platfomLevelSMSSet.contains(n.Id)) {
+                    //if Platform level SMS
+                    platformLevelSMSRecipientIdSet.Add(n.Recipient__c);
+                } else if (notIdMapOfPartContactSponsorMap.containsKey(n.id)) {
+                    //if Study level SMS
+                    participantContactSponsorMap = notIdMapOfPartContactSponsorMap.get(n.Id);
+                }
+            }
+
+            //Opt out SMS for Platform Level SMS
+            if (
+                platformLevelSMSRecipientIdSet != null && !platformLevelSMSRecipientIdSet.isEmpty()
+            ) {
+                processPlatFormLevelOptOut(platformLevelSMSRecipientIdSet);
+            }
+            //Opt out SMS for Study Level SNMS
+            if (participantContactSponsorMap != null && !participantContactSponsorMap.isEmpty()) {
+                processStudyLevelOptOut(participantContactSponsorMap);
+            }
+        }
+    }
+
+    /**
+     * @description: This method will return the list of Send Result record for given Message ids.
+     * @author: Krishna Mahto
+     * @param:  messageIdSet
+     * @return: sendResultList
+     **/
+    public static List<Send_Result__c> getSendResults(Set<String> messageIdSet) {
+        List<Send_Result__c> sendResultList = new List<Send_Result__c>();
+        //Query the Send Result record based on matching message Id field
+        sendResultList = [
+            SELECT
+                Id,
+                Msg_Id__c,
+                Notification__c,
+                Notification__r.Recipient__c,
+                Notification__r.Notification_Type__c
+            FROM Send_Result__c
+            WHERE Msg_Id__c IN :messageIdSet
+        ];
+        return sendResultList;
+    }
+
+    /**
+     * @description: This method will return the Notification record for given notification ids.
+     * @author: Krishna Mahto
+     * @param:  notificationIdSet
+     * @return: notificationMap
+     **/
+    public static Map<Id, Notification__c> getNotifications(Set<Id> notificationIdSet) {
         //Query notification records based on the notificationIdSet and create a map of Notification Id vs Notification.
         Map<Id, Notification__c> notificationMap = new Map<Id, Notification__c>(
             [
@@ -36,28 +92,7 @@ public without sharing class SMSOptOutService {
                 WHERE Id IN :notificationIdSet
             ]
         );
-
-        //Check if notification is Platform level or Study Level.
-        isSMSOptOutPlatFormEvent = true;
-        Action_SendSMS actionSendSMSobj = new Action_SendSMS(notificationMap.Values());
-        for (Notification__c n : notificationMap.Values()) {
-            if (NotificationService.platfomLevelSMSSet.contains(n.Id)) {
-                //if Platform level SMS
-                platformLevelSMSRecipientIdSet.Add(n.Recipient__c);
-            } else if (notIdMapOfPartContactSponsorMap.containsKey(n.id)) {
-                //if Study level SMS
-                participantContactSponsorMap = notIdMapOfPartContactSponsorMap.get(n.Id);
-            }
-        }
-
-        //Opt out SMS for Platform Level SMS
-        if (platformLevelSMSRecipientIdSet != null && !platformLevelSMSRecipientIdSet.isEmpty()) {
-            processPlatFormLevelOptOut(platformLevelSMSRecipientIdSet);
-        }
-        //Opt out SMS for Study Level SNMS
-        if (participantContactSponsorMap != null && !participantContactSponsorMap.isEmpty()) {
-            processStudyLevelOptOut(participantContactSponsorMap);
-        }
+        return notificationMap;
     }
 
     /**
@@ -74,6 +109,7 @@ public without sharing class SMSOptOutService {
         ];
         for (Contact con : contactToUpdate) {
             con.Participant_Opt_In_Status_SMS__c = false;
+            con.Welcome_Message_Sent__c = false;
         }
 
         //Update SMS Opt In Flag to False at the Contact.
@@ -109,6 +145,7 @@ public without sharing class SMSOptOutService {
                 participantContactSponsorMap.get(per.Participant_contact__c)
             ) {
                 per.Permit_SMS_Text_for_this_study__c = false;
+                per.Welcome_Message_Sent__c = false;
                 perToUpdate.Add(per);
             }
         }
@@ -116,5 +153,14 @@ public without sharing class SMSOptOutService {
         if (perToUpdate != null && !perToUpdate.isEmpty()) {
             update perToUpdate;
         }
+    }
+
+    public static IntegrationLog__c createIntegrationLog(SMS_Opt_Out__e smsOptOut) {
+        IntegrationLog__c IL = new IntegrationLog__c();
+        IL.Function_Name__c = 'SMS Opt Out';
+        IL.Http_Method__c = 'InBound';
+        IL.Request_Time__c = DateTime.now();
+        IL.Request_Body__c = JSON.serialize(smsOptOut);
+        return IL;
     }
 }

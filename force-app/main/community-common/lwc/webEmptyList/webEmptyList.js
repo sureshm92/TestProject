@@ -24,4 +24,8 @@ export default class WebEmptyList extends LightningElement {
     get iconFace() {
         return 'icon-face-' + this.iconName;
     }
+
+    get containerClass() {
+        return 'main-container' + ' ' + this.cssClass;
+    }
 }

@@ -3,7 +3,6 @@ public without sharing class PIR_BulkActionController {
     //Added for Bulk Action- Invite to PP
    @AuraEnabled
    public static void createUserForPatientProtal(List<string> peId, Boolean sendEmails) {
-       system.debug('ListSize'+peId.size());
        try {
            List<Participant_Enrollment__c> per = [SELECT Id,
                                                   Participant_Contact__c,
@@ -184,7 +183,7 @@ public without sharing class PIR_BulkActionController {
                Participant__r.Alternative_Phone_Number__c,
                Participant__r.Alternative_Phone_Type__c,
                Participant__r.Gender_Technical__c,
-               Participant__r.Present_Age__c,
+               Participant__r.Age__c,
                Participant__r.Ethnicity__c,
                Comorbidities__c,Participant__r.BMI__c,
                HighRisk_Indicator__c,
@@ -260,7 +259,7 @@ public without sharing class PIR_BulkActionController {
        String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
        String queryString =
            'SELECT Id,Name,PI_Contact__c,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_by__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
-           'Participant__r.Full_Name__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Study_Site__r.Include_PII_on_Export__c,Clinical_Trial_Profile__c,' +
+           'Participant__r.Full_Name__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,Participant__r.Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Study_Site__r.Include_PII_on_Export__c,Clinical_Trial_Profile__c,' +
            'Clinical_Trial_Profile__r.Study_Code_Name__c,Study_Site__r.Study_Site_Type__c, Participant__r.Phone__c,Participant__r.Phone_Type__c,Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,High_Priority__c,Clinical_Trial_Profile__r.Protocol_ID__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,' +
            'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,' +
            'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
@@ -342,7 +341,7 @@ public without sharing class PIR_BulkActionController {
        String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE';
            String queryString =
                'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Participant_ID_randomized_ID__c,Screening_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
-               'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
+               'Participant__r.Full_Name__c,Participant__r.Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
                'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Clinical_Trial_Profile__r.Protocol_ID__c,Participant__r.Ethnicity__c,' +
                'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Participant__r.Alternative_Phone_Number__c, Participant__r.Alternative_Phone_Type__c,' +
                'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c,(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c WHERE  ';
@@ -386,7 +385,6 @@ public without sharing class PIR_BulkActionController {
                filter += ' AND Study_Site__c IN: siteIds ';
            
                     
-              system.debug('querystringcount-->' + qCountString + filter);
            
            
            

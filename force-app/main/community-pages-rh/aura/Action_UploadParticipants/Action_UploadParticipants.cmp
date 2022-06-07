@@ -33,6 +33,10 @@
     <aura:attribute name="visitPlanDisabled" type="Boolean" default="false" />
     <aura:attribute name="visitPlansLVList" type="Object" />
     <aura:attribute name="visitPlanId" type="String" />
+    <aura:attribute name="iqviaOutreachEmail" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="iqviaOutreachPhone" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="iqviaOutreachSMS" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="reload" type="Boolean" />
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String" />
@@ -175,78 +179,11 @@
             </div>
 
             <!--1936-->
-            <div class="slds-grid slds-wrap">
-                <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
-                    <div class="slds-m-around--small">
-                        <div class="input-fields-labels">
-                            <b>{!$Label.c.PG_Ref_L_Information_Sharing}</b>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="slds-grid slds-wrap">
-                <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
-                    <div class="slds-m-around--small">
-                        {!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}
-                    </div>
-                </div>
-            </div>
-
-            <div class="slds-grid slds-wrap">
-                <div
-                    class="slds-col slds-size--11-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-m-around--small"
-                >
-                    <lightning:input
-                        type="checkbox"
-                        class="invite-patient-checkbox"
-                        checked="{!v.doContact}"
-                        onchange="{!c.doContactParticipant}"
-                    />
-                    <div class="slds-size_11-of-12">
-                        {!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}
-                    </div>
-                </div>
-            </div>
-            <aura:if isTrue="{!v.doContact}">
+            <aura:if isTrue="{!v.reload}">
                 <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-size--11-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-m-around--small"
-                    >
-                        <lightning:input
-                            type="checkbox"
-                            class="invite-patient-checkbox"
-                            onchange="{!c.doContactEmail}"
-                        />
-                        <div class="slds-size_11-of-12">
-                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}
-                        </div>
-                    </div>
-                </div>
-                <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-size--11-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-m-around--small"
-                    >
-                        <lightning:input
-                            type="checkbox"
-                            class="invite-patient-checkbox"
-                            onchange="{!c.doContactPhone}"
-                        />
-                        <div class="slds-size_11-of-12">
-                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}
-                        </div>
-                    </div>
-                </div>
-                <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-size--11-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-m-around--small"
-                    >
-                        <lightning:input
-                            type="checkbox"
-                            class="invite-patient-checkbox"
-                            onchange="{!c.doContactSMS}"
-                        />
-                        <div class="slds-size_11-of-12">
-                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}
+                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium" style="margin-left:13px">
+                        <div class="slds-m-around-small">
+                            <c:consentManager aura:id="consent-Manager" callSource="importParticipant"  onconsentchange="{!c.handleConsentChange}"  studySiteId="{!v.studySiteId}" ></c:consentManager>
                         </div>
                     </div>
                 </div>

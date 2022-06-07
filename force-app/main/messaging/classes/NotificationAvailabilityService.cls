@@ -12,7 +12,8 @@ public without sharing class NotificationAvailabilityService {
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
     private static final String CASE_OBJ_NAME = 'Case';
-
+    private static final String TELEVISIT_OBJ_NAME = 'Televisit__c';
+    private static final String TELEVISIT_ATTN_OBJ_NAME = 'Televisit_Attendee__c';
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
     private Map<Id, List<String>> permissionSetsByConIdMap;
@@ -36,6 +37,7 @@ public without sharing class NotificationAvailabilityService {
                 userCommunityMode__c,
                 Language__c,
                 MailingCountryCode,
+                Is_Invalid_Number__c,
                 (SELECT TimeZoneSidKey FROM Users)
             FROM Contact
             WHERE Id IN :recipientIds
@@ -204,6 +206,60 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(ss.Id, ss);
                 }
             }
+            if (objType == TELEVISIT_OBJ_NAME) {
+                List<Televisit__c> teleVisitsList = [
+                    SELECT
+                        Id,
+                        Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                        Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                    FROM Televisit__c
+                    WHERE Id IN :objectsByStrings.get(objType)
+                    ALL ROWS
+                ];
+                for (Televisit__c tv : teleVisitsList) {
+                    objectsByIds.put(tv.Id, tv);
+                }
+            }
+            //As part of RH-6577
+            if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                List<Televisit_Attendee__c> televisitAttendees = [
+                    SELECT
+                        Id,
+                        Attendee_Type__c,
+                        Contact__c,
+                        Firstname__c,
+                        Lastname__c,
+                        Televisit_Scheduled_Date__c,
+                        User__c,
+                        Televisit__r.Visit_Date_Time__c,
+                        Televisit__r.Status__c,
+                        Televisit__r.Title__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                    FROM Televisit_Attendee__c
+                    WHERE Id IN :objectsByStrings.get(objType)
+                ];
+                for (Televisit_Attendee__c ta : televisitAttendees) {
+                    objectsByIds.put(ta.Id, ta);
+                }
+            }
+            //End
 
             //TODO for other objects passing in WhatID
         }
@@ -286,6 +342,42 @@ public without sharing class NotificationAvailabilityService {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c)
                     checkForNotification = true;
+            } else if (objType == TELEVISIT_OBJ_NAME) {
+                Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
+                Participant_Enrollment__c pe = tv.Participant_Enrollment__r;
+                Contact contact = contactByIdMap.get(contactId);
+                if (
+                    pe != null &&
+                    contact != null &&
+                    ((contact.UserCommunityIsDelegate__c &&
+                    contact.Participant_Opt_In_Status_Emails__c) ||
+                    (!contact.UserCommunityIsDelegate__c &&
+                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
+                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
+                ) {
+                    checkForNotification = true;
+                }
+            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
+                Contact contact = contactByIdMap.get(contactId);
+                if (
+                    pe != null &&
+                    contact != null &&
+                    ((contact.UserCommunityIsDelegate__c &&
+                    contact.Participant_Opt_In_Status_Emails__c) ||
+                    (!contact.UserCommunityIsDelegate__c &&
+                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
+                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
+                ) {
+                    checkForNotification = true;
+                }
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
@@ -333,6 +425,21 @@ public without sharing class NotificationAvailabilityService {
                     piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
                     (piHasSiteWithEnabledEmailMap.containsKey(contactId) &&
                     piHasSiteWithEnabledEmailMap.get(contactId));
+            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                Televisit_Attendee__c teleAttendee = (Televisit_Attendee__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                checkForNotification =
+                    (piDelegateHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
+                    piDelegateHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c)) ||
+                    (piHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
+                    piHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c));
+            }else if(objType == TELEVISIT_OBJ_NAME){
+                checkForNotification =
+                    (piDelegateHasSiteWithEnabledEmailMap.containsKey(contactId) &&
+                    piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
+                    (piHasSiteWithEnabledEmailMap.containsKey(contactId) &&
+                    piHasSiteWithEnabledEmailMap.get(contactId));
             }
         }
         return checkForNotification;
@@ -344,6 +451,20 @@ public without sharing class NotificationAvailabilityService {
         Contact contact = contactByIdMap.get(contactId);
         isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
         return isAvailable;
+    }
+
+    /**
+     * @description: This Method will check if contact Phone number is invalid.
+     * @author: Krishna Mahto
+     * @param: contactId
+     * @return: Boolean
+     ***/
+    public Boolean isInvalidNumber(Id contactId) {
+        Boolean isInvalid = true;
+        Contact contact = contactByIdMap.get(contactId);
+        isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
+
+        return isInvalid;
     }
 
     public Boolean isAvailableForPush(Id contactId, String whatId) {

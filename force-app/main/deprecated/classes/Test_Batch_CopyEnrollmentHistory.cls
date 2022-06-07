@@ -124,7 +124,8 @@ private class Test_Batch_CopyEnrollmentHistory {
             Participant__c = participant.Id,
             PI_Contact__c = piContact.Id,
             Screening_ID__c = 'PESCR1',
-            Study_Site__c = studySite.Id
+            Study_Site__c = studySite.Id,
+            Participant_Status_Last_Changed_Date__c = Date.today().addDays(-1)
         );
         insert pe;
 
@@ -175,7 +176,9 @@ private class Test_Batch_CopyEnrollmentHistory {
         TriggerHandlerExecutor.bypassHandler(
             StudySiteTriggerHandler.CreateStatusHistoryHandler.class
         );
-
+        TriggerHandlerExecutor.bypassHandler(
+        	ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
         Batch_CopyEnrollmentHistory.disableTriggers();
     }
 }

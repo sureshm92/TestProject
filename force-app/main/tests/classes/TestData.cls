@@ -64,7 +64,7 @@ public class TestData {
                 piDelUser = user;
             if (user.LastName == 'HCPDelTD')
                 hcpDelUser = user;
-            if (user.LastName == participant.Name)
+            if (user.LastName == participant.Name) 
                 participantUser = user;
             if (user.LastName == 'CCID')
                 ccUser = user;
@@ -518,7 +518,8 @@ public class TestData {
             Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
             Participant__c = participant.Id,
             Screening_ID__c = 'PESCR1',
-            Invited_To_PP_Date__c = system.now()
+            Invited_To_PP_Date__c = system.now(),
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
 
         peList.add(pe);
@@ -534,7 +535,8 @@ public class TestData {
             //Initial_visit_occurred_flag__c = true,
             Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
             Participant__c = participant2.Id,
-            Screening_ID__c = 'PESCR2'
+            Screening_ID__c = 'PESCR2',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
 
         peList.add(pe2);
@@ -551,7 +553,8 @@ public class TestData {
             Initial_visit_occurred_flag__c = true,
             Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
             Participant__c = participant3.Id,
-            Screening_ID__c = 'PESCR3'
+            Screening_ID__c = 'PESCR3',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
 
         peList.add(pe3);
@@ -568,7 +571,8 @@ public class TestData {
             //Initial_visit_occurred_flag__c = true,
             Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
             Participant__c = participant4.Id,
-            Screening_ID__c = 'PESCR4'
+            Screening_ID__c = 'PESCR4',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
         peList.add(pe4);
 
@@ -584,7 +588,8 @@ public class TestData {
             Initial_visit_occurred_flag__c = true,
             Participant_Status__c = DashboardRemoteNew.STATUS_UNABLE_TO_SCREEN,
             Participant__c = participant5.Id,
-            Screening_ID__c = 'PESCR5'
+            Screening_ID__c = 'PESCR5',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
         peList.add(pe5);
 
@@ -600,11 +605,30 @@ public class TestData {
             Initial_visit_occurred_flag__c = true,
             Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_PASSED,
             Participant__c = participant6.Id,
-            Screening_ID__c = 'PESCR6'
+            Screening_ID__c = 'PESCR6',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
         peList.add(pe6);
         insert peList;
 
+        List<Participant_Enrollment_Status_History__c> peshList = [
+          SELECT Id
+          FROM Participant_Enrollment_Status_History__c
+          WHERE ParticipantEnrollment__c = :peList[0].Id
+        ];
+        if(peshList.size() <= 0) {
+            Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+                pesh.Date__c = Datetime.now();
+                pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+                pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
+                pesh.ParticipantEnrollment__c = peList[0].Id;
+            insert pesh;
+        }
+        List<Participant_Enrollment_Status_History__c> peshList1 = [
+            SELECT Id
+            FROM Participant_Enrollment_Status_History__c
+            WHERE ParticipantEnrollment__c = :peList[0].Id
+          ];
         Referral_Network__c referralNetwork = new Referral_Network__c(
             Name = 'Test Referral Network'
         );
@@ -781,5 +805,35 @@ public class TestData {
         sip.Incentive_Plan__c = plan.Id;
         sip.Study_Site__c = studySite.Id;
         insert sip;
+    }
+
+    public static void createTelevisits() {
+        List<Televisit__c> tVisits = new List<Televisit__c>{
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 0',
+                Visit_Date__c = Date.newInstance(2022, 4, 29),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            ),
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 1',
+                Visit_Date__c = Date.newInstance(2022, 5, 10),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            ),
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 2',
+                Visit_Date__c = Date.newInstance(2022, 5, 17),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            )
+        };
+        insert tVisits;
+    }
+
+    public static void addAttendees(Id tvId, List<Id> contactIds) {
     }
 }

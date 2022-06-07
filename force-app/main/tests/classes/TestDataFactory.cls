@@ -277,7 +277,8 @@ public class TestDataFactory {
             Referral_Source__c = 'HCP',
             Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
             Participant__c = participant.Id,
-            Screening_ID__c = 'PESCR1'
+            Screening_ID__c = 'PESCR1',
+            Participant_Status_Last_Changed_Date__c=system.now()
         );
         insert pe;
 
