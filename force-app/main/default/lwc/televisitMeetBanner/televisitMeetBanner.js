@@ -6,6 +6,10 @@ import getVisits from '@salesforce/apex/TelevisitMeetBannerController.getVisits'
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import USER_ID from '@salesforce/user/Id';
+import MEET_WITH from '@salesforce/label/c.Televisit_Meet_Sub1';
+import MEET_AT from '@salesforce/label/c.Televisit_Meet_Sub2';
+import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
+import TO from '@salesforce/label/c.RH_To';
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
     hasVisits = false;
