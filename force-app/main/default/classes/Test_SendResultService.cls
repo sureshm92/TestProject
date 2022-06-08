@@ -47,6 +47,14 @@ public class Test_SendResultService {
         sr.Notification__c = notification[0].id;
         sr.Target_Type__c = 'SMS';
         sr.Msg_Id__c = '122';
+
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        	ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        
         insert sr;
     }
     static testMethod void Action_SendResult_Test_2() {
