@@ -58,7 +58,7 @@ public without sharing class PatientVisitTriggerHandler {
                 Participant_Enrollment__r.Subject_GUID__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_GUID__c
             FROM Patient_Visit__c
-            WHERE Id IN :pvIds
+            WHERE Id IN :pvIds AND Completed_Date__c != NULL
         ]) {
             Date dateToday = pv.Completed_Date__c;
             String sMonth = String.valueof(dateToday.month());
