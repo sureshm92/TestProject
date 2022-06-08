@@ -12,7 +12,7 @@
                             {meetMainInfo} 
                             <!--lightning-formatted-date-time value={currentVisit.Televisit__r.Visit_Date_Time__c} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time-->
                             <template if:true={singleActiveVisit}>
-                                <lightning-formatted-date-time value={singleMeetDetail.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; to &nbsp;
+                                <lightning-formatted-date-time value={singleMeetDetail.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; {TO} &nbsp;
                                 <lightning-formatted-date-time value={singleMeetDetail.scheduledEndTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
                             </template>
                             <template if:false={singleActiveVisit}>
@@ -40,8 +40,7 @@
         <template  for:each={allActiveVisits} for:item="visit" >
             <div key={visit.Id}>
                 <lightning-layout>
-                    <lightning-layout-item  size="10" class="slds-p-bottom_x-small">{visit.Televisit__r.Title__c} with {visit.Televisit__r.Participant_Enrollment__r.Participant_Contact__r.Full_Name__c } will 
-                        take up at <lightning-formatted-date-time value={visit.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; to &nbsp;
+                    <lightning-layout-item  size="10" class="slds-p-bottom_x-small">{visit.Televisit__r.Title__c} {MEET_WITH} {visit.Televisit__r.Participant_Enrollment__r.Participant_Name__c} {MEET_AT} <lightning-formatted-date-time value={visit.scheduledTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time> &nbsp; {TO} &nbsp;
                         <lightning-formatted-date-time value={visit.scheduledEndTime} hour="numeric" minute="numeric"  time-zone={USER_TIME_ZONE}></lightning-formatted-date-time>
                     </lightning-layout-item>
                     <lightning-layout-item size="2" class="slds-text-align_right slds-p-right_medium">
