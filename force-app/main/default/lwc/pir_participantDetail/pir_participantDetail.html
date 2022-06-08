@@ -277,8 +277,12 @@
                         <div if:true={pd.pe.Screening_ID__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
                               <lightning-input type="text" disabled label={PG_AP_F_Screening_Subject_Id}  data-lvl="1" name="sceenid" value={pd.pe.Screening_ID__c}></lightning-input>
                         </div> 
-                        <div if:true={pd.pe.Visit_Plan__r} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
-                              <lightning-input type="text" disabled label={FD_PE_Field_Arm_Cohort}  data-lvl="1" name="sceenid" value={pd.pe.Visit_Plan__r.Name}></lightning-input>
+                        <div if:true={showVisitPlan} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
+                              <!--<lightning-input type="text" disabled label={FD_PE_Field_Arm_Cohort}  data-lvl="1" name="sceenid" value={pd.pe.Visit_Plan__r.Name}></lightning-input>-->
+                              <lightning-combobox name="VisitPlan" data-value="VisitPlan"
+                                label={FD_PE_Field_Arm_Cohort} title={FD_PE_Field_Arm_Cohort}
+                                value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
+                               ></lightning-combobox>  
                         </div>                
                   </div> <!--    Participation Information  End  --> 
 
