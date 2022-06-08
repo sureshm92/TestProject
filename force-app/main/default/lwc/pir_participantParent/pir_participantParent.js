@@ -857,8 +857,13 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
                   this.finalConsentRequired = true;
               }
           }
-          if(this.isInitialVisit==true && (this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent')){
-            this.consentSigned=true;
+          if(this.isInitialVisit==true ){
+            if((this.oParticipantStatus =='Withdrew Consent' && this.newStatusSelected!='Withdrew Consent')|| (this.oParticipantStatus == 'Declined Consent' && this.newStatusSelected != 'Declined Consent')){
+              this.consentSigned=true;
+            }
+            else{
+              this.consentSigned=false;
+            }
           }
           else{
             this.consentSigned=false;

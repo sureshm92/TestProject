@@ -239,6 +239,13 @@ export default class Pir_participantList extends LightningElement {
        this.urlrefid = this.urlStateParameters.perName || null ;  
        this.urlPerName = this.urlStateParameters.Pname || null;
        if(this.urlStudyId != null && this.urlSiteId != null){
+        setselectedFilterasDefault ({selectedPresetId :"no preset"})
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
         this.filterWrapper.siteList.push(this.urlSiteId);
@@ -1442,6 +1449,13 @@ export default class Pir_participantList extends LightningElement {
         this.presetSel="no preset";
         this.filterWrapper = event.detail;
         this.isPPFiltered = false;this.isDCTFiltered = false;
+        setselectedFilterasDefault ({selectedPresetId :this.presetSel })
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
         this.totalRecordCount = -1;
         this.toggleFilter();
         this.isResetPagination = true;
