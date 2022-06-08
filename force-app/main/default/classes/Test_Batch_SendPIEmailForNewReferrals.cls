@@ -49,26 +49,67 @@ public class Test_Batch_SendPIEmailForNewReferrals {
             )
         );
         insert accountsByTypes.values();
-
+       List<Participant__c>participantLst = new List<Participant__c>();
+       UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        User admin = [
+            SELECT Id, Username, UserRoleId
+            FROM User
+            WHERE
+                Profile.Name = 'System Administrator'
+                AND UserRoleId = :userRole_1.Id
+                AND IsActive = TRUE
+            LIMIT 1
+        ];
+        User user_1;
         Contact piContact = (Contact) TestDataFactory.getSObject(
             Contact.getSObjectType(),
             new Map<String, Object>{
                 'AccountId' => accountsByTypes.get('Common').Id,
-                'LastName' => 'portalTestUser1',
-                'Email' => 'some@email.com'
+                'FirstName' => 'ParticipantTD11',
+                'LastName' => 'ParticipantTD12',
+                'Email' => 'someexample@gmail.com'
             }
         );
         insert piContact;
-
+         user_1 = new User(
+                Email = 'someexample@gmail.com',
+                ProfileId = profile_1.Id,
+                UserName = 'yourusername@gmail.com',
+                Alias = 'Test',
+                TimeZoneSidKey = 'America/New_York',
+                EmailEncodingKey = 'ISO-8859-1',
+                LocaleSidKey = 'en_US',
+                LanguageLocaleKey = 'en_US',
+                ContactId = piContact.Id,
+                PortalRole = 'Manager',
+                FirstName = 'ParticipantTD11',
+                LastName = 'ParticipantTD12'
+            );
+            insert user_1;
+        
         Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(
             Participant__c.getSObjectType(),
             new Map<String, Object>{
-                'Contact__c' => piContact.Id // TODO Contact__c mustn't be piContact
+            'Contact__c' => piContact.Id,  // TODO Contact__c mustn't be piContact
+            'First_Name__c' => 'ParticipantTD11',
+            'Last_Name__c' => 'ParticipantTD12',
+            'Phone__c' => '55313535',
+            'Email__c' => 'someexample@gmail.com',
+            'Mailing_Country_Code__c' => 'US',
+            'Mailing_State_Code__c' => 'AL',
+            'age__c' => 23,
+            'site__c' => accountsByTypes.get('Common').Id
+           
             }
         );
         insert singleParticipant;
-
-        Map<String, Resource__c> resourcesByTypes = new Map<String, Resource__c>();
+      Map<String, Resource__c> resourcesByTypes = new Map<String, Resource__c>();
         resourcesByTypes.put(
             'Article_Platform',
             (Resource__c) TestDataFactory.getSObject(
@@ -170,12 +211,13 @@ public class Test_Batch_SendPIEmailForNewReferrals {
                 'Clinical_Trial_Profile__c' => clinicalTrialProfile.Id,
                 'Site__c' => accountsByTypes.get('Common').Id,
                 'Principal_Investigator__c' => piContact.Id,
-                'Override_PI_Referral_Status__c' => 'Invitation Sent'
+                'Override_PI_Referral_Status__c' => 'Accepted',
+                 'Suppress_Study_Site_PI_Emails__c' => FALSE
             }
         );
         insert studySite;
-
-        Participant_Enrollment__c enrollment = (Participant_Enrollment__c) TestDataFactory.getSObject(
+      List<Participant_Enrollment__c> enrollemntLST = new List<Participant_Enrollment__c>();
+        Participant_Enrollment__c receiveenrollment = (Participant_Enrollment__c) TestDataFactory.getSObject(
             Participant_Enrollment__c.getSObjectType(),
             new Map<String, Object>{
                 'Medical_Record_Review_Status__c' => 'Pass',
@@ -184,13 +226,12 @@ public class Test_Batch_SendPIEmailForNewReferrals {
                 'Participant_Surname__c' => singleParticipant.Last_Name__c,
                 'Patient_ID__c' => '12345678',
                 'Participant_Status__c' => 'Received',
-                'Referral_Source__c' => 'HCP',
+                'Referral_Source__c' => 'Participant',
                 'Study_Site__c' => studySite.Id,
                 'Participant__c' => singleParticipant.Id
             }
         );
-        insert enrollment;
-
+        insert receiveenrollment;
         List<Therapeutic_Area_Assignment__c> assignments = new List<Therapeutic_Area_Assignment__c>();
         assignments.add(
             new Therapeutic_Area_Assignment__c(

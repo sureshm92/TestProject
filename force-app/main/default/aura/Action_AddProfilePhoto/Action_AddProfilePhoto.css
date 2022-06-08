@@ -129,7 +129,6 @@
     width: 100% !important;
 }
 
-
 .THIS .slds-avatar .slds-icon_container {
     background-color: mediumvioletred;
 }
@@ -141,7 +140,7 @@
 }
 
 .THIS .username {
-    height: 20px;
+    height: 22px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 17px;
@@ -149,6 +148,7 @@
     max-width: 76%;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 3px 0;
 }
 .THIS .usernameRTL {
     height: 20px;
@@ -246,14 +246,19 @@
     width: 100%;
 }
 .THIS .photo-labelRTL {
-    /* @noflip */    text-align: right;
-    /* @noflip */     margin-right: 20px;    
-    	width: 100%;
+    /* @noflip */
+    text-align: right;
+    /* @noflip */
+    margin-right: 20px;
+    width: 100%;
 }
 .THIS .photo-label-rtl {
-   /* @noflip */  text-align: right;
-   /* @noflip */  width: 100%;
-   /* @noflip */  margin-right: 17px;
+    /* @noflip */
+    text-align: right;
+    /* @noflip */
+    width: 100%;
+    /* @noflip */
+    margin-right: 17px;
 }
 .THIS .edit {
     /*color : blue;*/

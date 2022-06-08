@@ -45,6 +45,12 @@ import PG_Ref_L_Permit_IQVIA_Confirmation from '@salesforce/label/c.PG_Ref_L_
 import PG_Ref_L_Permit_IQVIA_To_Contact_Email from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Email';
 import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone';
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
+import PG_Ref_L_Permit_IQVIA_To_Contact_By from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_By';
+import PG_Ref_L_StudySite_Consent_Mandatory from '@salesforce/label/c.PG_Ref_L_StudySite_Consent_Mandatory';
+import PG_Ref_L_Permit_Study_Outreach_By from '@salesforce/label/c.PG_Ref_L_Permit_Study_Outreach_By';
+import EMAIL from '@salesforce/label/c.Email';
+import PHONE from '@salesforce/label/c.Phone';
+import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 import Age from '@salesforce/label/c.Age';
 import RH_Ethnicity from '@salesforce/label/c.RH_Ethnicity';
 import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Preferred_Contact_Time';
@@ -63,6 +69,8 @@ import September from '@salesforce/label/c.September'
 import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
+import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save' 
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -70,9 +78,12 @@ export default class Pir_participantDetail extends LightningElement {
     actionReq = false;
     notification = pirResources+'/pirResources/icons/bell.svg';
     disableSrc = false;
+    @api isrtl = false;
+    maindivcls;
     disableScreening = false;
     delegateMinor =false;
     disableEdit = false;
+    noYOB = false;
     saveoffCount = 100;
     isOutreachUpdated = false;
     fieldMap = new Map([["src" , "MRN_Id__c"],
@@ -108,7 +119,10 @@ export default class Pir_participantDetail extends LightningElement {
 				["demail" , "Email__c"],
 				["dbyear" , "Birth_Year__c"],
 				["dattest" , "Attestation__c"],
-				["dpid" , "Id"]]);
+			    ["iqConsentEmail" , "Participant_Opt_In_Status_Emails__c"],
+                ["iqConsentPhone" , "Participant_Phone_Opt_In_Permit_Phone__c"],
+                ["iqConsentSMS" , "Participant_Opt_In_Status_SMS__c"],
+                ["dpid" , "Id"]]);
     @api pd;
     initPd;
     @api
@@ -128,6 +142,12 @@ export default class Pir_participantDetail extends LightningElement {
         this.delegateMinor =false;
         this.stateReq = false;
         this.disableEdit = false;
+        this.noYOB = false;
+        if(this.isrtl) {
+            this.maindivcls = 'rtl';
+        }else{
+            this.maindivcls = 'ltr';
+        }
         getParticipantData( { PEid:value})
             .then(result => {
                 this.pd = result;   
@@ -179,6 +199,10 @@ export default class Pir_participantDetail extends LightningElement {
                             this.altIsNotAdult = false;
                         }
                     }                    
+                }
+                if(this.pd.delegate.Participant_Delegate__r.Attestation__c){
+                    if(!this.pd.delegate.Participant_Delegate__r.Birth_Year__c)
+                        this.noYOB = true;
                 }
                 window.clearTimeout(this.delayTimeout);
                 this.delayTimeout = setTimeout(this.setEth.bind(this), 50);
@@ -233,6 +257,32 @@ export default class Pir_participantDetail extends LightningElement {
         let field =event.target.name;
         this.setVal(val,lvl,field);
     }    
+    handleCheckboxChange(event){
+        this.isOutreachUpdated = true;
+        let consent = event.detail.checked;
+        let consentType = event.target.name;
+        switch(consentType){
+            case 'outreachPhoneConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = consent;
+                    break;
+            case 'outreachEmailConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = consent;
+                    break;
+            case 'outreachSMSConsent':
+                    this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
+                    break;
+            case 'studyPhoneConsent':
+                this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = consent;
+                break;
+            case 'studyEmailConsent':
+                this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = consent;
+                break;
+            case 'studySMSConsent':
+                this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = consent;
+                break;
+        }
+        this.toggleSave();
+    }   
     setVal(val,lvl,field){
         let toggleSaveButton = true;
         if(lvl=='1'){
@@ -627,7 +677,7 @@ export default class Pir_participantDetail extends LightningElement {
     setState(){
         this.contactstates=[];
         if(this.pd['pe']['Participant__r']['Mailing_Country__c']){      
-            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country__c']];
+            this.contactstates=this.contObj.stateMap[this.pd['pe']['Participant__r']['Mailing_Country_Code__c']];
             this.stateReq = this.contactstates.length >0;
         }   
         window.clearTimeout(this.delayTimeout);
@@ -642,17 +692,6 @@ export default class Pir_participantDetail extends LightningElement {
             { label: this.PG_Ref_L_Permit_IQVIA_To_Contact_Phone    , value: 'txtcnt' },
             { label: this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS, value: 'smscnt' },
         ];
-    }
-    handleSharingOptChange(event) {
-        this.infoSharingValue = event.detail.value;
-        for(var i=0;i<this.infoSharingOptions.length;i++){
-            if(this.infoSharingValue.includes(this.infoSharingOptions[i].value)){
-                this.pd['pe'][this.fieldMap.get(this.infoSharingOptions[i].value)]=true;
-            }
-            else{                
-                this.pd['pe'][this.fieldMap.get(this.infoSharingOptions[i].value)]=false;
-            }
-        }
     }
     // delegate logic
     duplicateDelegateInfo =  {};
@@ -698,6 +737,7 @@ export default class Pir_participantDetail extends LightningElement {
             if(!initDel.Id){
                 this.delOp= 'insertDelegate';
                 this.showDelYear = true;
+                this.noYOB = false;
                 isNew = true;
             }      
             checkExisitingParticipant( {strFirstName:this.pd.delegate.Participant_Delegate__r.First_Name__c,
@@ -786,6 +826,7 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd.delegate.Participant_Delegate__r.Birth_Year__c='';
             this.newDel.Birth_Year__c = null;
             this.showDelYear = true;            
+            this.noYOB = false;    
             this.delOp = 'insertDelegate';
         }
         window.clearTimeout(this.delayTimeout);
@@ -857,7 +898,7 @@ export default class Pir_participantDetail extends LightningElement {
             if(this.saveoffCount>3){
                 this.dispatchEvent(new CustomEvent('enabledetailsave', {  detail: this.validate()}));
                 var upd = this.isUpdated();
-                var updates = (upd.isDelUpdated || upd.isPartUpdated || upd.isPeUpdated);
+                var updates = (upd.isDelUpdated || upd.isPartUpdated || upd.isPeUpdated || upd.isIqviaConsentUpdated);
                 this.dispatchEvent(new CustomEvent('detailupdate', {  detail: updates}));
             }
             else{
@@ -870,6 +911,8 @@ export default class Pir_participantDetail extends LightningElement {
         if(this.showDupMsg || this.showUpdateMsg){
             return false;
         } else if(this.delegateMinor && this.showDelYear){
+            return false;
+        } else if(this.delegateMinor && this.noYOB){
             return false;
         }
        var inp = this.template.querySelectorAll("lightning-input");
@@ -896,6 +939,8 @@ export default class Pir_participantDetail extends LightningElement {
         var isPartUpdated=false;
         var delFields = ['dfirstname','dlstname','dphone','demail','dbyear','dattest','dpid'];
         var isDelUpdated=false;
+        var iqviaConsentFields = ['iqConsentEmail','iqConsentPhone','iqConsentSMS'];
+        var isIqviaConsentUpdated=false;
         //check for per update
         peFields.forEach(function(field){
             if(this.fieldUpdate(this.initPd['pe'][this.fieldMap.get(field)],this.pd['pe'][this.fieldMap.get(field)])){
@@ -914,7 +959,13 @@ export default class Pir_participantDetail extends LightningElement {
             isDelUpdated = true;
             }
         },this);
-        return {"isPeUpdated":isPeUpdated,"isPartUpdated":isPartUpdated ,"isDelUpdated":isDelUpdated}
+        //check for consent update
+        iqviaConsentFields.forEach(function(field){
+            if(this.fieldUpdate(this.initPd['pe']['Participant_Contact__r'][this.fieldMap.get(field)],this.pd['pe']['Participant_Contact__r'][this.fieldMap.get(field)])){
+            isIqviaConsentUpdated = true;
+            }
+        },this);
+        return {"isPeUpdated":isPeUpdated,"isPartUpdated":isPartUpdated ,"isDelUpdated":isDelUpdated,"isIqviaConsentUpdated":isIqviaConsentUpdated}
         }}
         return false;
     }
@@ -924,28 +975,28 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-        doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
-        .then(result => {
-            this.dispatchEvent(new CustomEvent('toggleclick'));
-            this.dispatchEvent(new CustomEvent('handletab'));
-            this.peid = this.pd.pe.Id;
-            const event = new ShowToastEvent({
-                variant: 'success',
-                message:
-                'Record Saved Successfully',
+            doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
+            .then(result => {
+                this.dispatchEvent(new CustomEvent('toggleclick'));
+                this.dispatchEvent(new CustomEvent('handletab'));
+                this.peid = this.pd.pe.Id;
+                const event = new ShowToastEvent({
+                    variant: 'success',
+                    message:
+                    RH_RP_Record_Saved_Successfully,
+                });
+                this.dispatchEvent(event);
+                this.saving = false;
+            })
+            .catch(error => {            
+                console.error('Error:', error);
+                this.saving = false;
+                const event = new ShowToastEvent({
+                    variant: 'error',
+                    message:error.message
+                });
+                this.dispatchEvent(event);
             });
-            this.dispatchEvent(event);
-            this.saving = false;
-        })
-        .catch(error => {            
-            console.error('Error:', error);
-            this.saving = false;
-            const event = new ShowToastEvent({
-                variant: 'error',
-                message:error.message
-            });
-            this.dispatchEvent(event);
-        });
     }
     fieldUpdate(old,upd){
         if(typeof(old)=='boolean'){
@@ -976,6 +1027,19 @@ export default class Pir_participantDetail extends LightningElement {
             this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
             this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
             this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
+        }
+        this.toggleSave();
+    }
+
+    isConsentComplete(){
+        if((this.pd.pe.Participant__r.Mailing_Country_Code__c == 'US' && (!this.pd.pe.Permit_Mail_Email_contact_for_this_study__c 
+            || !this.pd.pe.Permit_SMS_Text_for_this_study__c || !this.pd.pe.Permit_Voice_Text_contact_for_this_study__c)) 
+            || ((this.pd.pe.Participant__r.Mailing_Country_Code__c != 'US' && (!this.pd.pe.Permit_Mail_Email_contact_for_this_study__c 
+                || !this.pd.pe.Permit_Voice_Text_contact_for_this_study__c)) ) 
+            ){
+                return false;
+        }else{
+            return true;
         }
     }
 
@@ -1018,4 +1082,10 @@ export default class Pir_participantDetail extends LightningElement {
     This_Participant_has_reached_legal_age_of_emancipation=This_Participant_has_reached_legal_age_of_emancipation;
     BTN_Verify=BTN_Verify;
     PG_MT_T_Your_permissions_do_not_permit_this_action=PG_MT_T_Your_permissions_do_not_permit_this_action;
+    PG_Ref_L_StudySite_Consent_Mandatory = PG_Ref_L_StudySite_Consent_Mandatory ;
+    PG_Ref_L_Permit_Study_Outreach_By = PG_Ref_L_Permit_Study_Outreach_By;
+    PG_Ref_L_Permit_IQVIA_To_Contact_By = PG_Ref_L_Permit_IQVIA_To_Contact_By;
+    EMAIL = EMAIL;
+    PHONE = PHONE;
+    SMS_TEXT = SMS_TEXT;
 }

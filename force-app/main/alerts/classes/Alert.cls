@@ -3,7 +3,7 @@
  *testing Vijay
  */
 
-public class Alert {
+public without sharing class Alert {
     public class AlertException extends Exception {
     }
 

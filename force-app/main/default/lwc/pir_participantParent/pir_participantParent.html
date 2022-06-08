@@ -1,49 +1,54 @@
 <template>
+   <div class={maindivcls}>
    <div class="slds-grid slds-wrap no-p-mobile pir-parent">
        <div onclick={mobileViewToggle} class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
            <div class="pgHead showDesktop slds-p-bottom_small slds-p-left_x-small slds-p-top_small">
                <lightning-icon icon-name="utility:home" size="small" alternative-text="Home"></lightning-icon>
                &nbsp;&nbsp;<lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text=">"></lightning-icon>
-               &nbsp;&nbsp;My Participants
+               &nbsp;&nbsp;{label.My_Participant}
            </div>
            <div class="hideDesktop hideMobile D">
                <div class="pgHeadMob slds-p-left_xx-small">
                    <img class="backArrow" src={backArrow}/>
-                   &nbsp;&nbsp;Participant List
+                   &nbsp;&nbsp;{label.pir_Participant_List}
                </div>
            </div>
-
        </div>
        <div class="boxShadow  maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg ">
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <span>
-                   <c-pir_participant-list ongetstatus={handlestatusspinner} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} fetch={setList}></c-pir_participant-list>
+                  <c-pir_participant-list maindivcls={maindivcls} ongetstatus={handlestatusspinner} ongotofirst={settopageone} additional-note-value={additionalNote} final-consentvalue={finalConsentvalue} consent-value ={consentData} signed-date-value={signedDateValue} selectedreasonvalue={selectedreason} onupdatestudylist={handleStudyAndSite} onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI} onprogressvaluechange={hanldeProgressValueChange} oncountvaluecheckbox={handleCount} onresetcount={handleReset} ondroplabel={handleDropLabel} onresetpagination={handleresetpagination} onresetparent={handleresetparent} is-checkboxhidden={cancelCheckbox} onstatusvaluechange={handleStatusChanges} fetch={setList}></c-pir_participant-list>
                </span>
            </div>
 		    <template if:false={progressValue}> 
            <div if:false={showZeroErr} class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
                <div>
-                   <c-pir_participant-header onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail} ></c-pir_participant-header>
+                  <c-pir_participant-header isrtl={isRTL} onhandlespinner={handleSpinner} oncallparticipantparent={docallparticipantstatusdetail} ></c-pir_participant-header>
                </div>
                <div class="section-padding all-tabs"> 
                        <lightning-tabset  active-tab-value=''>
-                           <lightning-tab label="Status Details" value="Status Details" onactive={handleStatusTab} class="no-padding" >
-                                   <c-pir_participant-Status-Details onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
-                           </lightning-tab> 
-                           <lightning-tab label="Participant Details" value="Participant Details" onactive={handleParticipantTab} class="no-padding">
-                              <template if:true={isParticipantDetail}>        
-                                 <c-pir_participant-detail action-req={selectedPE.actionReq} selected-p-e={selectedPE} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
-                             </template>
-                           </lightning-tab>
-                           <lightning-tab label="Sharing Options" value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
-                               <c-pir_sharing-option selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
-                           </lightning-tab>
-                           <template if:true={isMedicalHistryAccess}> 
-                               <lightning-tab label="Health Information" value="Health Information" onactive={handleMedicalTab} class="no-padding">
-                                   <c-medicalinformation selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
-                               </lightning-tab> 
+                        <lightning-tab label={label.BTN_Status_Details} value="Status Details" onactive={handleStatusTab} class="no-padding" >
+                           <c-pir_participant-Status-Details isrtl={isRTL} onhandletabs={handleTabs} onstatusdetailsvaluechange={checkStatusDetailChanges} onvalidatesavebuttons={checkvalidation} oncallpariticpantparent={docallheader}></c-pir_participant-Status-Details>
+                   </lightning-tab> 
+                   <lightning-tab label={label.BTN_Participant_Details} value="Participant Details" onactive={handleParticipantTab} class="no-padding">
+                      <template if:true={isParticipantDetail}>        
+                         <c-pir_participant-detail isrtl={isRTL} action-req={selectedPE.actionReq} selected-p-e={selectedPE} peid={selectedPE.id} onenabledetailsave={toggleDetailSave} ondetailupdate={detailsUpdate}  onhandletab={handleTabs}></c-pir_participant-detail>
+                     </template>
+                   </lightning-tab>
+                   <lightning-tab label={label.Tab_Sharing_Options} value="Sharing Options" onactive={handleSharingTab} class="no-padding">                                
+                       <c-pir_sharing-option isrtl={isRTL} selected-p-e = {selectedPE} delegate-level={delegateLevel} onformedit={checkFormChanges} onrefresh={resetFormChanges} ontoggleclick={disableAll}></c-pir_sharing-option>
+                   </lightning-tab>
+                   <template if:true={isMedicalHistryAccess}> 
+                       <lightning-tab label={label.pir_Health_Information} value="Health Information" onactive={handleMedicalTab} class="no-padding">
+                           <c-medicalinformation isrtl={isRTL} selected-pe = {selectedPE.id} onvalidatemedicalsavebutton={checkMedicalSaveBtn} onhandletabs={handleTabs} ></c-medicalinformation>  
+                       </lightning-tab> 
+                   </template>
+                           <template if:true={enableTelevisitTab}>
+                              <lightning-tab label="Televisit" value="Televisit" onactive={handleTelevisitTab} class="no-padding">
+                                 <c-televisit-creation-screen  peidnew= {selectedPE} calltelevisit={callTelevisistMethod}></c-televisit-creation-screen>
+                              </lightning-tab>
                            </template>
-                       </lightning-tabset>
+                        </lightning-tabset>
                </div>
                <template if:true={isLoaded}>
                    <div class="">
@@ -63,10 +68,10 @@
                         <img class="user-img slds-m-bottom_small" src={usericon}/>
                         <h2 class="slds-text-heading_large slds-m-bottom_medium headertext"> {countValue} {label.RH_ParticipantSelected} </h2>
                         <template if:false={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-left"  onclick={doAction} disabled={ondisableButton} > {dropdownLabel} </button> 
                          </template>
                          <template if:true={exportItem}>
-                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown "  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button> 
+                           <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown rtl-export"  disabled={exportDisable} onclick={handleExportSelcted} > {label.RH_ExportSelected} </button> 
                            <button class="apollo-btn secondary mrr-btn ipad-mode-btn slds-p-around_x-small btn-dropdown"  onclick={handleExportAll}> {label.BTN_Export_All}</button> 
                         </template>
                         <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile btn-dropdown" onclick={onCancel}> {label.BTN_Cancel}  </button>
@@ -103,7 +108,7 @@
                      <button class="slds-button apollo-btn primary action-btn" disabled={exportDisable} onclick={handleExportSelcted}> {label.RH_ExportSelected}</button>
                   </div>
                   <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_6-of-12 slds-m-bottom_small slds-p-right--none">
-                     <button class="slds-button apollo-btn secondary action-btn"> {label.BTN_Export_All}</button>
+                     <button class="slds-button apollo-btn secondary action-btn" onclick={handleExportAll}> {label.BTN_Export_All}</button>
                   </div>
                   <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
                    <button class="slds-button apollo-btn secondary action-btn" onclick={onCancel}> {label.BTN_Cancel}</button>
@@ -116,7 +121,7 @@
        <div class="boxShadow  slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg linenone" > 
            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                <template if:true={totalRecord}>
-                   <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
+                  <c-pir_participant-pagination is-r-t-l-pg={isRTL} maindivcls={maindivcls} total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
                </template>
            </div>   
 		   <template if:false={progressValue}>
@@ -124,13 +129,13 @@
             <template if:false={isSharingTab}>
                <span>
                   <template if:true={isStatusDetail}> <!--only for status detail -->
-                        <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableButton}  onclick={doSave}> Save </button>
+                        <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableButton}  onclick={doSave}> {label.BTN_Save} </button>
                   </template>
                   <template if:true={isMedicalTab}> <!--only for Medical tab -->
-                   <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableMedicalSaveButton}  onclick={doSaveMedical}> Save </button>
+                   <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableMedicalSaveButton}  onclick={doSaveMedical}> {label.BTN_Save} </button>
                  </template>
                   <template if:true={isParticipantDetail}> <!--only for Medical tab -->
-                     <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> Save </button>
+                     <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small btn-mobile" disabled={disableDetailSaveButton}  onclick={doSaveDetail}> {label.BTN_Save} </button>
                   </template>                  
                </span> 
             </template>
@@ -145,6 +150,7 @@
       </div>
    </div>
    <template if:true={isModalOpen}>
+      <div class={maindivcls}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
        <div class="slds-modal_small">
@@ -154,7 +160,7 @@
                 <div class="slds-p-around_large">
                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                         <span class="title">Save Changes?</span> 
+                        <span class="title">{label.PIR_Save_Changes}</span> 
                       </div>
                       <div class="slds-col slds-size_1-of-12 close-icon">
                          <div onclick={handleCloseModal}>
@@ -166,62 +172,27 @@
                       </div>
                    </div>
                    <slot name="body">
-                      <p class="sub-text"> You have unsaved changes on this tab. Your changes will be lost if they are not saved.</p>
-                      <div class="slds-grid slds-wrap slds-m-top_large">
-                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                           <div class="slds-float_right mobile-width">                  
-                               <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disablebtn}  onclick={doSave}> Save </button>
-                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscard}> Discard</button>
-                           </div>    
-                         </div>
-                      </div>
-                   </slot>
+                     <p class="sub-text">{label.PIR_Unsaved_Changes}</p>
+                     <div class="slds-grid slds-wrap slds-m-top_large">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                          <div class="slds-float_right mobile-width">                  
+                              <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disablebtn}  onclick={doSave}> {label.BTN_Save} </button>
+                              <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscard}> {label.PIR_Discard}</button>
+                          </div>    
+                        </div>
+                     </div>
+                  </slot>
                 </div>
              </div>
           </div>
        </div>
     </section>
+    </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
-
-
-
-
-       <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-           aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open slds-modal slds-modal_small slds-fade-in-open">
-           <div class="slds-modal_small">
-              <div class="slds-modal__container model-small">
-                 <div class="slds-modal__content slds-p-bottom--medium" id="modal-content-id-1">
-                    <div class="bar"></div>
-                    <div class="slds-p-around_small">
-                       <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_large">
-                          <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                             <span class="title"> Save Changes? </span> 
-                          </div>
-                          <div class="slds-col slds-size_1-of-12" style="cursor:pointer">
-                             <div onclick={handleCloseModal}>
-                                <lightning-icon icon-name="utility:close"
-                                   alternative-text="close"
-                                   size="small" ></lightning-icon>
-                                <span class="slds-assistive-text">Close</span>
-                             </div>
-                          </div>
-                       </div>
-                       <slot name="body">
-                          <p class="Cancel">You have unsaved changes on this tab. Your changes will be lost if they are not saved. </p>                 
-                          <div class="slds-m-top_large" style="text-align:right;">
-                               <button class="slds-button slds-button_neutral apollo-btn"  onclick={handleCloseModal}> Discard </button>
-                               <button class="apollo-btn primary ipad-mode-btn slds-p-around_x-small" onclick={handleProceedModal} disabled> Save </button>                    
-                           </div>
-                       </slot>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div> -->
-   </template>   
+</template>   
 
    <template if:true={isMedicalModalOpen}>
+      <div class={maindivcls}>
        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
        <div class="slds-modal_small">
@@ -231,7 +202,7 @@
                 <div class="slds-p-around_large">
                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                         <span class="title">Save Changes?</span> 
+                         <span class="title">{label.PIR_Save_Changes}</span> 
                       </div>
                       <div class="slds-col slds-size_1-of-12 close-icon">
                          <div onclick={handleCloseModalMedical}>
@@ -243,12 +214,12 @@
                       </div>
                    </div>
                    <slot name="body">
-                      <p class="sub-text"> You have unsaved changes on this tab. Your changes will be lost if they are not saved.</p>
+                      <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                       <div class="slds-grid slds-wrap slds-m-top_large">
                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                            <div class="slds-float_right mobile-width">                  
-                               <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disableMedicalSaveButton} onclick={doSaveMedical}> Save </button>
-                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardMedical}> Discard</button>
+                               <button title="" class="slds-button apollo-btn primary btn-height save-btn" disabled={disableMedicalSaveButton} onclick={doSaveMedical}> {label.BTN_Save} </button>
+                               <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardMedical}>  {label.PIR_Discard}</button>
                            </div>    
                          </div>
                       </div>
@@ -258,10 +229,11 @@
           </div>
        </div>
     </section>
+    </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
-   
    </template>
    <template if:true={isDetailModalOpen}>
+      <div class={maindivcls}>
       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
       aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
       <div class="slds-modal_small">
@@ -271,7 +243,7 @@
                <div class="slds-p-around_large">
                   <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                      <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                        <span class="title">Save Changes?</span> 
+                        <span class="title"> {label.PIR_Save_Changes}</span> 
                      </div>
                      <div class="slds-col slds-size_1-of-12 close-icon">
                         <div onclick={handleCloseModalDetail}>
@@ -283,12 +255,12 @@
                      </div>
                   </div>
                   <slot name="body">
-                     <p class="sub-text"> You have unsaved changes on this tab. Your changes will be lost if they are not saved.</p>
+                     <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
-                              <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={doSaveDetail}> Save </button>
-                              <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardDetail}> Discard</button>
+                              <button title="" class="slds-button apollo-btn primary btn-height save-btn"  onclick={doSaveDetail}>{label.BTN_Save}</button>
+                              <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleDiscardDetail}>{label.PIR_Discard}</button>
                           </div>    
                         </div>
                      </div>
@@ -298,11 +270,13 @@
          </div>
       </div>
    </section>
+   </div>
    <div class="slds-backdrop slds-backdrop_open"></div>  
-  </template>
+  
+   </template>
   <!--Sharing Options Modal-->
   <template if:true={isSPModalOpen}>
-      <c-pir_notification-on-tab-change onnotificationevent={handleNotification}></c-pir_notification-on-tab-change>
+      <c-pir_notification-on-tab-change maindivcls={maindivcls} onnotificationevent={handleNotification}></c-pir_notification-on-tab-change>
       <div class="slds-backdrop slds-backdrop_open"></div>
    </template>
 
@@ -340,34 +314,34 @@
                               </div> 
                           </div>
                           
-                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
+                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top slds-m-bottom_small">
                               <lightning-combobox
-                                  name="Study"
-                                  label={label.CC_Study}
-                                  value={selectedStudy}
-                                  placeholder="Select..."
-                                  options={studylist}
-                                  onchange={studyhandleChange}
-                                  ></lightning-combobox>
-                          </div>
-                         
-                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
-                             <lightning-combobox
-                                 name="studysite"
-                                 label="Study Site"
-                                 value={selectedSite}
-                                 placeholder="Select..."
-                                 options={studySiteList}
-                                 onchange={studysitehandleChange}
-                                 disabled={studysiteaccess}
+                                 name="Study"
+                                 label={label.CC_Study}
+                                 value={selectedStudy}
+                                 placeholder={label.PG_AC_Select}
+                                 options={studylist}
+                                 onchange={studyhandleChange}
                                  ></lightning-combobox>
-                         </div>
+                        </div>
+                         
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 margin-top">
+                           <lightning-combobox
+                               name="studysite"
+                               label={label.PG_DBPI_L_study_site}
+                               value={selectedSite}
+                               placeholder={label.PG_AC_Select}
+                               options={studySiteList}
+                               onchange={studysitehandleChange}
+                               disabled={studysiteaccess}
+                               ></lightning-combobox>
+                        </div>
   
                       </div>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
-                              <button class="slds-button apollo-btn primary btn-height save-btn" title={label.Continue} onclick={handleNewParticipant} disabled={handleContinue}> {label.Continue} </button>
+                           <button class="slds-button apollo-btn primary btn-height save-btn" title={label.Continue} onclick={handleNewParticipant} disabled={handleContinue}> {label.Continue} </button>
                               <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseParticipant}> {label.BTN_Cancel} </button>
                           </div>     
                         </div>
@@ -382,86 +356,103 @@
   <!--  Change Status Model End --> 
   </template>
   <template if:true={isStatusChange}>
-            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
-            <div class="slds-modal_small">
-               <template if:true={bulkStatusSpinner}>
-                  <lightning-spinner alternative-text="Loading..." variant="brand">
-                  </lightning-spinner>
-               </template>
-               <div class="slds-modal__container model-small">
-                  <div class="slds-modal__content" id="modal-content-i44d-1">
-                     <div class="bar"></div>
-                     <div class="slds-p-around_large">
-                        <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
-                           <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                              <span class="title"> {label.ListView_ChangeStatus}</span> 
-                           </div>
-                           <div class="slds-col slds-size_1-of-12 close-icon">
-                              <div onclick={handleCloseStatus}>
-                                 <lightning-icon icon-name="utility:close"
-                                    alternative-text="close"
-                                    size="small" ></lightning-icon>
-                                 <span class="slds-assistive-text">Close</span>
-                              </div>
-                           </div>
-                        </div>
-                        <slot name="body">   
-                           <div class="slds-grid slds-wrap slds-gutters">
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                                    <div class="status-text">
-                                       {label.ListView_Current_Status}
-                                    </div>
-                                    <div class="status-result">
-                                       {oParticipantStatus}
-                                    </div>
-                              </div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
-                                    <div class="status-text">
-                                       {label.ListView_New_Status}
-                                    </div>
-                                    <div class="status-result">
-                                      {newStatusSelected}
-                                    </div>
-                              </div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small">
-                                    <lightning-combobox
-                                       name="reason"
-                                       title={label.PG_ACPE_L_Reason}
-                                       label={label.PG_ACPE_L_Reason}
-                                       value={selectedreason}
-                                       placeholder=" "
-                                       options={reasoneoptions}
-                                       onchange={handleReasonChange}
-                                       disabled={isReasonEmpty}
-                                       ></lightning-combobox>
-                              </div>
-                              <template if:true={finalConsent}>
-                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small" style="padding-top: 10px;">
-                                    <lightning-input type="checkbox" data-value="FinalConsent" required={finalConsentRequired} checked={finalConsentvalue}
-                                        onchange={changeInputValue} label={label.FD_PE_Field_Final_Consent} title={label.FD_PE_Field_Final_Consent} name="input1"></lightning-input>
-                                 </div>
-                              </template>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
-                                    <lightning-textarea name="additionalNotes"  title={notesLabel} onchange={changeInputValue}
-                                    data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>   
-                              </div>
-                           </div>
-                           <div class="slds-grid slds-wrap slds-m-top_large">
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                              <div class="slds-float_right mobile-width">                  
-                                    <button title={label.Submit} class="slds-button apollo-btn primary btn-height save-btn" onclick={handleBulkUpdate} disabled={bulkSubmit}> {label.Submit} </button>
-                                    <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseStatus}> {label.BTN_Cancel}</button>
-                              </div>    
-                              </div>
-                           </div>
-                        </slot>
+   <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+   aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+   <div class="slds-modal_small">
+      <template if:true={bulkStatusSpinner}>
+         <lightning-spinner alternative-text="Loading..." variant="brand">
+         </lightning-spinner>
+      </template>
+      <div class="slds-modal__container model-small">
+         <div class="slds-modal__content" id="modal-content-i44d-1">
+            <div class="bar"></div>
+            <div class="slds-p-around_large">
+               <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                  <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                     <span class="title"> {label.ListView_ChangeStatus}</span> 
+                  </div>
+                  <div class="slds-col slds-size_1-of-12 close-icon">
+                     <div onclick={handleCloseStatus}>
+                        <lightning-icon icon-name="utility:close"
+                           alternative-text="close"
+                           size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
                      </div>
                   </div>
                </div>
+               <slot name="body">   
+                  <div class="slds-grid slds-wrap slds-gutters">
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="status-text">
+                              {label.ListView_Current_Status}
+                           </div>
+                           <div class="status-result">
+                              {oParticipantStatus}
+                           </div>
+                     </div>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
+                           <div class="status-text">
+                              {label.ListView_New_Status}
+                           </div>
+                           <div class="status-result">
+                             {newStatusSelected}
+                           </div>
+                     </div>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small">
+                           <lightning-combobox
+                              name="reason"
+                              title={label.PG_ACPE_L_Reason}
+                              label={label.PG_ACPE_L_Reason}
+                              value={selectedreason}
+                              placeholder=" "
+                              options={reasoneoptions}
+                              onchange={handleReasonChange}
+                              disabled={isReasonEmpty}
+                              ></lightning-combobox>
+                     </div>
+                     <template if:true={consentSigned}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small"></div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
+                           <lightning-combobox
+                              name="ConsentSigned"
+                              label={label.FD_PE_Field_Informed_Consent_Signed}
+                              value=""
+                              placeholder=""
+                              options={consentSignedOptions}
+                              onchange={changeInputValue}
+                              data-value="consentSigned"
+                              ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
+                           <lightning-input type="date" name="input1" data-value="signedDate" class="inputfieldStatus" onchange={changeInputValue} label={label.FD_PE_Field_Informed_Consent_Signed_Date} required={consentValue}></lightning-input>
+                        </div>
+                     </template>
+                     <template if:true={finalConsent}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small" style="padding-top: 10px;">
+                           <lightning-input type="checkbox" data-value="FinalConsent" required={finalConsentRequired} checked={finalConsentvalue}
+                               onchange={changeInputValue} label={label.FD_PE_Field_Final_Consent} title={label.FD_PE_Field_Final_Consent} name="input1"></lightning-input>
+                        </div>
+                     </template>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12 ">
+                        <lightning-textarea name="additionalNotes"  title={notesLabel} onchange={changeInputValue}
+                        data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>   
+                     </div>
+                  </div>
+                  <div class="slds-grid slds-wrap slds-m-top_large">
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                     <div class="slds-float_right mobile-width">                  
+                           <button title={label.Submit} class="slds-button apollo-btn primary btn-height save-btn" onclick={handleBulkUpdate} disabled={bulkSubmit}> {label.Submit} </button>
+                           <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleCloseStatus}> {label.BTN_Cancel}</button>
+                     </div>    
+                     </div>
+                  </div>
+               </slot>
             </div>
-         </section>
-         <div class="slds-backdrop slds-backdrop_open"></div>
-  </template>
-
+         </div>
+      </div>
+   </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</div>
 </template>

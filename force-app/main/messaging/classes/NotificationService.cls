@@ -6,7 +6,11 @@
 public without sharing class NotificationService {
     public static Set<Id> platfomLevelSMSSet = new Set<Id>();
     public static Set<Id> studyLevelSMSSet = new Set<Id>();
-
+    public static Map<Id,Boolean> skipSMSLevelMap = new Map<Id,Boolean>();// Added by Anitha For Skipping SMS if AWS details were not there
+    public static Map<Id,Boolean> nonskipSMSLevelMap = new Map<Id,Boolean>();// Added by Anitha For Skipping SMS if AWS details were not there
+    public static Map<Id,Boolean> welcomemsgSent = new Map<Id,Boolean>();// Added by Anitha
+     public static Map<Id,Boolean> welcomemsgDelivered = new Map<Id,Boolean>();// Added by Anitha    
+    
     static public List<String> participantStatusListForHCP = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED,
         PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
@@ -16,7 +20,7 @@ public without sharing class NotificationService {
 
     static public List<String> participantStatusListForPT = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED
-    };
+    }; 
 
     static public List<String> notificationWithoutPermissions = new List<String>{
         NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE,
@@ -39,7 +43,25 @@ public without sharing class NotificationService {
 
     static public List<String> instantNotificationTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
+    };
+
+    static public List<String> televisitNotificationTypes = new List<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
@@ -48,12 +70,20 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> taskSurveyReminderTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
+    };
+    static public Set<String> welcomemsgNoticationtypes = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+        NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+        NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+        NotificationCatalog.MSG_TO_PT_PLATFORM_LVL_WELCME_MSG
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -415,29 +445,41 @@ public without sharing class NotificationService {
                         );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
-                    Boolean isSMSAvailableAtPlatformLevel =
-                        platfomLevelSMSSet.contains(n.Id) &&
-                        availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
-                    if (isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id)) {
-                        if (
-                            (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
-                            (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                            !String.isBlank(n.Task_Id__c))
-                        ) {
+                    //if Number is not Invalid at contact, proceed for sending SMS else skip the SMS.
+                    //For skipping sms  
+                    if (!availabilityService.isInvalidNumber(n.Recipient__c) && nonskipSMSLevelMap.containsKey(n.Id)
+                       && nonskipSMSLevelMap.get(n.Id)) { // Added by Anitha  welcomemsg false                       
+                        Boolean isSMSAvailableAtPlatformLevel =
+                            platfomLevelSMSSet.contains(n.Id) &&
+                            availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+                           // Added by Anitha -- complete if condition change
+                               //TODO:Add comment
+                           if ((isSMSAvailableAtPlatformLevel || studyLevelSMSSet.contains(n.Id))
+                           && ((!welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
+                           && welcomemsgSent.get(n.Id) && welcomemsgDelivered.get(n.Id)) 
+                           || (welcomemsgNoticationtypes.Contains(n.Notification_Type__c) && !welcomemsgSent.get(n.Id)))){
                             if (
-                                !String.isBlank(n.Task_Id__c) &&
-                                taskMap != null &&
-                                taskMap.containsKey(n.Task_Id__c) &&
-                                (taskMap.get(n.Task_Id__c).Remind_Using_SMS__c ||
-                                (instantNotificationTypes.contains(n.Notification_Type__c) &&
-                                taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
+                                (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
+                                (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
+                                !String.isBlank(n.Task_Id__c))
                             ) {
+                                if (
+                                    !String.isBlank(n.Task_Id__c) &&
+                                    taskMap != null &&
+                                    taskMap.containsKey(n.Task_Id__c) &&
+                                    (taskMap.get(n.Task_Id__c).Remind_Using_SMS__c ||
+                                    (instantNotificationTypes.contains(n.Notification_Type__c) &&
+                                    taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
+                                ) {
+                                    smsNotifications.add(n);
+                                    sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                                }
+                            } else {
                                 smsNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             }
                         } else {
-                            smsNotifications.add(n);
-                            sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                            sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                         }
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
@@ -502,7 +544,7 @@ public without sharing class NotificationService {
         }
 
         sendResultService.updateResults();
-        //Send emails:
+        //Send emails: 
         if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
         }

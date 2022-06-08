@@ -17,10 +17,28 @@ import ListView_New_Status from '@salesforce/label/c.ListView_New_Status';
 import ListView_Current_Status from '@salesforce/label/c.ListView_Current_Status';
 import PG_ACPE_L_Reason from '@salesforce/label/c.PG_ACPE_L_Reason';
 import FD_PE_Field_Final_Consent from '@salesforce/label/c.FD_PE_Field_Final_Consent';
+import FD_PE_Field_Informed_Consent_Signed from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed';
+import FD_PE_Field_Informed_Consent_Signed_Date from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed_Date';
 import PG_ACPE_L_Notes from '@salesforce/label/c.PG_ACPE_L_Notes';
+import BTN_Status_Details from '@salesforce/label/c.BTN_Status_Details';
+import BTN_Participant_Details from '@salesforce/label/c.BTN_Participant_Details';
+import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
+import Tab_Sharing_Options from '@salesforce/label/c.Tab_Sharing_Options';
+import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
+import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
 import Submit from '@salesforce/label/c.Submit';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+import My_Participant from '@salesforce/label/c.My_Participant';
+import pir_Participant_List from '@salesforce/label/c.pir_Participant_List';
+import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
+import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
+import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
+import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -46,7 +64,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   isMedicalModalOpen = false;
   isMedicalDetailChanged = false;
   discardMedicalTab = false;
-  progressValue;
+  progressValue=false;
   countValue=0;
   cancelCheckbox;
   removeParticipant=true;
@@ -62,6 +80,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api studylist;
   studyToStudySite;
   studySiteList;
+  enableTelevisitTab = false;
+  isTelevisitTab=false;
+  @api callTelevisistMethod = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
     RH_PP_Add_New_Participant,
@@ -74,15 +95,51 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     ListView_New_Status,
     PG_ACPE_L_Reason,
     FD_PE_Field_Final_Consent,
+    FD_PE_Field_Informed_Consent_Signed,
+    FD_PE_Field_Informed_Consent_Signed_Date,
     PG_ACPE_L_Notes,
     Submit,
     ListView_Current_Status,
     RH_ExportSelected,
     RH_ParticipantSelected,
-    BTN_Export_All
-
+    BTN_Export_All,
+    BTN_Status_Details,
+    BTN_Participant_Details,
+    Tab_Sharing_Options,
+    PIR_Save_Changes,
+    PIR_Unsaved_Changes,
+    BTN_Save,
+    PIR_Discard,
+    rtlLanguages,
+    My_Participant,
+    pir_Participant_List,
+    PG_AC_Select,
+    PG_DBPI_L_study_site,
+    pir_Health_Information
   };
   
+  @api isRTL = false; 
+  maindivcls;
+  isLanguageSelected = false;
+  
+  connectedCallback() {
+    if(!this.isLanguageSelected) {
+      getUserLanguage() 
+        .then((result) => {
+          this.isRTL = this.label.rtlLanguages.includes(result);
+          this.isLanguageSelected = true;
+          if(this.isRTL) {
+            this.maindivcls = 'rtl';
+          }else{
+            this.maindivcls = 'ltr';
+          }
+        })
+        .catch((error) => {
+              this.error = error;
+        });
+    }
+  }
+
   @wire(getStudyAccessLevel)
   wiredAccess({ error, data }) {
     if (data) {
@@ -90,6 +147,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     } else if (error) {
         this.error = error;
     }
+  }
+  getTelevisitVisibility(peid){
+    getTelevisitVisibility({ParticipantEnrollmentId : peid})
+            .then((result) => {
+                this.enableTelevisitTab = result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
   }
   handleStudyAndSite(event){
     this.studylist = event.detail.studylist;
@@ -153,7 +219,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isSPModalOpen = false;
     this.isSharingTab = false;
 
-    console.log("pe-parent" + JSON.stringify(this.selectedPE));
+    this.getTelevisitVisibility(this.selectedPE.id);
     
     if(this.lststudysiteaccesslevel[this.selectedPE.siteId])
     {
@@ -161,9 +227,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.isMedicalHistryAccess = false; 
       } 
     } 
-     
+    
+    this.template.querySelector("c-pir_participant-header").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-header").selectedPE =this.selectedPE;
-    this.template.querySelector("c-pir_participant-header").doSelectedPI();
+    this.template.querySelector("c-pir_participant-header").doSelectedPI();         
+    this.template.querySelector("c-pir_participant-Status-Details").isrtl =this.isRTL;
     this.template.querySelector("c-pir_participant-Status-Details").selectedPE_ID = this.selectedPE.id;
     this.template.querySelector("c-pir_participant-Status-Details").doSelectedPI();
     this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
@@ -176,6 +244,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
   curentMobileView = "list";
   mobileViewToggle() { 
+    if(this.progressValue==false){
     if (this.curentMobileView == "list") {
       this.curentMobileView = "detail";
       this.template.querySelectorAll(".D").forEach(function (D) {
@@ -194,15 +263,18 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       });
     }
   }
+  }
   //pagination
   totalRecord;
   showZeroErr  = false;
   initialLoad = true;
   pageChanged(event) {
+    console.log('>>page changed called>>>');
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
       this.page;
       if(!this.initialLoad){
+        console.log('>>>fetch page called>>>');
         this.template.querySelector("c-pir_participant-list").fetchList();
       }
       this.initialLoad = false;
@@ -309,6 +381,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
   handleStatusTab(){
     this.isMedicalTab = false;
+	  this.callTelevisistMethod = false;
     if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
      
       this.selectedTab = "Status Details";
@@ -413,6 +486,16 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.isParticipantDetail = false;
     //this.disableMedicalSaveButton = true;
   }
+ }
+ handleTelevisitTab(){
+   this.callTelevisistMethod = true;
+   this.selectedTab = 'Televisit';
+    //this.isStatusDetail=false;
+    this.isMedicalTab=false;
+    this.isParticipantDetail=false;
+    //this.isSharingTab=false;
+    this.isTelevisitTab= true;
+    
  }
 
  @api
@@ -567,7 +650,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelectorAll(".linenone").forEach(function (L) {
         L.classList.remove("boxShadownone");
     });
-  
+    console.log('>>>oncancel called>>>');
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
     this.removeParticipant=false;
     this.countValue=0;
@@ -599,11 +682,19 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       }else if(this.notesNeeded.includes(this.selectedreason)){
         this.bulkButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
-       }else {
+       }else if(this.consentValue==true){
+        this.bulkButtonValidation();
+        return this.utilLabels.PG_ACPE_L_Notes_Required;
+       }
+       else {
          this.bulkButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }
   }
+  signedDate=false;
+  signedDateValue;
+  consentData;
+  consentValue=false;
   changeInputValue(event) {
     let datavalue = event.target.dataset.value;
     if (event.target.dataset.value === "additionalNotes") {
@@ -613,6 +704,28 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if (event.target.dataset.value === "FinalConsent") {
       this.finalConsentvalue = event.target.checked;
       this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "consentSigned") {
+      if(event.target.value == 'yes' ){
+        this.consentValue = true;
+        this.consentData=true;
+        this.isReasonEmpty=true;
+        this.selectedreason ='';
+     }else{
+      this.consentValue = false;
+      this.consentData=false;
+      this.isReasonEmpty= this.storeisReasonEmpty;
+     }
+     this.bulkButtonValidation();
+    }
+    if (event.target.dataset.value === "signedDate") {
+      this.signedDateValue=event.target.value;
+      if(event.target.value != null ){
+        this.signedDate = true;
+     }else{
+      this.signedDate = false;
+     }
+     this.bulkButtonValidation();
     }
   }
   bulkButtonValidation(){
@@ -650,14 +763,23 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         validationList.push(btnValidationSuccess);
       }
    }
-
+   //4.
+    if(this.consentSigned==true){
+      if(this.consentValue==true && notes != null && notes != "" && notes.length != 0 && this.signedDate==true){
+        btnValidationSuccess = true;
+        validationList.push(btnValidationSuccess);
+    } else {
+        btnValidationSuccess = false;
+        validationList.push(btnValidationSuccess);
+      }
+    }
     if(validationList.includes(false)) {
        this.bulkSubmit = true;    
     }else {
       this.bulkSubmit = false;  
     }
   }
-
+  
   handleReasonChange(event){
     if(event.target.value == null || event.target.value == ' '){
        this.selectedreason = '';
@@ -665,21 +787,35 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.selectedreason = event.detail.value;
     }
   }
-  isStatusChange= false;newStatusSelected='';oParticipantStatus='';studyID='';bulkSubmit=false;
-  additionalNote = '';finalConsent=false;finalConsentRequired = false;
+  
+  isStatusChange= false;newStatusSelected='';oParticipantStatus=''; studyID='';bulkSubmit=false;
+  additionalNote = '';finalConsent=false;finalConsentRequired = false;consentSigned=false;
+
+  get consentSignedOptions() {
+    return [
+        { label: '', value: '' },
+        { label: 'Yes', value: 'yes' }
+    ];
+}
   handleStatusChanges(event){
     this.newStatusSelected = event.detail.newStatusSelected;
     this.oParticipantStatus = event.detail.oParticipantStatus;
     this.studyID = event.detail.studyId;
+    
  }
  reasoneoptions = [];selectedreason='';notesNeeded = [];isReasonEmpty = false;finalConsentvalue=false;
+ storeisReasonEmpty;isInitialVisit;
   doAction(){
     if(this.dropdownLabel=='Change Status'){
-       this.notesNeeded = [];this.additionalNote = '';this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
-       this.bulkStatusSpinner = true;
-       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: this.studyID })
+       this.notesNeeded = [];this.additionalNote = '';
+       this.signedDateValue=null;this.consentData='';this.signedDate=false;this.consentValue=false;this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
+       this.bulkStatusSpinner = true;this.finalConsentvalue=false;
+       let study = this.studyID.toString();
+       console.log('work'+study);
+       bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
       .then(result => {
           let reasons = result.reason;
+          this.isInitialVisit=result.isInitialVisit;
           if(reasons != undefined){
             if(reasons.charAt(0) == ';'){
                reasons=reasons.substring(1);
@@ -709,15 +845,23 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
               this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
+            this.storeisReasonEmpty=this.isReasonEmpty;
           }else{
              this.selectedreason ='';
              this.isReasonEmpty = true;
+             this.storeisReasonEmpty=this.isReasonEmpty;
           }
           if(result.finalConsent && (result.Step == 'PWS_Randomization_Card_Name' || result.Step == 'PWS_Enrolled_Card_Name')){
               this.finalConsent = result.finalConsent;
               if(this.newStatusSelected == 'Enrollment Success' || this.newStatusSelected == 'Randomization Success'){
                   this.finalConsentRequired = true;
               }
+          }
+          if(this.isInitialVisit==true && (this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent')){
+            this.consentSigned=true;
+          }
+          else{
+            this.consentSigned=false;
           }
           this.bulkStatusSpinner =false;
       })

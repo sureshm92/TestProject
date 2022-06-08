@@ -47,6 +47,13 @@ public without sharing class PIR_StatusDetailController {
     public String noteDetailsdt;
     @AuraEnabled
     public Boolean isFovHistory;
+    @AuraEnabled
+    public String noteDetails;
+    @AuraEnabled
+    public Integer noteKey;
+    @AuraEnabled
+    public Boolean isAdditionalNoteOld;
+
   }
 
   public class InitialVistHistoryWrap {
@@ -156,8 +163,9 @@ public without sharing class PIR_StatusDetailController {
             Disabled_PESH__c
           FROM Participant_Enrollment_Status_History__r
           WHERE Disabled_PESH__c = FALSE
+          AND Backward_Bulk_Update__c = FALSE
           ORDER BY Name DESC
-        )
+        ) 
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -195,9 +203,9 @@ public without sharing class PIR_StatusDetailController {
     String filter = ' Where Label != \'' + notInFinalStep + '\' ';
     String order = ' ORDER BY Order__c ASC ';
     if (!per[0].Clinical_Trial_Profile__r.Initial_Visit_Required__c) {
-      filter = filter + ' AND Label != \'PWS_Initial_Visit_Card_Name\' ';
+      filter = filter + ' AND Label != \'PWS_Initial_Visit_Card_Name\' AND InitialVisit__c = FALSE';
     } else {
-      filter = filter + ' AND Label != \'PWS_Eligibility_Card_Name\' ';
+      filter = filter + ' AND Label != \'PWS_Eligibility_Card_Name\' AND InitialVisit__c = TRUE';
     }
 
     query = query + filter + order;
@@ -226,9 +234,6 @@ public without sharing class PIR_StatusDetailController {
           mdt.Label == 'PWS_Initial_Visit_Card_Name' &&
           ((isInitialVisitDetailsAvailable && !isInitialVisitAttended ||
           isConsentFalse)
-          //  ||
-          // orderToPeshMap.get(4).Status_Label__c == 'Declined_Consent' ||
-          // orderToPeshMap.get(4).Status_Label__c == 'Withdrew_Consent'
           )
         ) {
           wrap.groupIcon = INPROGRESS;
@@ -356,8 +361,17 @@ public without sharing class PIR_StatusDetailController {
         Participant_Status__c,
         Study_Site__c,
         ParticipantNoShow__c,
+        isBulkUpdate__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
-        Clinical_Trial_Profile__r.Final_Consent_Required__c
+        Clinical_Trial_Profile__r.Final_Consent_Required__c,
+        Add_televisit_for_Initial_Visit__c,
+        Initial_Visit_Televisit_Created__c,
+        Participant__r.First_Name__c,
+        Participant__r.Last_Name__c,
+        Participant_Contact__c,
+        PI_Contact__r.FirstName,
+        PI_Contact__r.LastName,
+        PI_Contact__c
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -375,7 +389,7 @@ public without sharing class PIR_StatusDetailController {
       pehistory = [
         SELECT
           Id,
-          Date__c,
+          Date__c,Name,
           Status__c,
           CreatedBy.Name,
           Additional_Notes__c, 
@@ -384,7 +398,7 @@ public without sharing class PIR_StatusDetailController {
           CreatedBy.contact.userCommunityMode__c
         FROM Participant_Enrollment_Status_History__c
         WHERE ParticipantEnrollment__c = :pe AND Status_Order__c = 1
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
             ReceivedHistoryWrap wrap = new ReceivedHistoryWrap();
@@ -590,6 +604,7 @@ public without sharing class PIR_StatusDetailController {
           wrapfov.CreatedBy = cby[i];
           wrapfov.isFovHistory = true;
           wrapfov.isAdditionalNote = false;
+          wrapfov.isAdditionalNoteOld = false;
           wrapperList.add(wrapfov);
         }
       } else {
@@ -664,6 +679,7 @@ public without sharing class PIR_StatusDetailController {
             wrapfov.CreatedBy = cby[i];
             wrapfov.isFovHistory = true;
             wrapfov.isAdditionalNote = false;
+            wrapfov.isAdditionalNoteOld = false;
             wrapperList.add(wrapfov);
           }
         }
@@ -672,7 +688,7 @@ public without sharing class PIR_StatusDetailController {
       pehistory = [
         SELECT
           Id,
-          Date__c,
+          Date__c,Name,
           Status_Order__c,
           toLabel(Status__c),
           toLabel(Non_Enrollment_Reason__c),
@@ -687,13 +703,46 @@ public without sharing class PIR_StatusDetailController {
           ParticipantEnrollment__c = :pe
           AND (Status_Order__c = 2
           OR Status_Order__c = 1)
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
+      Integer K = 0;
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
+        
         if (pesh.Status_Order__c != 1) {
          if (groupName == 'PWS_Contact_Name' ? (pesh.Additional_Notes__c != null && pesh.Additional_Notes__c != '') : (pesh.Additional_Notes__c != null &&    pesh.Additional_Notes__c != '' &&
              pesh.Status_Label__c != 'Successfully_Contacted')
           ){
+            List<String> lstnotes = new List<String>();
+            lstnotes = pesh.Additional_Notes__c.split('#');
+            for (String note : lstnotes) {
+              ContactHistoryWrap wrapp = new ContactHistoryWrap();
+              Integer startOfOnLabel = note.lastIndexOfIgnoreCase(' ' + Label.PE_Status_History_On_Date + ' ');
+              string singlenote='';
+              Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
+              if(startOfOnLabel>0){
+                  singlenote = note.substring(0, startOfOnLabel);
+                  wrapp.historyTitle = singlenote;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                   }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                  }
+              }else{
+                   //wrapp.historyTitle = note;
+                   if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                   }else{
+                       wrapp.historyTitle = note;
+                   }
+              }
+              wrapp.isAdditionalNote = true;
+              wrapp.isAdditionalNoteOld = false;
+              wrapp.noteKey= K;
+              wrapp.isFovHistory = false;
+              wrapperList.add(wrapp);
+            }
+
+            /**  ---- 
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
@@ -738,12 +787,16 @@ public without sharing class PIR_StatusDetailController {
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
             }
+            ----  **/
+            
           }
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
-          title = pesh.Status__c;
+          //title = pesh.Status__c;
+          title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
           if (pesh.Non_Enrollment_Reason__c != null) {
-            title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+            //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+            title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
           }
           if (pesh.Notes__c != null) {
             title = title + ', ' + pesh.Notes__c;
@@ -756,6 +809,8 @@ public without sharing class PIR_StatusDetailController {
             pesh.CreatedBy.Name
           );
           wrap.isAdditionalNote = false;
+          wrap.isAdditionalNoteOld = false;
+          wrap.noteKey= K;
           wrap.isFovHistory = false;
           wrapperList.add(wrap);
         } else {
@@ -763,6 +818,37 @@ public without sharing class PIR_StatusDetailController {
             pesh.Additional_Notes__c != null &&
             pesh.Additional_Notes__c != ''
           ) {
+            List<String> lstnotes = new List<String>();
+            lstnotes = pesh.Additional_Notes__c.split('#');
+            for (String note : lstnotes) {
+              ContactHistoryWrap wrapp = new ContactHistoryWrap();
+              Integer startOfOnLabel = note.lastIndexOfIgnoreCase(' ' + Label.PE_Status_History_On_Date + ' ');
+              string singlenote='';
+              Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
+              if(startOfOnLabel>0){
+                  singlenote = note.substring(0, startOfOnLabel);
+                  wrapp.historyTitle = singlenote;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(startOfOnLabel,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                   }else{
+                       wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
+                  }
+              }else{
+                   //wrapp.historyTitle = note;
+                   if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                   }else{
+                       wrapp.historyTitle = note;
+                   }
+              }
+              wrapp.isAdditionalNote = true;
+              wrapp.isAdditionalNoteOld = true;
+              wrapp.noteKey= K;
+              wrapp.isFovHistory = false;
+              wrapperList.add(wrapp);
+            }
+
+            /**  -----
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
@@ -808,8 +894,11 @@ public without sharing class PIR_StatusDetailController {
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
             }
+            ----  **/
+            
           }
         }
+        K++;
       }
       return wrapperList;
     } catch (Exception e) {
@@ -828,7 +917,7 @@ public without sharing class PIR_StatusDetailController {
       pehistory = [
         SELECT
           Id,
-          Date__c,
+          Date__c,Name,
           Status_Order__c,
           toLabel(Status__c),
           toLabel(Non_Enrollment_Reason__c),
@@ -844,7 +933,7 @@ public without sharing class PIR_StatusDetailController {
           ParticipantEnrollment__c = :pe
           AND (Status_Order__c = 2
           OR Status_Order__c = 3)
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 2) {
@@ -857,11 +946,8 @@ public without sharing class PIR_StatusDetailController {
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
               EligibilityHistoryWrap wrapp = new EligibilityHistoryWrap();
-              Integer startOfOnLabel = note.lastIndexOfIgnoreCase(
-                ' ' +
-                Label.PE_Status_History_On_Date +
-                ' '
-              );
+              
+              Integer startOfOnLabel = note.lastIndexOfIgnoreCase(' ' + Label.PE_Status_History_On_Date + ' ');
               string singlenote='';
               Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
               if(startOfOnLabel>0){
@@ -873,7 +959,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }
               }else{
-                  wrapp.historyTitle = note;
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                    wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                 }else{
+                     wrapp.historyTitle = note;
+                 }
               }
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -888,10 +979,11 @@ public without sharing class PIR_StatusDetailController {
                   title = Label.Eligibility_Passed_Status_Value;
               }
           } else {
-            title = pesh.Status__c;
+            //title = pesh.Status__c;
+            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
           }
           if (pesh.Non_Enrollment_Reason__c != null) {
-            title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+            title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
           }
           if (pesh.Notes__c != null) {
             title = title + ', ' + pesh.Notes__c;
@@ -915,11 +1007,7 @@ public without sharing class PIR_StatusDetailController {
               lstnotes = pesh.Additional_Notes__c.split('#');
               for (String note : lstnotes) {
                 EligibilityHistoryWrap wrapp = new EligibilityHistoryWrap();
-                Integer startOfOnLabel = note.lastIndexOfIgnoreCase(
-                  ' ' +
-                  Label.PE_Status_History_On_Date +
-                  ' '
-                );
+                Integer startOfOnLabel = note.lastIndexOfIgnoreCase(' ' + Label.PE_Status_History_On_Date + ' ');
                 string singlenote='';
                 Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
                 if(startOfOnLabel>0){
@@ -931,8 +1019,13 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                      }
                  }else{
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                     wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
                       wrapp.historyTitle = note;
-                 }
+                  }
+            }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
               }
@@ -956,7 +1049,7 @@ public without sharing class PIR_StatusDetailController {
       List<InitialVistHistoryWrap> wrapperList = new List<InitialVistHistoryWrap>();
       pehistory = [
         SELECT
-          Id,
+          Id,Name,
           Status_Order__c,
           toLabel(Status__c),
           Notes__c,
@@ -967,7 +1060,7 @@ public without sharing class PIR_StatusDetailController {
           ParticipantEnrollment__c = :pe
           AND Status_Order__c = 2
           AND Status_Label__c = 'Successfully_Contacted'
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (
@@ -993,7 +1086,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.notesDetails = note.substring(startOfOnLabel, note.length());
                 }
               }else{
-                   wrapp.notes = note;
+                  //wrapp.notes = note;
+                  if(startOfIQVIA>0){
+                    wrapp.notesDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                 }else{
+                    wrapp.notes = note;
+                 }
               }
             wrapperList.add(wrapp);
           }
@@ -1015,7 +1113,7 @@ public without sharing class PIR_StatusDetailController {
       List<ScreeningHistoryWrap> wrapperList = new List<ScreeningHistoryWrap>();
       pehistory = [
         SELECT
-          Id,
+          Id,Name,
           Date__c,
           Status_Order__c,
           toLabel(Status__c),
@@ -1031,7 +1129,7 @@ public without sharing class PIR_StatusDetailController {
           ParticipantEnrollment__c = :pe
           AND (Status_Order__c = 4
           OR Status_Order__c = 3)
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 3) {
@@ -1059,7 +1157,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }    
                 }else{
-                    wrapp.historyTitle = note;
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                      wrapp.historyTitle = note;
+                  }
                 }      
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -1067,9 +1170,10 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           ScreeningHistoryWrap wrap = new ScreeningHistoryWrap();
-          title = pesh.Status__c;
+          //title = pesh.Status__c;
+          title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
           if (pesh.Non_Enrollment_Reason__c != null) {
-            title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+            title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
           }
           if (pesh.Notes__c != null) {
             title = title + ', ' + pesh.Notes__c;
@@ -1108,7 +1212,12 @@ public without sharing class PIR_StatusDetailController {
                          wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                     }  
                   }else{
-                      wrapp.historyTitle = note;
+                      //wrapp.historyTitle = note;
+                      if(startOfIQVIA>0){
+                        wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                    }else{
+                        wrapp.historyTitle = note;
+                    }
                   }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
@@ -1133,7 +1242,7 @@ public without sharing class PIR_StatusDetailController {
       List<EnrollmentHistoryWrap> wrapperList = new List<EnrollmentHistoryWrap>();
       pehistory = [
         SELECT
-          Id,
+          Id,Name,
           Date__c,
           Status_Order__c,
           toLabel(Status__c),
@@ -1149,7 +1258,7 @@ public without sharing class PIR_StatusDetailController {
           ParticipantEnrollment__c = :pe
           AND (Status_Order__c = 4
           OR Status_Order__c = 5)
-        ORDER BY Date__c DESC
+        ORDER BY Name DESC
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         if (pesh.Status_Order__c != 4) {
@@ -1176,7 +1285,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }
                 }else{
-                   wrapp.historyTitle = note; 
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                    wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                        wrapp.historyTitle = note;
+                  } 
                 }  
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -1184,9 +1298,10 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           EnrollmentHistoryWrap wrap = new EnrollmentHistoryWrap();
-          title = pesh.Status__c;
+          //title = pesh.Status__c;
+          title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
           if (pesh.Non_Enrollment_Reason__c != null) {
-            title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+            title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
           }
           if (pesh.Notes__c != null) {
             title = title + ', ' + pesh.Notes__c;
@@ -1225,7 +1340,12 @@ public without sharing class PIR_StatusDetailController {
                         wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                     } 
                  }else{
-                      wrapp.historyTitle = note;
+                      //wrapp.historyTitle = note;
+                      if(startOfIQVIA>0){
+                        wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                      }else{
+                            wrapp.historyTitle = note;
+                      } 
                  }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
@@ -1480,12 +1600,77 @@ public without sharing class PIR_StatusDetailController {
       'Successfully Contacted'
     };
     try {
+        
+        if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
+            Televisit__c televisitRecord = new Televisit__c();
+            televisitRecord.Duration__c = '15 minutes';
+            televisitRecord.Start_Time__c = perRecord.Initial_visit_scheduled_time__c;
+            televisitRecord.Status__c = 'Scheduled';
+            televisitRecord.Title__c = 'Initial Visit';
+            televisitRecord.Visit_Date__c = perRecord.Initial_visit_scheduled_date__c;
+            televisitRecord.Participant_Enrollment__c = perRecord.Id;
+            Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
+            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(15);
+            televisitRecord.Visit_Date_Time__c = visitDateTime;
+            insert televisitRecord;
+            
+            List<Id> contactIds = new List<Id>();
+            contactIds.add(perRecord.PI_Contact__c);
+            contactIds.add(perRecord.Participant_Contact__c);
+            
+            Map<Id,User> mapUser = new Map<Id,User>();
+            for(User usr :[SELECT Id,firstname,lastname,contactId FROM User WHERE contactId  =:contactIds]){
+                mapUser.put(usr.contactId, usr);
+            }
+            
+            List<Televisit_Attendee__c> lstAttendees = new List<Televisit_Attendee__c>();
+            Televisit_Attendee__c televisitAttendee = new Televisit_Attendee__c();
+            televisitAttendee.Contact__c = perRecord.PI_Contact__c;
+            televisitAttendee.Televisit__c = televisitRecord.id;
+            //Maybe 18 digit 15 digit issue 
+            televisitAttendee.User__c = (mapUser.get(perRecord.PI_Contact__c)!= null)? mapUser.get(perRecord.PI_Contact__c).Id:null;
+            televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
+            televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
+            televisitAttendee.Attendee_Type__c = 'PI';
+            televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
+            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;   
+            lstAttendees.add(televisitAttendee);
+            
+            Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
+            televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
+            televisitAttendee1.Televisit__c = televisitRecord.id;
+            televisitAttendee.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
+            televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
+            televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
+            televisitAttendee1.Attendee_Type__c = 'Participant';
+            lstAttendees.add(televisitAttendee1);
+            if(!lstAttendees.isEmpty()){
+                insert lstAttendees;
+                List<Notification__c> notifications = new List<Notification__c>();
+                for (Televisit_Attendee__c attendee : lstAttendees) {
+                    if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
+                        Notification__c notification = new Notification__c();
+                        notification.Recipient__c = attendee.Contact__c;
+                        notification.WhatId__c = attendee.Id;
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                        notifications.add(notification);
+                    }                          
+                }
+                if(!notifications.isEmpty()){
+                    insert notifications;
+                }
+            }
+        }
+    
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
       }
       if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
         perRecord.Visit_Plan__c = visitPlan;
+      }
+      if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
+          perRecord.Initial_Visit_Televisit_Created__c = true;
       }
       update perRecord;
 

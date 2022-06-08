@@ -45,6 +45,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isDisplay = false;
     @api delegateLevel;
     isSendNotification = false;
+    @api rtlcss;
     
     displayOptions1() {        
         yearOfBirth()
@@ -91,6 +92,12 @@ export default class Pir_sharingFormFields extends LightningElement {
     }
 
     loadinitialData() {
+        /*if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+            this.isValid = true;
+        } else {
+            this.isValid = false;
+        }*/
+        
         if(this.sharingObject.sObjectType === 'Object') {
             if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
                 this.isValid = true;
@@ -123,6 +130,9 @@ export default class Pir_sharingFormFields extends LightningElement {
                 }
             }
         } else if(this.sharingObject.sObjectType === 'Healthcare_Provider__c'){
+            //if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+                //this.isValid = false;
+            //}
             if(!this.isHCPDelegate) {
                 this.isHCPDelegate = true;
             }
@@ -521,7 +531,6 @@ export default class Pir_sharingFormFields extends LightningElement {
     useDuplicateRecord() {
         this.isDuplicateDelegate = false;
         this.isValid = false;
-        console.log('this.sharingObject:'+JSON.stringify(this.sharingObject));
     }
 
     stopSharing() {

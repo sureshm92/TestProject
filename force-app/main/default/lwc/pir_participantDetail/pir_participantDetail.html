@@ -1,4 +1,5 @@
-<template>
+<template>      
+      <div class={maindivcls}>
       <template if:false={pd}>
             <div class="vertical-scroll">
                   <lightning-spinner alternative-text="Loading..." variant="brand">
@@ -31,10 +32,10 @@
                         
                         <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 slds-large-size_1-of-6 outcome-form-element slds-m-bottom_medium">
                               <div class="slds-form-element">
-                                    <label class="slds-form-element__label" for="text-input-id-68"> 
+                                    <label class="slds-form-element__label" title={PG_AS_F_Middle_name}> 
                                           {PG_AS_F_Middle_name}
                                     </label>
-                                    <div class="slds-form-element__control">
+                                    <div class="slds-form-element__control input-margin">
                                           <input type="text" id="text-input-id-68" data-lvl="2" name="middlename" class="slds-input input-width" value={pd.pe.Participant__r.Middle_Name__c} onchange={handleValChangeH}/>
                                     </div>
                               </div>
@@ -55,9 +56,9 @@
                         </div>
                         
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_5-of-12 outcome-form-element">
-                              <div class="slds-grid slds-wrap slds-gutters"> 
+                              <div class="slds-grid slds-wrap slds-gutters">  
                                     
-                                    <div class="slds-col slds-p-right_none slds-size_5-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_medium">
+                                    <div class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 outcome-form-element slds-m-bottom_medium ltl-r-none rtl-r-none">
                                           
                                           <lightning-combobox
                                           name="Date of Birth"
@@ -68,7 +69,7 @@
                                           options={optionsMM}
                                           onchange={handleMMChange} required=""></lightning-combobox>
                                     </div>
-                                    <div class="slds-col slds-p-right_none slds-size_1-of-4 slds-medium-size_3-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_medium label-margin-top">
+                                    <div class="slds-col slds-p-right_none slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 outcome-form-element slds-m-bottom_medium label-margin-top ltl-r-none rtl-r-none">
                                           <lightning-combobox
                                           label=""
                                           value={valueDD}
@@ -76,7 +77,7 @@
                                           options={optionsDD}
                                           onchange={handleDDChange} ></lightning-combobox>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-3 slds-medium-size_4-of-12 slds-large-size_4-of-12 outcome-form-element slds-m-bottom_medium label-margin-top">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 outcome-form-element slds-m-bottom_medium label-margin-top">
                                           
                                           <lightning-combobox
                                           label=""
@@ -107,8 +108,8 @@
                         </div>
 
                         <div class="eth slds-col slds-size_1-of-1 slds-medium-size_2-of-3 slds-large-size_2-of-3 outcome-form-element slds-m-bottom_medium">
-                              <label class="slds-form-element__label slds-no-flex">{RH_Ethnicity}<span class="close-icon" onclick={removeAllE}>Clear all</span></label>
-                              <div  class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox" tabindex="0">
+                              <label class="slds-form-element__label slds-no-flex">{RH_Ethnicity}<span class="close-icon" onclick={removeAllE}>{RPR_Clear_All}</span></label>
+                              <div  class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox dropdown-width" tabindex="0">
                               <div class="slds-combobox_container">
                                     <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click eBoxOpen">
                                           <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
@@ -126,7 +127,7 @@
                                           <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down"></lightning-icon>
                                           </span>
                                           </div>
-                                          <div data-id="ethinicityBox" class="slds-dropdown slds-dropdown_fluid" role="listbox">
+                                          <div data-id="ethinicityBox" class="slds-dropdown slds-dropdown_fluid rtl-width" role="listbox">
                                           <ul class="slds-listbox slds-listbox_vertical" role="presentation">
                                           <template if:true={picklistValues}>
                                                 <template for:each={picklistValues} for:item="item">
@@ -166,7 +167,10 @@
                               <lightning-input type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={delegateReq} data-lvl="3" name="dphone" value={pd.delegate.Participant_Delegate__r.Phone__c} onchange={handleValChange} ></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3"></div>
-
+                        <div if:true={noYOB} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
+                              <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={noYOB} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
+                              <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
+                        </div>
                         <div if:true={showDelYear} class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-bottom_medium">
                               <lightning-combobox  label={RH_YearofBirth} placeholder="----" options={optionsYYYY} required={showDelYear} data-lvl="3" name="dbyear" onchange={handleValChange}></lightning-combobox>
                               <div class="errmsg" if:true={delegateMinor}>{RH_MinorDelegateErrMsg}</div>
@@ -187,10 +191,25 @@
                   </div>  
                   <div class="slds-grid slds-wrap slds-gutters">       
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input disabled={isNotAdult} type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={partPhoneReq} data-lvl="2" name="phone" value={pd.pe.Participant__r.Phone__c} onchange={handleValChange} ></lightning-input>
+                              <!-- <lightning-input disabled={isNotAdult} type="text" label={PG_Ref_L_Primary_daytime_telephone_number} required={partPhoneReq} data-lvl="2" name="phone" value={pd.pe.Participant__r.Phone__c} onchange={handleValChange} ></lightning-input> -->
+                              <div class="slds-form-element">
+                                    <label class="slds-form-element__label" title={PG_Ref_L_Primary_daytime_telephone_number}>
+                                          <template if:true={partPhoneReq}>
+                                              <abbr class="slds-required" title="required">*</abbr>{PG_Ref_L_Primary_daytime_telephone_number} 
+                                          </template>
+                                          <template if:false={partPhoneReq}>
+                                                {PG_Ref_L_Primary_daytime_telephone_number} 
+                                          </template>
+                                    </label>
+                                     <div class="slds-form-element__control input-margin">
+                                          <lightning-input type="text" variant="label-hidden" data-lvl="2" name="phone" value={pd.pe.Participant__r.Phone__c} onchange={handleValChange}
+                                            disabled={isNotAdult} required={partPhoneReq}
+                                          ></lightning-input>
+                                     </div>
+                              </div>
                         </div>
                         <div if:true={contactPhoneType.data} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-combobox disabled={isNotAdult} label={PG_AP_F_Phone_Type} title="Phone Type" placeholder="--" options={contactPhoneType.data.values} required={partPhoneReq} data-lvl="2" name="phonetype" value={pd.pe.Participant__r.Phone_Type__c} onchange={handleValChange}></lightning-combobox>
+                              <lightning-combobox disabled={isNotAdult} label={PG_AP_F_Phone_Type} title={PG_AP_F_Phone_Type} placeholder="--" options={contactPhoneType.data.values} required={partPhoneReq} data-lvl="2" name="phonetype" value={pd.pe.Participant__r.Phone_Type__c} onchange={handleValChange}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
                               <lightning-input type="email" disabled={isNotAdult} label={PG_AS_F_Email_address} required={partEmailReq} data-lvl="2" name="email" value={pd.pe.Participant__r.Email__c} onchange={handleValChange} ></lightning-input>
@@ -205,7 +224,19 @@
                               <lightning-input type="text" label={PG_AS_F_Zip_Postal_Code} required="" data-lvl="2" name="zipcode" value={pd.pe.Participant__r.Mailing_Zip_Postal_Code__c} onchange={handleValChange} ></lightning-input>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <lightning-input type="text" disabled={isNotAdult} label={PG_AP_F_Alternative_Phone_Number} data-lvl="2" name="altph" value={pd.pe.Participant__r.Alternative_Phone_Number__c} onchange={handleValChange} ></lightning-input>
+                              <!-- <lightning-input type="text" disabled={isNotAdult} label={PG_AP_F_Alternative_Phone_Number} data-lvl="2" name="altph" value={pd.pe.Participant__r.Alternative_Phone_Number__c} onchange={handleValChange} ></lightning-input> -->
+                              <div class="slds-form-element">
+                                    <label class="slds-form-element__label" title={PG_AP_F_Alternative_Phone_Number}>
+                                          {PG_AP_F_Alternative_Phone_Number}
+                                    </label>
+                                     <div class="slds-form-element__control input-margin">
+                                          <lightning-input type="text" variant="label-hidden" data-lvl="2" name="altph" value={pd.pe.Participant__r.Alternative_Phone_Number__c} onchange={handleValChange}
+                                          disabled={isNotAdult}
+                                          ></lightning-input>
+                                     </div>
+                              </div>
+
+
                         </div>
                         <div if:true={contactPhoneType.data} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
                               <lightning-combobox disabled={altIsNotAdult} label={PG_AP_F_Alternative_Phone_Type}  placeholder="--" options={contactPhoneType.data.values} data-lvl="2" name="altphtype" value={pd.pe.Participant__r.Alternative_Phone_Type__c} onchange={handleValChange}></lightning-combobox>
@@ -232,13 +263,13 @@
                                           <lightning-helptext class="info-icon" content={PG_AS_F_Source_ID_Help_Text}></lightning-helptext>  
                                     </label>
                                     <div if:true={refByPI} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled={disableScreening} data-lvl="1" name="src" value={pd.pe.MRN_Id__c} onchange={handleValChangeH}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled={disableScreening} data-lvl="1" name="src" title={pd.pe.MRN_Id__c} value={pd.pe.MRN_Id__c} onchange={handleValChangeH}/>
                                     </div>
                                     <div if:true={refByHCP} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" value={pd.pe.Patient_ID__c}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" title={pd.pe.Patient_ID__c} value={pd.pe.Patient_ID__c}/>
                                     </div>
                                     <div if:true={notRefByPiHcp} class="slds-form-element__control">
-                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src"  value={stype}/>
+                                          <input type="text"  placeholder=""  class="slds-input" disabled data-lvl="1" name="src" title={stype} value={stype}/>
                                     </div>
                               </div>
                               <!-- <lightning-input type="text" label="Source ID"></lightning-input> -->
@@ -251,31 +282,89 @@
                         </div>                
                   </div> <!--    Participation Information  End  --> 
 
-                  <c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c}></c-consent-manager>
-
-                  <!--div class="step-card-title slds-m-bottom_x-small slds-m-top_small">
-                        {PG_Ref_L_Information_Sharing}
-                  </div>  
-                  <div class="slds-grid slds-wrap slds-gutters">       
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
-                              <div class="information-text">
-                                    {PG_Ref_L_Permit_IQVIA_Confirmation}
-                              </div>
-                              <div class="slds-m-top_small">
-                              <lightning-checkbox-group name=""
-                                    label=""
-                                    options={infoSharingOptions}
-                                    value={infoSharingValue}
-                                    onchange={handleSharingOptChange}
-                                    >
-                              </lightning-checkbox-group>                      
-                              </div>
+                  <!-- consenting section starts here-->
+                        <div class="step-card-title slds-m-bottom_x-small slds-m-top_small">
+                              {PG_Ref_L_Information_Sharing}
+                        </div> 
+                        <lightning-layout multiple-rows="true">
+                        <div>
+                              <label class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_IQVIA_To_Contact_By}</label>
                         </div>
-                  </div--> <!--    Participation Information  End  --> 
+                        <div class="label_align">
+                        <lightning-input 
+                                                data-id="studyPhoneConsent" 
+                                                type="checkbox" 
+                                                varient="label-hidden" 
+                                                name="studyPhoneConsent" 
+                                                checked={pd.pe.Permit_Voice_Text_contact_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span> <label class="label_spacing consent_label" for="studyPhoneConsent">{PHONE}</label></span>
+                        </div>
+                        <div class="label_align">
+                        <lightning-input 
+                                                type="checkbox" 
+                                                data-id="studyEmailConsent" 
+                                                varient="label-hidden" 
+                                                name="studyEmailConsent" 
+                                                checked={pd.pe.Permit_Mail_Email_contact_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span><label class="label_spacing consent_label" for="studyEmailConsent">{EMAIL}</label></span>
+                        </div>
+                        <div class="label_align">
+                        <lightning-input 
+                                                type="checkbox" 
+                                                data-id="studySMSConsent" 
+                                                varient="label-hidden" 
+                                                name="studySMSConsent" 
+                                                checked={pd.pe.Permit_SMS_Text_for_this_study__c} 
+                                                onchange={handleCheckboxChange}></lightning-input>
+                                          <span><label class="label_spacing consent_label" for="studySMSConsent">{SMS_TEXT}</label></span>
+                        </div>
+                        </br> </br>
+                        <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
+                              <div>
+                                    <label class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_Study_Outreach_By}</label>
+                              </div> 
+                              </br> </br> 
+                              <div class="label_align">
+                              <lightning-input 
+                                                      data-id="outreachPhoneConsent" 
+                                                      type="checkbox" 
+                                                      varient="label-hidden" 
+                                                      name="outreachPhoneConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span> <label class="label_spacing consent_label" for="outreachPhoneConsent">{PHONE}</label></span>
+                              </div>
+                              <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="outreachEmailConsent" 
+                                                      varient="label-hidden" 
+                                                      name="outreachEmailConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing consent_label" for="outreachEmailConsent">{EMAIL}</label></span>
+                              </div>
+                              <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="outreachSMSConsent" 
+                                                      name="outreachSMSConsent" 
+                                                      checked={pd.pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing consent_label" for="outreachEmailConsent">{SMS_TEXT}</label></span>
+                              </div>
+                        </template>
+                  </lightning-layout>
+                  <!--consenting section ends here-->
+            <!--c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager-->
+            
             
             </div>
             <template if:true={pd.pe.Participant__r.Emancipation_in_progress__c}>
-                  <c-pir_participant-emancipated selected-p-e={selectedPE} onemancipation={handleEmancipation}></c-pir_participant-emancipated>
+                  <c-pir_participant-emancipated maindivcls={maindivcls} selected-p-e={selectedPE} onemancipation={handleEmancipation}></c-pir_participant-emancipated>
             </template>
       </template>
+      </div>
 </template>

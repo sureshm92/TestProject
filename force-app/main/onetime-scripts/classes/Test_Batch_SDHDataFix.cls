@@ -1,5 +1,9 @@
 /**
- * Created by Denis Z on 09-Jul-19
+ * Created by Rushikesh Kadam
+ * Test Class for one time batch Batch_SDHDataFix
+ * to update existing visit result records
+ * after changing SDH Key Logic
+ * PEH-4796
  */
 
 @IsTest
@@ -39,6 +43,9 @@ private class Test_Batch_SDHDataFix {
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
         );
 
         Account acc = new Account();

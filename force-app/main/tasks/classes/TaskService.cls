@@ -21,6 +21,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
 
+    public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
@@ -28,6 +29,8 @@ public without sharing class TaskService {
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
+    public static final String TASK_CODE_ECOA_TASK = 'Activate_Ecoa_Ediaries';
+    public static final String TASK_CODE_UPDATE_YOUR_PHONE_NUMBER = 'Update_Your_Phone_Number';
     public static final String TASK_CODE_SELECT_COI = 'Select_COI';
 
     public static final String OPEN_TASKS_ORDER = ' ORDER BY Priority DESC, ActivityDate NULLS LAST, CreatedDate DESC';
@@ -575,6 +578,18 @@ public without sharing class TaskService {
             update tasks[0];
         }
     }
+    public void completeEcoaTaskForParticipant() {
+        List<Task> tasks = getTasksCommon(
+            'Task_Code__c =\'' +
+            TASK_CODE_ECOA_TASK +
+            '\' AND ' +
+            getOpenTasksFilter()
+        );
+        if (tasks.size() > 0) {
+            completeTask(tasks[0]);
+            update tasks[0];
+        }
+    }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
         List<User> users = new List<User>();
@@ -686,5 +701,19 @@ public without sharing class TaskService {
             }
         }
         update expiredTasks;
+    }
+    public Task updateYourPhoneNumberTask(Id ownerId, Id participantId, Id participantContactId) {
+        return new Task(
+            OwnerId = ownerId,
+            Subject = TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER,
+            Task_Code__c = TaskService.TASK_CODE_UPDATE_YOUR_PHONE_NUMBER,
+            Status = TASK_STATUS_OPEN,
+            Priority = TASK_PRIORITY_CRITICAL,
+            WhatId = participantId,
+            WhoId = participantContactId,
+            Visible_For__c = TASK_VISIBILITY_ALL,
+            Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
+            //InitialTaskNotification__c = true
+        );
     }
 }

@@ -67,8 +67,23 @@
 .alert-box a{
     color: #297dfd;
 }
-
+.slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.input-margin{
+    margin-top:-5px;
+}
+.dropdown-width{
+    display:inline-block;
+}
 @media (max-device-width: 767px) {
+    .vertical-scroll{
+        height: auto;
+        padding: 0px;
+    }
     .input-width{
         width: 100%;
     }
@@ -81,11 +96,17 @@
     .alert-box .alert-img{
         width: 64px;
     }
-}.eth .slds-no-flex{
+    .ltl-r-none{
+        padding-right: var(--lwc-spacingSmall,0.75rem)!important;
+    }
+}
+.eth .slds-no-flex{
     width: 100%;
 }
 .eth .close-icon{
     cursor: pointer;
+    opacity: 0.8;
+    padding-left: 5px;
 }
 .eth .slds-no-flex span{
     float: right;
@@ -152,4 +173,76 @@
 }
 .errmsg{
     color: rgb(234, 0, 30);
+}
+/* RTL start */
+.rtl .vertical-scroll{
+    padding: 0px 0px 0px 5px;
+}
+.rtl .label-margin-top{
+    margin-top: 0px;
+}
+.rtl .eth .slds-no-flex span{
+    float: left;
+}
+.rtl .rtl-width{
+    right:-50%; 
+}
+.rtl .eth .text-for-check{
+    padding-right: 7px;
+}
+.rtl .label-margin-top{
+    margin-top:3px;
+}
+.rtl .eth .selectedValue{
+    float:right;
+    margin-right:5px;
+}
+@media (max-device-width: 767px) {
+    .rtl .vertical-scroll{
+        height: auto;
+    }
+    .rtl .eth .close-icon{
+        padding-right: 5px;
+    }
+    .rtl .rtl-width{
+        right:-50%; 
+    }
+    .rtl .eth .text-for-check{
+        padding-right: 7px;
+    }
+    .rtl .input-label{
+        text-align: right;
+    }
+    .rtl .input-text{
+        text-align: right;
+    }
+    .rtl .rtl-r-none{
+        padding-right: var(--lwc-spacingSmall,0.75rem) !important;
+        padding-left: var(--lwc-spacingSmall,0.75rem) !important;
+    }
+    .rtl .label-margin-top{
+        margin-top: -10px;
+    }
+    .rtl .eth .selectedValue{
+        margin-right:35px;
+        margin-left:-31px;
+    }
+}
+/* RLT End */
+.label_align{
+    display:flex;
+    align-items: baseline;
+    padding-left: 18px;
+}
+.label_spacing{
+    margin-left: -10px;
+}
+.consent_label{
+    height: 48px;
+    width: 812px;
+    font-size: 16px !important;
+    color: black !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
 }

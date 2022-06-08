@@ -45,6 +45,7 @@ public class Test_ResourceService {
         Test.startTest();
         Participant__c participant = new ResourceService().getParticipant('Video');
         System.assertEquals(participants[0].Id, participant.Id);
+        ResourceService.getInstance();
         Test.stopTest();
     }
 
@@ -65,6 +66,12 @@ public class Test_ResourceService {
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService()
             .getResourceWrappers(resources);
+        ResourceService rs = new ResourceService();
+        rs.getResourceWrapperContainer(resources);
+        rs.init('ResourceService.RESOURCE_TYPE_ARTICLE');
+        rs.getResourceWrapperContainer();
+        rs.getParticipantLanguage();
+        ResourceService.sortResourcesByCOI(wrappers);
         Test.stopTest();
         System.assertEquals(false, wrappers[0].isFavorite);
         System.assertEquals(false, wrappers[0].isVoted);
@@ -131,7 +138,6 @@ public class Test_ResourceService {
         List<Resource__c> resources = [SELECT Id FROM Resource__c ORDER BY Title__c ASC];
         System.assertEquals(5, resources.size());
 
-     
         ResourceService.ResourceWrapperContainer singleResourceArticleContainer;
         ResourceService.ResourceWrapperContainer singleResourceVideoContainer;
         ResourceService.ResourceWrapperContainer singleResourceStudyDocumentContainer;
@@ -150,7 +156,6 @@ public class Test_ResourceService {
                 ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
             );
         }
-        
 
         System.assertEquals(
             'Resource 3',
@@ -424,6 +429,7 @@ public class Test_ResourceService {
             )
         );
         insert resourceActions;
+
         Test.stopTest();
     }
 }

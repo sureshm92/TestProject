@@ -497,4 +497,78 @@ public class TEST_Batch_UpsertEprParticipantAndPE {
 		
     
     }
+    @IsTest
+    private static void testParticipantExisitingInRH() {
+        
+        integer i =1;
+        string randomStr = 'IPRUser'+i; 
+        String test1 = 'Test';
+        
+        Study_Site__c studySite = [select Id,Principal_Investigator__c,Site__c from Study_Site__c limit 1];
+        Participant__c participant4 = new Participant__c(
+            First_Name__c = 'ParticipantTD4',
+            Last_Name__c = 'ParticipantTD4',
+            Phone__c = '55313538',
+            Email__c = 'part4@email.com',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Adult__c = true,
+            Site__c = studySite.Site__c
+        );
+        insert participant4;
+        
+        Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = studySite.Principal_Investigator__c,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today(),
+            Initial_visit_occurred_flag__c = true,
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
+            Participant__c = participant4.Id,
+            Screening_ID__c = 'PESCR2'
+        );
+        //insert pe1;
+        pe1 = [select Id,Name from Participant_Enrollment__c limit 1];
+        List<Integration_Patient_Referral__c> iprList = new List<Integration_Patient_Referral__c>();
+        Integration_Patient_Referral__c ipr = new Integration_Patient_Referral__c();
+        
+        ipr.Batch_consideration__c                = 'Not completed';
+        ipr.Address_Country__c                    = 'US';
+        ipr.Address_State__c                      = 'New York';
+        ipr.Address_ZipCode__c                    = '10001';
+        ipr.BirthDate__c                          = '1987-03-01';
+        ipr.birthYear__c                          = '1987';
+        ipr.Data_Source__c                        = 'ePR';
+        ipr.Delegate_Daytime_Phone_Number__c      = (system.now().millisecond()+''+system.now().month()+i+''+system.now().hour()+''+system.now().minute()+''+system.now().day()).substring(0,7);
+        ipr.Delegate_Email_Address__c             = test1+'@dltestm.com';
+        ipr.Delegate_First_Name__c                = 'dfn'+test1;
+        ipr.Delegate_Last_Name__c                 = 'dln'+test1;
+        ipr.Delegate_Mailing_State__c             = 'New York';
+        ipr.Delegate_Zip_Postal_Code__c           = '10001';
+        ipr.email__c                              = '04ipremail@gmtesstail.com';
+        ipr.firstName__c                          = 'fn'+test1;
+        ipr.Language_Preference__c                = 'en_US';
+        ipr.lastName__c                           = 'ln'+test1;
+        ipr.phone__c                              = '8343212';
+        ipr.protocolId__c                         = 'tt123456789';
+        ipr.referralID__c                         = 'rid-'+'1230011';
+        ipr.sex__c                                = 'Male';
+        ipr.siteSelected__c                       = '123';
+        ipr.acceptedTermsAndConditions__c	      = '2020-01-01 10:52:39 AM';
+        ipr.Referred_Date__c                      = '2020-01-01 10:52:39 AM';
+        ipr.UTM_campaignName__c                   = pe1.Name;
+        iprList.add(ipr);
+        
+        Insert iprList;
+        
+        Test.startTest();
+        Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);      
+        test.stopTest();
+        Integration_Patient_Referral__c iprprocessed = [SELECT Id, Error_Message__c, Participant_Enrollment__c FROM Integration_Patient_Referral__c where id=:ipr.id];
+        system.assert(iprprocessed.Error_Message__c == null);//No errors is processring ipr records
+        system.assert(iprprocessed.Participant_Enrollment__c != null);//participant enrollment record created
+    }
 }

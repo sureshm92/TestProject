@@ -80,6 +80,11 @@
     float: right;
     margin-left: 15px;
 }
+.rtl .save-btn{
+    float: left;
+    margin-right: 15px;
+    margin-left: 0px;
+}
 .discard-btn{
     border: 1px solid #ffffff;
     box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
@@ -87,6 +92,10 @@
 .save-btn-p{
     text-align:right;
     padding: 12px 27px;
+}
+.rtl .save-btn-p{
+    text-align:left;
+    border-top: 1px solid #E9E9E9;
 }
 .participant-text{
     font-size: 16px;
@@ -107,6 +116,12 @@
 .margin-top{
     margin-top: 1px;
 }
+.rtl .rtl-left{
+    margin-left:12px;
+}
+.rtl .rtl-export{
+    margin-left:14px;
+}
 /* Scrollbar Code */
 ::-webkit-scrollbar {
     width: 8px;
@@ -121,6 +136,7 @@
 }
 /* Scrollbar Code End */
 @media (max-device-width: 767px) {
+    .rtl { direction: rtl;}
     .vertical-scroll-pop{
         height: unset;
         overflow: unset;
@@ -154,6 +170,9 @@
     }
     .save-btn-p{
         padding: 12px 10px;
+    }
+    .rtl .save-btn-p{
+        border-top: 1px solid transparent;
     }
 }  
 @media (min-width: 767px) {

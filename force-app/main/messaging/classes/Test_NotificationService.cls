@@ -407,9 +407,8 @@ private class Test_NotificationService {
 
         Test.stopTest();
     }
-
     @isTest
-    static void test_sendNotifications_v5() {
+    static void test_sendNotifications_v8() {
         Test.startTest();
         TestData testdat = new TestData();
         Contact piContact = [
@@ -440,6 +439,82 @@ private class Test_NotificationService {
         } catch (Exception e) {
         }
 
+        Test.stopTest();
+    }
+
+    @isTest
+    static void test_sendNotifications_v5() {
+        Test.startTest();
+        TestData testdat = new TestData();
+        Task task = new Task();
+        task.Subject = 'test';
+        task.Reminder_Date__c = Datetime.now();
+        task.ReminderDateTime = Datetime.now();
+        task.Activity_Datetime__c = Datetime.now().addDays(1);
+        task.OwnerId = testdat.participantUser.Id;
+        task.Visible_For__c = 'Delegates';
+        task.WhatId = testdat.Pe.id;
+        insert task;
+        Contact piContact = [
+            SELECT Id, Email, Language__c, Phone
+            FROM Contact
+            WHERE Email = 'pi@emil.com'
+        ];
+        piContact.Language__c = 'en_US';
+        piContact.Phone = '+77777777777';
+
+        List<Contact> contacts = new List<Contact>();
+        contacts.add(piContact);
+        update contacts;
+
+        List<Notification__c> notifications = new List<Notification__c>();
+        notifications.add(
+            new Notification__c(
+                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
+                Recipient__c = piContact.Id,
+                WhatId__c = task.Id,
+                StartDate__c = Date.today()
+            )
+        );
+
+        insert notifications;
+        try {
+            NotificationService.sendNotifications(notifications);
+        } catch (Exception e) {
+        }
+        Notification__c nt = new Notification__c(
+            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+            Recipient__c = piContact.Id,
+            WhatId__c = testdat.pe.Id,
+            StartDate__c = Date.today()
+        );
+        insert nt;
+        Send_Result__c sr = new Send_Result__c(
+            Notification__c = nt.id,
+            Target_Type__c = 'SMS',
+            Msg_Id__c = 'Test1233434'
+        );
+        insert sr;
+        //Send_Result__c sr=[select Msg_Id__c from Send_Result__c where Notification__c=:nt.id and Target_Type__c='SMS'];
+        if (sr != null) {
+            //sr.Msg_Id__c='Test1233434';
+            //update sr;
+        }
+        SMS_Opt_Out__e smsevt = new SMS_Opt_Out__e(
+            PreviousPublishedMessageId__c = 'Test1233434',
+            optout__c = true
+        );
+        SMS_Delivery_Status__e smsDel1 = new SMS_Delivery_Status__e(
+            Message_id__c = 'Test1233434',
+            Record_Status__c = 'INVALID'
+        );
+        SMS_Delivery_Status__e smsDel2 = new SMS_Delivery_Status__e(
+            Message_id__c = 'Test1233434',
+            Record_Status__c = 'DELIVERED'
+        );
+        list<SMS_Delivery_Status__e> lst = new List<SMS_Delivery_Status__e>{ smsDel1, smsDel2 };
+        Database.SaveResult sr1 = EventBus.publish(smsevt);
+        list<Database.SaveResult> sr2 = EventBus.publish(lst);
         Test.stopTest();
     }
 

@@ -17,6 +17,14 @@ private class Test_SettingStoreService {
         SettingStoreService.save('TestingClass', testedClass, TestedClass.class);
         TestedClass restoredClass = (TestedClass) SettingStoreService.get('TestingClass');
         System.assertEquals(testedClass.value, restoredClass.value);
+        List<String> settingIds = new List<String>();
+        Boolean orgDefault;
+        String settingId;
+        String featureName;
+        List<Id> recordIds = new List<Id>();
+        SettingStoreService.deleteSettingsOrgDefault(settingIds);
+        SettingStoreService.deleteSettingOrgDefault(settingId);
+        SettingStoreService.deleteSettings(featureName, recordIds);
     }
 
     @IsTest

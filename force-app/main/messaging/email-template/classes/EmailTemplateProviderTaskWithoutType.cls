@@ -2,6 +2,7 @@
  * Created by Igor Malyuta on 29.05.2020.
  */
 public without sharing class EmailTemplateProviderTaskWithoutType extends EmailTemplateProvider {
+    @testVisible
     protected override void initYourParticipantFirstName() {
         if (whatId == null)
             return;

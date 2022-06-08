@@ -1,4 +1,5 @@
 <template>
+    <div class={maindivcls}>  
     <div class="bg-delegate slds-p-around_medium slds-m-bottom_medium">
         <div class="slds-grid slds-wrap slds-gutters">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
@@ -23,7 +24,18 @@
                 </div> 
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
-                <lightning-input type="text"  data-value="TelephoneNumber" onchange={checkFields} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}  label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} value={phoneNumber} required=""></lightning-input>
+                <!-- <lightning-input type="text"  data-value="TelephoneNumber" onchange={checkFields} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}  label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} value={phoneNumber} required=""></lightning-input> -->
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-68"  title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}>
+                        <abbr class="slds-required" title="required">*</abbr>{utilLabels.PG_Ref_L_Primary_daytime_telephone_number}
+                    </label>
+                     <div class="slds-form-element__control input-margin">
+                          <lightning-input type="text" variant="label-hidden" required=""
+                          value={phoneNumber}   onchange={checkFields} 
+                          data-value="TelephoneNumber"
+                          ></lightning-input>
+                     </div>
+                </div>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
                 <lightning-combobox
@@ -42,5 +54,6 @@
                 <lightning-input type="email" data-value="email" onchange={checkFields} title={utilLabels.PG_AS_F_Email_address}  label={utilLabels.PG_AS_F_Email_address} value={email} required=""></lightning-input>
             </div>
             </div>
+</div>
 </div>
 </template>

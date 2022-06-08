@@ -342,7 +342,7 @@
                             class="slds-form-element"
                             style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
                         >
-                        <c:consentManager aura:id="consent-Manager" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}"></c:consentManager></div>
+                        <c:consentManager aura:id="consent-Manager" callSource="addParticipant" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}" ></c:consentManager></div>
                     </div>
                     <!-- Added for 1936-->
                     <!--div class="slds-grid slds-gutters slds-wrap">

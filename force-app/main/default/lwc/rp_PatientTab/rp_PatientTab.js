@@ -594,4 +594,37 @@ export default class Rp_PatientTab extends LightningElement {
     closeCancelModal() {
         this.cancelOpen = false;
     }
+    handleConsentUpdate(event){
+        
+        if(event.detail.consentMap.cType == 'outreach'){
+            this.patientrecord[0].peRecord.Participant_Opt_In_Status_Emails__c = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
+            this.patientrecord[0].peRecord.Participant_Opt_In_Status_SMS__c = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
+            this.patientrecord[0].peRecord.Participant_Phone_Opt_In_Permit_Phone__c = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
+        }
+        if(event.detail.consentMap.cType == 'study'){
+            this.patientrecord[0].peRecord.Permit_Mail_Email_contact_for_this_study__c = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
+            this.patientrecord[0].peRecord.Permit_SMS_Text_for_this_study__c = event.detail.consentMap.pe.Permit_SMS_Text_for_this_study__c;
+            this.patientrecord[0].peRecord.Permit_Voice_Text_contact_for_this_study__c = event.detail.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c;
+        }
+        if (this.patientrecord[0].peRecord.Patient_ID__c != undefined && this.patientrecord[0].peRecord.Participant_Name__c != undefined
+            && this.patientrecord[0].peRecord.YOB__c != undefined && this.patientrecord[0].peRecord.Patient_Auth__c != undefined
+            && this.patientrecord[0].peRecord.Participant_Surname__c != undefined
+            && this.patientrecord[0].peRecord.Participant_Surname__c != ''
+            && this.patientrecord[0].peRecord.Participant_Surname__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != null
+            && this.patientrecord[0].peRecord.Legal_Status__c != null 
+        ) {
+            this.disabledsavebutton = false;
+        }
+        else {
+            this.disabledsavebutton = true;
+        }
+       
+    }
+    participantcountry(){
+        return (this.pe.peRecord.Mailing_Country_Code__c == '' ? 'UK' : pe.peRecord.Mailing_Country_Code__c);
+    }
 }

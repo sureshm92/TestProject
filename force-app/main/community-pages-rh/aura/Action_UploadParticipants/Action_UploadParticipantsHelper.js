@@ -13,6 +13,9 @@
         isEmail,
         isPhone,
         isSMS,
+        iqviaOutreachEmail,
+        iqviaOutreachPhone,
+        iqviaOutreachSMS,
         visitPlanId,
         helper
     ) {
@@ -30,6 +33,9 @@
                 allowEmail: isEmail,
                 allowPhone: isPhone,
                 allowSMS: isSMS,
+                outreachEmail : iqviaOutreachEmail,
+                outreachPhone : iqviaOutreachPhone,
+                outreachSMS : iqviaOutreachSMS,
                 visitPlanId: visitPlanId==''?undefined:visitPlanId
             },
             function (returnValue) {

@@ -58,8 +58,8 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         perRec.Permit_SMS_Text_for_this_study__c = false;
         String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
         Test.startTest();
-        //Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,'insertDelegate');
-        //System.assertEquals(true,isSavePrDetails);
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,false,'insertDelegate');
+        System.assertEquals(true,isSavePrDetails);
         Test.stopTest();
     }
 
@@ -98,12 +98,14 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         insert patientDelegate;
         String delegateIdString = '{ "Id": "'+patientDelegate.Id+'","Contact__c":"'+delegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","Contact__c":"'+delegate.Id+'","First_Name__c": "test1","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
         Test.startTest();
-        //Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'updateDeligate');
-        //System.assertEquals(true,isSavePrDetails);
-        //PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'updateParticipant');
-        //PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,'');
+        Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateDeligate');
+        System.assertEquals(true,isSavePrDetails);
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,false,'updateParticipant');
+        try{
+            PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateIdString,false, false,true,true,'');
+        }catch(Exception ex){}
         String delegateDeleteString = '{ "Id": "'+patientDelegate.Id+'","Participant_Delegate__c": "'+patientDelegate.Participant_Delegate__r.Id+'","Participant_Delegate__r": {"Id":"'+patientDelegate.Participant_Delegate__r.Id+'","First_Name__c": "","Last_Name__c": "'+patientDelegate.Participant_Delegate__r.Last_Name__c+'","Email__c": "'+patientDelegate.Participant_Delegate__r.Email__c+'","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
-        //PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,'');
+        PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,false,'');
         Test.stopTest();
     }
 

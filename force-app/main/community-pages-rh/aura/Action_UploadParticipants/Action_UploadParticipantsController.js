@@ -3,6 +3,7 @@
  */
 ({
     doExecute: function (component, event, helper) {
+        component.set('v.reload',true);
         component.find('upModalSpinner').show();
         component.set('v.createUsers', false);
         component.set('v.isEmail', false);
@@ -13,6 +14,7 @@
         component.set('v.visitPlanRequired', false);
         component.set('v.visitPlanDisabled', false);
         component.set('v.visitPlanId', undefined);
+        component.find('consent-Manager').resetConsents();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params['studySiteId'];
@@ -51,6 +53,7 @@
     },
 
     doCancel: function (component, event, helper) {
+        component.set('v.reload',false);
         component.set('v.isEmail', false);
         component.set('v.isPhone', false);
         component.set('v.isSMS', false);
@@ -89,6 +92,9 @@
             component.get('v.isEmail'),
             component.get('v.isPhone'),
             component.get('v.isSMS'),
+            component.get('v.iqviaOutreachEmail'),
+            component.get('v.iqviaOutreachPhone'),
+            component.get('v.iqviaOutreachSMS'),
             component.get('v.visitPlanId'),
             helper
         );
@@ -164,6 +170,20 @@
 
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
+    },
+    //changes related to RH-6742
+    handleConsentChange: function (component,event){
+            component.set('v.isEmail', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
+            component.set('v.doContact', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
+            component.set('v.isPhone', event.getParam('consentMap').pe.Permit_Voice_Text_contact_for_this_study__c);
+            component.set('v.isSMS', event.getParam('consentMap').pe.Permit_SMS_Text_for_this_study__c);
+            if (!component.get('v.doContact')) {
+                component.set('v.createUsers', false);
+            }    
+            component.set('v.iqviaOutreachEmail',event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
+            component.set('v.iqviaOutreachSMS',event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
+            component.set('v.iqviaOutreachPhone',event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c);
+    
     },
     
     generateISOLanguage: function (component, event, helper) {
