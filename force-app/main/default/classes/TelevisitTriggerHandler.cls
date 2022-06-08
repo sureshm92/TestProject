@@ -22,7 +22,7 @@ public class TelevisitTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            checkForTelevisitEventCreation(newList);
+            checkForTelevisitEventCreation(newList,oldMap);
         }
     }
 
@@ -224,7 +224,7 @@ public class TelevisitTriggerHandler {
         datetime currentTime = datetime.now();
         datetime twoDaysAhead = datetime.now().addDays(2);
         Set<Id> televisitIds = new Set<Id>();
-        
+        //twoDaysAhead.addDays(2);
         for(sObject televisitRecord : newList){
             Televisit__c teleVisit = (Televisit__c) televisitRecord;
             if(teleVisit.Visit_Link_Activation_End_Time__c >= currentTime && teleVisit.Visit_Link_Activation_End_Time__c <= twoDaysAhead){
@@ -233,6 +233,26 @@ public class TelevisitTriggerHandler {
         }
         if(televisitIds.size()>0)
             createTelevisitEvent(televisitIds);
+    }
+        
+    public static void checkForTelevisitEventCreation(List<SObject> newList, Map<Id, SObject> oldMap){
+        datetime currentTime = datetime.now();
+        datetime twoDaysAhead = datetime.now().addDays(2);
+        datetime oneDayBehind = datetime.now().addDays(-1);
+        Set<Id> televisitIds = new Set<Id>();
+        //twoDaysAhead.addDays(2);
+        if(oldMap!=null){
+        for(sObject televisitRecord : newList){
+            Televisit__c teleVisit = (Televisit__c) televisitRecord;
+                Televisit__c oldTeleVisit = (Televisit__c) oldMap.get(teleVisit.Id);
+                if((teleVisit.Visit_Link_Activation_End_Time__c >= currentTime && teleVisit.Visit_Link_Activation_End_Time__c <= twoDaysAhead)
+                   || (oldTeleVisit.Visit_Date_Time__c >= oneDayBehind && oldTeleVisit.Visit_Date_Time__c <= twoDaysAhead) ){
+                televisitIds.add(teleVisit.Id);
+            }
+        }
+        if(televisitIds.size()>0)
+            createTelevisitEvent(televisitIds);
+        }
     }
 
     public static void createTelevisitEvent(Set<Id> televisitIds){

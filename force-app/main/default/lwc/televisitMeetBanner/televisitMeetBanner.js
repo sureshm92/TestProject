@@ -6,6 +6,10 @@ import getVisits from '@salesforce/apex/TelevisitMeetBannerController.getVisits'
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import USER_ID from '@salesforce/user/Id';
+import MEET_WITH from '@salesforce/label/c.Televisit_Meet_Sub1';
+import MEET_AT from '@salesforce/label/c.Televisit_Meet_Sub2';
+import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
+import TO from '@salesforce/label/c.RH_To';
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
     hasVisits = false;
@@ -23,7 +27,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     allVisits = [];
     allActiveVisits = [];
     hasActiveVisits = false;
-    
+    MEET_WITH = MEET_WITH;
+    MEET_AT = MEET_AT;
+    UPCOMING_VISIT = UPCOMING_VISIT;
+    TO = TO;
     // Initializes the component
     connectedCallback() {      
         this.getVisits(); 
@@ -124,13 +131,13 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }
         if(activeVisits.length == 1){
             this.singleMeetDetail = activeVisits[0];
-            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' with '+activeVisits[0].Televisit__r.Participant_Enrollment__r.Participant_Contact__r.Full_Name__c
-            +' will take place at ';//activeVisits[0].
+            this.meetMainInfo = activeVisits[0].Televisit__r.Title__c +' '+MEET_WITH+' '+activeVisits[0].Televisit__r.Participant_Enrollment__r.Participant_Name__c 
+            +' '+MEET_AT+' ';//activeVisits[0].
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c ;
         }else if(activeVisits.length > 1){
             this.singleActiveVisit = false;
-            this.meetMainInfo = activeVisits.length +' Upcomming or Active Televisits';
+            this.meetMainInfo = activeVisits.length +' '+UPCOMING_VISIT;
         }
         //this.currentVisit = visitData[0];
         //console.log('loadVisitData ::'+this.currentVisit.Televisit__r.Title__c);
