@@ -1,5 +1,30 @@
 @IsTest
 public class Test_EcoaTaskService {
+    public class ECOAServiceMock implements HttpCalloutMock {
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            res.setBody('[{"siteGuid":"test","ecoaResponseID":"1233"}]');
+            res.setStatusCode(200);
+            return res;
+        }
+    }
+
+    public class ECOAServiceStub implements StubProvider {
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
+            /*if (stubbedMethodName == 'execute') {
+                return null;
+            }*/
+            return null;
+        }
+    }
     @TestSetup
     static void init() {
         Test.startTest();
@@ -197,6 +222,29 @@ public class Test_EcoaTaskService {
 
         etc.Diary_Status__c = 'completed';
         update etc;
+        Test.stopTest();
+    }
+    @IsTest
+    static void patientVisitCompletion() {
+        Test.startTest();
+        ECOAService.setMock(new ECOAServiceStub());
+        TestData testData = new TestData();
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
+        insert vp;
+
+        Visit__c visit = new Visit__c(Visit_Plan__c = vp.Id);
+        insert visit;
+
+        Patient_Visit__c patientVisit = new Patient_Visit__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Visit__c = visit.Id,
+            Visit_Number__c = 1,
+            SDH_Key__c = '1~2~3' + 'New Visit' + Date.today()
+        );
+        insert patientVisit;
+        patientVisit.Status__c = 'Completed';
+        patientVisit.Completed_Date__c = Date.today();
+        update patientVisit;
         Test.stopTest();
     }
 }
