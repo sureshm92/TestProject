@@ -802,9 +802,8 @@ public with sharing class Action_SendSMS implements Action {
                         }
                         if (objType == 'Televisit_Attendee__c') {
                             Televisit_Attendee__c tva = televisitAttendeeIdMap.get(whatId);
-                            if (tva != null) {
+                            if (tva != null)
                             tvOBJ = tva.Televisit__r;
-                        }
                         }
                         if (tvOBJ != null) {
                         pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
