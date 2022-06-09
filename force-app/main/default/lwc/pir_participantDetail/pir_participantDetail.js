@@ -5,6 +5,7 @@ import ethinicity_field from '@salesforce/schema/Participant__c.Ethnicity__c';
 import language_field from '@salesforce/schema/Contact.Language__c';
 import phType_field from '@salesforce/schema/Participant__c.Phone_Type__c';
 import getParticipantData from '@salesforce/apex/PIR_ParticipantDetailController.getParticipantData';
+import getVisitPlansLVList from '@salesforce/apex/PIR_ParticipantDetailController.getVisitPlansLVList';
 import getCnData from '@salesforce/apex/PIR_ParticipantDetailController.getCnData';
 import doSaveParticipantDetails from '@salesforce/apex/PIR_ParticipantDetailController.doSaveParticipantDetails';
 import checkExisitingParticipant from '@salesforce/apex/ParticipantInformationRemote.checkExisitingParticipant';
@@ -86,6 +87,12 @@ export default class Pir_participantDetail extends LightningElement {
     noYOB = false;
     saveoffCount = 100;
     isOutreachUpdated = false;
+
+    @api selectedPlan = "";
+    visitPlan = {};
+    @api visitplanoptions = {};
+    @api showVisitPlan = false;
+
     fieldMap = new Map([["src" , "MRN_Id__c"],
 				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
@@ -211,6 +218,34 @@ export default class Pir_participantDetail extends LightningElement {
                 this.setReqDelegate();
                 this.initPd = JSON.parse(JSON.stringify(this.pd));
             }).then(()=> {
+                getVisitPlansLVList({ ssId:this.pd['pe']['Study_Site__c']})
+                .then((result) => {
+                    this.visitplanoptions={};  
+                    this.visitplanoptions = result;
+                    this.selectedPlan = '';
+                    if(this.visitplanoptions.length > 1){
+                        for(let i=0; i< this.visitplanoptions.length; i++){
+                            if(this.pd['pe']['Visit_Plan__c'] == this.visitplanoptions[i].value){
+                                this.selectedPlan = this.visitplanoptions[i].value;
+                            } 
+                        }
+                    }else{
+                        if(this.visitplanoptions.length == 1){
+                            this.selectedPlan = this.visitplanoptions[0].value;
+                            this.vPlan = this.visitplanoptions[0].value;
+                            this.pd['pe']['Visit_Plan__c'] = this.visitplanoptions[0].value;
+                        }
+                    }
+                    if(this.visitplanoptions ==null || this.visitplanoptions.length == 0) {
+                        this.showVisitPlan = false;
+                        this.selectedPlan = '';
+                        this.vPlan = '';
+                        this.pd['pe']['Visit_Plan__c'] = '';
+                    }else{
+                        this.showVisitPlan = true;
+                    }
+                }) 
+            }).then(()=> {
                 getStudyAccessLevel()
                 .then((result) => {
                    this.lststudysiteaccesslevel = result;
@@ -223,6 +258,22 @@ export default class Pir_participantDetail extends LightningElement {
             .catch(error => {
                 console.error('Error:', error);
             });
+    }
+    get isvisitplanreadonly() {
+        if (this.visitplanoptions.length <= 1) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+    @api vPlan = "";
+    changeInputValue(event) {
+        let datavalue = event.target.dataset.value;
+        console.log('get value vp',event.target.dataset.value +''+event.target.value);
+        this.vPlan = event.target.value;
+        this.pd['pe']['Visit_Plan__c'] = this.vPlan;
+        console.log('value update' +this.vPlan);
+          
     }
     get checkDelegateLevels(){
         if(this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2'){
@@ -982,7 +1033,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.dispatchEvent(new CustomEvent('toggleclick'));
         this.saving = true;
         var updates = this.isUpdated();
-            doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp})
+            doSaveParticipantDetails( { perRecord:this.pd.pe, peDeligateString:JSON.stringify(this.pd.delegate),isPeUpdated:updates.isPeUpdated,isPartUpdated:updates.isPartUpdated,isDelUpdated:updates.isDelUpdated,isOutreachUpdated:this.isOutreachUpdated,delegateCriteria:this.delOp,visitPlan:this.vPlan})
             .then(result => {
                 this.dispatchEvent(new CustomEvent('toggleclick'));
                 this.dispatchEvent(new CustomEvent('handletab'));
