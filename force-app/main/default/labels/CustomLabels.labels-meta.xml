@@ -25569,7 +25569,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit  with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
