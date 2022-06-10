@@ -25556,7 +25556,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit  with ##PIName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit  with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
@@ -25573,7 +25573,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
-        <value>##VisitName is not happening</value>
+        <value>is not happening</value>
     </labels>
     <labels>
         <fullName>Televisit_Canceled</fullName>
