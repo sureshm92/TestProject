@@ -216,7 +216,19 @@ Public without sharing Class TelevisitCreationScreenController {
         Participant_Enrollment__c  per = [SELECT Id,Participant__c,Participant__r.Adult__c,Participant_Contact__c,PI_Contact__c,PI_Contact__r.FirstName, PI_Contact__r.LastName, Study_Site__c,
                                           Participant__r.First_Name__c,Participant__r.Last_Name__c FROM Participant_Enrollment__c 
                                           WHERE Id =:ParticipantEnrollmentId];
-        User usrRecord = [SELECT Id,FirstName,LastName FROM User WHERE ContactId =:per.PI_Contact__c LIMIT 1];
+        
+        List<String> portalUserContactIds = new List<String>();
+        List<Site_Staff__c> lstSiteStaff = new List<Site_Staff__c>([Select Id,Site_Contact__c,Site_Contact__r.FirstName,Site_Contact__r.LastName  from Site_Staff__c WHERE Study_Site__c = :per.Study_Site__c]);
+        Map<Id,User> mapUserRecord = new Map<Id,User>();
+        for(Site_Staff__c siteStaff : lstSiteStaff){
+            portalUserContactIds.add(siteStaff.Site_Contact__c);
+        }
+        portalUserContactIds.add(per.PI_Contact__c);
+        
+        for(User usr : [SELECT Id,FirstName,LastName,ContactId FROM User WHERE ContactId =:portalUserContactIds]){
+            mapUserRecord.put(usr.ContactId,usr);
+        }
+        
         if(per.Participant__r.Adult__c){
             AttendeesWrapper wrap3 = new AttendeesWrapper();
             wrap3.firstName= per.Participant__r.First_Name__c;
@@ -225,10 +237,14 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap3.contactId= per.Participant_Contact__c;
             lstAttendeesWrapper.add(wrap3);
         }
-        for(Site_Staff__c siteStaff : [Select Id,Site_Contact__c,Site_Contact__r.FirstName,Site_Contact__r.LastName  from Site_Staff__c WHERE Study_Site__c = :per.Study_Site__c]){
+        for(Site_Staff__c siteStaff : lstSiteStaff){
             AttendeesWrapper wrap = new AttendeesWrapper();
             wrap.firstName= siteStaff.Site_Contact__r.FirstName;
             wrap.lastName= siteStaff.Site_Contact__r.LastName;
+            if(wrap.firstName == null && wrap.lastName.startsWith('P-') && mapUserRecord.get(siteStaff.Site_Contact__c) != null){
+                wrap.firstName= mapUserRecord.get(siteStaff.Site_Contact__c).FirstName;
+                wrap.lastName= mapUserRecord.get(siteStaff.Site_Contact__c).LastName;
+            }
             wrap.attendeeType= 'Site Staff';
             wrap.contactId= siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
@@ -236,9 +252,9 @@ Public without sharing Class TelevisitCreationScreenController {
             AttendeesWrapper wrap1 = new AttendeesWrapper();
             wrap1.firstName= per.PI_Contact__r.FirstName;
             wrap1.lastName= per.PI_Contact__r.LastName;
-            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && usrRecord != null){
-                wrap1.firstName= usrRecord.FirstName;
-                wrap1.lastName= usrRecord.LastName;
+            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
+                wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
+                wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
             }
             wrap1.attendeeType= 'PI';
             wrap1.contactId= per.PI_Contact__c;

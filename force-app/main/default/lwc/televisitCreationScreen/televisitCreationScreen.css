@@ -35,11 +35,6 @@
     font-family: Proxima Nova;
 }
 
-.closeButtopnIcon:hover {
-    background-color: #ff4d4a;
-    --lwc-colorTextIconDefault: white;
-}
-
 .inputFields {
     font-size: 16px;
 }
@@ -171,12 +166,6 @@ textdecoration {
     font-family: 'Proxima Nova';
     border: 1px solid #f2f2f2;
     margin: 30px;
-}
-
-.zoom:hover {
-    -ms-transform: scale(1.1); /* IE 9 */
-    -webkit-transform: scale(1.1); /* Safari 3-8 */
-    transform: scale(1.1);
 }
 
 .slds-dropdown {
