@@ -31,7 +31,7 @@
                 label={label.RH_TV_CreateTelevisit}
                 title={label.RH_TV_CreateTelevisit}
                 onclick={openModal}
-                class="slds-m-left_x-small slds-float_right slds-p-bottom_medium zoom televisit">
+                class="slds-m-left_x-small slds-float_right slds-p-bottom_medium televisit">
             </lightning-button>
         </div>
     </div>
@@ -65,10 +65,10 @@
                         </div>
                         <div class="slds-col slds-size_1-of-12 close-icon slds-p-top_x-small">
                             <div onclick={closeModal}>
-                                <button class="closeButtopnIcon slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title="Close" onclick={closeModal}>
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title="Close" onclick={closeModal}>
                                     <lightning-icon icon-name="utility:close"
                                         alternative-text="close"
-                                        size="x-small" ></lightning-icon>
+                                        size="small" ></lightning-icon>
                                     <span class="slds-assistive-text">Close</span>
                                 </button>
                             </div>
@@ -170,7 +170,7 @@
                                         </div>
                                     </template>
                                     <template if:false={isLoading}>
-                                        <div style="height: 100px;width:100%; overflow: auto" >
+                                        <div style="font-size:16px;height: 100px;width:100%; overflow: auto" >
                                             <table style="background:#fbfbfb" >
                                                 <template for:each={selectedTelevisitAttendeesList} for:item="selectedAttendee">
                                                     <tr key={selectedAttendee}>
@@ -202,12 +202,12 @@
                             <div class="slds-grid slds-wrap slds-m-top_large">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                                 <div class="slds-float_right mobile-width televisit_acion_btn">  
-                                    <button class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn zoom"  onclick={closeModal}> {label.RH_TV_Discard}</button>                
+                                    <button class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn"  onclick={closeModal}> {label.RH_TV_Discard}</button>                
                                     <template if:false={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn zoom" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> {label.RH_TV_Save} </button>
+                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> {label.RH_TV_Save} </button>
                                     </template>
                                     <template if:true={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn zoom" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
+                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
                                     </template>
                                 </div>    
                             </div>
