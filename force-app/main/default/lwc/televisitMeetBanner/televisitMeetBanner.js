@@ -14,7 +14,7 @@ import USER_ID from '@salesforce/user/Id';
 import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
-import UPCOMING_VISIT from '@salesforce/label/c.No_of_Televisits';
+import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
