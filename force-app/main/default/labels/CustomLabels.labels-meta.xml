@@ -25578,7 +25578,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Removed as Televisit Attendee</shortDescription>
-        <value>This is to notify you that your ##VisitName televisit is no longer happening.</value>
+        <value>This is to notify you that your ##VisitName televisit is no longer happening</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Removed_as_Televisit_Attendee</fullName>
