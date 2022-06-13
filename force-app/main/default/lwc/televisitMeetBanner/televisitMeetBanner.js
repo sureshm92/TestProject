@@ -7,10 +7,6 @@ import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import USER_LOCALE from '@salesforce/i18n/locale';
 import { NavigationMixin } from 'lightning/navigation';
 import USER_ID from '@salesforce/user/Id';
-//import MEET_WITH from '@salesforce/label/c.Televisit_Meet_Sub1';
-//import MEET_AT from '@salesforce/label/c.Televisit_Meet_Sub2';
-//import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
-//import TO from '@salesforce/label/c.RH_To';
 import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
@@ -33,10 +29,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     allVisits = [];
     allActiveVisits = [];
     hasActiveVisits = false;
-    //MEET_WITH = MEET_WITH;
-    //MEET_AT = MEET_AT;
     UPCOMING_VISIT = UPCOMING_VISIT;
-    //TO = TO;
 
     @track labels = {
         UPCOMING_VISIT,
@@ -127,10 +120,6 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             let visitDetail = visitInfo;
             var now = new Date();
             let dateNow = new Date(now);
-            // let scheduledDate = new Date(visitInfo.Televisit__r.Visit_Date_Time__c);
-            // let scheduledEndDate = new Date(visitInfo.Televisit__r.Visit_End_Date_Time__c);
-            // visitDetail.scheduledTime = scheduledDate;
-            // visitDetail.scheduledEndTime = scheduledEndDate;
             let meetInfo = this.getIsPTorPTDelegate(visitInfo.Attendee_Type__c) ? this.labels.PT_TV_MEET_INFO : this.labels.PI_TV_MEET_INFO;
             meetInfo = this.getTelevisitMeetInfo(meetInfo, visitInfo);
             visitDetail.eachMeetInfo = meetInfo;
@@ -148,47 +137,23 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }
         if (activeVisits.length === 1) {
             this.singleMeetDetail = activeVisits[0];
-            // this.meetMainInfo = activeVisits[0].Televisit__r.Title__c + ' ' + MEET_WITH + ' ' + activeVisits[0].Televisit__r.Participant_Enrollment__r.Participant_Name__c
-            //     + ' ' + MEET_AT + ' ';//activeVisits[0].
             this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c) ? this.labels.PT_TV_MEET_INFO : this.labels.PI_TV_MEET_INFO;
             this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
         } else if (activeVisits.length > 1) {
             this.singleActiveVisit = false;
-            //this.meetMainInfo = activeVisits.length + ' ' + UPCOMING_VISIT;
             this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
         }
-        //this.currentVisit = visitData[0];
-        //console.log('loadVisitData ::'+this.currentVisit.Televisit__r.Title__c);
+
     }
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
         window.open(url, '_blank');
-        // this[NavigationMixin.GenerateUrl]({
-        //     type: 'standard__webPage',
-        //     attributes: {
-        //         url: url
-        //     }
-        // },
-        //     true
-        // ).then(generatedUrl => {
-        //     window.open(generatedUrl, '_blank');
-        // });
     }
     handleSingleMeetJoin(event) {
         window.open(this.meetLinkUrl, '_blank');
-        // this[NavigationMixin.GenerateUrl]({
-        //     type: 'standard__webPage',
-        //     attributes: {
-        //         url: this.meetLinkUrl
-        //     }
-        // },
-        //     true
-        // ).then(generatedUrl => {
-        //     window.open(generatedUrl, '_blank');
-        // });
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = (!this.showMoreVisits);
