@@ -127,6 +127,14 @@ Duration: ##VisitDuration</value>
         <value>This Televist has ended. Contact your Study Center for further support.</value>
     </labels>
     <labels>
+        <fullName>Session_Settings</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Session Settings</shortDescription>
+        <value>Session Settings</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
         <protected>true</protected>

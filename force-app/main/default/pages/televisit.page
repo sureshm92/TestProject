@@ -2002,7 +2002,7 @@
                             </span>
                             <div class="slds-form-element settings-icon-wrapper setting-icon-show">
                                 <button id="settings-button-in-call" class="settings-button slds-button slds-button--icon slds-hide" onclick="toggleDeviceSettingsVisible();"
-                                    title="Session Settings">
+                                    title="{!$Label.Session_Settings}">
 
                                     <span class="icon-settings">
                                         <svg id="in-meeting-settings-svg" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#706e6b">
