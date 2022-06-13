@@ -72,6 +72,7 @@
     width: 100%;
     border: none;
     background-color: white !important;
+    padding: 4px 0;
 }
 
 .ms-pi-input:focus {
