@@ -668,6 +668,9 @@ public without sharing class ParticipantInformationRemote {
             if(needsInvite == true){
                 Participant_Enrollment__c pe = new Participant_Enrollment__c(Id= peId, Invited_To_PP_Date__c =DateTime.now());//,Invited_To_Patient_Portal__c = true);
                 update pe;
+            }else{
+                Participant_Enrollment__c pe = new Participant_Enrollment__c(Id= peId);
+                update pe;
             }
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty() && needsInvite == true) {
