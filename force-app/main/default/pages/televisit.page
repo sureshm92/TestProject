@@ -4,7 +4,7 @@
     <apex:includeScript value="{!$Resource.jqueryTV1}" />
     <apex:includeScript value="{!$Resource.jsonTV1}" />
     <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
-    <apex:form >
+    <apex:form>
         <apex:actionPoller action="{!maintainSession}" interval="180" />
         <apex:actionFunction name="rerenderControllerValues" action="{!rerenderControllerValues}" rerender="controller-values" />
         <apex:actionFunction name="updateSharingUserName" action="{!updateSharingUserName}" rerender="screen-sharing-username-text"
@@ -1191,8 +1191,9 @@
                 background-color: #f5f6fa !important;
                 justify-content: center;
             }
+
             .setting-icon-show {
-            display:block;
+                display: block;
             }
 
             .televisit-end {
@@ -1214,8 +1215,9 @@
                 height: 36px;
                 width: 28.5px;
             }
+
             .slds-col_bump-left {
-            display:flex;
+                display: flex;
             }
 
             @media screen and (min-width: 48em) {
@@ -1563,7 +1565,7 @@
                 display: block;
             }
 
-          
+
 
             .settings-button:focus {
                 border-radius: 1em;
@@ -1618,24 +1620,25 @@
                     background-color: #F6F7FB;
                 }
             }
+
             @media screen and (max-width:768px) {
-            .mob-timer {
-            position: absolute;
-    bottom: 10rem;
-    left: 18.7rem;
-    z-index: 999;
-            
-            }
-             .setting-icon-show {
-            display:block;
-            }
-             .settings-icon-wrapper {
-                display: inline-block;
-                padding: 0 .5em;
-                position: relative;
-                top: 6px;
-            }
-            
+                .mob-timer {
+                    position: absolute;
+                    bottom: 10rem;
+                    left: 18.7rem;
+                    z-index: 999;
+
+                }
+                .setting-icon-show {
+                    display: block;
+                }
+                .settings-icon-wrapper {
+                    display: inline-block;
+                    padding: 0 .5em;
+                    position: relative;
+                    top: 6px;
+                }
+
             }
 
             .OT_name.OT_mode-off {
@@ -1911,16 +1914,16 @@
                     <div class="gradient"></div>
 
                     <!-- Header -->
-            <header class="slds-card__header">
-                        <apex:outputText style="font-weight:800" styleClass="slds-text-heading--medium" value="session ended">
+                    <header class="slds-card__header">
+                        <apex:outputText style="font-weight:800" styleClass="slds-text-heading--medium" value="Session Closed">
 
                             <apex:param value="{!sessionName}" />
                         </apex:outputText>
-                        
+
                     </header>
 
-            <!-- Content -->
-            <div class="slds-card__body slds-p-around--medium">
+                    <!-- Content -->
+                    <div class="slds-card__body slds-p-around--medium">
                         <span class="slds-text-heading--small slds-m-around--large">
                             {!$Label.CloseTab}
                         </span>
@@ -1937,7 +1940,7 @@
                                 <div class="slds-col slds-medium-size_3-of-12 "></div>
                                 <div class="slds-col slds-medium-size_6-of-12">
                                     <span class="televisit-end">
-                                        This Televist has ended. Contact your Study Center for further support.
+                                        {!$Label.PT_Session_Ended}
                                     </span>
                                 </div>
                                 <div class="slds-col slds-medium-size_3-of-12"></div>
@@ -1945,9 +1948,9 @@
 
                         </header>
                     </div>
-                
-            </div>
-            <!--<div id="close-session-container" class="slds-hide">
+
+                </div>
+                <!--<div id="close-session-container" class="slds-hide">
                 
                     <div class="slds-backdrop slds-backdrop--open"></div>
                 </div>-->
@@ -1999,7 +2002,7 @@
                             </span>
                             <div class="slds-form-element settings-icon-wrapper setting-icon-show">
                                 <button id="settings-button-in-call" class="settings-button slds-button slds-button--icon slds-hide" onclick="toggleDeviceSettingsVisible();"
-                                    title="Session Settings">
+                                    title="{!$Label.Session_Settings}">
 
                                     <span class="icon-settings">
                                         <svg id="in-meeting-settings-svg" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#706e6b">
