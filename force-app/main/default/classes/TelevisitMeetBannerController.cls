@@ -24,11 +24,5 @@ public without sharing class TelevisitMeetBannerController {
 
         return JSON.serialize(allVisitis);
     }
-    // @AuraEnabled
-    // public static String getUserTimeZoneOffset() {
-    //     TimeZone tzone = UserInfo.getTimeZone();
-    //     //Milliseconds to Day
-    //     //return String.valueOf(tzone.getOffset(DateTime.now()) / (1000 * 3600 * 24.0));
-    //     return String.valueOf(tzone);
-    // }
+
 }
