@@ -102,9 +102,22 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit_Upcoming_Meet</shortDescription>
-        <value>Upcoming or Active Televisits</value>
+        <value>##NoOfTV Upcomming or Active Televisits</value>
     </labels>
-
+    <labels>
+        <fullName>PI_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+    </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
