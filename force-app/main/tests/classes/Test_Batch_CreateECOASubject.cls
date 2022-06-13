@@ -23,6 +23,7 @@ private class Test_Batch_CreateECOASubject {
     static void testBehavior() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new Test_ECOAServiceMockCallout());
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.class);
 
         Clinical_Trial_Profile__c ctp = [
             SELECT id, Study_GUID__c
