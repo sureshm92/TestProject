@@ -25,7 +25,7 @@ Sincerely,
 
 The IQVIA Referral Hub Support Team</value>
     </labels>
-<labels>
+    <labels>
         <fullName>Televisit_Greeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -57,7 +57,7 @@ Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime
 Duration: ##VisitDuration</value>
     </labels>
-    
+
     <labels>
         <fullName>Televisit_Cancel_Email_Subject</fullName>
         <language>en_US</language>
@@ -83,7 +83,41 @@ Duration: ##VisitDuration</value>
         <shortDescription>Televisit Creation Email Subject</shortDescription>
         <value>New Televisit scheduled</value>
     </labels>
-    
+    <labels>
+        <fullName>Televisit_Meet_Sub1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub1</shortDescription>
+        <value>with</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Meet_Sub2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub2</shortDescription>
+        <value>will take up at</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Upcoming_Meet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Upcoming_Meet</shortDescription>
+        <value>##NoOfTV Upcomming or Active Televisits</value>
+    </labels>
+    <labels>
+        <fullName>PI_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+    </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
@@ -2429,15 +2463,15 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_Welcome Call Complete</shortDescription>
         <value>Welcome Call Complete</value>
-    </labels>	
+    </labels>
     <labels>
         <fullName>CC_First_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_First Referral Call Complete</shortDescription>
         <value>First Referral Call Complete</value>
-     </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Aged_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2457,8 +2491,8 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_No Answer</shortDescription>
         <value>No Answer</value>
-    </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Follow_up_needed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22366,7 +22400,7 @@ communications using the toggles below.</value>
         <shortDescription>SMS_Body_Removed_as_Televisit_Attendee</shortDescription>
         <value>##ShortCommunityName: You have been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>SMS_Body_Removed_as_Televisit_Del_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -25535,7 +25569,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit  with ##PIName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
@@ -25552,7 +25586,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
-        <value>##VisitName is not happening</value>
+        <value>is not happening</value>
     </labels>
     <labels>
         <fullName>Televisit_Canceled</fullName>
@@ -25850,6 +25884,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Are you sure you want to cancel a Televisit?</value>
     </labels>
     <labels>
+        <fullName>RH_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_To</shortDescription>
+        <value>to</value>
+    </labels>
+    <labels>
         <fullName>RH_TV_CancelTelevisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25925,5 +25966,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>RH_TV_View</shortDescription>
         <value>View:</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_TabTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_TabTitle</shortDescription>
+        <value>Televisits</value>
     </labels>
 </CustomLabels>

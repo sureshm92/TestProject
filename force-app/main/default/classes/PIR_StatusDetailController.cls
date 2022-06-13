@@ -927,6 +927,7 @@ public without sharing class PIR_StatusDetailController {
           CreatedBy.IsPortalEnabled,
           CreatedBy.contact.userCommunityMode__c,
           Status_Label__c,
+          ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
           ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
         FROM Participant_Enrollment_Status_History__c
         WHERE
@@ -973,7 +974,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c){
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;

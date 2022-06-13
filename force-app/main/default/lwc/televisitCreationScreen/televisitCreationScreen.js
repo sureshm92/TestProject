@@ -324,7 +324,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             if(fieldName === 'Visit Date'){
                 this.visitDate = val;
                 if(this.visitDate > this.today){
-                    this.defaultTime = '05:00:00.000Z';
+                    this.defaultTime = '00:00:00.000Z';
                 }else if(this.visitDate === this.today){
                     this.defaultTime = this.currentTime;
                     console.log('current Time :',this.currentTime);
