@@ -165,5 +165,11 @@
                     ) {});
                 break;
         }
+    },
+    doActionBulkImport: function (component, event) {
+        var siteWrapper = component.get('v.siteWrapper');
+        var studySiteId = siteWrapper.studySite.Id;
+        var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
+        communityService.navigateToPage('bulk-imports?myStudies=true&trialId='+ trialId + '&ssId=' + studySiteId);                               
     }
 });

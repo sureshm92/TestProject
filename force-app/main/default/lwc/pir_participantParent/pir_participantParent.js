@@ -587,12 +587,26 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.showErrorToast('Error');
     }
   }
-  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;
+  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;importParticipant=false;
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
         this.addParticipant = true;
         this.studysiteaccess = true;   
+    }else if(this.dropdownLabel=='Import Participants'){
+        console.log('import mod');
+        this.importParticipant = true;
+    }else if(this.dropdownLabel=='Bulk Import History'){
+        console.log('B import ');
+        this[NavigationMixin.Navigate]({
+          type: 'comm__namedPage',
+          attributes: {
+              pageName: 'bulk-imports'
+            },
+          state: {
+            'myParticipants' : true
+           }
+      });
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;
@@ -601,6 +615,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.exportItem=false;
       }
     }
+  }
+  handleImportParticipant(){
+    this.addParticipant = false;
+    this.selectedSite = '';
+    this.selectedStudy = ''; 
+    this.importParticipant = false;
   }
   handlepopup(event){
     this.openpopup=event.detail;
@@ -932,4 +952,31 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector("c-pir_participant-pagination").goToStart();
   }
 
+  // import modal  -->
+     value = [];
+    get studynameoptions() {
+        return [
+            { label: 'GSM testing study', value: 'GSM testing study' },
+            { label: 'GSM testing study', value: 'GSM testing study' },
+        ];
+    }
+    get studysitesoptions() {
+        return [
+            { label: 'GSM testing study site ', value: 'GSM testing study site' },
+            { label: 'GSM testing study site GSM testing study', value: 'GSM testing study site GSM testing study' },       
+        ];
+    }
+    get particiapntStatus() {
+        return [
+            { label: 'Active', value: 'Active' },
+            { label: 'Inactive', value: 'Inactive' },
+        ];
+    }
+    get options() {
+        return [
+            { label: 'By checking this box, you confirm that your patient and/or patients legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.', value: 'option1' },
+            { label: 'Your patient or patient’s legal guardian also consents to be contacted by SMS/Text Message for these purposes.', value: 'option2' },
+        ];
+    }
+  //import modal end-->
 }
