@@ -30,6 +30,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     allActiveVisits = [];
     hasActiveVisits = false;
     UPCOMING_VISIT = UPCOMING_VISIT;
+    showTelevisitCameraAndMicrophoneAccessPopup = false;
 
     @track labels = {
         UPCOMING_VISIT,
@@ -150,10 +151,17 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
-        window.open(url, '_blank');
+        //window.open(url, '_blank');
+        console.log('inside handleJoinClick---->'+this.showTelevisitCameraAndMicrophoneAccessPopup);
+        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        console.log('inside handleJoinClick---->'+this.showTelevisitCameraAndMicrophoneAccessPopup);
+
     }
     handleSingleMeetJoin(event) {
-        window.open(this.meetLinkUrl, '_blank');
+        console.log('inside handleSingleMeetJoin---->'+this.showTelevisitCameraAndMicrophoneAccessPopup);
+        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        console.log('inside handleSingleMeetJoin---->'+this.showTelevisitCameraAndMicrophoneAccessPopup);
+
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = (!this.showMoreVisits);

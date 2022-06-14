@@ -25990,4 +25990,67 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>RH_TV_TabTitle</shortDescription>
         <value>Televisits</value>
     </labels>
+    <labels>
+        <fullName>Join_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Join Visit</shortDescription>
+        <value>Join Visit</value>
+    </labels>
+    <labels>
+        <fullName>You_can_also_adjust_these_options_during_the_visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You can also adjust these options during the visit</shortDescription>
+        <value>You can also adjust these options during the visit.</value>
+    </labels>
+    <labels>
+        <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You must grant microphone permission to join televisit</shortDescription>
+        <value>You must grant microphone permission to join televisit. Go back to Rejoin and grant permissions.</value>
+    </labels>
+    <labels>
+        <fullName>Back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Permissions</shortDescription>
+        <value>Permissions</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
+        <value>IQVIA Patient Portal would like to access the microphone and camera.</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_allow</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Don't allow</shortDescription>
+        <value>Don't allow</value>
+    </labels>
+    <labels>
+        <fullName>Allow_access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Allow access</shortDescription>
+        <value>Allow access</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Preview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Preview</shortDescription>
+        <value>Visit Preview</value>
+    </labels>
 </CustomLabels>

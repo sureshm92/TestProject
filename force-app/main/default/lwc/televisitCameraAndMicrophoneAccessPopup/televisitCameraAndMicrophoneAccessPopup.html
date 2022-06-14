@@ -1,0 +1,39 @@
+<template>
+    <template if:true={isModalOpenAccessPopup}>
+        <c-web-popup
+            show-footer="true"
+            show-scroll="false"
+            custom-buttons="true"
+            show-close="true"
+            class="televisitVisitPreviewOnDonotAllowPopup"
+            is-r-t-l={isRTL}
+            show-header="true"
+            title={label.Email_Title_PH}
+            style="width: 420px !important; text-align:center;"
+        >
+            <div slot="body" class="">
+                <h6 class="slds-text-color_weak slds-p-left_xx-large" style="color: gray;">{label.Permissions}
+                </h6>
+            </br>
+                <p class="slds-p-left_xx-large">{label.IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera}
+                </p>
+            </div>
+            <div slot="footerButtons">
+                <div class={footerDiv}>
+                    <div class="slds-grid slds-gutters">
+                    <div class="slds-col_bump-left">
+                    <lightning-button label={label.Don_t_allow} title={label.Don_t_allow} onclick={handleDonotAllow} class="slds-m-left_x-small slds-align_absolute-center"></lightning-button>
+                    </div>
+                    <div class="slds-col_bump-right">
+                        <!--<lightning-button label={label.Allow_access} variant="brand" title={label.Allow_access} onclick={handleAllowAccess} class="slds-m-left_x-small slds-align_absolute-center"></lightning-button>-->
+                        <button onclick={handleAllowAccess} style="color:white;padding:8px 12px;background-color:#0768FD;border:1px solid grey;border-radius:4px;margin:0 10px;">{label.Allow_access}</button>
+                    </div>    
+                    </div>
+                </div>
+            </div>
+        </c-web-popup>
+        </template>
+        <template if:true={showTelevisitVisitPreviewOnDonotAllow}>
+            <c-televisit-Visit-Preview-On-Donot-Allow meeting-link={meetingUrl}></c-televisit-Visit-Preview-On-Donot-Allow>
+        </template>
+</template>
