@@ -1187,10 +1187,37 @@
                 font-size: 14px;
             }
 
+            .telivisit-session {
+                background-color: #f5f6fa !important;
+                justify-content: center;
+            }
+
+            .setting-icon-show {
+                display: block;
+            }
+
+            .televisit-end {
+                color: #999999;
+                font-size: 24px;
+                font-weight: 600;
+                letter-spacing: 0;
+                line-height: 37px;
+
+            }
+
             .extendCallListUpdatedClass {
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
+            }
+
+            .cp-main-logo {
+                height: 36px;
+                width: 28.5px;
+            }
+
+            .slds-col_bump-left {
+                display: flex;
             }
 
             @media screen and (min-width: 48em) {
@@ -1538,12 +1565,7 @@
                 display: block;
             }
 
-            .settings-icon-wrapper {
-                display: inline-block;
-                padding: 0 .5em;
-                position: relative;
-                top: -4px;
-            }
+
 
             .settings-button:focus {
                 border-radius: 1em;
@@ -1597,6 +1619,26 @@
                 .video-container {
                     background-color: #F6F7FB;
                 }
+            }
+
+            @media screen and (max-width:768px) {
+                .mob-timer {
+                    position: absolute;
+                    bottom: 10rem;
+                    left: 18.7rem;
+                    z-index: 999;
+
+                }
+                .setting-icon-show {
+                    display: block;
+                }
+                .settings-icon-wrapper {
+                    display: inline-block;
+                    padding: 0 .5em;
+                    position: relative;
+                    top: 6px;
+                }
+
             }
 
             .OT_name.OT_mode-off {
@@ -1867,7 +1909,7 @@
 
             <div id="close-session-container" class="slds-hide">
 
-                <div role="dialog" class="slds-card slds-text-align_center">
+                <div role="dialog" class="slds-card slds-text-align_center" style="{!IF( attendeeType == 'PP', 'display:none', '')}">
 
                     <div class="gradient"></div>
 
@@ -1877,6 +1919,7 @@
 
                             <apex:param value="{!sessionName}" />
                         </apex:outputText>
+
                     </header>
 
                     <!-- Content -->
@@ -1886,9 +1929,33 @@
                         </span>
                     </div>
                 </div>
+                <div class="slds-col slds-size_1-of-1" style="{!IF( attendeeType == 'RH', 'display:none', '')}">
+
+                    <div class="slds-card slds-text-align_center telivisit-session">
+                        <span class="slds-icon_container slds-icon-utility-groups">
+                            <img src="{!$Resource.televisit_icons + '/Hourglass.svg'}" class="cp-main-logo" />
+                        </span>
+                        <header class="slds-card__header">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-medium-size_3-of-12 "></div>
+                                <div class="slds-col slds-medium-size_6-of-12">
+                                    <span class="televisit-end">
+                                        {!$Label.PT_Session_Ended}
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-medium-size_3-of-12"></div>
+                            </div>
+
+                        </header>
+                    </div>
+
+                </div>
+                <!--<div id="close-session-container" class="slds-hide">
+                
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </div>-->
                 <div class="slds-backdrop slds-backdrop--open"></div>
             </div>
-
             <div id="call-container" class="slds-grid slds-wrap slds-hide">
 
                 <div class="slds-col">
@@ -1930,12 +1997,12 @@
                         <div class="slds-col_bump-left">
 
 
-                            <span class="timer">
+                            <span class="timer mob-timer">
                                 <div id="time">00:00</div>
                             </span>
-                            <div class="slds-form-element slds-show_medium settings-icon-wrapper">
+                            <div class="slds-form-element settings-icon-wrapper setting-icon-show">
                                 <button id="settings-button-in-call" class="settings-button slds-button slds-button--icon slds-hide" onclick="toggleDeviceSettingsVisible();"
-                                    title="Session Settings">
+                                    title="{!$Label.Session_Settings}">
 
                                     <span class="icon-settings">
                                         <svg id="in-meeting-settings-svg" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#706e6b">
