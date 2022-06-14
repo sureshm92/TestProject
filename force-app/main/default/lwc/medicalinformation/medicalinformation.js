@@ -842,7 +842,7 @@ export default class Medicalinformation extends LightningElement {
         this.dispatchEvent(ShowErrorevent);
         //return;
       }
-    }  else if(this.existingBMI) {
+    }  else if(this.existingBMI == 0 || this.existingBMI) {
       isValueChanged = true;
       event.target.value = '';
       this.returnpervalue.BMI = '';
