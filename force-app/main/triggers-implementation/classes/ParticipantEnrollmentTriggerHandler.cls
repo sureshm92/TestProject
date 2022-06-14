@@ -530,15 +530,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         }
                     }
                 }
-            } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED
-                       || pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_FAILED) {
+            } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
                            if (
                                oldMap == null ||
                                (oldMap != null &&
-                                (oldMap.get(pe.Id).Participant_Status__c !=
-                                 PEStatusState.PE_STATUS_ELIGIBILITY_PASSED ||
-                                 oldMap.get(pe.Id).Participant_Status__c !=
-                                 PEStatusState.PE_STATUS_ELIGIBILITY_FAILED))
+                                oldMap.get(pe.Id).Participant_Status__c !=
+                                 PEStatusState.PE_STATUS_ELIGIBILITY_PASSED )
                            ) {
                     if (
                         oldMap != null &&
