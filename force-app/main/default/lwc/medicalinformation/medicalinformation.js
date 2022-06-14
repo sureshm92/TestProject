@@ -845,6 +845,7 @@ export default class Medicalinformation extends LightningElement {
     }  else if(this.existingBMI) {
       isValueChanged = true;
       event.target.value = '';
+      this.returnpervalue.BMI = '';
     } 
 
     if(this.isBMIError)
@@ -899,6 +900,14 @@ export default class Medicalinformation extends LightningElement {
         this.lstExistingCommorbidity = JSON.parse(JSON.stringify(result.lstComorbidities));
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
+        this.existingHighRisk = result.HighRisk;
+        this.existingHighPriority = result.Highpriority
+        this.existingBMI = result.BMI;
+        this.isBmiValueChanged = false;
+        this.isHighRiskChanged = false;
+        this.isHighPriorityChanged = false;
+        this.isComorbidityyChanged = false;
+
 
         
         const evt = new ShowToastEvent({
