@@ -79,6 +79,8 @@
                             >
                         </li>
                             <!-- Communication Preferences_Start -->
+                            <aura:if isTrue="{!(v.userMode == 'Participant')}">
+                                
                             <li
                             id="3"
                             aura:id="3"
@@ -91,6 +93,7 @@
                                 >{!$Label.c.PP_Communication_Pref}</a
                             >
                         </li>
+                                </aura:if>
                             <!-- Communication Preferences_Ends-->                          
                             <li
                                 id="4"
@@ -159,7 +162,7 @@
                         ></c:AccountSettings_EditProfile>
                     </aura:if>
                     <!-- Communication Preferences_Start -->
-                    <aura:if isTrue="{!(v.compId == '3')}">
+                    <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
                         <!-- <c:CommunicationPreferences userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" /> -->
                         <c:communicationPreferences />
                     </aura:if>
