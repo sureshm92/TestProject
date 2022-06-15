@@ -806,12 +806,9 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         var dropDownLabel=selectedVal;
         if(dropDownLabel=='Bulk Import History'){
             this.isCheckboxhidden=false;
-              console.log('Redirection bulk page');
-           
         }
         if(dropDownLabel=='Import Participants'){
             this.isCheckboxhidden=false;
-            console.log('Import');  
       }
       const selectedEventnew = new CustomEvent("droplabel", {
         detail: dropDownLabel
