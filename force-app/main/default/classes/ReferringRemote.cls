@@ -393,6 +393,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
             HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
+            HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c');
             HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
                 .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId, HCPE_FIELDS);
             Boolean filterCriteria =
@@ -560,10 +561,10 @@ FOR UPDATE
                     insert participantDelegate;
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
-                
+                List<Patient_Delegate__c> checkPDel;
                 if (participantId != null && newContact.Id != null) {
-                    List<Patient_Delegate__c> checkPDel = [
-                        SELECT Id
+                    checkPDel = [
+                        SELECT Id,Primary_Delegate__c
                         FROM Patient_Delegate__c
                         WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                     ];
@@ -606,6 +607,30 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         insert ptDelegateRef;
                     }
                 }
+                if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
+                   && (checkPDel.isEmpty() || (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c) )
+                   ){
+                       if(participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == ''){
+                           contact con = new contact();
+                           con.id = newContact.Id;
+                           con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
+                           con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                           con.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                           TriggerHandlerExecutor.bypassHandler(
+                               ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                           );
+                           TriggerHandlerExecutor.bypassHandler(
+                               ContactTriggerHandler.PopulateOverrideFields.class
+                           );
+                           TriggerHandlerExecutor.bypassHandler(
+                               ContactTriggerHandler.CreateUserForCCContactHandler.class
+                           );
+                           TriggerHandlerExecutor.bypassHandler(
+                               ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+                           );
+                           update con;
+                       }
+                   }
                 
                 //}
                 if (createDelegateuser) {

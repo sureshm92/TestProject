@@ -1647,20 +1647,6 @@ public without sharing class PIR_StatusDetailController {
             lstAttendees.add(televisitAttendee1);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
-                List<Notification__c> notifications = new List<Notification__c>();
-                for (Televisit_Attendee__c attendee : lstAttendees) {
-                    if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
-                        Notification__c notification = new Notification__c();
-                        notification.Recipient__c = attendee.Contact__c;
-                        notification.WhatId__c = attendee.Id;
-                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
-                        notifications.add(notification);
-                    }                          
-                }
-                if(!notifications.isEmpty()){
-                    insert notifications;
-                }
-            }
         }
     
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
