@@ -1647,6 +1647,7 @@ public without sharing class PIR_StatusDetailController {
             lstAttendees.add(televisitAttendee1);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
+            }
         }
     
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
