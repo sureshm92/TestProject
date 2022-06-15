@@ -79,7 +79,7 @@
                                 <div class="slds-col slds-size_12-of-12 slds-p-vertical_xx-small">
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Title</label>
-                                    <lightning-input class="inputFields slds-p-vertical_x-small" variant="label-hidden"  data-id="Title"  value={title} name="Title" onchange={handleChangeValidation} type="text" label="Title" title="Title" placeholder="Enter Title"></lightning-input>
+                                    <lightning-input maxlength="255" class="inputFields slds-p-vertical_x-small" variant="label-hidden"  data-id="Title"  value={title} name="Title" onchange={handleChangeValidation} type="text" label="Title" title="Title" placeholder="Enter Title"></lightning-input>
                                 </div>
                             </div>
                             
@@ -237,14 +237,14 @@
                 
                 <lightning-card>
                     <lightning-layout multiple-rows="true" style="padding-bottom: 10px;">
-                        <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="10" large-device-size="10" >
+                        <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="11" large-device-size="11" >
                             <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
                             <template if:true={tv.isCancelledStatus}>
                                 <lightning-formatted-text class="CancelledTag" value={tv.status}></lightning-formatted-text>
                             </template>                            
                         </lightning-layout-item>
                         <template if:true={tv.isScheduledStatus}>
-                            <lightning-layout-item size="3" small-device-size="3" medium-device-size="2" large-device-size="2" class="slds-p-left_x-large" style=" margin-top: -4px;">
+                            <lightning-layout-item size="3" small-device-size="3" medium-device-size="1" large-device-size="1" class="slds-p-left_medium tv_edit">
                                 <lightning-layout >            
                                     <lightning-layout-item  >
                                         <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
