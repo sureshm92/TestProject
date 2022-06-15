@@ -198,91 +198,94 @@
                     <span class="header">
                         {label.PP_Communication_Pref} <!-- Replace with custom label-->
                     </span>
-                    <div class="study-container study-container-mobile">
-                        <div class="header headerMobile">
-                            {label.PP_Communication_Pref_Study}  <!-- Replace with custom label-->
-                            <lightning-layout multiple-rows="true">
-                                <lightning-layout-item size="12" small-device-size="12" large-device-size="12">
-                                    <div class="sub-header">
-                                        {label.PP_Communication_Pref_Study_consent}
-                                    </div>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                            <template for:each={studyDetails} for:item="study" for:index="index">
-                            <div key={study.study_id} class="mobile">
-                                <lightning-layout key={study.study_id} multiple-rows="true" class="study-card-study-name" vertical-align="center">
-                                    <lightning-layout-item size="12" class="study-content study-content-mobile">                                
-                                        <span>{study.study_name}</span>                                
+                    <Template if:false={isDelegateView}>
+                        <div class="study-container study-container-mobile">
+                            <div class="header headerMobile">
+                                {label.PP_Communication_Pref_Study}  <!-- Replace with custom label-->
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" small-device-size="12" large-device-size="12">
+                                        <div class="sub-header">
+                                            {label.PP_Communication_Pref_Study_consent}
+                                        </div>
                                     </lightning-layout-item>
                                 </lightning-layout>
-                                <lightning-layout key={study.study_id} multiple-rows="true" class="study-card-mobile" vertical-align="center">
-                                    <lightning-layout-item size="1" class="study-paramters"></lightning-layout-item>
-                                    <lightning-layout-item size="2" class="study-paramters">
-                                        <div class="mb-child-div-10">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
-                                                    <use xlink:href={phoneSvg}></use>            
-                                                </svg>
-                                            </div>
-                                            <div>{label.PP_Communication_Pref_Phone}</div>
-                                            <div class="ml-5"><lightning-input type="checkbox" label="Phone" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.phone} onchange={selectIndividualOptions}></lightning-input></div>
-                                        </div>                           
-                                    </lightning-layout-item>
-                                    
-                                    <lightning-layout-item size="2" class="study-paramters">
-                                        <div class="mb-child-div-10">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
-                                                    <use xlink:href={emailSvg}></use>            
-                                                </svg>
-                                            </div>
-                                            <div>{label.PP_Communication_Pref_Email}</div>
-                                            <div class="ml-5"><lightning-input type="checkbox" label="Email" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.email} onchange={selectIndividualOptions}></lightning-input></div>
-                                        </div>
-                                    </lightning-layout-item>
-                                                
-                                    <lightning-layout-item size="2" class="study-paramters">
-                                        <div class="mb-child-div-10">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
-                                                    <use xlink:href={smsSvg}></use>            
-                                                </svg>
-                                            </div>
-                                            <div>{label.PP_Communication_Pref_SMS}</div>
-                                            <div class="ml-5"><lightning-input type="checkbox" label="SMS" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.sms} onchange={selectIndividualOptions}></lightning-input></div>                            
-                                        </div>
-                                    </lightning-layout-item>
-        
-                                    <lightning-layout-item size="3" class={borderStyle}>
-                                        <div class="mb-child-div-10">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
-                                                    <use xlink:href={dmailSvg}></use>            
-                                                </svg>
-                                            </div>
-                                            <div>{label.PP_Communication_Pref_Dmail}</div>
-                                            <div class="ml-5"><lightning-input type="checkbox" label="DMail" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.dmail} onchange={selectIndividualOptions}></lightning-input></div>                            
-                                        </div>
-                                    </lightning-layout-item>
-                                                
-                                    <lightning-layout-item size="2" class="study-paramters">
-                                        <div class="mb-child-div-10">
-                                            <div>
+                                <template for:each={studyDetails} for:item="study" for:index="index">
+                                <div key={study.study_id} class="mobile">
+                                    <lightning-layout key={study.study_id} multiple-rows="true" class="study-card-study-name" vertical-align="center">
+                                        <lightning-layout-item size="12" class="study-content study-content-mobile">                                
+                                            <span>{study.study_name}</span>                                
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <lightning-layout key={study.study_id} multiple-rows="true" class="study-card-mobile" vertical-align="center">
+                                        <lightning-layout-item size="1" class="study-paramters"></lightning-layout-item>
+                                        <lightning-layout-item size="2" class="study-paramters">
+                                            <div class="mb-child-div-10">
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
-                                                        <use xlink:href={allSvg}></use>            
+                                                        <use xlink:href={phoneSvg}></use>            
                                                     </svg>
                                                 </div>
+                                                <div>{label.PP_Communication_Pref_Phone}</div>
+                                                <div class="ml-5"><lightning-input type="checkbox" label="Phone" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.phone} onchange={selectIndividualOptions}></lightning-input></div>
+                                            </div>                           
+                                        </lightning-layout-item>
+                                        
+                                        <lightning-layout-item size="2" class="study-paramters">
+                                            <div class="mb-child-div-10">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
+                                                        <use xlink:href={emailSvg}></use>            
+                                                    </svg>
+                                                </div>
+                                                <div>{label.PP_Communication_Pref_Email}</div>
+                                                <div class="ml-5"><lightning-input type="checkbox" label="Email" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.email} onchange={selectIndividualOptions}></lightning-input></div>
                                             </div>
-                                            <div>{label.PP_Communication_Pref_All}</div>
-                                            <div class="ml-5"><lightning-input type="checkbox" label="All" name={study.study_id} data-sponsor={study.sponsor_id} value={study.study_id} variant="label-hidden" checked={study.all} onchange={selectAllOptions}></lightning-input></div>
-                                        </div>
-                                    </lightning-layout-item>                    
-                                </lightning-layout>
+                                        </lightning-layout-item>
+                                                    
+                                        <lightning-layout-item size="2" class="study-paramters">
+                                            <div class="mb-child-div-10">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
+                                                        <use xlink:href={smsSvg}></use>            
+                                                    </svg>
+                                                </div>
+                                                <div>{label.PP_Communication_Pref_SMS}</div>
+                                                <div class="ml-5"><lightning-input type="checkbox" label="SMS" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.sms} onchange={selectIndividualOptions}></lightning-input></div>                            
+                                            </div>
+                                        </lightning-layout-item>
+            
+                                        <lightning-layout-item size="3" class={borderStyle}>
+                                            <div class="mb-child-div-10">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
+                                                        <use xlink:href={dmailSvg}></use>            
+                                                    </svg>
+                                                </div>
+                                                <div>{label.PP_Communication_Pref_Dmail}</div>
+                                                <div class="ml-5"><lightning-input type="checkbox" label="DMail" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.dmail} onchange={selectIndividualOptions}></lightning-input></div>                            
+                                            </div>
+                                        </lightning-layout-item>
+                                                    
+                                        <lightning-layout-item size="2" class="study-paramters">
+                                            <div class="mb-child-div-10">
+                                                <div>
+                                                    <div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
+                                                            <use xlink:href={allSvg}></use>            
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div>{label.PP_Communication_Pref_All}</div>
+                                                <div class="ml-5"><lightning-input type="checkbox" label="All" name={study.study_id} data-sponsor={study.sponsor_id} value={study.study_id} variant="label-hidden" checked={study.all} onchange={selectAllOptions}></lightning-input></div>
+                                            </div>
+                                        </lightning-layout-item>                    
+                                    </lightning-layout>
+                                </div>
+                                </template>
                             </div>
-                            </template>
-                        </div>
-                    </div>       
+                        </div>       
+                    </Template>
+                    
                     <div class="outreach-container outreach-container-mobile">
                         <div class="header">
                             {label.PP_Communication_Pref_Outreach} <!-- Replace with custom label-->

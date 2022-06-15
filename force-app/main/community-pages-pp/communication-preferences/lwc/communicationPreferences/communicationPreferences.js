@@ -26,7 +26,7 @@ import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
 export default class CommunicationPreferences extends NavigationMixin(LightningElement) {
 
-  @api
+  @api isDelegate;
   label = {
     PP_Communication_Pref,
     PP_Communication_Pref_Study,
@@ -43,11 +43,13 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     @track studyDetails = [];
     @track outReachDetails= [];
+		
 
     spinner = false;
     loaded = false;
     isDesktop = true;
     isPrivacyPolicy = false;
+		isDelegateView = false;
 
     debugger;
     //@track phoneSvg = rr_community_icons +'/'+'logo.svg';
@@ -79,6 +81,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     connectedCallback(){
+			console.log('isDelegate: '+this.isDelegate);
+			 if(this.isDelegate) {
+          this.isDelegateView = true;
+      }
+      console.log('isDelegateView: '+this.isDelegateView);
       this.resetSpinner()
       if (!this.loaded) {
         loadScript(this, rrCommunity).then(() => {

@@ -164,7 +164,7 @@
                     <!-- Communication Preferences_Start -->
                     <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
                         <!-- <c:CommunicationPreferences userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" /> -->
-                        <c:communicationPreferences />
+                        <c:communicationPreferences isDelegate="{!v.isDelegate}" />
                     </aura:if>
                     <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">
