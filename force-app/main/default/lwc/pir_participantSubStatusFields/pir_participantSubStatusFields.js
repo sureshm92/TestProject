@@ -43,6 +43,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track selectedvisitplan;
   selectedreason = "";
   selectedreasonIV = "";
+  revisitDateReq=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -97,6 +98,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Non_Enrollment_Reason__c = event.target.value;
         this.selectedreason = event.target.value;
         if (this.selectedOutcomeIV == "Declined_Consent") {
+           //Patch Release
+          this.statusChanged = true;
+          this.participantrecord.Participant_Status__c = "Declined Consent";
+          this.participantrecord.Informed_Consent__c = false;
+
           if (this.selectedreason == "PWS_Picklist_Value_Other") {
             this.selectedreasonIV = "PWS_Picklist_Value_Other"; 
           } else {
@@ -138,7 +144,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Washout_Run_In_Applies__c = false;
         this.runinwashout = "No";
         this.reVisitDt = "";
-        delete this.participantrecord.Revisit_Date__c;
+        this.participantrecord.Revisit_Date__c=null; // patch release
         this.customButtonValidation();
       }
     } else if (event.target.dataset.value === "InitialVisitAttended") {
@@ -168,7 +174,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         this.participantrecord.Initial_visit_occurred_flag__c = false;
         this.initialvisitattended = "No";
         this.customFieldValidation(datavalue);
-        delete this.participantrecord.Initial_visit_occurred_date__c;
+        //Patch Release Fix--------------------
+        //delete this.participantrecord.Initial_visit_occurred_date__c;
+         this.participantrecord.Initial_visit_occurred_date__c ='';
+         
         if (this.selectedOutcomeIV != "BTN_Yes") {
           this.customFieldValidation("Consent Signed"); 
         }
@@ -982,6 +991,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
 
     //2.
     if (this.runinwashout == "Yes") {
+        this.revisitDateReq=true; //patch release
       if (this.participantrecord.Revisit_Date__c) {
         btnValidationSuccess = true;
         validationList.push(btnValidationSuccess);
@@ -990,6 +1000,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
         validationList.push(btnValidationSuccess);
       }
     } else {
+      this.revisitDateReq=false; //patch release
       btnValidationSuccess = true;
       validationList.push(btnValidationSuccess);
     }
