@@ -7,7 +7,7 @@
         } else {
             component.set('v.isDelegate', false);
         }
-
+		component.set('v.participantState', communityService.getCurrentCommunityMode().participantState);
         communityService.executeAction(
             component,
             'getInitData',
