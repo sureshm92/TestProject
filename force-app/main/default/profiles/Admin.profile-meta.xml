@@ -1169,6 +1169,10 @@
         <apexClass>PreEnrollmentPatientVisitServie</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>PreferenceManagementController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreatePreEnrollVistsForExtngPERs</apexClass>
         <enabled>true</enabled>
