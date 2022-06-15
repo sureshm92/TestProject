@@ -1228,6 +1228,21 @@
 
             #header {
                 padding: 3em 1em 1em;
+                color: white;
+                text-align: center;
+                margin-bottom: 1em;
+            }
+
+            .headerbg-gsk {
+                background: #EA6621;
+
+            }
+
+            .headerbg-pp {
+                background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+            }
+
+            .headerbg-rh {
                 background: rgb(0, 118, 174);
                 background: url({!URLFOR($Resource.TokboxAssets, '/images/header-wave.png')
             }
@@ -1236,9 +1251,7 @@
             linear-gradient(270deg,
             rgba(0, 118, 174, 1) 0%,
             rgba(37, 0, 86, 1) 100%);
-            color: white;
-            text-align: center;
-            margin-bottom: 1em;
+
             }
 
             @media screen and (min-width: 48em) {
@@ -1665,11 +1678,18 @@
         </style>
     </head>
 
-
     <body class="slds-scope" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!--OMSF-5206-->
-        <header id="header" class="page-header slds-hide">
-            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+        <header id="header" class="page-header slds-hide {!headerbg}">
+            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+                <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" style="width:165px" />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(commTemplate=='GSK')}">
+                <img src="{!$Resource.GSK_Logos + '/gsk-text.svg'}" style="width:165px" />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(attendeeType=='RH')}">
+                <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+            </apex:outputPanel>
         </header>
         <div class="slds-container_large slds-container_center" id="main">
             <div id="welcome-container">
@@ -1881,8 +1901,16 @@
                 <apex:outputPanel rendered="{!isSessionJoinable == false}">
                     <!--OMSF-5206-->
                     <div class="slds-card">
-                        <header id="header" class="page-header">
-                            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+                        <header id="header" class="page-header {!headerbg}">
+                            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+                                <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" style="width:165px" />
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!(commTemplate=='GSK')}">
+                                <img src="{!$Resource.GSK_Logos + '/gsk-text.svg'}" style="width:165px" />
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!(attendeeType=='RH')}">
+                                <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+                            </apex:outputPanel>
                         </header>
 
                         <div class="session-unjoinable slds-card__body slds-p-around--large slds-text-align_center slds-size_3-of">
