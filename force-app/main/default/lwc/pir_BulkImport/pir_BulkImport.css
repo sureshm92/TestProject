@@ -1,0 +1,31 @@
+.pir-bulkImport .importTab{
+    padding: 5px 15px;
+    border: 1px solid #E9E9E9;
+    box-shadow: 0 1px 2px silver;
+    border-radius: 4px;
+    background:white;
+    margin-bottom: 20px;
+}
+
+.pir-bulkImport .breadcrumbfont{
+    color: #444444;
+    font-weight: 600;
+    font-size: 12px;
+}
+.pir-bulkImport .breadcrumbHead{
+    display: flex;
+    align-items: center;
+}
+.pir-bulkImport .lightning-home{
+    opacity: 0.7;
+}
+.pir-bulkImport .lightning-icon{
+    opacity: 0.7;
+    zoom: 0.6;
+}
+.pir-bulkImport .custom-label{
+    font-weight: 600;
+}
+.pir-bulkImport .custom-input{
+    margin-top: -15px;
+}

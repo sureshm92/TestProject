@@ -25523,6 +25523,34 @@ communications using the toggles below.</value>
         <shortDescription>PIR_Preset_Created_Message</shortDescription>
         <value>has been created.</value>
     </labels>
+     <labels>
+        <fullName>pir_Bulk_Import_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_ Bulk Import History</shortDescription>
+        <value>Bulk Import History</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Import_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Import_Participants</shortDescription>
+        <value>Import Participants</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Study_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Site_Name</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Name</shortDescription>
+        <value>Study Name:</value>
+    </labels>
     <labels>
         <fullName>PIR_Preset_Delete_Message</fullName>
         <language>en_US</language>
