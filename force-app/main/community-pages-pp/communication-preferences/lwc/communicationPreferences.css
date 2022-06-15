@@ -1,0 +1,83 @@
+.communication-pref{
+    margin: 0px;  
+}
+
+.communication-pref .header{
+    color: #444444;
+    font-size: 18px;
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.study-container, .outreach-container{
+    margin: 0px 10px 0px 10px;
+    height: auto
+    
+    ;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 20px; 
+}
+
+.study-container .header, .outreach-container .header {    
+    padding-left: 15px;
+    padding-top: 10px;     
+}
+
+.study-container .sub-header, .outreach-container .sub-header {    
+    color: #444444;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;     
+}
+
+.study-card{
+    background-color: #f2f2f2;
+    margin: 10px 10px 20px 0px;
+    border-radius: 5px;
+}
+
+.study-content{
+    padding: 6px;
+    font-size: 14px;
+    text-align: left;
+    padding-left: 2%;
+}
+
+.study-paramters{
+    font-size: 12px;
+    padding: 6px;
+    text-align: center;
+}
+
+.border-right{
+    border-right: 1px solid lightgray;
+}
+
+.no-right-margin{
+    margin-right: 0px;
+}
+
+.outreach-container .blue-highlight-text-color{
+    color: #0f6efd;
+}
+
+.slds-checkbox_faux{
+    margin-right: 0px !important;
+}
+
+.ml-5{
+    margin-left: 0.5rem;
+}
+
+.mb-child-div-10 div{
+    margin-bottom: 5px;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.mt-30{
+    margin-top: 30px;
+}

@@ -12033,6 +12033,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
+        <fullName>Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update my communication preferences</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>Originator</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17982,6 +17998,83 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ChangesSuccessfullySaved</shortDescription>
         <value>Changes are successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_All</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Dmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Dmail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consent</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_SMS</shortDescription>
+        <value>SMS/Text</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study_consent</shortDescription>
+        <value>I consent to the processing of my personal data by a study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_savechanges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_savechanges</shortDescription>
+        <value>Save Changes</value>
     </labels>
     <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
