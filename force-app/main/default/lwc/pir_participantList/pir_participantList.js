@@ -10,6 +10,7 @@ import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
+import { NavigationMixin } from 'lightning/navigation';
 import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
 import Send_to_DCT from '@salesforce/label/c.Send_to_DCT';
 import Invite_to_Patient_Portal from '@salesforce/label/c.Invite_to_Patient_Portal';
@@ -46,8 +47,10 @@ import High_Priority from '@salesforce/label/c.High_Priority';
 import High_Risk from '@salesforce/label/c.High_Risk';
 import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
 import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
+import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
+import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
 
-export default class Pir_participantList extends LightningElement {    
+export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
     editIcon = pirResources+'/pirResources/icons/pencil.svg';
     currentPageReference = null; 
@@ -131,13 +134,15 @@ export default class Pir_participantList extends LightningElement {
         pir_Please_wait_as_your_page_loads,
         Action_Required,
         High_Priority,
-        High_Risk
+        High_Risk,
+        pir_Bulk_Import_History,
+        PIR_Import_Participants
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
 
-    @wire(CurrentPageReference)
+    @wire(CurrentPageReference) 
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
@@ -795,6 +800,24 @@ export default class Pir_participantList extends LightningElement {
             detail: this.dropDownLabel
           });
           this.dispatchEvent(selectedEventnew);
+    }
+    handleImport(event){
+        var selectedVal=event.target.dataset.id;
+        var dropDownLabel=selectedVal;
+        if(dropDownLabel=='Bulk Import History'){
+            this.isCheckboxhidden=false;
+              console.log('Redirection bulk page');
+           
+        }
+        if(dropDownLabel=='Import Participants'){
+            this.isCheckboxhidden=false;
+            console.log('Import');  
+      }
+      const selectedEventnew = new CustomEvent("droplabel", {
+        detail: dropDownLabel
+      });
+      this.dispatchEvent(selectedEventnew);
+
     }
     handleCloseAllStatus(){
         this.showStatusPopup=false;
