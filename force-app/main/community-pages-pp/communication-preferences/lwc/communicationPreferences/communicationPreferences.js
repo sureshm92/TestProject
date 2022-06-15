@@ -173,16 +173,18 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
               communityService.showToast(
                 'success',
                 'success',
-                'Record Saved Successfully...'
+                'Record Saved Successfully...',
+								100
               );
-            }, 3000); 
+            }, 1000); 
         })
         .catch((error) => {
           // this.showCustomToast("Error", "Failed To save the Record", "error");
           communityService.showToast(
             'error',
             'error',
-            'Failed To save the Record...'
+            'Failed To save the Record...',
+							100
           );
           this.spinner = false;
         });
