@@ -22,17 +22,19 @@
                 //console.log('compId-->' + compId);
                 const queryString = window.location.href;
                 if (queryString.includes('changePref')) {
-                    component.set('v.compId', '4');
+                    component.set('v.compId', '5');
                 } else if (queryString.includes('langloc')) {
-                    component.set('v.compId', '3');
+                    component.set('v.compId', '4');
                 } else if (queryString.includes('profileInformation')) {
                     component.set('v.compId', '1');
+                } else if (queryString.includes('communication-preferences')) {
+                    component.set('v.compId', '3');
                 } else if (queryString.includes('passwordchange')) {
                     component.set('v.compId', '2');
                 } else if (queryString.includes('cookiesSettings')) {
-                    component.set('v.compId', '5');
-                } else if (queryString.includes('notify')) {
                     component.set('v.compId', '6');
+                } else if (queryString.includes('notify')) {
+                    component.set('v.compId', '7');
                 } else {
                     console.log('URL param not found!');
                 }
@@ -94,21 +96,23 @@
         if (compId == '1') {
             window.history.replaceState(null, null, "?profileInformation");
             //communityService.navigateToPage('account-settings?profileInformation');
-        } else if (compId == '3') {
+        } else if (compId == '4') {
             window.history.replaceState(null, null, "?langloc");
             //communityService.navigateToPage('account-settings?langloc');
-        } else if (compId == '4') {
+        } else if (compId == '5') {
             window.history.replaceState(null, null, "?changePref");
             //communityService.navigateToPage('account-settings?changePref');
         } else if (compId == '2') {
             window.history.replaceState(null, null, "?passwordchange");
             //communityService.navigateToPage('account-settings?passwordchange');
-        } else if (compId == '5') {
+        } else if (compId == '6') {
             window.history.replaceState(null, null, "?cookiesSettings");
             //communityService.navigateToPage('account-settings?cookiesSettings');
-        } else if (compId == '6') {
+        } else if (compId == '7') {
             window.history.replaceState(null, null, "?notify");
             //communityService.navigateToPage('account-settings?notify');
+        }else if (compId == '3') {
+            window.history.replaceState(null, null, "?communication-preferences");
         } else {
             communityService.navigateToPage('account-settings');
         }
