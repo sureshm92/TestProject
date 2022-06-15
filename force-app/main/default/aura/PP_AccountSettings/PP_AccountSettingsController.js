@@ -2,8 +2,11 @@
     doInit: function (component, event, helper) {
         //console.log('inside init pp account');
         component.find('spinner').show();
-        if (communityService.getCurrentCommunityMode().currentDelegateId)
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
             component.set('v.isDelegate', true);
+        } else {
+            component.set('v.isDelegate', false);
+        }
 
         communityService.executeAction(
             component,
