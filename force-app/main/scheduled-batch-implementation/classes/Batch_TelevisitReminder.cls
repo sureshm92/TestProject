@@ -38,7 +38,9 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                         .addDays(1)
                         .addMinutes(-4))
                     OR (Is_Second_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now().addMinutes(-4)
+                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now()
+                        .addHours(1)
+                        .addMinutes(-4)
                     AND Televisit__r.Visit_Date_Time__c <= :Datetime.now()
                         .addHours(1)
                         .addMinutes(4))))

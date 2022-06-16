@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Lock</title>
+    <defs>
+        <path d="M34,19 L32.5,19 L32.5,13.5 C32.5,6.04415588 26.4558441,0 19,0 C11.5441559,0 5.5,6.04415588 5.5,13.5 L5.5,19 L4,19 C1.790861,19 0,20.790861 0,23 L0,44 C0,46.209139 1.790861,48 4,48 L34,48 C36.209139,48 38,46.209139 38,44 L38,23 C38,20.790861 36.209139,19 34,19 Z M19,37 C16.790861,37 15,35.209139 15,33 C15,30.790861 16.790861,29 19,29 C21.209139,29 23,30.790861 23,33 C23,35.209139 21.209139,37 19,37 Z M27.5,18.0000001 C27.5,18.5522847 27.0522847,19.0000001 26.5,19.0000001 L11.5,19.0000001 C10.9477153,19.0000001 10.5,18.5522847 10.5,18.0000001 L10.5,13.5000001 C10.5,8.80557968 14.3055797,5.00000013 19,5.00000013 C23.6944203,5.00000013 27.5,8.80557968 27.5,13.5000001 L27.5,18.0000001 Z" id="path-1"></path>
+    </defs>
+    <g id="Televisits" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-for-DEV" transform="translate(-136.000000, -48.000000)">
+            <g id="Lock" transform="translate(136.000000, 48.000000)">
+                <g id="color" transform="translate(6.000000, 0.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                    <g id="color/*primary" mask="url(#mask-2)" fill="#595959">
+                        <g transform="translate(-6.000000, 0.000000)" id="Rectangle">
+                            <rect x="0" y="0" width="48" height="48"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g id="lock-2"></g>
+            </g>
+        </g>
+    </g>
+</svg>

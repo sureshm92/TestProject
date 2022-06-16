@@ -25,7 +25,7 @@ Sincerely,
 
 The IQVIA Referral Hub Support Team</value>
     </labels>
-<labels>
+    <labels>
         <fullName>Televisit_Greeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -57,7 +57,7 @@ Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime
 Duration: ##VisitDuration</value>
     </labels>
-    
+
     <labels>
         <fullName>Televisit_Cancel_Email_Subject</fullName>
         <language>en_US</language>
@@ -102,9 +102,38 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit_Upcoming_Meet</shortDescription>
-        <value>Upcoming or Active Televisits</value>
+        <value>##NoOfTV Upcomming or Active Televisits</value>
     </labels>
-    
+    <labels>
+        <fullName>PI_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+    </labels>
+    <labels>
+        <fullName>PT_Session_Ended</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Session_Ended</shortDescription>
+        <value>This Televist has ended. Contact your Study Center for further support.</value>
+    </labels>
+    <labels>
+        <fullName>Session_Settings</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Session Settings</shortDescription>
+        <value>Session Settings</value>
+    </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
@@ -2450,15 +2479,15 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_Welcome Call Complete</shortDescription>
         <value>Welcome Call Complete</value>
-    </labels>	
+    </labels>
     <labels>
         <fullName>CC_First_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_First Referral Call Complete</shortDescription>
         <value>First Referral Call Complete</value>
-     </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Aged_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2478,8 +2507,8 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>CC_No Answer</shortDescription>
         <value>No Answer</value>
-    </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Follow_up_needed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6095,7 +6124,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6162,7 +6191,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6174,7 +6203,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
@@ -6237,7 +6266,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName, ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6249,7 +6278,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName, ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -22387,7 +22416,7 @@ communications using the toggles below.</value>
         <shortDescription>SMS_Body_Removed_as_Televisit_Attendee</shortDescription>
         <value>##ShortCommunityName: You have been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>SMS_Body_Removed_as_Televisit_Del_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -25556,7 +25585,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit  with ##PIName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
@@ -25565,7 +25594,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Removed as Televisit Attendee</shortDescription>
-        <value>This is to notify you that your ##VisitName televisit is no longer happening.</value>
+        <value>This is to notify you that your ##VisitName televisit is no longer happening</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Removed_as_Televisit_Attendee</fullName>
@@ -25573,7 +25602,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
-        <value>##VisitName is not happening</value>
+        <value>is not happening</value>
     </labels>
     <labels>
         <fullName>Televisit_Canceled</fullName>
@@ -25953,5 +25982,75 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>RH_TV_View</shortDescription>
         <value>View:</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_TabTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_TabTitle</shortDescription>
+        <value>Televisits</value>
+    </labels>
+    <labels>
+        <fullName>Join_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Join Visit</shortDescription>
+        <value>Join Visit</value>
+    </labels>
+    <labels>
+        <fullName>You_can_also_adjust_these_options_during_the_visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You can also adjust these options during the visit</shortDescription>
+        <value>You can also adjust these options during the visit.</value>
+    </labels>
+    <labels>
+        <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You must grant microphone permission to join televisit</shortDescription>
+        <value>You must grant microphone permission to join televisit. Go back to Rejoin and grant permissions.</value>
+    </labels>
+    <labels>
+        <fullName>Back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Permissions</shortDescription>
+        <value>Permissions</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
+        <value>IQVIA Patient Portal would like to access the microphone and camera.</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_allow</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Don't allow</shortDescription>
+        <value>Don't allow</value>
+    </labels>
+    <labels>
+        <fullName>Allow_access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Allow access</shortDescription>
+        <value>Allow access</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Preview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Preview</shortDescription>
+        <value>Visit Preview</value>
     </labels>
 </CustomLabels>
