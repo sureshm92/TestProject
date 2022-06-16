@@ -184,7 +184,10 @@
                                                                 <a data-id={selectedAttendee.id} data-first-name={selectedAttendee.firstName} data-last-name={selectedAttendee.lastName} 
                                                                 data-attendee-type={selectedAttendee.attendeeType} 
                                                                 data-is-mandatory-selection={selectedAttendee.isMandatorySelection} 
-                                                                data-attendee-id={selectedAttendee.attendeeId} onclick={handleRemoveItems}>{label.RH_TV_Remove}</a>
+                                                                data-attendee-id={selectedAttendee.attendeeId} 
+                                                                data-participant-primary-delegate={selectedAttendee.participantPrimaryDelegate} 
+                                                                data-participant-has-email={selectedAttendee.participantHasEmail}
+                                                                onclick={handleRemoveItems}>{label.RH_TV_Remove}</a>
                                                             </template>
                                                             
                                                         </td>
