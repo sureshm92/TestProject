@@ -28,6 +28,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
   @api isDelegate;
 	@api participantState;
+	@api isDesktop;
   label = {
     PP_Communication_Pref,
     PP_Communication_Pref_Study,
@@ -48,7 +49,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     spinner = false;
     loaded = false;
-    isDesktop = true;
     isPrivacyPolicy = false;
 
     debugger;
