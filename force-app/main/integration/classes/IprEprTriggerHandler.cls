@@ -505,6 +505,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Atid__c = ipr.Atid__c,
             HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
             Permit_IQVIA_to_contact_about_study__c = true,
+            Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c
         );
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
