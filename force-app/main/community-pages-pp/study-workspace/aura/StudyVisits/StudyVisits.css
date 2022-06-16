@@ -13,6 +13,7 @@
 .THIS .cRRTable.rr-table .wrapText {
     /* white-space: nowrap; */
     word-break: break-word;
+    text-align: left;
 }
 
 .THIS.sv-body .rr-white-panel {
