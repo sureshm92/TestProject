@@ -11,6 +11,7 @@ public without sharing class OpenTokClientController {
     public String sharingUserName       { get; set; }
     public Boolean isSessionJoinable    { get; set; }
     public Boolean isExternalUser       { get; set; }
+    public String attendeeType          { get; set; }
     //public TV_Session__c session           { get; set; }
     public Televisit__c session           { get; set; }
     public String attendeeEmailAddress  { get; set; }
@@ -18,10 +19,18 @@ public without sharing class OpenTokClientController {
     public String attendeesJson         { get; set; }
     public List<Attendee> attendees     { get; private set; }
     public static final String SESSION_ID_PARAMETER = 'sessionId';
-    public static final String[] HTML_DECODED  = new String[]{ '&', '<', '>', '"', '\''};
-  public static final String[] HTML_ENCODED  = new String[]{ '&amp;', '&lt;', '&gt;', '&quot;', '&#39;' };
-    public String meetingInterval {get; set;}
+    public String commTemplate { get; set; }
+    public String headerbg { get; set; }
 
+    public static final String[] HTML_DECODED = new List<String>{ '&', '<', '>', '"', '\'' };
+    public static final String[] HTML_ENCODED = new List<String>{
+        '&amp;',
+        '&lt;',
+        '&gt;',
+        '&quot;',
+        '&#39;'
+    };
+    public String meetingInterval { get; set; }
     
     //OMSF-5206
     public String appNamestr {get;set;}  //Indicates Meeting title Raviteja
@@ -42,6 +51,7 @@ public without sharing class OpenTokClientController {
             appNamestr = 'IQVIA';
         }*/
         appNamestr = 'IQVIAᵀᴹ Referral Hub'; //Added by RAviteja
+        headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
         
@@ -62,9 +72,25 @@ public without sharing class OpenTokClientController {
         );*/
         
         lstTelevisit = new List<Televisit__c>();
-        lstTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c,(SELECT Id,Firstname__c,Lastname__c FROM Televisit_Attendee__r WHERE User__c =:currentUserId) 
-                        FROM Televisit__c WHERE Session_Id__c = :sessionId Order by CreatedDate Desc LIMIT 1];
-        
+        lstTelevisit = [
+            SELECT
+                Id,
+                Name,
+                Title__c,
+                Visit_Date_Time__c,
+                Visit_End_Date_Time__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Duration__c,
+                (
+                    SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c
+                    FROM Televisit_Attendee__r
+                    WHERE User__c = :currentUserId
+                )
+            FROM Televisit__c
+            WHERE Session_Id__c = :sessionId
+            ORDER BY CreatedDate DESC
+            LIMIT 1
+        ];
         
         if (!lstTelevisit.isEmpty()) {
             this.session = lstTelevisit.get(0);
@@ -77,6 +103,22 @@ public without sharing class OpenTokClientController {
             system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
             if(!this.session.Televisit_Attendee__r.isEmpty()){
                 this.isSessionJoinable = getIsSessionJoinable();
+                //attendeeType = getAttendeeType(matchingAttendees[0]);
+                if(this.session.Televisit_Attendee__r[0].Attendee_Type__c=='Participant' 
+                   || this.session.Televisit_Attendee__r[0].Attendee_Type__c=='Participant Delegate'){
+                       appNamestr = 'IQVIAᵀᴹ Patient Portal';
+                       attendeeType = 'PP';
+
+                    commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT)
+                        headerbg = 'headerbg-pp';
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
+                        headerbg = 'headerbg-gsk';
+                } else {
+                       appNamestr = 'IQVIAᵀᴹ Referral Hub';
+                       attendeeType = 'RH';
+                    headerbg = 'headerbg-rh';
+                   }
             }
             else{
                 this.isSessionJoinable = false;
@@ -159,9 +201,10 @@ public without sharing class OpenTokClientController {
             */
             List<Televisit_Attendee__c> matchingAttendees = new List<Televisit_Attendee__c>();
             //HAve to add more filters 
-            matchingAttendees = [SELECT Id,FirstName__c,LastName__c FROM Televisit_Attendee__c WHERE User__c = :currentUserId LIMIT 1];
+            matchingAttendees = [SELECT Id,FirstName__c,LastName__c,Attendee_Type__c FROM Televisit_Attendee__c WHERE User__c = :currentUserId LIMIT 1];
             
             if (!matchingAttendees.isEmpty()) {
+                
                 Id attendeeId = matchingAttendees[0].Id;
                 this.userName = getName(matchingAttendees[0]);
                 this.token = generateToken(this.sessionId, attendeeId);
@@ -223,8 +266,6 @@ public without sharing class OpenTokClientController {
 
         return getName(attendee);
     }
-
-
     private static String getName(Televisit_Attendee__c attendee) {
         List<String> nameParts = new List<String>();
 
@@ -258,7 +299,6 @@ public without sharing class OpenTokClientController {
      */
     @TestVisible
     private Boolean getIsSessionJoinable() {
-        
         system.debug('++++++++++++++Token'+this.session);
         Id attendeeId = this.session.Televisit_Attendee__r[0].Id;
         this.userName = getName(this.session.Televisit_Attendee__r[0]);

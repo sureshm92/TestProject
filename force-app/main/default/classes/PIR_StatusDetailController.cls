@@ -927,6 +927,7 @@ public without sharing class PIR_StatusDetailController {
           CreatedBy.IsPortalEnabled,
           CreatedBy.contact.userCommunityMode__c,
           Status_Label__c,
+          ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
           ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
         FROM Participant_Enrollment_Status_History__c
         WHERE
@@ -973,7 +974,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c){
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1646,19 +1647,6 @@ public without sharing class PIR_StatusDetailController {
             lstAttendees.add(televisitAttendee1);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
-                List<Notification__c> notifications = new List<Notification__c>();
-                for (Televisit_Attendee__c attendee : lstAttendees) {
-                    if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
-                        Notification__c notification = new Notification__c();
-                        notification.Recipient__c = attendee.Contact__c;
-                        notification.WhatId__c = attendee.Id;
-                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
-                        notifications.add(notification);
-                    }                          
-                }
-                if(!notifications.isEmpty()){
-                    insert notifications;
-                }
             }
         }
     

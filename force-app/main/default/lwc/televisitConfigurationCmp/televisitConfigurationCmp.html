@@ -70,12 +70,19 @@
     <tr>
 
       <th scope="col" class="" style = "position: sticky">
-        <div class="slds-truncate" title="Name">{label.countryLabel}</div>
+        <div class="slds-truncate" title="Name" data-id= "Country" onclick={sortRecs} >{label.countryLabel}
+          <template if:false={soritingShow}>
+            <lightning-icon   icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon   icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
+        </div>
       </th>
       <th class="fix" scope="col" >
-        <div class="slds-truncate" title="Some Custom Column"  >{label.studysitLabel}
-          <lightning-icon onclick={sortRecs} icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
-          <lightning-icon onclick={sortRecs} icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+        <div class="slds-truncate" title="Some Custom Column" data-id= "StudySite" onclick={sortRecs} >{label.studysitLabel}
+          <template if:true={soritingShow}>
+            <lightning-icon  icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon  icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
         </div>
       </th>
       <th class="" scope="col">

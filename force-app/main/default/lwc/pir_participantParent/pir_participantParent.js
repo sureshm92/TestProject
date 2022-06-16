@@ -34,6 +34,7 @@ import pir_Participant_List from '@salesforce/label/c.pir_Participant_List';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
 import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
+import RH_TV_TabTitle from '@salesforce/label/c.RH_TV_TabTitle';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
@@ -115,7 +116,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     pir_Participant_List,
     PG_AC_Select,
     PG_DBPI_L_study_site,
-    pir_Health_Information
+    pir_Health_Information,
+    RH_TV_TabTitle
   };
   
   @api isRTL = false; 
@@ -488,14 +490,33 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
  }
  handleTelevisitTab(){
-   this.callTelevisistMethod = true;
-   this.selectedTab = 'Televisit';
-    //this.isStatusDetail=false;
-    this.isMedicalTab=false;
-    this.isParticipantDetail=false;
-    //this.isSharingTab=false;
-    this.isTelevisitTab= true;
-    
+   
+    if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) { 
+      this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
+      this.selectedTab = "Televisit";
+      this.isModalOpen = true;
+      this.isTelevisitTab = false;
+    }else if(this.isDetailsUpdate && !this.discardDetailTab){
+      this.selectedTab = "Televisit";
+      this.isDetailModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Participant Details";
+    }else if(this.isSharingOptionsChanged && !this.discardSharingTab){
+      this.selectedTab = "Televisit";
+      this.isSPModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Sharing Options";
+    }else if(this.isMedicalDetailChanged && this.discardMedicalTab == false){
+      this.selectedTab = "Televisit";
+      this.isMedicalModalOpen = true;
+      this.template.querySelector("lightning-tabset").activeTabValue = "Health Information";
+    }else{
+      this.callTelevisistMethod = true;
+      this.selectedTab = 'Televisit';
+      //this.isStatusDetail=false;
+      this.isMedicalTab=false;
+      this.isParticipantDetail=false;
+      //this.isSharingTab=false;
+      this.isTelevisitTab= true;
+    }
  }
 
  @api
@@ -857,8 +878,13 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
                   this.finalConsentRequired = true;
               }
           }
-          if(this.isInitialVisit==true && (this.oParticipantStatus =='Withdrew Consent' ||this.oParticipantStatus == 'Declined Consent')){
-            this.consentSigned=true;
+          if(this.isInitialVisit==true ){
+            if((this.oParticipantStatus =='Withdrew Consent' && this.newStatusSelected!='Withdrew Consent')|| (this.oParticipantStatus == 'Declined Consent' && this.newStatusSelected != 'Declined Consent')){
+              this.consentSigned=true;
+            }
+            else{
+              this.consentSigned=false;
+            }
           }
           else{
             this.consentSigned=false;
