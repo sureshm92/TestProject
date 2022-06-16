@@ -1,7 +1,7 @@
 public without sharing class  televisitConfigurationController {
     
     @AuraEnabled
-    Public static WrapperResult getinitData(String ctpId,String[] countryList,String[] vendorList,String[] studyList,String sortingOrder){
+    Public static WrapperResult getinitData(String ctpId,String[] countryList,String[] vendorList,String[] studyList,String sortingOrder,string stringType){
         List<Televisit_Record_Vendor__c> trvList ;
         if(!vendorList.isEmpty()){
             trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c where ID IN:vendorList];
@@ -16,7 +16,11 @@ public without sharing class  televisitConfigurationController {
         if(!studyList.isEmpty()){
             query += ' and ID IN:studyList';
         }
-        query += ' order by Name ' + sortingOrder ;
+        if(stringType != 'StudySite'){
+            query += ' order by Site__r.BillingCountry ' + sortingOrder ;
+        }else{
+            query += ' order by Name ' + sortingOrder ;
+        }
         List<Study_Site__c> studysiteList = database.query(query);
         List<String> pickListValuesList= new List<String>();
         Schema.DescribeFieldResult fieldResult = Study_Site__c.Banner_Display_Offset_Time__c.getDescribe();

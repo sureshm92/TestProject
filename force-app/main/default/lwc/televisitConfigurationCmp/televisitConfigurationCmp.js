@@ -100,6 +100,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     fixedvendorarray = [];
     isSpinner = false;
     isSpinnerCheck = false;
+    sortingType = 'StudySite';
+    soritingShow = true;
     connectedCallback() {
         this.isSpinnerCheck = true;
         this.getteledetails(this.recordId);
@@ -112,7 +114,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.totalstudysitelist = [];
         this.showpagenation = false;
 
-        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendorList:this.selectedvendorArray,studyList:this.selectedsiteArray,sortingOrder:this.sortingorder })
+        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendorList:this.selectedvendorArray,studyList:this.selectedsiteArray,sortingOrder:this.sortingorder,stringType:this.sortingType })
         .then((result) => {
             this.venders = result.trvList;
             for(let i=0; i< result.trvList.length;i++){
@@ -500,6 +502,12 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     
     sortRecs(event){
         this.isSpinnerCheck = true;
+        this.sortingType = event.currentTarget.dataset.id;
+        if(this.sortingType != 'StudySite'){
+            this.soritingShow = false;
+        }else{
+            this.soritingShow = true;
+        }
         if(this.uparrow){
             this.downarrow = true;
             this.uparrow = false;
