@@ -93,6 +93,18 @@
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                     <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
                 </div>
+                    <div class="label_align slds-p-left_medium">
+                        <lightning-input 
+                                            type="checkbox" 
+                                            data-id="outreachDirectEmailConsent" 
+                                            varient="label-hidden" 
+                                            name="outreachDirectEmailConsent" 
+                                            checked={consentModel.outreachDirectEmailConsent} 
+                                            onchange={handleConsentChange}
+                                            disabled={isaccesslevelthree}
+                                            class=" slds-m-right_medium checkbox_size"></lightning-input>
+                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachDirectEmailConsent">{DIRECT_EMAIL}</label></span>
+                    </div>
             </template>
         </template>
         <!--IQVIA Outreach Ends Here-->
