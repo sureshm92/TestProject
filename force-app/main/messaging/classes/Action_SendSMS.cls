@@ -933,10 +933,10 @@ public with sharing class Action_SendSMS implements Action {
                                     .PermissionSetAssignments.get(0)
                                     .PermissionSet.Name;
                                 Set<String> allPermissionSets = CommunityTemplateService.getAllPermissionSets();
-                                for (String permSet : allPermissionSets) {
-                                    if (permSet == permSetName) {
+                                for (String permiSet : allPermissionSets) {
+                                    if (permiSet == permSetName) {
                                         ctpTemplateName = CommunityTemplateService.getTemplateByPermissionSetName(
-                                                permSet
+                                                permiSet
                                             )
                                             .templateName;
                                     }

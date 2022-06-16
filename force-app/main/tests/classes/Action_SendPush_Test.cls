@@ -223,7 +223,7 @@ public class Action_SendPush_Test {
         actionSend.postDML(ac, eh);
         Test.stopTest();
     }
-    static testMethod void Action_SendSMS_Test_4() {
+    static testMethod void Action_SendSMS_Test4() {
         Action__c ac = [SELECT Id FROM Action__c LIMIT 1];
         Execution_History__c eh = [SELECT Id FROM Execution_History__c LIMIT 1];
 
