@@ -504,7 +504,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             gclid__c = ipr.UTM_GCLID__c,
             Atid__c = ipr.Atid__c,
             HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
-            Permit_Mail_Email_contact_for_this_study__c = true,
             Permit_IQVIA_to_contact_about_study__c = true,
             Human_Id__c = ipr.Human_Id__c
         );
