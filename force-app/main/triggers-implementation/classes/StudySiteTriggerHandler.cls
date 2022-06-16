@@ -14,10 +14,12 @@ public without sharing class StudySiteTriggerHandler {
     
     public class CreatePIOrSendNotificationHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
+            system.debug('newList in class---->'+newList);
             createPIUserOrSendNotification(newList, null);
         }
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            system.debug('newList in class---->'+newList);
             createPIUserOrSendNotification(newList, (Map<Id, Study_Site__c>) oldMap);
         }
     }
@@ -79,12 +81,77 @@ public without sharing class StudySiteTriggerHandler {
     }
     
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+     @TestVisible
+    private static List<Notification__c> createWelcomeMsgNotification(
+        List<Study_Site__c> newList,        
+        Map<Id, Study_Site__c> oldMap
+    ) {
+        system.debug('newList in method 2---->'+newList);
+        List<ID> participantids = new List<ID>();
+        Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
+        List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
+        Map<Id,Study_Site__c> welcomesmsIDS = new Map<Id,Study_Site__c>();//Added by Anitha
+        for (Study_Site__c ss : newList) {
+            system.debug('condition---->'+((ss.SMS_Are_Available__c == true &&  oldMap != null && ss.SMS_Are_Available__c != oldMap.get(ss.Id).SMS_Are_Available__c)
+               || (ss.Pin_Point_ProjectId__c != null && oldMap != null && oldMap.get(ss.Id).Pin_Point_ProjectId__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Pin_Point_ProjectId__c))
+               || (ss.From_Number__c != null && oldMap != null && oldMap.get(ss.Id).From_Number__c == null && (ss.From_Number__c != oldMap.get(ss.Id).From_Number__c))
+               || (ss.Sponsor_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Sponsor_AWS__c == null && (ss.Sponsor_AWS__c != oldMap.get(ss.Id).Sponsor_AWS__c))
+               || (ss.Study_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Study_AWS__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Study_AWS__c))));
+            
+            Boolean pinPointProjectdtl = (ss.Pin_Point_ProjectId__c != null && oldMap != null && oldMap.get(ss.Id).Pin_Point_ProjectId__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Pin_Point_ProjectId__c));
+            
+            Boolean fromNumberdtl = (ss.From_Number__c != null && oldMap != null && oldMap.get(ss.Id).From_Number__c == null && (ss.From_Number__c != oldMap.get(ss.Id).From_Number__c));
+            
+            Boolean sponserDtl = (ss.Sponsor_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Sponsor_AWS__c == null && (ss.Sponsor_AWS__c != oldMap.get(ss.Id).Sponsor_AWS__c));
+            
+            Boolean studyAWSDtl = (ss.Study_AWS__c != null && oldMap != null && oldMap.get(ss.Id).Study_AWS__c == null && (ss.Pin_Point_ProjectId__c != oldMap.get(ss.Id).Study_AWS__c));	   
+
+            if((ss.SMS_Are_Available__c == true &&  oldMap != null && ss.SMS_Are_Available__c != oldMap.get(ss.Id).SMS_Are_Available__c)
+               || (pinPointProjectdtl) || (fromNumberdtl) || (sponserDtl) || (studyAWSDtl)){
+                   welcomesmsIDS.put(ss.Id,ss);                                                   
+               }
+        }
+        if(!welcomesmsIDS.isEmpty()){
+            Map<Id, Participant_Enrollment__c> peIdMap = new Map<Id, Participant_Enrollment__c>([Select Id,Participant_contact__c,Is_Participant_Adult__c,Participant__c,Study_Site__c,Welcome_Message_Sent__c,Participant__r.Adult__c from Participant_Enrollment__c where Study_Site__c IN : welcomesmsIDS.keyset()]);
+            if(!peIdMap.isEmpty()){
+                for(Participant_Enrollment__c per : peIdMap.values()){
+                    if(!per.Welcome_Message_Sent__c && !String.isBlank(per.Participant__c) && per.Participant__r.Adult__c){
+                        welcomemsgnotifications.addAll(ContactService.addwelcomeNotifications(per.Participant_Contact__c,per.Id,NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG));
+                    }
+                     //Added for Delegate
+                    if(!per.Welcome_Message_Sent__c && !String.isBlank(per.Participant__c)){
+                        participantids.add(per.Participant__c);
+                    }
+                }
+            }
+            //Added for Delegate
+            if(participantids.size()>0){
+                partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+                    participantIds
+                );
+            }
+            if(!peIdMap.isEmpty()){
+                for(Participant_Enrollment__c pe : peIdMap.values()){
+                    if (
+                        !partPerDelegateIds.keySet().isEmpty() &
+                        partPerDelegateIds.containsKey(pe.Participant__c) 
+                    ) {
+                        for (Id delegateId : partPerDelegateIds.get(pe.Participant__c))
+                            welcomemsgnotifications.addAll(ContactService.addwelcomeNotifications(delegateId,pe.Id,NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG));
+                            
+                    }
+                }
+            }
+        }
+        return welcomemsgnotifications;
+    }
+   
     @TestVisible
     private static void createPIUserOrSendNotification(
         List<Study_Site__c> newList,
         Map<Id, Study_Site__c> oldMap
     ) {
+        system.debug('newList in method 1---->'+newList);
         Set<Id> piContactIds = new Set<Id>();
         for (Study_Site__c ss : newList)
             if (ss.Principal_Investigator__c != null)
@@ -96,6 +163,7 @@ public without sharing class StudySiteTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         Set<Id> ssIDs = new Set<Id>();
         Set<Id> pisWithUser = new Set<Id>();
+        Map<Id,Study_Site__c> welcomesmsIDS = new Map<Id,Study_Site__c>();//Added by Anitha
         for (Study_Site__c ss : newList) {
             if (
                 ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT &&
@@ -112,7 +180,11 @@ public without sharing class StudySiteTriggerHandler {
                     pisWithUser.add(ss.Principal_Investigator__c);
                 }
             }
+            //Added by AnithaStart:::
         }
+       notifications.addAll(createWelcomeMsgNotification(newList, (Map<Id, Study_Site__c>) oldMap));
+        system.debug('notifications:::'+notifications);
+        //Added by AnithaEnd:::
         if (!ssIDs.isEmpty()) {
             Map<Id, Map<String, List<Id>>> piCommunitySS = new Map<Id, Map<String, List<Id>>>();
             for (Study_Site__c notificationSS : [
@@ -157,7 +229,10 @@ public without sharing class StudySiteTriggerHandler {
         if (contactIdsForCreateUsers.size() > 0)
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
             .createPortalUsers(contactIdsForCreateUsers);
-        insert notifications;
+        //insert notifications;
+        if (!notifications.isEmpty())
+                insert notifications;
+            
     }
     
     @TestVisible

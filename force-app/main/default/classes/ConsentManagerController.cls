@@ -3,7 +3,8 @@ public class ConsentManagerController {
     public static Study_Site__c fetchStudySite(String studySiteId){
         Study_Site__c studySite = new Study_Site__c();
         try {
-            studySite = [select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c
+            studySite = [select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            Site__r.BillingCountryCode 
             from  Study_Site__c 
             where Id=:studySiteId];
         

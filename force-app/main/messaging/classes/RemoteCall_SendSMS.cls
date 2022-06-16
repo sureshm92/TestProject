@@ -5,7 +5,7 @@
 
 public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public enum NotificationTypes {
-        TRANSACTIONAL,
+        TRANSACTIONAL_NR,
         PROMOTIONAL
     }
     public static final String FROM_NUMBER = 'FromNumber';
@@ -45,10 +45,12 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         public String subject;
         public String templateName;
         public String templateVersion;
+        public String countryCode;
     }
 
     public class ToNumber {
         public String mobNumber;
+        public String stateCode;
     }
 
     public class NotificationOption {
@@ -122,7 +124,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
             ? apiParamsMap.get(PL_STUDY).ParamValue__c
             : msgParam.awsStudy;
         // messageWrapper.targetMetadata.pinPointProjectId = '123';
-        messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
+        messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL_NR.name();
         //messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
         //    .ParamValue__c;
         messageWrapper.notificationMetadata.fromNumber = msgParam.isPlatformLevel
@@ -132,8 +134,10 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         //  messageWrapper.notificationMetadata.ToNumber = msgParam.toNumber;
         ToNumber toNumberObj = new ToNumber();
         toNumberObj.mobNumber = msgParam.toNumber[0];
+        toNumberObj.stateCode = msgParam.stateCode;
         List<ToNumber> toNumbers = new List<ToNumber>{ toNumberObj };
         messageWrapper.notificationMetadata.toNumbers = toNumbers;
+        messageWrapper.notificationMetadata.countryCode = msgParam.MailingCountryCode;
         messageWrapper.notificationMetadata.templateName = '';
         messageWrapper.notificationMetadata.templateVersion = '';
         messageWrapper.notificationMetadata.subject = '';

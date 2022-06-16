@@ -14,6 +14,14 @@
     font-size: 14px;
     color: #999;
 }
+.dropdown-zindex{
+    z-index: 9;
+}
+.filterTextButton{
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .filterIconButton{
     height: 32px;
     width: 82%;
@@ -29,10 +37,11 @@
 .textBold{font-weight: 600; }
 .textBolds{font-weight: 700; }
 .w-filter{
-    width: 30%;
+    width: 28%;
     margin-left: 7px;
 }
 .filter-color{color: #297dfd;}
+.w-truncate {width: 70px;}
 .w-100{
     width: 100%;
 }
@@ -51,6 +60,15 @@
     margin-left: 7px;
     width: 47%;
 }
+.pen{
+    zoom: 0.8;
+}
+.disablePreset{
+    opacity:0.5;
+}
+.enablePreset{
+    cursor: pointer;
+}
 .subInfo{
     color: #999999;
     font-size: 14px;
@@ -61,6 +79,9 @@
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0;
+}
+.disablefilter{
+    opacity: 0.4;
 }
 .flags span{min-height: 18px;}
 .actionReq{  color: #FF9300; padding-right: 0.5rem; }
@@ -128,6 +149,7 @@
         margin-left: 0;
     }
 }    
+
 /*  Tooltip for Text length overflow  */
 .tooltip {
     position: relative;
@@ -214,11 +236,27 @@
 .menu-style{
     white-space: nowrap;
 }
+.hideDesktop{
+    display: none;
+}
+.font-dropdowns{
+    font-size:12px;
+}
+
+@media all and (max-width: 47.9375em) { 
+.hideDesktop{
+    display: unset;
+}
+.showDesktop{
+    display: none;
+}
+}
 .checkbox-color{
     background: #F6F7FB;
     border: 1px solid #E9E9E9;
     height: 26px;
 }
+
 .checkbox-colordct{
     background: #F6F7FB;
     border: 1px solid #E9E9E9;
@@ -228,7 +266,139 @@
     margin-left: 12px;
     padding: 3px 0px 0px 0px;
 }
+.participantStatus{
+    padding-bottom: 5px !important;
+}
+/** pop code **/
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.model-small{
+    width: 420px;
+    max-width: 52.0625rem;
+    min-width: 0;
+}
+.close-arrow-left{
+    margin-right:0;
+}
+.close-icon{
+    cursor: pointer;
+    padding-left: 10px;
+}
+.btn-height{
+    height: 40px;
+}
+.save-btn{
+    float: right;
+    margin-left: 15px;
+}
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
+}
+.participant-text{
+    font-size: 16px;
+    font-weight: 500;
+}
+@media (max-device-width: 767px) {
+    .model-small{
+        width: auto;
+        min-width: auto;
+    }
+    .mobile-width{
+        width: 100%;
+    }
+    .close-icon{
+        padding-left: 25px;
+    }
+    .save-btn{
+        float: left;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .discard-btn{
+        width: 100%;
+        margin-left: 0;
+    }
+}  
+@media (min-width: 767px) {
+    .model-small{
+        width: 100%;
+    }
+}
+@media (min-width: 992px) {
+    .model-small{
+        width: 470px;
+    }
+} 
+ /** pop code End **/
+/*RTL start */
 
+.rtl .w-filter {
+    margin-right: 7px;
+    margin-left: 0;
+}
+.rtl .w-action {
+    margin-right: 7px;
+    margin-left: 0;
+}
+.rtl .tooltip .tooltiptextBottom {
+    text-align: right;
+}
+.rtl .checkbox-place{
+    margin-right: 10px;
+    padding: 3px 0px 0px 0px;
+}
+.rtl .checkbox-placedct{
+    margin-right: 13px;
+    padding: 3px 0px 0px 0px;
+} 
+.rtl .noRecords{
+    margin-right:3rem;
+}
+.rtl .text-width{
+    text-align:right;
+}
+@media (max-device-width: 767px) {
+    .rtl .w-filter{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .rtl .rtl-margin-right{
+        margin-right: var(--lwc-spacingXSmall,0.5rem);
+    }
+    .rtl .filterIconButton{
+        width:86%;
+    }
+    .rtl .rtl-marg{
+        padding-left:3px;
+    }
+    .rtl .rtl-p-r{
+        padding-right:5px;
+    }
+    .rtl .rtl-pad-right{
+        /* padding-right: var(--lwc-spacingXLarge,2rem); */
+        padding-right: 8px;
+    }
+   
+} 
+/* RTL End*/
   
  
   /* --------END Top --------------- */

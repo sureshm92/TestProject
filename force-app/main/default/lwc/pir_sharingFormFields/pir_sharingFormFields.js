@@ -45,6 +45,7 @@ export default class Pir_sharingFormFields extends LightningElement {
     isDisplay = false;
     @api delegateLevel;
     isSendNotification = false;
+    @api rtlcss;
     
     displayOptions1() {        
         yearOfBirth()
@@ -91,6 +92,12 @@ export default class Pir_sharingFormFields extends LightningElement {
     }
 
     loadinitialData() {
+        /*if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+            this.isValid = true;
+        } else {
+            this.isValid = false;
+        }*/
+        
         if(this.sharingObject.sObjectType === 'Object') {
             if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
                 this.isValid = true;
@@ -123,6 +130,9 @@ export default class Pir_sharingFormFields extends LightningElement {
                 }
             }
         } else if(this.sharingObject.sObjectType === 'Healthcare_Provider__c'){
+            //if(this.delegateLevel && (this.delegateLevel === 'Level 3' || this.delegateLevel === 'Level 2')) {
+                //this.isValid = false;
+            //}
             if(!this.isHCPDelegate) {
                 this.isHCPDelegate = true;
             }
@@ -335,12 +345,12 @@ export default class Pir_sharingFormFields extends LightningElement {
                 participant: JSON.stringify(participant),
                 delegateContact: JSON.stringify(this.sharingObject),
                 delegateId: this.sharingObject.delegateId ? this.sharingObject.delegateId : null,
-                //ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
                 ddInfo: dupObj,
                 createUser: isDelegateInvited,
                 YearOfBirth : this.sharingObject.Birth_Year__c != '' ? this.sharingObject.Birth_Year__c : ''
             })
             .then((result) => {
+                this.updatePER();
                 this.refreshComponent();
                 this.loading = false;
                 this.toggleParentComponent(); 
@@ -364,9 +374,10 @@ export default class Pir_sharingFormFields extends LightningElement {
             peId: this.participantObject.Id
         })
         .then((result) => {
+            this.updatePER();
             this.refreshComponent();
             this.loading = false;
-            this.toggleParentComponent();
+            this.toggleParentComponent();            
         })
         .catch((error) => {
             console.log(error);            
@@ -390,6 +401,7 @@ export default class Pir_sharingFormFields extends LightningElement {
             ddInfo: dupObj
         })
         .then((result) => {
+            this.updatePER();
             this.refreshComponent();
             this.loading = false;
             this.toggleParentComponent();
@@ -521,7 +533,6 @@ export default class Pir_sharingFormFields extends LightningElement {
     useDuplicateRecord() {
         this.isDuplicateDelegate = false;
         this.isValid = false;
-        console.log('this.sharingObject:'+JSON.stringify(this.sharingObject));
     }
 
     stopSharing() {
@@ -555,7 +566,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         }
         disconnect(params)
         .then((result) => {
-            //this.isDuplicateDelegate = result.isDuplicateDelegate;
+            this.updatePER();
             this.refreshComponent();
             this.loading = false; 
             this.toggleParentComponent();
@@ -575,6 +586,10 @@ export default class Pir_sharingFormFields extends LightningElement {
 
     toggleParentComponent() {
         this.dispatchEvent(new CustomEvent('toggleclick',{ bubbles: true, composed: true}));
+    }
+
+    updatePER() {
+        this.dispatchEvent(new CustomEvent('updateper',{ bubbles: true, composed: true}));
     }
 
 }

@@ -12,6 +12,9 @@ private class Test_TrialItemRemote {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
         );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
         Test.startTest();
         TestDataFactory.createInitData();
         Test.stopTest();

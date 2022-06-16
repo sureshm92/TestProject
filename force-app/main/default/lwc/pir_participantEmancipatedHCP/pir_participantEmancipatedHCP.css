@@ -98,6 +98,16 @@
 .hide-save{
     display: none;
 }
+.slds-form-element__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* line-height: 11px; */
+    }
+.input-margin{
+    margin-top: -5px;
+      } 
 @media (max-device-width: 767px) {    
     .mobile-view-model{
         margin: 16px;

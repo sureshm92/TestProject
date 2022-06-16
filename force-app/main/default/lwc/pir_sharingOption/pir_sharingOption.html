@@ -17,12 +17,14 @@
                {delegateLabel}    
             </div>
               <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates} 
                  is-h-c-p-delegate="false" 
                  target-object='delegate' 
                  participant-object={participantObject}
                  add-delegate-list={delegates}
-                 delegate-level={delegateLevel}>
+                 delegate-level={delegateLevel}
+                 onupdateper={updatePer}>
               </c-pir_sharing-form>
               <!--is-add-delegates={isAddDelegates}-->
             <!-- Add Delegate End --> 
@@ -35,11 +37,13 @@
            </div>
 
            <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates}
                  target-object='rp' 
                  participant-object={participantObject}
                  add-delegate-list={rpList}
-                 delegate-level={delegateLevel}>
+                 delegate-level={delegateLevel}
+                 onupdateper={updatePer}>
            </c-pir_sharing-form>
 
          </div> 
@@ -53,12 +57,14 @@
                <!--You should only invite a participant's provider with the participant's explicit permission. Upon registration, the provider will be able to track a participant's status.-->
             </div>
             <c-pir_sharing-form 
+                 rtlcss={maindivcls}
                  onrefresh={refreshDelegates} 
                  is-h-c-p-delegate="true" 
                  target-object='hcp' 
                  participant-object={participantObject}
                  add-delegate-list={healthcareProviders}
-                 delegate-level={delegateLevel}>
+                 delegate-level={delegateLevel}
+                 onupdateper={updatePer}>
               </c-pir_sharing-form>
             <!--<c-pir_sharing-form 
               onrefresh={refreshDelegates} 

@@ -1,0 +1,185 @@
+<template>
+<template if:true={showTelevisitscreen}>
+  <template if:true={isSpinnerCheck}>
+    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+  </template>
+<lightning-card >
+        <lightning-layout>
+            <lightning-layout-item  size="6" padding="around-small" >
+              <!--  Selected countryIds Id's: {selectedCountryIds}-->
+                <c-multi-lookup if:true={showOppLookup1} options={countryArray} place-holder={label.selectcountryLabel} 
+                				onoptionchange={handleOppsChange}></c-multi-lookup>
+            </lightning-layout-item>
+            &nbsp;
+            <lightning-layout-item size="6" padding="around-small">
+              <!--Selected vendor Id's: {selectedVendorIds}-->
+               <c-multi-lookup if:true={showOppLookup2} options={vendorArray} place-holder={label.selecttelevisitvendorLabel}
+                       onoptionchange={selectedVendor}></c-multi-lookup>
+           </lightning-layout-item>
+        </lightning-layout>
+</lightning-card>
+<lightning-card>
+  <lightning-layout>
+      <lightning-layout-item size="6" padding="around-small">
+         <!-- Selected study site Id's: {selectedStudysiteIds}-->
+          <c-multi-lookup if:true={showOppLookup3} options={studysiteArray} place-holder={label.studysiteLabel}
+                  onoptionchange={selectedStusysite}></c-multi-lookup>
+      </lightning-layout-item>
+      <lightning-layout-item size="6" padding="around-small">
+         <div style="float:right"><lightning-button label={label.addvendorLabel} title="Cancel" onclick={createvendor}></lightning-button></div>
+      </lightning-layout-item>
+  </lightning-layout>
+</lightning-card>
+<!--Multi Lookups Ends-->
+
+<template if:true={isModalOpen}>
+  <!-- Modal/Popup Box LWC starts here -->
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+          <!-- Modal/Popup Box LWC header here -->
+          <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                  <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                  <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{label.addtelevisitvendorLabel}</h2>
+          </header>
+          <!-- Modal/Popup Box LWC body starts here -->
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-input type="text" name="input1"  label={label.televisitrecvendorLabel} value={vendername} onchange={updatevendername} required="true"></lightning-input>
+            <lightning-textarea maxlength="250" name="input2" label={label.DescriptionLabel} value={venderdescription} onchange={updatevenderdesc}></lightning-textarea>
+          </div>
+          <!-- Modal/Popup Box LWC footer starts here -->
+          <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">{label.cancelLabel}</button>
+              <button class="slds-button slds-button_brand" disabled = {vendercreationcheck} onclick={submitDetails} title="OK">{label.saveLabel}</button>
+          </footer>
+      </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<div class="slds-scrollable">
+<table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+  <template if:true={isSpinner}>
+    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+  </template>
+  <thead>
+    <tr>
+
+      <th scope="col" class="" style = "position: sticky">
+        <div class="slds-truncate" title="Name" data-id= "Country" onclick={sortRecs} >{label.countryLabel}
+          <template if:false={soritingShow}>
+            <lightning-icon   icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon   icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
+        </div>
+      </th>
+      <th class="fix" scope="col" >
+        <div class="slds-truncate" title="Some Custom Column" data-id= "StudySite" onclick={sortRecs} >{label.studysitLabel}
+          <template if:true={soritingShow}>
+            <lightning-icon  icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon  icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
+        </div>
+      </th>
+      <th class="" scope="col">
+        <div class="slds-truncate" title="Some Custom Column">{label.studysitNumbrLabel}</div>
+    </th>
+      <template for:each={venders} for:item="row">
+      <th key = {row.Id}>
+            <lightning-button-menu variant="bare" alternative-text="Show menu" data-id = {row.Id} data-target-id ={row.Name}  onselect={handleOnselect} label={row.Name}>
+                <lightning-menu-item icon-position = "left" icon-name ="utility:edit" value= "Edit" label="Edit"></lightning-menu-item>
+                <lightning-menu-item icon-position = "left" icon-name ="utility:copy" value="Clone" label="Clone"></lightning-menu-item>
+                <lightning-menu-item icon-position = "left" icon-name="utility:close" value="Remove" label="Remove"></lightning-menu-item>
+            </lightning-button-menu>
+        <div class="text-truncate" title={row.Name}>
+          <a href={row.studysiteurl} style = "font-size: 10px" data-id = {row.Id} onclick={selectallstudysites} >
+            {label.selectallLabel}
+          </a>
+          &nbsp;|&nbsp;
+          <a href={row.studysiteurl} style = "font-size: 10px" data-id = {row.Id} onclick={deselectallstudysites} >
+            {label.clearallLabel}
+          </a>
+        </div> 
+       </th>
+      </template>
+      <th class="" scope="col">
+        <div class="slds-truncate" title="Some Custom Column" ><a>{label.bannerdisplayLabel}</a></div>
+        <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
+    </th>
+    <th class="" scope="col">
+      <div class="slds-truncate" title="Some Custom Column"><a>{label.bannerdisposeLabel}</a></div>
+      <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
+  </th>
+    </tr>
+  </thead>
+  <tbody>
+    <template for:each={televisitdetails} for:item="row">
+      <tr key = {row.studysiteid}>
+        <td class="">{row.studysitecountry}</td>
+        <td class="fix">
+          <a href={row.studysiteurl}>
+            {row.studysitename}
+        </a>
+        </td>
+        <td class="">{row.studysitenumber}</td>
+        <template for:each={row.vendorrapperlist} for:item="row1">
+           <td key = {row.studysiteid}>
+            <!--<input  data-id = {row.studysiteid} data-target-id ={row1.vendorId} type="checkbox" onclick={handleClick}/>-->
+            <lightning-input type="checkbox" checked={row1.isEnable} 
+                    data-id = {row.studysiteid} data-target-id ={row1.vendorId} onchange={handleClick}></lightning-input>
+           </td>
+        </template>
+        <td>
+         <!-- <lightning-combobox dropdown-alignment = "auto" data-target-id = "displyoffsettime" name="displyoffsettime" data-id = {row.studysiteid} value={row.bannerdisplayoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox>-->
+         <select class="slds-select" 
+                        onchange={handleTypeChange} 
+                        data-target-id = "displyoffsettime"
+                        name="displyoffsettime" 
+                        data-id = {row.studysiteid} 
+                      >
+                    <option value="" selected hidden disabled>{row.bannerdisplayoffsettime}</option>
+                    <template for:each={picklistoptions} for:item="option">
+                        <option key={option.label}  class="" value={option.value}>{option.value}</option>
+                    </template>
+                </select> 
+        </td>
+        <td>
+          <!--<lightning-combobox dropdown-alignment = "auto" data-target-id = "disposeoffsettime" name="disposeoffsettime" data-id = {row.studysiteid}  value={row.bannerdisposeoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> -->
+          <select class="slds-select" 
+                        onchange={handleTypeChange} 
+                        data-target-id = "disposeoffsettime"
+                        name="disposeoffsettime" 
+                        data-id = {row.studysiteid} 
+                      >
+                    <option value="" selected hidden disabled>{row.bannerdisposeoffsettime}</option>
+                    <template for:each={picklistoptions} for:item="option">
+                        <option key={option.label}  class="" value={option.value}>{option.value}</option>
+                    </template>
+                </select> 
+        </td>
+      </tr>
+    </template>
+    
+  </tbody>
+</table>
+</div>
+
+<template if:true={showpagenation}>
+  <div style="margin-top: 20px;">
+    <c-rppagination records={totalstudysitelist} total-records={telelength}
+        show-search-box="false" onpaginatorchange={handlePaginatorChanges}></c-rppagination>
+  </div>
+</template>
+</template>
+<template if:false={showTelevisitscreen}>
+  <br/>
+  <div class="slds-align_absolute-center">
+    {label.permissionLabel}
+  </div>
+  <br/>
+</template>
+</template>

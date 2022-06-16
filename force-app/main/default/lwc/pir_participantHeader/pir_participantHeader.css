@@ -50,7 +50,7 @@
   height: 20px;
   width: 159px;
   color: #444444;
-  font-family: "Proxima Nova";
+  font-family: "Proxima Nova",sans-serif;
   font-size: 14px;
   letter-spacing: 0;
   line-height: 20px;
@@ -59,7 +59,7 @@
     height: 20px;
     width: 300px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: "Proxima Nova",sans-serif;
     font-size: 14px;
     letter-spacing: 0;
     line-height: 20px;
@@ -68,7 +68,7 @@
   height: 28px;
   display:inline-flex;
   color: #000000;
-  font-family: "Proxima Nova";
+  font-family: "Proxima Nova",sans-serif;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0;
@@ -78,7 +78,7 @@
     height: 14px;
     width: 62px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: "Proxima Nova",sans-serif;
     font-size: 12px;
     letter-spacing: 0;
     line-height: 13px;
@@ -199,7 +199,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
     padding: 8px 10px;
     position: absolute;
     z-index: 1;
-    top: 150%;
+    top: 120%;
     left: 50%;
     margin-left: -60px;
   }
@@ -218,3 +218,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
   .tooltip:hover .tooltiptextBottom {
     visibility: visible;
   }
+
+  .rtl .rtl-m-left{
+    margin-left: 15px;
+}

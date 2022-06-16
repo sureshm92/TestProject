@@ -6,13 +6,16 @@ public without sharing class SendEmailToParticipant {
     public static final Map<String, String> PATIENT_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
         TaskService.TASK_TYPE_NOT_SELECTED => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
         TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
-        TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE
+        TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
+        TaskService.TASK_TYPE_ECOA => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE_ECOA
+
     };
 
     public static final Map<String, String> PATIENT_DELEGATE_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
         TaskService.TASK_TYPE_NOT_SELECTED => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
         TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
-        TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
+        TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
+        TaskService.TASK_TYPE_ECOA => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE_ECOA
     };
     public static List<Notification__c> createTaskReminderEmail(
         Task task,
@@ -28,7 +31,9 @@ public without sharing class SendEmailToParticipant {
             task.Task_Type__c
         );
         Id whatId = task.Id;
-
+        if(task.Task_Type__c.equals(TaskService.TASK_TYPE_ECOA)){
+            whatId = task.Id;
+        }
         if (
             task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY) &&
             task.Survey_Invitation__c != null

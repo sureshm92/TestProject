@@ -17,6 +17,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean allowEmail;
     private Boolean allowPhone;
     private Boolean allowSMS;
+    //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
+    private Boolean outreachEmail;
+    private Boolean outreachPhone;
+    private Boolean outreachSMS;
     private User uploadUser;
     private Id visitPlanId;
 
@@ -33,7 +37,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     public static boolean isCalloutFromUploadParticipantsBatch = true; 
     global List<Id> PERecIds = new List<Id>(); 
     private Set<String> uniqueConcatenateSet = new Set<String>();
-
+    //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
     public UploadParticipantsBatch(
         List<List<String>> csvFileLines,
         String header,
@@ -46,6 +50,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Boolean allowEmail,
         Boolean allowPhone,
         Boolean allowSMS,
+        Boolean outreachEmail,
+        Boolean outreachPhone,
+        Boolean outreachSMS,
         Id visitPlanId
     ) {
         uploadTime = DateTime.now();
@@ -58,6 +65,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.allowPhone = allowPhone;
         this.allowSMS = allowSMS;
 		this.visitPlanId = visitPlanId;
+        this.outreachEmail = outreachEmail;
+        this.outreachPhone = outreachPhone;
+        this.outreachSMS = outreachSMS;
+        
 
         studySiteDetails = [
             SELECT
@@ -67,7 +78,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Principal_Investigator__c,
                 Clinical_Trial_Profile__c,
                 Clinical_Trial_Profile__r.CommunityTemplate__c,
-                Study_Site_Type__c,Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c 
+                Study_Site_Type__c,Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c 
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -753,8 +765,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone = Phone,
                         MobilePhone = Phone2,
                         MailingState = State,
-                        //MailingCountry = uploadUser.Contact.MailingCountry,
-                        //MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                        Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
+                        Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
+                        Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,
@@ -908,11 +921,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             patientdelegateUpdateList.add(delegateWrap);
                         }
                         //Ends : Delegate wrapper creation
+                        ParticipantDuplicateService.ParticipantWithDelegate partWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+                        partWithDelegate.participant = participant;
+                        partWithDelegate.delegate = participantDelegate;
 
                         //Duplicates check
                         Boolean isDuplicate = false;
                         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
-                            participant
+                            partWithDelegate
                         );
                         Participant__c participantDuplicate = duplicateService.findDuplicate(
                             participant
@@ -992,10 +1008,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                        participantDuplicate.Phone__c = Phone;
                                        participantPatient.add(participantDuplicate);
                                    }*/
-                                if(String.isNotBlank(EmailAddress)){
+                                if(String.isNotBlank(EmailAddress) && participantDuplicate.Adult__c){
                                     participantDuplicate.Email__c =  EmailAddress;
                                 }
-                                if(String.isNotBlank(Phone)){
+                                if(String.isNotBlank(Phone) && participantDuplicate.Adult__c){
                                     participantDuplicate.Phone__c =  Phone;
                                 }
                                if(String.isNotBlank(MiddleName)){
@@ -1010,13 +1026,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 if(String.isNotBlank(DateOfBirth)){
                                     participantDuplicate.Date_of_Birth__c =  DateOfBirth;
                                 }
-                                if(String.isNotBlank(PhoneType)){
+                                if(String.isNotBlank(PhoneType) && participantDuplicate.Adult__c){
                                     participantDuplicate.Phone_Type__c =  PhoneType;
                                 }
-                                if(String.isNotBlank(Phone2)){
+                                if(String.isNotBlank(Phone2) && participantDuplicate.Adult__c){
                                     participantDuplicate.Alternative_Phone_Number__c =  Phone2;
                                 }
-                                if(String.isNotBlank(PhoneType2)){
+                                if(String.isNotBlank(PhoneType2) && participantDuplicate.Adult__c){
                                     participantDuplicate.Alternative_Phone_Type__c =  PhoneType2;
                                 }
                                 participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language) ? uploadUser.Contact.Language__c : Language);
@@ -1249,6 +1265,30 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for(Id i : trackIndex.keySet()){
                 duplicateContactIds.add(i);
             }
+
+            //update consent on existing contacts
+            List<Contact> existingContact = new List<Contact>();
+            for(String conId : duplicateContactIds){
+                Contact con = new Contact();
+                con.Id = conId;
+                con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
+                con.Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
+                con.Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false);
+                existingContact.add(con);
+            }
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.PopulateOverrideFields.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+            );
+            update existingContact;
 
             for (User u : [
                     SELECT Id, ContactId

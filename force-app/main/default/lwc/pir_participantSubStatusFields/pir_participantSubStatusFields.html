@@ -1,4 +1,5 @@
 <template>
+    <div class={maindivcls}>
     <template if:true={isReceived}>
         <div class="details">
             <div class="step-card-title slds-m-bottom_x-small">
@@ -75,14 +76,14 @@
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="outcome" title={utilLabels.PG_ACPE_L_Outcome}
                                 label={utilLabels.PG_ACPE_L_Outcome} value={selectedOutcome}
-                                placeholder="Ready to Contact" options={outcomeoptions} onchange={outcomeHandleChange}>
+                                placeholder={label.PWS_Contact_Outcome_Placeholder} options={outcomeoptions} onchange={outcomeHandleChange}>
                             </lightning-combobox>
                         </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="reason" title={utilLabels.PG_ACPE_L_Reason}
                                 label={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -110,6 +111,14 @@
                             </lightning-input>
                         </div>
                     </template>
+					<div class="slds-grid slds-wrap slds-size_1-of-1">
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={disableTelevisitCheckbox} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
+                        </div>
+                    </div>
                     <div class="sitepre_Checkbox">
                         <lightning-input type="checkbox" variant="label-hidden"
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
@@ -140,18 +149,28 @@
                                             <div class="history-item-detail">{utilLabels.None}</div>
                                         </template>
                                         <template if:false={historyNull}>
-                                            <template for:each={historyResults} for:item="results" for:index="index">
-                                                <p key={results}>
-                                                    <b class="history-item-title">{results.title}</b><span
-                                                        class="history-item-detail">
-                                                        &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
-                                                        <lightning-formatted-date-time value={results.detailDate}
-                                                            year="numeric" month="short" day="2-digit" hour="numeric"
-                                                            minute="numeric" time-zone="UTC">
-                                                        </lightning-formatted-date-time>
-                                                        &nbsp;{utilLabels.PG_IMI_L_by_user}
-                                                        {results.createdBy}</span>
-                                                </p>
+                                            <template for:each={contactHistorys} for:item="results" for:index="index">
+                                                <template if:false={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.title}</b><span
+                                                            class="history-item-detail">
+                                                            &nbsp;{utilLabels.PE_Status_History_On_Date}&nbsp;
+                                                            <lightning-formatted-date-time value={results.detailDate}
+                                                                year="numeric" month="short" day="2-digit" hour="numeric"
+                                                                minute="numeric" time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+                                                            &nbsp;{utilLabels.PG_IMI_L_by_user}
+                                                            {results.createdBy}</span>
+                                                    </p>
+                                                </template>
+                                                <template if:true={results.isAdditionalNote}>
+                                                    <p key={results}>
+                                                        <b class="history-item-title">{results.historyTitle}</b><span
+                                                            class="history-item-detail">
+                                                            {results.noteDetails}</span>
+                                                    </p>
+                                                </template>
+                                                
                                             </template>
                                         </template>
                                     </div>
@@ -183,7 +202,7 @@
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-input type="time" value={participantrecord.Initial_visit_scheduled_time__c}
                             data-value="InitialVisitTime" label={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time}
-                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} min="05:00:00.000Z" max="23:45:00.000Z" onchange={changeInputValue}>
+                            title={utilLabels.FD_PE_Field_Initial_Visit_Scheduled_Time} onchange={changeInputValue} min="05:00:00.000Z" max="23:45:00.000Z">
                         </lightning-input>
                     </div>
                     <div
@@ -214,13 +233,7 @@
                         </div>
                         <lightning-input type="checkbox" variant="label-hidden"
                             checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
-                            onchange={changeInputValue} class="checkbox_alignment"></lightning-input> 
-                            <!--<lightning-input type="checkbox" label={utilLabels.RH_ParticipantNoshow} checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
-                            onchange={changeInputValue}></lightning-input>-->
-                            <!--<lightning-input checked={participantrecord.ParticipantNoShow__c} data-value="PartcipantNoShow"
-                                onchange={changeInputValue} type="checkbox" label={utilLabels.RH_ParticipantNoshow}
-                                 style="padding-top:33px"
-                            ></lightning-input>-->
+                            onchange={changeInputValue} class="checkbox_alignment"></lightning-input>
                        </div>
                     </template>    
                     <template if:false={isinitialvisitattended}>
@@ -233,6 +246,15 @@
                             </lightning-input>
                         </div>
                     </template>
+					<div class="slds-grid slds-wrap slds-size_1-of-1">
+                        <!--disabled={participantrecord.Add_televisit_for_Initial_Visit__c}-->
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={participantrecord.Add_televisit_for_Initial_Visit__c} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
+                        </div>
+                    </div>
                     <div class="sitepre_Checkbox"> 
                         <lightning-input type="checkbox" variant="label-hidden"
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
@@ -267,34 +289,6 @@
                             required={checkOutcome}>
                         </lightning-combobox>
                     </div>
-
-
-
-                    <!--<div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox label={utilLabels.FD_PE_Field_Informed_Consent_Signed}
-                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed} data-value="Consent Signed"
-                            name='ConsentSigned' value={selectedOutcomeIV} options={outcomeoptions}
-                            placeholder={isconsentSignedPlaceholder} onchange={outcomeHandleChangeIV}
-                            disabled={isconsentSigned}></lightning-combobox>
-                    </div>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                        <lightning-input type="date" value={participantrecord.Informed_Consent_Date__c}
-                            data-value="SignedDate" onchange={changeInputValue} class="inputfieldStatus"
-                            label={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date}
-                            title={utilLabels.FD_PE_Field_Informed_Consent_Signed_Date} disabled={consentSignedDate}
-                            required={signeddtRequiredIV}>
-                        </lightning-input>
-                    </div>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox label={utilLabels.PG_ACPE_L_Reason} title={utilLabels.PG_ACPE_L_Reason}
-                            value={selectedreasonIV} disabled={reasonDisabled} data-value="Reason"
-                            placeholder={signedReasonPlaceHolder} options={reasoneoptions} onchange={changeInputValue}
-                            required={checkOutcome}>
-                        </lightning-combobox>
-                    </div>-->
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <lightning-textarea data-id={pe_record.Id} name="additionalNotes" data-value="additionalNotesIV"
                             value={additionalNoteIV} label={notesLabelIV} title={notesLabelIV}
@@ -306,10 +300,26 @@
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                        <!-- <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
                             title={utilLabels.FD_PE_Field_Wash_Out_Required} value={runinwashout}
                             data-value="RunInWashOut" onchange={changeInputValue} options={runinoptions}>
-                        </lightning-combobox>
+                        </lightning-combobox> -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" title={utilLabels.FD_PE_Field_Wash_Out_Required}>
+                                {utilLabels.FD_PE_Field_Wash_Out_Required}
+                            </label>
+                             <div class="slds-form-element__control input-margin">
+                                  <lightning-combobox
+                                  label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                                  value={runinwashout}
+                                  data-value="RunInWashOut"
+                                  variant="label-hidden"
+                                  options={runinoptions}
+                                  onchange={changeInputValue}
+                                  ></lightning-combobox>
+                             </div>
+                         </div>
+
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_x-small">
@@ -379,13 +389,13 @@
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
                                 title={utilLabels.PG_ACPE_L_Outcome} value={selectedOutcome} options={outcomeoptions}
-                                placeholder="Not Selected" onchange={outcomeHandleChange}></lightning-combobox>
+                                placeholder={label.PG_RP_L_Not_selected} onchange={outcomeHandleChange}></lightning-combobox>
                         </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
                                 title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -472,7 +482,7 @@
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
                                 title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={screeningReasonDisabled} placeholder="Not Selected" data-value="Reason"
+                                disabled={screeningReasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -487,16 +497,32 @@
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                        <!-- <lightning-combobox label={utilLabels.FD_PE_Field_Wash_Out_Required}
                             title={utilLabels.FD_PE_Field_Wash_Out_Required} value={runinwashout}
                             data-value="RunInWashOut" onchange={changeInputValue} options={runinoptions}>
-                        </lightning-combobox>
+                        </lightning-combobox> -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" title={utilLabels.FD_PE_Field_Wash_Out_Required}>
+                                {utilLabels.FD_PE_Field_Wash_Out_Required}
+                            </label>
+                             <div class="slds-form-element__control input-margin">
+                                  <lightning-combobox
+                                  label={utilLabels.FD_PE_Field_Wash_Out_Required}
+                                  value={runinwashout}
+                                  data-value="RunInWashOut"
+                                  variant="label-hidden"
+                                  options={runinoptions}
+                                  onchange={changeInputValue}
+                                  ></lightning-combobox>
+                             </div>
+                         </div>
+
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-input type="date" class="inputfieldStatus" data-value="RevisitDate"
                             disabled={disableRevisitdt} label={utilLabels.FD_PE_Field_Revisit_Date}
-                            title={utilLabels.FD_PE_Field_Revisit_Date} onchange={changeInputValue} value={reVisitDt}>
+                            title={utilLabels.FD_PE_Field_Revisit_Date} onchange={changeInputValue} value={reVisitDt} required={revisitDateReq}>
                         </lightning-input>
                     </div>
                     <div
@@ -505,6 +531,15 @@
                             label={utilLabels.PG_AP_F_Screening_Subject_Id}
                             title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue}>
                         </lightning-input>
+                    </div>
+					<div class="slds-grid slds-wrap slds-size_1-of-1">
+                        <!--data-value="televisitCheckbox"  checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}-->
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-input type="checkbox" disabled ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Screening Visit</p>
+                        </div>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <ul class="slds-accordion">
@@ -573,14 +608,14 @@
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
-                            title={utilLabels.PG_ACPE_L_Outcome} placeholder="Not Selected" value={selectedOutcome}
+                            title={utilLabels.PG_ACPE_L_Outcome} placeholder={label.PG_RP_L_Not_selected} value={selectedOutcome}
                             options={outcomeoptions} onchange={outcomeHandleChange}></lightning-combobox>
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
                             title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                            disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                            disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
                             onchange={changeInputValue}></lightning-combobox>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -590,7 +625,7 @@
                     </div>
                     <template if:true={isOnlyVisitPlan}>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
                                 label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
                                 value={plan} options={visitplanoptions} onchange={changeInputValue}
                                 required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
@@ -622,7 +657,7 @@
                     <template if:true={isVisitPlanAndFinalConsentRequired}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
                                 label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
                                 value={plan} options={visitplanoptions} onchange={changeInputValue}
                                 required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
@@ -718,14 +753,14 @@
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-combobox name="outcome" label={utilLabels.PG_ACPE_L_Outcome}
-                            title={utilLabels.PG_ACPE_L_Outcome} placeholder="Not Selected" value={selectedOutcome}
+                            title={utilLabels.PG_ACPE_L_Outcome} placeholder={label.PG_RP_L_Not_selected} value={selectedOutcome}
                             options={outcomeoptions} onchange={outcomeHandleChange}></lightning-combobox>
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
                             title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                            disabled={reasonDisabled} placeholder="Not Selected" data-value="Reason"
+                            disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
                             onchange={changeInputValue}></lightning-combobox>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -735,7 +770,7 @@
                     </div>
                     <template if:true={isOnlyVisitPlan}>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
                                 label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
                                 value={plan} options={visitplanoptions} onchange={changeInputValue}
                                 required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
@@ -767,7 +802,7 @@
                     <template if:true={isVisitPlanAndFinalConsentRequired}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder="Select..." data-value="VisitPlan"
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
                                 label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
                                 value={plan} options={visitplanoptions} onchange={changeInputValue}
                                 required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
@@ -873,7 +908,7 @@
                                         <lightning-icon icon-name="utility:close" alternative-text="close" size="small">
                                         </lightning-icon>
                                         <span class="slds-assistive-text">Close</span>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
                             <slot name="body">
@@ -899,4 +934,50 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
+	<template if:true={isTelevisitModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+        <div class="slds-modal_small">
+           <div class="slds-modal__container model-small">
+              <div class="slds-modal__content">
+                <div class="bar"></div>
+                 <div class="slds-p-around_large">
+                    <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                       <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                            <span class="title" style= "font-size:18px; font-weight:600;">
+                                <p>Confirm Televisit</p>
+                            </span>
+                            <span class="title" style= "font-size:16px; font-weight:500;">
+                                <p>Are you sure you want to add a Televisit? Upon saving, the Televisit will be visible in Referral Hub in 5 minutes</p>
+                            </span> 
+                       </div>
+                       <div class="slds-col slds-size_1-of-12 close-icon">
+                          <div onclick={handleTelevisitCloseModal}>
+                             <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                size="x-small" ></lightning-icon>
+                             <span class="slds-assistive-text">Close</span>
+                          </div>
+                       </div>
+                    </div>
+                    <slot name="body">
+                       <p class="sub-text"></p>
+                       <div class="slds-grid slds-wrap slds-m-top_large">
+                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                            <div class="slds-float_right mobile-width"> 
+                                <button title="" class="slds-button apollo-btn primary btn-height save-btn" data-id={cancelTelevisitRecordId}  onclick={proceedTelevisitSave}> Confirm </button>
+                                <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleTelevisitCloseModal}> Cancel </button>
+                                
+                            </div>    
+                          </div>
+                       </div>
+                    </slot>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open"></div>
+     </template>
+</div>
 </template>

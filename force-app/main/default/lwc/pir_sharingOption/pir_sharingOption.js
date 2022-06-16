@@ -9,6 +9,7 @@ import MessageForProviders from '@salesforce/label/c.Message_For_Providers';
 import OtherProvidersHeader from '@salesforce/label/c.Other_Providers';
 import DelegatesHeader from '@salesforce/label/c.Delegates';
 import ReferringProviderHeader from '@salesforce/label/c.Referring_Provider';
+import updatePerRecord from '@salesforce/apex/PIR_SharingOptionsController.updatePerRecord';
 export default class Pir_sharingOption extends LightningElement {
     
     value = [];
@@ -30,6 +31,8 @@ export default class Pir_sharingOption extends LightningElement {
     isDisplayProviders = true;    
     @api delegateLevel;
     delegateLabel;
+    @api isrtl = false;
+    maindivcls;
     
     label = {
         MessageForDelegates,
@@ -41,6 +44,12 @@ export default class Pir_sharingOption extends LightningElement {
     }
 
     connectedCallback(){
+        if(this.isrtl){
+            this.maindivcls = 'rtl';
+        } else {
+            this.maindivcls = 'ltr';
+        }
+        
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
@@ -158,6 +167,17 @@ export default class Pir_sharingOption extends LightningElement {
             }
             
         }
+    }
+    updatePer() {
+        updatePerRecord({ perId: this.selectedPE.id })        
+        .then((result) => {
+            //'per updated successfully
+            
+        })
+        .catch((error) => {
+            console.log('Update Per Error'+error);
+        });
+
     }
     
 

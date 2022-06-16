@@ -74,7 +74,8 @@ public without sharing class AddPatientByPIRemote {
         Boolean allowSMS,
         Boolean allowContact,
         Boolean allowDelegateContact,
-        String contactConsentJSON
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled
     ) {
         try {
             TriggerHandlerExecutor.bypassHandler(
@@ -95,7 +96,7 @@ public without sharing class AddPatientByPIRemote {
                     );
                 }
             }
-
+            
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -133,7 +134,6 @@ public without sharing class AddPatientByPIRemote {
                 pe,
                 userLanguage
             );
-
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id
                 : pe.Participant__c;
@@ -153,7 +153,7 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
-                if(String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                if(iqviaOutreachEnabled && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
                     contact contactConsent = (Contact) JSON.deserialize(
                         contactConsentJSON,
                         Contact.class
@@ -211,9 +211,10 @@ public without sharing class AddPatientByPIRemote {
             Participant__c.class
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
-        if (
+        if (((participant.Email__c != null 
+            ||participant.Phone__c != Null || !participant.Adult__c) ||
             (participant.Email__c != null 
-            ||participant.Phone__c != Null) &&
+            ||participant.Phone__c != Null || participant.Adult__c)) &&
             participant.First_Name__c != null &&
             participant.Last_Name__c != null
         ) {
@@ -304,7 +305,7 @@ public without sharing class AddPatientByPIRemote {
         String participantId,
         String participantJSON,
         Boolean createDelegateuser,
-        Map<Id,String> invitationsVisibleTemp 
+        Map<Id,String> invitationsVisibleTemp
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -416,7 +417,7 @@ public without sharing class AddPatientByPIRemote {
                 }
                 insert participantDelegate;
             }
-            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {           
             if (participantId != null && newContact.Id != null) {
                 List<Patient_Delegate__c> checkPDel = [
                     SELECT Id

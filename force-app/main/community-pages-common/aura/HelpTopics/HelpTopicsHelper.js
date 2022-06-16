@@ -135,5 +135,8 @@
             { label: $A.get('$Label.c.BTN_Yes'), value: 'Yes' },
             { label: $A.get('$Label.c.BTN_No'), value: 'No' }
         ]);
+    },
+    getToggleElement: function (component) {
+        return document.getElementsByClassName('dropdown-menu');
     }
 });

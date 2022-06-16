@@ -32,9 +32,13 @@ public without sharing class MedicalHistryTabController {
         @AuraEnabled 
         public String strRequestMedicalReturn ; 
         @AuraEnabled 
-        public Boolean booldisplaygizmo ; 
+        public Boolean booldisplaymrrgizmo ; 
+        @AuraEnabled 
+        public Boolean booldisplayprescreenergizmo ;        
         @AuraEnabled 
         public String strMRRSurveyResult ; 
+        @AuraEnabled 
+        public String strPreScreenerSurveyResult ;        
         @AuraEnabled 
         public Boolean booliqviaregistry ; 
         @AuraEnabled 
@@ -63,7 +67,7 @@ public without sharing class MedicalHistryTabController {
             medicalHistryWrapper objWrapper = new medicalHistryWrapper();
 
             Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
-                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c
+                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c,Pre_Screener_Survey_Response__c
                                                 from Participant_Enrollment__c where id=:peid] ;
 
             Id commorbidityRecordType = Schema.SObjectType.Comorbidities__c.getRecordTypeInfosByName().get('Comorbidity').getRecordTypeId();
@@ -81,8 +85,10 @@ public without sharing class MedicalHistryTabController {
                                                 and Id NOT IN: objWrapper.lstComorbidities];
             //General Section End
 
-            objWrapper.booldisplaygizmo = objPer.MRR_Survey_Results_URL__c != Null ? true : false ;
+            objWrapper.booldisplaymrrgizmo = objPer.MRR_Survey_Results_URL__c != Null ? true : false ;
+            objWrapper.booldisplayprescreenergizmo = objPer.Pre_Screener_Survey_Response__c !=Null ? true : false;
             objWrapper.strMRRSurveyResult = objPer.MRR_Survey_Results_URL__c;
+            objWrapper.strPreScreenerSurveyResult = objPer.Pre_Screener_Survey_Response__c;
             objWrapper.booliqviaregistry = objPer.Referral_Source__c == 'IQVIA registry' ? true : false;
             
             //Citizen Requirement
@@ -217,8 +223,8 @@ public without sharing class MedicalHistryTabController {
                 {
                     objOldPer.High_Priority__c = boolHighPrority;
                     objOldPer.HighRisk_Indicator__c = boolHighRisk ? 'Yes' : 'No';
-                    update objOldPer;
                 }
+                update objOldPer;
 
                 if(String.isNotBlank(strBMI) && objOldPer.Participant__r.BMI__c != Decimal.valueOf(strBMI))
                 {

@@ -8,7 +8,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
     public static final String INTERVAL_DAYS = 'Days';
     public static final String INTERVAL_WEEKS = 'Weeks';
     public static final String INTERVAL_MONTHS = 'Months';
-
+	public Boolean skipRelaunch = false;
     public abstract Type getType();
 
     /**
@@ -44,6 +44,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
 
     public virtual void finish(Database.BatchableContext param1) {
         finalAction();
+        if(skipRelaunch !=true){
         List<Batch_Detail__c> batchDetails = [
             SELECT Interval_Mode__c, Relaunch_Interval__c, Scope_Size__c
             FROM Batch_Detail__c
@@ -63,6 +64,9 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
                 minutes,
                 scopeSize
             );
+        }
+        }else{
+            //Skipped relaunch
         }
     }
 

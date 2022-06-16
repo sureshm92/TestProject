@@ -26,13 +26,17 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_SURVEY_REMINDER_TYPE = 'Message_To_PT_Survey_Reminder_Type';
     public static final String MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE = 'Message_To_PT_Survey_Final_Reminder_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_TYPE = 'Message_To_PT_Task_Reminder_Type';
+    public static final String MESSAGE_TO_PT_TASK_REMINDER_TYPE_ECOA = 'Message_To_PT_Task_Reminder_Type_Ecoa';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE = 'Message_To_PT_Task_Reminder_Del_Type';
+    public static final String MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE_ECOA = 'Message_To_PT_Task_Reminder_Del_EcoaType';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE = 'Message_To_PT_Task_Reminder_Med_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE = 'Message_To_PT_Task_Reminder_Med_Del_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE = 'Message_To_PT_Task_Reminder_Vis_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE = 'Message_To_PT_Task_Reminder_Vis_Del_Type';
     public static final String MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Task_Instant_Del_Type';
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
+    public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
+    public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -101,4 +105,29 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
+
+    // For welcome Message
+    public static final String MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG = 'Message_To_PT_Study_Level_Welcome_Msg';
+    public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
+    public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
+    public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+    /*
+     * MESSAGE TO TELEVISIT ATTENDEE
+     *
+     *
+     */
+    //For Participant and delegates when they are added to a televisit
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Added_Attendee_Del_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE = 'Message_to_PT_Removed_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Removed_Attendee_Del_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE = 'Message_to_PT_Televisit_Rescheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL = 'Message_to_PT_Televisit_Rescheduled_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE = 'Message_to_PT_Televisit_Cancelled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY = 'Message_to_PT_Televisit_Cancelled_Del_Ty';
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP = 'Message_to_PT_Televisit_Day_Reminder_Typ';
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL = 'Message_to_PT_Televisit_Day_Reminder_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY = 'Message_to_PT_Televisit_Hour_Reminder_Ty';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE = 'Message_to_PT_Televisit_Hour_Reminder_De';
 }

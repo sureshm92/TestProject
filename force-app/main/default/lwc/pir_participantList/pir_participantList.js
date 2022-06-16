@@ -18,23 +18,45 @@ import ParticipantLimit from '@salesforce/label/c.ParticipantLimit';
 import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
 import Disclaimer_Text from '@salesforce/label/c.Disclaimer_Text';
 import BTN_Export from '@salesforce/label/c.BTN_Export';
+import BTN_OK from '@salesforce/label/c.BTN_OK';
+import Pdf_Not_Available from '@salesforce/label/c.Pdf_Not_Available';
 import RH_PP_Add_New_Participant from '@salesforce/label/c.RH_PP_Add_New_Participant';
 import Change_Participant_Status from '@salesforce/label/c.Change_Participant_Status';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getPEData from '@salesforce/apex/PIR_HomepageController.getPEData';
+import fetchPreset from '@salesforce/apex/PIR_HomepageController.fetchPreset';
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
+import setselectedFilterasDefault from "@salesforce/apex/PIR_HomepageController.setselectedFilterasDefault";
 import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
 import Records_all_invited from '@salesforce/label/c.Records_all_invited';
+import pir_Search_Participants from '@salesforce/label/c.pir_Search_Participants';
+import pir_Filter from '@salesforce/label/c.pir_Filter';
+import pir_Presets from '@salesforce/label/c.pir_Presets';
+import pir_Sort_By from '@salesforce/label/c.pir_Sort_By';
+import Select from '@salesforce/label/c.Select';
+import PG_MRZ_L_Last_Added from '@salesforce/label/c.PG_MRZ_L_Last_Added';
+import PG_MRZ_L_Last_Modified from '@salesforce/label/c.PG_MRZ_L_Last_Modified';
+import pir_Initial_Visit_Scheduled_Date_upcoming from '@salesforce/label/c.pir_Initial_Visit_Scheduled_Date_upcoming';
+import pir_Initial_Visit_Scheduled_Date_past from '@salesforce/label/c.pir_Initial_Visit_Scheduled_Date_past';
+import pir_No_Preset from '@salesforce/label/c.pir_No_Preset';
+import RPR_Actions from '@salesforce/label/c.RPR_Actions';
+import pir_Please_wait_as_your_page_loads from '@salesforce/label/c.pir_Please_wait_as_your_page_loads';
+import Action_Required from '@salesforce/label/c.Action_Required';
+import High_Priority from '@salesforce/label/c.High_Priority';
+import High_Risk from '@salesforce/label/c.High_Risk';
+import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
+import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
 
 export default class Pir_participantList extends LightningElement {    
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
+    editIcon = pirResources+'/pirResources/icons/pencil.svg';
     currentPageReference = null; 
     urlStateParameters = null;
     @api noRecords = false;
     @api cancelCheck;
     dropDownChange=false;
     valueChecked=false;
-    @api dropDownLabel="Actions";
+   
     enableStatus=false;
     dctCheck=false;
     selectedCheckboxes = [];
@@ -45,14 +67,19 @@ export default class Pir_participantList extends LightningElement {
     showDCT=false;
     showPP=false;
     saving=false;
-    showStatus=false;
+    @api showStatus=false;
+    showStatusPopup=false;
     selectedStatusList;
-    selectedStatusValue = 'Received';isPPFiltered = false;
+    selectedStatusValue = 'Received';isPPFiltered = false;isDCTFiltered = false;
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
-
-
+    hideActiononSearch=false;
+    enteredSearchString = '';
+    filterWrapper= {};
+    disablePresetPicklist = false;
+    
+    @api maindivcls;
     @api get fetch(){
         return true;
     }
@@ -61,7 +88,7 @@ export default class Pir_participantList extends LightningElement {
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
         }).then(() => {
-            this.fetchList(); 
+            this.fetchAllPreset(); 
         }).catch((error) => {
              console.log('Error: ' + error.message);
              console.log('Error: ' + error.stack);
@@ -69,23 +96,44 @@ export default class Pir_participantList extends LightningElement {
     }
     /* Params from Url */
     urlStudyId = null;
-    urlSiteId = null;
+    urlSiteId = null; 
+    urlPerName = null;
+    urlrefid = null;
 
     label = {
         RH_RP_No_Item_To_Display,
         Janssen_Community_Template_Name,
         Records_sent_to_SH,
         ParticipantLimit,
+        Pdf_Not_Available,
         Records_all_invited,
         Send_to_DCT,
         Invite_to_Patient_Portal,
         Change_Participant_Status,
         ListView_ChangeStatus,
         BTN_Export,
+        BTN_OK,
+        RH_ChangeStatusErrorMsg,
+        RH_InvalidAction,
         RH_PP_Add_New_Participant,
-        Disclaimer_Text
-    };
-    
+        Disclaimer_Text,
+        pir_Search_Participants,
+        pir_Filter,
+        pir_Presets,
+        pir_Sort_By,
+        Select,
+        PG_MRZ_L_Last_Added,
+        PG_MRZ_L_Last_Modified,
+        pir_Initial_Visit_Scheduled_Date_upcoming,
+        pir_Initial_Visit_Scheduled_Date_past,
+        pir_No_Preset,
+        RPR_Actions,
+        pir_Please_wait_as_your_page_loads,
+        Action_Required,
+        High_Priority,
+        High_Risk
+    }; 
+    @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
 
@@ -159,7 +207,7 @@ export default class Pir_participantList extends LightningElement {
     @api hideCheckbox(){
         this.isCheckboxhidden=false;
         this.selectedCheckboxes=[];
-        this.dropDownLabel="Actions";
+        this.dropDownLabel=this.label.RPR_Actions;
         this.dropDownChange=false;
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.remove("slds-p-bottom--x-small");
@@ -167,8 +215,17 @@ export default class Pir_participantList extends LightningElement {
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
             L.classList.add("slds-p-bottom--x-large");
         });
+        this.template.querySelectorAll(".dropsize").forEach(function (L) {
+            L.classList.remove("participantStatus");
+        });
         if(this.isPPFiltered == true){
             this.isPPFiltered = false;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true; 
+            this.fetchList();
+        }
+        if(this.isDCTFiltered == true){
+            this.isDCTFiltered = false;
             this.totalRecordCount = -1;
             this.isResetPagination = true; 
             this.fetchList();
@@ -179,6 +236,21 @@ export default class Pir_participantList extends LightningElement {
     setParametersBasedOnUrl() {
        this.urlStudyId = this.urlStateParameters.id || null;
        this.urlSiteId = this.urlStateParameters.siteId || null;
+       this.urlrefid = this.urlStateParameters.perName || null ;  
+       this.urlPerName = this.urlStateParameters.Pname || null;
+       if(this.urlStudyId != null && this.urlSiteId != null){
+        setselectedFilterasDefault ({selectedPresetId :"no preset"})
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+        this.filterWrapper.siteList = [];
+        this.filterWrapper.studyList = [];
+        this.filterWrapper.siteList.push(this.urlSiteId);
+        this.filterWrapper.studyList.push(this.urlStudyId);
+       }
     }
     totalRecordCount = -1;
     @api pageNumber = 1;
@@ -209,7 +281,8 @@ export default class Pir_participantList extends LightningElement {
         this.siteIdlist.push(this.urlSiteId);   
        }
       
-    }   
+       
+    }
     rendered=false;
     renderedCallback(){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
@@ -221,129 +294,176 @@ export default class Pir_participantList extends LightningElement {
         }        
         this.keyScope += 'ren';        
     }
+    searchCounter =0;
+    keepsearchFocus = false;
     @api
     handleParticipantsearch(event){
-        console.log('>>>length string>>'+event.target.value.length);
-        let enteredString = '';
+        this.urlPerName=null;
+        this.urlrefid = null;
+        this.searchCounter++ ;
+        this.enteredSearchString = '';
         this.disabledFilter = false;
+        this.disablePreset = false ;
+        this.disablePresetPicklist = false;
+        this.hideActiononSearch=false;
+        this.keepsearchFocus = true;
         if(event.target.value.length != 0)
         {
+          this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
             this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
+            this.hideActiononSearch=true;
+            if(event.target.value.length <= 2 )
+                return;
         } 
-        if(event.target.value && event.target.value.length >= 3 )
-        {
-            console.log('>>>>enterstring is>>'+enteredString+'>with lentgh>>'+enteredString.length);
-            enteredString = event.target.value;
-           
+        else{
+            this.disablePreset = this.isEditPresetFromListDisable ;
+          this.template.querySelector('[data-id="filterdiv"]').classList.remove('disablefilter');
         }
-        //cal the method with search string
-      getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, 
-                        siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, 
-                        selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : enteredString })
-        .then(result => {
-            
-        })
-        .catch(error => {
-            // this.err = error;
-            console.log('Error new: '+JSON.stringify( this.err));
-            console.log('Error : '+error.message);
-        });
+        if(event.target.value && event.target.value.length > 2 )
+        { 
+            this.enteredSearchString = event.target.value;
+        }
+        //call the method with search string
+        if(this.totalRecordCount > 0){        
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
+        else{
+            this.totalRecordCount = -1;
+            this.fetchList();
+        }
+        
+
+       
         
     }
+    @api studyIDList;
+    srchTxt='';
     @api fetchList(){
+        var searchCount = this.searchCounter;
         this.selectall = false;
         var selectCount=0;
         var enableCount=0;
         this.participantList=null;
-        this.sortInitialVisit = false;
-        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate, selectedStatusList : this.selectedStatusList, isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString : '' })
+        this.sortInitialVisit = false;        
+        this.showFilter =true; 
+        if(this.urlPerName)
+        {       
+            this.srchTxt = this.urlPerName;            
+            this.enteredSearchString = this.urlrefid;
+            this.template.querySelector('[data-id="filterdiv"]').classList.add('disablefilter');
+            this.disabledFilter = true;
+            this.disablePreset = true ;
+            this.disablePresetPicklist = true;
+            this.hideActiononSearch=true;
+        }
+        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, 
+            sponsorName  : this.communityTemplate, filterWrapper : JSON.stringify(this.filterWrapper),isDCTFiltered: this.isDCTFiltered,
+             isPPFiltered: this.isPPFiltered, sortOn : this.sortOn, searchString :  this.enteredSearchString, sortType : this.sortType })
         .then(result => {
-            this.sortInitialVisit = result.sortInitialVisit;
-            this.participantList = result.listViewWrapper;
-            if(result.listViewWrapper.length>0){
-                this.noRecords = false;
-                if(!this.backSwap){
-                    this.selectedIndex = 0;
-                    this.selectedPE=result.listViewWrapper[0];   
-                }else{
-                    this.backSwap = false;
-                    this.selectedIndex = result.listViewWrapper.length -1;
-                    this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
-                }
+            if(searchCount == this.searchCounter){
+                this.sortInitialVisit = result.sortInitialVisit;
+                this.participantList = result.listViewWrapper;
+                if(result.listViewWrapper.length>0){
+                    this.noRecords = false;
+                    if(!this.backSwap){
+                        this.selectedIndex = 0;
+                        this.selectedPE=result.listViewWrapper[0];   
+                    }else{
+                        this.backSwap = false;
+                        this.selectedIndex = result.listViewWrapper.length -1;
+                        this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
+                    }
 
-            }else{
-                this.noRecords = true;
-            }
-            if(this.selectedStatusList!=null && (this.selectedStatusValue!='All Active Statuses' && this.selectedStatusValue!= 'All Inactive Statuses' && this.selectedStatusValue!= 'Eligibility Passed' && this.selectedStatusValue!= 'Eligibility Failed') ){
-                this.showStatus=true;
-            }
-            else{
-                this.showStatus=false;
-            }
-            this.showDCT=false;
-            for(var i=0 ; i<result.listViewWrapper.length;i++){
-                this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
-                if(i>4)
-                    this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
-                
-                this.participantList[i].check = this.selectedCheckboxes.includes(this.participantList[i].id);
-                
-                if(this.participantList[i].check){
-                    selectCount++;
+                }else{
+                    this.noRecords = true;
                 }
-                this.participantList[i].getlabel=this.dropDownLabel;
-                
-                this.participantList[i].showActionbtnDisabled = true;
-                
-                if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
-                {
-                    this.participantList[i].showActionbtnDisabled = false;
-                    enableCount++;
-                }
-                else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
-                {
-                    this.participantList[i].showActionbtnDisabled = true;
+                this.studyIDList = result.studyIdlist;
+                if((result.filterWrapper.status == undefined || result.filterWrapper.status!=null) && result.studyIdlist.length == 1 && result.filterWrapper.status != 'Eligibility Passed' && result.filterWrapper.status != 'Eligibility Failed'){
+                    this.showStatus=true;
                 }
                 else{
-                    this.participantList[i].showActionbtnDisabled = false;
+                    this.showStatus=false;
                 }
-                if(this.participantList[i].isAllowedForSH){
-                    this.showDCT=true;
-                }
-               
-                this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
-                this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
+                this.showDCT=false;
+                for(var i=0 ; i<result.listViewWrapper.length;i++){
+                    this.participantList[i].cs = 'tooltiptextBottom slds-align_absolute-center';
+                    if(i>4)
+                        this.participantList[i].cs = 'tooltiptextTop slds-align_absolute-center';
+                    
+                    this.participantList[i].check = this.selectedCheckboxes.includes(this.participantList[i].id);
+                    
+                    if(this.participantList[i].check){
+                        selectCount++;
+                    }
+                    this.participantList[i].getlabel=this.dropDownLabel;
+                    
+                    this.participantList[i].showActionbtnDisabled = true;
+                   
+                    
+                    if(this.participantList[i].promotetoSH &&  this.participantList[i].isAllowedForSH)
+                    {
+                        this.participantList[i].showActionbtnDisabled = false;
+                        enableCount++;
+                    }
+                    else  if(this.participantList[i].promotetoSH &&  !this.participantList[i].isAllowedForSH)
+                    {
+                        this.participantList[i].showActionbtnDisabled = false;
+                    }
+                    else{
+                        this.participantList[i].showActionbtnDisabled = false;
+                    }
+                    if(this.participantList[i].isAllowedForSH){
+                        this.showDCT=true;
+                    }
                 
+                    this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
+                    this.peCurrentIndexMap.set(i,result.listViewWrapper[i].id);
+                    
+                }
+                this.showPP = result.isEnablePP;
+                this.showDCT= result.isEnableDCT;
+                if(!(Object.keys(this.filterWrapper).length === 0)){
+                    if(this.filterWrapper.studyList.length != 1){
+                        this.showDCT=false;
+                        this.showPP=false;
+                    }
+                }
+                if(selectCount==this.participantList.length){
+                    this.selectall = true;
+                }
+                if(selectCount==enableCount && selectCount!=0 &&  enableCount!=0){
+                    this.selectall = true;
+                }
+                
+                if(this.totalRecordCount !=  result.totalRecordCount){
+                    this.totalRecordCount =  result.totalRecordCount;
+                    const updateCount = new CustomEvent("reccountupdate", {
+                        detail: this.totalRecordCount
+                    });
+                    this.dispatchEvent(updateCount);
+                }
+                if(!this.siteIdlist){
+                    this.siteIdlist = result.siteIdlist;
+                }
+                if(!this.studyIdlist){
+                    this.studyIdlist = result.studyIdlist;
+                }
+                this.saving = false; 
+                
+                window.clearTimeout(this.delayTimeout);
+                this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
             }
-            this.showPP = result.isEnablePP;
-            if(selectCount==this.participantList.length){
-                this.selectall = true;
-            }
-            if(selectCount==enableCount && selectCount!=0 &&  enableCount!=0){
-                this.selectall = true;
-            }
-            
-            if(this.totalRecordCount !=  result.totalRecordCount){
-                this.totalRecordCount =  result.totalRecordCount;
-                const updateCount = new CustomEvent("reccountupdate", {
-                    detail: this.totalRecordCount
-                });
-                this.dispatchEvent(updateCount);
-            }
-            if(!this.siteIdlist){
-                this.siteIdlist = result.siteIdlist;
-            }
-            if(!this.studyIdlist){
-                this.studyIdlist = result.studyIdlist;
-            }
-            this.saving = false;       
-            window.clearTimeout(this.delayTimeout);
-            this.delayTimeout = setTimeout(this.changeSelected.bind(this), 50); 
         })
         .catch(error => {
-            this.err = error;
             this.saving = false;
-            console.log('Error : '+JSON.stringify( this.err));
+            console.log('Error : '+error.stack);
             console.log('Error : '+error.message);
             this.participantList = undefined;
         });
@@ -358,11 +478,6 @@ export default class Pir_participantList extends LightningElement {
             this.totalRecordCount = -1;
             this.isResetPagination = true;
             this.fetchList();
-            // var ttlcount = this.totalRecordCount;
-            // const selectEvent = new CustomEvent('resetpagination', {
-            //     detail: ttlcount
-            // });
-            // this.dispatchEvent(selectEvent);
             const selectedEvent = new CustomEvent("resetcount");
             this.dispatchEvent(selectedEvent); 
         })
@@ -380,12 +495,6 @@ export default class Pir_participantList extends LightningElement {
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
             this.isResetPagination = true;
-            //this.fetchList();
-            // var ttlcount = this.totalRecordCount;
-            // const selectEvent = new CustomEvent('resetpagination', {
-            //     detail: ttlcount
-            // });
-            // this.dispatchEvent(selectEvent);
              const gotofirstEvent = new CustomEvent("gotofirst");
              this.dispatchEvent(gotofirstEvent); 
              
@@ -399,18 +508,29 @@ export default class Pir_participantList extends LightningElement {
             console.log('Error : '+error.message);
         });
     }
-    @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; 
+    @api additionalNoteValue; @api finalConsentvalue; @api selectedreasonvalue; @api consentValue;
+    @api signedDateValue;
+
     @api updateBulkStatusChange(){   
+        let study = this.studyIDList.toString();
+	    let status;
+        if(this.filterWrapper.status == undefined){
+        status='Received'
+        }else{
+        status = this.filterWrapper.status.toString();
+        }
         updateParticipantStatus({peIdList : this.selectedCheckboxes, 
             StatusToUpdate: this.newstatus,
             Notes: this.additionalNoteValue,
             reason: this.selectedreasonvalue,
-            studyId: this.studyIdlist,
-            oParticipantStatus: this.selectedStatusList[0],
-            finalconsent: this.finalConsentvalue})
+            studyId: study,
+            oParticipantStatus: status,
+            finalconsent: this.finalConsentvalue,
+            consentSigned: this.consentValue,
+            signedDate:this.signedDateValue
+        })
         .then(result => {
             this.saving = true;
-            //this.showSuccessToast(this.selectedCheckboxes.length+' '+this.label.Records_all_invited);
             this.selectedCheckboxes = [];
             this.totalRecordCount = -1;
             this.isResetPagination = true;
@@ -508,7 +628,13 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
-                    cards[j].focus();
+                   
+                        if(!this.keepsearchFocus){
+                            
+                            cards[j].focus();
+                        }
+                        this.keepsearchFocus = false;
+                   
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     if((!this.keypress) || this.keyScope == 'downrenrenchsec'){
                         const selectedEvent = new CustomEvent("selectedpevaluechange", {
@@ -538,54 +664,91 @@ export default class Pir_participantList extends LightningElement {
     @api newstatus;
     handleChangeOfStatus(event) {
         this.enableStatus=false;
+        let study = this.filterWrapper.studyList.toString();
+        let status = this.filterWrapper.status.toString();
         const selectedEvent = new CustomEvent("statusvaluechange", {
             detail: {
                 newStatusSelected: event.detail.value,
-                oParticipantStatus: this.selectedStatusList[0],
-                studyId: this.studyIdlist
+                oParticipantStatus: status,
+                studyId: study
             }
           });
         this.dispatchEvent(selectedEvent);
         this.newstatus = event.detail.value;
+      
+    }
+    get checknewStatus(){
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
     }
   
     changeStatus = false;
     handlenewOnSelect(event){
-        
         var selectedVal=event.target.dataset.id;
         this.dropDownLabel=selectedVal;
+
+        if(this.dropDownLabel=='Change Status'){
+            if(this.filterWrapper.status != undefined && this.filterWrapper.status.length > 1){
+                this.showStatusPopup=true;
+            }
+            else{
+                this.showStatusPopup=false;
+            }
+        }
+
         this.template.querySelectorAll(".D").forEach(function (L) {
             L.classList.remove("slds-is-open");
         });
+        if( this.dropDownLabel != 'Change Status'){
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.remove("slds-p-bottom--x-large");
+            });
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.add("slds-p-bottom--x-small");
+            });
+            this.template.querySelectorAll(".dropsize").forEach(function (L) {
+                L.classList.remove("participantStatus");
+            });
+       }
+       else if(this.showStatusPopup==false){
         this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.remove("slds-p-bottom--x-large");
+            L.classList.add("participantStatus");
         });
-        this.template.querySelectorAll(".dropsize").forEach(function (L) {
-            L.classList.add("slds-p-bottom--x-small");
-        });
-        
-        if(selectedVal != this.label.RH_PP_Add_New_Participant){ 
+       }
+        if(selectedVal != 'Add New Participant' && this.showStatusPopup==false){ 
             this.dropDownChange=true; 
             this.isCheckboxhidden=true;
         }else{
             this.isCheckboxhidden=false;
         }
-        if(event.target.dataset.id == this.label.Invite_to_Patient_Portal){
+        if(event.target.dataset.id == 'Invite to Patient Portal'){
             this.isPPFiltered = true;
             this.saving = true;
             this.totalRecordCount = -1;
             this.isResetPagination = true;
+            this.pageNumber = 1;
             this.fetchList();
         }
-        
-        
-        if( this.dropDownLabel==this.label.ListView_ChangeStatus){
+       
+        if( this.dropDownLabel=='Change Status' && this.showStatusPopup==false){
             const selectedEvent = new CustomEvent("getstatus");
             this.dispatchEvent(selectedEvent);
             this.changeStatus=true;
             this.enableStatus=true;
             this.statusChangeList = '';this.statusSelected='';
-            getAvailableStatuses({ status: this.selectedStatusList[0], StudyId: this.studyIdlist })
+            let study =  this.studyIDList.toString();
+            let status;
+            let studySite =JSON.stringify(this.filterWrapper.siteList);
+            if(this.filterWrapper.status == undefined){
+                status='Received'
+            }else{
+                status = this.filterWrapper.status.toString();
+            }
+            
+            getAvailableStatuses({ status: status, StudyId: study , SiteId: studySite})
             .then(result => {
                 this.statusChangeList = result;
                 this.statusSelected = 'null';
@@ -598,26 +761,31 @@ export default class Pir_participantList extends LightningElement {
                const selectedEvent = new CustomEvent("getstatus");
                this.dispatchEvent(selectedEvent);
             });
-            
+            this.saving = true;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            this.fetchList();
         }
         else{
             this.changeStatus = false;
             this.enableStatus=false;
         }
 
-        if( this.dropDownLabel==this.label.Send_to_DCT){
-            this.dctCheck=true;
-            //this.saving = true;
-            // this.totalRecordCount = -1;
-            // this.isResetPagination = true;
-            // this.fetchList(); 
+        if( this.dropDownLabel=='Send to DCT'){
+            this.isDCTFiltered = true;
+            this.dctCheck=true; 
+            this.saving = true;
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            this.pageNumber = 1;
+            this.fetchList(); 
         }
         else{
             this.dctCheck=false;
         }
 
 
-        if(this.dropDownLabel != this.label.RH_PP_Add_New_Participant){
+        if(this.dropDownLabel != 'Add New Participant' && this.showStatusPopup==false){
             const selectedEvent = new CustomEvent("progressvaluechange", {
                 detail: this.isCheckboxhidden
             });
@@ -627,6 +795,19 @@ export default class Pir_participantList extends LightningElement {
             detail: this.dropDownLabel
           });
           this.dispatchEvent(selectedEventnew);
+    }
+    handleCloseAllStatus(){
+        this.showStatusPopup=false;
+        this.hideCheckbox();
+      }
+    handleMobileExport(event){
+        const evt = new ShowToastEvent({
+            title: this.label.Pdf_Not_Available,
+            message: this.label.Pdf_Not_Available,
+            duration:100,
+            mode: 'dismissible'
+        });
+        this.dispatchEvent(evt);
     }
     exportData;
     @api handleExport(){
@@ -668,11 +849,10 @@ export default class Pir_participantList extends LightningElement {
         this.totalCount=45000;
         this.counterLimit=45000;
         this.isFirstTime=true;
-        this.getincludePII=false;
         this.handleExportall();
     }
 
-     handleExportall(){
+    handleExportall(){
         this.saving=true;
         exportAll({studies : this.studyAll, studySites: this.siteAll,startPos: this.startPos,endPos: this.endPos,sponsorName: this.communityTemplate})
         .then(result => {
@@ -693,14 +873,10 @@ export default class Pir_participantList extends LightningElement {
                 if (finaltotalCount > 100000) {
                     finaltotalCount = 100000;
                 }
-                console.log('currentCount ' + currentCount);
-                console.log('finaltotalCount ' + finaltotalCount);
-                console.log('counterLimit ' + counterLimit);
                 if (currentCount < finaltotalCount) {
                     counterLimit = counterLimit + 45000;
                     this.counterLimit= counterLimit;
                 }
-                console.log('counterLimit new ' + counterLimit);
                 if (this.exportAllDatatemp.endPos < counterLimit && currentCount < finaltotalCount) {
                     this.startPos = this.endPos + 1;
                     this.endPos = this.endPos + 45000;
@@ -708,7 +884,6 @@ export default class Pir_participantList extends LightningElement {
                     this.endPos= this.endPos;
                     this.handleExportall();
                 } else {
-                    console.log('in else');
                     this.downloadCSV(this.csvList);
                 }
         })
@@ -1193,27 +1368,52 @@ export default class Pir_participantList extends LightningElement {
         total = this.selectedCheckboxes.length + countvalue;
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
-                if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!=this.label.Send_to_DCT) ){
-                    checkboxes[i].checked = event.target.checked;
-                    if(checkboxes[i].checked==true){
-                        if(!this.selectedCheckboxes.includes(this.participantList[i].id))
-                        {
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
-                                this.selectedCheckboxes.push(this.participantList[i].id);
+                if(this.checknewStatus){
+                    if(this.participantList[i].screeningId){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
-                            else{ 
-                                event.target.checked=false;
-                                checkboxes[i].checked=false;
-                            }
+                            
                         }
-                        
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
                     }
-                    else{
-                            if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
-                                var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
-                                this.selectedCheckboxes.splice(index,1 );
+                }else{
+                    if((!this.participantList[i].showActionbtnDisabled || this.dropDownLabel!='Send to DCT') ){
+                        checkboxes[i].checked = event.target.checked;
+                        if(checkboxes[i].checked==true){
+                            if(!this.selectedCheckboxes.includes(this.participantList[i].id))
+                            {
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<40){
+                                    this.selectedCheckboxes.push(this.participantList[i].id);
+                                }
+                                else{ 
+                                    event.target.checked=false;
+                                    checkboxes[i].checked=false;
+                                }
                             }
+                            
                         }
+                        else{
+                                if(this.selectedCheckboxes.length>=0 && this.selectedCheckboxes.length<=40){
+                                    var index=this.selectedCheckboxes.indexOf(this.participantList[i].id);
+                                    this.selectedCheckboxes.splice(index,1 );
+                                }
+                            }
+                    }
                 }
             }
             const selectedEvent = new CustomEvent("countvaluecheckbox", {
@@ -1239,48 +1439,23 @@ export default class Pir_participantList extends LightningElement {
     }
 
     //Filter
-    showFilter = false;
     toggleFilter(){
-        this.showFilter = !this.showFilter;
+        this.template.querySelectorAll(".filter-relative").forEach(function (L) {
+            L.classList.toggle("slds-hide");
+        });
     }
     isResetPagination = false;
     handleFilterEvent(event){
-        this.studyIdlist = event.detail.selectedStudy;
-        this.siteIdlist = event.detail.selectedSite;
-        this.urlStudyId = event.detail.selectedStudy;
-        this.urlSiteId = event.detail.selectedSite;
-        this.selectedStatusValue = event.detail.selectedStatus;
-        var selectedStatusListOptions = [];
-        if(event.detail.selectedStatus == 'All Active Statuses'){
-            selectedStatusListOptions.push('Received');
-            selectedStatusListOptions.push('Pre-review Passed');
-            selectedStatusListOptions.push('Contact Attempted');
-            selectedStatusListOptions.push('Successfully Contacted');
-            selectedStatusListOptions.push('Screening In Progress');
-            selectedStatusListOptions.push('Screening In Progress - Wash Out Period');
-            selectedStatusListOptions.push('Screening Passed');
-            selectedStatusListOptions.push('Enrollment Success');
-            selectedStatusListOptions.push('Eligibility Passed');
-            selectedStatusListOptions.push('Ready to Screen');
-            selectedStatusListOptions.push('Randomization Success');
-        }else if(event.detail.selectedStatus == 'All Inactive Statuses'){
-            selectedStatusListOptions.push('Pre-review Failed');
-            selectedStatusListOptions.push('Unable to Reach');
-            selectedStatusListOptions.push('Contacted - Not Suitable');
-            selectedStatusListOptions.push('Eligibility Failed');
-            selectedStatusListOptions.push('Declined Consent');
-            selectedStatusListOptions.push('Unable to Screen');
-            selectedStatusListOptions.push('Withdrew Consent');
-            selectedStatusListOptions.push('Screening Failed');
-            selectedStatusListOptions.push('Withdrew Consent After Screening');
-            selectedStatusListOptions.push('Enrollment Failed');
-            selectedStatusListOptions.push('Randomization Failed');
-            selectedStatusListOptions.push('Declined Final Consent');
-        }else{
-            selectedStatusListOptions.push(event.detail.selectedStatus);
-        }
-        this.isPPFiltered = false;
-        this.selectedStatusList = selectedStatusListOptions;
+        this.presetSel="no preset";
+        this.filterWrapper = event.detail;
+        this.isPPFiltered = false;this.isDCTFiltered = false;
+        setselectedFilterasDefault ({selectedPresetId :this.presetSel })
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
         this.totalRecordCount = -1;
         this.toggleFilter();
         this.isResetPagination = true;
@@ -1299,26 +1474,234 @@ export default class Pir_participantList extends LightningElement {
         this.isResetPagination = false;        
     }
     //sort
+    sortValue =  ' ORDER BY PerCounter__c DESC ';
     sortOn = ' ORDER BY PerCounter__c DESC ';
-
+    sortType = 0;
     get sortOptions() {
        var opts =  [
-            { label: 'Last Added', value: ' ORDER BY PerCounter__c DESC ' },
-            { label: 'Last Modified', value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },            
+            { label: this.label.PG_MRZ_L_Last_Added, value: ' ORDER BY PerCounter__c DESC ' },
+            { label: this.label.PG_MRZ_L_Last_Modified, value: ' ORDER BY LastModifiedDate DESC,PerCounter__c DESC ' },   
         ];
         if(this.sortInitialVisit){
-            opts.push({ label: 'Initial Visit Scheduled Date (upcoming)', value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
-            opts.push({ label: 'Initial Visit Scheduled Date (past)', value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
+            opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_upcoming, value: ' AND (Initial_visit_scheduled_date__c >= today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c  NULLS LAST,PerCounter__c ' });
+            opts.push({ label: this.label.pir_Initial_Visit_Scheduled_Date_past, value: ' AND (Initial_visit_scheduled_date__c < today or Initial_visit_scheduled_date__c =null) order by Initial_visit_scheduled_date__c DESC NULLS LAST,PerCounter__c DESC ' });
         }      
         return opts;
     }
     handleSortChange(event) {
-        this.sortOn = event.detail.value;
-        this.totalRecordCount = -1;
-        this.isResetPagination = true;
-        const selectEvent = new CustomEvent('resetparent', {
-            detail: ''
+        var orderby = event.detail.value;
+        this.sortValue = orderby;
+        if(orderby!='asc' && orderby!='desc'){
+            this.sortOn = orderby;
+            this.sortType = 0;
+        }else{
+            this.sortOn = '';
+            this.sortType = 1;
+            if(orderby=='desc'){                
+                this.sortType = -1;
+            }
+        }
+        if(this.totalRecordCount == 0){
+            this.totalRecordCount = -1;
+            this.fetchList();
+        }
+        else{
+            this.totalRecordCount = -1;
+            this.isResetPagination = true;
+            const selectEvent = new CustomEvent('resetparent', {
+                detail: ''
+            });
+            this.dispatchEvent(selectEvent);
+        }
+    }
+    //PRESET
+    presetOpts;
+    sysPresets = [];
+    selectedPreset = {};
+    presetSel;
+    showEditPreset =false;
+    showFilter =false;
+    disablePreset = true;
+    isEditPresetFromListDisable = true;
+    faultyPreset = false;
+    fetchAllPreset(){
+        var presets = [];
+        presets.push({label:this.label.pir_No_Preset,value:"no preset"});
+        this.presetSel="no preset";
+        fetchPreset()
+        .then(data => {
+            this.sysPresets = data;
+            for(var i = 0; i<data.length ; i++){
+                this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
+                if(data[i].isDefault){
+                    if((Object.keys(this.filterWrapper).length === 0)){
+                        this.filterWrapper= data[i];                    
+                        this.presetSel=data[i].presetId;
+                        this.faultyPreset = data[i].isFault;
+                    }
+                }
+                presets.push({ label: data[i].presetName, value: data[i].presetId });
+            }
+            this.presetOpts = presets;
+            this.fetchList();
+        })
+        .catch(error => {
+            this.error = error;
+            console.log("Error: "+error.message);
         });
-        this.dispatchEvent(selectEvent);
+    }
+    refreshAllPreset(){
+        var presets = [];
+        presets.push({label:this.label.pir_No_Preset,value:"no preset"});
+        fetchPreset()
+        .then(data => {
+            this.sysPresets = data;
+            this.disablePreset = true;
+            this.isEditPresetFromListDisable = true;
+            for(var i = 0; i<data.length ; i++){
+                this.disablePreset = false;
+                this.isEditPresetFromListDisable = false;
+                presets.push({ label: data[i].presetName, value: data[i].presetId });
+            }
+            this.presetOpts = presets;
+        })
+        .catch(error => {
+            this.error = error;
+            console.log("Error: "+error.message);
+        });
+    }
+    editPreset(){
+        if(!this.disablePreset){
+            this.showEditPreset = true;
+        }
+    }
+    closepresetmodel(event){        
+        this.disableClose = false;
+        if(event.detail.upd){
+            if(event.detail.delList.includes(this.presetSel)){
+                this.presetSel = "no preset";
+                this.template.querySelector("c-pir_filter").resetFilter(event);
+                this.template.querySelector("c-pir_filter").applyFilter();
+                this.toggleFilter();
+                this.refreshAllPreset();
+                
+            }
+            else if(event.detail.upList.includes(this.presetSel)){
+                var presets = [];
+                presets.push({label:this.label.pir_No_Preset,value:"no preset"});
+                fetchPreset()
+                .then(data => {
+                    this.sysPresets = data;
+                    this.disablePreset = true;
+                    this.isEditPresetFromListDisable = true;
+                    for(var i = 0; i<data.length ; i++){
+                        this.disablePreset = false;
+                        this.isEditPresetFromListDisable = false;
+                        presets.push({ label: data[i].presetName, value: data[i].presetId });
+                    }
+                    this.presetOpts = presets;
+                    for(var i=0;i<this.sysPresets.length;i++){
+                        if(this.presetSel==this.sysPresets[i].presetId){
+                            this.filterWrapper = this.sysPresets[i];
+                            this.presetSel=this.sysPresets[i].presetId;
+                            this.isPPFiltered = false;this.isDCTFiltered = false;
+                            this.totalRecordCount = -1;
+                            this.isResetPagination = true;
+                            this.fetchList();
+                            const selectEvent = new CustomEvent('resetparent', {
+                                detail: ''
+                            });
+                            this.dispatchEvent(selectEvent);
+                            this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]); 
+                            setselectedFilterasDefault ({selectedPresetId :this.presetSel })
+                            .then((result) => {
+                
+                            })
+                            .catch((error) => {
+                                console.error("Error:", error);
+                            });
+                            break;
+                        }
+                    }
+                })
+                .catch(error => {
+                    this.error = error;
+                    console.log("Error: "+error.message);
+                });
+            }
+            else{
+                this.refreshAllPreset();
+            }
+        }
+        this.showEditPreset = false;
+    }
+    handlePresetChange(event){
+        this.faultyPreset = false;
+        if(event.detail.value=="no preset"){
+            this.template.querySelector("c-pir_filter").resetFilter(event);
+            this.template.querySelector("c-pir_filter").applyFilter();
+            this.toggleFilter();
+        }
+        else{
+            for(var i=0;i<this.sysPresets.length;i++){
+                if(event.detail.value==this.sysPresets[i].presetId){
+                    this.filterWrapper = this.sysPresets[i];
+                    this.presetSel=this.sysPresets[i].presetId;
+                    this.faultyPreset = this.sysPresets[i].isFault;
+                    this.isPPFiltered = false;this.isDCTFiltered = false;
+                    this.totalRecordCount = -1;
+                    this.isResetPagination = true;
+                    this.fetchList();
+                    const selectEvent = new CustomEvent('resetparent', {
+                        detail: ''
+                    });
+                    this.dispatchEvent(selectEvent);
+                    this.template.querySelector("c-pir_filter").presetWrapperSet(this.sysPresets[i]);                     
+                    break;
+                }                
+            }
+        }
+        setselectedFilterasDefault ({selectedPresetId :event.detail.value })
+        .then((result) => {
+
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    }
+    disableClose = false;
+    editInvalid(){
+        this.faultyPreset = false;
+        this.disableClose = true;
+        this.showEditPreset = true;
+        
+    }
+    setDefaultFilter(event){
+        this.filterWrapper= event.detail;
+    }
+    get filterCount(){
+        if(!(Object.keys(this.filterWrapper).length === 0)){
+            var count = 7;
+            if(this.filterWrapper.ethnicityList){
+                if(this.filterWrapper.ethnicityList.length>0){
+                    count++;
+                }
+            }
+            if((this.filterWrapper.ageFrom && this.filterWrapper.ageFrom!="") || (this.filterWrapper.ageTo && this.filterWrapper.ageTo!="")){
+                count++;
+            }
+            if(JSON.stringify(this.filterWrapper.highRisk)=='true'){
+                count++;
+            }
+            if(JSON.stringify(this.filterWrapper.comorbidities)=='true'){
+                count++;
+            }
+            if(this.filterWrapper.highPriority){
+                count++;
+            }
+            return "("+count+")";
+        }
+        return "";
     }
 }

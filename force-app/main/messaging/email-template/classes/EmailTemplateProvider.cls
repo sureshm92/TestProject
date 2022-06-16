@@ -18,7 +18,9 @@ public without sharing virtual class EmailTemplateProvider {
         'Study_Site__c' => 'PP_Study_Site',
         'SurveyInvitation' => 'Email_Template_Parameters_From_SI',
         'Task' => 'Email_Template_Parameters_From_Task',
-        'Trial_Notification__c' => 'Email_Template_Parameters_From_TN'
+        'Trial_Notification__c' => 'Email_Template_Parameters_From_TN',
+        'Televisit__c' => 'Email_Template_Parameters_From_TV',
+        'Televisit_Attendee__c' => 'Email_Template_Parameters_From_TA'
     };
 
     protected Id recipientId;
@@ -395,8 +397,10 @@ public without sharing virtual class EmailTemplateProvider {
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(
             recipientContactId
         );
-        if (participant != null)
+        if (participant != null) {
             parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
+            parameters.put('ParticipantLastName', checkMetacharacters(participant.Last_Name__c));
+        }
     }
 
     public void addStudySiteNumber(){
@@ -415,8 +419,11 @@ public without sharing virtual class EmailTemplateProvider {
                 }
             
             totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c
-                                WHERE  Participant_Status__c = 'Received' 
-                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId) 
+                                 WHERE (Participant_Status__c = 'Received' OR 
+                                        (Participant_Status__c IN ('Contact Attempted','Pre-review Passed','Successfully Contacted') 
+                                         AND High_Priority__c = true)
+                                       )
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)
                                 AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
                         	AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')];
             

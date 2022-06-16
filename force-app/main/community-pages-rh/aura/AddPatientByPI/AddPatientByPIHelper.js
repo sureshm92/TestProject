@@ -44,6 +44,10 @@
         );
         var ssId = communityService.getUrlParameter('ssId');
         var isDelegate = component.get('v.createUserForDelegate');
+        if(!component.get('v.needsGuardian')) {
+            component.set('v.participantDelegate',null);
+            component.set('v.delegateDuplicateInfo',null);
+        }
         communityService.executeAction(
             component,
             'saveParticipant',
@@ -60,7 +64,8 @@
                 allowSMS: component.get('v.isSMS'),
                 allowContact: component.get('v.doContact'),
                 allowDelegateContact: isDelegate,
-                contactConsentJSON: JSON.stringify(component.get('v.contactConsent'))
+                contactConsentJSON: JSON.stringify(component.get('v.contactConsent')),
+                iqviaOutreachEnabled: component.get('v.ctp').IQVIA_Outreach__c,
             },
             function (createdPE) {
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
