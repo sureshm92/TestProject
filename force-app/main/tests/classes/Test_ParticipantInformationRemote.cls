@@ -164,18 +164,13 @@ private class Test_ParticipantInformationRemote {
         Test.startTest();
         System.runAs(testData.piUser){
             try {
-                contact acc = new contact(LastName = 'Account Name', Email = 'Test@gmail.com');
-                //Code to convert Account to JSON string
-                String str = JSON.serialize(acc);
                 AddPatientByPIRemote.createParticipantDelegate(
                     JSON.serialize(participantDel),
                     null,
                     participant.Id,
                     JSON.serialize(participant),
                     true,
-                    null,
-                    str,
-                    true
+                    null
                 );
                 AddPatientByPIRemote.createParticipantDelegate(
                     JSON.serialize(participantDel1),
@@ -183,9 +178,7 @@ private class Test_ParticipantInformationRemote {
                     participant.Id,
                     JSON.serialize(participant),
                     true,
-                    null,
-                    str,
-                    true
+                    null
                 );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
             }catch(exception e) {system.debug('teste');}}
