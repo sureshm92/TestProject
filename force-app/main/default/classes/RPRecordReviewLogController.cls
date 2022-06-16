@@ -215,10 +215,20 @@ public without sharing class RPRecordReviewLogController {
             peEnrollment.Permit_IQVIA_to_contact_about_study__c = peRecord.Permit_Mail_Email_contact_for_this_study__c;
             peEnrollment.Permit_SMS_Text_for_this_study__c = peRecord.Permit_SMS_Text_for_this_study__c;
             peEnrollment.Permit_Voice_Text_contact_for_this_study__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
+            peEnrollment.Study_Artificial_Voice_Consent__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
+            peEnrollment.Study_Assisted_Dialing_Consent__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
+            peEnrollment.Study_Pre_recorded_Voice_Consent__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
             peEnrollment.Permit_Mail_Email_contact_for_this_study__c = peRecord.Permit_Mail_Email_contact_for_this_study__c;
+            peEnrollment.Study_Direct_Mail_Consent__c = peRecord.Permit_Mail_Email_contact_for_this_study__c;
+            peEnrollment.IQVIA_Contact_info_storage_consent__c = (peRecord.Participant_Opt_In_Status_Emails__c || peRecord.Participant_Opt_In_Status_SMS__c 
+            || peRecord.Participant_Phone_Opt_In_Permit_Phone__c || peRecord.IQVIA_Direct_Mail_Consent__c);
             peEnrollment.Participant_Opt_In_Status_Emails__c = peRecord.Participant_Opt_In_Status_Emails__c;
             peEnrollment.Participant_Opt_In_Status_SMS__c = peRecord.Participant_Opt_In_Status_SMS__c;
             peEnrollment.Participant_Phone_Opt_In_Permit_Phone__c = peRecord.Participant_Phone_Opt_In_Permit_Phone__c;
+            peEnrollment.IQVIA_Direct_Mail_Consent__c = peRecord.IQVIA_Direct_Mail_Consent__c;
+            peEnrollment.IQVIA_Artificial_Voice_Consent__c = peRecord.Participant_Phone_Opt_In_Permit_Phone__c;
+            peEnrollment.IQVIA_Assisted_Dialing_Consent__c = peRecord.Participant_Phone_Opt_In_Permit_Phone__c;
+            peEnrollment.IQVIA_Pre_recorded_Voice_Consent__c = peRecord.Participant_Phone_Opt_In_Permit_Phone__c;
             
             //Ends
                peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
