@@ -160,7 +160,128 @@ public class Action_SendPush_Test {
         actionSend.postDML(ac, eh);
         Test.stopTest();
     }
+    static testMethod void Action_SendSMS_Test_3() {
+        Action__c ac = [SELECT Id FROM Action__c LIMIT 1];
+        Execution_History__c eh = [SELECT Id FROM Execution_History__c LIMIT 1];
 
+        Contact con = [
+            SELECT Id, firstname, MobilePhone
+            FROM Contact
+            WHERE firstname = 'PITD'
+            LIMIT 1
+        ];
+        con.MobilePhone = '1234567891';
+        update con;
+        system.debug('con.id: ' + con.Id);
+
+        Participant__c pa = [
+            SELECT Id, Alternative_Phone_Type__c, First_Name__c
+            FROM Participant__c
+            LIMIT 1
+        ];
+        pa.Alternative_Phone_Type__c = 'Mobile';
+        pa.Contact__c = con.Id;
+        //pa.First_Name__c = 'test_Name';
+        update pa;
+        Participant_Enrollment__c pe = [
+            SELECT Id, Participant__r.Contact__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
+        Task task = new Task();
+        task.Subject = 'test';
+        task.Reminder_Date__c = Datetime.now();
+        task.ReminderDateTime = Datetime.now();
+        task.Task_Type__c = 'Visit';
+        task.Visible_For__c = 'Owner;Delegates';
+        task.WhatId = pe.Id;
+        insert task;
+
+        List<Notification__c> notification = [
+            SELECT Id, WhatId__c, Notification_Type__c, Recipient__c
+            FROM Notification__c
+            WHERE Notification_Type__c = 'Message_To_PT_Task_Reminder_Vis_Type'
+            LIMIT 1
+        ];
+
+        notification[0].WhatId__c = task.id;
+        notification[0].Recipient__c = con.id;
+
+        update notification;
+
+        Send_Result__c sr = new Send_Result__c();
+        sr.Notification__c = notification[0].id;
+        sr.Target_Type__c = 'SMS';
+        insert sr;
+        Test.startTest();
+        Action_SendSMS actionSend = new Action_SendSMS(notification);
+        Test.setMock(HttpCalloutMock.class, new RemoteCallHttpCalloutMock());
+        //actionSend.log = il;
+        actionSend.execute();
+        actionSend.getType();
+        actionSend.isDMLWithSetupObjects();
+        actionSend.postDML(ac, eh);
+        Test.stopTest();
+    }
+    static testMethod void Action_SendSMS_Test_4() {
+        Action__c ac = [SELECT Id FROM Action__c LIMIT 1];
+        Execution_History__c eh = [SELECT Id FROM Execution_History__c LIMIT 1];
+
+        Contact con = [
+            SELECT Id, firstname, MobilePhone
+            FROM Contact
+            WHERE firstname = 'PITD'
+            LIMIT 1
+        ];
+        con.MobilePhone = '1234567891';
+        update con;
+        system.debug('con.id: ' + con.Id);
+
+        Participant__c pa = [
+            SELECT Id, Alternative_Phone_Type__c, First_Name__c
+            FROM Participant__c
+            LIMIT 1
+        ];
+        pa.Alternative_Phone_Type__c = 'Mobile';
+        pa.Contact__c = con.Id;
+        //pa.First_Name__c = 'test_Name';
+        update pa;
+
+        Task task = new Task();
+        task.Subject = 'test';
+        task.Reminder_Date__c = Datetime.now();
+        task.ReminderDateTime = Datetime.now();
+        task.Task_Type__c = 'Visit';
+        task.Visible_For__c = 'Owner;Delegates';
+        task.WhatId = pa.Id;
+        insert task;
+
+        List<Notification__c> notification = [
+            SELECT Id, WhatId__c, Notification_Type__c, Recipient__c
+            FROM Notification__c
+            WHERE Notification_Type__c = 'Message_To_PT_Task_Reminder_Vis_Type'
+            LIMIT 1
+        ];
+
+        notification[0].WhatId__c = task.id;
+        notification[0].Recipient__c = con.id;
+
+        update notification;
+
+        Send_Result__c sr = new Send_Result__c();
+        sr.Notification__c = notification[0].id;
+        sr.Target_Type__c = 'SMS';
+        insert sr;
+        Test.startTest();
+        Action_SendSMS actionSend = new Action_SendSMS(notification);
+        Test.setMock(HttpCalloutMock.class, new RemoteCallHttpCalloutMock());
+        //actionSend.log = il;
+        actionSend.execute();
+        actionSend.getType();
+        actionSend.isDMLWithSetupObjects();
+        actionSend.postDML(ac, eh);
+        Test.stopTest();
+    }
     private class RestMock implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             string fullJsonNew = '{ "applicationId": "90a75d33b4fb4e2da5ef354fc063d572", "requestId": "03c61dd5-3846-4cfd-8a6d-b7a311967200", "result": [ { "toNumber": "+187893434", "status": { "deliveryStatus": "SUCCESSFUL", "statusCode": 200, "statusMessage": "MessageId: ut0ehaifvdfkcho0sqff41c6bkvh25oodcnb98g0", "messageId": "ut0ehaifvdfkcho0sqff41c6bkvh25oodcnb98g0" } } ] }';
