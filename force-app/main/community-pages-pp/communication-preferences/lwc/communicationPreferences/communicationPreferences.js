@@ -26,7 +26,8 @@ import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
 export default class CommunicationPreferences extends NavigationMixin(LightningElement) {
 
-  @api
+  @api isDelegate;
+	@api participantState;
   label = {
     PP_Communication_Pref,
     PP_Communication_Pref_Study,
@@ -43,6 +44,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     @track studyDetails = [];
     @track outReachDetails= [];
+		
 
     spinner = false;
     loaded = false;
@@ -237,4 +239,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         (out.phone && out.email && out.sms && out.dmail) ? out.all = true : out.all = false;
       });
     }
+		//Return True if Delegate is logged in as self View
+		get isDelegateSelfView() {
+				if (this.participantState === 'ALUMNI' && !this.isDelegate){
+						return true;
+				}
+				return false;
+		}
 }

@@ -10,6 +10,7 @@
     <aura:attribute name="isDelegate" type="Boolean" />
     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false" />
     <aura:attribute name="isRTLLanguage" type="Boolean" default="false" />
+    <aura:attribute name="participantState" type="String" />
 
     <aura:attribute name="contactSectionData" type="Object" />
     <aura:attribute name="personWrapper" type="Object" />
@@ -164,7 +165,7 @@
                     <!-- Communication Preferences_Start -->
                     <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
                         <!-- <c:CommunicationPreferences userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" /> -->
-                        <c:communicationPreferences />
+                        <c:communicationPreferences isDelegate="{!v.isDelegate}"  participantState="{!v.participantState}" />
                     </aura:if>
                     <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">
