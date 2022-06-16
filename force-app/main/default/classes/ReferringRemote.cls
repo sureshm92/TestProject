@@ -383,6 +383,27 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Direct_Mail_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            //IQVIA Outreach Consent
+            enrollment.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
+                                                                || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
+            enrollment.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            //Study Consent TimeStamps
+            if(enrollment.Permit_Mail_Email_contact_for_this_study__c){
+                enrollment.Study_Email_Consent_Time__c = datetime.now();
+                enrollment.Study_PI_Storage_Consent_Time__c = datetime.now();
+                enrollment.Study_Phone_Consent_Time__c = datetime.now();
+                enrollment.Study_Artificial_Voice_Consent_Time__c = datetime.now();
+                enrollment.Study_Assisted_Dialing_Consent_Time__c = datetime.now();
+                enrollment.Study_Pre_recorded_Calls_Consent_Time__c = datetime.now();
+                enrollment.Study_Direct_Mail_Consent_Time__c = datetime.now();
+            }
+            enrollment.Study_SMS_Consent_Time__c = (enrollment.Permit_SMS_Text_for_this_study__c ? datetime.now() : null);
             if (
                 enrollment.Pre_screening_Status__c ==
                 ParticipantEnrollmentService.PES_STATUS_PENDING
@@ -457,11 +478,29 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         participantCon.Phone = participant.Phone__c;
                     }
                     //Added by Raviteja
-                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c ||
+                    (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c)){
                         participantCon.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
                        participantCon.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                        participantCon.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
                        participantCon.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
+                                                                || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
+                        //Timestamps for consents
 
+                        if(participantCon.Participant_Phone_Opt_In_Permit_Phone__c){
+                            participantCon.IQVIA_Artificial_Voice_Consent_Time__c = datetime.now();
+                            participantCon.IQVIA_Assisted_Dialing_Consent_Time__c = datetime.now();
+                            participantCon.IQVIA_Phone_Consent_Time__c = datetime.now();
+                            participantCon.IQVIA_Pre_recorded_Calls_Consent_Time__c = datetime.now();
+                        }
+                        participantCon.IQVIA_Direct_Mail_Consent_Time__c = (participantCon.IQVIA_Direct_Mail_Consent__c ? datetime.now() : null);
+                        participantCon.IQVIA_Email_Consent_Time__c = (participantCon.Participant_Opt_In_Status_Emails__c ? datetime.now() : null);
+                        participantCon.IQVIA_SMS_Consent_Time__c = (participantCon.Participant_Opt_In_Status_SMS__c ? datetime.now() : null);
+                        participantCon.IQVIA_PI_Storage_Consent_Time__c = (participantCon.IQVIA_Contact_info_storage_consent__c ? datetime.now() : null);
                     }
                       //End                         
                     

@@ -678,6 +678,7 @@ public without sharing class ParticipantEnrollmentService {
         'Participant_Opt_In_Status_Emails__c',
         'Participant_Opt_In_Status_SMS__c',
         'Participant_Phone_Opt_In_Permit_Phone__c',
+        'IQVIA_Direct_Mail_Consent__c',
         'PI_Contact__c',
         'PI_Contact__r.Id',
         'PI_Contact__r.Name',

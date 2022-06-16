@@ -20,6 +20,7 @@ consentModel.outReachConsent = false;
 consentModel.outreachPhoneConsent = false;
 consentModel.outreachEmailConsent = false;
 consentModel.outreachSMSConsent = false;
+consentModel.outreachDirectEmailConsent = false;
 consentModel.showError = false;
 consentModel.ranOnce = false;
 consentModel.initialPeDataIsSet = false;
@@ -28,6 +29,7 @@ const contactConsent = {};
 contactConsent.Participant_Opt_In_Status_Emails__c = false;
 contactConsent.Participant_Opt_In_Status_SMS__c = false;
 contactConsent.Participant_Phone_Opt_In_Permit_Phone__c = false;
+consentModel.IQVIA_Direct_Mail_Consent__c = false;
 
 const participantEnroll = {};
 participantEnroll.Permit_Mail_Email_contact_for_this_study__c = false;
@@ -45,6 +47,7 @@ export default class ConsentManager extends LightningElement {
     EMAIL = EMAIL;
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
+    DIRECT_EMAIL = 'Direct Emial';
     CONSENT_TO_STORE_AND_CONTACT;
     
     @api peUpdation = false; //set this flag if IQVIA Outreach consents are to be updated on PE record
@@ -124,11 +127,13 @@ export default class ConsentManager extends LightningElement {
             if(this.consentModel.initialPeDataIsSet){
             if(this.isCountryUS  && ( !(this.participantContact.Participant_Opt_In_Status_Emails__c 
             && this.participantContact.Participant_Opt_In_Status_SMS__c 
-            && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c)) ){
+                && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c
+                && this.participantContact.IQVIA_Direct_Mail_Consent__c)) ){
 
             this.participantContact.Participant_Opt_In_Status_Emails__c = false;
             this.participantContact.Participant_Opt_In_Status_SMS__c = false;
             this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = false;
+                this.participantContact.IQVIA_Direct_Mail_Consent__c = false;
             this.fireConsentChange('outreach');
         }
             if(this.isCountryUS  && ( !(this.pe.Permit_Mail_Email_contact_for_this_study__c 
@@ -159,6 +164,7 @@ export default class ConsentManager extends LightningElement {
                     this.participantContact.Participant_Opt_In_Status_Emails__c = this.pe.Participant_Opt_In_Status_Emails__c;
                     this.participantContact.Participant_Opt_In_Status_SMS__c = this.pe.Participant_Opt_In_Status_SMS__c;
                     this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c = this.pe.Participant_Phone_Opt_In_Permit_Phone__c;
+                    this.participantContact.IQVIA_Direct_Mail_Consent__c = this.pe.IQVIA_Direct_Mail_Consent__c;
                 }else {
                     this.participantContact = this.pe.Participant_Contact__r;
                 }
@@ -194,12 +200,14 @@ export default class ConsentManager extends LightningElement {
         =this.consentModel.outreachPhoneConsent 
         =this.consentModel.outreachEmailConsent 
         =this.consentModel.outreachSMSConsent 
+        =this.consentModel.outreachDirectEmailConsent
         =this.consentModel.showError 
         =this.consentModel.ranOnce
         =this.consentModel.initialPeDataIsSet
         =this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
         =this.participantContact.Participant_Opt_In_Status_Emails__c 
         =this.participantContact.Participant_Opt_In_Status_SMS__c 
+        =this.participantContact.IQVIA_Direct_Mail_Consent__c 
         =this.pe.Permit_Mail_Email_contact_for_this_study__c 
         =this.pe.Permit_Voice_Text_contact_for_this_study__c 
         =this.pe.Permit_SMS_Text_for_this_study__c  
@@ -231,7 +239,7 @@ export default class ConsentManager extends LightningElement {
     updateOutreachConsentChecks(){
         if(this.participantContact.Participant_Opt_In_Status_Emails__c!=undefined){
         if(this.participantContact.Participant_Opt_In_Status_Emails__c && this.participantContact.Participant_Opt_In_Status_SMS__c
-            && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c){
+                && this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c && this.participantContact.IQVIA_Direct_Mail_Consent__c){
             this.consentModel.outReachConsent = true;
         }
         else{
@@ -240,6 +248,7 @@ export default class ConsentManager extends LightningElement {
             this.consentModel.outreachEmailConsent = this.participantContact.Participant_Opt_In_Status_Emails__c;
             this.consentModel.outreachSMSConsent = this.participantContact.Participant_Opt_In_Status_SMS__c;
             this.consentModel.outreachPhoneConsent = this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c;
+            this.consentModel.outreachDirectEmailConsent = this.participantContact.IQVIA_Direct_Mail_Consent__c;
         }
     }
 
@@ -277,9 +286,11 @@ export default class ConsentManager extends LightningElement {
                         this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
                         = this.participantContact.Participant_Opt_In_Status_Emails__c 
                         = this.participantContact.Participant_Opt_In_Status_SMS__c 
+                        = this.participantContact.IQVIA_Direct_Mail_Consent__c 
                         = this.consentModel.outreachEmailConsent 
                         = this.consentModel.outreachSMSConsent 
                         = this.consentModel.outreachPhoneConsent 
+                        = this.consentModel.outreachDirectEmailConsent 
                         = consent;
                         this.fireConsentChange('outreach');
                         break;
@@ -301,6 +312,12 @@ export default class ConsentManager extends LightningElement {
                         
                         this.fireConsentChange('outreach');
                         break;
+                case 'outreachDirectEmailConsent':
+                        this.participantContact.IQVIA_Direct_Mail_Consent__c = consent;
+                        this.consentModel.outreachDirectEmailConsent = this.participantContact.IQVIA_Direct_Mail_Consent__c;
+                        
+                        this.fireConsentChange('outreach');
+                        break;
             }
     }
 
@@ -312,12 +329,14 @@ export default class ConsentManager extends LightningElement {
         =this.consentModel.outreachPhoneConsent 
         =this.consentModel.outreachEmailConsent 
         =this.consentModel.outreachSMSConsent 
+        =this.consentModel.outreachDirectEmailConsent 
         =this.consentModel.showError 
         =this.consentModel.ranOnce
         =this.consentModel.initialPeDataIsSet
         =this.participantContact.Participant_Phone_Opt_In_Permit_Phone__c 
         =this.participantContact.Participant_Opt_In_Status_Emails__c 
         =this.participantContact.Participant_Opt_In_Status_SMS__c 
+        =this.participantContact.IQVIA_Direct_Mail_Consent__c 
         =this.pe.Permit_Mail_Email_contact_for_this_study__c 
         =this.pe.Permit_Voice_Text_contact_for_this_study__c 
         =this.pe.Permit_SMS_Text_for_this_study__c  

@@ -40,6 +40,7 @@ import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurren
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
 import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
+import PG_AP_F_Patient_Status from '@salesforce/label/c.PG_AP_F_Patient_Status';
  
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
@@ -119,7 +120,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PG_DBPI_L_study_site,
     pir_Health_Information,
     PIR_Study_Site_Name,
-    PIR_Study_Name
+    PIR_Study_Name,
+    PG_AP_F_Patient_Status
   };
   
   @api isRTL = false; 
