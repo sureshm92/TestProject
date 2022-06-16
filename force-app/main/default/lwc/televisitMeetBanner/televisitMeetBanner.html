@@ -53,4 +53,8 @@
             </div>
         </lightning-layout>
     </template>
+
+    <template if:true={showTelevisitCameraAndMicrophoneAccessPopup}>
+        <c-televisit-Camera-And-Microphone-Access-Popup meeting-url={meetLinkUrl}></c-televisit-Camera-And-Microphone-Access-Popup>
+    </template>
 </template>

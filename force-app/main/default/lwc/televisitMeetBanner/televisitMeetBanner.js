@@ -30,6 +30,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     allActiveVisits = [];
     hasActiveVisits = false;
     UPCOMING_VISIT = UPCOMING_VISIT;
+    showTelevisitCameraAndMicrophoneAccessPopup = false;
 
     @track labels = {
         UPCOMING_VISIT,
@@ -44,7 +45,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.loadCometdScript();
         this.timeInterval();
     }
-
+    
     loadCometdScript() {
         if (!this.subscription) {
             Promise.all([
@@ -145,15 +146,15 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             this.singleActiveVisit = false;
             this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
         }
-
     }
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
-        window.open(url, '_blank');
+        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+
     }
     handleSingleMeetJoin(event) {
-        window.open(this.meetLinkUrl, '_blank');
+        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = (!this.showMoreVisits);

@@ -1,0 +1,72 @@
+<template>
+    <template if:true={isModalOpenVisitPreview}>
+    <c-web-popup
+    show-footer="true"
+    show-scroll="false"
+    show-close="false"
+    custom-buttons="true"
+    is-r-t-l={isRTL}
+    show-header="true"
+    title={label.Visit_Preview}
+    size="small"
+    variant = "normal"
+>
+        <div slot="body" class="bodyClass" style=" margin: -20px 0 -20px 0;">
+            <div class="slds-col slds-card slds-align_absolute-center slds-grid slds-wrap slds-grid_align-center div1" style="">
+                    <div class="slds-col slds-size_1-of-1 slds-grid slds-wrap div2" style="height: 220px;"> 
+                            <svg  width="26" style="color: #B5B5B5; margin-bottom: 0;" height="26" fill="currentColor" class="bi bi-camera-video-off-fill slds-align_absolute-center slds-col slds-size_1-of-1" viewBox="0 0 16 16"> 
+                                <path fill-rule="evenodd" d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728L.847 3.366zm9.746 11.925-10-14 .814-.58 10 14-.814.58z"></path>
+                            </svg>
+                         
+                        <label class="slds-col slds-size_1-of-1 slds-align_absolute-center" style="color: #B5B5B5;margin-top: 0px">Your camera is turned off</label>
+                    </div>
+                            <div class="slds-col slds-size_1-of-2 slds-wrap slds-align_absolute-center slds-border_left slds-border_top" style="display: flex;">
+                                <div class="slds-p-around_x-small">
+                                    <svg  width="26" height="26" style="color:#444444" fill="currentColor" class="bi bi-camera-video-off-fill" viewBox="0 0 16 16"> 
+                                        <path fill-rule="evenodd" d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728L.847 3.366zm9.746 11.925-10-14 .814-.58 10 14-.814.58z"></path>
+                                    </svg>
+                                 </div>
+                                 <label class="slds-checkbox_toggle slds-grid" style="width: auto;">
+                                    <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16" disabled="" aria-describedby="checkbox-toggle-16" />
+                                    <span id="checkbox-toggle-16" class="slds-checkbox_faux_container" aria-live="assertive">
+                                    <span class="slds-checkbox_faux"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        
+                            <div class="slds-col slds-size_1-of-2 slds-wrap slds-align_absolute-center slds-border_left slds-border_top" style="display: flex;">
+                                <div class="slds-p-around_x-small">
+                                    <svg style="color: rgb(68, 68, 68);" width="26" height="26" fill="currentColor" class="bi bi-mic-mute-fill" viewBox="0 0 16 16"> 
+                                        <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0 0 12 8V7a.5.5 0 0 1 1 0v1zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4zm3-9v4.879L5.158 2.037A3.001 3.001 0 0 1 11 3z" fill="#444444"></path> <path d="M9.486 10.607 5 6.12V8a3 3 0 0 0 4.486 2.607zm-7.84-9.253 12 12 .708-.708-12-12-.708.708z" fill="#444444"></path>
+                                    </svg>
+                                 </div>
+                                <label class="slds-checkbox_toggle slds-grid" style="width: auto;">
+                                    <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16" disabled="" aria-describedby="checkbox-toggle-16" />
+                                    <span class="slds-checkbox_faux_container" aria-live="assertive">
+                                    <span class="slds-checkbox_faux"></span>
+                                    </span>
+                                </label>
+                            </div>               
+            </div>
+            <div class="slds-col slds-align_absolute-center slds-text-body_small">
+                {label.You_can_also_adjust_these_options_during_the_visit}
+            </div>
+            <div class="slds-clearfix slds-p-top_small" >
+                <button disabled="" class="slds-button slds-button_brand slds-col slds-align_absolute-center joinBtn" style="background-color: rgb(133 177 238); border-radius: 12px; width: 300px; color: rgb(209 213 218);">{label.Join_Visit}</button>
+            </div>
+        </div>
+
+        <div  slot="footerButtons" >                
+                <div class="slds-clearfix slds-p-bottom_small">
+                    <div class="slds-col slds-text-color_destructive slds-text-align_center" style="line-height: 24px;">{label.You_must_grant_microphone_permission_to_join_televisit}</div>
+                </div>
+                <div class="slds-clearfix">
+                    <strong><lightning-button variant="base" label={label.Back} onclick={handleBack} class="slds-m-left_x-small slds-col slds-align_absolute-center"></lightning-button></strong>
+                </div>
+        </div>
+    </c-web-popup>
+    </template>
+    <template if:true={showTelevisitCameraAndMicrophoneAccessPopup}>
+        <c-televisit-Camera-And-Microphone-Access-Popup meeting-url={meetingLink}></c-televisit-Camera-And-Microphone-Access-Popup>
+    </template>
+</template>
