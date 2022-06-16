@@ -64,3 +64,17 @@
 .THIS .comm-italics {
     font-style: italic;
 }
+
+.THIS .opt-out-header {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+    color: #444444;
+    float: none !important;
+}
+
+.THIS .comm-italics {
+    font-style: italic;
+    font-size: 15px;
+    margin-bottom: 17px;
+}
