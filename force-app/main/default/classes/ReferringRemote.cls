@@ -489,18 +489,6 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         participantCon.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
                         participantCon.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
                                                                 || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
-                        //Timestamps for consents
-
-                        if(participantCon.Participant_Phone_Opt_In_Permit_Phone__c){
-                            participantCon.IQVIA_Artificial_Voice_Consent_Time__c = datetime.now();
-                            participantCon.IQVIA_Assisted_Dialing_Consent_Time__c = datetime.now();
-                            participantCon.IQVIA_Phone_Consent_Time__c = datetime.now();
-                            participantCon.IQVIA_Pre_recorded_Calls_Consent_Time__c = datetime.now();
-                        }
-                        participantCon.IQVIA_Direct_Mail_Consent_Time__c = (participantCon.IQVIA_Direct_Mail_Consent__c ? datetime.now() : null);
-                        participantCon.IQVIA_Email_Consent_Time__c = (participantCon.Participant_Opt_In_Status_Emails__c ? datetime.now() : null);
-                        participantCon.IQVIA_SMS_Consent_Time__c = (participantCon.Participant_Opt_In_Status_SMS__c ? datetime.now() : null);
-                        participantCon.IQVIA_PI_Storage_Consent_Time__c = (participantCon.IQVIA_Contact_info_storage_consent__c ? datetime.now() : null);
                     }
                       //End                         
                     
