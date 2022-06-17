@@ -15,6 +15,7 @@ public with sharing class PIR_SharingOptionsControllerTest {
         PIR_SharingOptionsController.getGenderLVList();
         PIR_SharingOptionsController.getpeData(testData.pe.Id,testData.participant.Id);
         PIR_SharingOptionsController.getHCPData(testData.pe.Id);
+        PIR_SharingOptionsController.updatePerRecord(testData.pe.Id);
         Test.stopTest();
 
     }

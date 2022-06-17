@@ -160,6 +160,7 @@
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
+                    
                     <aura:if isTrue="{!v.isPPonPhone}">
                         <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
                     </aura:if>
@@ -175,6 +176,8 @@
                             userMode="{!v.currentMode.userMode}"
                         />
                     </aura:if>
+					<!-- Televisit Meet Banner Section PEH-5892 -->
+                    <c:televisitMeetBanner></c:televisitMeetBanner>
                 </aura:if>
                 {!v.body}
             </div>

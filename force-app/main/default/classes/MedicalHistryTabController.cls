@@ -223,8 +223,8 @@ public without sharing class MedicalHistryTabController {
                 {
                     objOldPer.High_Priority__c = boolHighPrority;
                     objOldPer.HighRisk_Indicator__c = boolHighRisk ? 'Yes' : 'No';
-                    update objOldPer;
                 }
+                update objOldPer;
 
                 if(String.isNotBlank(strBMI) && objOldPer.Participant__r.BMI__c != Decimal.valueOf(strBMI))
                 {

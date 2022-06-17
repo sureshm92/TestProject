@@ -35,11 +35,6 @@
     font-family: Proxima Nova;
 }
 
-.closeButtopnIcon:hover {
-    background-color: #ff4d4a;
-    --lwc-colorTextIconDefault: white;
-}
-
 .inputFields {
     font-size: 16px;
 }
@@ -173,12 +168,6 @@ textdecoration {
     margin: 30px;
 }
 
-.zoom:hover {
-    -ms-transform: scale(1.1); /* IE 9 */
-    -webkit-transform: scale(1.1); /* Safari 3-8 */
-    transform: scale(1.1);
-}
-
 .slds-dropdown {
     margin-top: 0 !important;
 }
@@ -249,6 +238,10 @@ textdecoration {
 }
 .tv_attendees {
     display: flex;
+    flex-flow: wrap;
+}
+.tv_edit {
+    margin-top: -15px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -268,12 +261,16 @@ textdecoration {
         margin-left: unset;
         display: unset;
         width: unset;
-        margin-top: -2px;
+        margin-top: -1px;
     }
 
     .televisit {
         --slds-c-button-brand-outline-sizing-min-height: 32px !important;
         --slds-c-button-outline-brand-color-border: #d4d4d4 !important;
+    }
+    .tv_edit {
+        padding: 0;
+        margin-top: -15px;
     }
 }
 
@@ -330,7 +327,7 @@ textdecoration {
     }
 }
 
-@media all and (max-width: 480px) {
+@media all and (max-width: 540px) {
     .save-btn {
         float: left;
         margin-left: -25px;
@@ -350,5 +347,21 @@ textdecoration {
     }
     .tv_attendees {
         display: block;
+    }
+    .tv_edit {
+        padding-left: 35px;
+        margin-top: -15px;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 540px) {
+    .tv_edit {
+        padding-left: 45px;
+    }
+}
+
+@media all and (max-width: 281px) {
+    .tv_edit {
+        padding-left: 15px;
     }
 }
