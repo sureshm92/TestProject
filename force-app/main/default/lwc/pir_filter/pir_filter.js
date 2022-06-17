@@ -150,7 +150,7 @@ export default class Filtertest extends LightningElement {
   selectedSite;
   statusoptions;
   defaultStatus;
-  selectedActiveInactive = 'Active';
+  selectedActiveInactive = "Active";
   defaultSource = "All Sources";
   defaultSex = "All";
   defaultHighRisk = false;
@@ -244,7 +244,7 @@ export default class Filtertest extends LightningElement {
             if (this.urlsiteid != null) {
               this.defaultSite = this.urlsiteid;
             } else {
-              this.defaultSite = options1[1].value;
+              this.defaultSite = options1[0].value;
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
@@ -258,11 +258,14 @@ export default class Filtertest extends LightningElement {
             detail: true
           });
           this.dispatchEvent(loadComplete);
-          this.filterWrapper.status = [];
-          this.filterWrapper.status.push('Received');
-          if(!(Object.keys(value).length === 0)){
-            this.presetWrapperSet(presetSellection);
-          }
+          // this.filterWrapper.status = [];
+          // this.filterWrapper.status.push('Received');
+          
+          //TODO: need to get fix from Digvijay
+          // if(!(Object.keys(value).length === 0)){
+          //   this.presetWrapperSet(presetSellection);
+          // }
+
           //send filter wrapper to parent
           const setFilter = new CustomEvent("getdefaultfilter", {
             detail: this.filterWrapper
@@ -854,13 +857,13 @@ export default class Filtertest extends LightningElement {
       }
 
     this.studySiteList = options;
-    this.defaultSite = this.studySiteList[1].value;
+    this.defaultSite = this.studySiteList[0].value;
     this.selectedSite = this.defaultSite;
 
     this.createStatusOption();
 
-    this.defaultStatus = this.statusoptions[1].value;
-    this.selectedStatus = this.statusoptions[1].value;
+    this.defaultStatus = this.statusoptions[0].value;
+    this.selectedStatus = this.statusoptions[0].value;
     this.defaultSource = this.sourceoptions[0].value;
     this.ageStartValue = 0;
     this.ageEndValue = 150;
