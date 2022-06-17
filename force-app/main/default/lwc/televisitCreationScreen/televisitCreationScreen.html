@@ -137,7 +137,7 @@
                                         <div class={cbComputedClass} aria-expanded={isComboExpanded} aria-haspopup="listbox" role="combobox">
                                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">                
                                                 <!--onkeyup={handleSearch}-->
-                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" autocomplete="off"
+                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" data-id="searchbox" autocomplete="off"
                                                 aria-controls="listbox-id" role="textbox" placeholder={placeHolder} onkeyup={handleSearch} onclick={openOptionsMenu}></input>
                                                 <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
                                                     <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon-text-default"></lightning-icon>
@@ -152,7 +152,10 @@
                                                                     <span class="slds-listbox__option-text slds-listbox__option-text_entity" 
                                                                     data-id={option.id} data-first-name={option.firstName} data-last-name={option.lastName} 
                                                                     data-attendee-type={option.attendeeType} data-is-mandatory-selection={option.isMandatorySelection} 
-                                                                    data-attendee-id={option.attendeeId} onclick={handleSelection}>
+                                                                    data-attendee-id={option.attendeeId} 
+                                                                    data-participant-primary-delegate={option.participantPrimaryDelegate} 
+                                                                    data-participant-has-email={option.participantHasEmail}
+                                                                    onclick={handleSelection}>
                                                                         {option.firstName} {option.lastName} ({option.attendeeType})
                                                                     </span>
                                                                 </span>
