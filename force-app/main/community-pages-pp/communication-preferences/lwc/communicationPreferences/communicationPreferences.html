@@ -25,11 +25,15 @@
                                 </lightning-layout>
                                 <template for:each={studyDetails} for:item="study" for:index="index">
                                     <lightning-layout key={study.study_id} multiple-rows="true" class="study-card" vertical-align="center">
-                                        <lightning-layout-item size="2" class="study-content study-content-mobile">                                
+                                        <lightning-layout-item size="4" class="study-content study-content-mobile">                                
                                             <span>{study.study_name}</span>                                
                                         </lightning-layout-item>
-                                        
-                                        <lightning-layout-item size="2" class="study-paramters">
+										
+                                         <lightning-layout-item size="8" class="study-content"> 
+												<lightning-layout key={study.study_id} multiple-rows="true" class="" vertical-align="center">
+												 <lightning-layout-item size="2" class="study-paramters">
+												 </lightning-layout-item>
+												 <lightning-layout-item size="2" class="study-paramters">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -40,8 +44,7 @@
                                                 <div class="ml-5"><lightning-input type="checkbox" label="Phone" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.phone} onchange={selectIndividualOptions}></lightning-input></div>
                                             </div>                           
                                         </lightning-layout-item>
-                                        
-                                        <lightning-layout-item size="2" class="study-paramters">
+										 <lightning-layout-item size="2" class="study-paramters">
                                             <div class="mb-child-div-10">
                                                 <div><svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
                                                     <use xlink:href={emailSvg}></use>            
@@ -50,8 +53,7 @@
                                                 <div class="ml-5"><lightning-input type="checkbox" label="Email" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.email} onchange={selectIndividualOptions}></lightning-input></div>
                                             </div>
                                         </lightning-layout-item>
-                                                    
-                                        <lightning-layout-item size="2" class="study-paramters">
+										<lightning-layout-item size="2" class="study-paramters">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -62,8 +64,7 @@
                                                 <div class="ml-5"><lightning-input type="checkbox" label="SMS" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.sms} onchange={selectIndividualOptions}></lightning-input></div>                            
                                             </div>
                                         </lightning-layout-item>
-    
-                                        <lightning-layout-item size="2" class={borderStyle}>
+										 <lightning-layout-item size="2" class={borderStyle}>
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -74,8 +75,7 @@
                                                 <div class="ml-5"><lightning-input type="checkbox" label="DMail" name={study.study_id} data-sponsor={study.sponsor_id} variant="label-hidden" checked={study.dmail} onchange={selectIndividualOptions}></lightning-input></div>                            
                                             </div>
                                         </lightning-layout-item>
-                                                    
-                                        <lightning-layout-item size="2" class="study-paramters">
+												 <lightning-layout-item size="2" class="study-paramters">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -85,7 +85,10 @@
                                                 <div>{label.PP_Communication_Pref_All}</div>
                                                 <div class="ml-5"><lightning-input type="checkbox" label="All" name={study.study_id} data-sponsor={study.sponsor_id} value={study.study_id} variant="label-hidden" checked={study.all} onchange={selectAllOptions}></lightning-input></div>
                                             </div>
-                                        </lightning-layout-item>                    
+                                        </lightning-layout-item>						
+												</lightning-layout>          
+                                        </lightning-layout-item>
+                                                           
                                     </lightning-layout>
                                 </template>
                             </div>
@@ -108,11 +111,14 @@
                             </lightning-layout>
                             <template for:each={outReachDetails} for:item="outreach" for:index="index">
                                 <lightning-layout key={outreach.iqvia_id} multiple-rows="true" class="study-card" vertical-align="center">
-                                    <lightning-layout-item size="2" class="study-content">                                
+                                    <lightning-layout-item size="4" class="study-content">
                                         <span>{outreach.name}</span>                                
-                                    </lightning-layout-item>
-                                    
-                                    <lightning-layout-item size="2" class="study-paramters">
+									</lightning-layout-item>
+									
+									<lightning-layout-item size="8" class="study-content">             	<lightning-layout key={outreach.iqvia_id} multiple-rows="true" class="" vertical-align="center">
+									 <lightning-layout-item size="2" class="study-paramters">
+									 </lightning-layout-item>
+									 <lightning-layout-item size="2" class="study-paramters">
                                         <div class="mb-child-div-10">
                                             <div>
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -123,8 +129,7 @@
                                             <div class="ml-5"><lightning-input type="checkbox" label="Phone" class={outreach.iqvia_id} name={outreach.iqvia_id} variant="label-hidden" checked={outreach.phone} onchange={selectIndividualOptionsOutreach}></lightning-input></div>
                                         </div>                           
                                     </lightning-layout-item>
-                                    
-                                    <lightning-layout-item size="2" class="study-paramters">
+									<lightning-layout-item size="2" class="study-paramters">
                                         <div class="mb-child-div-10">
                                             <div>
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -135,8 +140,7 @@
                                             <div class="ml-5"><lightning-input type="checkbox" label="Email" class={outreach.iqvia_id} name={outreach.iqvia_id} variant="label-hidden" checked={outreach.email} onchange={selectIndividualOptionsOutreach}></lightning-input></div>
                                         </div>
                                     </lightning-layout-item>
-                                                
-                                    <lightning-layout-item size="2" class="study-paramters">
+									  <lightning-layout-item size="2" class="study-paramters">
                                         <div class="mb-child-div-10">
                                             <div>
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -147,8 +151,7 @@
                                             <div class="ml-5"><lightning-input type="checkbox" label="SMS" class={outreach.iqvia_id} name={outreach.iqvia_id} variant="label-hidden" checked={outreach.sms} onchange={selectIndividualOptionsOutreach}></lightning-input></div>                            
                                         </div>
                                     </lightning-layout-item>
-
-                                    <lightning-layout-item size="2" class={borderStyle}>
+									 <lightning-layout-item size="2" class={borderStyle}>
                                         <div class="mb-child-div-10">
                                             <div>
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="com-icon">
@@ -159,8 +162,7 @@
                                             <div class="ml-5"><lightning-input type="checkbox" label="DMail" class={outreach.iqvia_id} name={outreach.iqvia_id} variant="label-hidden" checked={outreach.dmail} onchange={selectIndividualOptionsOutreach}></lightning-input></div>                            
                                         </div>
                                     </lightning-layout-item>
-                                                
-                                    <lightning-layout-item size="2" class="study-paramters">
+									 <lightning-layout-item size="2" class="study-paramters">
                                         <div class="mb-child-div-10">
                                             <div>
                                                 <div>
@@ -172,7 +174,9 @@
                                             <div>{label.PP_Communication_Pref_All}</div>
                                             <div class="ml-5"><lightning-input type="checkbox" label="All" name={outreach.iqvia_id} value={outreach.iqvia_id}  checked={outreach.all} variant="label-hidden" onchange={selectAllOptionsOutreach}></lightning-input></div>
                                         </div>
-                                    </lightning-layout-item>                    
+                                    </lightning-layout-item>   
+									</lightning-layout>								                                 
+									</lightning-layout-item>                
                                 </lightning-layout>
                             </template>
                         </div>
