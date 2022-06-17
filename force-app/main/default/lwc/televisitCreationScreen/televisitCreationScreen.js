@@ -609,15 +609,23 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
         this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
         this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
+        this.televisitAttendeesObj.participantPrimaryDelegate = event.target.dataset.participantPrimaryDelegate;
+        this.televisitAttendeesObj.participantHasEmail = event.target.dataset.participantHasEmail;
         if(event.target.dataset.isMandatorySelection === 'true'){
             this.televisitAttendeesObj.isMandatorySelection = true;
         }else{
             this.televisitAttendeesObj.isMandatorySelection = false;
         }
         this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
-        this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === event.target.dataset.id) , 1);
-        if(this.isSearchMode)
+        //this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === event.target.dataset.id) , 1);
+       
+        if(this.isSearchMode){
             this.televisitAttendeesListTemp.splice(this.televisitAttendeesListTemp.findIndex(a => a.id === event.target.dataset.id) , 1);
+            this.template.querySelector('[data-id="searchbox"]').value = '';
+            this.televisitAttendeesList = this.televisitAttendeesListTemp;
+        }else{
+            this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === event.target.dataset.id) , 1);
+        }  
         this.closeOptionsMenu();
         this.checkSiteStaffAdded(this.selectedTelevisitAttendeesList);
     }
