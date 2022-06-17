@@ -8,6 +8,7 @@
     <permissionSets>PP_Incentive_Program_View</permissionSets>
     <permissionSets>PP_Manual_Creation_Panel</permissionSets>
     <permissionSets>PP_Medical_Vendors_View</permissionSets>
+    <permissionSets>PP_Medical_Doc_Upload_View</permissionSets>    
     <permissionSets>PP_Participant_PII_On_Cases_View</permissionSets>
     <permissionSets>PP_Participant_PII_View</permissionSets>
     <permissionSets>PP_Payment_Vendors_View</permissionSets>

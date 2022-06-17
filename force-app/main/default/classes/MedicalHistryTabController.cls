@@ -51,14 +51,23 @@ public without sharing class MedicalHistryTabController {
     }
     /*Citizen Medical Record Wrapper */
     public class MedicalHistoryWrapper{ 
-        @AuraEnabled public List<ContentDocument> attachments;
-        @AuraEnabled public String baseURL; 
+        @AuraEnabled public List<ContentDocumentAndDelete> attachments;
+        @AuraEnabled public String baseURL;
         
-        public MedicalHistoryWrapper( List<ContentDocument> attachments, String baseURL){
+        public MedicalHistoryWrapper( List<ContentDocumentAndDelete> attachments, String baseURL){
             this.attachments = attachments;
             this.baseURL = baseURL;
         }
     }
+
+    public class ContentDocumentAndDelete{ 
+        @AuraEnabled public ContentDocument attachment;
+        @AuraEnabled public Boolean isDeleteAllowed = false;
+        public ContentDocumentAndDelete(ContentDocument attachment, Boolean isDeleteAllowed){
+            this.attachment = attachment;
+            this.isDeleteAllowed = isDeleteAllowed;
+        }
+    }    
 
     @AuraEnabled
     public static medicalHistryWrapper getPEDetails(String peid){
@@ -67,7 +76,7 @@ public without sharing class MedicalHistryTabController {
             medicalHistryWrapper objWrapper = new medicalHistryWrapper();
 
             Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
-                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c,Pre_Screener_Survey_Response__c
+                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Unique_HumanId__c,MRR_Survey_Results_URL__c,Pre_Screener_Survey_Response__c
                                                 from Participant_Enrollment__c where id=:peid] ;
 
             Id commorbidityRecordType = Schema.SObjectType.Comorbidities__c.getRecordTypeInfosByName().get('Comorbidity').getRecordTypeId();
@@ -159,11 +168,28 @@ public without sharing class MedicalHistryTabController {
         for (ContentDocumentLink cdl : cdls) {
             documentIds.add(cdl.ContentDocumentId);
         }
-        List<ContentDocument> documents = [SELECT Id, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+        List<ContentDocument> documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
                                            ORDER BY CreatedDate];
-               
+        Map<Id,Boolean> docDeleteAllowed = new Map<Id,Boolean>();
+        Id currentUserId = UserInfo.getUserId();
+        List<ContentDocumentAndDelete> docsAndDeleteList = new List<ContentDocumentAndDelete>();
+        for(ContentDocument cd : documents){
+            if(currentUserId == cd.OwnerId){
+                docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true));
+            }else{
+                docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false));
+            }
+        }       
         String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
-        return new MedicalHistoryWrapper(documents, basefileUrl);
+        return new MedicalHistoryWrapper(docsAndDeleteList, basefileUrl);
+    }
+
+    @AuraEnabled
+    public static MedicalHistryTabController.MedicalHistoryWrapper deleteFileAttachment(Id contentDocumentToDeleteId,Id participantId){
+        ContentDocument contentDocumentToDelete = new ContentDocument();
+        contentDocumentToDelete.Id = contentDocumentToDeleteId;
+        delete contentDocumentToDelete;
+        return getMedicalHistory(new List<ContentDocumentLink>(), participantId);
     }
 
     @AuraEnabled 
