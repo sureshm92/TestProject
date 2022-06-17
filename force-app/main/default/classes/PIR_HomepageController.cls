@@ -322,8 +322,7 @@ public without sharing class PIR_HomepageController {
         ageStart = '0';
         ageEnd = '150';
         //For getting Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c when coming from My Studies
-        System.debug('studyIdlist: ' + studyIdlist);
-        System.debug('siteIdlist: ' + siteIdlist);
+        
         if((studyIdlist != null) && (siteIdlist != null) && (studyIdlist.size() == 1 && siteIdlist.size() == 1)){
           List<Clinical_Trial_Profile__c> ctp = [SELECT Id, Participant_Workflow_Final_Step__c  FROM Clinical_Trial_Profile__c WHERE  Id = : studyIdlist[0]];
           if(ctp[0].Participant_Workflow_Final_Step__c == 'Enrollment'){
