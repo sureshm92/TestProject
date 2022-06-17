@@ -393,17 +393,8 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
             enrollment.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
             enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-            //Study Consent TimeStamps
-            if(enrollment.Permit_Mail_Email_contact_for_this_study__c){
-                enrollment.Study_Email_Consent_Time__c = datetime.now();
-                enrollment.Study_PI_Storage_Consent_Time__c = datetime.now();
-                enrollment.Study_Phone_Consent_Time__c = datetime.now();
-                enrollment.Study_Artificial_Voice_Consent_Time__c = datetime.now();
-                enrollment.Study_Assisted_Dialing_Consent_Time__c = datetime.now();
-                enrollment.Study_Pre_recorded_Calls_Consent_Time__c = datetime.now();
-                enrollment.Study_Direct_Mail_Consent_Time__c = datetime.now();
-            }
-            enrollment.Study_SMS_Consent_Time__c = (enrollment.Permit_SMS_Text_for_this_study__c ? datetime.now() : null);
+            
+            //setConsentChange(enrollment);
             if (
                 enrollment.Pre_screening_Status__c ==
                 ParticipantEnrollmentService.PES_STATUS_PENDING
