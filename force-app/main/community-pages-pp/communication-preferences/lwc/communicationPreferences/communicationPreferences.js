@@ -241,7 +241,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 		//Return True if Delegate is logged in as self View
 		get isDelegateSelfView() {
-				//TODO: Cover this part as part of PEH-5843 - UI part in Iteration 3.2
+				//TODO: Cover this part as part of PEH-5844 - UI part in Iteration 3.2
 				/*
 				  if (this.participantState === 'ALUMNI' && !this.isDelegate){
 						return true;
