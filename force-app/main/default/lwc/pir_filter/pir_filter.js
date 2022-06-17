@@ -248,24 +248,45 @@ export default class Filtertest extends LightningElement {
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
-            this.filterWrapper.siteList.push(this.defaultSite);
+            //for Study site
+            if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+              for (var i = 1; i < this.studySiteList.length; i++) {
+                this.filterWrapper.siteList.push(this.studySiteList[i].value);
+              }
+            } else if (
+              this.selectedSite != null &&
+              this.selectedSite != "All Study Site"
+            ) {
+              this.filterWrapper.siteList.push(this.selectedSite);
+            }
           }
           this.createStatusOption();
           this.defaultStatus = this.selectedstatusvalue;
           this.selectedStatus = this.selectedstatusvalue;
+          if (this.selectedstatusvalue == "All Active Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else if (this.selectedstatusvalue == "All Inactive Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else {
+            this.filterWrapper.status = [];
+            this.filterWrapper.status.push(this.selectedstatusvalue);
+          }
+          
           this.loaded = !this.loaded;
           const loadComplete = new CustomEvent("loadcomplete", {
             detail: true
           });
           this.dispatchEvent(loadComplete);
-          // this.filterWrapper.status = [];
-          // this.filterWrapper.status.push('Received');
           
-          //TODO: need to get fix from Digvijay
-          // if(!(Object.keys(value).length === 0)){
-          //   this.presetWrapperSet(presetSellection);
-          // }
-
+          if(!(Object.keys(value).length === 0)){
+            this.presetWrapperSet(presetSellection);
+          }
           //send filter wrapper to parent
           const setFilter = new CustomEvent("getdefaultfilter", {
             detail: this.filterWrapper
@@ -283,7 +304,7 @@ export default class Filtertest extends LightningElement {
   presetWrapperSet(presetSellection){
     this.selectedActiveInactive = presetSellection.activeInactive;
 
-    if(presetSellection.source.length == 1){
+    if(presetSellection.source && presetSellection.source.length == 1){
       this.defaultSource = presetSellection.source[0];
     }else{
       this.defaultSource = 'All Sources';
