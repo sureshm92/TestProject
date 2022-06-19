@@ -4528,10 +4528,10 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Pending approval/activation</value>
     </labels>
     <labels>
-        <fullName>DIRECT_EMAIL</fullName>
+        <fullName>RH_Direct_Mail</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>DIRECT_EMAIL</shortDescription>
+        <shortDescription>RH_Direct_Mail</shortDescription>
         <value>Direct Mail</value>
     </labels>
     <labels>
