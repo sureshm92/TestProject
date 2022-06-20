@@ -153,8 +153,6 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                     if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
-                    }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
-                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_GSK';
                     }else{
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
                     }
@@ -183,8 +181,6 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                 if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_Janssen';
-                }else if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
-                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove_GSK';
                 }else{
                      notification.Notification_Type__c = 'Message_to_PI_Televisit_Remove';
                 }
