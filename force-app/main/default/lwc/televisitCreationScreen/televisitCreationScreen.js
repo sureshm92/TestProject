@@ -294,8 +294,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                     this.defaultTime = '00:00:00.000Z';
                 }else if(this.visitDate === this.today){
                     this.defaultTime = this.currentTime;
-                    console.log('current Time :',this.currentTime);
-                    console.log('start Time :',this.startTime);
                     if(this.startTime < this.currentTime && this.startTimeChanged){
                         this.startTime = null;
                         this.template.querySelector('[data-id="Start Time"]').setCustomValidity('Please Enter the Start Time');
@@ -609,8 +607,18 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
         this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
         this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
-        this.televisitAttendeesObj.participantPrimaryDelegate = event.target.dataset.participantPrimaryDelegate;
-        this.televisitAttendeesObj.participantHasEmail = event.target.dataset.participantHasEmail;
+        if(event.target.dataset.participantPrimaryDelegate === 'true'){
+            this.televisitAttendeesObj.participantPrimaryDelegate = true;
+        }else{
+            this.televisitAttendeesObj.participantPrimaryDelegate = false;
+        }
+
+        if(event.target.dataset.participantHasEmail === 'true'){
+            this.televisitAttendeesObj.participantHasEmail = true;
+        }else{
+            this.televisitAttendeesObj.participantHasEmail = false;
+        }
+        
         if(event.target.dataset.isMandatorySelection === 'true'){
             this.televisitAttendeesObj.isMandatorySelection = true;
         }else{
@@ -636,8 +644,18 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
         this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
         this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
-        this.televisitAttendeesObj.participantPrimaryDelegate = event.target.dataset.participantPrimaryDelegate;
-        this.televisitAttendeesObj.participantHasEmail = event.target.dataset.participantHasEmail;
+        if(event.target.dataset.participantPrimaryDelegate === 'true'){
+            this.televisitAttendeesObj.participantPrimaryDelegate = true;
+        }else{
+            this.televisitAttendeesObj.participantPrimaryDelegate = false;
+        }
+
+        if(event.target.dataset.participantHasEmail === 'true'){
+            this.televisitAttendeesObj.participantHasEmail = true;
+        }else{
+            this.televisitAttendeesObj.participantHasEmail = false;
+        }
+
         if(event.target.dataset.isMandatorySelection === 'true'){
             this.televisitAttendeesObj.isMandatorySelection = true;
         }else{
@@ -689,7 +707,15 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                     this.televisitAttendeesObj.lastName = result[i].lastName;
                     this.televisitAttendeesObj.attendeeType = result[i].attendeeType;
                     this.televisitAttendeesObj.attendeeId = result[i].attendeeId;
-                    this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList.find(a => a.id === result[i].id).isMandatorySelection;
+                    if(this.televisitAttendeesList.find(a => a.id === result[i].id) !== undefined){
+                        this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList.find(a => a.id === result[i].id).isMandatorySelection;
+                    }else{
+                        if(this.televisitAttendeesObj.attendeeType === 'Participant'){
+                            this.televisitAttendeesObj.isMandatorySelection = true;
+                        }else{
+                            this.televisitAttendeesObj.isMandatorySelection = false;
+                        }
+                    }
                     this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
                     this.duplicateSelectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
                     this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === result[i].id) , 1);
