@@ -125,7 +125,7 @@ export default class Medicalinformation extends LightningElement {
   maindivcls;
   popupcls;
   isDeleteAllowed = false;
-
+  deleteId;
   connectedCallback() {
     if(this.isrtl) {
       this.maindivcls = 'rtl';      
@@ -351,6 +351,7 @@ export default class Medicalinformation extends LightningElement {
 
   deleteAndCloseModal(event){
     this.ismodelDeletePopup = false;
+    this.deleteId = undefined;
     if (event.detail.deleteAttachment == true) {
     this.isFilesRetrieved = false;
     deleteFileAttachment({
@@ -369,6 +370,7 @@ export default class Medicalinformation extends LightningElement {
   }
 
   DeleteFile(event){
+    this.deleteId = event.currentTarget.dataset.id;
     this.ismodelDeletePopup = true;
   }
 

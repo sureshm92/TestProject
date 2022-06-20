@@ -1,280 +1,101 @@
-.eth .slds-no-flex{
-    width: 100%;
+/** pop code **/
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
 }
-.eth .close-icon{
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.deletebtn{  
+    background: #E20000;
+    color: white;
+}
+.deletebtn:hover{
+    background: #de4141;
+    color: white;
+}
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.model-small{
+    width: 420px;
+    max-width: 52.0625rem;
+    min-width: 0;
+}
+.close-arrow-left{
+    margin-right:0;
+}
+.close-icon{
     cursor: pointer;
+    padding-left: 10px;
 }
-.eth .slds-no-flex span{
+.btn-height{
+    height: 40px;
+}
+.save-btn{
     float: right;
-    color: #0768fd;
-    cursor: pointer;
+    margin-left: 15px;
 }
-.eth .slds-input{
-    height: auto;
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
 }
 .participant-text{
     font-size: 16px;
     font-weight: 500;
 }
-.disabledrag{
-    opacity: 0.5;
+.container_popup{
+    z-index: 9999;
 }
-.eth .selectedOption{
-    max-width: 93%;
-    overflow: hidden;
-    min-height: 32px;
-    /* white-space: nowrap; */
-}
-.eth .selectedValue{
-    border: 1px solid #d9d9d9;
-    border-radius: 16px;
-    margin-left: 5px;
-    color: black;
-    font-weight: 600;
-    float: left;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 0 10px;
-}
-.eth .close-img{
-    cursor: pointer;
-    width: 14px;
-    margin-left: 5px;
-}
-.eth .slds-listbox__option-icon{
-    width: 6px;
-}
-.eth .slds-listbox_vertical .slds-listbox__option:hover{
-    background: #ecf3ff;
-}
-.eth .input-width{
-    height: 14px;
-    width: 14px;
-}
-.eth .slds-truncate{
-    width: 100%;
-    cursor: pointer;
-}
-.eth .text-for-check{
-    position: absolute;
-    padding-left: 7px;
-    font-size: 14px;
-    margin-top: -2px;
-    max-width: 84%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.eth .input-width:checked + .text-for-check {
-    font-weight: 600;
-}
-.eth input:focus {
-    box-shadow: none;
+.containerbackdrop_popup{
+    z-index: 9998;
 }
 
-.dt input[type=date]::-webkit-calendar-picker-indicator {
-    display: none;
-}
-.dt input[type=date]::-webkit-datetime-edit {
-  text-align: right;
-}
-/* upload css */
-.saveButton {
-    background-color: rgb(41, 125, 253);
-    color: white;
-    border-color: #297dfd;
-}
-.saveButton:hover {
-    background-color:#1c577f;
-    border-color: #1c577f;
 
-}
-.modalBody{
-    font-family: "Inv Maison Neue","Maison Neue",-apple-system,BlinkMacSystemFont,"Open Sans",open-sans,sans-serif;
-    min-height: 250px;
-}
-.popupmodel .slds-modal_small .slds-modal__container{
-    width:500px; 
-}
-.modalBody .label {
-    color: #444444;
-    font-family: "Proxima Nova";
-    font-size: 14px;
-    letter-spacing: 0;
-    line-height: 24px;
-  }
-.modalBody .slds-progress-bar__value{
-    background-color: #0768FD;
-}
-.fileInput{
-    width: 100%;
-    height: 117px;
-    position: absolute;
-}
-.fileBox{
-    width: 100%;
-    height: 117px;
-    border: 1px dashed #B5B5B5;
-    border-radius: 4px;
-    background-color: #F2F2F2;
-    position: absolute;
-    pointer-events: none;
-
-}
-.fileHolder{
-    min-height: 130px;
-}
-.uploadLabel{
-    color: #595959;
-    font-family: "Proxima Nova";
-    font-size: 14px;
-}
-.linkLabel{
-    color: #0768fd;    
-}
-.fileName{    
-    color: #444444;
-    font-family: "Proxima Nova";
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 24px;
-}
-.elipsis{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.iconBlue {
-    fill : #297dfd;
-}
-.progressBar {
-    width: 95%;
-    display: inline-block;
-}
-.closeIcon {
-    width: 5%;
-    display: inline;
-    padding-left: 2%;
-}
-
-.importInfo {
-    font-family: Proxima Nova;
-    font-size: 20px;
-    line-height: 24px;
-    padding-left: 22px;
-    padding-right: 25px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-.importInfo ol{
-    list-style : decimal;
-}
-.importInfo ol>li>ol{
-    list-style : lower-alpha;
-    padding-left: 2rem;
-}
-.importInfo>.processTextBody>ol>li 
-{
-    padding-bottom: 10px;
-    margin-left: 23px;
-}
-.slds-checkbox .slds-checkbox__label .slds-form-element__label {
-    font-size: 14px;
-}
-.processtext
-{
-    overflow-y: scroll;
-    height: 22rem;
-}
-.importInfo .header1 {
-    position: absolute;
-    top: -20px;
-    left: 24px;
-    font-size: 24px;
-    font-weight: 600;
-}
-.okButton{
-    height: 40px;
-    width: 80px;
-}
-.disabledB{
-    opacity : 0.5;
-}
-.leftMargin{
-    margin: 0px 8px 0px 0px;
-}
-@media (max-device-width: 768px) {    
-    .processtext{
-        overflow: scroll;
-        height: 210px;
+@media (max-device-width: 767px) {
+    .model-small{
+        width: auto;
+        min-width: auto;
     }
-    .processBody{
-        zoom: 0.8;
+    .mobile-width{
+        width: 100%;
     }
-    .importInfo .header1{
-        top: -27px;
-        left: -5px;
+    .close-icon{
+        padding-left: 25px;
     }
-    .importInfo{
-        padding: 10px 12px 10px 7px;
-    }
-}
-@media (max-device-width: 360px) {
-    .processtext{
-        overflow: scroll;
-        height: 350px;
-    }
-    .processBody{
-        zoom: 0.8;
-    }
-}
-
-/*mobile*/
-
-.mobileCards{
-    display:none;
-}
-.desktopList{
-    display:unset;
-}
-@media (max-device-width: 768px) {
-    .desktopList{
-        display:none;
-    }
-    .mobileCards
-    {
-        display:unset;
-    }
-    .slds-card__body.slds-card__body_inner div {
-        padding-bottom: 2px;
-    }
-    .bulk-import-files{
-        padding: unset;
-    }
-    .inprogress{
-        position: unset;
-    }
-    .bufferSides{
+    .save-btn{
         float: left;
-        width: 10%;
-        border: .1px solid white;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 20px;
     }
-    .buffermain{
-        float: left;
-        width: 90%;
+    .discard-btn{
+        width: 100%;
+        margin-left: 0;
     }
-    .slds-dropdown_right, .slds-dropdown--right{
-        right: 11%;
-    }
-    .bulk-importButton{
-        background: blue;
-        color: white !important;
+}  
+@media (min-width: 767px) {
+    .model-small{
+        width: 100%;
     }
 }
-/* RTL Start */
-.rtl .closeIcon {
-    padding-left: 0;
-    padding-right: 1%;
+@media (min-width: 992px) {
+    .model-small{
+        width: 470px;
+    }
+} 
+ /** pop code End **/
+ /**RTL Start **/
+.rtl .save-btn{
+    float:left;
+    margin-right:15px;
 }
-/* RTL End */
+ /**RTL END**/
