@@ -365,6 +365,27 @@ Duration: ##VisitDuration</value>
         <value>Start date cannot be in the past</value>
     </labels>
     <labels>
+        <fullName>SS_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_Email</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_SMS</shortDescription>
+        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4534,6 +4555,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>DI L Pending approval/activation</shortDescription>
         <value>Pending approval/activation</value>
+    </labels>
+    <labels>
+        <fullName>RH_Direct_Mail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Direct_Mail</shortDescription>
+        <value>Direct Mail</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
@@ -9604,6 +9632,20 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA intervention required</value>
     </labels>
     <labels>
+        <fullName>IQ_RH_ROW_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_ROW_Consent</shortDescription>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>IQ_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA, who may contact them at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to send you updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
         <fullName>IQVIA_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12060,6 +12102,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Opt Out Success Message</shortDescription>
         <value>Your request has been sent successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update my communication preferences</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -18011,6 +18069,83 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ChangesSuccessfullySaved</shortDescription>
         <value>Changes are successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_All</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Dmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Dmail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consent</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_SMS</shortDescription>
+        <value>SMS/Text</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study_consent</shortDescription>
+        <value>I consent to the processing of my personal data by a study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_savechanges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_savechanges</shortDescription>
+        <value>Save Changes</value>
     </labels>
     <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
@@ -25551,6 +25686,34 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>PIR_Preset_Created_Message</shortDescription>
         <value>has been created.</value>
+    </labels>
+     <labels>
+        <fullName>pir_Bulk_Import_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_ Bulk Import History</shortDescription>
+        <value>Bulk Import History</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Import_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Import_Participants</shortDescription>
+        <value>Import Participants</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Study_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Site_Name</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+     <labels>
+        <fullName>PIR_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Name</shortDescription>
+        <value>Study Name:</value>
     </labels>
     <labels>
         <fullName>PIR_Preset_Delete_Message</fullName>

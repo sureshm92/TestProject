@@ -1,0 +1,262 @@
+<template>
+    <div class="bulkImport">
+        <div class="slds-grid slds-wrap slds-gutters"> 
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <div class="bulkImportFile d_none">
+                    Bulk Import Files
+                </div>
+            </div>     
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <div class="slds-grid slds-wrap slds-gutters"> 
+                    <div class="slds-col slds-size_1-of-2 btn-width_Instruction">
+                        <button class="slds-button slds-button_neutral btn_height">
+                            <img src={instructionsSvgURL}/><span class="slds-p-left_small">Instructions</span>
+                        </button>                   
+                    </div>   
+                    <div class="slds-col slds-size_1-of-2 btn-width_Template">
+                        <button class="slds-button slds-button_neutral btn_height">
+                            <img src={downloadSvgURL}/><span class="slds-p-left_small">File Template</span>
+                        </button> 
+                    </div> 
+                    <div class="slds-col slds-size_1-of-1 btn-width_Participants">
+                        <button class="slds-button slds-button_neutral bulk-importButton btn_height">
+                            <img src={impotrtSvgURL}/><span class="slds-p-left_small">Import Participants</span>
+                        </button>  
+                    </div>  
+                </div>    
+            </div> 
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                <div class="bulkImportFile d_noneD">
+                    Bulk Import Files
+                </div>
+            </div>   
+        </div><!-- slds-grid slds-wrap slds-gutters -->
+        <div class="slds-grid slds-wrap slds-gutters"> 
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small">
+                <div class="table-width table-width-nodata">
+                    <table role="grid" class="slds-table slds-table_cell-buffer slds-table_bordered table-border">
+                        <colgroup>
+                            <col class="fName">
+                            <col class="fRecord">
+                            <col span=2 class="fAccepted">
+                            <col class="fRejected">
+                            <col class="fUploadedBy">
+                            <col class="fUploadedOn">
+                        </colgroup>
+                        <!--Header of the table-->
+                        <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="table-header" scope="col">
+                                <div class="table-header-label slds-truncate" title="File Name">File Name</div>
+                            </th>
+                            <th class="table-header slds-text-align_center" scope="col">
+                                <div class="table-header-label slds-truncate" title="Initial Total Records">Initial Total Records</div>
+                            </th>
+                            <th class="table-header slds-text-align_center" scope="col">
+                                <div class="table-header-label slds-truncate" title="Accepted">Accepted</div>
+                            </th>
+                            <th class="table-header slds-text-align_center" scope="col">
+                                <div class="table-header-label slds-truncate" title="Rejected">Rejected</div>
+                            </th>
+                            <th class="table-header" scope="col">
+                                <div class="table-header-label slds-truncate" title="Uploaded By">Uploaded By</div>
+                            </th>
+                            <th class="table-header slds-text-align_center" scope="col">
+                                <div class="table-header-label slds-truncate" title="Uploaded On">Uploaded On</div>
+                            </th>
+                            <th class="table-header slds-text-align_center" scope="col">
+                                <div class="table-header-label slds-truncate" title="Actions">Actions</div>
+                            </th>
+                        </tr>
+                        </thead> 
+                    </table>
+                </div>
+             </div> <!-- table without data slds-col slds-size_1-of-1 -->    
+             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <div class="noData slds-align--absolute-center">
+                    <div class="slds-grid slds-wrap slds-gutters"> 
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bulkImportFile slds-text-align_center">
+                            Imported files with participants will be shown here.<br>
+                            Click on Import Participants to upload a file.
+                        </div>
+                                          
+                    </div> <!-- slds-grid slds-wrap slds-gutters -->     
+                </div><!-- noData -->    
+             </div> <!-- table without data slds-col slds-size_1-of-1 -->     
+        </div><!-- slds-grid slds-wrap slds-gutters table without data  -->   
+        <div class="slds-grid slds-wrap slds-gutters"> 
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_medium">
+                <div class="table-width">
+                    <table role="grid" class="slds-table slds-table_cell-buffer slds-table_bordered table-border">
+                        <colgroup>
+                            <col class="fName">
+                            <col class="fRecord">
+                            <col span=2 class="fAccepted">
+                            <col class="fRejected">
+                            <col class="fUploadedBy">
+                            <col class="fUploadedOn">
+                        </colgroup>
+                        <!--Header of the table-->
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="table-header" scope="col">
+                                    <div class="table-header-label slds-truncate" title="File Name">File Name</div>
+                                </th>
+                                <th class="table-header slds-text-align_center" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Initial Total Records">Initial Total Records</div>
+                                </th>
+                                <th class="table-header slds-text-align_center" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Accepted">Accepted</div>
+                                </th>
+                                <th class="table-header slds-text-align_center" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Rejected">Rejected</div>
+                                </th>
+                                <th class="table-header" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Uploaded By">Uploaded By</div>
+                                </th>
+                                <th class="table-header" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Uploaded On">Uploaded On</div>
+                                </th>
+                                <th class="table-header slds-text-align_center" scope="col">
+                                    <div class="table-header-label slds-truncate" title="Actions">Actions</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="slds-hint-parent table-row">                      
+                                <td data-label="fname">
+                                    <div class="slds-truncate" title="Import_Patient_Template (26)_errors.csv">Import_Patient_Template (26)_errors.csv</div>
+                                </td>
+                                <td data-label="frecord" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="1">1</div>
+                                </td>
+                                <td data-label="faccepted" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="2">2</div>
+                                </td>    
+                                <td data-label="frejected" class="slds-text-align_center">
+                                    <div class="slds-truncate slds-text-color_error color_error_bold" title="0">0</div>
+                                </td>   
+                                <td data-label="fuploadedBy">
+                                    <div class="slds-truncate" title="Nazz Email">Nazz Email</div>
+                                </td>   
+                                <td data-label="fuploadedOn">
+                                    <div class="slds-truncate" title="04-Jan-2022"> 
+                                        <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value="1547250828000"></lightning-formatted-date-time>
+                                    </div>
+                                </td>      
+                                <td data-label="action" class="slds-text-align_center">
+                                    <div class="slds-truncate" title=""> 
+                                        <a href="#" target="_blank">
+                                            <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon>
+                                        </a>
+                                    </div>
+                                </td>                   
+                            </tr>  
+                            <tr class="slds-hint-parent table-row">                      
+                                <td data-label="fname">
+                                    <div class="slds-truncate" title="Import_Patient_Template (26)_errors.csv">Import_Patient_Template (26)_errors.csv</div>
+                                </td>
+                                <td data-label="frecord" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="1">1</div>
+                                </td>
+                                <td data-label="faccepted" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="2">2</div>
+                                </td>    
+                                <td data-label="frejected" class="slds-text-align_center">
+                                    <div class="slds-truncate slds-text-color_error color_error_bold" title="0">0</div>
+                                </td>   
+                                <td data-label="fuploadedBy">
+                                    <div class="slds-truncate" title="Nazz Email">Nazz Email</div>
+                                </td>   
+                                <td data-label="fuploadedOn">
+                                    <div class="slds-truncate" title="04-Jan-2022"> 
+                                        <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value="1547250828000"></lightning-formatted-date-time>
+                                    </div>
+                                </td>      
+                                <td data-label="action" class="slds-text-align_center">
+                                    <div class="slds-truncate" title=""> 
+                                        <a href="#" target="_blank">
+                                            <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon>
+                                        </a>
+                                    </div>
+                                </td>                   
+                            </tr> 
+                            <tr class="slds-hint-parent table-row">                      
+                                <td data-label="fname">
+                                    <div class="slds-truncate" title="Import_Patient_Template (26)_errors.csv">Import_Patient_Template (26)_errors.csv</div>
+                                </td>
+                                <td data-label="frecord" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="1">1</div>
+                                </td>
+                                <td data-label="faccepted" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="2">2</div>
+                                </td>    
+                                <td data-label="frejected" class="slds-text-align_center">
+                                    <div class="slds-truncate slds-text-color_error color_error_bold" title="0">0</div>
+                                </td>   
+                                <td data-label="fuploadedBy">
+                                    <div class="slds-truncate" title="Nazz Email">Nazz Email</div>
+                                </td>   
+                                <td data-label="fuploadedOn">
+                                    <div class="slds-truncate" title="04-Jan-2022"> 
+                                        <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value="1547250828000"></lightning-formatted-date-time>
+                                    </div>
+                                </td>      
+                                <td data-label="action" class="slds-text-align_center">
+                                    <div class="slds-truncate" title=""> 
+                                        <a href="#" target="_blank">
+                                            <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon>
+                                        </a>
+                                    </div>
+                                </td>                   
+                            </tr> 
+                            <tr class="slds-hint-parent table-row">                      
+                                <td data-label="fname">
+                                    <div class="slds-truncate" title="Import_Patient_Template (26)_errors.csv">Import_Patient_Template (26)_errors.csv</div>
+                                </td>
+                                <td data-label="frecord" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="1">1</div>
+                                </td>
+                                <td data-label="faccepted" class="slds-text-align_center">
+                                    <div class="slds-truncate" title="2">2</div>
+                                </td>    
+                                <td data-label="frejected" class="slds-text-align_center">
+                                    <div class="slds-truncate slds-text-color_error color_error_bold" title="0">0</div>
+                                </td>   
+                                <td data-label="fuploadedBy">
+                                    <div class="slds-truncate" title="Nazz Email">Nazz Email</div>
+                                </td>   
+                                <td data-label="fuploadedOn">
+                                    <div class="slds-truncate" title="04-Jan-2022"> 
+                                        <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value="1547250828000"></lightning-formatted-date-time>
+                                    </div>
+                                </td>      
+                                <td data-label="action" class="slds-text-align_center">
+                                    <div class="slds-truncate" title=""> 
+                                        <a href="#" target="_blank">
+                                            <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon>
+                                        </a>
+                                    </div>
+                                </td>                   
+                            </tr>                                  
+                        </tbody>
+                    </table>
+                </div> 
+             </div> <!-- table without data slds-col slds-size_1-of-1 -->                
+        </div><!-- slds-grid slds-wrap slds-gutters table with data  -->  
+        <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap">      
+            <div class="rightShift slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <span class="slds-p-right--x-small pre disabled">   
+                    <lightning-icon  icon-name="utility:chevronleft" size="xx-small" alternative-text="Previous Page"></lightning-icon>
+                </span>
+                <label class="slds-p-horizontal_x-small" for="pageNum">Page</label>&nbsp;
+                <input type="number" id="pageNum" value="1" min="1" max="10" maxlength="4" class="customInput" title="Go to a Page"></input>
+                <span class="slds-p-horizontal_x-small">of<span class="slds-m-horizontal_x-small totalpages" style="border-bottom:2px dotted;">10</span></span>
+                <span class="nxt disabled">
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
+                </span>
+            </div>
+        </div> <!-- slds-grid slds-wra Pg pagination End -->      
+    
+    </div><!-- bulkImport -->
+</template>
