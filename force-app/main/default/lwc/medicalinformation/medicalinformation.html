@@ -260,7 +260,7 @@
                       class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix"
                     >
                       <button
-                        class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small slds-float_right stretch-btn" style="display:none"
+                        class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small slds-float_right stretch-btn"
                         onclick={renderModel}
                       >
                         <img class="upload-icon" src={upload} />
@@ -323,7 +323,7 @@
                           <template if:true={ismodelDeletePopup}>
                             <c-pir_deletemedicaldocument
                               maindivcls={popupcls}
-                              deleteid={attach.attachment.Id}
+                              deleteid={deleteId}
                               onclosemodelpopupanddelete={deleteAndCloseModal}
                             ></c-pir_deletemedicaldocument>
                           </template>
