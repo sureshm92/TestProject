@@ -974,7 +974,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+            if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1604,14 +1604,14 @@ public without sharing class PIR_StatusDetailController {
         
         if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
             Televisit__c televisitRecord = new Televisit__c();
-            televisitRecord.Duration__c = '15 minutes';
+            televisitRecord.Duration__c = System.Label.RH_TV_InitialVisitDefaultDuration +' minutes';
             televisitRecord.Start_Time__c = perRecord.Initial_visit_scheduled_time__c;
             televisitRecord.Status__c = 'Scheduled';
             televisitRecord.Title__c = 'Initial Visit';
             televisitRecord.Visit_Date__c = perRecord.Initial_visit_scheduled_date__c;
             televisitRecord.Participant_Enrollment__c = perRecord.Id;
             Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
-            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(15);
+            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
             televisitRecord.Visit_Date_Time__c = visitDateTime;
             insert televisitRecord;
             

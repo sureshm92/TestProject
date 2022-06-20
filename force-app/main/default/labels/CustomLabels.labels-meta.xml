@@ -25991,6 +25991,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Televisits</value>
     </labels>
     <labels>
+        <fullName>RH_TV_InitialVisitDefaultDuration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_InitialVisitDefaultDuration</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
         <fullName>Join_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
