@@ -44,7 +44,7 @@
                        </lightning-tab> 
                    </template>
                            <template if:true={enableTelevisitTab}>
-                              <lightning-tab label="Televisit" value="Televisit" onactive={handleTelevisitTab} class="no-padding">
+                              <lightning-tab label={label.RH_TV_TabTitle} value="Televisit" onactive={handleTelevisitTab} class="no-padding">
                                  <c-televisit-creation-screen  peidnew= {selectedPE} calltelevisit={callTelevisistMethod}></c-televisit-creation-screen>
                               </lightning-tab>
                            </template>
@@ -623,8 +623,8 @@
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
                            <lightning-combobox
-                              name="Particiapnt Status"
-                              label="Particiapnt Status"
+                              name={label.PG_AP_F_Patient_Status}
+                              label={label.PG_AP_F_Patient_Status}
                               value=""
                               placeholder="Select...."
                               options={particiapntStatus}

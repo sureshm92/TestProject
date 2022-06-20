@@ -70,12 +70,19 @@
     <tr>
 
       <th scope="col" class="" style = "position: sticky">
-        <div class="slds-truncate" title="Name">{label.countryLabel}</div>
+        <div class="slds-truncate" title="Name" data-id= "Country" onclick={sortRecs} >{label.countryLabel}
+          <template if:false={soritingShow}>
+            <lightning-icon   icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon   icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
+        </div>
       </th>
       <th class="fix" scope="col" >
-        <div class="slds-truncate" title="Some Custom Column"  >{label.studysitLabel}
-          <lightning-icon onclick={sortRecs} icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
-          <lightning-icon onclick={sortRecs} icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+        <div class="slds-truncate" title="Some Custom Column" data-id= "StudySite" onclick={sortRecs} >{label.studysitLabel}
+          <template if:true={soritingShow}>
+            <lightning-icon  icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
+            <lightning-icon  icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
+          </template>
         </div>
       </th>
       <th class="" scope="col">
@@ -83,7 +90,7 @@
     </th>
       <template for:each={venders} for:item="row">
       <th key = {row.Id}>
-            <lightning-button-menu variant="bare" alternative-text="Show menu" data-id = {row.Id} data-target-id ={row.Name}  onselect={handleOnselect} label={row.Name}>
+            <lightning-button-menu class="testBtn" variant="bare" alternative-text="Show menu" data-id = {row.Id} data-target-id ={row.Name}  onselect={handleOnselect} label={row.Name} title ={row.Name}>
                 <lightning-menu-item icon-position = "left" icon-name ="utility:edit" value= "Edit" label="Edit"></lightning-menu-item>
                 <lightning-menu-item icon-position = "left" icon-name ="utility:copy" value="Clone" label="Clone"></lightning-menu-item>
                 <lightning-menu-item icon-position = "left" icon-name="utility:close" value="Remove" label="Remove"></lightning-menu-item>

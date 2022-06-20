@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <inlineHelpText>Checked when share the above information with IQVIA and its affiliates checkbox is checked in the front end</inlineHelpText>
-    <label>Permit personal information storage</label>
+    <label>Study info storage consent</label>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

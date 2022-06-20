@@ -383,6 +383,18 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Direct_Mail_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            //IQVIA Outreach Consent
+            enrollment.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
+                                                                || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
+            enrollment.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            
+            //setConsentChange(enrollment);
             if (
                 enrollment.Pre_screening_Status__c ==
                 ParticipantEnrollmentService.PES_STATUS_PENDING
@@ -457,11 +469,17 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         participantCon.Phone = participant.Phone__c;
                     }
                     //Added by Raviteja
-                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c ||
+                    (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c)){
                         participantCon.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
                        participantCon.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                        participantCon.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
                        participantCon.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-
+                        participantCon.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
+                                                                || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
                     }
                       //End                         
                     
@@ -559,8 +577,7 @@ FOR UPDATE
                     }
                     insert participantDelegate;
                 }
-                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
-                
+                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {                
                 if (participantId != null && newContact.Id != null) {
                     List<Patient_Delegate__c> checkPDel = [
                         SELECT Id
@@ -605,8 +622,7 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         
                         insert ptDelegateRef;
                     }
-                }
-                
+                }                
                 //}
                 if (createDelegateuser) {
                     createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },

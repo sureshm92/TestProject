@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Email_Template_Delegate__c</field>
-        <value xsi:type="xsd:string">Televisit_Creation_Email_GSk</value>
+        <value xsi:type="xsd:string">Televisit_Creation_Email_GSK</value>
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:type="xsd:string">Televisit_Creation_Email_GSk</value>
+        <value xsi:type="xsd:string">Televisit_Creation_Email_GSK</value>
     </values>
     <values>
         <field>Message_Body__c</field>

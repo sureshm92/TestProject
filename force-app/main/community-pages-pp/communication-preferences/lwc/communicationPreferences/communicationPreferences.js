@@ -28,6 +28,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
   @api isDelegate;
 	@api participantState;
+	@api isDesktop;
   label = {
     PP_Communication_Pref,
     PP_Communication_Pref_Study,
@@ -48,7 +49,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     spinner = false;
     loaded = false;
-    isDesktop = true;
     isPrivacyPolicy = false;
 
     debugger;
@@ -241,9 +241,12 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 		//Return True if Delegate is logged in as self View
 		get isDelegateSelfView() {
-				if (this.participantState === 'ALUMNI' && !this.isDelegate){
+				//TODO: Cover this part as part of PEH-5844 - UI part in Iteration 3.2
+				/*
+				  if (this.participantState === 'ALUMNI' && !this.isDelegate){
 						return true;
 				}
+				*/
 				return false;
 		}
 }

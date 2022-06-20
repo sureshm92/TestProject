@@ -8,6 +8,10 @@
             component.set('v.isDelegate', false);
         }
 		component.set('v.participantState', communityService.getCurrentCommunityMode().participantState);
+        var device = $A.get("$Browser.formFactor");
+        if (device=='PHONE'){
+            component.set('v.isDesktop',false);
+        }
         communityService.executeAction(
             component,
             'getInitData',
