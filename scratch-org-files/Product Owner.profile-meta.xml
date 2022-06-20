@@ -5,11 +5,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-	    <apexClass>televisitConfigurationController</apexClass>
+        <apexClass>TelevisitCreationScreenController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-	    <apexClass>TelevisitCreationScreenController</apexClass>
+        <apexClass>televisitConfigurationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
