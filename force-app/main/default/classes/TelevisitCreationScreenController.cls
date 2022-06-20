@@ -82,7 +82,33 @@ Public without sharing Class TelevisitCreationScreenController {
             if(!lsttelevisitAttendees.isEmpty()){
                  try{
                     insert lsttelevisitAttendees;
-                    
+                     /*
+                    List<Notification__c> notifications = new List<Notification__c>();
+                    for (Televisit_Attendee__c attendee : lsttelevisitAttendees) {
+                        if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
+                            Notification__c notification = new Notification__c();
+                            notification.Recipient__c = attendee.Contact__c;
+                            notification.WhatId__c = attendee.Id;
+                            notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                            
+                            if(televisit != null && televisit.Participant_Enrollment__c != null && televisit.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                                if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_Janssen';
+                                }else if(televisit.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation_GSK';
+                                }else{
+                                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
+                                }
+
+                            }
+                            
+                            notifications.add(notification);
+                        }                          
+                    }
+                    if(!notifications.isEmpty()){
+                        insert notifications;
+                    }
+                     */
                 }catch(exception ex){
                     return ex.getMessage();
                 }
@@ -213,11 +239,23 @@ Public without sharing Class TelevisitCreationScreenController {
     @AuraEnabled
     Public Static List<AttendeesWrapper> fetchAttendees(String ParticipantEnrollmentId){
         List<AttendeesWrapper> lstAttendeesWrapper = new List<AttendeesWrapper>();
-        Participant_Enrollment__c  per = [SELECT Id,Participant__c,Participant__r.Adult__c,Participant_Contact__c,PI_Contact__c,PI_Contact__r.FirstName, PI_Contact__r.LastName, Study_Site__c,
+        Participant_Enrollment__c  per = [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c,Participant_Contact__c,PI_Contact__c,PI_Contact__r.FirstName, PI_Contact__r.LastName, Study_Site__c,
                                           Participant__r.First_Name__c,Participant__r.Last_Name__c FROM Participant_Enrollment__c 
                                           WHERE Id =:ParticipantEnrollmentId];
-        User usrRecord = [SELECT Id,FirstName,LastName FROM User WHERE ContactId =:per.PI_Contact__c LIMIT 1];
-        if(per.Participant__r.Adult__c){
+        
+        List<String> portalUserContactIds = new List<String>();
+        List<Site_Staff__c> lstSiteStaff = new List<Site_Staff__c>([Select Id,Site_Contact__c,Site_Contact__r.FirstName,Site_Contact__r.LastName  from Site_Staff__c WHERE Study_Site__c = :per.Study_Site__c]);
+        Map<Id,User> mapUserRecord = new Map<Id,User>();
+        for(Site_Staff__c siteStaff : lstSiteStaff){
+            portalUserContactIds.add(siteStaff.Site_Contact__c);
+        }
+        portalUserContactIds.add(per.PI_Contact__c);
+        
+        for(User usr : [SELECT Id,FirstName,LastName,ContactId FROM User WHERE ContactId =:portalUserContactIds]){
+            mapUserRecord.put(usr.ContactId,usr);
+        }
+        
+        if(per.Participant__r.Adult__c && per.Participant__r.Email__c != null){
             AttendeesWrapper wrap3 = new AttendeesWrapper();
             wrap3.firstName= per.Participant__r.First_Name__c;
             wrap3.lastName= per.Participant__r.Last_Name__c;
@@ -225,10 +263,14 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap3.contactId= per.Participant_Contact__c;
             lstAttendeesWrapper.add(wrap3);
         }
-        for(Site_Staff__c siteStaff : [Select Id,Site_Contact__c,Site_Contact__r.FirstName,Site_Contact__r.LastName  from Site_Staff__c WHERE Study_Site__c = :per.Study_Site__c]){
+        for(Site_Staff__c siteStaff : lstSiteStaff){
             AttendeesWrapper wrap = new AttendeesWrapper();
             wrap.firstName= siteStaff.Site_Contact__r.FirstName;
             wrap.lastName= siteStaff.Site_Contact__r.LastName;
+            if(wrap.firstName == null && wrap.lastName.startsWith('P-') && mapUserRecord.get(siteStaff.Site_Contact__c) != null){
+                wrap.firstName= mapUserRecord.get(siteStaff.Site_Contact__c).FirstName;
+                wrap.lastName= mapUserRecord.get(siteStaff.Site_Contact__c).LastName;
+            }
             wrap.attendeeType= 'Site Staff';
             wrap.contactId= siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
@@ -236,14 +278,14 @@ Public without sharing Class TelevisitCreationScreenController {
             AttendeesWrapper wrap1 = new AttendeesWrapper();
             wrap1.firstName= per.PI_Contact__r.FirstName;
             wrap1.lastName= per.PI_Contact__r.LastName;
-            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && usrRecord != null){
-                wrap1.firstName= usrRecord.FirstName;
-                wrap1.lastName= usrRecord.LastName;
+            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
+                wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
+                wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
             }
             wrap1.attendeeType= 'PI';
             wrap1.contactId= per.PI_Contact__c;
             lstAttendeesWrapper.add(wrap1);
-        for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
+        for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
                                                       Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
                                                       Participant__c =: per.Participant__c]){
             AttendeesWrapper wrap2 = new AttendeesWrapper();
@@ -257,6 +299,11 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap2.attendeeType= 'Participant Delegate';
             wrap2.contactId= participantDelegate.Contact__c;
             wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
+            if(participantDelegate.Participant__r.Email__c != null){
+                wrap2.participantHasEmail = true;
+            }else{
+                wrap2.participantHasEmail = false;
+            }
             wrap2.participantPrimaryDelegate = participantDelegate.Primary_Delegate__c;
             lstAttendeesWrapper.add(wrap2);
         }
@@ -282,7 +329,8 @@ Public without sharing Class TelevisitCreationScreenController {
         Public Boolean participantAdult;
         @AuraEnabled 
         Public Boolean participantPrimaryDelegate;
-           
+        @AuraEnabled 
+        Public Boolean participantHasEmail;
     }
     
     @AuraEnabled
@@ -303,8 +351,6 @@ Public without sharing Class TelevisitCreationScreenController {
                    attendeesList[0].Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                     if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancel_Janssen';
-                    }else if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK'){
-                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancellation_GSK';
                     }else{
                         notification.Notification_Type__c = 'Message_to_PI_Televisit_Cancellation';
                     }

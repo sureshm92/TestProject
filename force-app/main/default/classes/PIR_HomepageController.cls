@@ -2027,6 +2027,26 @@ public without sharing class PIR_HomepageController {
             )
           );
         }
+        //Eligibility Failed Logic - To be modified for new statuses in Group 1 and 2
+        if(
+            (oParticipantStatus == PEStatusState.PE_STATUS_RECEIVED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_PASSED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+              oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_REACH) && 
+              pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_FAILED
+          ) {
+            histories.add(
+              new Participant_Enrollment_Status_History__c(
+                Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                Status__c = 'Successfully Contacted',
+                ParticipantEnrollment__c = pe.Id
+                )
+              );
+          }
+        //
+
         if (
           (pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
           pe.Participant_Status__c !=

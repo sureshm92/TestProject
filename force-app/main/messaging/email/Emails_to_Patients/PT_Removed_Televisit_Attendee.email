@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Removed_as_Televisit_Attendee}"
+<messaging:emailTemplate subject="{!relatedTo.Title__c} {!$Label.Email_Subject_Removed_as_Televisit_Attendee}"
                          recipientType="Contact"
                          relatedToType="Televisit__c"
                          language="{!recipient.Language__c}">
