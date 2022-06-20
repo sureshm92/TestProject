@@ -1628,15 +1628,16 @@ public without sharing class PIR_StatusDetailController {
             Televisit_Attendee__c televisitAttendee = new Televisit_Attendee__c();
             televisitAttendee.Contact__c = perRecord.PI_Contact__c;
             televisitAttendee.Televisit__c = televisitRecord.id;
-            //Maybe 18 digit 15 digit issue 
             televisitAttendee.User__c = (mapUser.get(perRecord.PI_Contact__c)!= null)? mapUser.get(perRecord.PI_Contact__c).Id:null;
             televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
             televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
             televisitAttendee.Attendee_Type__c = 'PI';
             televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
-            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;   
-            lstAttendees.add(televisitAttendee);
-            
+            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;
+            if(televisitAttendee.Participant_First_Name__c == null && televisitAttendee.Participant_Last_Name__c.startsWith('P-') && mapUser.get(perRecord.PI_Contact__c) != null){
+                televisitAttendee.Participant_First_Name__c = mapUser.get(perRecord.PI_Contact__c).FirstName;
+                televisitAttendee.Participant_Last_Name__c = mapUser.get(perRecord.PI_Contact__c).LastName;
+            }
             Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
             televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
             televisitAttendee1.Televisit__c = televisitRecord.id;
@@ -1644,7 +1645,12 @@ public without sharing class PIR_StatusDetailController {
             televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
             televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
             televisitAttendee1.Attendee_Type__c = 'Participant';
+            if(televisitAttendee1.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(perRecord.Participant_Contact__c) != null){
+                televisitAttendee1.Firstname__c = mapUser.get(perRecord.Participant_Contact__c).FirstName;
+                televisitAttendee1.Lastname__c = mapUser.get(perRecord.Participant_Contact__c).LastName;
+            }
             lstAttendees.add(televisitAttendee1);
+            lstAttendees.add(televisitAttendee);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
             }
