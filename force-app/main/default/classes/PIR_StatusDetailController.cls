@@ -974,7 +974,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-            if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+            if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1620,7 +1620,7 @@ public without sharing class PIR_StatusDetailController {
             contactIds.add(perRecord.Participant_Contact__c);
             
             Map<Id,User> mapUser = new Map<Id,User>();
-            for(User usr :[SELECT Id,firstname,lastname,contactId FROM User WHERE contactId  =:contactIds]){
+            for(User usr :[SELECT Id,FirstName,LastName,contactId FROM User WHERE contactId  =:contactIds]){
                 mapUser.put(usr.contactId, usr);
             }
             
@@ -1634,9 +1634,10 @@ public without sharing class PIR_StatusDetailController {
             televisitAttendee.Attendee_Type__c = 'PI';
             televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
             televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;
-            if(televisitAttendee.Participant_First_Name__c == null && televisitAttendee.Participant_Last_Name__c.startsWith('P-') && mapUser.get(perRecord.PI_Contact__c) != null){
-                televisitAttendee.Participant_First_Name__c = mapUser.get(perRecord.PI_Contact__c).FirstName;
-                televisitAttendee.Participant_Last_Name__c = mapUser.get(perRecord.PI_Contact__c).LastName;
+            
+            if(televisitAttendee.Firstname__c == null && televisitAttendee.Lastname__c.startsWith('P-') && mapUser.get(perRecord.PI_Contact__c) != null){
+                televisitAttendee.Firstname__c = mapUser.get(perRecord.PI_Contact__c).FirstName;
+                televisitAttendee.Lastname__c = mapUser.get(perRecord.PI_Contact__c).LastName;
             }
             Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
             televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
