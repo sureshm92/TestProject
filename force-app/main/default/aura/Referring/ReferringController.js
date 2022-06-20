@@ -535,6 +535,7 @@
                 component.set('v.pEnrollment.Participant_Opt_In_Status_Emails__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
                 component.set('v.pEnrollment.Participant_Opt_In_Status_SMS__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
                 component.set('v.pEnrollment.Participant_Phone_Opt_In_Permit_Phone__c', event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c); 
+                component.set('v.pEnrollment.IQVIA_Direct_Mail_Consent__c', event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c); 
                 component.set('v.pEnrollment.Permit_SMS_Text_for_this_study__c', event.getParam('consentMap').pe.Permit_SMS_Text_for_this_study__c);
                 component.set('v.pEnrollment.Permit_Voice_Text_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Voice_Text_contact_for_this_study__c);
                 component.set('v.pEnrollment.Permit_Mail_Email_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);

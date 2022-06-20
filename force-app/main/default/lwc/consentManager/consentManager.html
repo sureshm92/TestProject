@@ -8,20 +8,34 @@
         <template if:true={consentModel.showError}>
             <div><lightning-formatted-text class="slds-form-element__help errorMsg" value={REQUIRED_ERROR_MSG} ></lightning-formatted-text></div>
         </template>
-        <div class="label_align">             
-            <lightning-input 
-                             data-id="studyConsent" 
-                             type="checkbox" 
-                             varient="label-hidden" 
-                             name="studyConsent" 
-                             checked={consentModel.studyConsent} 
-                             onchange={handleConsentChange}
-                             disabled={isaccesslevelthree}
-                             class="checkbox_size"></lightning-input>
-            <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
-        </div>
+        <template if:true={isCountryUS}>
+            <div class="label_align">             
+                <lightning-input 
+                                data-id="studyConsent" 
+                                type="checkbox" 
+                                varient="label-hidden" 
+                                name="studyConsent" 
+                                checked={consentModel.studyConsent} 
+                                onchange={handleConsentChange}
+                                disabled={isaccesslevelthree}
+                                class="checkbox_size"></lightning-input>
+                <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
+            </div>
+        </template>
         
         <template if:false={isCountryUS}>
+            <div class="label_align">             
+                <lightning-input 
+                                data-id="studyConsent" 
+                                type="checkbox" 
+                                varient="label-hidden" 
+                                name="studyConsent" 
+                                checked={consentModel.studyConsent} 
+                                onchange={handleConsentChange}
+                                disabled={isaccesslevelthree}
+                                class="checkbox_size"></lightning-input>
+                <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
+            </div>
             <div class="label_align slds-p-left_large">
                 <lightning-input 
                                  data-id="studySMSConsent"
@@ -92,6 +106,18 @@
                                             disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                         <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
+                    </div>
+                    <div class="label_align slds-p-left_medium">
+                        <lightning-input 
+                                            type="checkbox" 
+                                            data-id="outreachDirectEmailConsent" 
+                                            varient="label-hidden" 
+                                            name="outreachDirectEmailConsent" 
+                                            checked={consentModel.outreachDirectEmailConsent} 
+                                            onchange={handleConsentChange}
+                                            disabled={isaccesslevelthree}
+                                            class=" slds-m-right_medium checkbox_size"></lightning-input>
+                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachDirectEmailConsent">{DIRECT_EMAIL}</label></span>
                     </div>
             </template>
         </template>

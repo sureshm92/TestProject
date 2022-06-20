@@ -126,7 +126,8 @@ public without sharing class Action_UploadParticipantsRemote {
             }
 			system.debug('>>finalCSVLines>>'+finalCSVLines);
             system.debug('>>csvFileLines>>'+csvFileLines);
-            Database.executeBatch(
+            //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
+           Database.executeBatch(
                 new UploadParticipantsBatch(
                     finalCSVLines.values(),
                     csvFileLines.get(0),

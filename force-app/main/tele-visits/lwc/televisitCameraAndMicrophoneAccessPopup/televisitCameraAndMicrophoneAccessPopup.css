@@ -1,0 +1,15 @@
+.allowBtn {
+    color: white;
+    padding: 8px 12px;
+    background-color: #0768fd;
+    border: 1px solid grey;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+.televisitVisitPreviewOnDonotAllowPopup {
+    width: 420px !important;
+    text-align: center;
+}
+.slds-text-color_weak {
+    color: gray;
+}

@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:pir_OneColumnLayout",
+  "id" : "ef62b96b-83ec-49a9-ba44-857c2eceb92f",
+  "label" : "televisits",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:teleVisitsHome",
+      "id" : "86ed8190-c280-46c2-8578-94474a564545",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7263a75b-b8f1-4c4a-a35c-89d9a3f3206f",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "televisits"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c143bb1c-c3a2-49bb-897d-018a4bfb9a1d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0ebb0b36-6b1a-404b-a22c-1eed84f383a5",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-televisits"
+}
