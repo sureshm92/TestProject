@@ -324,6 +324,16 @@
                                                 onchange={handleCheckboxChange}></lightning-input>
                                           <span><label class="label_spacing consent_label" for="studySMSConsent">{SMS_TEXT}</label></span>
                         </div>
+                        <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="studyDirectEmailConsent" 
+                                                      varient="label-hidden" 
+                                                      name="studyDirectEmailConsent" 
+                                                      checked={pd.pe.Study_Direct_Mail_Consent__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing consent_label" for="studySMSConsent">{DIRECT_MAIL}</label></span>
+                              </div>
                         </br> </br>
                         <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
                               <div>
@@ -359,10 +369,17 @@
                                                       onchange={handleCheckboxChange}></lightning-input>
                                                 <span><label class="label_spacing consent_label" for="outreachEmailConsent">{SMS_TEXT}</label></span>
                               </div>
+                              <div class="label_align">
+                                    <lightning-input 
+                                                            type="checkbox" 
+                                                            data-id="outreachDirectMailConsent" 
+                                                            name="outreachDirectMailConsent" 
+                                                            checked={pd.pe.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c} 
+                                                            onchange={handleCheckboxChange}></lightning-input>
+                                                      <span><label class="label_spacing consent_label" for="outreachEmailConsent">{DIRECT_MAIL}</label></span>
+                                    </div>
                         </template>
                   </lightning-layout>
-                  <!--consenting section ends here-->
-            <!--c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager-->
             
             
             </div>
