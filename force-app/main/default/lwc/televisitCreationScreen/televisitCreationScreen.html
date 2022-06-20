@@ -31,7 +31,7 @@
                 label={label.RH_TV_CreateTelevisit}
                 title={label.RH_TV_CreateTelevisit}
                 onclick={openModal}
-                class="slds-m-left_x-small slds-float_right slds-p-bottom_medium zoom televisit">
+                class="slds-m-left_x-small slds-float_right slds-p-bottom_medium televisit">
             </lightning-button>
         </div>
     </div>
@@ -65,10 +65,10 @@
                         </div>
                         <div class="slds-col slds-size_1-of-12 close-icon slds-p-top_x-small">
                             <div onclick={closeModal}>
-                                <button class="closeButtopnIcon slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title="Close" onclick={closeModal}>
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title="Close" onclick={closeModal}>
                                     <lightning-icon icon-name="utility:close"
                                         alternative-text="close"
-                                        size="x-small" ></lightning-icon>
+                                        size="small" ></lightning-icon>
                                     <span class="slds-assistive-text">Close</span>
                                 </button>
                             </div>
@@ -79,7 +79,7 @@
                                 <div class="slds-col slds-size_12-of-12 slds-p-vertical_xx-small">
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Title</label>
-                                    <lightning-input class="inputFields slds-p-vertical_x-small" variant="label-hidden"  data-id="Title"  value={title} name="Title" onchange={handleChangeValidation} type="text" label="Title" title="Title" placeholder="Enter Title"></lightning-input>
+                                    <lightning-input maxlength="255" class="inputFields slds-p-vertical_x-small" variant="label-hidden"  data-id="Title"  value={title} name="Title" onchange={handleChangeValidation} type="text" label="Title" title="Title" placeholder="Enter Title"></lightning-input>
                                 </div>
                             </div>
                             
@@ -137,7 +137,7 @@
                                         <div class={cbComputedClass} aria-expanded={isComboExpanded} aria-haspopup="listbox" role="combobox">
                                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">                
                                                 <!--onkeyup={handleSearch}-->
-                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" autocomplete="off"
+                                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id" data-id="searchbox" autocomplete="off"
                                                 aria-controls="listbox-id" role="textbox" placeholder={placeHolder} onkeyup={handleSearch} onclick={openOptionsMenu}></input>
                                                 <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
                                                     <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon-text-default"></lightning-icon>
@@ -152,7 +152,10 @@
                                                                     <span class="slds-listbox__option-text slds-listbox__option-text_entity" 
                                                                     data-id={option.id} data-first-name={option.firstName} data-last-name={option.lastName} 
                                                                     data-attendee-type={option.attendeeType} data-is-mandatory-selection={option.isMandatorySelection} 
-                                                                    data-attendee-id={option.attendeeId} onclick={handleSelection}>
+                                                                    data-attendee-id={option.attendeeId} 
+                                                                    data-participant-primary-delegate={option.participantPrimaryDelegate} 
+                                                                    data-participant-has-email={option.participantHasEmail}
+                                                                    onclick={handleSelection}>
                                                                         {option.firstName} {option.lastName} ({option.attendeeType})
                                                                     </span>
                                                                 </span>
@@ -170,7 +173,7 @@
                                         </div>
                                     </template>
                                     <template if:false={isLoading}>
-                                        <div style="height: 100px;width:100%; overflow: auto" >
+                                        <div style="font-size:16px;height: 100px;width:100%; overflow: auto" >
                                             <table style="background:#fbfbfb" >
                                                 <template for:each={selectedTelevisitAttendeesList} for:item="selectedAttendee">
                                                     <tr key={selectedAttendee}>
@@ -184,7 +187,10 @@
                                                                 <a data-id={selectedAttendee.id} data-first-name={selectedAttendee.firstName} data-last-name={selectedAttendee.lastName} 
                                                                 data-attendee-type={selectedAttendee.attendeeType} 
                                                                 data-is-mandatory-selection={selectedAttendee.isMandatorySelection} 
-                                                                data-attendee-id={selectedAttendee.attendeeId} onclick={handleRemoveItems}>{label.RH_TV_Remove}</a>
+                                                                data-attendee-id={selectedAttendee.attendeeId} 
+                                                                data-participant-primary-delegate={selectedAttendee.participantPrimaryDelegate} 
+                                                                data-participant-has-email={selectedAttendee.participantHasEmail}
+                                                                onclick={handleRemoveItems}>{label.RH_TV_Remove}</a>
                                                             </template>
                                                             
                                                         </td>
@@ -202,12 +208,12 @@
                             <div class="slds-grid slds-wrap slds-m-top_large">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                                 <div class="slds-float_right mobile-width televisit_acion_btn">  
-                                    <button class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn zoom"  onclick={closeModal}> {label.RH_TV_Discard}</button>                
+                                    <button class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12  slds-button apollo-btn secondary btn-height discard-btn"  onclick={closeModal}> {label.RH_TV_Discard}</button>                
                                     <template if:false={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn zoom" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> {label.RH_TV_Save} </button>
+                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Save"  onclick={submitDetails} disabled={disableSaveButton}> {label.RH_TV_Save} </button>
                                     </template>
                                     <template if:true={televisitEditView}>
-                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn zoom" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
+                                        <button title="" class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn" data-id="Update" onclick={submitDetails} disabled={disableSaveButton}> Update </button>
                                     </template>
                                 </div>    
                             </div>
@@ -237,14 +243,14 @@
                 
                 <lightning-card>
                     <lightning-layout multiple-rows="true" style="padding-bottom: 10px;">
-                        <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="10" large-device-size="10" >
+                        <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="11" large-device-size="11" >
                             <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
                             <template if:true={tv.isCancelledStatus}>
                                 <lightning-formatted-text class="CancelledTag" value={tv.status}></lightning-formatted-text>
                             </template>                            
                         </lightning-layout-item>
                         <template if:true={tv.isScheduledStatus}>
-                            <lightning-layout-item size="3" small-device-size="3" medium-device-size="2" large-device-size="2" class="slds-p-left_x-large" style=" margin-top: -4px;">
+                            <lightning-layout-item size="3" small-device-size="3" medium-device-size="1" large-device-size="1" class="slds-p-left_medium tv_edit">
                                 <lightning-layout >            
                                     <lightning-layout-item  >
                                         <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >

@@ -33,7 +33,7 @@ import {
 import REFRESH_CHANNEL from "@salesforce/messageChannel/rhrefresh__c";
 
 export default class TelevisitConfigurationCmp extends LightningElement {
-
+    
     @wire(MessageContext)
      messageContext;
 
@@ -100,19 +100,21 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     fixedvendorarray = [];
     isSpinner = false;
     isSpinnerCheck = false;
+    sortingType = 'StudySite';
+    soritingShow = true;
     connectedCallback() {
         this.isSpinnerCheck = true;
         this.getteledetails(this.recordId);
         this.handleSubscribe();
         //alert('From connect call back');
     }
-
+   
     getteledetails(itemId) {
         this.televisitdetails = [];
         this.totalstudysitelist = [];
         this.showpagenation = false;
 
-        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendorList:this.selectedvendorArray,studyList:this.selectedsiteArray,sortingOrder:this.sortingorder })
+        gettelevisitrecorddetails({ ctpId:itemId,countryList:this.selectedcountry,vendorList:this.selectedvendorArray,studyList:this.selectedsiteArray,sortingOrder:this.sortingorder,stringType:this.sortingType })
         .then((result) => {
             this.venders = result.trvList;
             for(let i=0; i< result.trvList.length;i++){
@@ -132,13 +134,13 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.picklistoptions = options;
             this.showOppLookup1 = true;
             if(!this.vendorArrayupdate){ 
-                this.vendorArray = [];
+               this.vendorArray = [];
                 for(let i=0; i<result.trvList.length; i++){
                    let obj = {id: result.trvList[i].Id, value: result.trvList[i].Name, icon:'standard:job_position'};
                    this.vendorArray.push(obj);
                 }
                 this.fixedvendorarray = this.vendorArray;
-            }
+           }
             this.showOppLookup2 = true;
             this.showOppLookup3 = true;
             if(this.permissioncheck){
@@ -431,7 +433,16 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         });
     }
 
-    handleOnselect(event){
+    renderedCallback() {
+        const style = document.createElement('style'); 
+        style.innerText = ".testBtn button.slds-button{width:80px;text-align: left;overflow:hidden; text-overflow:ellipsis; white-space:nowrap;display:inline-block}";  
+        const selector =  this.template.querySelector('.testBtn');
+        if(selector != null){
+            this.template.querySelector('.testBtn').appendChild(style);
+        }                  
+    }
+
+    handleOnselect(event){       
         var selectedVal = event.detail.value;
         let vendorId = event.currentTarget.dataset.id;
         let vendorName = event.target.dataset.targetId;
@@ -462,7 +473,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.vendorId = vendorId;
             this.venderdescription = this.vendoriddescmap.get(vendorId); 
             this.vendercreationcheck = true;
-        }
+        }      
     }
     handleTypeChange(event){
         this.isSpinner = true;
@@ -500,6 +511,12 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     
     sortRecs(event){
         this.isSpinnerCheck = true;
+        this.sortingType = event.currentTarget.dataset.id;
+        if(this.sortingType != 'StudySite'){
+            this.soritingShow = false;
+        }else{
+            this.soritingShow = true;
+        }
         if(this.uparrow){
             this.downarrow = true;
             this.uparrow = false;

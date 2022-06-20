@@ -577,8 +577,7 @@ FOR UPDATE
                     }
                     insert participantDelegate;
                 }
-                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
-                
+                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {                
                 if (participantId != null && newContact.Id != null) {
                     List<Patient_Delegate__c> checkPDel = [
                         SELECT Id
@@ -623,8 +622,7 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         
                         insert ptDelegateRef;
                     }
-                }
-                
+                }                
                 //}
                 if (createDelegateuser) {
                     createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },
