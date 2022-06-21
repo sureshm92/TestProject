@@ -275,37 +275,41 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.contactId= siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
         }
-            AttendeesWrapper wrap1 = new AttendeesWrapper();
-            wrap1.firstName= per.PI_Contact__r.FirstName;
-            wrap1.lastName= per.PI_Contact__r.LastName;
-            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
-                wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
-                wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
-            }
-            wrap1.attendeeType= 'PI';
-            wrap1.contactId= per.PI_Contact__c;
-            lstAttendeesWrapper.add(wrap1);
+        AttendeesWrapper wrap1 = new AttendeesWrapper();
+        wrap1.firstName= per.PI_Contact__r.FirstName;
+        wrap1.lastName= per.PI_Contact__r.LastName;
+        if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
+            wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
+            wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
+        }
+        wrap1.attendeeType= 'PI';
+        wrap1.contactId= per.PI_Contact__c;
+        lstAttendeesWrapper.add(wrap1);
+        
+        Set<String> preventDuplicate = new Set<String>();
         for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
-                                                      Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
-                                                      Participant__c =: per.Participant__c]){
-            AttendeesWrapper wrap2 = new AttendeesWrapper();
-            if(participantDelegate.Participant_Delegate__c != null){
-                wrap2.firstName= participantDelegate.Participant_Delegate__r.First_Name__c;
-                wrap2.lastName= participantDelegate.Participant_Delegate__r.Last_Name__c;
-            }else{
-                wrap2.firstName= participantDelegate.Contact__r.FirstName;
-                wrap2.lastName= participantDelegate.contact__r.LastName;
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: per.Participant__c Order by Primary_Delegate__c Desc]){
+            if(preventDuplicate.add(participantDelegate.Contact__c)){
+                AttendeesWrapper wrap2 = new AttendeesWrapper();
+                if(participantDelegate.Participant_Delegate__c != null){
+                    wrap2.firstName= participantDelegate.Participant_Delegate__r.First_Name__c;
+                    wrap2.lastName= participantDelegate.Participant_Delegate__r.Last_Name__c;
+                }else{
+                    wrap2.firstName= participantDelegate.Contact__r.FirstName;
+                    wrap2.lastName= participantDelegate.contact__r.LastName;
+                }
+                wrap2.attendeeType= 'Participant Delegate';
+                wrap2.contactId= participantDelegate.Contact__c;
+                wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
+                if(participantDelegate.Participant__r.Email__c != null){
+                    wrap2.participantHasEmail = true;
+                }else{
+                    wrap2.participantHasEmail = false;
+                }
+                wrap2.participantPrimaryDelegate = participantDelegate.Primary_Delegate__c;
+                lstAttendeesWrapper.add(wrap2);
             }
-            wrap2.attendeeType= 'Participant Delegate';
-            wrap2.contactId= participantDelegate.Contact__c;
-            wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
-            if(participantDelegate.Participant__r.Email__c != null){
-                wrap2.participantHasEmail = true;
-            }else{
-                wrap2.participantHasEmail = false;
-            }
-            wrap2.participantPrimaryDelegate = participantDelegate.Primary_Delegate__c;
-            lstAttendeesWrapper.add(wrap2);
         }
         return lstAttendeesWrapper;
     }
