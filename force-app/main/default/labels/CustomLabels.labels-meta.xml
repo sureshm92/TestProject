@@ -116,7 +116,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PIName will take place at ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PT_Session_Ended</fullName>
