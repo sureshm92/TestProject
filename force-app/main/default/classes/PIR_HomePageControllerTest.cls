@@ -436,7 +436,7 @@ public without sharing class PIR_HomePageControllerTest {
         List<Study_Site__c> ssList = new List<Study_Site__c>();
         List<Id> ctpIdList = new List<Id>();
         List<Id> ssIdList = new List<Id>();
-        
+        Test.startTest();
         ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
         ssList = [SELECT Id FROM Study_Site__c];
         
@@ -450,7 +450,7 @@ public without sharing class PIR_HomePageControllerTest {
         String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
         String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":[],"activeInactive":"Inactive"}';
         String filterlistSiteNull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
-         Test.startTest();
+         
         List<Clinical_Trial_Profile__c> ctpListnew = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpListnew[0].CommunityTemplate__c='Janssen';
         update ctpListnew;
@@ -471,9 +471,7 @@ public without sharing class PIR_HomePageControllerTest {
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'test','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'','',1);
-                PIR_HomepageController.getListViewData(1,-1,'Default',filterlistSiteNull,true,true,'','',1);
-                //PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'test','',1);
-                //PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
+                
                 
             } catch(Exception ex) {
                 
@@ -782,7 +780,7 @@ public without sharing class PIR_HomePageControllerTest {
                                                            True,date.today());
             
             PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Sent to Study Hub',
+                                                           'Sent to DCT',
                                                            'Test Notes',
                                                            'Other',
                                                            ctpList[0].Id,
