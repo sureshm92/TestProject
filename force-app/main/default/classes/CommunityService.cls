@@ -610,6 +610,7 @@ public without sharing class CommunityService {
                 );
             }
         }
+
         return communityName;
     }
 
