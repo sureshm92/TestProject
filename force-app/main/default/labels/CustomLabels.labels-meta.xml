@@ -12149,6 +12149,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Are you sure you want to delete</value>
     </labels>
     <labels>
+        <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_2</shortDescription>
+        <value>Are you sure you want to delete the attachment</value>
+    </labels>    
+    <labels>
         <fullName>PIR_Delete_Preset_Popup_2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12737,6 +12744,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
+    <labels>
+        <fullName>PE_MedicalRecordUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Upload Medical Record</shortDescription>
+        <value>Upload Medical Record</value>
+    </labels>    
     <labels>
         <fullName>PE_Participant_Phone</fullName>
         <language>en_US</language>
