@@ -3,6 +3,14 @@
         var source = event.getSource().get('v.name');
         console.log('Source: ' + source);
         var appEvent = $A.get('e.c:TaskToggleEvent');
+        if (source === 'studyWorkspaceToggle') {
+            let stworkValue = component.find('stworkspaceToggle').get('v.checked');
+            component.find('prToggle').set('v.checked', !stworkValue);
+        }
+        if (source === 'programToggle') {
+            let prValue = component.find('prToggle').get('v.checked');
+            component.find('stworkspaceToggle').set('v.checked', !prValue);
+        }
         if (source === 'visitScheduleToggle') {
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);
