@@ -2963,6 +2963,10 @@
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>televisit</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <tabVisibilities>
         <tab>Comorbidities__c</tab>
         <visibility>DefaultOn</visibility>
