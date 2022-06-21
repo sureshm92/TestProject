@@ -1066,6 +1066,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalRecordUploadRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>MessageConfigurationPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1597,6 +1601,10 @@
         <apexClass>SSIncentiveConfigSearchResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
     <classAccesses>
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
@@ -2323,9 +2331,14 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Medical_Record_Upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Site__c.Scheduling_vendors__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Is_Patient_User_Created__c</field>

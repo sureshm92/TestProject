@@ -152,6 +152,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>MedicalRecordUpload</componentName>
+                <identifier>MedicalRecordUpload</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-e592a6e1-f3cb-4a82-97a5-94f0f4483b03</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>MessageConfigurationPanel</componentName>
                 <identifier>MessageConfigurationPanel</identifier>
             </componentInstance>
@@ -340,6 +350,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-e592a6e1-f3cb-4a82-97a5-94f0f4483b03</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Upload Medical Record</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -347,7 +371,7 @@
                     <value>Messages</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab9</identifier>
+                <identifier>customTab10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -361,7 +385,7 @@
                     <value>Motivational Messages</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab10</identifier>
+                <identifier>customTab11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -375,7 +399,7 @@
                     <value>Medical Record Retrieval</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab11</identifier>
+                <identifier>customTab12</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
@@ -577,7 +601,7 @@
                     <value>Related</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab12</identifier>
+                <identifier>customTab13</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3b450426-369a-407b-9c0a-18315fca6275</name>
