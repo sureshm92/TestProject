@@ -1,0 +1,58 @@
+/**
+ * Created by user on 02.10.2019.
+ */
+
+.THIS .uiInput--checkbox[type='checkbox'][disabled] {
+    background-color: rgb(148, 148, 148);
+}
+
+.THIS.panel {
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    padding: 14px;
+    min-height: 300px;
+    position: relative;
+}
+
+.THIS .save-btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
+}
+
+.THIS .slds-slide-from-top-to-bottom {
+    transform: none !important;
+}
+
+.THIS .cell-wrap {
+    text-align: center;
+}
+
+.THIS .uiInput--checkbox {
+    display: inline-block;
+}
+
+.THIS .padding-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .filters-section {
+    margin-bottom: 20px;
+}
+
+.THIS .sorted-column {
+    display: flex;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
+}

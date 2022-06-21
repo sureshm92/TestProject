@@ -70,7 +70,8 @@ export default class Pir_participantList extends LightningElement {
     @api showStatus=false;
     showStatusPopup=false;
     selectedStatusList;
-    selectedStatusValue = 'Received';isPPFiltered = false;isDCTFiltered = false;
+    selectedStatusValue = 'All Active Statuses';
+    isPPFiltered = false;isDCTFiltered = false;
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
@@ -248,6 +249,25 @@ export default class Pir_participantList extends LightningElement {
         });
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
+        this.filterWrapper = {
+            activeInactive: "Active",
+            studyList: [],
+            siteList: [],
+            status: [],
+            source: [],
+            ageTo: "0",
+            ageFrom: "150",
+            ethnicityList: [],
+            sex: "",
+            highRisk: false,
+            highPriority: false,
+            comorbidities: false,
+            initialVisit: "All",
+            initialVisitStartDate: "",
+            initialVisitEndDate: "",
+            presetId: "",
+            presetName:""
+          };
         this.filterWrapper.siteList.push(this.urlSiteId);
         this.filterWrapper.studyList.push(this.urlStudyId);
        }
@@ -691,7 +711,7 @@ export default class Pir_participantList extends LightningElement {
         this.dropDownLabel=selectedVal;
 
         if(this.dropDownLabel=='Change Status'){
-            if(this.filterWrapper.status != undefined && this.filterWrapper.status.length > 1){
+            if(this.filterWrapper.status == undefined ||  this.filterWrapper.status.length != 1){
                 this.showStatusPopup=true;
             }
             else{
