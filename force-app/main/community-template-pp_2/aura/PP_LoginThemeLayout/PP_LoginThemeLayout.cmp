@@ -25,9 +25,43 @@
             <div class="body-content slds-grid slds-wrap">
                 <img src="{!$Resource.Lofi_Login_Icons + '/Group.jpg'}" />
                 <div class="slds-col slds-medium-size_4-of-7"></div>
-                <div class="slds-col slds-medium-size_3-of-7">
-                    <span class="login-card">Hello test class</span>
+                <div class="slds-col slds-medium-size_3-of-7 login-card">
+                    <!-- <span class="login-card">Hello test class</span> -->
                     <!-- {!v.body} -->
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_2-of-12"></div>
+                        <div class="slds-col slds-size_8-of-12 login-form-layout">
+                            <div>
+                                <span class="iqvia-txt">IQVIA</span>
+                                <span class="patient-portal-txt">Patient Portal</span>
+                                <div class="patient-care-txt">For Participants and Caregivers</div>
+                                <div class="prof-clinical-txt">
+                                    Connecting professionals, patients and clinical researchers for
+                                    better healthcare.
+                                </div>
+                            </div>
+                            <div>Login form section here</div>
+
+                            <lightning:button
+                                variant="brand"
+                                label="Log In"
+                                title="Login"
+                                class="btn-login"
+                                onclick="{! c.handleClick }"
+                            />
+                            <div class="slds-grid forgot-unable-link">
+                                <div class="slds-col slds-size_6-of-12">
+                                    <span class="forgot-unable-pwd-txt">Forgot Password?</span>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12">
+                                    <span class="forgot-unable-pwd-txt unable-login"
+                                        >Unable to log in?</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12"></div>
+                    </div>
                 </div>
             </div>
             <!--Mobile View-->
