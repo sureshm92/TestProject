@@ -2819,10 +2819,6 @@
         <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <pageAccesses>
-        <apexPage>televisit</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -2965,6 +2961,10 @@
     </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ShowPrivacyPolicyAsPDF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>televisit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

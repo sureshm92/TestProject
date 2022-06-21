@@ -8515,10 +8515,6 @@
     <layoutAssignments>
         <layout>XLF_White_List__mdt-XLF White List Layout</layout>
     </layoutAssignments>
-    <pageAccesses>
-        <apexPage>televisit</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -8962,6 +8958,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>VisitSummaryReportPage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>televisit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
