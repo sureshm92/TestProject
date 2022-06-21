@@ -102,7 +102,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit_Upcoming_Meet</shortDescription>
-        <value>##NoOfTV Upcomming or Active Televisits</value>
+        <value>##NoOfTV Upcoming or Active Televisits</value>
     </labels>
     <labels>
         <fullName>PI_Televisit_Meet_Info</fullName>
