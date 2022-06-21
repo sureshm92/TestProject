@@ -58,7 +58,7 @@ export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(Ligh
         this.showTelevisitVisitPreviewOnDonotAllow = true;
     }
 
-    closeModal(){
+    closeModal() {
         this.isModalOpenAccessPopup = false;
     }
 
