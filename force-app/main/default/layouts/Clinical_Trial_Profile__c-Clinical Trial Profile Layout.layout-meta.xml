@@ -134,10 +134,6 @@
                 <field>Interventions__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Program_Overview__c</field>
-            </layoutItems>
-            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
@@ -176,6 +172,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Eligibility_Criteria__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Program_Overview__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

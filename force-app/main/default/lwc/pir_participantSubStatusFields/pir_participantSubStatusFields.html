@@ -111,14 +111,19 @@
                             </lightning-input>
                         </div>
                     </template>
-					<div class="slds-grid slds-wrap slds-size_1-of-1">
-                        <div class="slds-col slds-size_1-of-12">
-                            <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={disableTelevisitCheckbox} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
-                        </div>
-                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
-                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
-                        </div>
-                    </div>
+                    
+                    <template if:true={isTelevisitEnabled}>
+                        <template if:true={initialVisitTelevisitVisible}>
+                            <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={disableTelevisitCheckbox} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                                    <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
                     <div class="sitepre_Checkbox">
                         <lightning-input type="checkbox" variant="label-hidden"
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
@@ -246,15 +251,20 @@
                             </lightning-input>
                         </div>
                     </template>
-					<div class="slds-grid slds-wrap slds-size_1-of-1">
-                        <!--disabled={participantrecord.Add_televisit_for_Initial_Visit__c}-->
-                        <div class="slds-col slds-size_1-of-12">
-                            <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={participantrecord.Add_televisit_for_Initial_Visit__c} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
-                        </div>
-                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
-                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
-                        </div>
-                    </div>
+                    
+                    <template if:true={isTelevisitEnabled}>
+                        <template if:true={initialVisitTelevisitVisible}>
+                            <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                <!--disabled={participantrecord.Add_televisit_for_Initial_Visit__c}-->
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-input type="checkbox" data-value="televisitCheckbox" disabled={participantrecord.Add_televisit_for_Initial_Visit__c} checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                                    <p style="font-size: 14px;margin-top: 2px;">Add televisit for Initial Visit</p>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
                     <div class="sitepre_Checkbox"> 
                         <lightning-input type="checkbox" variant="label-hidden"
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
@@ -532,15 +542,19 @@
                             title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue}>
                         </lightning-input>
                     </div>
-					<div class="slds-grid slds-wrap slds-size_1-of-1">
-                        <!--data-value="televisitCheckbox"  checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}-->
-                        <div class="slds-col slds-size_1-of-12">
-                            <lightning-input type="checkbox" disabled ></lightning-input>
-                        </div>
-                        <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
-                            <p style="font-size: 14px;margin-top: 2px;">Add televisit for Screening Visit</p>
-                        </div>
-                    </div>
+                    <template if:true={isTelevisitEnabled}>
+                        <template if:true={initialVisitTelevisitVisible}>
+                            <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                <!--data-value="televisitCheckbox"  checked={participantrecord.Add_televisit_for_Initial_Visit__c} onchange={handleTelevisitCheckboxChange}-->
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-input type="checkbox" disabled ></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12 slds-p-right_x-small" style="margin-left:-20px">
+                                    <p style="font-size: 14px;margin-top: 2px;">Add televisit for Screening Visit</p>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <ul class="slds-accordion">
                             <li class="slds-accordion__list-item">
@@ -960,7 +974,7 @@
                           </div>
                        </div>
                     </div>
-                    <slot name="body">
+                    <slot name="body_televisit">
                        <p class="sub-text"></p>
                        <div class="slds-grid slds-wrap slds-m-top_large">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
