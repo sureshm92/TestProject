@@ -2481,6 +2481,10 @@
         <field>Lead.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <pageAccesses>
+        <apexPage>televisit</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
