@@ -509,6 +509,7 @@
            participant.Mailing_Country_Code__c != ''){
            component.set('v.mailingCountryCode', participant.Mailing_Country_Code__c);
         }
+		component.set('v. participant.Mailing_State_Code__c', null);
         helper.checkFields(component, event, helper);
     },
     

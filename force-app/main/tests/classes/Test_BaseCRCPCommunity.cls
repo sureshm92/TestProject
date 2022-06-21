@@ -601,7 +601,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void healthcareProvidersTest() {
         TestData testData = new TestData();
-        Test.startTest();
+        
         try{
             System.runAs(testData.piUser) {
                 Healthcare_Provider__c provider = new Healthcare_Provider__c(
@@ -637,6 +637,7 @@ private class Test_BaseCRCPCommunity {
             new List<Id>{ conversation.Id },
             testData.participantUser.Id
         );
+        Test.startTest();
                 ReferHealthcareProviderRemote.invitePatientDelegate(
                     JSON.serialize(testData.participant),
                     JSON.serialize(
