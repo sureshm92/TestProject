@@ -424,7 +424,7 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Is_SMS__c = this.originalpatientrecord[0].peRecord.Is_SMS__c;
         this.patientrecord = [...this.patientrecord];
         this.checkPatientAge();
-
+/*
         this.requiredfieldforMinor.forEach(item => {
             this.removeCustomFieldValidation(item);
         });
@@ -432,6 +432,7 @@ export default class Rp_PatientTab extends LightningElement {
         this.requiredFieldForAdult.forEach(item => {
             this.removeCustomFieldValidation(item);
         });
+*/        
     }
 
     closeUnsavedModal(event) {

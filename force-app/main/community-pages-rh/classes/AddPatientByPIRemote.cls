@@ -110,8 +110,13 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
             pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Study_Direct_Mail_Consent__c = allowEmail;
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
+            pe.Study_Pre_recorded_Voice_Consent__c = allowPhone;
+            pe.Study_Assisted_Dialing_Consent__c = allowPhone;
+            pe.Study_Artificial_Voice_Consent__c = allowPhone;
+            
 			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
             if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
                 pe.Invited_To_PP_Date__c =  DateTime.now();
@@ -158,9 +163,16 @@ public without sharing class AddPatientByPIRemote {
                         contactConsentJSON,
                         Contact.class
                     );
+                    participantCon.IQVIA_Contact_info_storage_consent__c = (contactConsent.Participant_Opt_In_Status_Emails__c || contactConsent.Participant_Opt_In_Status_SMS__c
+                    || contactConsent.Participant_Phone_Opt_In_Permit_Phone__c || contactConsent.IQVIA_Direct_Mail_Consent__c);
                     participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
                     participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
                     participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Artificial_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
+                   
                 }
                 update participantCon;
             }

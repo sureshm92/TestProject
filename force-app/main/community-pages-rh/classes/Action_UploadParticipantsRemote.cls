@@ -84,6 +84,7 @@ public without sharing class Action_UploadParticipantsRemote {
         Boolean outreachEmail,
         Boolean outreachPhone,
         Boolean outreachSMS,
+        Boolean outreachDirectMail,
         Id visitPlanId
     ) {
         try {
@@ -143,6 +144,7 @@ public without sharing class Action_UploadParticipantsRemote {
                     outreachEmail,
                     outreachPhone,
                     outreachSMS,
+                    outreachDirectMail,
                     visitPlanId
                 ),
                 7
