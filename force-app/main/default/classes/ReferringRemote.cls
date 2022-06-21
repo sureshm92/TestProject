@@ -405,6 +405,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
             HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
+            HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c');
             HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
                 .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId, HCPE_FIELDS);
             Boolean filterCriteria =
