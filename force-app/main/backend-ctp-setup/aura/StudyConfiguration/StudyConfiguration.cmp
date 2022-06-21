@@ -189,17 +189,6 @@
                                              />
                             <div style="margin-left: 10px">Tasks</div>
                         </div>
-                        <!--<div class="global-element">
-                            <lightning:input
-                                             type="toggle"
-                                             label="Relevant Links"
-                                             name="RelevantLinksToggle"
-                                             onchange="{!c.saveCTP}"
-                                             checked="{!v.ctp.Relevant_Links_Are_Available__c}"
-                                             variant="label-hidden"
-                                             />
-                            <div style="margin-left: 10px">Relevant Links</div>
-                        </div>-->
                         <div class="global-element">
                             <lightning:input
                                              type="toggle"
