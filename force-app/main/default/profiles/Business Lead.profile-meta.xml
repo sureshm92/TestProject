@@ -1074,6 +1074,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalRecordUploadRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>MessageConfigurationPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1613,6 +1617,10 @@
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
     <classAccesses>
         <apexClass>SSPaymentVendorsConfigResponse</apexClass>
         <enabled>true</enabled>
@@ -2253,6 +2261,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Medical_Record_Upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>     
+     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>

@@ -13,6 +13,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalRecordUploadRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1410,6 +1414,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1973,6 +1981,14 @@
         <apexClass>Test_ManualTaskRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MedicalUploadPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MedicalUploadRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>        
     <classAccesses>
         <apexClass>Test_MessageConfigurationPanelRemote</apexClass>
         <enabled>true</enabled>
@@ -7776,6 +7792,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.is_PI_Site_Country_Same__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Medical_Record_Upload__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
