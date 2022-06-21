@@ -45,7 +45,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.loadCometdScript();
         this.timeInterval();
     }
-    
+
     loadCometdScript() {
         if (!this.subscription) {
             Promise.all([
@@ -150,8 +150,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
+        this.meetLinkUrl = url;
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
-
     }
     handleSingleMeetJoin(event) {
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
