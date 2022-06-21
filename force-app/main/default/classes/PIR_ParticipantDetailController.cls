@@ -13,6 +13,7 @@ public without sharing class PIR_ParticipantDetailController {
           Permit_Mail_Email_contact_for_this_study__c,
           Permit_SMS_Text_for_this_study__c,
           Permit_Voice_Text_contact_for_this_study__c,
+                Study_Direct_Mail_Consent__c,
           Referral_Source__c,
           Patient_ID__c,
           Source_Type__c,
@@ -47,6 +48,7 @@ public without sharing class PIR_ParticipantDetailController {
           Participant_Contact__c,
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
           Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
           Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
         FROM Participant_Enrollment__c
         WHERE id = :PEid
@@ -228,6 +230,10 @@ public without sharing class PIR_ParticipantDetailController {
         perToUpdate.Permit_Mail_Email_contact_for_this_study__c = perRecord.Permit_Mail_Email_contact_for_this_study__c;
         perToUpdate.Permit_SMS_Text_for_this_study__c = perRecord.Permit_SMS_Text_for_this_study__c;
         perToUpdate.Permit_Voice_Text_contact_for_this_study__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Artificial_Voice_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Assisted_Dialing_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Pre_recorded_Voice_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Direct_Mail_Consent__c = perRecord.Study_Direct_Mail_Consent__c;
         perToUpdate.MRN_Id__c = perRecord.MRN_Id__c;
         if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
            perToUpdate.Visit_Plan__c = visitPlan;
@@ -316,6 +322,12 @@ public without sharing class PIR_ParticipantDetailController {
         contact con = new Contact(Id = perRecord.Participant_Contact__r.Id,
         Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
         Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
+                IQVIA_Contact_info_storage_consent__c = (perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c || perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c
+                || perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c || perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c),
         Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c);
         update con;
       }
