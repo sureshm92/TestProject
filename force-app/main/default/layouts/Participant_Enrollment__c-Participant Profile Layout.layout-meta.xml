@@ -111,6 +111,10 @@
                 <behavior>Readonly</behavior>
                 <field>Unique_HumanId__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Additional_Information__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
