@@ -95,7 +95,7 @@
             component.get('v.iqviaOutreachEmail'),
             component.get('v.iqviaOutreachPhone'),
             component.get('v.iqviaOutreachSMS'),
-            component.get('v.iqviaOutreachSMS'),
+            component.get('v.iqviaOutreachDirectMail'),
             component.get('v.visitPlanId'),
             helper
         );
