@@ -284,6 +284,14 @@
                                 value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
                                ></lightning-combobox>  
                         </div>                
+                  </div>
+                  <div if:true={pd.pe.Additional_Information__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                        <div class="slds-form-element">
+                              <label class="slds-form-element__label" for="textarea-id-02">{PIR_AdditionalInformation}</label>
+                              <div class="slds-form-element__control">
+                                    <textarea id="textarea-id-02" disabled rows=1 title={pd.pe.Additional_Information__c} class="slds-textarea"  data-lvl="2" name="AddiInfo">{pd.pe.Additional_Information__c}</textarea>
+                              </div>
+                        </div>
                   </div> <!--    Participation Information  End  --> 
 
                   <!-- consenting section starts here-->
