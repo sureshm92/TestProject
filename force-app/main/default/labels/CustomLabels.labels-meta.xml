@@ -37,7 +37,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Cancel Email Header</shortDescription>
-        <value>Televisit cancellation</value>
+        <value>Televisit canceled</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Header</fullName>
@@ -63,7 +63,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Cancel Email Subject</shortDescription>
-        <value>Televisit was cancellation</value>
+        <value>Televisit was canceled</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Body</fullName>
