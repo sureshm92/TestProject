@@ -48,5 +48,4 @@ export default class TelevisitVisitPreviewOnDonotAllow extends NavigationMixin(L
          this.showTelevisitCameraAndMicrophoneAccessPopup = true;
     }
    
-    
 }
