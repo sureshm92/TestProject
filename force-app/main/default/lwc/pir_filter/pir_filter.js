@@ -150,7 +150,7 @@ export default class Filtertest extends LightningElement {
   selectedSite;
   statusoptions;
   defaultStatus;
-  selectedActiveInactive = 'Active';
+  selectedActiveInactive = "Active";
   defaultSource = "All Sources";
   defaultSex = "All";
   defaultHighRisk = false;
@@ -244,22 +244,46 @@ export default class Filtertest extends LightningElement {
             if (this.urlsiteid != null) {
               this.defaultSite = this.urlsiteid;
             } else {
-              this.defaultSite = options1[1].value;
+              this.defaultSite = options1[0].value;
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
-            this.filterWrapper.siteList.push(this.defaultSite);
+            //for Study site
+            if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+              for (var i = 1; i < this.studySiteList.length; i++) {
+                this.filterWrapper.siteList.push(this.studySiteList[i].value);
+              }
+            } else if (
+              this.selectedSite != null &&
+              this.selectedSite != "All Study Site"
+            ) {
+              this.filterWrapper.siteList.push(this.selectedSite);
+            }
           }
           this.createStatusOption();
           this.defaultStatus = this.selectedstatusvalue;
           this.selectedStatus = this.selectedstatusvalue;
+          if (this.selectedstatusvalue == "All Active Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else if (this.selectedstatusvalue == "All Inactive Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else {
+            this.filterWrapper.status = [];
+            this.filterWrapper.status.push(this.selectedstatusvalue);
+          }
+          
           this.loaded = !this.loaded;
           const loadComplete = new CustomEvent("loadcomplete", {
             detail: true
           });
           this.dispatchEvent(loadComplete);
-          this.filterWrapper.status = [];
-          this.filterWrapper.status.push('Received');
+          
           if(!(Object.keys(value).length === 0)){
             this.presetWrapperSet(presetSellection);
           }
@@ -280,7 +304,7 @@ export default class Filtertest extends LightningElement {
   presetWrapperSet(presetSellection){
     this.selectedActiveInactive = presetSellection.activeInactive;
 
-    if(presetSellection.source.length == 1){
+    if(presetSellection.source && presetSellection.source.length == 1){
       this.defaultSource = presetSellection.source[0];
     }else{
       this.defaultSource = 'All Sources';
@@ -854,13 +878,13 @@ export default class Filtertest extends LightningElement {
       }
 
     this.studySiteList = options;
-    this.defaultSite = this.studySiteList[1].value;
+    this.defaultSite = this.studySiteList[0].value;
     this.selectedSite = this.defaultSite;
 
     this.createStatusOption();
 
-    this.defaultStatus = this.statusoptions[1].value;
-    this.selectedStatus = this.statusoptions[1].value;
+    this.defaultStatus = this.statusoptions[0].value;
+    this.selectedStatus = this.statusoptions[0].value;
     this.defaultSource = this.sourceoptions[0].value;
     this.ageStartValue = 0;
     this.ageEndValue = 150;
