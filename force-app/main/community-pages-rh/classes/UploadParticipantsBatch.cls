@@ -1536,7 +1536,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             //call UploadParticipantsDelegateHelper class to create delegates
             if (!delegateWithpartList.isEmpty()){
                 UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
-                 UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines);
+                UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines,this.outreachEmail,this.outreachPhone,this.outreachSMS,this.outreachDirectMail);
                 listOfFailedRecordsWithMsg.addALL(wrap.listOfFailedRecordsWithMsg);
                 listOfFailedRecords.addALL(wrap.listOfFailedRecords);
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
