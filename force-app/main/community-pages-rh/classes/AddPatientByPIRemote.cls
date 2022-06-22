@@ -193,7 +193,9 @@ public without sharing class AddPatientByPIRemote {
                 participantId,
                 participantJSON,
                 allowDelegateContact,
-                TaskService.invitationsVisibleTemp // added this to hold the value of this param in future method
+                TaskService.invitationsVisibleTemp, // added this to hold the value of this param in future method
+                contactConsentJSON,
+                iqviaOutreachEnabled
             );
             //Moved history Creation to Trigger
         } catch (Exception e) {
@@ -317,11 +319,17 @@ public without sharing class AddPatientByPIRemote {
         String participantId,
         String participantJSON,
         Boolean createDelegateuser,
-        Map<Id,String> invitationsVisibleTemp
+        Map<Id,String> invitationsVisibleTemp,
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
+        );
+        contact contactConsent = (Contact) JSON.deserialize(
+            contactConsentJSON,
+            Contact.class
         );
         Participant__c participantDelegate;
         if (!String.isBlank(participantDelegateJSON)) {
@@ -400,7 +408,10 @@ public without sharing class AddPatientByPIRemote {
                     	MailingState,
                     	MailingCountry,
                         MailingStateCode,
-                    	MailingPostalCode
+                    	MailingPostalCode,
+                        Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c,
+                        Participant_Phone_Opt_In_Permit_Phone__c
                     FROM Contact
                     WHERE Id = :ddInfo.contactId
                 ];
@@ -429,10 +440,11 @@ public without sharing class AddPatientByPIRemote {
                 }
                 insert participantDelegate;
             }
-            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {           
+            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+            List<Patient_Delegate__c> checkPDel;
             if (participantId != null && newContact.Id != null) {
-                List<Patient_Delegate__c> checkPDel = [
-                    SELECT Id
+                checkPDel = [
+                    SELECT Id,Primary_Delegate__c
                     FROM Patient_Delegate__c
                     WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                 ];
@@ -480,6 +492,35 @@ public without sharing class AddPatientByPIRemote {
                     }
 
                     insert ptDelegateRef;
+                }
+            }
+            if(iqviaOutreachEnabled && (checkPDel.isEmpty() || (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c) )
+               && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                if(participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == ''){
+                    contact con = new contact();
+                    con.id = newContact.Id;
+                    con.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
+                    con.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
+                    con.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Artificial_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
+                    con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_Emails__c || con.Participant_Opt_In_Status_SMS__c
+                    || con.Participant_Phone_Opt_In_Permit_Phone__c || con.IQVIA_Direct_Mail_Consent__c);
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.PopulateOverrideFields.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForCCContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+                    );
+                    update con;
                 }
             }
             // }
