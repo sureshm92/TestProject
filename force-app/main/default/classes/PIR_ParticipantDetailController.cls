@@ -14,6 +14,7 @@ public without sharing class PIR_ParticipantDetailController {
           Permit_SMS_Text_for_this_study__c,
           Permit_Voice_Text_contact_for_this_study__c,
                 Study_Direct_Mail_Consent__c,
+                Additional_Information__c,
           Referral_Source__c,
           Patient_ID__c,
           Source_Type__c,

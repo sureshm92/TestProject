@@ -239,6 +239,13 @@ Duration: ##VisitDuration</value>
         <value>Televisit was removed</value>
     </labels>
     <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
