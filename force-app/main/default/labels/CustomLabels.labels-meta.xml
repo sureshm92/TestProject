@@ -26019,6 +26019,14 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Join Visit</value>
     </labels>
     <labels>
+        <fullName>TV_Camera_Off</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_Camera_Off</shortDescription>
+        <value>Your camera is turned off</value>
+    </labels>
+    <labels>
         <fullName>You_can_also_adjust_these_options_during_the_visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26030,7 +26038,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permission to join televisit. Go back to Rejoin and grant permissions.</value>
+        <value>You must grant microphone permissions to join televisit. Go back to Rejoin and grant permissions.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
@@ -26051,7 +26059,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
-        <value>IQVIA Patient Portal would like to access the microphone and camera.</value>
+        <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
         <fullName>Don_t_allow</fullName>
