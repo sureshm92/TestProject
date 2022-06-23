@@ -279,8 +279,8 @@
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_time">
                                 <lightning-layout-item class="slds-p-right_x-small">
-                                    <lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" >
-                                    </lightning-formatted-date-time>
+                                    <!--<lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" ></lightning-formatted-date-time>-->
+                                    <lightning-formatted-date-time time-zone={userTimeZone} value={tv.visitDateTime} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
                                 </lightning-layout-item>
                                 <lightning-layout-item>
                                     (<lightning-formatted-text value={tv.duration}></lightning-formatted-text>)
