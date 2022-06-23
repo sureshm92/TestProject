@@ -82,8 +82,8 @@
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="reason" title={utilLabels.PG_ACPE_L_Reason}
-                                label={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
+                                label={reasonLabel} value={selectedreason} options={reasoneoptions}
+                                disabled={reasonDisabled}  data-value="Reason" placeholder=" "
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -378,7 +378,7 @@
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
                                 title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
+                                disabled={reasonDisabled} placeholder=" "  data-value="Reason"
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -463,9 +463,9 @@
                         </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                            <lightning-combobox name="reason" label={reasonLabel}
                                 title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                                disabled={screeningReasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
+                                disabled={screeningReasonDisabled} placeholder=" " data-value="Reason"
                                 onchange={changeInputValue}></lightning-combobox>
                         </div>
                         <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -587,9 +587,9 @@
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                        <lightning-combobox name="reason" label={reasonLabel}
                             title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                            disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
+                            disabled={reasonDisabled} placeholder=" " data-value="Reason"
                             onchange={changeInputValue}></lightning-combobox>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
@@ -732,9 +732,9 @@
                     </div>
                     <div
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                        <lightning-combobox name="reason" label={utilLabels.PG_ACPE_L_Reason}
+                        <lightning-combobox name="reason" label={reasonLabel}
                             title={utilLabels.PG_ACPE_L_Reason} value={selectedreason} options={reasoneoptions}
-                            disabled={reasonDisabled} placeholder={label.PG_RP_L_Not_selected} data-value="Reason"
+                            disabled={reasonDisabled} placeholder=" " data-value="Reason"
                             onchange={changeInputValue}></lightning-combobox>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
