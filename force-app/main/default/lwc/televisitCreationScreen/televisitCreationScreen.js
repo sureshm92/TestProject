@@ -245,7 +245,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     get options() {
         return [
             { label: 'Scheduled', value: 'Scheduled' },
-            { label: 'Cancelled/Completed', value: 'Cancelled/Completed' },
+            { label: 'Canceled/Completed', value: 'Cancelled/Completed' },
         ];
     }
 
@@ -553,8 +553,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 if(result === 'Televisit Cancelled Successfully'){
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
-                        title: 'Televisit record cancelled successfully',
-                        message: 'Televisit record cancelled successfully',
+                        title: 'Televisit record canceled successfully',
+                        message: 'Televisit record canceled successfully',
                         variant: 'success',
                         mode: 'dismissable'
                     });

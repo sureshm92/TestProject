@@ -246,7 +246,7 @@
                         <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="11" large-device-size="11" >
                             <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
                             <template if:true={tv.isCancelledStatus}>
-                                <lightning-formatted-text class="CancelledTag" value={tv.status}></lightning-formatted-text>
+                                <lightning-formatted-text class="CancelledTag" value="Canceled"></lightning-formatted-text>
                             </template>                            
                         </lightning-layout-item>
                         <template if:true={tv.isScheduledStatus}>
