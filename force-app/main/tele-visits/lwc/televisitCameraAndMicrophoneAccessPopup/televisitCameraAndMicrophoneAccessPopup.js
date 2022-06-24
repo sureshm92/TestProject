@@ -9,6 +9,7 @@ import Allow_access from '@salesforce/label/c.Allow_access';
 export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(LightningElement) {
 
     @api meetingUrl;
+    @api urlPathPrefix = '';
     @api isModalOpenAccessPopup = false;
     label = {
         Email_Title_PH,
@@ -41,7 +42,7 @@ export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(Ligh
     }
 
     handleAllowAccess() {
-        let url = this.meetingUrl;
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetingUrl;
         window.open(url, '_blank');
         this.handleEvent('closeaccesspopup', false);
     }

@@ -10,7 +10,7 @@
         <namespace>sf_com_apps</namespace>
     </packageVersions>
     <style>none</style>
-    <subject>Televisit was cancelled</subject>
+    <subject>Televisit was canceled</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

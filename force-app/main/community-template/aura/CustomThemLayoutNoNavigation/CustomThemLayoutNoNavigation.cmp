@@ -19,6 +19,7 @@
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="isRTL" type="Boolean" default="true" />
     <aura:attribute name="isGSKGuestUser" type="Boolean" default="false" />
+    <aura:attribute name="urlPathPrefix" type="String" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -53,7 +54,7 @@
                 </div>
                 <div class="rr-header-margin"></div>
                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                <c:televisitMeetBanner></c:televisitMeetBanner>
+                <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}"></c:televisitMeetBanner>
                 {!v.body}
             </div>
             <c:CookiesInfo />

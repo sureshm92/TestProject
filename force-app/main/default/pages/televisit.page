@@ -2256,7 +2256,7 @@
             <div id="in-call-device-people-container" class="people-container">
                 <div class="participant-header">
                     <span class="slds-text-heading--medium slds-text">
-                        Participants
+                        {!$Label.Participants}
                     </span>
                     <button class="slds-button slds-button_icon slds-button_icon-small closebtn" onclick="closeparticipatList();">
                         <svg class="slds-button__icon" aria-hidden="true">

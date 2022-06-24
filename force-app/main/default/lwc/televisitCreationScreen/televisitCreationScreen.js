@@ -115,7 +115,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.televisitEditView = true;
             this.title = event.target.dataset.title;
             this.visitDate = event.target.dataset.visitdate;
-            this.startTime = this.msToTime(event.target.dataset.starttime);
+            var visitDateTime = new Date(event.target.dataset.visitdatetime).toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+            visitDateTime = this.getTwentyFourHourTime(visitDateTime)
+            this.startTime = visitDateTime;
+            //this.startTime = this.msToTime(event.target.dataset.starttime);
             this.duration = event.target.dataset.duration;
             this.televisitRecordId = event.target.dataset.id;
             //console.log('SelectedAttendeesList :',event.target.dataset.id);
@@ -126,7 +129,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.fetchAttendees();
 
             var today = new Date();
-            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE })
+            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
             newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
             this.defaultTime = newdatetimezone;
             this.currentTime = newdatetimezone;
@@ -245,7 +248,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     get options() {
         return [
             { label: 'Scheduled', value: 'Scheduled' },
-            { label: 'Cancelled/Completed', value: 'Cancelled/Completed' },
+            { label: 'Canceled/Completed', value: 'Cancelled/Completed' },
         ];
     }
 
@@ -553,8 +556,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 if(result === 'Televisit Cancelled Successfully'){
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
-                        title: 'Televisit record cancelled successfully',
-                        message: 'Televisit record cancelled successfully',
+                        title: 'Televisit record canceled successfully',
+                        message: 'Televisit record canceled successfully',
                         variant: 'success',
                         mode: 'dismissable'
                     });

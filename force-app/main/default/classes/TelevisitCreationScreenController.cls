@@ -1,24 +1,28 @@
 Public without sharing Class TelevisitCreationScreenController {
     @AuraEnabled
     Public static Boolean televisistPrerequisiteCheck(String ParticipantEnrollmentId){
-        Boolean enableTelevisitTab = false;
-        if(ParticipantEnrollmentId != Null){
-            Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
-                FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
-            
-            TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+        try{
+            Boolean enableTelevisitTab = false;
+            if(ParticipantEnrollmentId != Null){
+                Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
+                    FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
                 
-            if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-               ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
-               vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
-                     enableTelevisitTab = true;
-                 
-             }else{
-                 enableTelevisitTab = false;
-             }
+                TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+                    
+                if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                   ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
+                   vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
+                         enableTelevisitTab = true;
+                     
+                 }else{
+                     enableTelevisitTab = false;
+                 }
+            }
+            return enableTelevisitTab;
+        }catch (exception ex){
+            return false;
         }
-        return enableTelevisitTab;
     }
     
     @AuraEnabled

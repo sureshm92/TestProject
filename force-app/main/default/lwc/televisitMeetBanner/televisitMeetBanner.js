@@ -14,6 +14,7 @@ import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
+    @api urlPathPrefix = '';
     hasVisits = false;
     cometd;
     subscription;
@@ -116,7 +117,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
         this.allVisits = visitData;
         this.hasActiveVisits = false;
-        var activeVisits = [];
+        let activeVisits = [];
         visitData.forEach(visitInfo => {
             let visitDetail = visitInfo;
             var now = new Date();
