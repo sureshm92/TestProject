@@ -2008,28 +2008,30 @@
                           <span style="margin-left: 20px;"><button id="closeButton" onclick="closeBannerPopup()">X</button></span>
                         </div>
                         -->
-                        <div id="televisitBanner" class="hideBanner">
-                            <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" style="color:#fff">
+                        <div role="dialog" class="slds-card slds-text-align_center" style="{!IF( attendeeType == 'PP', 'display:none', '')}">
+                            <div id="televisitBanner" class="hideBanner">
+                                <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" style="color:#fff">
 
-                                <span class="slds-icon_container slds-icon-utility-warning slds-current-color">
-                                    <svg aria-hidden="true" class="slds-icon_xx-small">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" style="fill:#fff" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#warning">
-                                        </use>
-                                    </svg>
-                                    <span class="slds-assistive-text">Warning</span>
-                                </span>&nbsp;
-                                <span class="tv_warning">Warning - 5 minutes left in call.</span>
+                                    <span class="slds-icon_container slds-icon-utility-warning slds-current-color">
+                                        <svg aria-hidden="true" class="slds-icon_xx-small">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" style="fill:#fff" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#warning">
+                                            </use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Warning</span>
+                                    </span>&nbsp;
+                                    <span class="tv_warning">Warning - 5 minutes left in call.</span>
 
 
-                                <select name="extendcallminutes" id="extendcallminutes" style="margin-left:30px;" onchange="callExtendedMinutes()">
-                                    <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">Extend Call</option>
-                                    <apex:repeat value="{!extendMeetingOptions}" var="str">
-                                        <option value="{!str}">{!str} minutes</option>
-                                    </apex:repeat>
-                                </select>
-                                <span style="margin-left: 20px;">
-                                    <button id="closeButton" onclick="closeBannerPopup()">X</button>
-                                </span>
+                                    <select name="extendcallminutes" id="extendcallminutes" style="margin-left:30px;" onchange="callExtendedMinutes()">
+                                        <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">Extend Call</option>
+                                        <apex:repeat value="{!extendMeetingOptions}" var="str">
+                                            <option value="{!str}">{!str} minutes</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <span style="margin-left: 20px;">
+                                        <button id="closeButton" onclick="closeBannerPopup()">X</button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -2138,7 +2140,7 @@
                                         </svg>
                                     </span>
                                     <span class="slds-align_absolute-center slds-text-heading--small" style="font-size:13pt;color:#999999;">
-                                        Looks like you are the first one here.
+                                        {!$Label.First_Attendee}
                                     </span>
                                 </div>
                                 <div id="speaker-feed" class="speaker-feed"></div>
