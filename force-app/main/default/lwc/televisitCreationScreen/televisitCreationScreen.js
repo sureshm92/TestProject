@@ -75,6 +75,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     startTimeChanged = false;
     @track defaultTime;
     @track isModalOpen = false;
+    @track userTimeZone;
     selectedAttendees = [];
     attendeeObj = {name:'',id:'',index:'',attendeeId:'',attendeeType:'',isMandatorySelection:false};
     @track selectedAttendeesList = [];
@@ -422,10 +423,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     connectedCallback(){
         this.displayTelevisitRecords = true;        
         this.fetchTelevisitRecord();
-        
+
         var rightNow = new Date();
         var newdatetimezone = rightNow.toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
         this.today = newdatetimezone;
+        this.userTimeZone = TIME_ZONE;
     }
 
     

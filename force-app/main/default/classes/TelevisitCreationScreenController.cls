@@ -181,6 +181,8 @@ Public without sharing Class TelevisitCreationScreenController {
         public Boolean isCompletedStatus{get;set;}
         @AuraEnabled
         public List<AttendeesWrapper> attendeesWrapperList{get;set;}
+        @AuraEnabled
+        public Datetime visitDateTime{get;set;}
     }
     
     @AuraEnabled
@@ -194,7 +196,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Completed = status.split('/')[1];
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c desc, Start_Time__c desc];
@@ -202,7 +204,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Schdeduled = status;
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c asc, Start_Time__c asc];
@@ -231,6 +233,7 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.pefirstname = tv.Participant_Enrollment__r.Participant__r.First_Name__c;
             wrap.pelastname = tv.Participant_Enrollment__r.Participant__r.Last_Name__c;
             wrap.attendeesList = tv.Televisit_Attendee__r;
+            wrap.visitDateTime = tv.Visit_Date_Time__c;
             lstWrap.add(wrap);
         }
         return lstWrap;
