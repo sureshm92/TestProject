@@ -24,6 +24,7 @@
                 component.set('v.isRTL', rtl_language.includes(communityService.getLanguage()));
                 RTL = component.get('v.isRTL');
             }
+            component.set('v.urlPathPrefix', communityService.getCommunityURLPathPrefix());
         }
     },
 
