@@ -95,11 +95,12 @@
                                     <!--05:00:00.000Z-->
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Start Time</label>
+                                    <!--max="23:45:00.000Z"-->
                                         <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
                                             variant="label-hidden"
                                             value={startTime}
                                             label="Start Time"
-                                            title="Start Time" min={defaultTime} max="23:45:00.000Z" placeholder="Select Time">
+                                            title="Start Time" min={defaultTime}  placeholder="Select Time">
                                         </lightning-input>
                                 
                                 </div>
@@ -254,7 +255,8 @@
                                 <lightning-layout >            
                                     <lightning-layout-item  >
                                         <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
-                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
+                                            <!--data-starttime={tv.startTime}-->
+                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
                                             <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id} onclick={openCancelModal}></lightning-menu-item>
                                         </lightning-button-menu>
                                     </lightning-layout-item>
