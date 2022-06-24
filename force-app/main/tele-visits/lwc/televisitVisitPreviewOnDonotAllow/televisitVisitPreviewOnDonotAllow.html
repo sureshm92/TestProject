@@ -1,15 +1,7 @@
 <template>
     <template if:true={isModalOpenVisitPreview}>
-        <c-web-popup
-        show-footer="true"
-        show-scroll="false"
-        show-close="false"
-        custom-buttons="true"
-        is-r-t-l={isRTL}
-        show-header="true"
-        title={label.Visit_Preview}
-        size="small"
-        variant = "normal"
+        <c-web-popup show-footer="true" show-scroll="false" show-close="false" custom-buttons="true" is-r-t-l={isRTL}
+            show-header="true" title={label.Visit_Preview} size="small" variant="normal"
             onclosemodal={handleCloseModal}>
         <div slot="body" class="bodyClass" style=" margin: -20px 0 -20px 0;">
             <div class="slds-col slds-card slds-align_absolute-center slds-grid slds-wrap slds-grid_align-center div1" style="">
