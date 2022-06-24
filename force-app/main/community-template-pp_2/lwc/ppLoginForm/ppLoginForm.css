@@ -1,0 +1,15 @@
+.input-field-container {
+    box-sizing: border-box;
+    height: 32px;
+    width: 304px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin-bottom: 15px;
+}
+.eye-icon {
+    position: absolute;
+    border: 1px solid red;
+    top: 8px;
+    right: 8px;
+}
