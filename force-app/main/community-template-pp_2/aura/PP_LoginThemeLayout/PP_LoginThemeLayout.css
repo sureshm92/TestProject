@@ -4,7 +4,7 @@
 .THIS.body {
     font-family: 'Proxima Nova';
 }
-.THIS.body-content img {
+.THIS.body-content .body-img {
     height: 947px;
     width: 1366px;
 }
@@ -88,10 +88,29 @@
 .THIS .unable-login {
     float: right;
 }
+.THIS .footer-label {
+    height: 26px;
+    width: 292px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 26px;
+    text-align: center;
+}
+.THIS .footer {
+    position: absolute;
+    bottom: 39px;
+}
 @media all and (max-width: 768px) {
-    .THIS .mob-login-card {
+    .THIS .login-card {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 947px;
+        border-radius: 0px;
         background-color: #ffffff;
-        height: 796px;
-        width: 414px;
+        box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
     }
 }

@@ -21,58 +21,74 @@
 
     <!-- component body: -->
     <aura:if isTrue="{!v.languageChecked}">
-        <aura:if isTrue="{!not(v.isMobileView)}">
-            <div class="body-content slds-grid slds-wrap">
-                <img src="{!$Resource.Lofi_Login_Icons + '/Group.jpg'}" />
-                <div class="slds-col slds-medium-size_4-of-7"></div>
-                <div class="slds-col slds-medium-size_3-of-7 login-card">
-                    <!-- <span class="login-card">Hello test class</span> -->
-                    <!-- {!v.body} -->
-                    <div class="slds-grid">
-                        <div class="slds-col slds-size_2-of-12"></div>
-                        <div class="slds-col slds-size_8-of-12 login-form-layout">
-                            <div>
-                                <span class="iqvia-txt">IQVIA</span>
-                                <span class="patient-portal-txt">Patient Portal</span>
-                                <div class="patient-care-txt">For Participants and Caregivers</div>
-                                <div class="prof-clinical-txt">
-                                    Connecting professionals, patients and clinical researchers for
-                                    better healthcare.
-                                </div>
-                            </div>
-                            <div>Login form section here</div>
-
-                            <lightning:button
-                                variant="brand"
-                                label="Log In"
-                                title="Login"
-                                class="btn-login"
-                                onclick="{! c.handleClick }"
-                            />
-                            <div class="slds-grid forgot-unable-link">
-                                <div class="slds-col slds-size_6-of-12">
-                                    <span class="forgot-unable-pwd-txt">Forgot Password?</span>
-                                </div>
-                                <div class="slds-col slds-size_6-of-12">
-                                    <span class="forgot-unable-pwd-txt unable-login"
-                                        >Unable to log in?</span
-                                    >
-                                </div>
+        <!-- <aura:if isTrue="{!not(v.isMobileView)}"> -->
+        <div class="body-content slds-grid slds-wrap">
+            <img class="body-img" src="{!$Resource.Lofi_Login_Icons + '/Group.jpg'}" />
+            <div class="slds-col slds-size_1-of-1 login-card">
+                <!-- <span class="login-card">Hello test class</span> -->
+                <!-- {!v.body} -->
+                <div class="slds-grid slds-grid_align-center">
+                    <div class="slds-col slds-size_1-of-1 login-form-layout">
+                        <div>
+                            <span class="iqvia-txt">IQVIA</span>
+                            <span class="patient-portal-txt">Patient Portal</span>
+                            <div class="patient-care-txt">For Participants and Caregivers</div>
+                            <div class="prof-clinical-txt">
+                                Connecting professionals, patients and clinical researchers for
+                                better healthcare.
                             </div>
                         </div>
-                        <div class="slds-col slds-size_2-of-12"></div>
+                        <!-- Login form section start -->
+                        <c:ppLoginForm name="ppLoginForm" />
+                        <lightning:button
+                            variant="brand"
+                            label="Log In"
+                            title="Login"
+                            class="btn-login"
+                            onclick="{! c.handleClick }"
+                        />
+                        <div class="slds-grid forgot-unable-link">
+                            <div class="slds-col slds-size_6-of-12">
+                                <span class="forgot-unable-pwd-txt">Forgot Password?</span>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <span class="forgot-unable-pwd-txt unable-login"
+                                    >Unable to log in?</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap footer">
+                    <div class="slds-col slds-size_4-of-12 slds-text-align_right">
+                        <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                    </div>
+                    <div class="slds-col slds-size_4-of-12 slds-text-align_center">
+                        <c:privacyPolicyViewer
+                            isRtl="{!v.isRTL}"
+                            isModalOpen="{!v.showPpPopup}"
+                            onclosePpModal="{!c.closePpPopup}"
+                            communityTypeName="{!v.communityType}"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_4-of-12">Terms of Use</div>
+                    <div class="slds-col slds-text-align_center">
+                        <span class="footer-label"
+                            >Powered by IQVIA © 2022. All rights reserved.</span
+                        >
                     </div>
                 </div>
             </div>
-            <!--Mobile View-->
-            <aura:set attribute="else">
+        </div>
+        <!--Mobile View-->
+        <!-- <aura:set attribute="else">
                 <div class="slds-grid">
                     <div class="slds-col slds-size_1-of-1">
                         <span class="mob-login-card">Hello test in Mobile</span>
                     </div>
                 </div>
             </aura:set>
-        </aura:if>
+        </aura:if> -->
         <c:webBanner
             onopenModal="{!c.selectedRecords}"
             bodyText="{!v.cookieText}"
