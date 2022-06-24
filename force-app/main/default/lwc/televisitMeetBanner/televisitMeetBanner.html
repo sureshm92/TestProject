@@ -55,7 +55,9 @@
     </template>
 
     <template if:true={showTelevisitCameraAndMicrophoneAccessPopup}>
-        <c-televisit-camera-and-microphone-access-popup meeting-url={meetLinkUrl}>
+        <c-televisit-camera-and-microphone-access-popup meeting-url={meetLinkUrl}
+            is-modal-open-access-popup={showTelevisitCameraAndMicrophoneAccessPopup}
+            oncloseaccesspopup={handleCloseAccessPopup}>
         </c-televisit-camera-and-microphone-access-popup>
     </template>
 </template>
