@@ -7,6 +7,7 @@ import saveParticipantData from "@salesforce/apex/MedicalHistryTabController.sav
 import fetchfilterbiomarkerResult from "@salesforce/apex/MedicalHistryTabController.fetchfilterbiomarkerResult";
 import requestAuthorizeMedicalRecords from "@salesforce/apex/MedicalHistryTabController.requestAuthorizeMedicalRecords";
 import getEnrollmentRequestHistory from "@salesforce/apex/MedicalHistryTabController.getEnrollmentRequestHistory";
+import deleteFileAttachment from "@salesforce/apex/MedicalHistryTabController.deleteFileAttachment";
 
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
@@ -43,6 +44,7 @@ import LOCALE from "@salesforce/i18n/locale";
 export default class Medicalinformation extends LightningElement {
   upload = pirResources + "/pirResources/icons/upload.svg";
   download = pirResources + "/pirResources/icons/download.svg";
+  deleteIcon = pirResources + "/pirResources/icons/trash-delete.svg";
 
   label = {
     High_Risk,
@@ -97,6 +99,7 @@ export default class Medicalinformation extends LightningElement {
   loadSurvey;
   isRequestHistrySuccess;
   ismodelPopup = false;
+  ismodelDeletePopup = false;
   isfileAvailable = false;
   isFilesRetrieved;
   filterRecord;
@@ -121,7 +124,8 @@ export default class Medicalinformation extends LightningElement {
   @api isrtl = false;
   maindivcls;
   popupcls;
-
+  isDeleteAllowed = false;
+  deleteId;
   connectedCallback() {
     if(this.isrtl) {
       this.maindivcls = 'rtl';      
@@ -148,6 +152,7 @@ export default class Medicalinformation extends LightningElement {
     this.highlightsReport = "";
     this.detailedReport = "";
     this.ismodelPopup = false;
+    this.ismodelDeletePopup = false;
     this.isfileAvailable = false;
     this.filterRecord = null;
     this.isComorbidityLoad = true;
@@ -216,17 +221,17 @@ export default class Medicalinformation extends LightningElement {
             i++
           ) {
             let dt = new Date(
-              this.medicalHistoryRecord.attachments[i].CreatedDate
+              this.medicalHistoryRecord.attachments[i].attachment.CreatedDate
             );
             let flExtension =
-              this.medicalHistoryRecord.attachments[i].FileExtension;
-            let flTitle = this.medicalHistoryRecord.attachments[i].Title;
+              this.medicalHistoryRecord.attachments[i].attachment.FileExtension;
+            let flTitle = this.medicalHistoryRecord.attachments[i].attachment.Title;
             if (!flTitle.includes(flExtension)) {
-              this.medicalHistoryRecord.attachments[i].Title =
+              this.medicalHistoryRecord.attachments[i].attachment.Title =
                 flTitle + "." + flExtension;
               console.log(">>extension exist>>");
             }
-            this.medicalHistoryRecord.attachments[i].CreatedDate =
+            this.medicalHistoryRecord.attachments[i].attachment.CreatedDate =
               new Intl.DateTimeFormat(LOCALE, options).format(dt);
           }
         }
@@ -342,6 +347,31 @@ export default class Medicalinformation extends LightningElement {
       "/sfc/servlet.shepherd/document/download/" +
       event.currentTarget.dataset.id +
       "?operationContext=S1";
+  }
+
+  deleteAndCloseModal(event){
+    this.ismodelDeletePopup = false;
+    this.deleteId = undefined;
+    if (event.detail.deleteAttachment == true) {
+    this.isFilesRetrieved = false;
+    deleteFileAttachment({
+      contentDocumentToDeleteId : event.detail.docid,
+      participantId: this.returnpervalue.selectedPER.Participant__c
+    })
+      .then((result) => {
+        this.medicalHistoryRecord = result;
+        this.isFilesRetrieved = true;
+      })
+      .catch((error) => {
+        console.log(">>error in retrive files>>>" + JSON.stringify(error));
+        this.isFilesRetrieved = true;
+      });
+    }
+  }
+
+  DeleteFile(event){
+    this.deleteId = event.currentTarget.dataset.id;
+    this.ismodelDeletePopup = true;
   }
 
   /* get the filter record of commordity*/
@@ -572,9 +602,9 @@ export default class Medicalinformation extends LightningElement {
             i++
           ) {
             let dt = new Date(
-              this.medicalHistoryRecord.attachments[i].CreatedDate
+              this.medicalHistoryRecord.attachments[i].attachment.CreatedDate
             );
-            this.medicalHistoryRecord.attachments[i].CreatedDate =
+            this.medicalHistoryRecord.attachments[i].attachment.CreatedDate =
               new Intl.DateTimeFormat(LOCALE, options).format(dt);
           }
           this.isFilesRetrieved = true;
@@ -842,9 +872,10 @@ export default class Medicalinformation extends LightningElement {
         this.dispatchEvent(ShowErrorevent);
         //return;
       }
-    }  else if(this.existingBMI) {
+    }  else if(this.existingBMI == 0 || this.existingBMI) {
       isValueChanged = true;
       event.target.value = '';
+      this.returnpervalue.BMI = '';
     } 
 
     if(this.isBMIError)
@@ -899,7 +930,16 @@ export default class Medicalinformation extends LightningElement {
         this.lstExistingCommorbidity = JSON.parse(JSON.stringify(result.lstComorbidities));
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
+        this.existingHighRisk = result.HighRisk;
+        this.existingHighPriority = result.Highpriority
+        this.existingBMI = result.BMI;
+        this.isBmiValueChanged = false;
+        this.isHighRiskChanged = false;
+        this.isHighPriorityChanged = false;
+        this.isComorbidityyChanged = false;
 
+
+        
         
         const evt = new ShowToastEvent({
           title: this.label.RH_RP_Record_Saved_Successfully,

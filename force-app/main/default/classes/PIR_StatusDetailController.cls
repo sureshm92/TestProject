@@ -974,7 +974,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1604,62 +1604,83 @@ public without sharing class PIR_StatusDetailController {
         
         if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
             Televisit__c televisitRecord = new Televisit__c();
-            televisitRecord.Duration__c = '15 minutes';
+            televisitRecord.Duration__c = System.Label.RH_TV_InitialVisitDefaultDuration +' minutes';
             televisitRecord.Start_Time__c = perRecord.Initial_visit_scheduled_time__c;
             televisitRecord.Status__c = 'Scheduled';
             televisitRecord.Title__c = 'Initial Visit';
             televisitRecord.Visit_Date__c = perRecord.Initial_visit_scheduled_date__c;
             televisitRecord.Participant_Enrollment__c = perRecord.Id;
             Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
-            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(15);
+            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
             televisitRecord.Visit_Date_Time__c = visitDateTime;
             insert televisitRecord;
             
-            List<Id> contactIds = new List<Id>();
+            List<Televisit__c> lstTelevisit = new List<Televisit__c>([SELECT Id, CreatedBy.ContactId FROM Televisit__c WHERE Id =: televisitRecord.Id]);
+            
+            String televisitCreatedUserContactId = lstTelevisit[0].CreatedBy.ContactId;
+            
+            List<String> contactIds = new List<String>();
             contactIds.add(perRecord.PI_Contact__c);
             contactIds.add(perRecord.Participant_Contact__c);
+            contactIds.add(televisitCreatedUserContactId);
             
-            Map<Id,User> mapUser = new Map<Id,User>();
-            for(User usr :[SELECT Id,firstname,lastname,contactId FROM User WHERE contactId  =:contactIds]){
+            Map<String,User> mapUser = new Map<String,User>();
+            for(User usr :[SELECT Id,FirstName,LastName,contactId FROM User WHERE contactId IN:contactIds]){
                 mapUser.put(usr.contactId, usr);
             }
             
             List<Televisit_Attendee__c> lstAttendees = new List<Televisit_Attendee__c>();
             Televisit_Attendee__c televisitAttendee = new Televisit_Attendee__c();
-            televisitAttendee.Contact__c = perRecord.PI_Contact__c;
             televisitAttendee.Televisit__c = televisitRecord.id;
-            //Maybe 18 digit 15 digit issue 
-            televisitAttendee.User__c = (mapUser.get(perRecord.PI_Contact__c)!= null)? mapUser.get(perRecord.PI_Contact__c).Id:null;
-            televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
-            televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
-            televisitAttendee.Attendee_Type__c = 'PI';
             televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
-            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;   
-            lstAttendees.add(televisitAttendee);
+            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;
+            
+            if(televisitCreatedUserContactId == perRecord.PI_Contact__c){
+                televisitAttendee.Contact__c = perRecord.PI_Contact__c;
+                //televisitAttendee.User__c = (mapUser.get(perRecord.PI_Contact__c)!= null)? mapUser.get(perRecord.PI_Contact__c).Id:null;
+                if(mapUser.get(perRecord.PI_Contact__c) != null){
+                    televisitAttendee.User__c =(String) mapUser.get(perRecord.PI_Contact__c).Id;
+                }
+                televisitAttendee.Attendee_Type__c = 'PI';
+                televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
+                televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
+                if(televisitAttendee.Firstname__c == null && televisitAttendee.Lastname__c.startsWith('P-') && mapUser.get(perRecord.PI_Contact__c) != null){
+                    televisitAttendee.Firstname__c = mapUser.get(perRecord.PI_Contact__c).FirstName;
+                    televisitAttendee.Lastname__c = mapUser.get(perRecord.PI_Contact__c).LastName;
+                }
+            }
+            else{
+                televisitAttendee.Contact__c = televisitCreatedUserContactId;
+                //televisitAttendee.User__c = (mapUser.get(televisitCreatedUserContactId)!= null)? mapUser.get(televisitCreatedUserContactId).Id:null;
+                if(mapUser.get(televisitCreatedUserContactId) != null){
+                    televisitAttendee.User__c =(String) mapUser.get(televisitCreatedUserContactId).Id;
+                }
+                televisitAttendee.Attendee_Type__c = 'Site Staff';
+                televisitAttendee.Firstname__c =mapUser.get(televisitCreatedUserContactId).FirstName;
+                televisitAttendee.Lastname__c =mapUser.get(televisitCreatedUserContactId).LastName;
+            }
+            
+            
+            //lstAttendees.add(televisitAttendee);
             
             Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
             televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
             televisitAttendee1.Televisit__c = televisitRecord.id;
-            televisitAttendee.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
+            //televisitAttendee.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
+            if(mapUser.get(perRecord.Participant_Contact__c) != null){
+                televisitAttendee.User__c = (String) mapUser.get(perRecord.Participant_Contact__c).Id;
+            }
             televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
             televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
             televisitAttendee1.Attendee_Type__c = 'Participant';
+            if(televisitAttendee1.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(perRecord.Participant_Contact__c) != null){
+                televisitAttendee1.Firstname__c = mapUser.get(perRecord.Participant_Contact__c).FirstName;
+                televisitAttendee1.Lastname__c = mapUser.get(perRecord.Participant_Contact__c).LastName;
+            }
             lstAttendees.add(televisitAttendee1);
+            lstAttendees.add(televisitAttendee);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
-                List<Notification__c> notifications = new List<Notification__c>();
-                for (Televisit_Attendee__c attendee : lstAttendees) {
-                    if(attendee.Attendee_Type__c == 'Site Staff' || attendee.Attendee_Type__c == 'PI'){
-                        Notification__c notification = new Notification__c();
-                        notification.Recipient__c = attendee.Contact__c;
-                        notification.WhatId__c = attendee.Id;
-                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Creation';
-                        notifications.add(notification);
-                    }                          
-                }
-                if(!notifications.isEmpty()){
-                    insert notifications;
-                }
             }
         }
     

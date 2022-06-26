@@ -764,7 +764,7 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
     private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap){
         for(Contact con : newList){
             contact oldContact = oldMap.get(con.Id);
-            if(con.IQVIA_Artificial_Voice_Consent__c != oldContact.IQVIA_Artificial_Voice_Consent__c){
+            if(con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c){
                 con.IQVIA_SMS_Consent_Time__c = Datetime.now();
             }
             if(con.IQVIA_Pre_recorded_Voice_Consent__c != oldContact.IQVIA_Pre_recorded_Voice_Consent__c){

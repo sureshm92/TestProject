@@ -237,6 +237,7 @@
                   <!-- Medical History -->
                   <!-- citizen functionality start
                                   -->
+                  <template if:true={returnpervalue.selectedPER.Study_Site__r.Medical_Record_Upload__c}>
                   <div class="slds-grid slds-wrap slds-gutters">
                     <div
                       class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
@@ -280,51 +281,72 @@
                         for:item="attach"
                       >
                         <div
-                          class="slds-truncate slds-col slds-size_11-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-m-bottom_small"
-                          key={attach.Id}
+                          class="slds-truncate slds-col slds-size_11-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
+                          key={attach.attachment.Id}
                         >
                           <a
                             class="attachtitle"
                             onclick={openModelpopup}
-                            title={attach.Title}
-                            data-name={attach.Title}
-                            data-extension={attach.FileExtension}
-                            data-id={attach.Id}
-                            data-content={attach.ContentSize}
-                            >{attach.Title}</a
+                            title={attach.attachment.Title}
+                            data-name={attach.attachment.Title}
+                            data-extension={attach.attachment.FileExtension}
+                            data-id={attach.attachment.Id}
+                            data-content={attach.attachment.ContentSize}
+                            >{attach.attachment.Title}</a
                           >
                         </div>
                         <div
                           class="slds-col slds-size_9-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small"
-                          key={attach.Id}
+                          key={attach.attachment.Id}
                         >
                           <div class="doc-date-time">
-                            <strong> {attach.CreatedDate}</strong>
+                            <strong> {attach.attachment.CreatedDate}</strong>
                           </div>
                         </div>
-                        <div
-                          class="slds-col slds-size_3-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-m-bottom_small"
-                          key={attach.Id}
+                        <div 
+                        class="slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 slds-m-bottom_small"
+                        key={attach.attachment.Id}
                         >
-                          <div class="slds-float_right">
+                        <div class="slds-grid slds-wrap">
+                          <div class=" slds-size_1-of-3">
+                          <div  if:true={attach.isDeleteAllowed} >
+                              <span class="slds-p-left_medium p-right">
+                                <img class="download-icon m-icon" 
+                                src={deleteIcon}
+                                onclick={DeleteFile}
+                                data-id={attach.attachment.Id}
+                                />
+                            </span>
+                          </div>
+                          </div>
+                          <div class=" slds-size_1-of-3"></div>
+                          <template if:true={ismodelDeletePopup}>
+                            <c-pir_deletemedicaldocument
+                              maindivcls={popupcls}
+                              deleteid={deleteId}
+                              onclosemodelpopupanddelete={deleteAndCloseModal}
+                            ></c-pir_deletemedicaldocument>
+                          </template>
+                          <div class="slds-float_right slds-size_1-of-3">
                             <span class="slds-p-left_medium p-right">
                               <a
                                 href={fileDownloadLink}
                                 target="_blank"
-                                download={attach.Title}
-                                data-id={attach.Id}
+                                download={attach.attachment.Title}
+                                data-id={attach.attachment.Id}
                                 data-url={medicalHistoryRecord.baseURL}
                               >
                                 <img
                                   class="download-icon"
                                   title={label.PIR_Download}
                                   onclick={DownloadFile}
-                                  data-id={attach.Id}
+                                  data-id={attach.attachment.Id}
                                   src={download}
                                 />
                               </a>
                             </span>
                           </div>
+                        </div>    
                         </div>
                       </template>
                     </template>
@@ -374,6 +396,7 @@
                     </template>
                     <div class="medical-border-bottom"></div>
                   </div>
+                  </template>
                   <!--  
                          citizen functionality End-->
                   <!-- Human API Start-->

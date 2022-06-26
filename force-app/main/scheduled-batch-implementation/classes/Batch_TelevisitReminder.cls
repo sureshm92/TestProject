@@ -38,7 +38,9 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                         .addDays(1)
                         .addMinutes(-4))
                     OR (Is_Second_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now().addMinutes(-4)
+                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now()
+                        .addHours(1)
+                        .addMinutes(-4)
                     AND Televisit__r.Visit_Date_Time__c <= :Datetime.now()
                         .addHours(1)
                         .addMinutes(4))))
@@ -79,37 +81,23 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             Notification__c notification = new Notification__c();
             notification.Recipient__c = attendee.Contact__c;
             notification.WhatId__c = attendee.Id;
-            if (
+            if(
                 attendee.Televisit__r.Visit_Date_Time__c >= Datetime.now().addHours(1) &&
                 attendee.Televisit__r.Visit_Date_Time__c <= Datetime.now().addHours(1).addMinutes(2)
-            ) {
-                if (
-                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    'Janssen'
-                ) {
+            ){
+                if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_Jan';
-                } else if (
-                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    'GSK'
-                ) {
-                    notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_GSK';
-                } else {
+                }else{
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two';
                 }
-            } else {
-                if (
-                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    'Janssen'
-                ) {
+
+                
+            }else{
+                if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_Janssen';
-                } else if (
-                    attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    'GSK'
-                ) {
-                    notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_GSK';
-                } else {
+                }else{
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder';
-                }
+                } 
             }
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
                 if (

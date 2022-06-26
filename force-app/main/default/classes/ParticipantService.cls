@@ -289,6 +289,7 @@ public without sharing class ParticipantService {
                         FROM Televisit_Attendee__c
                         WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
                     )
+                    AND Participant_Enrollment__c =: participantState.pe.Id
             ];
             return (!tvList.isEmpty());
         }

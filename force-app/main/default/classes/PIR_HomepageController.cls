@@ -302,6 +302,38 @@ public without sharing class PIR_HomepageController {
       //     filterWrapper
       //   );
       // }
+
+      
+      List<String> status = selectedStatusList;
+      if (status == null || status.isEmpty()) {
+        status = new List<String>();
+        status.add('Received');
+        status.add('Pre-review Passed');
+        status.add('Contact Attempted');
+        status.add('Successfully Contacted');
+        status.add('Screening In Progress');
+        status.add('Screening In Progress - Wash Out Period');
+        status.add('Screening Passed');
+        status.add('Eligibility Passed');
+        status.add('Ready to Screen');
+        // status.add('Randomization Success');
+        // status.add('Enrollment Success');
+        
+        ageStart = '0';
+        ageEnd = '150';
+        //For getting Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c when coming from My Studies
+        
+        if((studyIdlist != null) && (siteIdlist != null) && (studyIdlist.size() == 1 && siteIdlist.size() == 1)){
+          List<Clinical_Trial_Profile__c> ctp = [SELECT Id, Participant_Workflow_Final_Step__c  FROM Clinical_Trial_Profile__c WHERE  Id = : studyIdlist[0]];
+          if(ctp[0].Participant_Workflow_Final_Step__c == 'Enrollment'){
+            status.add('Enrollment Success');
+          }else if(ctp[0].Participant_Workflow_Final_Step__c == 'Randomization'){
+            status.add('Randomization Success');
+          }
+        }
+      }
+
+
       String filterString =
         ' Study_Site__c IN :siteIdlist' +
         ' AND Participant_Status__c IN :status';
@@ -429,11 +461,7 @@ public without sharing class PIR_HomepageController {
           ' ';
       }
 
-      List<String> status = selectedStatusList;
-      if (status == null || status.isEmpty()) {
-        status = new List<String>();
-        status.add('Received');
-      }
+      
       string sortCountQry = '';
       if (sortOn.contains('AND')) {
         sortCountQry = sortOn.split('order by')[0];
@@ -447,20 +475,39 @@ public without sharing class PIR_HomepageController {
           siteIdlist = new List<String>();
           string janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
           List<Study_Site__c> studySiteList = getStudySite();
+          String firstStudy = '';
           for (Study_Site__c s : studySiteList) {
             if (sponsorName == janssen) {
               if (
                 s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName
               ) {
-                studyIdlist.add(s.Clinical_Trial_Profile__c);
-                siteIdlist.add(s.Id);
-                break;
+                if(firstStudy == ''){
+                  firstStudy = s.Clinical_Trial_Profile__c;
+                  studyIdlist.add(s.Clinical_Trial_Profile__c);
+                  if(s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == 'Enrollment'){
+                    status.add('Enrollment Success');
+                  }else if(s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == 'Randomization'){
+                    status.add('Randomization Success');
+                  }
+                }
+                if(firstStudy == s.Clinical_Trial_Profile__c){
+                  siteIdlist.add(s.Id);
+                }
               }
             } else {
               if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
-                studyIdlist.add(s.Clinical_Trial_Profile__c);
-                siteIdlist.add(s.Id);
-                break;
+                if(firstStudy == ''){
+                  firstStudy = s.Clinical_Trial_Profile__c;
+                  studyIdlist.add(s.Clinical_Trial_Profile__c);
+                  if(s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == 'Enrollment'){
+                    status.add('Enrollment Success');
+                  }else if(s.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == 'Randomization'){
+                    status.add('Randomization Success');
+                  }
+                }
+                if(firstStudy == s.Clinical_Trial_Profile__c){
+                  siteIdlist.add(s.Id);
+                }
               }
             }
           }
@@ -1883,7 +1930,7 @@ public without sharing class PIR_HomepageController {
         '' => ''
       };
       if (
-        StatusToUpdate == 'Sent to Study Hub' ||
+        StatusToUpdate == 'Sent to DCT' ||
         StatusToUpdate == 'Initial Visit'
       ) {
         StatusToUpdate = 'Eligibility Passed';
@@ -2027,6 +2074,26 @@ public without sharing class PIR_HomepageController {
             )
           );
         }
+        //Eligibility Failed Logic - To be modified for new statuses in Group 1 and 2
+        if(
+            (oParticipantStatus == PEStatusState.PE_STATUS_RECEIVED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_PASSED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED ||
+              oParticipantStatus == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+              oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_REACH) && 
+              pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_FAILED
+          ) {
+            histories.add(
+              new Participant_Enrollment_Status_History__c(
+                Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                Status__c = 'Successfully Contacted',
+                ParticipantEnrollment__c = pe.Id
+                )
+              );
+          }
+        //
+
         if (
           (pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
           pe.Participant_Status__c !=
