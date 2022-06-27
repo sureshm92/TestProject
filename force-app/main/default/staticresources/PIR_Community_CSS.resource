@@ -44,7 +44,7 @@
 height: 70px;
 }
 
-/* Safari 11+ */
+/* only for ios app start+ */
 @media not all and (min-resolution:.001dpcm)
 { @supports (-webkit-appearance:none) and (stroke-color:transparent) {
     .addInfoCssDiv .slds-textarea{
@@ -58,7 +58,7 @@ height: 70px;
     }
 
 }}
-/* Test website on real Safari 11+ */
+/* only for ios end */
 
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
