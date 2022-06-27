@@ -14,6 +14,7 @@ import PP_Communication_Pref_Outreach from '@salesforce/label/c.PP_Communicat
 import PP_Communication_Pref_Outreach_consentA from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentA';
 import PP_Communication_Pref_Outreach_consentB from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentB';
 import PP_Communication_Pref_Outreach_consentC from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentC';
+import PP_Communication_Pref_Outreach_consentC from '@salesforce/label/c.PP_Communication_Pref_Blank_Del';
 import PP_Communication_Pref_savechanges from '@salesforce/label/c.PP_Communication_Pref_savechanges';
 //END TO DO
 
@@ -48,6 +49,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     PP_Communication_Pref_Outreach_consentA,
     PP_Communication_Pref_Outreach_consentB,
     PP_Communication_Pref_Outreach_consentC,
+    PP_Communication_Pref_Blank_Del,
     PP_Communication_Pref_savechanges
   };
 
@@ -63,6 +65,10 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     hideConsentsForParticipantView = false;
     hideConsentsForDelegateView = false;
     isParticipantLoggedIn = false;
+    isPrimaryDelegate = false;
+    isDelegateSelfView = false;
+    isAdultParticipant = false;
+    isEmailAvailabelForParticipant = false;
     currentPERId = "";
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
@@ -149,6 +155,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 
     setConsentVisibility(){
       this.isParticipantLoggedIn =this.consentPreferenceDataLocal.isParticipantLoggedIn;
+      this.isPrimaryDelegate = this.consentPreferenceDataLocal.isPrimaryDelegate;
+      this.isDelegateSelfView = this.consentPreferenceDataLocal.isDelegateSelfView;
+      this.isAdultParticipant = this.consentPreferenceDataLocal.isAdultParticipant;
+      this.isEmailAvailabelForParticipant = this.consentPreferenceDataLocal.isEmailAvailabelForParticipant;
+
       //Check IQVIA Outreach Consent Visibility
       if(this.showIQVIAOutreachConsent()){
         this.showIQIVAOutreachConsentFlag=true;
@@ -158,11 +169,21 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         this.showStudyConsentFlag=true;
       }
       //Hide consents for Participant view
-      if(!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag){
+      /*if(!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag){
         if(this.isParticipantLoggedIn){
           this.hideConsentsForParticipantView = true;
         }else{
           this.hideConsentsForDelegateView = true;
+        }       
+      }
+      */
+      if(!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag){
+        if(!this.isParticipantLoggedIn && !this.isDelegateSelfView){
+          this.hideConsentsForParticipantView = true;
+          console.log('Hide for participant View');
+        }else if(!this.isParticipantLoggedIn && this.isDelegateSelfView){
+          this.hideConsentsForDelegateView = true;
+          console.log('Hide for Delegate self View');
         }       
       }
     }
@@ -329,22 +350,17 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
 		 showIQVIAOutreachConsent() {
       //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
       if(this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP){
-        let isParticipantLoggedIn = this.consentPreferenceDataLocal.isParticipantLoggedIn;
-        let isPrimaryDelegate = this.consentPreferenceDataLocal.isPrimaryDelegate;
-        let isDelegateSelfView = this.consentPreferenceDataLocal.isDelegateSelfView;
-        let isAdultParticipant = this.consentPreferenceDataLocal.isAdultParticipant;
-        let isEmailAvailabelForParticipant = this.consentPreferenceDataLocal.isEmailAvailabelForParticipant;
         //If Participant Visit at Communication Preference tab at his Account setting.
         // Or Primary delegate visit Communication Preference tab at Participant's Account setting.
         //TODO: 1. What should happen  when the normal delegate of adult participant with email -   should be able to update the consents on behalf ?
-        if(isParticipantLoggedIn || (isPrimaryDelegate && !isDelegateSelfView)){
+        if(this.isParticipantLoggedIn || (this.isPrimaryDelegate && !this.isDelegateSelfView)){
           //this.showIQIVAOutreachConsentFlag=true;
           return true;
         }
         //If Delegate Visits Communication Preference tab of his own Account setting(self View).
-        if(isDelegateSelfView){
+        if(this.isDelegateSelfView){
           //If Delegate is not primary Delegate, then don't show IQVIA Outreach Consent to Delegate.
-          if(isPrimaryDelegate){
+          if(this.isPrimaryDelegate){
             return true;
           }
           //If Delegate is primary Delegate of Minor Participant, then show IQVIA Outreach Consent to Delegate.
@@ -370,21 +386,14 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
   }
   //Set Visibility of Study Consent
    showStudyConsent() {
-    let isParticipantLoggedIn = this.consentPreferenceDataLocal.isParticipantLoggedIn;
-    let isPrimaryDelegate = this.consentPreferenceDataLocal.isPrimaryDelegate;
-    let isDelegateSelfView = this.consentPreferenceDataLocal.isDelegateSelfView;
-    //let isAdultParticipant = this.consentPreferenceDataLocal.isAdultParticipant;
-    //let isEmailAvailabelForParticipant = this.consentPreferenceDataLocal.isEmailAvailabelForParticipant;
-
     //If Participant Visit at Communication Preference tab at his Account setting.
     // Or Primary delegate visit Communication Preference tab at Participant's Account setting.
     //TODO: 1. What should happen  when the normal delegate of adult participant with email -   should be able to update the consents on behalf ?
-    if(isParticipantLoggedIn || (isPrimaryDelegate && !isDelegateSelfView)){
-      //this.showStudyConsentFlag =true;
+    if(this.isParticipantLoggedIn || (this.isPrimaryDelegate && !this.isDelegateSelfView)){
       return true;
     }
     //If Delegate Visits Communication Preference tab of his own Account setting(self View), donw show study Consent. 
-    if(isDelegateSelfView){
+    if(this.isDelegateSelfView){
       return false;
     }
     return false;
