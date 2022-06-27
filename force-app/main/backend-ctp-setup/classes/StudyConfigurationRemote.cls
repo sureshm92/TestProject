@@ -22,6 +22,7 @@ public with sharing class StudyConfigurationRemote {
                 SELECT
                     Id,
                     Visit_Schedule_Is_Available__c,
+                    Is_Program__c,
                     Study_Documents_Are_Available__c,
                     Video_And_Articles_Are_Available__c,
                     Tasks_Are_Available__c,

@@ -1,0 +1,23 @@
+<template>
+    <template if:true={hasProfilePic}>
+        <lightning-avatar
+            src={user.SmallPhotoUrl}
+            variant="circle"
+            size="medium"
+            alternative-text={fullName}
+            fallback-icon-name="standard:avatar"
+        >
+        </lightning-avatar>
+    </template>
+    <template if:false={hasProfilePic}>
+        <div title={fullName}>
+            <c-web-icon color="white" svg-class="small-avatar" icon-name={profileIconName}>
+            </c-web-icon>
+        </div>
+    </template>
+    <c-web-icon
+        icon-color="white"
+        icon-name="arrow-button-down-2"
+        svg-class="arrow-down"
+    ></c-web-icon>
+</template>
