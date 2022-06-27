@@ -82,7 +82,7 @@ public without sharing class OpenTokClientController {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Duration__c,
                 (
-                    SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c
+                    SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c, User__r.Contact.Salutation
                     FROM Televisit_Attendee__r
                     WHERE User__c = :currentUserId
                 )
@@ -201,7 +201,7 @@ public without sharing class OpenTokClientController {
             */
             List<Televisit_Attendee__c> matchingAttendees = new List<Televisit_Attendee__c>();
             //HAve to add more filters 
-            matchingAttendees = [SELECT Id,FirstName__c,LastName__c,Attendee_Type__c FROM Televisit_Attendee__c WHERE User__c = :currentUserId LIMIT 1];
+            matchingAttendees = [SELECT Id,FirstName__c,LastName__c,Attendee_Type__c, User__r.Contact.Salutation FROM Televisit_Attendee__c WHERE User__c = :currentUserId LIMIT 1];
             
             if (!matchingAttendees.isEmpty()) {
                 
@@ -229,7 +229,7 @@ public without sharing class OpenTokClientController {
 
         Map<Id, Televisit_Attendee__c> attendeeRecords = new Map<Id, Televisit_Attendee__c>([
             SELECT
-                Name, FirstName__c, LastName__c,
+                Name, FirstName__c, LastName__c, Attendee_Type__c, User__r.Contact.Salutation,
                 (SELECT Id, Connection_Id__c FROM Connections__r)
             FROM
                 Televisit_Attendee__c
@@ -257,7 +257,7 @@ public without sharing class OpenTokClientController {
     public static String getAttendeeName(Id attendeeId) {
         Televisit_Attendee__c attendee = [
             SELECT
-                Name, FirstName__c, LastName__c
+                Name, FirstName__c, LastName__c, Attendee_Type__c, User__r.Contact.Salutation
             FROM
                 Televisit_Attendee__c
             WHERE
@@ -268,6 +268,10 @@ public without sharing class OpenTokClientController {
     }
     private static String getName(Televisit_Attendee__c attendee) {
         List<String> nameParts = new List<String>();
+
+        if ((attendee.Attendee_Type__c=='PI'||attendee.Attendee_Type__c=='Site Staff') && (String.isNotBlank(attendee.User__r.Contact.Salutation))) {
+            nameParts.add(attendee.User__r.Contact.Salutation);
+        }
 
         if (String.isNotBlank(attendee.FirstName__c)) {
             nameParts.add(attendee.FirstName__c);

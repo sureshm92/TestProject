@@ -1,24 +1,28 @@
 Public without sharing Class TelevisitCreationScreenController {
     @AuraEnabled
     Public static Boolean televisistPrerequisiteCheck(String ParticipantEnrollmentId){
-        Boolean enableTelevisitTab = false;
-        if(ParticipantEnrollmentId != Null){
-            Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
-                FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
-            
-            TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+        try{
+            Boolean enableTelevisitTab = false;
+            if(ParticipantEnrollmentId != Null){
+                Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
+                    FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
                 
-            if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-               ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
-               vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
-                     enableTelevisitTab = true;
-                 
-             }else{
-                 enableTelevisitTab = false;
-             }
+                TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+                    
+                if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                   ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
+                   vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
+                         enableTelevisitTab = true;
+                     
+                 }else{
+                     enableTelevisitTab = false;
+                 }
+            }
+            return enableTelevisitTab;
+        }catch (exception ex){
+            return false;
         }
-        return enableTelevisitTab;
     }
     
     @AuraEnabled
@@ -181,6 +185,8 @@ Public without sharing Class TelevisitCreationScreenController {
         public Boolean isCompletedStatus{get;set;}
         @AuraEnabled
         public List<AttendeesWrapper> attendeesWrapperList{get;set;}
+        @AuraEnabled
+        public Datetime visitDateTime{get;set;}
     }
     
     @AuraEnabled
@@ -194,7 +200,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Completed = status.split('/')[1];
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c desc, Start_Time__c desc];
@@ -202,7 +208,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Schdeduled = status;
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c asc, Start_Time__c asc];
@@ -231,6 +237,7 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.pefirstname = tv.Participant_Enrollment__r.Participant__r.First_Name__c;
             wrap.pelastname = tv.Participant_Enrollment__r.Participant__r.Last_Name__c;
             wrap.attendeesList = tv.Televisit_Attendee__r;
+            wrap.visitDateTime = tv.Visit_Date_Time__c;
             lstWrap.add(wrap);
         }
         return lstWrap;
