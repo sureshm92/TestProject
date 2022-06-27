@@ -40,9 +40,32 @@
 .dropdown-fonts .slds-listbox__option .slds-media__body {
     font-size: 12px;
 }
+.addInfoCssDiv .slds-textarea{
+height: 70px;
+}
+
+/* Safari 11+ */
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+    .addInfoCssDiv .slds-textarea{
+     font-weight: 800;
+     color:black;
+    }
+
+    .iosopacitycss .slds-input{
+    font-weight: 800;
+     color:black;
+    }
+
+}}
+/* Test website on real Safari 11+ */
+
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;
     } 
+    .addInfoCssDiv .slds-textarea{
+        height: 67px;
+    }
    
 }
