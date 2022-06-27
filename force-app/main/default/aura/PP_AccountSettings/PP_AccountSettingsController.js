@@ -19,7 +19,7 @@
                 userMode: component.get('v.userMode')
             },
             function (returnValue) {
-                let initData = JSON.parse(returnValue);
+                let initData = JSON.parse(returnValue);                
                 initData.password = {
                     old: '',
                     new: '',
@@ -45,6 +45,8 @@
                 } else {
                     console.log('URL param not found!');
                 }
+                //console.log('initData: '+initData);
+                //console.log('contactChanged: '+initData.contactChanged);
                 component.set('v.initData', initData);
                 component.set('v.contactChanged', initData.contactChanged);
                 component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -52,6 +54,7 @@
                 component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
                 component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
                 component.set('v.userType', initData.myContact.UserCommunytyType__c);
+                component.set('v.consentPreferenceData', initData.consentPreferenceData);                
                 var userType = initData.myContact.userCommunytyType__c;
                 if (userType)
                     if (userType.includes('HCP') && component.get('v.userMode') == 'PI')
@@ -170,5 +173,8 @@
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
         component.set('v.personWrapper', personWrapper);
-    }
+    },
+    selectPassword : function (component, event, helper){
+    
+	}
 });

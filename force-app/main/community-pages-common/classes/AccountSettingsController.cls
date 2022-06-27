@@ -4,13 +4,33 @@
 public without sharing class AccountSettingsController {
     public static String loggedInUserMode;
     public static final String USER_MODE_HCP = 'HCP';
+    public static Boolean isAdultParticipant = false;
+    public static Boolean isEmailAvailabelForParticipant = false;
+    public static Boolean isDelegateSelfView = false;
+    public static Boolean isIQIVAOutrechToggleOnAtCTP = false;
+    public static Boolean isPrimaryDelegate = false;
+    public static Boolean isDelegateAlsoAParticipant = false;
+    public static Id currentParticipantId = null;
+    public static Map<Id, List<Participant_Enrollment__c>> participantIdListOfPerMap = new Map<Id, List<Participant_Enrollment__c>>();
+    public static List<Participant_Enrollment__c> perListforCommPref = new List<Participant_Enrollment__c>();
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
             loggedInUserMode = userMode;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
+                currentParticipantId = ParticipantContext.getCurrentParticipantId();
+                //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
+                initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
+                    initData.myContact.Id,
+                    currentParticipantId
+                );
+                //As delegate switched to Participant Account setting so set isParticipantLoggedIn to false.
+                initData.consentPreferenceData.isParticipantLoggedIn = false;
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -45,7 +65,8 @@ public without sharing class AccountSettingsController {
                             Phone_Type__c,
                             Alternative_Phone_Number__c,
                             Alternative_Phone_Type__c,
-                            Birth_Year__c
+                            Birth_Year__c,
+                            Email__c
                         FROM Participant__c
                         WHERE Contact__c = :initData.myContact.Id
                     ][0];
@@ -77,23 +98,76 @@ public without sharing class AccountSettingsController {
                     );
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
                         .getState();
+
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                     List<Id> peIds = new List<Id>();
                     peIds = PatientDelegateService.getAvailablePEIdsForContact(
                         participantState.participant.Contact__c
                     );
+
                     List<Participant_Enrollment__c> availablePEs = [
-                        SELECT Id, Study_Site__r.SMS_Are_Available__c
+                        SELECT
+                            Id,
+                            Participant__c,
+                            Participant__r.Contact__c,
+                            Participant__r.Adult__c,
+                            Participant__r.Email__c,
+                            Study_Site__r.SMS_Are_Available__c,
+                            Permit_Mail_Email_contact_for_this_study__c,
+                            Permit_SMS_Text_for_this_study__c,
+                            Permit_Voice_Text_contact_for_this_study__c,
+                            Study_Direct_Mail_Consent__c,
+                            Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                            Clinical_Trial_Profile__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                         FROM Participant_Enrollment__c
                         WHERE Id = :peIds
                     ];
+
                     if (availablePEs != null)
                         participantEnrollments.addAll(availablePEs);
                     List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
                         participantState.participant.Contact__c
                     );
+
                     if (pastEnrollments != null)
                         participantEnrollments.addAll(pastEnrollments);
+
+                    if (participantEnrollments != null) {
+                        // Populate Consent Preference Data to Static variables
+                        setConsentPreferenceData(
+                            participantEnrollments,
+                            initData.participant.Id,
+                            initData.myContact.Id
+                        );
+
+                        //Set the consent Preference data to wrapper variables.
+                        //initData.consentPreferenceData.perList.addAll(participantEnrollments);
+                        initData.consentPreferenceData.isAdultParticipant = isAdultParticipant;
+                        initData.consentPreferenceData.isEmailAvailabelForParticipant = isEmailAvailabelForParticipant;
+                        initData.consentPreferenceData.isDelegateSelfView = isDelegateSelfView;
+                        initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
+
+                        if (isDelegateSelfView) {
+                            //As delegate switched to his own Account setting so set isParticipantLoggedIn to false.
+                            //But if Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
+                            if (isDelegateAlsoAParticipant) {
+                                initData.consentPreferenceData.isParticipantLoggedIn = true;
+                                initData.consentPreferenceData.isPrimaryDelegate = false;
+                                initData.consentPreferenceData.isDelegateSelfView = false;
+                                initData.consentPreferenceData.perList.addAll(perListforCommPref);
+                            } else {
+                                initData.consentPreferenceData.perList.addAll(
+                                    participantEnrollments
+                                );
+                                initData.consentPreferenceData.isParticipantLoggedIn = false;
+                                initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
+                            }
+                        } else {
+                            initData.consentPreferenceData.perList.addAll(participantEnrollments);
+                        }
+                    }
+
                     for (Participant_Enrollment__c p : participantEnrollments) {
                         if (p.Study_Site__r.SMS_Are_Available__c) {
                             initData.isSMSAvailableFromSS = true;
@@ -128,12 +202,12 @@ public without sharing class AccountSettingsController {
                 List<User> delUsers = [
                     SELECT Id, Email, Name, Username, FullPhotoUrl
                     FROM User
-                    WHERE ContactId = :initData.myContact.Id 
+                    WHERE ContactId = :initData.myContact.Id
                 ];
-                if(delUsers !=null && !delUsers.isEmpty()){
+                if (delUsers != null && !delUsers.isEmpty()) {
                     initData.delegateUserName = delUsers[0];
                 }
-                if(initData.delegateUserName!=null){
+                if (initData.delegateUserName != null) {
                     initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
                         'profilephoto/005/F'
                     );
@@ -210,12 +284,15 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeEmail(String newEmail,String userMode) {
+    public static void changeEmail(String newEmail, String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -275,7 +352,10 @@ public without sharing class AccountSettingsController {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -291,12 +371,15 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeOptInSMS(Boolean participantOptInStatusSMS,String userMode) {
+    public static void changeOptInSMS(Boolean participantOptInStatusSMS, String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -559,6 +642,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ContactSectionData contactSectionData = new ContactSectionData();
         @AuraEnabled
         public Participant__c participant;
+        @AuraEnabled
+        public ConsentPreferenceData consentPreferenceData = new ConsentPreferenceData();
     }
 
     public class ContactSectionData {
@@ -590,6 +675,29 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public String cookieName { get; set; }
         @AuraEnabled
         public String cookieDescription { get; set; }
+    }
+
+    public class ConsentPreferenceData {
+        //@AuraEnabled
+        //public Contact myContact;
+        //@AuraEnabled
+        //public Contact delegateContact;
+        //@AuraEnabled
+        //public Participant__c participant;
+        @AuraEnabled
+        public List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+        @AuraEnabled
+        public Boolean isAdultParticipant;
+        @AuraEnabled
+        public Boolean isPrimaryDelegate = false;
+        @AuraEnabled
+        public Boolean isEmailAvailabelForParticipant;
+        @AuraEnabled
+        public Boolean isIQIVAOutrechToggleOnAtCTP;
+        @AuraEnabled
+        public Boolean isDelegateSelfView;
+        @AuraEnabled
+        public Boolean isParticipantLoggedIn = true;
     }
 
     public class PersonWrapper {
@@ -789,6 +897,88 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 return false;
 
             return true;
+        }
+    }
+    /**
+     * @description: This Method will set the consent Preference data to the static variables.
+     * @author: Krishna Mahto
+     * @param: perList
+     * @return:
+     **/
+    public static Void setConsentPreferenceData(
+        List<Participant_Enrollment__c> perList,
+        Id initDataParticipantId,
+        Id initDataMyContactId
+    ) {
+        Boolean checkIfDelAlsoAParticipant = false;
+        for (Participant_Enrollment__c per : perList) {
+            //Populate the Map of list of PER for each Participant Id.
+            if (participantIdListOfPerMap.containsKey(per.Participant__c)) {
+                List<Participant_Enrollment__c> perTemp = participantIdListOfPerMap.get(
+                    per.Participant__c
+                );
+                perTemp.Add(per);
+                participantIdListOfPerMap.put(per.Participant__c, perTemp);
+            } else {
+                List<Participant_Enrollment__c> perTemp = new List<Participant_Enrollment__c>();
+                perTemp.Add(per);
+                participantIdListOfPerMap.put(per.Participant__c, perTemp);
+            }
+
+            /* if (currentParticipantId == null) {
+                currentParticipantId = per.Participant__c;
+            }
+            */
+            //Check if Participant is adule
+            if (per.Participant__r.Adult__c) {
+                isAdultParticipant = true;
+            }
+            //Check if email is available at Participant
+            if (per.Participant__r.Email__c != null) {
+                isEmailAvailabelForParticipant = true;
+            }
+            //Check if Delegate is on self View
+            if (initDataParticipantId != per.Participant__c) {
+                isDelegateSelfView = true;
+                checkIfDelAlsoAParticipant = true;
+                currentParticipantId = per.Participant__c;
+            }
+            //Check if IQVIA outreach toggle is on at any of the CTP for the Participant.
+            if (per.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                isIQIVAOutrechToggleOnAtCTP = true;
+                break;
+            }
+        }
+        //If Patient Delegate clicks the self Account setting, check if the Patient delegate is Primary delegate or not.
+        if (isDelegateSelfView) {
+            isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
+                initDataMyContactId,
+                currentParticipantId
+            );
+        }
+        //Check if Delegate is also acting as participant for other study(Multi Role).
+        if (checkIfDelAlsoAParticipant) {
+            checkIfDelegateIsAlsoAparticipant(initDataMyContactId);
+            //If Delegate is also acting as Participant then only Pass the PER for Delegate contact when switching at self view.
+            if (isDelegateAlsoAParticipant) {
+                perListforCommPref = participantIdListOfPerMap.get(initDataParticipantId);
+            }
+        }
+    }
+    /**
+     * @description: This Method will check if Patient Delegate is also working as Participant.
+     * @author: Krishna Mahto
+     * @param: delContId
+     * @return:
+     **/
+    public static void checkIfDelegateIsAlsoAparticipant(Id delContId) {
+        list<Participant_Enrollment__c> perList = [
+            SELECT Id
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c = :delContId
+        ];
+        if (perList != null && !perList.isEmpty()) {
+            isDelegateAlsoAParticipant = true;
         }
     }
 }

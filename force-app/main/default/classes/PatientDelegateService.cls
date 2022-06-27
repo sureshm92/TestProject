@@ -872,4 +872,24 @@ public without sharing class PatientDelegateService {
         }
         PatientDelegateService.updatePermissionSets(allContactIds);
     }
+    /**
+     * @description: This Method will retun true if the Patient Delegate is Primary delegate else it will return false.
+     *
+     * @author: Krishna Mahto
+     * @param: pdContactId
+     * @return: Boolean
+     **/
+    public static Boolean isPrimaryDelegate(Id pdContactId, Id currentParticipantId) {
+        Boolean isPrimaryDelegate = false;
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+        pdList = [
+            SELECT Id, Primary_Delegate__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :pdContactId AND Participant__c = :currentParticipantId
+        ];
+        if (pdList != null && !pdList.isEmpty() && pdList[0].Primary_Delegate__c) {
+            isPrimaryDelegate = true;
+        }
+        return isPrimaryDelegate;
+    }
 }

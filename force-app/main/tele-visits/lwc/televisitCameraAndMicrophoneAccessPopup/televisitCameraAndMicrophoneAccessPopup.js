@@ -1,16 +1,16 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-// importing Custom Label
 import Email_Title_PH from '@salesforce/label/c.Email_Title_PH';
 import Permissions from '@salesforce/label/c.Permissions';
 import IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera from '@salesforce/label/c.IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera';
 import Don_t_allow from '@salesforce/label/c.Don_t_allow';
 import Allow_access from '@salesforce/label/c.Allow_access';
 
-export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(LightningElement)  {
+export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(LightningElement) {
 
     @api meetingUrl;
-    isModalOpenAccessPopup = true;
+    @api urlPathPrefix = '';
+    @api isModalOpenAccessPopup = false;
     label = {
         Email_Title_PH,
         Permissions,
@@ -21,10 +21,9 @@ export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(Ligh
     showTelevisitVisitPreviewOnDonotAllow = false;
 
     @api isRTLLanguage = false;
-    userId;
-    @api show(userName) {
+
+    @api show() {
         this.template.querySelector('.televisitVisitPreviewOnDonotAllowPopup').show();
-        this.userId = userName;
     }
 
     closeModal() {
@@ -38,28 +37,39 @@ export default class CameraAndMicrophoneAccessPopup extends NavigationMixin(Ligh
         return this.isRTLLanguage ? 'footerRTL' : 'footerLTR';
     }
 
-    // Initializes the component
-    connectedCallback(event){
-        this.isModalOpenAccessPopup = true;
-    }
-
-    renderedCallback() { 
+    renderedCallback() {
         this.template.querySelector('c-web-popup').show();
-        this.isModalOpenAccessPopup = true;
     }
 
-    handleAllowAccess(event){
-        let url = this.meetingUrl;
+    handleAllowAccess() {
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetingUrl;
         window.open(url, '_blank');
+        this.handleEvent('closeaccesspopup', false);
     }
 
-    handleDonotAllow(event){
+    handleDonotAllow() {
         this.isModalOpenAccessPopup = false;
         this.showTelevisitVisitPreviewOnDonotAllow = true;
     }
 
-    closeModal() {
-        this.isModalOpenAccessPopup = false;
+    handleDoNotAllowPopup(event) {
+        if (event.detail) {
+            this.handleEvent('closeaccesspopup', false);
+        } else {
+            this.showTelevisitVisitPreviewOnDonotAllow = false;
+            this.isModalOpenAccessPopup = true;
+        }
+    }
+
+    handleCloseModal() {
+        this.handleEvent('closeaccesspopup', false);
+    }
+
+    handleEvent(eventName, detailProperty) {
+        const selectedEvent = new CustomEvent(eventName, {
+            detail: detailProperty
+        });
+        this.dispatchEvent(selectedEvent);
     }
 
 }
