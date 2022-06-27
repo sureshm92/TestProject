@@ -344,15 +344,17 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         //If Delegate Visits Communication Preference tab of his own Account setting(self View).
         if(isDelegateSelfView){
           //If Delegate is not primary Delegate, then don't show IQVIA Outreach Consent to Delegate.
-          if(!isPrimaryDelegate){
-            return false;
+          if(isPrimaryDelegate){
+            return true;
           }
           //If Delegate is primary Delegate of Minor Participant, then show IQVIA Outreach Consent to Delegate.
-          if(isPrimaryDelegate && !isAdultParticipant){
+          /*if(isPrimaryDelegate && !isAdultParticipant){
             //this.showIQIVAOutreachConsentFlag=true;
             return true;
           }
+          */
           //If Delegate is primary Delegate of Adult Participant but Adult Participant has no Email then show IQVIA Outreach Consent to Delegate.
+          /*
           if(isPrimaryDelegate && isAdultParticipant){
             if(!isEmailAvailabelForParticipant){
               //this.showIQIVAOutreachConsentFlag=true;
@@ -361,6 +363,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
               return false;
             }
           }
+          */
         }
       }
       return false;
