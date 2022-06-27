@@ -18128,6 +18128,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>There are currently no communication options available.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
+        <value>Secondary delegate do not have permission to edit communication preferences.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref</fullName>
         <language>en_US</language>
         <protected>true</protected>
