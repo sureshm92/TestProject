@@ -582,7 +582,7 @@ FOR UPDATE
                 List<Patient_Delegate__c> checkPDel;
                 if (participantId != null && newContact.Id != null) {
                     checkPDel = [
-                        SELECT Id,Primary_Delegate__c
+                        SELECT Id,Primary_Delegate__c,Participant__r.Email__c
                         FROM Patient_Delegate__c
                         WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                     ];
@@ -626,9 +626,9 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                     }
                 }                
                 if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
-                   && (checkPDel.isEmpty() || (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c) )
+                   && ((checkPDel.isEmpty() && (participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == '')) || 
+                   (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c && checkPDel[0].Participant__r.Email__c == null) )
                    ){
-                       if(participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == ''){
                            contact con = new contact();
                            con.id = newContact.Id;
                            con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
@@ -660,7 +660,6 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                             );
 
                            update con;
-                       }
                    }
                 //}
                 if (createDelegateuser) {
