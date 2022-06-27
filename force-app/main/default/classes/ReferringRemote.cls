@@ -386,7 +386,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
             enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
-            enrollment.Study_Direct_Mail_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Direct_Mail_Consent__c = enrollment.Permit_Mail_Email_contact_for_this_study__c;
             //IQVIA Outreach Consent
             enrollment.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
                                                                 || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
