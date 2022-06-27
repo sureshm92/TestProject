@@ -369,6 +369,9 @@ public without sharing class PIR_StatusDetailController {
         Participant__r.First_Name__c,
         Participant__r.Last_Name__c,
         Participant_Contact__c,
+        Participant__c,
+        Participant__r.Adult__c,
+        Participant__r.Email__c,
         PI_Contact__r.FirstName,
         PI_Contact__r.LastName,
         PI_Contact__c
@@ -1624,6 +1627,13 @@ public without sharing class PIR_StatusDetailController {
             contactIds.add(perRecord.Participant_Contact__c);
             contactIds.add(televisitCreatedUserContactId);
             
+            for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
+                  contactIds.add(participantDelegate.Contact__c);                                    
+            }
+            
+            
             Map<String,User> mapUser = new Map<String,User>();
             for(User usr :[SELECT Id,FirstName,LastName,contactId FROM User WHERE contactId IN:contactIds]){
                 mapUser.put(usr.contactId, usr);
@@ -1664,20 +1674,47 @@ public without sharing class PIR_StatusDetailController {
             //lstAttendees.add(televisitAttendee);
             
             Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
-            televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
-            televisitAttendee1.Televisit__c = televisitRecord.id;
-            //televisitAttendee.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
-            if(mapUser.get(perRecord.Participant_Contact__c) != null){
-                televisitAttendee.User__c = (String) mapUser.get(perRecord.Participant_Contact__c).Id;
+            //televisitAttendee1.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
+            if(perRecord.Participant__r.Adult__c && perRecord.Participant__r.Email__c != null){
+                televisitAttendee1.Televisit__c = televisitRecord.id;
+                televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
+                if(mapUser.get(perRecord.Participant_Contact__c) != null){
+                    televisitAttendee1.User__c = (String) mapUser.get(perRecord.Participant_Contact__c).Id;
+                }
+                televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
+                televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
+                televisitAttendee1.Attendee_Type__c = 'Participant';
+                if(televisitAttendee1.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(perRecord.Participant_Contact__c) != null){
+                    televisitAttendee1.Firstname__c = mapUser.get(perRecord.Participant_Contact__c).FirstName;
+                    televisitAttendee1.Lastname__c = mapUser.get(perRecord.Participant_Contact__c).LastName;
+                }
+                lstAttendees.add(televisitAttendee1);
             }
-            televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
-            televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
-            televisitAttendee1.Attendee_Type__c = 'Participant';
-            if(televisitAttendee1.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(perRecord.Participant_Contact__c) != null){
-                televisitAttendee1.Firstname__c = mapUser.get(perRecord.Participant_Contact__c).FirstName;
-                televisitAttendee1.Lastname__c = mapUser.get(perRecord.Participant_Contact__c).LastName;
+            Televisit_Attendee__c televisitAttendee2 = new Televisit_Attendee__c();
+            for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
+                                                     
+                televisitAttendee2.Televisit__c = televisitRecord.id;
+                televisitAttendee2.Contact__c = participantDelegate.Contact__c;
+                if(mapUser.get(participantDelegate.Contact__c) != null){
+                    televisitAttendee2.User__c = (String) mapUser.get(participantDelegate.Contact__c).Id;
+                }
+                if(participantDelegate.Participant_Delegate__c != null){
+                    televisitAttendee2.Firstname__c= participantDelegate.Participant_Delegate__r.First_Name__c;
+                    televisitAttendee2.Lastname__c= participantDelegate.Participant_Delegate__r.Last_Name__c;
+                }else{
+                    televisitAttendee2.Firstname__c= participantDelegate.Contact__r.FirstName;
+                    televisitAttendee2.Lastname__c= participantDelegate.contact__r.LastName;
+                }
+                televisitAttendee2.Attendee_Type__c = 'Participant Delegate';
+                
+                //if(televisitAttendee2.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(participantDelegate.Contact__c) != null){
+                //    televisitAttendee2.Firstname__c = mapUser.get(participantDelegate.Contact__c).FirstName;
+                //    televisitAttendee2.Lastname__c = mapUser.get(participantDelegate.Contact__c).LastName;
+                //}
+                lstAttendees.add(televisitAttendee2);
             }
-            lstAttendees.add(televisitAttendee1);
             lstAttendees.add(televisitAttendee);
             if(!lstAttendees.isEmpty()){
                 insert lstAttendees;
