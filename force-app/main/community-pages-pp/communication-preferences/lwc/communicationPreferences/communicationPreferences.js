@@ -14,7 +14,7 @@ import PP_Communication_Pref_Outreach from '@salesforce/label/c.PP_Communicat
 import PP_Communication_Pref_Outreach_consentA from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentA';
 import PP_Communication_Pref_Outreach_consentB from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentB';
 import PP_Communication_Pref_Outreach_consentC from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentC';
-import PP_Communication_Pref_Outreach_consentC from '@salesforce/label/c.PP_Communication_Pref_Blank_Del';
+import PP_Communication_Pref_Blank_Del from '@salesforce/label/c.PP_Communication_Pref_Blank_Del';
 import PP_Communication_Pref_savechanges from '@salesforce/label/c.PP_Communication_Pref_savechanges';
 //END TO DO
 
