@@ -59,6 +59,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track disableTelevisitCheckbox = true;
   @track disableTelevisitCheckbox2 = true;
   @track disableInitialVisitCheckbox = true;
+  @track televisitInitialVisitCheckboxStatus = 'Disabled';
   @track isTelevisitModalOpen = false;
   @track proceedSaveRecord = false;
   maindivcls;
@@ -213,7 +214,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       
     }
     this.isdataChanged();
-	this.validateTelevisitVisibility();
+	  this.validateTelevisitVisibility();
   }
 
   customFieldValidation(dataValue) {
@@ -295,6 +296,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.currentitems.index == 2 &&
       this.groupname != "PWS_Eligibility_Card_Name"
     ) {
+      this.validateTelevisitVisibility2();
       return true;
     } else {
       return false;
@@ -774,7 +776,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           label: this.utilLabels[outcomeReasonLabel],
           value: outcomeReasonValue
         });
-      }
+    }
     this.reasoneoptions = trans_reasonopts;
     if (this.reasoneoptions.length > 0) {
       if (datavalue === "Consent Signed") {
@@ -1688,12 +1690,22 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       initialVisitTimeValue != '' ){
         this.disableTelevisitCheckbox = false;
     }else{
-      this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
-      this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
-      this.addTelevisitForInitialVisit = false;
+      if(this.checkContactStatus){
+        this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
+        this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+        this.addTelevisitForInitialVisit = false;
+      }
       this.disableTelevisitCheckbox = true;
     }
   }
+  validateTelevisitVisibility2(){
+    if(this.televisitInitialVisitCheckboxStatus == 'Enabled'){
+      this.disableInitialVisitCheckbox = false;
+    }else{
+      this.disableInitialVisitCheckbox = true;
+    }
+  }
+
   handleTelevisitCloseModal(){
     this.isTelevisitModalOpen = false;
     this.proceedSaveRecord = false;
@@ -1711,8 +1723,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   get isinitialvisitTelevisitChecked(){
     if(this.participantrecord.Add_televisit_for_Initial_Visit__c && this.disableInitialVisitCheckbox){
       this.disableTelevisitCheckbox2 = true;
+      this.televisitInitialVisitCheckboxStatus = 'Disabled';
     }else{
       this.disableTelevisitCheckbox2 = false;
+      this.televisitInitialVisitCheckboxStatus = 'Enabled';
     }
     return true;
   }
