@@ -19,6 +19,29 @@
     margin-right: 10px;
 }
 
+.po-mobile-text {
+    padding-left: 2px;
+}
+
+.po-bradius-20{
+    border-radius: 20px;
+}
+
+.po-text-red{
+    color: #d43e33;
+    font-weight: 600;
+}
+
+.po-no-communication-del {
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    color: #5c5c5c;
+    border: 1px solid #e9e9e9;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
 .communication-pref .header {
     color: #444;
     font-size: 18px;
@@ -91,7 +114,6 @@
     padding: 6px;
     text-align: center;
     font-weight: 500;
-    padding-top: 14px;
 }
 
 .border-right {
@@ -106,11 +128,11 @@
     margin-right: 0px;
 }
 
-.outreach-container .blue-highlight-text-color {
+.blue-highlight-text-color {
     color: #0f6efd;
 }
 
-.outreach-container .blue-highlight-text-color:hover {
+.blue-highlight-text-color:hover {
     cursor: pointer;
 }
 
@@ -134,14 +156,36 @@
     margin-top: 30px;
 }
 
+.mb-10 {
+    margin-bottom: 5px;
+}
+
 .save-btn {
     color: #fff;
+}
+
+.po-mr-10 {
+    margin-right: 10px;
 }
 
 .com-icon {
     fill: #595959;
     height: 20px;
     width: 20px;
+}
+
+/* Error Box */
+
+.po-error-container {
+    background: #faeae8;
+}
+
+.po-error {
+    padding: 0px 13px 10px 13px;
+}
+
+.po-white-border {
+    border-right: 2px solid #fff;
 }
 
 /* Spinner */
@@ -165,4 +209,11 @@
 :host {
     --sds-c-checkbox-color-background-checked: #0769fd;
     --sds-c-checkbox-mark-color-foreground: #fff;
+}
+
+.participant-empty-card {
+    border-radius: 25px;
+    background: #808080;
+    width: 200px;
+    height: 150px;
 }

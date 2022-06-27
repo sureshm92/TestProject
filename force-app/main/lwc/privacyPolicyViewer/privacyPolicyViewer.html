@@ -1,4 +1,5 @@
 <template>
+<template if:false={commPref}>
     <template if:false={isCommunityFooter}>
         <div class="slds-p-around_medium">
             <template if:true={isJanssen}>
@@ -23,6 +24,7 @@
             </template>
         </div>
     </template>
+</template>
     <template if:true={isModalOpen}>
         <!-- Modal/Popup Box LWC starts here isCommunityFooter-->
         <section

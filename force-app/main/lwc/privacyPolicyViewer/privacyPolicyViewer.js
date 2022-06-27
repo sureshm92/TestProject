@@ -19,6 +19,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @api isModalOpen;
     @api isRtl;
     @api isCommunityFooter;
+    @api commPref = false;
     @track ppRichText;
     @track listOfHeaders = [];
     @track paraList = [];
@@ -78,6 +79,10 @@ export default class PrivacyPolicyViewer extends LightningElement {
         // to close modal set isModalOpen tarck value as false
         const closeEvt = new CustomEvent('closePpModal');
         this.dispatchEvent(closeEvt);
+				
+				const closeEvtLwc = new CustomEvent('closeprivacypolicy');
+        this.dispatchEvent(closeEvtLwc);
+				
         this.isModalOpen = false;
     }
     navigateToHomePage(event) {
