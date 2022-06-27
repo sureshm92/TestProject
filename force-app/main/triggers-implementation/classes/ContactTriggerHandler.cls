@@ -442,9 +442,6 @@ public without sharing class ContactTriggerHandler {
                     participantIds
                 );
                 system.debug('partPerDelegateIds:::' + partPerDelegateIds);
-                /*if(!partPerDelegateIds.isEmpty()){
-participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, Participant__c, Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r ) From Participant__c where ID IN : partPerDelegateIds.keyset()]);
-}*/
             }
         }
         for (Contact con : newList) {
@@ -603,6 +600,7 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
     //This method is to retry the welcome msg whenever is_Invalid_number__c field is true  and Mobile no is updated at contact
     private static void retryWelcomeMsg(List<Contact> newList, Map<Id, Contact> oldMap) {
         Set<ID> mbleupdateconidslst = new Set<ID>();
+        Set<ID> deleConIdSet = new Set<ID>();
         Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
         List<ID> participantids = new List<ID>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
@@ -612,7 +610,12 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
         for (contact cont : newList) {
             if (cont.is_Invalid_number__c && cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
-                mbleupdateconidslst.add(cont.Id);
+                // For purely participant
+                if (!cont.UserCommunityIsDelegate__c) {
+                    mbleupdateconidslst.add(cont.Id);
+                } else {
+                    deleConIdSet.add(cont.Id);
+                }
                 cont.Is_Invalid_Number__c = false;
             }
         }
@@ -667,6 +670,38 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
                     }
                 }
             }
+        }
+        if (deleConIdSet.size() > 0) {
+            /*Sending Study level SMS to delegate for Mobile no update*/
+            Map<Id, ParticipantEnrollmentPatientDelJunction__c> perJunctionIdMap = new Map<Id, ParticipantEnrollmentPatientDelJunction__c>(
+                [
+                    SELECT
+                        Id,
+                        Participant_Enrollment__c,
+                        Welcome_Message_Delivered__c,
+                        Patient_Delegate_Contact__c,
+                        Welcome_Message_Sent__c
+                    FROM ParticipantEnrollmentPatientDelJunction__c
+                    WHERE
+                        Patient_Delegate_Contact__c IN :deleConIdSet
+                        AND Welcome_Message_Sent__c = FALSE
+                        AND Welcome_Message_Delivered__c = FALSE
+                ]
+            );
+            if (!perJunctionIdMap.isEmpty()) {
+                for (ParticipantEnrollmentPatientDelJunction__c per : perJunctionIdMap.values()) {
+                    /*Study Level Welcome Msg to Delegate*/
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            per.Patient_Delegate_Contact__c,
+                            per.Participant_Enrollment__c,
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                        )
+                    );
+                }
+            }
+        }
+        if (mbleupdateconidslst.size() > 0 || deleConIdSet.size() > 0) {
             /*Send Platform Level Msg*/
             welcomemsgnotifications.addAll(
                 platformLevelNotifications(mbleupdateconidslst, oldMap, newList, 'Mobile')
@@ -746,46 +781,82 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
 
     @TestVisible
     //This method check what consents where given and stamps the current time
-    private static void updateConsentTimeStamps(List<Contact> newList){
-        for(Contact con : newList){
-            con.IQVIA_SMS_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c ? Datetime.now() : null);
-            con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c ? Datetime.now() : null);
-            con.IQVIA_PI_Storage_Consent_Time__c = (con.IQVIA_Contact_info_storage_consent__c ? Datetime.now() : null);
-            con.IQVIA_Phone_Consent_Time__c = (con.Participant_Phone_Opt_In_Permit_Phone__c ? Datetime.now() : null);
-            con.IQVIA_Email_Consent_Time__c = (con.Participant_Opt_In_Status_Emails__c ? Datetime.now() : null);
-            con.IQVIA_Direct_Mail_Consent_Time__c = (con.IQVIA_Direct_Mail_Consent__c ? Datetime.now() : null);
-            con.IQVIA_Assisted_Dialing_Consent_Time__c = (con.IQVIA_Assisted_Dialing_Consent__c ? Datetime.now() : null);
-            con.IQVIA_Artificial_Voice_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c ? Datetime.now() : null);
+    private static void updateConsentTimeStamps(List<Contact> newList) {
+        for (Contact con : newList) {
+            con.IQVIA_SMS_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_PI_Storage_Consent_Time__c = (con.IQVIA_Contact_info_storage_consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Phone_Consent_Time__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Email_Consent_Time__c = (con.Participant_Opt_In_Status_Emails__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Direct_Mail_Consent_Time__c = (con.IQVIA_Direct_Mail_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Assisted_Dialing_Consent_Time__c = (con.IQVIA_Assisted_Dialing_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Artificial_Voice_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c
+                ? Datetime.now()
+                : null);
         }
-}
+    }
 
     @TestVisible
     //This method check what consents where given and stamps the current time
-    private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap){
-        for(Contact con : newList){
+    private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap) {
+        for (Contact con : newList) {
             contact oldContact = oldMap.get(con.Id);
-            if(con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c){
+            if (
+                con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c
+            ) {
                 con.IQVIA_SMS_Consent_Time__c = Datetime.now();
             }
-            if(con.IQVIA_Pre_recorded_Voice_Consent__c != oldContact.IQVIA_Pre_recorded_Voice_Consent__c){
+            if (
+                con.IQVIA_Pre_recorded_Voice_Consent__c !=
+                oldContact.IQVIA_Pre_recorded_Voice_Consent__c
+            ) {
                 con.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
             }
-            if(con.IQVIA_Contact_info_storage_consent__c != oldContact.IQVIA_Contact_info_storage_consent__c){
+            if (
+                con.IQVIA_Contact_info_storage_consent__c !=
+                oldContact.IQVIA_Contact_info_storage_consent__c
+            ) {
                 con.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
             }
-            if(con.Participant_Phone_Opt_In_Permit_Phone__c != oldContact.Participant_Phone_Opt_In_Permit_Phone__c){
+            if (
+                con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                oldContact.Participant_Phone_Opt_In_Permit_Phone__c
+            ) {
                 con.IQVIA_Phone_Consent_Time__c = Datetime.now();
             }
-            if(con.Participant_Opt_In_Status_Emails__c != oldContact.Participant_Opt_In_Status_Emails__c){
+            if (
+                con.Participant_Opt_In_Status_Emails__c !=
+                oldContact.Participant_Opt_In_Status_Emails__c
+            ) {
                 con.IQVIA_Email_Consent_Time__c = Datetime.now();
             }
-            if(con.IQVIA_Direct_Mail_Consent__c != oldContact.IQVIA_Direct_Mail_Consent__c){
+            if (con.IQVIA_Direct_Mail_Consent__c != oldContact.IQVIA_Direct_Mail_Consent__c) {
                 con.IQVIA_Direct_Mail_Consent_Time__c = Datetime.now();
             }
-            if(con.IQVIA_Assisted_Dialing_Consent__c != oldContact.IQVIA_Assisted_Dialing_Consent__c){
+            if (
+                con.IQVIA_Assisted_Dialing_Consent__c !=
+                oldContact.IQVIA_Assisted_Dialing_Consent__c
+            ) {
                 con.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
             }
-            if(con.IQVIA_Artificial_Voice_Consent__c != oldContact.IQVIA_Artificial_Voice_Consent__c){
+            if (
+                con.IQVIA_Artificial_Voice_Consent__c !=
+                oldContact.IQVIA_Artificial_Voice_Consent__c
+            ) {
                 con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
             }
         }
