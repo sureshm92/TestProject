@@ -311,7 +311,7 @@ public without sharing class PIR_ParticipantDetailController {
 
       List<Patient_Delegate__c> patientDelegate;
       if(peDeligate != null && peDeligate.id != null){
-            patientDelegate = [Select id ,Primary_Delegate__c,Contact__c from Patient_Delegate__c where Id =:peDeligate.id ];
+            patientDelegate = [Select id ,Primary_Delegate__c,Contact__c,Participant__r.Email__c from Patient_Delegate__c where Id =:peDeligate.id ];
       }
       if(isOutreachUpdated == null){
         isOutreachUpdated = false;
@@ -346,10 +346,11 @@ public without sharing class PIR_ParticipantDetailController {
                 || perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c || perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c),
         Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c);
     conlist.add(con);
-    if((
-        ( isDelUpdated && contactId != null && (delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate' )) || 
-        (patientDelegate != null && !patientDelegate.isEmpty() && patientDelegate[0].Primary_Delegate__c && patientDelegate[0].Contact__c != null)) && 
-        (perRecord.Participant__r.Email__c == null || string.isEmpty(perRecord.Participant__r.Email__c))){
+    if(
+        ( isDelUpdated && contactId != null && (delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate' ) && 
+        (perRecord.Participant__r.Email__c == null || string.isEmpty(perRecord.Participant__r.Email__c))) || 
+        (patientDelegate != null && !patientDelegate.isEmpty() && patientDelegate[0].Primary_Delegate__c && 
+         patientDelegate[0].Contact__c != null && patientDelegate[0].Participant__r.Email__c == null )){
             contact delegateContact = new Contact(
                         Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -362,7 +363,7 @@ public without sharing class PIR_ParticipantDetailController {
                         || perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c
                         || perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c 
                         || perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c));
-                    if(delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate' ){
+                    if((delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate') && isDelUpdated ){
                         delegateContact.id = contactId;
                     }else{
                         delegateContact.id = patientDelegate[0].Contact__c;
