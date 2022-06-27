@@ -1600,6 +1600,7 @@
             .settings-button:focus {
                 border-radius: 1em;
                 box-shadow: none !important;
+                border: 0px;
             }
 
             .participant-item {
