@@ -14,6 +14,7 @@ import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
+    @api urlPathPrefix = '';
     hasVisits = false;
     cometd;
     subscription;
@@ -45,7 +46,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.loadCometdScript();
         this.timeInterval();
     }
-    
+
     loadCometdScript() {
         if (!this.subscription) {
             Promise.all([
@@ -116,7 +117,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
         this.allVisits = visitData;
         this.hasActiveVisits = false;
-        var activeVisits = [];
+        let activeVisits = [];
         visitData.forEach(visitInfo => {
             let visitDetail = visitInfo;
             var now = new Date();
@@ -150,8 +151,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
+        this.meetLinkUrl = url;
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
-
     }
     handleSingleMeetJoin(event) {
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
@@ -160,6 +161,11 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.showMoreVisits = (!this.showMoreVisits);
         this.moreVisitIconName = (this.moreVisitIconName === 'utility:chevrondown' ? 'utility:chevronup' : 'utility:chevrondown');
     }
+
+    handleCloseAccessPopup(event) {
+        this.showTelevisitCameraAndMicrophoneAccessPopup = event.detail;
+    }
+
     timeInterval() {
         setInterval(() => {
             this.loadVisitData(this.allVisits);
@@ -178,7 +184,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     getTelevisitMeetInfo(label, visitInfo) {
         let teleMeetMainInfo = label.replace('##TVName', visitInfo.Televisit__r.Title__c);
-        teleMeetMainInfo = teleMeetMainInfo.replace('##PIName', visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c)
+        teleMeetMainInfo = teleMeetMainInfo.replace('##PIName', visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c)
         teleMeetMainInfo = teleMeetMainInfo.replace('##PTName', visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c);
         teleMeetMainInfo = teleMeetMainInfo.replace('##StartTime', this.getLocaleTime(visitInfo.Televisit__r.Visit_Date_Time__c));
         teleMeetMainInfo = teleMeetMainInfo.replace('##EndTime', this.getLocaleTime(visitInfo.Televisit__r.Visit_End_Date_Time__c));

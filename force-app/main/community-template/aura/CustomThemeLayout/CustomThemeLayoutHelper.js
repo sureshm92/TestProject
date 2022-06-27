@@ -20,8 +20,10 @@
         component.set('v.isRTL', rtl_language.includes(communityService.getLanguage()));
         component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
         component.set('v.template', communityService.getCurrentCommunityTemplateName());
+        component.set('v.urlPathPrefix', communityService.getCommunityURLPathPrefix());
         component.set('v.communityName', communityService.getCurrentCommunityName());
         component.set('v.loggedInCommunityName', communityService.getCommunityName());
+
         /*communityService.executeAction(component, 'isCurrentSessionMobileApp', null,
             function (returnValue) {
                 component.set('v.isMobileApp', returnValue);
