@@ -13,7 +13,7 @@ public without sharing class TelevisitMeetBannerController {
                     Televisit__r.Participant_Enrollment__r.Participant_Name__c,
                     Televisit__r.Duration__c,Televisit__r.Visit_End_Date_Time__c,
                     Attendee_Type__c,
-                    Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c,
+                    Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c,
                     Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c
                     FROM Televisit_Attendee__c 
                     WHERE User__c  =:UserInfo.getUserId() 
