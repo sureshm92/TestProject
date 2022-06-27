@@ -539,6 +539,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_Voice_Text_contact_for_this_study__c}
                                                         onchange={selectIndividualOptions}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -563,6 +564,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_Mail_Email_contact_for_this_study__c}
                                                         onchange={selectIndividualOptions}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -587,6 +589,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Permit_SMS_Text_for_this_study__c}
                                                         onchange={selectIndividualOptions}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -613,6 +616,7 @@
                                                         variant="label-hidden"
                                                         checked={study.Study_Direct_Mail_Consent__c}
                                                         onchange={selectIndividualOptions}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -639,6 +643,7 @@
                                                         variant="label-hidden"
                                                         checked={study.all}
                                                         onchange={selectAllOptions}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
