@@ -11,13 +11,17 @@ import PP_Communication_Pref_SMS from '@salesforce/label/c.PP_Communication_P
 import PP_Communication_Pref_Dmail from '@salesforce/label/c.PP_Communication_Pref_Dmail';
 import PP_Communication_Pref_All from '@salesforce/label/c.PP_Communication_Pref_All';
 import PP_Communication_Pref_Outreach from '@salesforce/label/c.PP_Communication_Pref_Outreach';
-import PP_Communication_Pref_Outreach_consent from '@salesforce/label/c.PP_Communication_Pref_Outreach_consent';
+import PP_Communication_Pref_Outreach_consentA from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentA';
+import PP_Communication_Pref_Outreach_consentB from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentB';
+import PP_Communication_Pref_Outreach_consentC from '@salesforce/label/c.PP_Communication_Pref_Outreach_consentC';
+import PP_Communication_Pref_Blank_Del from '@salesforce/label/c.PP_Communication_Pref_Blank_Del';
 import PP_Communication_Pref_savechanges from '@salesforce/label/c.PP_Communication_Pref_savechanges';
 //END TO DO
 
 import getStudiesConsent from "@salesforce/apex/PreferenceManagementController.getStudiesConsent";
 import getOutreachConsent from "@salesforce/apex/PreferenceManagementController.getOutreachConsent";
 import saveConsent from "@salesforce/apex/PreferenceManagementController.saveConsent";
+import getInitData from "@salesforce/apex/AccountSettingsController.getInitData";
 import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -26,9 +30,12 @@ import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
 export default class CommunicationPreferences extends NavigationMixin(LightningElement) {
 
-  @api isDelegate;
-	@api participantState;
-	@api isDesktop;
+@api isDelegate;
+@api participantState;
+@api isDesktop;
+@api consentPreferenceData;
+@api userMode;
+		
   label = {
     PP_Communication_Pref,
     PP_Communication_Pref_Study,
@@ -39,17 +46,35 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     PP_Communication_Pref_Dmail,
     PP_Communication_Pref_All,
     PP_Communication_Pref_Outreach,
-    PP_Communication_Pref_Outreach_consent,
+    PP_Communication_Pref_Outreach_consentA,
+    PP_Communication_Pref_Outreach_consentB,
+    PP_Communication_Pref_Outreach_consentC,
+    PP_Communication_Pref_Blank_Del,
     PP_Communication_Pref_savechanges
   };
 
     @track studyDetails = [];
     @track outReachDetails= [];
-		
+  	@track consentPreferenceDataLocal = [];
 
     spinner = false;
     loaded = false;
     isPrivacyPolicy = false;
+    showIQIVAOutreachConsentFlag = false;
+    showStudyConsentFlag = false;
+    hideConsentsForParticipantView = false;
+    hideConsentsForDelegateView = false;
+    isParticipantLoggedIn = false;
+    isPrimaryDelegate = false;
+    isDelegateSelfView = false;
+    isAdultParticipant = false;
+    isEmailAvailabelForParticipant = false;
+    currentPERId = "";
+    updatedPerRecord = {};
+    commPrefForPrivacyPolicy = true;
+
+    studyError = false;
+		outreachError = false;
 
     debugger;
     //@track phoneSvg = rr_community_icons +'/'+'logo.svg';
@@ -59,17 +84,6 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     dmailSvg = rr_community_icons +'/'+'com-dmail.svg'+'#'+'com-dmail';
     allSvg = rr_community_icons +'/'+'com-all.svg'+'#'+'com-all';
 
-    
-    @wire(getStudiesConsent)
-    studyConsent({ error, data }) {
-        if (data) {
-            debugger;
-            this.studyDetails = JSON.parse(data);
-        } else if (error) {
-            console.log(JSON.stringify(error));
-        }
-        this.resetSpinner();
-    }
     @wire(getOutreachConsent)
     outReachConsent({ error, data }) {
         if (data) {
@@ -77,11 +91,34 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         } else if (error) {
             console.log(JSON.stringify(error));
         }
-        this.resetSpinner();
     }
 
     connectedCallback(){
-      this.resetSpinner()
+
+      // Get Initial Load Data 
+      this.spinner = true;
+
+      getInitData({ userMode: this.userMode}) 
+      .then((result) => {          
+            this.spinner = false;
+            let data = JSON.parse(result).consentPreferenceData;
+            this.consentPreferenceDataLocal = data;
+            this.consentPreferenceDataLocal.perList.forEach(function (study) {
+              study["all"] = false;
+            });
+            this.updateALLFlag();
+            this.setConsentVisibility();
+      })
+      .catch((error) => {
+        communityService.showToast(
+          'error',
+          'error',
+          'Failed To read the Data...',
+            100
+        );
+        this.spinner = false;
+      });
+      
       if (!this.loaded) {
         loadScript(this, rrCommunity).then(() => {
             if (communityService.isMobileSDK()) {
@@ -95,13 +132,64 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 this.isRTL = data;
             })
             .catch(function (error) {
-                console.error('Error: ' + JSON.stringify(error));
+                console.error('Error RTL: ' + JSON.stringify(error));
             });
-        }
+      }   
+    }
+
+    openPrivacyPolicy(){
+        debugger;
+        this.isPrivacyPolicy = true;
+        this.commPrefForPrivacyPolicy = true;
+    }
+
+    closePrivacyPolicy(){
+        debugger;
+        this.isPrivacyPolicy = false;
+    }
+
+    redirectToProfileInfoTab(){
+        window.history.replaceState(null, null, "?profileInformation");
+        window.location.reload(true);
+    }
+
+    setConsentVisibility(){
+      this.isParticipantLoggedIn =this.consentPreferenceDataLocal.isParticipantLoggedIn;
+      this.isPrimaryDelegate = this.consentPreferenceDataLocal.isPrimaryDelegate;
+      this.isDelegateSelfView = this.consentPreferenceDataLocal.isDelegateSelfView;
+      this.isAdultParticipant = this.consentPreferenceDataLocal.isAdultParticipant;
+      this.isEmailAvailabelForParticipant = this.consentPreferenceDataLocal.isEmailAvailabelForParticipant;
+
+      //Check IQVIA Outreach Consent Visibility
+      if(this.showIQVIAOutreachConsent()){
+        this.showIQIVAOutreachConsentFlag=true;
+      }
+      //Check Study Consent Visibility
+      if(this.showStudyConsent()){
+        this.showStudyConsentFlag=true;
+      }
+      //Hide consents for Participant view
+      /*if(!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag){
+        if(this.isParticipantLoggedIn){
+          this.hideConsentsForParticipantView = true;
+        }else{
+          this.hideConsentsForDelegateView = true;
+        }       
+      }
+      */
+      if(!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag){
+        if(!this.isParticipantLoggedIn && !this.isDelegateSelfView){
+          this.hideConsentsForParticipantView = true;
+          console.log('Hide for participant View');
+        }else if(!this.isParticipantLoggedIn && this.isDelegateSelfView){
+          this.hideConsentsForDelegateView = true;
+          console.log('Hide for Delegate self View');
+        }       
+      }
     }
 
     resetSpinner(){
-      if(this.studyDetails.length == 0 || this.outReachDetails.length ==0){
+      if(this.consentPreferenceDataLocal.perList.length == 0 || this.consentPreferenceDataLocal.perList.length ==0){
         this.spinner = true;
       }
       else{
@@ -121,67 +209,85 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     selectAllOptions(event){
-      this.updateStudyData(event.target.label, event.target.checked, event.target.name, event.target.getAttribute("data-sponsor"));         
+      debugger;
+      this.updateStudyData(event.target.label, event.target.checked, event.target.name);         
     }
 
     selectIndividualOptions(event){
-      this.updateStudyData(event.target.label, event.target.checked, event.target.name, event.target.getAttribute("data-sponsor"));  
+      this.updateStudyData(event.target.label, event.target.checked, event.target.name);  
     }
 
-    updateStudyData(label, value, studyId, sponsorId){
+    updateStudyData(label, value, studyId){
       debugger;
+      console.log("data in update study");
+      this.currentPERId = studyId;
+      console.log(this.consentPreferenceDataLocal)
       if(label == "All"){
-          this.studyDetails.forEach(function (study) {
+          this.consentPreferenceDataLocal.perList.forEach(function (study) {
               debugger;             
               // opt IN/ opt Out Phone, Email, Direct Email, SMS at Study Level 
-              if(study.study_id == studyId){
-                study.phone = study.email = study.dmail = study.sms = value;
+              if(study.Id == studyId){ // per id matching
+                study.Permit_Voice_Text_contact_for_this_study__c = study.Permit_Mail_Email_contact_for_this_study__c = study.Study_Direct_Mail_Consent__c = study.Permit_SMS_Text_for_this_study__c = value;
               }
           });
       }
       else{
-        this.studyDetails.forEach(function (study) {
+        this.consentPreferenceDataLocal.perList.forEach(function (study) {
           // If not clicked on All - Individual operaton
-          (study.study_id == studyId && label == "Phone" ? 
-              study.phone = value : 
-              (study.study_id == studyId && label == "Email" ? 
-                study.email = value:
-                (study.study_id == studyId && label == "SMS" ? 
-                study.sms = value:
-                 (study.study_id == studyId && label == "DMail" ?  
-                   study.dmail = value: ""))));        
+          debugger;
+          console.log(study.Permit_Voice_Text_contact_for_this_study__c);
+          (study.Id == studyId && label == "Phone" ? 
+              study.Permit_Voice_Text_contact_for_this_study__c = value : 
+              (study.Id == studyId && label == "Email" ? 
+                study.Permit_Mail_Email_contact_for_this_study__c = value:
+                (study.Id == studyId && label == "SMS" ? 
+                study.Permit_SMS_Text_for_this_study__c = value:
+                 (study.Id == studyId && label == "DMail" ?  
+                   study.Study_Direct_Mail_Consent__c = value: ""))));        
         });
       } 
       this.updateALLFlag();
+      debugger;
       this.doSaveCommunicationPref();    
     }
 
     // Helper Method : To Update ALL flag comparing phone, email, sms and direct email at study as well as sponsor level
     updateALLFlag(){
-      this.studyDetails.forEach(function (study) {
-        (study.phone && study.email && study.sms && study.dmail) ? study.all = true : study.all = false;
+      debugger;
+      this.consentPreferenceDataLocal.perList.forEach(function (study) {
+        (study.Permit_Voice_Text_contact_for_this_study__c && study.Permit_Mail_Email_contact_for_this_study__c && study.Permit_SMS_Text_for_this_study__c && study.Study_Direct_Mail_Consent__c) ? study.all = true : study.all = false;
       });
     }
 
     // Save Communication Pref data
-    doSaveCommunicationPref(){
+    doSaveCommunicationPref(){  
       debugger;
       this.spinner = true;
-      saveConsent({ studyData: this.studyDetails, outReachData: this.outReachDetails })
-        .then((result) => {
-            setTimeout(() => {
+      let perObj = {};
+      let perId = this.currentPERId;
+      this.consentPreferenceDataLocal.perList.forEach(function (perRecord) {
+              
+        if(perRecord.Id == perId){      
+            perObj.perId	= perRecord.Id;
+            perObj.ParticipantContId	=	perRecord.Participant__r.Contact__c;
+            perObj.participantOptInEmail = perRecord.Permit_Mail_Email_contact_for_this_study__c;
+            perObj.participantOptInSMSText = perRecord.Permit_SMS_Text_for_this_study__c;
+            perObj.participantOptInPhone = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+            perObj.participantOptInDirectEmail = perRecord.Study_Direct_Mail_Consent__c;
+        }
+      });
+      //saveConsent({ studyData: perObj, outReachData: this.outReachDetails })
+      saveConsent({ studyDataJSON: JSON.stringify(perObj), outReachData: this.outReachDetails }) //kk
+        .then((result) => {          
               this.spinner = false;
-              // this.showCustomToast("Success", "Record Saved Successfully", "success");
               communityService.showToast(
                 'success',
                 'success',
                 'Record Saved Successfully...',
 								100
               );
-            }, 1000); 
         })
         .catch((error) => {
-          // this.showCustomToast("Error", "Failed To save the Record", "error");
           communityService.showToast(
             'error',
             'error',
@@ -239,14 +345,57 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         (out.phone && out.email && out.sms && out.dmail) ? out.all = true : out.all = false;
       });
     }
-		//Return True if Delegate is logged in as self View
-		get isDelegateSelfView() {
-				//TODO: Cover this part as part of PEH-5844 - UI part in Iteration 3.2
-				/*
-				  if (this.participantState === 'ALUMNI' && !this.isDelegate){
-						return true;
-				}
-				*/
-				return false;
-		}
+		
+    //Set Visibility if IQVIA Outreach Consent
+		 showIQVIAOutreachConsent() {
+      //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
+      if(this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP){
+        //If Participant Visit at Communication Preference tab at his Account setting.
+        // Or Primary delegate visit Communication Preference tab at Participant's Account setting.
+        //TODO: 1. What should happen  when the normal delegate of adult participant with email -   should be able to update the consents on behalf ?
+        if(this.isParticipantLoggedIn || (this.isPrimaryDelegate && !this.isDelegateSelfView)){
+          //this.showIQIVAOutreachConsentFlag=true;
+          return true;
+        }
+        //If Delegate Visits Communication Preference tab of his own Account setting(self View).
+        if(this.isDelegateSelfView){
+          //If Delegate is not primary Delegate, then don't show IQVIA Outreach Consent to Delegate.
+          if(this.isPrimaryDelegate){
+            return true;
+          }
+          //If Delegate is primary Delegate of Minor Participant, then show IQVIA Outreach Consent to Delegate.
+          /*if(isPrimaryDelegate && !isAdultParticipant){
+            //this.showIQIVAOutreachConsentFlag=true;
+            return true;
+          }
+          */
+          //If Delegate is primary Delegate of Adult Participant but Adult Participant has no Email then show IQVIA Outreach Consent to Delegate.
+          /*
+          if(isPrimaryDelegate && isAdultParticipant){
+            if(!isEmailAvailabelForParticipant){
+              //this.showIQIVAOutreachConsentFlag=true;
+              return true;
+            }else{
+              return false;
+            }
+          }
+          */
+        }
+      }
+      return false;
+  }
+  //Set Visibility of Study Consent
+   showStudyConsent() {
+    //If Participant Visit at Communication Preference tab at his Account setting.
+    // Or Primary delegate visit Communication Preference tab at Participant's Account setting.
+    //TODO: 1. What should happen  when the normal delegate of adult participant with email -   should be able to update the consents on behalf ?
+    if(this.isParticipantLoggedIn || (this.isPrimaryDelegate && !this.isDelegateSelfView)){
+      return true;
+    }
+    //If Delegate Visits Communication Preference tab of his own Account setting(self View), donw show study Consent. 
+    if(this.isDelegateSelfView){
+      return false;
+    }
+    return false;
+  }
 }

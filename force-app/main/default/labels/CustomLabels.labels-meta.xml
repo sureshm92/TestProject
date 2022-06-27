@@ -18100,6 +18100,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Changes are successfully saved.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentA</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentB</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentC</shortDescription>
+        <value>, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
+        <value>There are currently no communication options available.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref</fullName>
         <language>en_US</language>
         <protected>true</protected>
