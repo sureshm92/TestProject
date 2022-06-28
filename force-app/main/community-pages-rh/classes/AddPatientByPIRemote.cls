@@ -444,7 +444,7 @@ public without sharing class AddPatientByPIRemote {
             List<Patient_Delegate__c> checkPDel;
             if (participantId != null && newContact.Id != null) {
                 checkPDel = [
-                    SELECT Id,Primary_Delegate__c
+                    SELECT Id,Primary_Delegate__c,Participant__r.Email__c
                     FROM Patient_Delegate__c
                     WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                 ];
@@ -494,9 +494,9 @@ public without sharing class AddPatientByPIRemote {
                     insert ptDelegateRef;
                 }
             }
-            if(iqviaOutreachEnabled && (checkPDel.isEmpty() || (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c) )
+            if(iqviaOutreachEnabled && ((checkPDel.isEmpty() && (participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == '')) || 
+              (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c && checkPDel[0].Participant__r.Email__c == null) )
                && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
-                if(participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == ''){
                     contact con = new contact();
                     con.id = newContact.Id;
                     con.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
@@ -521,7 +521,6 @@ public without sharing class AddPatientByPIRemote {
                         ContactTriggerHandler.UpdateParticipantDetailsHandler.class
                     );
                     update con;
-                }
             }
             // }
             if (createDelegateuser) {
