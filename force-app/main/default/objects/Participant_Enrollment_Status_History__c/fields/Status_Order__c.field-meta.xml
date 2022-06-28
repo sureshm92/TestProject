@@ -2,45 +2,47 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status_Order__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(TEXT(Status__c)  ==  &apos;Received&apos;, 1, 
- IF(
-	OR(
-		TEXT(Status__c) == &apos;Contact Attempted&apos;,
-		TEXT(Status__c) == &apos;Pre-review Passed&apos;,
-		TEXT(Status__c) == &apos;Pre-review Failed&apos;,
-		TEXT(Status__c) == &apos;Ready to Contact&apos;, 
-		TEXT(Status__c) == &apos;Contacted - Not Suitable&apos;,
-		TEXT(Status__c) == &apos;Unable to Reach&apos;,
-		TEXT(Status__c) == &apos;Successfully Contacted&apos;
-		),
- 2, 	
-  IF(
-    OR(TEXT(Status__c) == &apos;Eligibility Passed&apos;,
-		TEXT(Status__c) == &apos;Eligibility Failed&apos;
-		),
- 3, 
-  IF(
-	OR(
-		TEXT(Status__c) == &apos;Ready to Screen&apos;,
-		TEXT(Status__c) == &apos;Screening In Progress&apos;,
-		TEXT(Status__c) == &apos;Screening In Progress - Wash Out Period&apos;,
-		TEXT(Status__c) == &apos;Screening Failed&apos;, 
-		TEXT(Status__c) == &apos;Unable to Screen&apos;,
-		TEXT(Status__c) == &apos;Withdrew Consent&apos;,
-		TEXT(Status__c) == &apos;Eligibility Passed&apos;,
-                TEXT(Status__c) == &apos;Declined Consent&apos;,
-		TEXT(Status__c) == &apos;Screening Passed&apos;
-		),
- 4,
-  IF(
-	OR(
-		TEXT(Status__c) == &apos;Enrollment Success&apos;,
-		TEXT(Status__c) == &apos;Enrollment Failed&apos;,
-		TEXT(Status__c) == &apos;Withdrew Consent After Screening&apos;, 
-		TEXT(Status__c) == &apos;Declined Final Consent&apos;,
-		TEXT(Status__c) == &apos;Randomization Failed&apos;,
-		TEXT(Status__c) == &apos;Randomization Success&apos;
-		), 
+    <formula>IF(TEXT(Status__c) == &apos;Received&apos;, 1,
+IF(
+OR(
+TEXT(Status__c) == &apos;Contact Attempted&apos;,
+TEXT(Status__c) == &apos;Pre-review Passed&apos;,
+TEXT(Status__c) == &apos;Pre-review Failed&apos;,
+TEXT(Status__c) == &apos;Ready to Contact&apos;,
+TEXT(Status__c) == &apos;Contacted - Not Suitable&apos;,
+TEXT(Status__c) == &apos;Unable to Reach&apos;,
+TEXT(Status__c) == &apos;Successfully Contacted&apos;,
+TEXT(Status__c) == &apos;Successfully re-engaged&apos;,
+TEXT(Status__c) == &apos;Participant No Show&apos;
+),
+2,
+IF(
+OR(TEXT(Status__c) == &apos;Eligibility Passed&apos;,
+TEXT(Status__c) == &apos;Eligibility Failed&apos;
+),
+3,
+IF(
+OR(
+TEXT(Status__c) == &apos;Ready to Screen&apos;,
+TEXT(Status__c) == &apos;Screening In Progress&apos;,
+TEXT(Status__c) == &apos;Screening In Progress - Wash Out Period&apos;,
+TEXT(Status__c) == &apos;Screening Failed&apos;,
+TEXT(Status__c) == &apos;Unable to Screen&apos;,
+TEXT(Status__c) == &apos;Withdrew Consent&apos;,
+TEXT(Status__c) == &apos;Eligibility Passed&apos;,
+TEXT(Status__c) == &apos;Declined Consent&apos;,
+TEXT(Status__c) == &apos;Screening Passed&apos;
+),
+4,
+IF(
+OR(
+TEXT(Status__c) == &apos;Enrollment Success&apos;,
+TEXT(Status__c) == &apos;Enrollment Failed&apos;,
+TEXT(Status__c) == &apos;Withdrew Consent After Screening&apos;,
+TEXT(Status__c) == &apos;Declined Final Consent&apos;,
+TEXT(Status__c) == &apos;Randomization Failed&apos;,
+TEXT(Status__c) == &apos;Randomization Success&apos;
+),
 5, 6) ) ) ) )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Status Order</label>
