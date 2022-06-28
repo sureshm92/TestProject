@@ -1600,6 +1600,7 @@
             .settings-button:focus {
                 border-radius: 1em;
                 box-shadow: none !important;
+                border: 0px;
             }
 
             .participant-item {
@@ -2167,8 +2168,8 @@
 
                                 <div id="controls" class="controls slds-col slds-align-bottom" style="padding-left: 0">
                                     <div class="slds-grid slds-float_right">
-                                        <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="Audio On Title"
-                                            data-on="AudioOnTitle" data-off="AudioOffTitle">
+                                        <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="{!$Label.Audio_Hover_Message_Off}"
+                                            data-on="{!$Label.Audio_Hover_Message_Off}" data-off="{!$Label.Audio_Hover_Message_On}">
 
                                             <span class="slds-assistive-text">Audio</span>
                                             <svg class="icon-audioOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -2186,8 +2187,8 @@
                                             </svg>
 
                                         </button>
-                                        <button class="slds-col button--video slds-button-circle button_white" type="button" onclick="toggleVideo();" title="Video On Title"
-                                            data-on="Video On Title" data-off="Video Of fTitle">
+                                        <button class="slds-col button--video slds-button-circle button_white" type="button" onclick="toggleVideo();" title="{!$Label.Video_Hover_Message_Off}"
+                                            data-on="{!$Label.Video_Hover_Message_Off}" data-off="{!$Label.Video_Hover_Message_On}">
 
                                             <svg class="icon-videoOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <rect x="0.25" y="5.499" width="15" height="13" rx="1" ry="1" />
@@ -2202,12 +2203,12 @@
                                                 <path d="M17.073,15.659A.249.249,0,0,1,17,15.482V7.75a1.5,1.5,0,0,0-1.5-1.5H7.768a.249.249,0,0,1-.177-.073L1.707.293A1,1,0,0,0,.44.172.984.984,0,0,0,.293.293a1,1,0,0,0,0,1.414l22,22a1,1,0,0,0,1.414-1.414Z"
                                                 />
                                             </svg>
-                                            <span class="slds-assistive-text">Video</span>
+                                            <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                         </button>
                                         <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
-                                            title="Share On Title" data-on="ScreenShareOnTitle" data-off="ScreenShareOffTitle">
+                                            title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}" data-off="{!$Label.Screen_Share_Hover_Message_On}">
 
-                                            <span class="slds-assistive-text">Share Screen</span>
+                                            <span class="slds-assistive-text">{!$Label.Screen_Share}</span>
                                             <svg class="icon-startShare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"
                                                 />
