@@ -1,6 +1,6 @@
 .communication-pref {
     margin-top: 32px;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .cardRTL {
@@ -21,6 +21,10 @@
 
 .po-mobile-text {
     padding-left: 2px;
+}
+
+.text-ceter{
+    text-align: center;
 }
 
 .po-bradius-20{
@@ -69,7 +73,8 @@
 .study-container .header,
 .outreach-container .header {
     margin-top: 10px;
-    padding: 10px 10px 0px 15px;
+    padding-left: 6px;
+    padding-top: 10px;
 }
 
 .study-container .headerMobile,
@@ -166,6 +171,10 @@
 
 .po-mr-10 {
     margin-right: 10px;
+}
+
+.po-mr-15{
+    margin-right: 20px;
 }
 
 .com-icon {
