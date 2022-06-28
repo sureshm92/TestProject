@@ -174,9 +174,8 @@ public without sharing class PreferenceManagementController {
             delContactIdSet.Add(pd.Contact__c);
         }
 
-        //TODO: Uncomment this once Welcome message code is merged with INT13 branch.
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        /*List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = getPERPatientDelJunctionRecords(
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
             perIdList,
             delContactIdSet
         );
@@ -188,6 +187,5 @@ public without sharing class PreferenceManagementController {
         if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
             update perDelJunctionRecList;
         }
-        */
     }
 }
