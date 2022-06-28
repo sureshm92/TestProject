@@ -322,7 +322,12 @@
         aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
         <div class="slds-modal_small">
            <div class="slds-modal__container model-small">
-              <div class="slds-modal__content">
+              <div class="slds-modal__content cancelSpinnerHolder">
+                <template if:true={isCancelSpinnerLoading}>
+                    <div>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </template> 
                 <div class="bar"></div>
                  <div class="slds-p-around_large">
                     <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
