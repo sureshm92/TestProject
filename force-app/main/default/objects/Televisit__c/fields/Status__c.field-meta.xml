@@ -23,7 +23,7 @@
             <value>
                 <fullName>Cancelled</fullName>
                 <default>false</default>
-                <label>Cancelled</label>
+                <label>Canceled</label>
             </value>
         </valueSetDefinition>
     </valueSet>

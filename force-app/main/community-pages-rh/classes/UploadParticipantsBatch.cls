@@ -21,6 +21,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean outreachEmail;
     private Boolean outreachPhone;
     private Boolean outreachSMS;
+    private Boolean outreachDirectMail;
     private User uploadUser;
     private Id visitPlanId;
 
@@ -53,6 +54,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Boolean outreachEmail,
         Boolean outreachPhone,
         Boolean outreachSMS,
+        Boolean outreachDirectMail,
         Id visitPlanId
     ) {
         uploadTime = DateTime.now();
@@ -68,6 +70,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.outreachEmail = outreachEmail;
         this.outreachPhone = outreachPhone;
         this.outreachSMS = outreachSMS;
+        this.outreachDirectMail = outreachDirectMail;
         
 
         studySiteDetails = [
@@ -766,7 +769,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         MobilePhone = Phone2,
                         MailingState = State,
                         Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
+                        IQVIA_Contact_info_storage_consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
+                        IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false),
                         Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
+                        IQVIA_Artificial_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
+                        IQVIA_Assisted_Dialing_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
+                        IQVIA_Pre_recorded_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
                         Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
@@ -1243,7 +1251,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             PI_Contact__c = studySiteDetails.Principal_Investigator__c,
                             Participant__c = mapParticipant.get(i).Id,
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
+                            Study_Direct_Mail_Consent__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
+                            Study_Artificial_Voice_Consent__c = allowPhone,
+                            Study_Assisted_Dialing_Consent__c = allowPhone,
+                            Study_Pre_recorded_Voice_Consent__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
                             Is_Created_by_Bulk_Import__c = true,
@@ -1272,7 +1284,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Contact con = new Contact();
                 con.Id = conId;
                 con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
+                con.IQVIA_Contact_info_storage_consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
+                con.IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false);
                 con.Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
+                con.IQVIA_Artificial_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
+                con.IQVIA_Assisted_Dialing_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
+                con.IQVIA_Pre_recorded_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
                 con.Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false);
                 existingContact.add(con);
             }
@@ -1374,6 +1391,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
+                            Study_Direct_Mail_Consent__c = allowEmail,
+                            Study_Artificial_Voice_Consent__c = allowPhone,
+                            Study_Assisted_Dialing_Consent__c = allowPhone,
+                            Study_Pre_recorded_Voice_Consent__c = allowPhone,
                             Is_Created_by_Bulk_Import__c = true,
                             Visit_Plan__c = visitPlanId,
                             Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(totalrecorcountindx)) !=null ? Date.ValueOf(mapParticipantFov.get(totalrecorcountindx)):null,
@@ -1515,7 +1536,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             //call UploadParticipantsDelegateHelper class to create delegates
             if (!delegateWithpartList.isEmpty()){
                 UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
-                 UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines);
+                UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines,this.outreachEmail,this.outreachPhone,this.outreachSMS,this.outreachDirectMail);
                 listOfFailedRecordsWithMsg.addALL(wrap.listOfFailedRecordsWithMsg);
                 listOfFailedRecords.addALL(wrap.listOfFailedRecords);
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;

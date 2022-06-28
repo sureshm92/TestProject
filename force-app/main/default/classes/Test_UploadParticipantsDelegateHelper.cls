@@ -472,7 +472,11 @@ public class Test_UploadParticipantsDelegateHelper {
             UploadParticipantsDelegateHelper.createDelegateRecords(
                 delegateWrpaaerLST,
                 studySite,
-                csvLines
+                csvLines,
+                true,
+                true,
+                true,
+                true
             );
         }
         Test.stopTest();

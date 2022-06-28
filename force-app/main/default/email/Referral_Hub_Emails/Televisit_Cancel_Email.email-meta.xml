@@ -5,7 +5,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>Televisit Cancel Email</name>
     <style>none</style>
-    <subject>Televisit was cancelled</subject>
+    <subject>Televisit was canceled</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

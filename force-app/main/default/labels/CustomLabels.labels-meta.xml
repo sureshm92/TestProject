@@ -37,7 +37,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Cancel Email Header</shortDescription>
-        <value>Televisit cancellation</value>
+        <value>Televisit canceled</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Header</fullName>
@@ -51,7 +51,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Cancel Email Body</shortDescription>
-        <value>This is an email to inform you that the following televisit was &lt;b&gt;cancelled.&lt;/b&gt;
+        <value>This is an email to inform you that the following televisit was &lt;b&gt;canceled.&lt;/b&gt;
 
 Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime
@@ -63,7 +63,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Cancel Email Subject</shortDescription>
-        <value>Televisit was cancellation</value>
+        <value>Televisit was canceled</value>
     </labels>
     <labels>
         <fullName>Televisit_Creation_Email_Body</fullName>
@@ -102,7 +102,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit_Upcoming_Meet</shortDescription>
-        <value>##NoOfTV Upcomming or Active Televisits</value>
+        <value>##NoOfTV Upcoming or Active Televisits</value>
     </labels>
     <labels>
         <fullName>PI_Televisit_Meet_Info</fullName>
@@ -116,7 +116,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PIName will take place at ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PT_Session_Ended</fullName>
@@ -124,7 +124,15 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT_Session_Ended</shortDescription>
-        <value>This Televist has ended. Contact your Study Center for further support.</value>
+        <value>This Televisit has ended. Contact your Study Center for further support.</value>
+    </labels>
+    <labels>
+        <fullName>First_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>First_Attendee</shortDescription>
+        <value>  Looks like you're the first one here.</value>
     </labels>
     <labels>
         <fullName>Session_Settings</fullName>
@@ -237,6 +245,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Subject</shortDescription>
         <value>Televisit was removed</value>
+    </labels>
+    <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
     </labels>
     <labels>
         <fullName>PIR_Discard</fullName>
@@ -12207,6 +12222,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Are you sure you want to delete</value>
     </labels>
     <labels>
+        <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_2</shortDescription>
+        <value>Are you sure you want to delete the attachment</value>
+    </labels>
+    <labels>
         <fullName>PIR_Delete_Preset_Popup_2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12794,6 +12816,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>PE_MedicalRecordUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Upload Medical Record</shortDescription>
+        <value>Upload Medical Record</value>
     </labels>
     <labels>
         <fullName>PE_Participant_Phone</fullName>
@@ -18069,6 +18098,41 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ChangesSuccessfullySaved</shortDescription>
         <value>Changes are successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentA</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentB</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentC</shortDescription>
+        <value>, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
+        <value>There are currently no communication options available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
+        <value>Secondary delegate do not have permission to edit communication preferences.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref</fullName>
@@ -25962,7 +26026,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participants label</shortDescription>
-        <value>Participants</value>
+        <value>Attendees</value>
     </labels>
     <labels>
         <fullName>ScreenSharePublisherUsernameText</fullName>
@@ -26168,6 +26232,14 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Join Visit</value>
     </labels>
     <labels>
+        <fullName>TV_Camera_Off</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_Camera_Off</shortDescription>
+        <value>Your camera is turned off</value>
+    </labels>
+    <labels>
         <fullName>You_can_also_adjust_these_options_during_the_visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26179,7 +26251,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permission to join televisit. Go back to Rejoin and grant permissions.</value>
+        <value>You must grant microphone permissions to join televisit. Go back to Rejoin and grant permissions.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
@@ -26200,7 +26272,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
-        <value>IQVIA Patient Portal would like to access the microphone and camera.</value>
+        <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
         <fullName>Don_t_allow</fullName>

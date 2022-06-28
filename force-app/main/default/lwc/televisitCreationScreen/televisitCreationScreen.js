@@ -75,6 +75,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     startTimeChanged = false;
     @track defaultTime;
     @track isModalOpen = false;
+    @track userTimeZone;
     selectedAttendees = [];
     attendeeObj = {name:'',id:'',index:'',attendeeId:'',attendeeType:'',isMandatorySelection:false};
     @track selectedAttendeesList = [];
@@ -114,7 +115,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.televisitEditView = true;
             this.title = event.target.dataset.title;
             this.visitDate = event.target.dataset.visitdate;
-            this.startTime = this.msToTime(event.target.dataset.starttime);
+            var visitDateTime = new Date(event.target.dataset.visitdatetime).toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+            visitDateTime = this.getTwentyFourHourTime(visitDateTime)
+            this.startTime = visitDateTime;
+            //this.startTime = this.msToTime(event.target.dataset.starttime);
             this.duration = event.target.dataset.duration;
             this.televisitRecordId = event.target.dataset.id;
             //console.log('SelectedAttendeesList :',event.target.dataset.id);
@@ -125,7 +129,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.fetchAttendees();
 
             var today = new Date();
-            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE })
+            var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
             newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
             this.defaultTime = newdatetimezone;
             this.currentTime = newdatetimezone;
@@ -244,7 +248,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     get options() {
         return [
             { label: 'Scheduled', value: 'Scheduled' },
-            { label: 'Cancelled/Completed', value: 'Cancelled/Completed' },
+            { label: 'Canceled/Completed', value: 'Cancelled/Completed' },
         ];
     }
 
@@ -294,8 +298,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                     this.defaultTime = '00:00:00.000Z';
                 }else if(this.visitDate === this.today){
                     this.defaultTime = this.currentTime;
-                    console.log('current Time :',this.currentTime);
-                    console.log('start Time :',this.startTime);
                     if(this.startTime < this.currentTime && this.startTimeChanged){
                         this.startTime = null;
                         this.template.querySelector('[data-id="Start Time"]').setCustomValidity('Please Enter the Start Time');
@@ -424,10 +426,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     connectedCallback(){
         this.displayTelevisitRecords = true;        
         this.fetchTelevisitRecord();
-        
+
         var rightNow = new Date();
         var newdatetimezone = rightNow.toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
         this.today = newdatetimezone;
+        this.userTimeZone = TIME_ZONE;
     }
 
     
@@ -553,8 +556,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 if(result === 'Televisit Cancelled Successfully'){
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
-                        title: 'Televisit record cancelled successfully',
-                        message: 'Televisit record cancelled successfully',
+                        title: 'Televisit record canceled successfully',
+                        message: 'Televisit record canceled successfully',
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -609,8 +612,18 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
         this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
         this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
-        this.televisitAttendeesObj.participantPrimaryDelegate = event.target.dataset.participantPrimaryDelegate;
-        this.televisitAttendeesObj.participantHasEmail = event.target.dataset.participantHasEmail;
+        if(event.target.dataset.participantPrimaryDelegate === 'true'){
+            this.televisitAttendeesObj.participantPrimaryDelegate = true;
+        }else{
+            this.televisitAttendeesObj.participantPrimaryDelegate = false;
+        }
+
+        if(event.target.dataset.participantHasEmail === 'true'){
+            this.televisitAttendeesObj.participantHasEmail = true;
+        }else{
+            this.televisitAttendeesObj.participantHasEmail = false;
+        }
+        
         if(event.target.dataset.isMandatorySelection === 'true'){
             this.televisitAttendeesObj.isMandatorySelection = true;
         }else{
@@ -636,8 +649,18 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitAttendeesObj.lastName = event.target.dataset.lastName;
         this.televisitAttendeesObj.attendeeType = event.target.dataset.attendeeType;
         this.televisitAttendeesObj.attendeeId = event.target.dataset.attendeeId;
-        this.televisitAttendeesObj.participantPrimaryDelegate = event.target.dataset.participantPrimaryDelegate;
-        this.televisitAttendeesObj.participantHasEmail = event.target.dataset.participantHasEmail;
+        if(event.target.dataset.participantPrimaryDelegate === 'true'){
+            this.televisitAttendeesObj.participantPrimaryDelegate = true;
+        }else{
+            this.televisitAttendeesObj.participantPrimaryDelegate = false;
+        }
+
+        if(event.target.dataset.participantHasEmail === 'true'){
+            this.televisitAttendeesObj.participantHasEmail = true;
+        }else{
+            this.televisitAttendeesObj.participantHasEmail = false;
+        }
+
         if(event.target.dataset.isMandatorySelection === 'true'){
             this.televisitAttendeesObj.isMandatorySelection = true;
         }else{
@@ -689,7 +712,15 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                     this.televisitAttendeesObj.lastName = result[i].lastName;
                     this.televisitAttendeesObj.attendeeType = result[i].attendeeType;
                     this.televisitAttendeesObj.attendeeId = result[i].attendeeId;
-                    this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList.find(a => a.id === result[i].id).isMandatorySelection;
+                    if(this.televisitAttendeesList.find(a => a.id === result[i].id) !== undefined){
+                        this.televisitAttendeesObj.isMandatorySelection = this.televisitAttendeesList.find(a => a.id === result[i].id).isMandatorySelection;
+                    }else{
+                        if(this.televisitAttendeesObj.attendeeType === 'Participant'){
+                            this.televisitAttendeesObj.isMandatorySelection = true;
+                        }else{
+                            this.televisitAttendeesObj.isMandatorySelection = false;
+                        }
+                    }
                     this.selectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
                     this.duplicateSelectedTelevisitAttendeesList.push(this.televisitAttendeesObj);
                     this.televisitAttendeesList.splice(this.televisitAttendeesList.findIndex(a => a.id === result[i].id) , 1);

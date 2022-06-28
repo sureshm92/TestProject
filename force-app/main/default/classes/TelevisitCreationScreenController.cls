@@ -1,24 +1,28 @@
 Public without sharing Class TelevisitCreationScreenController {
     @AuraEnabled
     Public static Boolean televisistPrerequisiteCheck(String ParticipantEnrollmentId){
-        Boolean enableTelevisitTab = false;
-        if(ParticipantEnrollmentId != Null){
-            Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
-                FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
-            
-            TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+        try{
+            Boolean enableTelevisitTab = false;
+            if(ParticipantEnrollmentId != Null){
+                Participant_Enrollment__c ParticipantEnrollment = [SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c,Study_Site__c, Study_Site__r.Study_Site_Type__c 
+                    FROM Participant_Enrollment__c WHERE Id = :ParticipantEnrollmentId];
                 
-            if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-               ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
-               vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
-                     enableTelevisitTab = true;
-                 
-             }else{
-                 enableTelevisitTab = false;
-             }
+                TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and  Televisit_Record_Vendor__r.name = 'Vonage' limit 1];
+                    
+                if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                   ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
+                   vendorDetails.Televisit_Record_Vendor__r.name == 'Vonage' && vendorDetails.isEnable__c ){
+                         enableTelevisitTab = true;
+                     
+                 }else{
+                     enableTelevisitTab = false;
+                 }
+            }
+            return enableTelevisitTab;
+        }catch (exception ex){
+            return false;
         }
-        return enableTelevisitTab;
     }
     
     @AuraEnabled
@@ -181,6 +185,8 @@ Public without sharing Class TelevisitCreationScreenController {
         public Boolean isCompletedStatus{get;set;}
         @AuraEnabled
         public List<AttendeesWrapper> attendeesWrapperList{get;set;}
+        @AuraEnabled
+        public Datetime visitDateTime{get;set;}
     }
     
     @AuraEnabled
@@ -194,7 +200,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Completed = status.split('/')[1];
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c desc, Start_Time__c desc];
@@ -202,7 +208,7 @@ Public without sharing Class TelevisitCreationScreenController {
             Schdeduled = status;
             lstTelevisitRecordsToFetch =[SELECT Id,Duration__c,Start_Time__c,Status__c,Title__c,Visit_Date__c,Meeting_URL__c,Participant_Enrollment__c,
                                         Participant_Enrollment__r.Participant__r.First_Name__c, 
-                                        Participant_Enrollment__r.Participant__r.Last_Name__c, 
+                                        Participant_Enrollment__r.Participant__r.Last_Name__c, Visit_Date_Time__c,
                                         (SELECT Id,Firstname__c,Lastname__c,Attendee_Type__c FROM Televisit_Attendee__r order by Firstname__c asc)
                                         FROM Televisit__c WHERE (Participant_Enrollment__c =:participantEnrollmentId) and (Status__c =:Schdeduled or Status__c =:Cancelled or Status__c =:Completed)
                                         order by Visit_Date__c asc, Start_Time__c asc];
@@ -231,6 +237,7 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.pefirstname = tv.Participant_Enrollment__r.Participant__r.First_Name__c;
             wrap.pelastname = tv.Participant_Enrollment__r.Participant__r.Last_Name__c;
             wrap.attendeesList = tv.Televisit_Attendee__r;
+            wrap.visitDateTime = tv.Visit_Date_Time__c;
             lstWrap.add(wrap);
         }
         return lstWrap;
@@ -275,37 +282,41 @@ Public without sharing Class TelevisitCreationScreenController {
             wrap.contactId= siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
         }
-            AttendeesWrapper wrap1 = new AttendeesWrapper();
-            wrap1.firstName= per.PI_Contact__r.FirstName;
-            wrap1.lastName= per.PI_Contact__r.LastName;
-            if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
-                wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
-                wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
-            }
-            wrap1.attendeeType= 'PI';
-            wrap1.contactId= per.PI_Contact__c;
-            lstAttendeesWrapper.add(wrap1);
+        AttendeesWrapper wrap1 = new AttendeesWrapper();
+        wrap1.firstName= per.PI_Contact__r.FirstName;
+        wrap1.lastName= per.PI_Contact__r.LastName;
+        if(wrap1.firstName == null && wrap1.lastName.startsWith('P-') && mapUserRecord.get(per.PI_Contact__c) != null){
+            wrap1.firstName= mapUserRecord.get(per.PI_Contact__c).FirstName;
+            wrap1.lastName= mapUserRecord.get(per.PI_Contact__c).LastName;
+        }
+        wrap1.attendeeType= 'PI';
+        wrap1.contactId= per.PI_Contact__c;
+        lstAttendeesWrapper.add(wrap1);
+        
+        Set<String> preventDuplicate = new Set<String>();
         for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
-                                                      Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
-                                                      Participant__c =: per.Participant__c]){
-            AttendeesWrapper wrap2 = new AttendeesWrapper();
-            if(participantDelegate.Participant_Delegate__c != null){
-                wrap2.firstName= participantDelegate.Participant_Delegate__r.First_Name__c;
-                wrap2.lastName= participantDelegate.Participant_Delegate__r.Last_Name__c;
-            }else{
-                wrap2.firstName= participantDelegate.Contact__r.FirstName;
-                wrap2.lastName= participantDelegate.contact__r.LastName;
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: per.Participant__c Order by Primary_Delegate__c Desc]){
+            if(preventDuplicate.add(participantDelegate.Contact__c)){
+                AttendeesWrapper wrap2 = new AttendeesWrapper();
+                if(participantDelegate.Participant_Delegate__c != null){
+                    wrap2.firstName= participantDelegate.Participant_Delegate__r.First_Name__c;
+                    wrap2.lastName= participantDelegate.Participant_Delegate__r.Last_Name__c;
+                }else{
+                    wrap2.firstName= participantDelegate.Contact__r.FirstName;
+                    wrap2.lastName= participantDelegate.contact__r.LastName;
+                }
+                wrap2.attendeeType= 'Participant Delegate';
+                wrap2.contactId= participantDelegate.Contact__c;
+                wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
+                if(participantDelegate.Participant__r.Email__c != null){
+                    wrap2.participantHasEmail = true;
+                }else{
+                    wrap2.participantHasEmail = false;
+                }
+                wrap2.participantPrimaryDelegate = participantDelegate.Primary_Delegate__c;
+                lstAttendeesWrapper.add(wrap2);
             }
-            wrap2.attendeeType= 'Participant Delegate';
-            wrap2.contactId= participantDelegate.Contact__c;
-            wrap2.participantAdult = participantDelegate.Participant__r.Adult__c;
-            if(participantDelegate.Participant__r.Email__c != null){
-                wrap2.participantHasEmail = true;
-            }else{
-                wrap2.participantHasEmail = false;
-            }
-            wrap2.participantPrimaryDelegate = participantDelegate.Primary_Delegate__c;
-            lstAttendeesWrapper.add(wrap2);
         }
         return lstAttendeesWrapper;
     }
