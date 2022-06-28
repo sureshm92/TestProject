@@ -1422,7 +1422,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     @TestVisible
     private static void updateStudyConsentTimestamps(
         List<Participant_Enrollment__c> newList,
-        Map<Id, Participant_Enrollment__c> oldMaap
+        Map<Id, Participant_Enrollment__c> oldMap
     ) {
         for (Participant_Enrollment__c peNew : newList) {
             Participant_Enrollment__c peOld = oldMap.get(peNew.Id);
