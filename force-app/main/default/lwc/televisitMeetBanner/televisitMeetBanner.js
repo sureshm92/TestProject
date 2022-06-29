@@ -211,8 +211,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         );
         let participantFullName;
         if (
-            visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c &&
-            visitInfo.Attendee_Type__c === 'Participant'
+            visitInfo.Attendee_Type__c === 'Participant' &&
+            visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
         ) {
             participantFullName =
                 visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c +
