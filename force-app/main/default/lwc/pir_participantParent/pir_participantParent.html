@@ -305,7 +305,7 @@
                            <span class="slds-assistive-text">Close</span>
                         </div>
                      </div>
-                  </div>
+                  </div> 
                   <slot name="body">   
                      <div class="slds-grid slds-wrap slds-gutters ">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
@@ -453,6 +453,218 @@
    </div>
 </section>
 <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<template if:true={importParticipant}> 
+    <!--  Import Participants Model Start  -->  
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+      <div class="slds-modal_small">
+         <div class="slds-modal__container model-small">
+            <div class="slds-modal__content" >
+               <div class="bar"></div>
+               <div class="slds-p-around_large"><!-- Add RTL class here -->
+                  <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                     <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
+                        <span class="pop-title">Import Participants</span> 
+                     </div>
+                     <div class="slds-col slds-size_1-of-12 close-icon">
+                        <div onclick={handleImportParticipant}>
+                           <lightning-icon icon-name="utility:close"
+                              alternative-text="close"
+                              size="x-small" ></lightning-icon>
+                           <span class="slds-assistive-text">Close</span>
+                        </div>
+                     </div>
+                  </div>
+                  <slot name="body">
+                     <div class="slds-grid slds-wrap slds-gutters bulkImportScroll">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                           <!-- <lightning-combobox
+                           name="Study Name"
+                           label="Study Name"
+                           value=""
+                           placeholder=""
+                           title="Study Sites note"
+                           options={studynameoptions}
+                           onchange={studynamehandleChange}
+                           ></lightning-combobox> -->
+                           <lightning-combobox
+                           name="Study"
+                           label={label.PIR_Study_Name}
+                           value={selectedStudy}
+                           placeholder={label.PG_AC_Select}
+                           options={studylist}
+                           onchange={studyhandleChange}
+                           ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                           <!-- <lightning-combobox
+                           name="Study Sites"
+                           label="Study Sites"
+                           value=""
+                           placeholder=""
+                           title="Study Sites note"
+                           options={studysitesoptions}
+                           onchange={studysiteshandleChange}
+                           ></lightning-combobox> -->
+                           <lightning-combobox
+                               name="studysite"
+                               label={label.PIR_Study_Site_Name}
+                               value={selectedSite}
+                               placeholder={label.PG_AC_Select}
+                               options={studySiteList}
+                               onchange={studysitehandleChange}
+                               disabled={studysiteaccess}
+                               ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="slds-form-element modalBody">
+                              <div class="slds-p-bottom_xxx-small slds-p-top_xxx-small">
+                                 <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 ">
+                                       <div class="fileUpload">Upload File <span class="slds-text-color_error">*</span></div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_8-of-12">
+                                       <div class="slds-grid slds-wrap slds-gutters">
+                                          <div class="slds-col slds-size_1-of-1 w-instruction">
+                                             <div class="downloadLabel">Instructions 
+                                                <a href="#" title=""><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                             </div>
+                                          </div>
+                                          <div class="slds-col slds-size_1-of-2 w-template">
+                                             <div class="downloadLabel">Download Template  
+                                                <a href="#" title=""><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                             </div>
+                                          </div>
+                                          <div class="slds-col slds-size_1-of-2 w-langauge">
+                                             <div class="downloadLabel labelRightMob">ISO language Guide
+                                                <a href="#" title=""><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- slds-grid slds-wrap -->  
+                                    </div>
+                                 </div>
+                                 <!-- slds-grid slds-wrap -->                 
+                                 <div class="fileHolder">
+                                    <input onchange={handleFilesChange} type="file" class="fileInput"></input>
+                                    <div class="fileBox slds-grid slds-wrap">
+                                       <div class="slds-col slds-size_2-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                          <div class="slds-size_full slds-align_absolute-center slds-text-align_center slds-p-top--small marTopIcon">
+                                             <lightning-icon icon-name="utility:upload" size="small" alternative-text="Upload" title="Upload"></lightning-icon>
+                                          </div>
+                                       </div>    
+                                       <div class="slds-col slds-size_10-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                          <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel marTop">  
+                                             Drag files here or <span class="linkLabel slds-p-left_xx-small">browse</span> 
+                                          </div>
+                                          <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel uploadLabel-Italic">  
+                                             Max size 2.5mb Max records 500
+                                          </div>
+                                          <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel slds-p-bottom--small uploadLabel-Italic">  
+                                             <strong>wait time may vary based on the number of records you upload</strong> 
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- fileHolder -->
+                                
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                       <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                                          <!-- <div class="previewImage">
+                                             <div class="slds-grid slds-wrap slds-gutters">  
+                                                <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                      <div class="">
+                                                         <img class="slds-p-left_xxx-small previewImg" src="/resource/1654599036000/bulkicons/Download.svg"/>
+                                                      </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-2 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                   <div class="previewFilename">
+                                                      <span class="slds-truncate truncate-width">PreviewFilenamedadas</span>.xlsx
+                                                   </div>
+                                                </div>
+                                             </div>   
+                                          </div>  -->
+                                          <!-- previewImage -->
+                                       </div>   
+                                    </div><!-- slds-grid slds-wrap slds-gutters -->
+                                  
+                                 
+                                 <div>
+                                    <template if:true={fileName}>
+                                       <div class="fileName">{fileName} </div>
+                                       <div class="slds-align--absolute-center">
+                                          <div class="progressBar">
+                                             <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                                <span class="slds-progress-bar__value"></span>
+                                             </div>
+                                          </div>
+                                          <div class="closeIcon">
+                                             <template if:true={enableDel}>
+                                                <span  onclick={deleteFiles}>
+                                                   <lightning-icon icon-name="utility:close" alternative-text="Delete" title="Delete" size="xx-small"></lightning-icon>
+                                                </span>
+                                             </template>
+                                          </div>
+                                       </div>
+                                       <div>
+                                          <span class="fileName">{fileRemaining}</span>
+                                          <span class="fileName slds-float--right">{progress}%</span>
+                                       </div>
+                                    </template>
+                                 </div>
+                              </div><!-- slds-p-bottom_xxx-small -->
+                           </div><!-- slds-form-element modalBody -->
+                        </div><!-- slds-col slds-size_1-of-1 -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="fileUpload">
+                              Select Participant Status
+                           </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                           <lightning-combobox
+                              name={label.PG_AP_F_Patient_Status}
+                              label={label.PG_AP_F_Patient_Status}
+                              value=""
+                              placeholder="Select...."
+                              options={particiapntStatus}
+                              onchange={particiapntStatushandleChange}
+                              required
+                              ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                           <div class="fileUpload">Information Sharing <span class="slds-text-color_error">*</span></div>
+                        </div>                       
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <lightning-input type="checkbox" label="By checking this box, you confirm that your patient and/or patients legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments." name="input1" required></lightning-input>
+                           <lightning-input type="checkbox" label="Your patient or patient’s legal guardian also consents to be contacted by SMS/Text Message for these purposes." name="input2" required></lightning-input>                          
+                        </div>                     
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                           <div class="fileUpload">
+                              Invitation to Patient Portal
+                           </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small">
+                           <lightning-input type="checkbox" label="Invite to patient to join Patient Portal" name="input3"></lightning-input>
+                        </div>
+                     </div><!-- slds-grid slds-wrap slds-gutters -->
+                     <div class="slds-grid slds-wrap slds-m-top_small">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="slds-float_right mobile-width">                  
+                              <button title="" class="slds-button apollo-btn primary btn-height import-btn" disabled=""> Import </button>
+                              <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleImportParticipant}> Cancel</button>
+                           </div>
+                        </div>
+                     </div><!-- slds-grid slds-wrap slds-gutters -->
+                     
+                  </slot><!-- slot -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <div class="slds-backdrop slds-backdrop_open"></div>
+   <!--  Import Participants Model End --> 
 </template>
 </div>
 </template>

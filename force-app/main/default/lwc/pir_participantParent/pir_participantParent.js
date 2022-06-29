@@ -40,7 +40,10 @@ import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
-
+import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
+import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
+import PG_AP_F_Patient_Status from '@salesforce/label/c.PG_AP_F_Patient_Status';
+ 
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -118,8 +121,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PG_AC_Select,
     PG_DBPI_L_study_site,
     pir_Health_Information,
-    PIR_Reason_Required,
-    RH_TV_TabTitle
+    PIR_Study_Site_Name,
+    PIR_Study_Name,
+    PG_AP_F_Patient_Status,
+    RH_TV_TabTitle,
+    PIR_Reason_Required
   };
   
   @api isRTL = false; 
@@ -610,12 +616,26 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.showErrorToast('Error');
     }
   }
-  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;
+  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;importParticipant=false;
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
         this.addParticipant = true;
         this.studysiteaccess = true;   
+    }else if(this.dropdownLabel=='Import Participants'){
+        console.log('import mod');
+        this.importParticipant = true;
+    }else if(this.dropdownLabel=='Bulk Import History'){
+        console.log('B import ');
+        this[NavigationMixin.Navigate]({
+          type: 'comm__namedPage',
+          attributes: {
+              pageName: 'bulk-imports'
+            },
+          state: {
+            'myParticipants' : true
+           }
+      });
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;
@@ -624,6 +644,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.exportItem=false;
       }
     }
+  }
+  handleImportParticipant(){
+    this.addParticipant = false;
+    this.selectedSite = '';
+    this.selectedStudy = ''; 
+    this.importParticipant = false;
   }
   handlepopup(event){
     this.openpopup=event.detail;
@@ -994,4 +1020,31 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector("c-pir_participant-pagination").goToStart();
   }
 
+  // import modal  -->
+     value = [];
+    get studynameoptions() {
+        return [
+            { label: 'GSM testing study', value: 'GSM testing study' },
+            { label: 'GSM testing study', value: 'GSM testing study' },
+        ];
+    }
+    get studysitesoptions() {
+        return [
+            { label: 'GSM testing study site ', value: 'GSM testing study site' },
+            { label: 'GSM testing study site GSM testing study', value: 'GSM testing study site GSM testing study' },       
+        ];
+    }
+    get particiapntStatus() {
+        return [
+            { label: 'Active', value: 'Active' },
+            { label: 'Inactive', value: 'Inactive' },
+        ];
+    }
+    get options() {
+        return [
+            { label: 'By checking this box, you confirm that your patient and/or patients legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.', value: 'option1' },
+            { label: 'Your patient or patient’s legal guardian also consents to be contacted by SMS/Text Message for these purposes.', value: 'option2' },
+        ];
+    }
+  //import modal end-->
 }

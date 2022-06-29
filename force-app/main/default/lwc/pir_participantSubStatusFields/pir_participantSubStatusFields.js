@@ -19,8 +19,9 @@ import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
-import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
+import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
+
 import { label } from "c/pir_label";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class Pir_participantSubStatusFields extends LightningElement {
