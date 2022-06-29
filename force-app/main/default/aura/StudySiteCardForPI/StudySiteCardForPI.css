@@ -405,4 +405,13 @@
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) {
         padding-right: 0;
     }
+    
 }
+@media (max-device-width: 767px) {
+    .THIS .slds-top-margin-mobiles{
+        margin-top: 0 !important;
+    }
+    .THIS .slds-top-margin-mobile{
+        margin-top: 20px;
+    }
+ }
