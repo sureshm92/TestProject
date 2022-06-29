@@ -2369,7 +2369,7 @@
                                                     <div class="slds-col slds-size_7-of-8">
                                                         <select
                                                             id="in-call-video-source-select"
-                                                            class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
+                                                            class="slds-m-top--x-small device-settings-select slds-p-vertical_x-small slds-m-left--small"
                                                         ></select>
                                                     </div>
                                                 </div>
@@ -2396,7 +2396,7 @@
                                                     <div class="slds-col slds-size_7-of-8">
                                                         <select
                                                             id="in-call-audio-source-select"
-                                                            class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
+                                                            class="slds-m-top--x-small device-settings-select slds-p-vertical_x-small slds-m-left--small"
                                                         ></select>
                                                     </div>
                                                 </div>
