@@ -2725,7 +2725,9 @@
                         <div class="slds-grid">
                             <div class="slds-col slds-size_1-of-1">
                                 <div class="slds-text-align_center telivisit-rejoin">
-                                    <span class="slds-icon_container slds-icon-utility-groups">
+                                    <span
+                                        class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
+                                    >
                                         <img
                                             src="{!$Resource.televisit_icons + '/EndCall.svg'}"
                                             class="end-call-logo"
