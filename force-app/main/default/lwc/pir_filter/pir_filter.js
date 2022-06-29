@@ -199,11 +199,19 @@ export default class Filtertest extends LightningElement {
     
     if(!this.filterFetched){
       this.filterFetched= true;
-      var scList = [
-        "Referring Provider",
-        "Principal Investigator",
-        "Digital Recruitment"
-      ];
+      let scList;
+      if(this.sponser==='janssen'){
+        scList = [
+          "Principal Investigator",
+          "Digital Recruitment"
+        ];
+      }else{
+        scList = [
+          "Referring Provider",
+          "Principal Investigator",
+          "Digital Recruitment"
+        ];
+      }
       this.filterWrapper.source = scList;
       getStudyStudySite()
         .then((result) => {
@@ -756,13 +764,20 @@ export default class Filtertest extends LightningElement {
   }
 
   get sourceoptions() {
-    
-    return [
-      { label: this.label.AllSources, value: "All Sources" },
-      { label: this.label.ReferringProvider, value: "Referring Provider" },
+    if(this.sponser=='Janssen' ){
+      return [
+        { label: this.label.AllSources, value: "All Sources" },
       { label: this.label.PricipalInvestigator, value: "Principal Investigator" },
       { label: this.label.DigitalRecruitment, value: "Digital Recruitment" }
     ];
+    }else{
+      return [
+        { label: this.label.AllSources, value: "All Sources" },
+        { label: this.label.ReferringProvider, value: "Referring Provider" },
+        { label: this.label.PricipalInvestigator, value: "Principal Investigator" },
+        { label: this.label.DigitalRecruitment, value: "Digital Recruitment" }
+      ];
+    }
   }
 
   get sexatbirthoptions() {
@@ -905,7 +920,7 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.siteList.push(this.defaultSite);
     this.filterWrapper.status = [];
     this.filterWrapper.status.push(this.defaultStatus);
-    this.filterWrapper.source = ["Referring Provider", "Principal Investigator", "Digital Recruitment"];
+    this.filterWrapper.source = this.sponser=='janssen' ? ["Principal Investigator", "Digital Recruitment"] : ["Referring Provider", "Principal Investigator", "Digital Recruitment"];
     this.filterWrapper.ageTo = this.ageStartValue;
     this.filterWrapper.ageFrom = this.ageEndValue;
     this.filterWrapper.ethnicityList = [];
