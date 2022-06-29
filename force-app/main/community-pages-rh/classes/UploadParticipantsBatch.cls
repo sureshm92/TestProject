@@ -784,7 +784,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             ? uploadUser.Contact.Language__c
                             : Language)
                     );
-                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS)){
+                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                         participantContact.IQVIA_Contact_info_storage_consent__c = true;
                     }
 
@@ -1287,7 +1287,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 con.Id = conId;
                 con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
                 con.IQVIA_Contact_info_storage_consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
-                if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS)){
+                if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                     con.IQVIA_Contact_info_storage_consent__c = true;
                 }
                 con.IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false);
