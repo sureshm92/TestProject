@@ -1812,7 +1812,7 @@
             @media screen and (max-width: 768px) {
                 .mob-timer {
                     position: absolute;
-                    bottom: 10rem;
+                    bottom: 6rem;
                     left: 18.7rem;
                     z-index: 999;
                 }
@@ -2220,7 +2220,9 @@
                     style="{!IF( attendeeType == 'RH', 'display:none', '')}"
                 >
                     <div class="slds-card slds-text-align_center telivisit-session">
-                        <span class="slds-icon_container slds-icon-utility-groups">
+                        <span
+                            class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
+                        >
                             <img
                                 src="{!$Resource.televisit_icons + '/Hourglass.svg'}"
                                 class="cp-main-logo"
