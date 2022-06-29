@@ -4,6 +4,8 @@ import Viewing_as_Participant from '@salesforce/label/c.Viewing_as_Participant';
 import Viewing_as_Investigative_Site from '@salesforce/label/c.Viewing_as_Investigative_Site';
 import Viewing_as_Referring_Provider from '@salesforce/label/c.Viewing_as_Referring_Provider';
 import Space_Delegate from '@salesforce/label/c.Space_Delegate';
+import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
+import PP_Account_Settings from '@salesforce/label/c.PP_Account_Settings';
 export default class ProfileHeaderIconInfo extends LightningElement {
     @api user;
     @api currentMode;
@@ -16,12 +18,14 @@ export default class ProfileHeaderIconInfo extends LightningElement {
         Viewing_as_Participant,
         Viewing_as_Investigative_Site,
         Viewing_as_Referring_Provider,
-        Space_Delegate
+        Space_Delegate,
+        PP_ManageDelegates,
+        PP_Account_Settings
     };
-
     get fullName() {
         let user = this.user;
-        return user.Contact.FirstName + ' ' + user.Contact.LastName;
+        if (user) return user.Contact.FirstName + ' ' + user.Contact.LastName;
+        return '';
     }
     get fullNameClass() {
         return '';
@@ -33,6 +37,9 @@ export default class ProfileHeaderIconInfo extends LightningElement {
         return '';
     }
     get profileIconName() {
+        if (this.currentMode) {
+            return this.currentMode.isDelegate ? 'delegate_switcher' : 'participant_switcher';
+        }
         return '';
     }
     get accountSettingsClass() {
@@ -41,24 +48,24 @@ export default class ProfileHeaderIconInfo extends LightningElement {
     get accSettSvgClass() {
         return '';
     }
-    get accSettIconName() {
-        return '';
-    }
     get manageDelegatesClass() {
-        return this.currentMode.participantState === 'ALUMNI' && !this.currentMode.isDelegate
-            ? 'slds-hide'
-            : '';
+        if (this.currentMode) {
+            return this.currentMode.participantState === 'ALUMNI' && !this.currentMode.isDelegate
+                ? 'slds-hide'
+                : '';
+        }
+        return '';
     }
     get manageDelSvgClass() {
         return '';
     }
-    get manageDelIconName() {
-        return '';
-    }
+
     connectedCallback() {
         this.reset = true;
         let currentMode = this.currentMode;
         let mode = '';
+        let label = this.label;
+        if (!currentMode) return;
         if (currentMode.participantState === 'ALUMNI' && !currentMode.isDelegate)
             mode = label.Viewing_as_Self;
         else {

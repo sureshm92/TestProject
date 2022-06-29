@@ -6,9 +6,12 @@ export default class ProfileImageDropdown extends LightningElement {
 
     get fullName() {
         let user = this.user;
-        return user.Contact.FirstName + ' ' + user.Contact.LastName;
+        if(user){
+            return user.Contact.FirstName + ' ' + user.Contact.LastName;
+        }
+        return null;
     }
     get profileIconName() {
-        return this.isDelegate ? 'multiple-neutral-circle' : 'single-neutral';
+        return this.isDelegate ? 'delegate_profile' : 'participant_profile';
     }
 }
