@@ -18361,6 +18361,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Language and Location</value>
     </labels>
     <labels>
+        <fullName>PP_ManageDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ManageDelegates</shortDescription>
+        <value>Manage Delegates</value>
+    </labels>
+    <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
         <language>en_US</language>
         <protected>true</protected>
