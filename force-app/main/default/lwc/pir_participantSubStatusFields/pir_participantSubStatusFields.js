@@ -21,6 +21,7 @@ import BTN_No from '@salesforce/label/c.BTN_No';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import { label } from "c/pir_label";
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class Pir_participantSubStatusFields extends LightningElement {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -1680,6 +1681,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   validateTelevisitVisibility(){
     var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
     var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+    var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+    //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
+    currentTime = this.getTwentyFourHourTime(currentTime);
+    
     //!this.template.querySelector('[data-value="televisitCheckbox"]').checked
     if(this.selectedOutcome === 'Successfully_Contacted' && 
       initialVisitDateValue != null && 
@@ -1687,8 +1693,21 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       initialVisitDateValue != '' &&
       initialVisitTimeValue != null && 
       initialVisitTimeValue != undefined && 
-      initialVisitTimeValue != '' ){
-        this.disableTelevisitCheckbox = false;
+      initialVisitTimeValue != ''){
+        if(today < initialVisitDateValue){
+          this.disableTelevisitCheckbox = false;
+        }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
+          this.disableTelevisitCheckbox = false;
+        }else{
+          if(this.checkContactStatus){
+            this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
+            this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+            this.addTelevisitForInitialVisit = false;
+          }
+          this.disableTelevisitCheckbox = true;
+        }
+
+        
     }else{
       if(this.checkContactStatus){
         this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
@@ -1700,7 +1719,22 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
   validateTelevisitVisibility2(){
     if(this.televisitInitialVisitCheckboxStatus == 'Enabled'){
-      this.disableInitialVisitCheckbox = false;
+      var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
+      var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+      var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+      var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+      //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
+      currentTime = this.getTwentyFourHourTime(currentTime);
+
+      if(today < initialVisitDateValue){
+        this.disableInitialVisitCheckbox = false;
+      }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
+        this.disableInitialVisitCheckbox = false;
+      }else{
+        this.disableInitialVisitCheckbox = true;
+      }
+
+      //this.disableInitialVisitCheckbox = false;
     }else{
       this.disableInitialVisitCheckbox = true;
     }
@@ -1718,6 +1752,15 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
   handleTelevisitOpenModal(){
     this.isTelevisitModalOpen = true;
+  }
+
+  getTwentyFourHourTime(amPmString) { 
+    var d = new Date("1/1/2013 " + amPmString); 
+    let h = d.getHours();
+    let m = d.getMinutes();
+    h = h < 10 ? '0' + h : h;
+    m = m < 10 ? '0' + m : m;
+    return h + ':' + m + ':00.000'; 
   }
 
   get isinitialvisitTelevisitChecked(){
