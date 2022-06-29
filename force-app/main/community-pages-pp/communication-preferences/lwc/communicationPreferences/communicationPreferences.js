@@ -348,13 +348,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
         if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
             //If Participant Visit at Communication Preference tab at his Account setting.
-            // Or Primary delegate visit Communication Preference tab at Participant's Account setting.
-            //TODO: 1. What should happen  when the normal delegate of adult participant with email -   should be able to update the consents on behalf ?
-            if (
-                this.isParticipantLoggedIn ||
-                (this.isPrimaryDelegate && !this.isDelegateSelfView)
-            ) {
-                //this.showIQIVAOutreachConsentFlag=true;
+            if (this.isParticipantLoggedIn) {
+                return true;
+            }
+            //If any Delegate visit to Communication Preference of Patient's account setting
+            if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
                 return true;
             }
             //If Delegate Visits Communication Preference tab of his own Account setting(self View).

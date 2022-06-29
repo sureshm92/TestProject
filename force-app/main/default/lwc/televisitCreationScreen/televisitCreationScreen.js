@@ -71,6 +71,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     siteStaffAdded = true;
     isLoading = true;
     isMainSpinnerLoading = false;
+    isCancelSpinnerLoading = false;
     currentTime;
     startTimeChanged = false;
     @track defaultTime;
@@ -115,10 +116,15 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.televisitEditView = true;
             this.title = event.target.dataset.title;
             this.visitDate = event.target.dataset.visitdate;
+            
             var visitDateTime = new Date(event.target.dataset.visitdatetime).toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
             visitDateTime = this.getTwentyFourHourTime(visitDateTime)
             this.startTime = visitDateTime;
+
             //this.startTime = this.msToTime(event.target.dataset.starttime);
+            
+
+
             this.duration = event.target.dataset.duration;
             this.televisitRecordId = event.target.dataset.id;
             //console.log('SelectedAttendeesList :',event.target.dataset.id);
@@ -551,6 +557,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
     
     cancelTelevisit(event){
+        this.isCancelSpinnerLoading = true;
         cancelTelevisit({TelevisitId : event.target.dataset.id})
             .then((result) => {
                 if(result === 'Televisit Cancelled Successfully'){
@@ -562,6 +569,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                         mode: 'dismissable'
                     });
                     this.dispatchEvent(event);
+                    this.isCancelSpinnerLoading = false;
                     this.isCancelModalOpen = false;
                 }
             })

@@ -159,6 +159,10 @@ textdecoration {
     position: relative;
 }
 
+.cancelSpinnerHolder{
+    position: relative;
+}
+
 .noRecordsFound {
     text-align: center;
     padding: 50px;
