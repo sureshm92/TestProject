@@ -44,6 +44,7 @@
                     user="{!v.user}"
                     currentMode="{!v.currentMode}"
                     hasProfilePic="{!v.hasProfilePic}"
+                    onpageNavigation="{!c.handleCardVisiblity}"
                 />
             </li>
             <li class="body">
