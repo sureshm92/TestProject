@@ -218,6 +218,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     this.isdataChanged();
 	  this.validateTelevisitVisibility();
+    this.validateTelevisitVisibility2();
   }
 
   customFieldValidation(dataValue) {
@@ -382,7 +383,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           return this.utilLabels.PG_ACPE_L_Reason;
     }
   }
-  
+
   reasoneoptions = [];
   outcomeoptions = [];
   participantrecord;
@@ -832,6 +833,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     this.isdataChanged();
 	  this.validateTelevisitVisibility();
+    this.validateTelevisitVisibility2();
   }
   outcomeHandleChangeIV(event) {
     let datavalue = event.target.dataset.value;
@@ -1181,7 +1183,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
 
     if (validationList.includes(false)) {
-      const validatesavebtn = new CustomEvent("validatesavebutton", { 
+      const validatesavebtn = new CustomEvent("validatesavebutton", {
         detail: true
       });
       this.dispatchEvent(validatesavebtn);
@@ -1643,7 +1645,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     }
     if (this.participantrecord.Participant_Status__c == "Declined Final Consent") {
           this.participantrecord.Final_consent__c = false;
-    }
+    }   
     let outcome = this.selectedOutcome;
 
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
@@ -1725,9 +1727,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
     //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
     currentTime = this.getTwentyFourHourTime(currentTime);
-    
+    var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
     //!this.template.querySelector('[data-value="televisitCheckbox"]').checked
-    if(this.selectedOutcome === 'Successfully_Contacted' && 
+    if(oldValue){
+      this.disableTelevisitCheckbox = true;
+    }else if(this.selectedOutcome === 'Successfully_Contacted' && 
       initialVisitDateValue != null && 
       initialVisitDateValue != undefined && 
       initialVisitDateValue != '' &&
@@ -1749,35 +1753,45 @@ export default class Pir_participantSubStatusFields extends LightningElement {
 
         
     }else{
-      if(this.checkContactStatus){
-        this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
-        this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
-        this.addTelevisitForInitialVisit = false;
-      }
+      //if(this.checkContactStatus){
+        if(this.template.querySelector('[data-value="televisitCheckbox"]') !== null){
+          this.template.querySelector('[data-value="televisitCheckbox"]').checked = oldValue;
+          this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
+          this.addTelevisitForInitialVisit = oldValue;
+        }
+      //}
       this.disableTelevisitCheckbox = true;
     }
   }
   validateTelevisitVisibility2(){
-    if(this.televisitInitialVisitCheckboxStatus == 'Enabled'){
-      var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
-      var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+      var initialVisitDateValue;
+      var initialVisitTimeValue;
+      if(this.template.querySelector('[data-value="InitialVisitDate"]') !== null){
+        initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
+      }
+      if(this.template.querySelector('[data-value="InitialVisitTime"]') !== null){
+        initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+      }
       var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
       var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
-      //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
       currentTime = this.getTwentyFourHourTime(currentTime);
-
-      if(today < initialVisitDateValue){
-        this.disableInitialVisitCheckbox = false;
+        
+      var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
+      if(oldValue){
+        this.disableTelevisitCheckbox2 = true;
+      }else if(today < initialVisitDateValue){
+        this.disableTelevisitCheckbox2 = false;
       }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
-        this.disableInitialVisitCheckbox = false;
+        this.disableTelevisitCheckbox2 = false;
       }else{
-        this.disableInitialVisitCheckbox = true;
+        if(this.template.querySelector('[data-value="televisitCheckbox2"]')!== null){
+          this.template.querySelector('[data-value="televisitCheckbox2"]').checked = oldValue;
+          this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
+          this.addTelevisitForInitialVisit = oldValue;
+        }
+        this.disableTelevisitCheckbox2 = true;
       }
 
-      //this.disableInitialVisitCheckbox = false;
-    }else{
-      this.disableInitialVisitCheckbox = true;
-    }
   }
 
   handleTelevisitCloseModal(){
@@ -1803,14 +1817,4 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     return h + ':' + m + ':00.000'; 
   }
 
-  get isinitialvisitTelevisitChecked(){
-    if(this.participantrecord.Add_televisit_for_Initial_Visit__c && this.disableInitialVisitCheckbox){
-      this.disableTelevisitCheckbox2 = true;
-      this.televisitInitialVisitCheckboxStatus = 'Disabled';
-    }else{
-      this.disableTelevisitCheckbox2 = false;
-      this.televisitInitialVisitCheckboxStatus = 'Enabled';
-    }
-    return true;
-  }
 }
