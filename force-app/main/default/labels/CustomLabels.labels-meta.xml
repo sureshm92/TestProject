@@ -12167,6 +12167,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Declined Practitioner</value>
     </labels>
     <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
+    </labels>
+    <labels>
         <fullName>pir_Delete_close</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12180,6 +12187,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
         <value>Are you sure you want to delete</value>
     </labels>
+    <labels>
+        <fullName>PIR_Delete_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Attachment</shortDescription>
+        <value>Delete Attachment</value>
+    </labels>    
     <labels>
         <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
         <language>en_US</language>
