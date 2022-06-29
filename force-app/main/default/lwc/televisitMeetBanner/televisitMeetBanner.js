@@ -162,6 +162,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         let url = event.target.dataset.name;
         this.meetLinkUrl = url;
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        this.handleOpenCloseVisits();
     }
     handleSingleMeetJoin(event) {
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
