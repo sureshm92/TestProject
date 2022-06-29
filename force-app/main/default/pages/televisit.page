@@ -229,7 +229,7 @@
                 } else if (session.currentState === "disconnected" && communityUser == 'PP') {
                     document.getElementById("firstAttendeeMsg").style.display = "none";
                     connectToSession();
-                } else if (session.currentState === "connected" && communityUser == 'PP' && jsAutoDisconnectMeetingTime > currentTime) {
+                } else if (session.currentState === "connected" && jsAutoDisconnectMeetingTime > currentTime) {
                     toggle('#call-container', 'slds-hide');
                     toggle('#main', 'slds-hide');
                     toggle('#call-end-screen-container', 'slds-hide');
@@ -1703,6 +1703,7 @@
 
             .slds-popover__body .device-settings-select {
                 width: 100%;
+                height: 100%;
                 border-color: #d3d3d3;
                 border-radius: 5px;
             }
@@ -2190,35 +2191,7 @@
             </div>
 
             <div id="close-session-container" class="slds-hide">
-                <div
-                    role="dialog"
-                    class="slds-card slds-text-align_center"
-                    style="{!IF( attendeeType == 'PP', 'display:none', '')}"
-                >
-                    <div class="gradient"></div>
-
-                    <!-- Header -->
-                    <header class="slds-card__header">
-                        <apex:outputText
-                            style="font-weight: 800"
-                            styleClass="slds-text-heading--medium"
-                            value="Session Closed"
-                        >
-                            <apex:param value="{!sessionName}" />
-                        </apex:outputText>
-                    </header>
-
-                    <!-- Content -->
-                    <div class="slds-card__body slds-p-around--medium">
-                        <span class="slds-text-heading--small slds-m-around--large">
-                            {!$Label.CloseTab}
-                        </span>
-                    </div>
-                </div>
-                <div
-                    class="slds-col slds-size_1-of-1"
-                    style="{!IF( attendeeType == 'RH', 'display:none', '')}"
-                >
+                <div class="slds-col slds-size_1-of-1">
                     <div class="slds-card slds-text-align_center telivisit-session">
                         <span
                             class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
@@ -2369,7 +2342,7 @@
                                                     <div class="slds-col slds-size_7-of-8">
                                                         <select
                                                             id="in-call-video-source-select"
-                                                            class="slds-m-top--x-small device-settings-select slds-p-vertical_x-small slds-m-left--small"
+                                                            class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
                                                         ></select>
                                                     </div>
                                                 </div>
@@ -2396,7 +2369,7 @@
                                                     <div class="slds-col slds-size_7-of-8">
                                                         <select
                                                             id="in-call-audio-source-select"
-                                                            class="slds-m-top--x-small device-settings-select slds-p-vertical_x-small slds-m-left--small"
+                                                            class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
                                                         ></select>
                                                     </div>
                                                 </div>
@@ -2510,13 +2483,12 @@
                                 class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
                             >
                                 <div
-                                    id="last-active-feed"
-                                    class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
-                                ></div>
-
-                                <div
                                     id="self-feed-container"
                                     class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"
+                                ></div>
+                                <div
+                                    id="last-active-feed"
+                                    class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
                                 ></div>
 
                                 <div
