@@ -1812,7 +1812,7 @@
             @media screen and (max-width: 768px) {
                 .mob-timer {
                     position: absolute;
-                    bottom: 10rem;
+                    bottom: 6rem;
                     left: 18.7rem;
                     z-index: 999;
                 }
