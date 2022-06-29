@@ -6,7 +6,8 @@ import Viewing_as_Referring_Provider from '@salesforce/label/c.Viewing_as_Referr
 import Space_Delegate from '@salesforce/label/c.Space_Delegate';
 import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import PP_Account_Settings from '@salesforce/label/c.PP_Account_Settings';
-export default class ProfileHeaderIconInfo extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElement) {
     @api user;
     @api currentMode;
     @api hasProfilePic;
@@ -76,5 +77,27 @@ export default class ProfileHeaderIconInfo extends LightningElement {
         }
         this.viewMode = mode;
         this.reset = false;
+    }
+    doManageDelegates() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'my-team'
+            }
+        });
+        this.doCloseModal();
+    }
+    doNavigateToAccountSettings() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'account-settings'
+            }
+        });
+        this.doCloseModal();
+    }
+    doCloseModal() {
+        const pageNavigation = new CustomEvent('pageNavigation');
+        this.dispatchEvent(pageNavigation);
     }
 }

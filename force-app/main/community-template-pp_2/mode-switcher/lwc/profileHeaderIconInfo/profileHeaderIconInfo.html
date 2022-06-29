@@ -24,7 +24,11 @@
                 <span class={userNameClass}>{user.Username}</span>
             </div>
             <div class="header-buttons" title={viewMode}>
-                <div class={accountSettingsClass}>
+                <div
+                    class={accountSettingsClass}
+                    id="account_settings"
+                    onclick={doNavigateToAccountSettings}
+                >
                     <c-web-icon
                         color="white"
                         svg-class={accSettSvgClass}
@@ -32,7 +36,7 @@
                     ></c-web-icon>
                     {label.PP_Account_Settings}
                 </div>
-                <div class={manageDelegatesClass}>
+                <div class={manageDelegatesClass} id="manage_delegate" onclick={doManageDelegates}>
                     <c-web-icon
                         color="white"
                         svg-class={manageDelSvgClass}
