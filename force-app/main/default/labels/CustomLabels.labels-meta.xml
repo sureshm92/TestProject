@@ -254,6 +254,13 @@ Duration: ##VisitDuration</value>
         <value>Additional Information</value>
     </labels>
     <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
