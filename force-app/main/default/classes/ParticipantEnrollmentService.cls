@@ -753,6 +753,7 @@ public without sharing class ParticipantEnrollmentService {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_Mail_Email_contact_for_this_study__c',
+        'Study_Direct_Mail_Consent__c',
         'Permit_IQVIA_to_contact_about_study__c',
         'Email__c',
         'Patient_Middle_Name_Initial__c',

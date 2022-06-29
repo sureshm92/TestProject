@@ -5,11 +5,17 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US from '@salesforce/label/c.
 import PG_Ref_L_Permit_IQVIA_Outreach_Consent_US from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_US';
 import PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW';
 import PG_Ref_L_Permit_IQVIA_To_Store_And_Contact from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Store_And_Contact';
+import SS_RH_US_Consent from '@salesforce/label/c.SS_RH_US_Consent';
+import SS_RH_ROW_Consent_Email from '@salesforce/label/c.SS_RH_ROW_Consent_Email';
+import SS_RH_ROW_Consent_SMS from '@salesforce/label/c.SS_RH_ROW_Consent_SMS';
+import IQ_RH_US_Consent from '@salesforce/label/c.IQ_RH_US_Consent';
+import IQ_RH_ROW_Consent from '@salesforce/label/c.IQ_RH_ROW_Consent';
+
 import REQUIRED_ERROR_MSG from '@salesforce/label/c.PP_RequiredErrorMessage';
 import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
 import SMS_TEXT from '@salesforce/label/c.SMS_Text';
-
+import DIRECT_MAIL from '@salesforce/label/c.RH_Direct_Mail';
 
 import fetchStudySite from '@salesforce/apex/ConsentManagerController.fetchStudySite'; 
 
@@ -42,13 +48,18 @@ export default class ConsentManager extends LightningElement {
     PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US;
     PG_Ref_L_Permit_IQVIA_Outreach_Consent_US = PG_Ref_L_Permit_IQVIA_Outreach_Consent_US;
     PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW;
-    PG_Ref_L_Permit_IQVIA_To_Store_And_Contact= PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
     REQUIRED_ERROR_MSG  = REQUIRED_ERROR_MSG;
     EMAIL = EMAIL;
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
-    DIRECT_EMAIL = 'Direct Emial';
-    CONSENT_TO_STORE_AND_CONTACT;
+    DIRECT_EMAIL = DIRECT_MAIL;
+    SS_RH_US_Consent = SS_RH_US_Consent;
+    SS_RH_ROW_Consent_Email = SS_RH_ROW_Consent_Email;
+    SS_RH_ROW_Consent_SMS = SS_RH_ROW_Consent_SMS;
+    IQ_RH_US_Consent = IQ_RH_US_Consent;
+    IQ_RH_ROW_Consent = IQ_RH_ROW_Consent;
+    CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
+    EMAIL_ROW_CONSENT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
     
     @api peUpdation = false; //set this flag if IQVIA Outreach consents are to be updated on PE record
     @track consentModel = consentModel;
@@ -78,12 +89,16 @@ export default class ConsentManager extends LightningElement {
             case 'addParticipant':                          
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
             break;
-            case 'editParticipant':
-                this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
-               
-            break;
             case 'importParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                
+                this.getStudySite();
+            break;
+            case 'ReferParticipantRP':
+                this.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = this.IQ_RH_ROW_Consent;       
+                this.PG_Ref_L_Permit_IQVIA_Outreach_Consent_US =  this.IQ_RH_US_Consent;
+                this.CONSENT_TO_STORE_AND_CONTACT = this.SS_RH_US_Consent
+                this.EMAIL_ROW_CONSENT = this.SS_RH_ROW_Consent_Email; 
+                this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = this.SS_RH_ROW_Consent_SMS;
                 this.getStudySite();
             break;
         }
@@ -172,6 +187,10 @@ export default class ConsentManager extends LightningElement {
             }
             if(this.pe.Clinical_Trial_Profile__c != undefined){
                 this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+            }
+            if(this.pe.Clinical_Trial_Profile__c == undefined && this.pe.Study_Site__c != undefined){
+                this._studySiteId = this.pe.Study_Site__c;
+                this.getStudySite();
             }
             this.updateStudyConsentChecks();
             this.updateOutreachConsentChecks();

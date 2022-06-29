@@ -7,7 +7,7 @@ a:hover {
 .divBody {
     background-color: #e3066a;
     position: relative;
-    top: -29px;
+    /* top: -29px; */
     left: 50%;
     right: 50%;
     margin-left: -50vw;
@@ -27,6 +27,15 @@ a:hover {
     padding-top: 8px;
     text-align: left;
 }
+.singleMeet{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.meetList{
+    font-size: 14px;
+}
 .join{
     text-decoration: none;
 }
@@ -43,7 +52,7 @@ a:hover {
 
 @media all and (max-width: 768px){
     .divBody{      
-        top: -16px;      
+        /* top: -16px; */
     }   
 }
 
@@ -56,7 +65,7 @@ a:hover {
         margin-top: -30px;
     }
     .meet_info{
-        padding: 0px 15px 0px 5px;      
+        padding: 0px 15px 0px 5px;
         line-height: 30px;
     }
     .desktop{

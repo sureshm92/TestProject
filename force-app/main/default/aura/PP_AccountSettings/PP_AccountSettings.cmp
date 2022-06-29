@@ -11,7 +11,8 @@
     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false" />
     <aura:attribute name="isRTLLanguage" type="Boolean" default="false" />
     <aura:attribute name="participantState" type="String" />
-    <aura:attribute name="isDesktop" type="Boolean" default="true" />  
+    <aura:attribute name="isDesktop" type="Boolean" default="true" />
+    <aura:attribute name="consentPreferenceData" type="Object"/>    
 
     <aura:attribute name="contactSectionData" type="Object" />
     <aura:attribute name="personWrapper" type="Object" />
@@ -165,8 +166,7 @@
                     </aura:if>
                     <!-- Communication Preferences_Start -->
                     <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
-                        <!-- <c:CommunicationPreferences userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" /> -->
-                        <c:communicationPreferences isDelegate="{!v.isDelegate}"  participantState="{!v.participantState}" isDesktop="{!v.isDesktop}" />
+                        <c:communicationPreferences isDelegate="{!v.isDelegate}"  participantState="{!v.participantState}" isDesktop="{!v.isDesktop}" consentPreferenceData="{!v.consentPreferenceData}" userMode="{!v.userMode}"/>
                     </aura:if>
                     <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">

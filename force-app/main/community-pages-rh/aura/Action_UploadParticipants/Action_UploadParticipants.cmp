@@ -36,6 +36,7 @@
     <aura:attribute name="iqviaOutreachEmail" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachPhone" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachSMS" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="iqviaOutreachDirectMail" type="Boolean" default="false" />
     <aura:attribute name="reload" type="Boolean" />
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">

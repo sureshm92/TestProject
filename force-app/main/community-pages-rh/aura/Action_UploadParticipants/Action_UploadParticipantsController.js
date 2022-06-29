@@ -95,6 +95,7 @@
             component.get('v.iqviaOutreachEmail'),
             component.get('v.iqviaOutreachPhone'),
             component.get('v.iqviaOutreachSMS'),
+            component.get('v.iqviaOutreachDirectMail'),
             component.get('v.visitPlanId'),
             helper
         );
@@ -183,6 +184,7 @@
             component.set('v.iqviaOutreachEmail',event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
             component.set('v.iqviaOutreachSMS',event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
             component.set('v.iqviaOutreachPhone',event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c);
+            component.set('v.iqviaOutreachDirectMail',event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c);
     
     },
     

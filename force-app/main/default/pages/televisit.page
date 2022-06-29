@@ -144,7 +144,7 @@
                 showControls: false
             };
 
-            const MAX_VISIBLE_SUBS = 3;
+            const MAX_VISIBLE_SUBS = 5;
             const VIDEO_TYPE_SCREEN = 'screen';
             const SCREENSHARE_LOCK_EVT = 'screenshare-lock';
             const STREAM_CREATED_EVT = 'streamCreated';
@@ -1177,20 +1177,55 @@
 
             .televisitBanner {
                 border: 1px solid #e2e2e2;
-                border-radius: 5px;
                 background: rgb(254, 147, 57);
                 padding: 3px 10px 3px 10px;
-                box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-                position: absolute;
-                margin-left: 28%;
-                margin-top: -10px;
+                box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
+                margin-top: -50px;
                 font-size: 14px;
+                position: absolute;
+                margin-left: auto;
+                margin-right: auto;
+                left: 0;
+                right: 0;
+                text-align: center;
+                width: 50%;
+            }
+
+            .tv_warning {
+                text-align: left;
+            }
+
+            .telivisit-session {
+                background-color: #f5f6fa !important;
+                justify-content: center;
+            }
+
+            .setting-icon-show {
+                display: block;
+            }
+
+            .televisit-end {
+                color: #999999;
+                font-size: 24px;
+                font-weight: 600;
+                letter-spacing: 0;
+                line-height: 37px;
+
             }
 
             .extendCallListUpdatedClass {
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
+            }
+
+            .cp-main-logo {
+                height: 36px;
+                width: 28.5px;
+            }
+
+            .slds-col_bump-left {
+                display: flex;
             }
 
             @media screen and (min-width: 48em) {
@@ -1211,7 +1246,7 @@
             rgba(37, 0, 86, 1) 100%);
             color: white;
             text-align: center;
-            margin-bottom: 1em;
+            margin-bottom: 2.5em;
             }
 
             @media screen and (min-width: 48em) {
@@ -1383,6 +1418,20 @@
                     display: inline-block;
                     padding: 10px;
                 }
+                .televisitBanner {
+                    margin-top: 50px;
+                    padding: unset;
+                    width: 90%;
+                    z-index: 9;
+                }
+
+            }
+
+            @media screen and (max-width: 900px) {
+                .tv_warning {
+                    text-align: left;
+                    padding-left: 8px;
+                }
             }
 
             .main-container-open {
@@ -1455,6 +1504,9 @@
                     transform: translate(-50%, -50%);
                     border: none !important;
                     height: auto;
+                }
+                .televisitBanner {
+                    z-index: 9;
                 }
             }
 
@@ -1548,6 +1600,7 @@
             .settings-button:focus {
                 border-radius: 1em;
                 box-shadow: none !important;
+                border: 0px;
             }
 
             .participant-item {
@@ -1599,6 +1652,26 @@
                 }
             }
 
+            @media screen and (max-width:768px) {
+                .mob-timer {
+                    position: absolute;
+                    bottom: 10rem;
+                    left: 18.7rem;
+                    z-index: 999;
+
+                }
+                .setting-icon-show {
+                    display: block;
+                }
+                .settings-icon-wrapper {
+                    display: inline-block;
+                    padding: 0 .5em;
+                    position: relative;
+                    top: 6px;
+                }
+
+            }
+
             .OT_name.OT_mode-off {
                 display: block !important;
                 opacity: 100 !important;
@@ -1619,6 +1692,11 @@
 
             .ctrls-feeds-action-bar.share-view {
                 margin-top: 0rem;
+            }
+
+            select.extendCallListUpdatedClass option {
+                background: #fff;
+                color: #000;
             }
         </style>
     </head>
@@ -1867,7 +1945,7 @@
 
             <div id="close-session-container" class="slds-hide">
 
-                <div role="dialog" class="slds-card slds-text-align_center">
+                <div role="dialog" class="slds-card slds-text-align_center" style="{!IF( attendeeType == 'PP', 'display:none', '')}">
 
                     <div class="gradient"></div>
 
@@ -1885,6 +1963,27 @@
                             {!$Label.CloseTab}
                         </span>
                     </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1" style="{!IF( attendeeType == 'RH', 'display:none', '')}">
+
+                    <div class="slds-card slds-text-align_center telivisit-session">
+                        <span class="slds-icon_container slds-icon-utility-groups">
+                            <img src="{!$Resource.televisit_icons + '/Hourglass.svg'}" class="cp-main-logo" />
+                        </span>
+                        <header class="slds-card__header">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-medium-size_3-of-12 "></div>
+                                <div class="slds-col slds-medium-size_6-of-12">
+                                    <span class="televisit-end">
+                                        {!$Label.PT_Session_Ended}
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-medium-size_3-of-12"></div>
+                            </div>
+
+                        </header>
+                    </div>
+
                 </div>
                 <div class="slds-backdrop slds-backdrop--open"></div>
             </div>
@@ -1910,32 +2009,46 @@
                           <span style="margin-left: 20px;"><button id="closeButton" onclick="closeBannerPopup()">X</button></span>
                         </div>
                         -->
-                        <div id="televisitBanner" class="hideBanner">
-                            <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
-                                <span>Warning - 5 minutes left in call.</span>
-                                <select name="extendcallminutes" id="extendcallminutes" style="margin-left: 30px;" onchange="callExtendedMinutes()">
-                                    <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">Extend Call</option>
-                                    <apex:repeat value="{!extendMeetingOptions}" var="str">
-                                        <option value="{!str}">{!str} minutes</option>
-                                    </apex:repeat>
-                                </select>
-                                <span style="margin-left: 20px;">
-                                    <button id="closeButton" onclick="closeBannerPopup()">X</button>
-                                </span>
+                        <div role="dialog" class="slds-card slds-text-align_center" style="{!IF( attendeeType == 'PP', 'display:none', '')}">
+                            <div id="televisitBanner" class="hideBanner">
+                                <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" style="color:#fff">
+
+                                    <span class="slds-icon_container slds-icon-utility-warning slds-current-color">
+                                        <svg aria-hidden="true" class="slds-icon_xx-small">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" style="fill:#fff" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#warning">
+                                            </use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Warning</span>
+                                    </span>&nbsp;
+                                    <span class="tv_warning">Warning - 5 minutes left in call.</span>
+
+
+                                    <select name="extendcallminutes" id="extendcallminutes" style="margin-left:30px;" onchange="callExtendedMinutes()">
+                                        <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">Extend Call</option>
+                                        <apex:repeat value="{!extendMeetingOptions}" var="str">
+                                            <option value="{!str}">{!str} minutes</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <span style="margin-left: 20px;">
+                                        <button id="closeButton" onclick="closeBannerPopup()">X</button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
+
 
 
 
                         <div class="slds-col_bump-left">
 
 
-                            <span class="timer">
+                            <span class="timer mob-timer">
                                 <div id="time">00:00</div>
                             </span>
-                            <div class="slds-form-element slds-show_medium settings-icon-wrapper">
+                            <div class="slds-form-element settings-icon-wrapper setting-icon-show">
                                 <button id="settings-button-in-call" class="settings-button slds-button slds-button--icon slds-hide" onclick="toggleDeviceSettingsVisible();"
-                                    title="Session Settings">
+                                    title="{!$Label.Session_Settings}">
+
 
                                     <span class="icon-settings">
                                         <svg id="in-meeting-settings-svg" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#706e6b">
@@ -2028,7 +2141,7 @@
                                         </svg>
                                     </span>
                                     <span class="slds-align_absolute-center slds-text-heading--small" style="font-size:13pt;color:#999999;">
-                                        Looks like you are the first one here.
+                                        {!$Label.First_Attendee}
                                     </span>
                                 </div>
                                 <div id="speaker-feed" class="speaker-feed"></div>
@@ -2051,10 +2164,12 @@
 
                                 <div id="self-feed-container" class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"></div>
 
+
+
                                 <div id="controls" class="controls slds-col slds-align-bottom" style="padding-left: 0">
                                     <div class="slds-grid slds-float_right">
-                                        <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="Audio On Title"
-                                            data-on="AudioOnTitle" data-off="AudioOffTitle">
+                                        <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="{!$Label.Audio_Hover_Message_Off}"
+                                            data-on="{!$Label.Audio_Hover_Message_Off}" data-off="{!$Label.Audio_Hover_Message_On}">
 
                                             <span class="slds-assistive-text">Audio</span>
                                             <svg class="icon-audioOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -2072,8 +2187,8 @@
                                             </svg>
 
                                         </button>
-                                        <button class="slds-col button--video slds-button-circle button_white" type="button" onclick="toggleVideo();" title="Video On Title"
-                                            data-on="Video On Title" data-off="Video Of fTitle">
+                                        <button class="slds-col button--video slds-button-circle button_white" type="button" onclick="toggleVideo();" title="{!$Label.Video_Hover_Message_Off}"
+                                            data-on="{!$Label.Video_Hover_Message_Off}" data-off="{!$Label.Video_Hover_Message_On}">
 
                                             <svg class="icon-videoOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <rect x="0.25" y="5.499" width="15" height="13" rx="1" ry="1" />
@@ -2088,12 +2203,12 @@
                                                 <path d="M17.073,15.659A.249.249,0,0,1,17,15.482V7.75a1.5,1.5,0,0,0-1.5-1.5H7.768a.249.249,0,0,1-.177-.073L1.707.293A1,1,0,0,0,.44.172.984.984,0,0,0,.293.293a1,1,0,0,0,0,1.414l22,22a1,1,0,0,0,1.414-1.414Z"
                                                 />
                                             </svg>
-                                            <span class="slds-assistive-text">Video</span>
+                                            <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                         </button>
                                         <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
-                                            title="Share On Title" data-on="ScreenShareOnTitle" data-off="ScreenShareOffTitle">
+                                            title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}" data-off="{!$Label.Screen_Share_Hover_Message_On}">
 
-                                            <span class="slds-assistive-text">Share Screen</span>
+                                            <span class="slds-assistive-text">{!$Label.Screen_Share}</span>
                                             <svg class="icon-startShare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"
                                                 />
@@ -2142,7 +2257,7 @@
             <div id="in-call-device-people-container" class="people-container">
                 <div class="participant-header">
                     <span class="slds-text-heading--medium slds-text">
-                        Participants
+                        {!$Label.Participants}
                     </span>
                     <button class="slds-button slds-button_icon slds-button_icon-small closebtn" onclick="closeparticipatList();">
                         <svg class="slds-button__icon" aria-hidden="true">

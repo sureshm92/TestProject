@@ -233,7 +233,8 @@ public without sharing class ParticipantService {
                     Contact__r.Current_Participant_Enrollment__c,
                     Contact__r.Visit_Results_OptIn__c,
                     Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Marketing_Flag__c
+                    Marketing_Flag__c,
+                    Adult__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
             ];
@@ -288,6 +289,7 @@ public without sharing class ParticipantService {
                         FROM Televisit_Attendee__c
                         WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
                     )
+                    AND Participant_Enrollment__c =: participantState.pe.Id
             ];
             return (!tvList.isEmpty());
         }

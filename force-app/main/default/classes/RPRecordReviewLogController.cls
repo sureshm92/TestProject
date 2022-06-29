@@ -126,8 +126,9 @@ public without sharing class RPRecordReviewLogController {
                                                       RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,
                                                       Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
                                                       Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,
-                                                      /*Raviteja Changes Start */Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                                                      Participant_Contact__r.Participant_Opt_In_Status_SMS__c ,Participant_Opt_In_Status_Emails__c,Participant_Opt_In_Status_SMS__c,Participant_Phone_Opt_In_Permit_Phone__c /*Raviteja Changes Start */
+                                                      Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                                                      Participant_Contact__r.Participant_Opt_In_Status_SMS__c ,Participant_Opt_In_Status_Emails__c,Participant_Opt_In_Status_SMS__c,Participant_Phone_Opt_In_Permit_Phone__c,
+                                                      IQVIA_Direct_Mail_Consent__c,IQVIA_Contact_info_storage_consent__c
                                                       from Participant_Enrollment__c where Id =: peId];
             
             String isAdult = '';
