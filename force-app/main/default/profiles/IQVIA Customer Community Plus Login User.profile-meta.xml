@@ -7021,6 +7021,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Medical_Record_Upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Messages_Are_Available__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8963,6 +8968,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>VisitSummaryReportPage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>televisit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
