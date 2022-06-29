@@ -84,7 +84,8 @@ global class UpdateDelegatesBatch implements Database.Batchable<sObject>, Databa
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ semail });
         }catch(exception ex){
             system.debug('+++++++++++exception'+ex.getMessage());
-        }        
+       }
+        
     }
 
     global void finish(Database.BatchableContext BC) {

@@ -1,0 +1,41 @@
+<template>
+    <template if:true={isModalOpenAccessPopup}>
+        <c-web-popup size="small" show-footer="true" show-scroll="false" custom-buttons="true" show-close="true"
+            class="televisitVisitPreviewOnDonotAllowPopup" is-r-t-l={isRTL} show-header="true"
+            title={label.Email_Title_PH} onclosemodal={handleCloseModal}>
+            <div slot="body">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-12"></div>
+                    <div class="slds-col slds-size_10-of-12">
+                        <h6 class="slds-text-color_weak ">{label.Permissions}
+                        </h6>
+                        </br>
+                        <p>
+                            {label.IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera}
+                        </p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-12"></div>
+                </div>
+            </div>
+            <div slot="footerButtons">
+                <div class={footerDiv}>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col_bump-left">
+                            <lightning-button label={label.Don_t_allow} title={label.Don_t_allow}
+                                onclick={handleDonotAllow}
+                                class="doNotAllowBtn slds-m-left_x-small slds-align_absolute-center">
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col_bump-right">
+                            <button onclick={handleAllowAccess} class="allowBtn">{label.Allow_access}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c-web-popup>
+    </template>
+    <template if:true={showTelevisitVisitPreviewOnDonotAllow}>
+        <c-televisit-visit-preview-on-donot-allow meeting-link={meetingUrl}
+            onclosedonotallowpopup={handleDoNotAllowPopup}></c-televisit-visit-preview-on-donot-allow>
+    </template>
+</template>

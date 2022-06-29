@@ -111,4 +111,23 @@ public without sharing class NotificationCatalog {
     public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
     public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+    /*
+     * MESSAGE TO TELEVISIT ATTENDEE
+     *
+     *
+     */
+    //For Participant and delegates when they are added to a televisit
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE = 'Message_to_PT_Added_Attendee_Type';
+    public static final String MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Added_Attendee_Del_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE = 'Message_to_PT_Removed_Attendee_Type';
+    public static final String MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE = 'Message_to_PT_Removed_Attendee_Del_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE = 'Message_to_PT_Televisit_Scheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE = 'Message_to_PT_Televisit_Rescheduled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL = 'Message_to_PT_Televisit_Rescheduled_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE = 'Message_to_PT_Televisit_Cancelled_Type';
+    public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY = 'Message_to_PT_Televisit_Cancelled_Del_Ty';
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP = 'Message_to_PT_Televisit_Day_Reminder_Typ';
+    public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL = 'Message_to_PT_Televisit_Day_Reminder_Del';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY = 'Message_to_PT_Televisit_Hour_Reminder_Ty';
+    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE = 'Message_to_PT_Televisit_Hour_Reminder_De';
 }

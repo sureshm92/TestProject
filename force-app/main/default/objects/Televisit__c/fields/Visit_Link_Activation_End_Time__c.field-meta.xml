@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Visit_Link_Activation_End_Time__c</fullName>
+    <externalId>false</externalId>
+    <formula>Visit_End_Date_Time__c  + ( VALUE( TEXT( Participant_Enrollment__r.Study_Site__r.Banner_Dispose_Offset_Time__c))  / 1440)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Visit Link Activation End Time</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

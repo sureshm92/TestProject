@@ -1,0 +1,77 @@
+a {
+    text-decoration: underline;
+}
+a:hover {
+    color: #FFFFFF;
+}
+.divBody {
+    background-color: #e3066a;
+    position: relative;
+    /* top: -29px; */
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+}
+.allVisits {
+    z-index: 100;
+    position: absolute;
+    top: 95px;
+    background: white;
+    box-shadow: 0 0 3px rgb(116 116 116);
+    border-radius: 4px;
+    margin-left: 20%;
+    width: 50%;
+    padding-left: 10px;
+    padding-top: 8px;
+    text-align: left;
+}
+.singleMeet{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.meetList{
+    font-size: 14px;
+}
+.join{
+    text-decoration: none;
+}
+.arrow_icn, .arrow_icn:focus{
+    padding: 5px;    
+}
+.mobile{
+    display: none;
+}
+.desktop{
+    display: initial;
+}
+
+
+@media all and (max-width: 768px){
+    .divBody{      
+        /* top: -16px; */
+    }   
+}
+
+@media all and (max-width: 540px){
+    .allVisits{
+        width: 98%;
+        margin: 0 auto;
+        text-align: left;
+        position: unset;
+        margin-top: -30px;
+    }
+    .meet_info{
+        padding: 0px 15px 0px 5px;
+        line-height: 30px;
+    }
+    .desktop{
+        display: none;
+    }
+    .mobile{
+        display: block;
+    }
+}
