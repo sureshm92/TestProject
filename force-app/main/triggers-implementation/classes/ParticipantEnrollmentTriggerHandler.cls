@@ -185,12 +185,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class StudyConsentTimestamps extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            updateStudyConsentTimestamps( (List<Participant_Enrollment__c>) newList);
+            updateStudyConsentTimestamps((List<Participant_Enrollment__c>) newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateStudyConsentTimestamps((List<Participant_Enrollment__c>) newList,
-            (Map<Id, Participant_Enrollment__c>) oldMap);
+            updateStudyConsentTimestamps(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
         }
     }
 
@@ -542,12 +544,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
             } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
-                           if (
-                               oldMap == null ||
-                               (oldMap != null &&
-                                oldMap.get(pe.Id).Participant_Status__c !=
-                                 PEStatusState.PE_STATUS_ELIGIBILITY_PASSED )
-                           ) {
+                if (
+                    oldMap == null ||
+                    (oldMap != null &&
+                    oldMap.get(pe.Id).Participant_Status__c !=
+                    PEStatusState.PE_STATUS_ELIGIBILITY_PASSED)
+                ) {
                     if (
                         oldMap != null &&
                         oldMap.get(pe.Id).Participant_Status__c != 'Successfully Contacted'
@@ -976,6 +978,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
 }*/
         }
         //Added for study Level Delegate
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (
                 oldMap == null &&
@@ -993,6 +996,12 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                             NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
                         )
                     );
+                    //Create jonction object record between PER and Patient Delegate contact records
+                    ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                    perPDJunObj.Participant_Enrollment__c = pe.Id;
+                    perPDJunObj.Patient_Delegate_Contact__c = delegateId;
+                    perPDJunObj.Process_Type__c = 'Welcome Message';
+                    perDelJunctionRecList.Add(perPDJunObj);
                     Boolean isDelegatePlatformNotification =
                         ContactService.patientdelList.containskey(delegateId) &&
                         ContactService.patientdelList.get(delegateId)
@@ -1021,6 +1030,10 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
             !perToBeUpdated.isEmpty() //For updating the welcome msg flag - Added by Sonal
         )
             update perToBeUpdated;
+
+        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+            insert perDelJunctionRecList;
+        }
     }
     /*For Welcome Msg -- Added by Anitha End*/
     @TestVisible
@@ -1407,49 +1420,84 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     }
 
     @TestVisible
-    private static void updateStudyConsentTimestamps(List<Participant_Enrollment__c> newList, 
-    Map<Id, Participant_Enrollment__c> oldMap){
-        for(Participant_Enrollment__c peNew : newList){
+    private static void updateStudyConsentTimestamps(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        for (Participant_Enrollment__c peNew : newList) {
             Participant_Enrollment__c peOld = oldMap.get(peNew.Id);
-            if(peNew.Study_Artificial_Voice_Consent__c != peOld.Study_Artificial_Voice_Consent__c){
+            if (
+                peNew.Study_Artificial_Voice_Consent__c != peOld.Study_Artificial_Voice_Consent__c
+            ) {
                 peNew.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Study_Assisted_Dialing_Consent__c != peOld.Study_Assisted_Dialing_Consent__c){
+            if (
+                peNew.Study_Assisted_Dialing_Consent__c != peOld.Study_Assisted_Dialing_Consent__c
+            ) {
                 peNew.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Study_Direct_Mail_Consent__c != peOld.Study_Direct_Mail_Consent__c){
+            if (peNew.Study_Direct_Mail_Consent__c != peOld.Study_Direct_Mail_Consent__c) {
                 peNew.Study_Direct_Mail_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Permit_Mail_Email_contact_for_this_study__c != peOld.Permit_Mail_Email_contact_for_this_study__c){
+            if (
+                peNew.Permit_Mail_Email_contact_for_this_study__c !=
+                peOld.Permit_Mail_Email_contact_for_this_study__c
+            ) {
                 peNew.Study_Email_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Permit_Voice_Text_contact_for_this_study__c != peOld.Permit_Voice_Text_contact_for_this_study__c){
+            if (
+                peNew.Permit_Voice_Text_contact_for_this_study__c !=
+                peOld.Permit_Voice_Text_contact_for_this_study__c
+            ) {
                 peNew.Study_Phone_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Permit_IQVIA_to_contact_about_study__c != peOld.Permit_IQVIA_to_contact_about_study__c){
+            if (
+                peNew.Permit_IQVIA_to_contact_about_study__c !=
+                peOld.Permit_IQVIA_to_contact_about_study__c
+            ) {
                 peNew.Study_PI_Storage_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Study_Pre_recorded_Voice_Consent__c != peOld.Study_Pre_recorded_Voice_Consent__c){
+            if (
+                peNew.Study_Pre_recorded_Voice_Consent__c !=
+                peOld.Study_Pre_recorded_Voice_Consent__c
+            ) {
                 peNew.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
             }
-            if(peNew.Permit_SMS_Text_for_this_study__c != peOld.Permit_SMS_Text_for_this_study__c){
+            if (
+                peNew.Permit_SMS_Text_for_this_study__c != peOld.Permit_SMS_Text_for_this_study__c
+            ) {
                 peNew.Study_SMS_Consent_Time__c = Datetime.now();
             }
         }
-}
+    }
 
     @TestVisible
-    private static void updateStudyConsentTimestamps(List<Participant_Enrollment__c> newList){
-        for(Participant_Enrollment__c peNew : newList){
-            peNew.Study_Artificial_Voice_Consent_Time__c = (peNew.Study_Artificial_Voice_Consent__c ? Datetime.now() : null);
-            peNew.Study_Assisted_Dialing_Consent_Time__c = (peNew.Study_Assisted_Dialing_Consent__c ? Datetime.now() : null);           
-            peNew.Study_Direct_Mail_Consent_Time__c = (peNew.Study_Direct_Mail_Consent__c ? Datetime.now() : null);
-            peNew.Study_Email_Consent_Time__c = (peNew.Permit_Mail_Email_contact_for_this_study__c ? Datetime.now() : null);
-            peNew.Study_Phone_Consent_Time__c = (peNew.Permit_Voice_Text_contact_for_this_study__c ? Datetime.now() : null);
-            peNew.Study_PI_Storage_Consent_Time__c = (peNew.Permit_IQVIA_to_contact_about_study__c ? Datetime.now() : null);
-            peNew.Study_Pre_recorded_Calls_Consent_Time__c = (peNew.Study_Pre_recorded_Voice_Consent__c ? Datetime.now() : null);
-            peNew.Study_SMS_Consent_Time__c = (peNew.Permit_SMS_Text_for_this_study__c ? Datetime.now() : null);
-            
+    private static void updateStudyConsentTimestamps(List<Participant_Enrollment__c> newList) {
+        for (Participant_Enrollment__c peNew : newList) {
+            peNew.Study_Artificial_Voice_Consent_Time__c = (peNew.Study_Artificial_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Assisted_Dialing_Consent_Time__c = (peNew.Study_Assisted_Dialing_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Direct_Mail_Consent_Time__c = (peNew.Study_Direct_Mail_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Email_Consent_Time__c = (peNew.Permit_Mail_Email_contact_for_this_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Phone_Consent_Time__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_PI_Storage_Consent_Time__c = (peNew.Permit_IQVIA_to_contact_about_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Pre_recorded_Calls_Consent_Time__c = (peNew.Study_Pre_recorded_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_SMS_Consent_Time__c = (peNew.Permit_SMS_Text_for_this_study__c
+                ? Datetime.now()
+                : null);
         }
     }
 }
