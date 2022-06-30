@@ -1566,6 +1566,8 @@
                 padding: 0.25em 0.5em;
                 color: white;
                 display: inline-block;
+                width: 50px;
+                text-align: center;
             }
 
             .icon-people {
@@ -2483,12 +2485,12 @@
                                 class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
                             >
                                 <div
-                                    id="self-feed-container"
-                                    class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"
-                                ></div>
-                                <div
                                     id="last-active-feed"
                                     class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
+                                ></div>
+                                <div
+                                    id="self-feed-container"
+                                    class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"
                                 ></div>
 
                                 <div
