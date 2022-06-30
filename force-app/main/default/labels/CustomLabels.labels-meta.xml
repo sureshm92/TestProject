@@ -127,6 +127,30 @@ Duration: ##VisitDuration</value>
         <value>This Televisit has ended. Contact your Study Center for further support.</value>
     </labels>
     <labels>
+        <fullName>PT_Televisit_Left</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Left</shortDescription>
+        <value>Seems like you left your Televisit. Would you like to return?</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Rejoin</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Rejoin</shortDescription>
+        <value>Yes, take me back</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Close</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Close</shortDescription>
+        <value>Close Televisit</value>
+    </labels>
+    <labels>
         <fullName>First_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -12143,6 +12167,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Declined Practitioner</value>
     </labels>
     <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
+    </labels>
+    <labels>
         <fullName>pir_Delete_close</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12156,6 +12187,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
         <value>Are you sure you want to delete</value>
     </labels>
+    <labels>
+        <fullName>PIR_Delete_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Attachment</shortDescription>
+        <value>Delete Attachment</value>
+    </labels>    
     <labels>
         <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
         <language>en_US</language>
@@ -25900,6 +25938,15 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Session Unavailable Sub Header</shortDescription>
         <value>This call has either not started, has ended or was canceled. If you have any further questions, please contact the meeting organizer.</value>
     </labels>
+    <labels>
+        <fullName>Non_Attendee_Message</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Non Attendee Message</shortDescription>
+        <value>You are not a designated Attendee for this Televisit. A Study Center member must add you as an Attendee.</value>
+    </labels>
+    
     <labels>
         <fullName>StartCall</fullName>
         <language>en_US</language>

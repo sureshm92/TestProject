@@ -291,7 +291,7 @@ public without sharing class DashboardRemoteNew {
                     ![
                             SELECT Id
                             FROM Study_Site__c
-                            WHERE Principal_Investigator__c = :currentContactId
+                            WHERE Principal_Investigator__c = :currentContactId AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
                         ]
                         .isEmpty()
                 ) {

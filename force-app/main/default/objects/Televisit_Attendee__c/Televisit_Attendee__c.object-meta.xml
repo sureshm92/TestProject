@@ -155,8 +155,9 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Televisit Attendee</label>
     <nameField>
-        <label>Televisit Attendee Name</label>
-        <type>Text</type>
+        <displayFormat>A-{000000}</displayFormat>
+        <label>Televisit Attendee Id</label>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Televisit Attendee</pluralLabel>
     <searchLayouts></searchLayouts>

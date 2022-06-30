@@ -16,6 +16,7 @@ import ListView_ChangeStatus from '@salesforce/label/c.ListView_ChangeStatus';
 import ListView_New_Status from '@salesforce/label/c.ListView_New_Status';
 import ListView_Current_Status from '@salesforce/label/c.ListView_Current_Status';
 import PG_ACPE_L_Reason from '@salesforce/label/c.PG_ACPE_L_Reason';
+import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
 import FD_PE_Field_Final_Consent from '@salesforce/label/c.FD_PE_Field_Final_Consent';
 import FD_PE_Field_Informed_Consent_Signed from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed';
 import FD_PE_Field_Informed_Consent_Signed_Date from '@salesforce/label/c.FD_PE_Field_Informed_Consent_Signed_Date';
@@ -117,6 +118,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PG_AC_Select,
     PG_DBPI_L_study_site,
     pir_Health_Information,
+    PIR_Reason_Required,
     RH_TV_TabTitle
   };
   
@@ -699,7 +701,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         return this.utilLabels.PG_ACPE_L_Notes_Required;
       }else if(this.newStatusSelected == "Contacted - Not Suitable" && this.selectedreason == ""){
         this.bulkButtonValidation();
-        return this.utilLabels.PG_ACPE_L_Notes_Required;
+        return this.utilLabels.PG_ACPE_L_Notes_Optional;
       }else if(this.notesNeeded.includes(this.selectedreason)){
         this.bulkButtonValidation();
         return this.utilLabels.PG_ACPE_L_Notes_Required;
@@ -794,10 +796,48 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         validationList.push(btnValidationSuccess);
       }
     }
+    //5. 
+    if(this.newStatusSelected == "Pre-review Failed" ||
+    this.newStatusSelected == "Screening Failed" ||
+    this.newStatusSelected == "Unable to Screen" ||
+    this.newStatusSelected == "Withdrew Consent" ||
+    this.newStatusSelected == "Withdrew Consent After Screening" ||
+    this.newStatusSelected == "Declined Final Consent" ||
+    this.newStatusSelected == "Declined Consent" ||
+    this.newStatusSelected == "Randomization Failed" ||
+    this.newStatusSelected == "Contacted - Not Suitable" ||
+    this.newStatusSelected == "Enrollment Failed" ||
+    this.newStatusSelected == "Eligibility Failed"
+    ){
+           if(this.selectedreason == ""){
+             btnValidationSuccess = false;
+             validationList.push(btnValidationSuccess);
+           }
+    }
+
     if(validationList.includes(false)) {
        this.bulkSubmit = true;    
     }else {
       this.bulkSubmit = false;  
+    }
+  }
+  get reasonLabel(){
+    if(this.newStatusSelected == "Pre-review Failed" ||
+    this.newStatusSelected == "Screening Failed" ||
+    this.newStatusSelected == "Unable to Screen" ||
+    this.newStatusSelected == "Withdrew Consent" ||
+    this.newStatusSelected == "Withdrew Consent After Screening" ||
+    this.newStatusSelected == "Declined Final Consent" ||
+    this.newStatusSelected == "Eligibility Failed" ||
+    this.newStatusSelected == "Declined Consent" ||
+    this.newStatusSelected == "Randomization Failed" ||
+    this.newStatusSelected == "Contacted - Not Suitable" ||
+    this.newStatusSelected == "Enrollment Failed" ||
+    this.newStatusSelected == "Eligibility Failed"
+    ){
+          return this.label.PIR_Reason_Required;
+    }else{
+          return this.label.PG_ACPE_L_Reason;
     }
   }
   
@@ -863,7 +903,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             if(this.newStatusSelected == "Contacted - Not Suitable"){
               this.selectedreason ='';
             }else{
-              this.selectedreason =  reasonList[0];
+               //Reason changes fix
+              //this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
             this.storeisReasonEmpty=this.isReasonEmpty;
