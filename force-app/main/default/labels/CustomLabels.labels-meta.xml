@@ -254,6 +254,13 @@ Duration: ##VisitDuration</value>
         <value>Additional Information</value>
     </labels>
     <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -25936,6 +25943,55 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Device Settings Video Source</shortDescription>
         <value>Video</value>
+    </labels>
+    <labels>
+        <fullName>Audio_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Audio Hover Message On</shortDescription>
+        <value>Audio is On</value>
+    </labels>
+    <labels>
+        <fullName>Audio_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Audio Hover Message Off</shortDescription>
+        <value>Audio is Off</value>
+    </labels>
+    <labels>
+        <fullName>Video_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Video Hover Message On</shortDescription>
+        <value>Video is On</value>
+    </labels>
+    <labels>
+        <fullName>Video_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Video Hover Message Off</shortDescription>
+        <value>Video is Off</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share</shortDescription>
+        <value>Screen Share</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share Hover Message On</shortDescription>
+        <value>Screen Share is On</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share Hover Message Off</shortDescription>
+        <value>Screen Share is Off</value>
     </labels>
     <labels>
         <fullName>Email_Validation_Error</fullName>
