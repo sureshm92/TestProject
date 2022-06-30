@@ -1290,12 +1290,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                     con.IQVIA_Contact_info_storage_consent__c = true;
                 }
-                con.IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false);
-                con.Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
-                con.IQVIA_Artificial_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
-                con.IQVIA_Assisted_Dialing_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
-                con.IQVIA_Pre_recorded_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false);
-                con.Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false);
+                if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    con.IQVIA_Direct_Mail_Consent__c = outreachDirectMail;
+                    con.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;
+                    con.IQVIA_Artificial_Voice_Consent__c = outreachPhone;
+                    con.IQVIA_Assisted_Dialing_Consent__c = outreachPhone;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = outreachPhone;
+                    con.Participant_Opt_In_Status_SMS__c = outreachSMS;
+                }
                 existingContact.add(con);
             }
             TriggerHandlerExecutor.bypassHandler(

@@ -155,7 +155,11 @@ public without sharing class AccountSettingsController {
                                 initData.consentPreferenceData.isParticipantLoggedIn = true;
                                 initData.consentPreferenceData.isPrimaryDelegate = false;
                                 initData.consentPreferenceData.isDelegateSelfView = false;
-                                initData.consentPreferenceData.perList.addAll(perListforCommPref);
+                                if (perListforCommPref != null) {
+                                    initData.consentPreferenceData.perList.addAll(
+                                        perListforCommPref
+                                    );
+                                }
                             } else {
                                 initData.consentPreferenceData.perList.addAll(
                                     participantEnrollments
@@ -924,12 +928,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 perTemp.Add(per);
                 participantIdListOfPerMap.put(per.Participant__c, perTemp);
             }
-
-            /* if (currentParticipantId == null) {
+        }
+        /* if (currentParticipantId == null) {
                 currentParticipantId = per.Participant__c;
             }
             */
-            //Check if Participant is adule
+        //Check if Participant is adule
+        for (Participant_Enrollment__c per : perList) {
             if (per.Participant__r.Adult__c) {
                 isAdultParticipant = true;
             }
