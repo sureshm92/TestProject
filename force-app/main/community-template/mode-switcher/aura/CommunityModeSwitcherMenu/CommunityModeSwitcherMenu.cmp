@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 6/11/2020.
  -->
 
- <aura:component description="CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
+<aura:component description="CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
     <!-- attributes: -->
     <aura:attribute name="user" type="User" access="private" />
     <aura:attribute name="initialCommunityModes" type="Object" />
@@ -23,17 +23,28 @@
     <aura:if isTrue="{!not(v.reset)}">
         <c:ModeHeaderMenu class="menu-block">
             <aura:set attribute="title">
-                <c:SmallIconButton
+                <!--<c:SmallIconButton
+                    user="{!v.user}"
+                    isDelegate="{!v.currentMode.isDelegate}"
+                    hasProfilePic="{!v.hasProfilePic}"
+                />-->
+                <c:profileImageDropdown
                     user="{!v.user}"
                     isDelegate="{!v.currentMode.isDelegate}"
                     hasProfilePic="{!v.hasProfilePic}"
                 />
             </aura:set>
             <li class="header">
-                <c:HeaderViewInformation
+                <!--<c:HeaderViewInformation
                     user="{!v.user}"
                     currentMode="{!v.currentMode}"
                     hasProfilePic="{!v.hasProfilePic}"
+                />-->
+                <c:profileHeaderIconInfo
+                    user="{!v.user}"
+                    currentMode="{!v.currentMode}"
+                    hasProfilePic="{!v.hasProfilePic}"
+                    onpageNavigation="{!c.handleCardVisiblity}"
                 />
             </li>
             <li class="body">
@@ -62,14 +73,14 @@
                         reset="{!v.reset}"
                     />
                 </aura:if>
-                 <aura:if isTrue="{!equals(v.communityModes.type, 'CC_Only')}">
+                <aura:if isTrue="{!equals(v.communityModes.type, 'CC_Only')}">
                     <c:CommunityModeSwitcherMenuButtons
                         type="{!v.communityModes.type}"
                         reset="{!v.reset}"
                     />
                 </aura:if>
             </li>
-            
+
             <li class="lo-button">
                 <lightning:button
                     onclick="{!c.logout}"

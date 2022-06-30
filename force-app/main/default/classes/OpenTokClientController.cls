@@ -2,22 +2,32 @@
 public without sharing class OpenTokClientController {
     // this class is connected to televisit.page to run a session for a participant
 
-    public String apiKey                { get { return TokboxSettings.API_KEY; } set; }
-    public String sessionId             { get; set; }
-    public String sessionName           { get { return session?.Title__c; } set; }
-    public String shortName             { get; set; }
-    public String token                 { get; set; }
-    public String userName              { get; set; }
-    public String sharingUserName       { get; set; }
-    public Boolean isSessionJoinable    { get; set; }
-    public Boolean isExternalUser       { get; set; }
-    public String attendeeType          { get; set; }
+    public String apiKey {
+        get {
+            return TokboxSettings.API_KEY;
+        }
+        set;
+    }
+    public String sessionId { get; set; }
+    public String sessionName {
+        get {
+            return session?.Title__c;
+        }
+        set;
+    }
+    public String shortName { get; set; }
+    public String token { get; set; }
+    public String userName { get; set; }
+    public String sharingUserName { get; set; }
+    public Boolean isSessionJoinable { get; set; }
+    public Boolean isExternalUser { get; set; }
+    public String attendeeType { get; set; }
     //public TV_Session__c session           { get; set; }
-    public Televisit__c session           { get; set; }
-    public String attendeeEmailAddress  { get; set; }
+    public Televisit__c session { get; set; }
+    public String attendeeEmailAddress { get; set; }
     public Boolean isAttendeeEmailValid { get; set; }
-    public String attendeesJson         { get; set; }
-    public List<Attendee> attendees     { get; private set; }
+    public String attendeesJson { get; set; }
+    public List<Attendee> attendees { get; private set; }
     public static final String SESSION_ID_PARAMETER = 'sessionId';
     public String commTemplate { get; set; }
     public String headerbg { get; set; }
@@ -31,14 +41,14 @@ public without sharing class OpenTokClientController {
         '&#39;'
     };
     public String meetingInterval { get; set; }
-    
+
     //OMSF-5206
-    public String appNamestr {get;set;}  //Indicates Meeting title Raviteja
-    public String bannerEndTime {get;set;}
-    public String autoDisconnectMeetingTime {get;set;}
-    public List<Televisit__c>  lstTelevisit{get;set;}
+    public String appNamestr { get; set; } //Indicates Meeting title Raviteja
+    public String bannerEndTime { get; set; }
+    public String autoDisconnectMeetingTime { get; set; }
+    public List<Televisit__c> lstTelevisit { get; set; }
     TokBoxSettings2__c settings;
-    Public Integer endMinutes;
+    public Integer endMinutes;
 
     public OpenTokClientController() {
         //OMSF-5206 Starts
@@ -54,10 +64,9 @@ public without sharing class OpenTokClientController {
         headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
-        
-        this.sessionId = SFDC_HTMLENCODE(getSessionIdFromURL()); 
+
+        this.sessionId = SFDC_HTMLENCODE(getSessionIdFromURL());
         this.isExternalUser = Auth.CommunitiesUtil.isGuestUser();
-       
 
         Id currentUserId = UserInfo.getUserId();
         /* Commented By Ranjith
@@ -70,7 +79,7 @@ public without sharing class OpenTokClientController {
             'ORDER BY CreatedDate DESC ' +
             'LIMIT 1'
         );*/
-        
+
         lstTelevisit = new List<Televisit__c>();
         lstTelevisit = [
             SELECT
@@ -82,7 +91,13 @@ public without sharing class OpenTokClientController {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Duration__c,
                 (
-                    SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c
+                    SELECT
+                        Id,
+                        Firstname__c,
+                        Lastname__c,
+                        Attendee_Type__c,
+                        User__r.Contact.Salutation,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
                     FROM Televisit_Attendee__r
                     WHERE User__c = :currentUserId
                 )
@@ -91,23 +106,33 @@ public without sharing class OpenTokClientController {
             ORDER BY CreatedDate DESC
             LIMIT 1
         ];
-        
+
         if (!lstTelevisit.isEmpty()) {
             this.session = lstTelevisit.get(0);
-            
-            endMinutes = -Integer.valueOf(System.Label.RH_TelevisitWindowBannerStartTime); 
-            
-            bannerEndTime = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
-            autoDisconnectMeetingTime = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
-            
-            system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
-            if(!this.session.Televisit_Attendee__r.isEmpty()){
+
+            endMinutes = -Integer.valueOf(System.Label.RH_TelevisitWindowBannerStartTime);
+
+            bannerEndTime = String.valueOf(
+                    lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()
+                )
+                .remove('.000Z');
+            autoDisconnectMeetingTime = String.valueOf(
+                    lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
+                )
+                .remove('.000Z');
+
+            system.debug(
+                'this.session.Televisit_Attendee__r :' + this.session.Televisit_Attendee__r
+            );
+            if (!this.session.Televisit_Attendee__r.isEmpty()) {
                 this.isSessionJoinable = getIsSessionJoinable();
                 //attendeeType = getAttendeeType(matchingAttendees[0]);
-                if(this.session.Televisit_Attendee__r[0].Attendee_Type__c=='Participant' 
-                   || this.session.Televisit_Attendee__r[0].Attendee_Type__c=='Participant Delegate'){
-                       appNamestr = 'IQVIAᵀᴹ Patient Portal';
-                       attendeeType = 'PP';
+                if (
+                    this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant' ||
+                    this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant Delegate'
+                ) {
+                    appNamestr = 'IQVIAᵀᴹ Patient Portal';
+                    attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                     if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT)
@@ -115,69 +140,85 @@ public without sharing class OpenTokClientController {
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
                 } else {
-                       appNamestr = 'IQVIAᵀᴹ Referral Hub';
-                       attendeeType = 'RH';
+                    appNamestr = 'IQVIAᵀᴹ Referral Hub';
+                    attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
-                   }
-            }
-            else{
+                }
+            } else {
                 this.isSessionJoinable = false;
             }
         }
 
         //this.isSessionJoinable = getIsSessionJoinable();
-        
     }
-    
-    Public PageReference extendedMeetingInterval(){
-        system.debug('meetingInterval:'+meetingInterval);
-        system.debug('bannerEndTime'+bannerEndTime);
+
+    public PageReference extendedMeetingInterval() {
+        system.debug('meetingInterval:' + meetingInterval);
+        system.debug('bannerEndTime' + bannerEndTime);
         List<Televisit__c> updatedTelevisit = new List<Televisit__c>();
-        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c
-                            FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
+        updatedTelevisit = [
+            SELECT Id, Name, Title__c, Visit_Date_Time__c, Visit_End_Date_Time__c, Duration__c
+            FROM Televisit__c
+            WHERE Id = :lstTelevisit[0].Id
+            ORDER BY CreatedDate DESC
+            LIMIT 1
+        ];
         //system.debug(meetingInterval);
         Televisit__c tvUpdate = new Televisit__c();
         tvUpdate.id = lstTelevisit[0].Id;
-        tvUpdate.Visit_Date_Time__c = updatedTelevisit[0].Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
-        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_Date_Time__c = updatedTelevisit[0]
+            .Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0]
+            .Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
         update tvUpdate;
-        
-        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c 
-                        FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
-        
-        bannerEndTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
-        autoDisconnectMeetingTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
-        system.debug('bannerEndTime'+bannerEndTime);
+
+        updatedTelevisit = [
+            SELECT Id, Name, Title__c, Visit_Date_Time__c, Visit_End_Date_Time__c, Duration__c
+            FROM Televisit__c
+            WHERE Id = :lstTelevisit[0].Id
+            ORDER BY CreatedDate DESC
+            LIMIT 1
+        ];
+
+        bannerEndTime = String.valueOf(
+                updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()
+            )
+            .remove('.000Z');
+        autoDisconnectMeetingTime = String.valueOf(
+                updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
+            )
+            .remove('.000Z');
+        system.debug('bannerEndTime' + bannerEndTime);
         return null;
     }
-    
-
 
     /* ESAPI Encoding within Apex Recomended by Salesforce*/
     public String SFDC_HTMLENCODE(String input) {
-    return ENCODE(input, HTML_DECODED, HTML_ENCODED);
-  }
-
+        return ENCODE(input, HTML_DECODED, HTML_ENCODED);
+    }
 
     public String ENCODE(String input, String[] fromArr, String[] toArr) {
-    if (input == null || input.length() == 0)
-      return input;
+        if (input == null || input.length() == 0)
+            return input;
 
-    for (Integer i = 0; i < fromArr.size(); ++i) {
-      input = input.replace(fromArr[i], toArr[i]);
+        for (Integer i = 0; i < fromArr.size(); ++i) {
+            input = input.replace(fromArr[i], toArr[i]);
+        }
+
+        return input;
     }
-    
-    return input;
-  }
-    
-    // This method exists solely to trigger a Visualforce re-render.
-    public void rerenderControllerValues() {}
 
     // This method exists solely to trigger a Visualforce re-render.
-    public void updateSharingUserName() {}
-    
+    public void rerenderControllerValues() {
+    }
+
+    // This method exists solely to trigger a Visualforce re-render.
+    public void updateSharingUserName() {
+    }
+
     // This method exists solely to maintain the active salesforce session during a call
-    public void maintainSession() {}
+    public void maintainSession() {
+    }
 
     /**
      * Validates that a given email address is associated with an attendee of the current session.
@@ -200,11 +241,21 @@ public without sharing class OpenTokClientController {
             );
             */
             List<Televisit_Attendee__c> matchingAttendees = new List<Televisit_Attendee__c>();
-            //HAve to add more filters 
-            matchingAttendees = [SELECT Id,FirstName__c,LastName__c,Attendee_Type__c FROM Televisit_Attendee__c WHERE User__c = :currentUserId LIMIT 1];
-            
+            //HAve to add more filters
+            matchingAttendees = [
+                SELECT
+                    Id,
+                    FirstName__c,
+                    LastName__c,
+                    Attendee_Type__c,
+                    User__r.Contact.Salutation,
+                    Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+                FROM Televisit_Attendee__c
+                WHERE User__c = :currentUserId
+                LIMIT 1
+            ];
+
             if (!matchingAttendees.isEmpty()) {
-                
                 Id attendeeId = matchingAttendees[0].Id;
                 this.userName = getName(matchingAttendees[0]);
                 this.token = generateToken(this.sessionId, attendeeId);
@@ -218,36 +269,47 @@ public without sharing class OpenTokClientController {
 
     public void updateAttendees() {
         attendees = (List<Attendee>) JSON.deserialize(attendeesJson, List<Attendee>.class);
-        system.debug('========attendees'+attendees);
+        system.debug('========attendees' + attendees);
         Set<Id> attendeeIds = new Set<Id>();
-        Map<String,TV_Connection__c> connectionMap = new Map<String,TV_Connection__c>();
+        Map<String, TV_Connection__c> connectionMap = new Map<String, TV_Connection__c>();
 
         for (Attendee attendee : attendees) {
             attendeeIds.add(attendee.id);
-            connectionMap.put(attendee.connectionId, new TV_Connection__c(Connection_Id__c=attendee.connectionId, Televisit_Attendee__c=attendee.id));
+            connectionMap.put(
+                attendee.connectionId,
+                new TV_Connection__c(
+                    Connection_Id__c = attendee.connectionId,
+                    Televisit_Attendee__c = attendee.id
+                )
+            );
         }
 
-        Map<Id, Televisit_Attendee__c> attendeeRecords = new Map<Id, Televisit_Attendee__c>([
-            SELECT
-                Name, FirstName__c, LastName__c,
-                (SELECT Id, Connection_Id__c FROM Connections__r)
-            FROM
-                Televisit_Attendee__c
-            WHERE
-                Id IN :attendeeIds
-        ]);
+        Map<Id, Televisit_Attendee__c> attendeeRecords = new Map<Id, Televisit_Attendee__c>(
+            [
+                SELECT
+                    Name,
+                    FirstName__c,
+                    LastName__c,
+                    Attendee_Type__c,
+                    User__r.Contact.Salutation,
+                    Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,
+                    (SELECT Id, Connection_Id__c FROM Connections__r)
+                FROM Televisit_Attendee__c
+                WHERE Id IN :attendeeIds
+            ]
+        );
 
         for (Attendee attendee : attendees) {
             Televisit_Attendee__c attendeeRecord = attendeeRecords.get(attendee.id);
             if (attendeeRecord != null) {
                 attendee.name = getName(attendeeRecord);
-                for(TV_Connection__c connection : attendeeRecord.Connections__r) {
+                for (TV_Connection__c connection : attendeeRecord.Connections__r) {
                     connectionMap.remove(connection.Connection_Id__c);
                 }
             }
         }
-      system.debug('============>'+connectionMap.values());
-        if(!connectionMap.isEmpty()) { 
+        system.debug('============>' + connectionMap.values());
+        if (!connectionMap.isEmpty()) {
             insert connectionMap.values();
             //Data.create(connectionMap.values(), false, false, false); commented by Raviteja
         }
@@ -257,17 +319,37 @@ public without sharing class OpenTokClientController {
     public static String getAttendeeName(Id attendeeId) {
         Televisit_Attendee__c attendee = [
             SELECT
-                Name, FirstName__c, LastName__c
-            FROM
-                Televisit_Attendee__c
-            WHERE
-                Id = :attendeeId
+                Name,
+                FirstName__c,
+                LastName__c,
+                Attendee_Type__c,
+                User__r.Contact.Salutation,
+                Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+            FROM Televisit_Attendee__c
+            WHERE Id = :attendeeId
         ];
 
         return getName(attendee);
     }
     private static String getName(Televisit_Attendee__c attendee) {
         List<String> nameParts = new List<String>();
+
+        if (
+            (attendee.Attendee_Type__c == 'PI' || attendee.Attendee_Type__c == 'Site Staff') &&
+            (String.isNotBlank(attendee.User__r.Contact.Salutation))
+        ) {
+            nameParts.add(attendee.User__r.Contact.Salutation);
+        } else if (
+            (attendee.Attendee_Type__c == 'Participant' ||
+            attendee.Attendee_Type__c == 'Participant Delegate') &&
+            (String.isNotBlank(
+                attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+            ))
+        ) {
+            nameParts.add(
+                attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+            );
+        }
 
         if (String.isNotBlank(attendee.FirstName__c)) {
             nameParts.add(attendee.FirstName__c);
@@ -289,45 +371,61 @@ public without sharing class OpenTokClientController {
     }
 
     private String generateToken(String sessionId, String attendeeId) {
-        OpenTokSession session = new OpenTokSession(sessionId, TokboxSettings.API_KEY, TokboxSettings.API_SECRET);
-        return session.generateToken(new OpenTokTokenOption(OpenTokRoles.PUBLISHER, 30, attendeeId));
+        OpenTokSession session = new OpenTokSession(
+            sessionId,
+            TokboxSettings.API_KEY,
+            TokboxSettings.API_SECRET
+        );
+        return session.generateToken(
+            new OpenTokTokenOption(OpenTokRoles.PUBLISHER, 30, attendeeId)
+        );
     }
 
     /**
-     * Helper function to get whether the session is joinable or not depending 
+     * Helper function to get whether the session is joinable or not depending
      * on the buffer setting and the start/end date of the session.
      */
     @TestVisible
     private Boolean getIsSessionJoinable() {
-        system.debug('++++++++++++++Token'+this.session);
+        system.debug('++++++++++++++Token' + this.session);
         Id attendeeId = this.session.Televisit_Attendee__r[0].Id;
         this.userName = getName(this.session.Televisit_Attendee__r[0]);
         this.token = generateToken(this.sessionId, attendeeId);
-        system.debug('++++++++++++++Token'+this.token);
+        system.debug('++++++++++++++Token' + this.token);
         return true;
-
     }
 
     public class Attendee {
-        public Id id {get; set;}
-        public String streamId {get; set;}
-        public String name {get; set;}
-        public String connectionId {get; set;}
-    } 
-    
+        public Id id { get; set; }
+        public String streamId { get; set; }
+        public String name { get; set; }
+        public String connectionId { get; set; }
+    }
+
     public String[] getExtendMeetingOptions() {
         String[] extendMeetingOptions = System.Label.RH_TelevisitExtendMeetingOptions.split(',');
         return extendMeetingOptions;
     }
-    
-    Public void fetchUpdatedTelevisitDetails(){
+
+    public void fetchUpdatedTelevisitDetails() {
         List<Televisit__c> updatedTelevisit = new List<Televisit__c>();
-        
-        updatedTelevisit = [SELECT Id,Name,Title__c,Visit_Date_Time__c,Visit_End_Date_Time__c,Duration__c 
-                        FROM Televisit__c WHERE Id =:lstTelevisit[0].Id  Order by CreatedDate Desc LIMIT 1];
-        
-        bannerEndTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()).remove('.000Z');
-        autoDisconnectMeetingTime = String.valueOf(updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()).remove('.000Z');
+
+        updatedTelevisit = [
+            SELECT Id, Name, Title__c, Visit_Date_Time__c, Visit_End_Date_Time__c, Duration__c
+            FROM Televisit__c
+            WHERE Id = :lstTelevisit[0].Id
+            ORDER BY CreatedDate DESC
+            LIMIT 1
+        ];
+
+        bannerEndTime = String.valueOf(
+                updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(endMinutes).timeGmt()
+            )
+            .remove('.000Z');
+        autoDisconnectMeetingTime = String.valueOf(
+                updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
+            )
+            .remove('.000Z');
         //turn null;
     }
 }

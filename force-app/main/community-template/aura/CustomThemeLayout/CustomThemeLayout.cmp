@@ -32,6 +32,7 @@
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="communityName" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="urlPathPrefix" type="String" />
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
     <aura:attribute name="loggedInCommunityName" type="String" />
@@ -160,7 +161,7 @@
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
-                    
+    
                     <aura:if isTrue="{!v.isPPonPhone}">
                         <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
                     </aura:if>
@@ -177,7 +178,8 @@
                         />
                     </aura:if>
 					<!-- Televisit Meet Banner Section PEH-5892 -->
-                    <c:televisitMeetBanner></c:televisitMeetBanner>
+                    <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}"></c:televisitMeetBanner>
+
                 </aura:if>
                 {!v.body}
             </div>
