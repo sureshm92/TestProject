@@ -1265,6 +1265,7 @@
             .telivisit-session {
                 background-color: #f5f6fa !important;
                 justify-content: center;
+                border: none !important;
             }
 
             .rejoin-container {
