@@ -21,3 +21,9 @@
     display: inline-block;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .THIS .rr-header-margin {
+        height: 50px;
+    }
+}
