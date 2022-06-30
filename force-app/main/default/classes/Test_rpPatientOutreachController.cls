@@ -11,6 +11,7 @@ public class Test_rpPatientOutreachController {
         TestData testData = new TestData();
         string peId = testData.pe.Id;
         string studyId = [select Clinical_Trial_Profile__c from Participant_Enrollment__c where id =: peID].Clinical_Trial_Profile__c;
+        update new Clinical_Trial_Profile__c(id=studyId,Enable_RP_Outreach_Email__c= true);
         rpPatientOutreachController.fetchOutreachInfo(new list<string>{peId});
         rpPatientOutreachController.getPatientInfo(peid);        
         Clinical_Trial_Profile__c studyCTP = new Clinical_Trial_Profile__c(id=studyId,Enable_RP_Outreach_Email__c= false);
