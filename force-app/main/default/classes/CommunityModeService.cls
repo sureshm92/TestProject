@@ -228,8 +228,7 @@ public without sharing class CommunityModeService {
                                 pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                 pe.Id,
                                 null,
-                                false,
-                                pe.Clinical_Trial_Profile__r.Is_Program__c
+                                false
                             )
                         );
                     }
@@ -245,8 +244,7 @@ public without sharing class CommunityModeService {
                             Label.No_active_studies,
                             null,
                             null,
-                            false,
-                            true
+                            false
                         )
                     );
                 }
@@ -265,8 +263,7 @@ public without sharing class CommunityModeService {
                         Label.No_active_studies,
                         null,
                         null,
-                        false,
-                        true
+                        false
                     )
                 );
                 modes.add(modeItem);
@@ -299,8 +296,7 @@ public without sharing class CommunityModeService {
                             Label.No_active_studies,
                             null,
                             null,
-                            false,
-                            true
+                            false
                         )
                     );
                     modes.add(prospectModeItem);
@@ -320,8 +316,7 @@ public without sharing class CommunityModeService {
                                 pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                 pe.Id,
                                 participant.Contact__c,
-                                true,
-                                pe.Clinical_Trial_Profile__r.Is_Program__c
+                                true
                             )
                         );
                     }
@@ -337,7 +332,6 @@ public without sharing class CommunityModeService {
                             Label.No_active_studies,
                             null,
                             participant.Contact__c,
-                            true,
                             true
                         )
                     );
@@ -732,7 +726,6 @@ public without sharing class CommunityModeService {
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
-                'Clinical_Trial_Profile__r.Is_Program__c',
                 'Participant__c',
                 'Participant__r.Contact__c',
                 'Participant_Status__c'
