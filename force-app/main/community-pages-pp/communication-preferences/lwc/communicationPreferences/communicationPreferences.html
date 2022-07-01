@@ -9,14 +9,17 @@
     </template>
 
     <c-web-spinner fixed="true"></c-web-spinner>
-
-    <c-privacy-policy-viewer
-        is-rtl={isRTL}
-        is-modal-open={isPrivacyPolicy}
-        oncloseprivacypolicy={closePrivacyPolicy}
-        comm-pref={commPrefForPrivacyPolicy}
-    >
-    </c-privacy-policy-viewer>
+   <lightning-layout>
+			<lightning-layout-item size="12">
+						<c-privacy-policy-viewer
+						is-rtl={isRTL}
+						is-modal-open={isPrivacyPolicy}
+						oncloseprivacypolicy={closePrivacyPolicy}
+						comm-pref={commPrefForPrivacyPolicy}
+				>
+				</c-privacy-policy-viewer>
+			 </lightning-layout-item>
+		</lightning-layout>
 
     <template if:true={isDesktop}>
         <div class={cardRTL}>

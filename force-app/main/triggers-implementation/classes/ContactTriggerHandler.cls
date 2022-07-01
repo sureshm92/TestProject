@@ -783,7 +783,7 @@ public without sharing class ContactTriggerHandler {
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Contact> newList) {
         for (Contact con : newList) {
-            con.IQVIA_SMS_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c
+            con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c 
                 ? Datetime.now()
                 : null);
             con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c

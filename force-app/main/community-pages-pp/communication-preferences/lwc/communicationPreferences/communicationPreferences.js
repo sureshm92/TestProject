@@ -334,7 +334,17 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             }
         });
         this.updateALLOutReachFlag();
-        this.doSaveCommunicationPref();
+        //this.doSaveCommunicationPref();
+        this.spinner = true;
+        setTimeout(() => {
+            this.spinner = false;
+            communityService.showToast(
+                'success',
+                'success',
+                this.label.PP_Profile_Update_Success,
+                100
+            );
+          }, 1000); 
     }
 
     updateALLOutReachFlag() {
