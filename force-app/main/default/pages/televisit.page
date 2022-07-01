@@ -1037,7 +1037,7 @@
                     //&& currentTime < jsAutoDisconnectMeetingTime
                     if (currentTime > jsBannerEndTime) {
                         //Need to remove this if condition because banner is not display in multiple screens - Its resolved
-                        if (!enableExtendCallDropDown) {
+                        if (!enableExtendCallDropDown && document.getElementById("televisitBanner")!=null) {
                             enableExtendCallDropDown = true;
                             document.getElementById("televisitBanner").removeAttribute("class", "hideBanner");
                             document.getElementById("televisitBanner").setAttribute("class", "televisitBanner");
@@ -1045,7 +1045,7 @@
                             document.getElementById("closeButton").setAttribute("class", "extendCallListUpdatedClass");
                             //document.getElementById("televisitBanner").innerHTML += currentTime +':'+ jsBannerEndTime;
                         }
-                    } else {
+                    } else if(document.getElementById("televisitBanner")!=null){
                         document.getElementById("televisitBanner").setAttribute("class", "hideBanner");
                     }
 
