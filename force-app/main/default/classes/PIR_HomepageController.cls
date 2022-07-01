@@ -364,6 +364,9 @@ public without sharing class PIR_HomepageController {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
         }
+          if( selectedStatusList.contains('Successfully Contacted')){
+              selectedStatusList.add('Successfully re-engaged');
+          }
       }
 
       //For Source
