@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Janssen</label>
             </value>
+            <value>
+                <fullName>PatientPortal</fullName>
+                <default>false</default>
+                <label>PatientPortal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
