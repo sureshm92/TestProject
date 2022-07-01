@@ -2,35 +2,6 @@
     <template if:true={ifSingleMode}>
         <lightning-combobox name="progress" label="Status" value={value} placeholder="Select Progress"
             options={optionsList} onchange={handlePicklistSelection}></lightning-combobox>
-
     </template>
-    <!-- <template if:false={isSelected}>
-
-    </template>
-    <lightning-button variant="base" label="Viewing As" onclick={handleClick} class="slds-m-left_x-small">
-    </lightning-button>
-     <template if:true={isDisplayList}>
-        <template for:each={newList} for:item="item">
-            <div key={item.title}>
-                <template if:true={item.isDisplay}>
-                    <div data-id={item.title} onclick={handleDisplay}>
-                        {item.title}
-                    </div>
-
-                    <template if:true={item.isDelegate}>
-                        {delegateLabel}
-                        <div onclick={handleNavigation}>
-                            <img src={participantSettingImage}></img>
-                        </div>
-                    </template>
-                    <lightning-combobox name="progress" placeholder="Select" options={item.programList}
-                        value={item.programList} onchange={handlePicklistSelection}>
-                    </lightning-combobox>
-
-                </template>
-            </div>
-        </template>
-    </template>
-    -->
 
 </template>
