@@ -25747,7 +25747,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Close Tab</shortDescription>
-        <value>Close this tab to exit.</value>
+        <value>Session Closed. Close this tab to exit.</value>
     </labels>
     <labels>
         <fullName>DeviceSettings_AudioSource</fullName>

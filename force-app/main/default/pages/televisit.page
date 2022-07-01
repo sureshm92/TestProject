@@ -2708,9 +2708,7 @@
                                     <div class="slds-text-align_center telivisit-rejoin">
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
-                                                    Session Closed. {!$Label.CloseTab}
-                                                </div>
+                                                <div class="televisit-end">{!$Label.CloseTab}</div>
                                             </div>
                                         </div>
                                     </div>
