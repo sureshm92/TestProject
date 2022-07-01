@@ -15,7 +15,7 @@
     <classAccesses>
         <apexClass>MedicalRecordUploadRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
@@ -1416,7 +1416,7 @@
     <classAccesses>
         <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
@@ -1988,7 +1988,7 @@
     <classAccesses>
         <apexClass>Test_MedicalUploadRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses>        
+    </classAccesses>
     <classAccesses>
         <apexClass>Test_MessageConfigurationPanelRemote</apexClass>
         <enabled>true</enabled>
@@ -10762,6 +10762,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Televisit__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Televisit_Attendee__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
