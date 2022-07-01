@@ -26142,7 +26142,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permissions to join televisit. Go back to Rejoin and grant permissions.</value>
+        <value>You must grant microphone and camera permissions to join televisit. Please grant permissions and Rejoin.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
