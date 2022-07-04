@@ -700,14 +700,11 @@
                     } else {
 
                         var screenShareOptions = getPublisherProperties(true);
-                        console.log('session::', session);
                         publisherScreen = OT.initPublisher(sharingId, screenShareOptions, (error) => {
-                            console.log('session::', session);
                             if (error) {
                                 sendLockScreenShareEvent(false);
                             } else {
                                 session.publish(publisherScreen, (error) => {
-                                    console.log('session:::::', session);
                                     if (error) {
                                         sendLockScreenShareEvent(false);
                                         alert($Label.Error_ScreenSharePublish + error.message);
