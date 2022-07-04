@@ -345,7 +345,7 @@
             function handleSubscriberStreamDestroyed(event) {
 
                 if(document.getElementById(getBlokId(event.stream))){
-                document.getElementById(getBlokId(event.stream)).remove();
+                    document.getElementById(getBlokId(event.stream)).remove();
                 }
 
                 if (event.stream.videoType === VIDEO_TYPE_SCREEN) {
@@ -567,7 +567,7 @@
                 feed = document.createElement('span');
                 feed.id = getBlokId(stream);
                 if(document.getElementById(parentEle)){
-                document.getElementById(parentEle).appendChild(feed);
+                    document.getElementById(parentEle).appendChild(feed);
                 }
                 return feed;
             }
@@ -700,15 +700,14 @@
                     } else {
 
                         var screenShareOptions = getPublisherProperties(true);
-
+                        console.log('session::', session);
                         publisherScreen = OT.initPublisher(sharingId, screenShareOptions, (error) => {
-
+                            console.log('session::', session);
                             if (error) {
                                 sendLockScreenShareEvent(false);
-
                             } else {
                                 session.publish(publisherScreen, (error) => {
-
+                                    console.log('session:::::', session);
                                     if (error) {
                                         sendLockScreenShareEvent(false);
                                         alert($Label.Error_ScreenSharePublish + error.message);
@@ -1149,7 +1148,7 @@
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
                     OT.getUserMedia().then(() => {
-                        var publisherProperties = {resolution: '1280x720'};
+                        var publisherProperties = {showControls: false};
                         previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
                         document.getElementById("microphone-toggle").disabled = false;
                         document.getElementById("camera-toggle").disabled = false;
