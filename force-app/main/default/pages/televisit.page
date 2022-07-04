@@ -890,7 +890,7 @@
                     let oldElementContainer = document.getElementById(targetClass);
                     let oldElement = oldElementContainer.firstChild;
 
-                    if (oldElement) {
+                    if (oldElement && newElement) {
 
                         if (oldElement) {
                             hiddenFeedsElement.appendChild(oldElement);
