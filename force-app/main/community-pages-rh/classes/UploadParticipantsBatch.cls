@@ -38,6 +38,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     public static boolean isCalloutFromUploadParticipantsBatch = true; 
     global List<Id> PERecIds = new List<Id>(); 
     private Set<String> uniqueConcatenateSet = new Set<String>();
+    public String fileName;
+    public Bulk_Import_History__c bulkHistory;
     //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
     public UploadParticipantsBatch(
         List<List<String>> csvFileLines,
@@ -54,8 +56,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Boolean outreachEmail,
         Boolean outreachPhone,
         Boolean outreachSMS,
-        Boolean outreachDirectMail,
-        Id visitPlanId
+ 	    Boolean outreachDirectMail,
+        Id visitPlanId,
+        String fileName,
+        Bulk_Import_History__c bulkHistory
     ) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
@@ -70,7 +74,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.outreachEmail = outreachEmail;
         this.outreachPhone = outreachPhone;
         this.outreachSMS = outreachSMS;
-        this.outreachDirectMail = outreachDirectMail;
+	    this.outreachDirectMail = outreachDirectMail;
+        this.fileName = fileName;
+        this.bulkHistory = bulkHistory;
         
 
         studySiteDetails = [
@@ -1611,7 +1617,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 uploadTime,
                 studySiteDetails, 
                 totalRecordCount,
-                errorRecordCount
+                errorRecordCount,
+                fileName,
+                bulkHistory
             );
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
@@ -1625,7 +1633,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         DateTime uploadTime,
         Study_Site__c studySiteDetails,
         Integer totalRecordCount,
-        Integer errorRecordCount
+        Integer errorRecordCount,
+        String fileName,
+        Bulk_Import_History__c bulkHistory
     ) {
         String formattedDate = uploadTime.format(
             'MM/dd/yyyy hh:mm a',
@@ -1707,6 +1717,38 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });
         }
+        Id conDocId = null;
+        if(errorRecordCount != 0){
+            Id networkId = [SELECT Id FROM Network LIMIT 1].Id;
+            ContentVersion cv = new ContentVersion();
+		    cv.Title = fileName + '_error.csv';
+		    cv.PathOnClient = fileName + '_error';
+		    cv.VersionData = Blob.valueOf(failedRecordsCSV);
+		    cv.IsMajorVersion = true;
+		    cv.NetworkId = networkId;
+		    Insert cv;	
+
+            conDocId = [SELECT ContentDocumentId FROM ContentVersion WHERE  Id =:cv.Id].ContentDocumentId;
+            
+            ContentDocumentLink cdl = New ContentDocumentLink();
+		    cdl.LinkedEntityId = bulkHistory.Id;
+		    cdl.ContentDocumentId = conDocId;
+		    cdl.shareType = 'V';
+		    Insert cdl;
+            
+        }
+        
+        Bulk_Import_History__c bulkHistory1 = new Bulk_Import_History__c();
+        bulkHistory1.Id = bulkHistory.Id;
+        bulkHistory1.Import_Status__c = 'Completed';
+        bulkHistory1.Initial_Total_Records__c = String.valueOf(totalRecordCount);
+        bulkHistory1.Rejected_Records__c = String.valueOf(errorRecordCount);
+        bulkHistory1.Accepted_Records__c = String.valueOf(totalRecordCount - errorRecordCount);
+        if(conDocId != null){
+            bulkHistory1.Download_URL__c = '/sfc/servlet.shepherd/document/download/'+ conDocId;
+        }
+        update bulkHistory1;
+
     }
 
     //This is a genric method which will be used to resolve data truncation issue in output file.
