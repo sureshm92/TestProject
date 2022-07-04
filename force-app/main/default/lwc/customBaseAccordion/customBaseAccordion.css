@@ -4,27 +4,15 @@
   }
   
   .accordion_head {
-    /*height: 24px; */
-    /* width: 217.87px; */
-    /* transform: rotate(-360deg); */
-    /* color: #FFFFFF; */
     font-family: "Proxima Nova";
     font-size: 16px;
     font-weight: 600;
-    /* letter-spacing: 0; */
-    /* line-height: 24px; */
-    /* align-content: center; */
     margin-left: 16px;
-    /*border: 1px solid #D9D9D9;
-    border-radius: 8px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);*/
     margin-right: 10px;
     color: #297dfd;
   }
   
   .accordion_body {
-    /*padding-left: 23px;*//*Commenting for Mobile*/
     padding : 10px;
     text-align: justify;
     color: #444444;
@@ -46,10 +34,7 @@
   }
   .accordion-section{
     line-height: 36px;
-    /* width: 1302px; */
     box-sizing: border-box;
-    /* height: 48px; */
-    /* width: 1302px; */
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     background-color: #FFFFFF;
