@@ -2429,7 +2429,6 @@ public without sharing class PIR_HomepageController {
         Boolean outreachDirectMail,
         Id visitPlanId
     ){
-      system.debug('Method called of apreny???');
       Action_UploadParticipantsRemote.uploadParticipants(csvFileLines,fileName,studySiteId,selectedStatus
                                                         ,createUsers,doContact,allowEmail,allowPhone,allowSMS,
                                                         outreachEmail,outreachPhone,outreachSMS,outreachDirectMail,visitPlanId);
