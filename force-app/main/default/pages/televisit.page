@@ -175,6 +175,8 @@
             var isScreenShareLocked;
             var isExternalUser;
 
+            var previewPublisher;
+
             var streamMap = new Map();
             var activeSpeakerArray;
 
@@ -431,6 +433,7 @@
             }
 
             function confirmCancel() {
+                disconnectFromSession();
                 window.close();
             }
 
@@ -1138,12 +1141,26 @@
                 var currTime = getCurrentTime();
                 /** Checking if Meeting Time has ended or not before joining*/
                 if(currTime > jsAutoDisconnectMeetingTime){
-                    toggle('#tv-end-screen-container', 'slds-hide');
+                   toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
                     OT.getUserMedia().then(() => {
+                        var publisherProperties = {resolution: '1280x720'};
+                        previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
+                        document.getElementById("microphone-toggle").disabled = false;
+                        document.getElementById("camera-toggle").disabled = false;
+                        document.getElementById("tv-join-button").disabled = false;
+                        document.getElementById("tv-join-button").classList.remove("join-button-disabled");
+                        previewPublisher.on('streamCreated', function(event) {
+
+                        });
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
+                            let previewScreen = document.getElementById("preview-screen");
+                            if(previewScreen!= null && previewScreen.classList.contains('preview-tv')){
+                                previewScreen.classList.remove('preview-tv');
+                                previewScreen.classList.add('preview-tv-error');
+                            }
                             toggle('#permission-error', 'slds-hide');
                         }
                     });
@@ -1169,6 +1186,32 @@
                         })
                     });
                 }
+            }
+
+            function toggleAudioPreview(){
+                let audioToggle = document.getElementById("audio-toggle-background");
+                if(audioToggle.classList.contains('active-toggle-background')){
+                    audioToggle.classList.remove('active-toggle-background');
+                }else{
+                    audioToggle.classList.add('active-toggle-background');
+                }
+                toggle('#audio-off-icon', 'slds-hide');
+                toggle('#audio-on-icon', 'slds-hide');
+                toggleAudio();
+            }
+
+            function toggleVideoPreview(){
+                let videoToggle = document.getElementById("video-toggle-background");
+                toggle('#video-off-icon', 'slds-hide');
+                toggle('#video-on-icon', 'slds-hide');
+                if(videoToggle.classList.contains('active-toggle-background')){
+                    videoToggle.classList.remove('active-toggle-background');
+                }else{
+                    videoToggle.classList.add('active-toggle-background');
+                }
+                toggle('#cameraOnContainer', 'slds-hide');
+                toggle('#cameraOffContainer', 'slds-hide');
+                toggleVideo();
             }
 
             class KeyArray {
@@ -1277,7 +1320,7 @@
                 text-align: left;
             }
 
-            .telivisit-session {
+            .televisit-session {
                 background-color: #f5f6fa !important;
                 justify-content: center;
                 border: none !important;
@@ -1288,10 +1331,20 @@
                 background: #f5f6fa;
             }
 
-            .telivisit-rejoin {
+            .televisit-rejoin {
                 justify-content: center;
                 height: 202px;
                 width: 401px;
+            }
+
+            .preview-tv {
+                justify-content: center;
+                height: 650px;
+            }
+
+            .preview-tv-error {
+                justify-content: center;
+                height: 732px;
             }
 
             .setting-icon-show {
@@ -1315,11 +1368,13 @@
             .cp-main-logo {
                 height: 36px;
                 width: 28.5px;
+                fill: #595959 !important;
             }
 
             .end-call-logo {
                 height: 40px;
                 width: 40px;
+                fill: #595959 !important;
             }
 
             .rejoin-buttons {
@@ -1426,6 +1481,10 @@
                 .share-container .screen-sharing-feed {
                     min-height: 415px;
                     max-height: 515px;
+                }
+
+                .height-full {
+                    height: 100%;
                 }
             }
 
@@ -1564,6 +1623,9 @@
                 .slds-scope button.slds-button-circle {
                     margin-left: 0.5em;
                 }
+                .height-full {
+                    height: 550px !important;
+                }
             }
 
             @media screen and (max-width: 900px) {
@@ -1578,6 +1640,10 @@
 
                 .slds-scope button.slds-button-circle {
                     margin-left: 0.5em;
+                }
+
+                .height-full {
+                    height: 520px !important;
                 }
             }
 
@@ -1698,6 +1764,13 @@
                     rgba(0, 118, 174, 1) 0%,
                     rgba(37, 0, 86, 1) 100%
                 );
+            }
+
+            @media (min-width: 48em) {
+                .slds-modal__container {
+                    width: 30rem !important;
+                    max-width: 30rem !important;
+                }
             }
 
             .visitPreview {
@@ -1860,6 +1933,9 @@
                 .slds-scope button.slds-button-circle {
                     margin-left: 0.5em;
                 }
+                .height-full {
+                    height: 550px !important;
+                }
             }
 
             .OT_name.OT_mode-off {
@@ -1888,6 +1964,73 @@
                 background: #fff;
                 color: #000;
             }
+
+            .preview-container {
+                height: 318px;
+                border: 1px solid #f2f2f2;
+                border-radius: 6px;
+                box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+            }
+
+            .camera-screen {
+                width: 100% !important;
+                height: 260px !important;
+            }
+
+            .camera-screen > .OT_widget-container {
+                border-top-left-radius: 8px !important;
+                border-top-right-radius: 8px !important;
+                border-bottom-left-radius: 0px !important;
+                border-bottom-right-radius: 0px !important;
+            }
+            .camera-off-message {
+                color: #b5b5b5;
+                text-align: center;
+                font-size: 18px;
+                letter-spacing: 0;
+                line-height: 28px;
+            }
+            .preview-buttons {
+                height: 55px;
+            }
+            .preview-buttons-container {
+                height: 100%;
+                border-top: 1px solid #f2f2f2;
+            }
+            .preview-left-button {
+                height: 100%;
+                width: 100%;
+                border-right: 1px solid #f2f2f2;
+            }
+
+            .preview-right-button {
+                height: 100%;
+                width: 100%;
+            }
+            .join-button {
+                background-color: #0768fd !important;
+                border-color: #0768fd !important;
+                border-radius: 14px !important;
+                height: 42px;
+                width: 100%;
+                box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+            }
+            .join-button-disabled {
+                opacity: 0.4;
+            }
+            .back-button {
+                height: 40px;
+                color: #0768fd !important;
+                font-weight: 500 !important;
+                letter-spacing: 0;
+                line-height: 24px !important;
+                text-align: center;
+                border-radius: 14px !important;
+            }
+            .active-toggle-background {
+                background-color: #00c221 !important;
+                border-color: #00c221 !important;
+            }
         </style>
     </head>
 
@@ -1904,235 +2047,259 @@
         <!--Call Preview Screen -->
         <apex:outputPanel rendered="{!isSessionJoinable == true}">
             <div class="call-preview-screen slds-hide" id="call-preview-screen-container">
-                <div id="rejoin-call-container">
-                    <div id="welcome-container">
-                        <apex:outputPanel rendered="{!isSessionJoinable == true}">
-                            <div class="slds-card">
-                                <div class="gradient"></div>
-
-                                <!-- Header -->
-                                <div
-                                    class="slds-card__header slds-grid slds-grid--align-spread slds-wrap"
-                                >
-                                    <div class="slds-col">
-                                        <apex:outputText
-                                            styleClass="slds-text-heading--medium slds-text-bold"
-                                            value="{!$Label.Visit_Preview}"
-                                        >
-                                            <apex:param value="{!sessionName}" />
-                                        </apex:outputText>
-                                    </div>
-
-                                    <div class="slds-col">
-                                        <button
-                                            class="slds-button slds-button--icon"
-                                            onclick="confirmCancel();"
-                                        >
-                                            <span
-                                                class="slds-icon_container slds-icon__svg--default"
-                                            >
-                                                <svg
-                                                    class="slds-icon slds-icon--small slds-icon-text-default"
-                                                    aria-hidden="true"
-                                                >
-                                                    <use
-                                                        xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"
-                                                    ></use>
-                                                </svg>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Content -->
-                                <div class="slds-card__body slds-p-around--medium">
-                                    <apex:outputPanel rendered="{!isExternalUser}">
+                <div id="welcome-container">
+                    <apex:outputPanel rendered="{!isSessionJoinable == true}">
+                        <div
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                        >
+                            <div class="slds-col">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-size_1-of-1">
                                         <div
-                                            class="external-user-validation-container slds-grid slds-gutters slds-wrap"
+                                            id="preview-screen"
+                                            class="slds-text-align_center preview-tv"
                                         >
-                                            <div class="slds-col slds-size_1-of-1">
+                                            <div class="slds-modal__container visit-preview">
+                                                <div class="gradient"></div>
                                                 <div
-                                                    id="email"
-                                                    class="slds-form-element slds-m-top--small"
+                                                    class="slds-modal__content slds-p-around_medium height-full"
                                                 >
-                                                    <label
-                                                        class="slds-form-element__label"
-                                                        for="email-name-input"
+                                                    <div
+                                                        class="slds-col slds-text-heading--small slds-text-bold slds-text-align_left"
                                                     >
-                                                        <abbr class="slds-required" title="required"
-                                                            >* </abbr
-                                                        >{!$Label.Email}</label
-                                                    >
-                                                    <div class="slds-form-element__control">
-                                                        <input
-                                                            type="text"
-                                                            id="email-input"
-                                                            required=""
-                                                            aria-describedby="email-error"
-                                                            class="slds-input"
-                                                            aria-invalid="true"
-                                                        />
+                                                        {!$Label.Visit_Preview}
                                                     </div>
                                                     <div
-                                                        id="email-error"
-                                                        class="slds-form-element__help slds-hide"
-                                                    ></div>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size_1-of-1">
-                                                <div
-                                                    id="certify"
-                                                    class="slds-form-element slds-m-top--small"
-                                                >
-                                                    <div class="slds-form-element__control">
-                                                        <div class="slds-checkbox">
-                                                            <input
-                                                                type="checkbox"
-                                                                name="certify"
-                                                                id="certify-input"
-                                                                aria-describedby="certify-error"
-                                                            />
-                                                            <label
-                                                                class="slds-checkbox__label"
-                                                                for="certify-input"
-                                                            >
-                                                                <span
-                                                                    class="slds-checkbox_faux"
-                                                                ></span>
-                                                                <span
-                                                                    class="slds-form-element__label"
-                                                                    >{!$Label.Certify_Identity}</span
+                                                        class="slds-size_1-of-1 slds-m-top_small preview-container"
+                                                    >
+                                                        <div
+                                                            id="cameraOnContainer"
+                                                            class="camera-screen slds-hide"
+                                                        ></div>
+                                                        <div
+                                                            id="cameraOffContainer"
+                                                            class="camera-screen slds-align_absolute-center"
+                                                        >
+                                                            <div class="slds-grid slds-wrap">
+                                                                <div
+                                                                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-bottom_small"
                                                                 >
-                                                            </label>
+                                                                    <svg
+                                                                        width="26"
+                                                                        height="26"
+                                                                        fill="currentColor"
+                                                                        class="camera-off-message"
+                                                                        viewBox="0 0 16 16"
+                                                                    >
+                                                                        <path
+                                                                            fill-rule="evenodd"
+                                                                            d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728L.847 3.366zm9.746 11.925-10-14 .814-.58 10 14-.814.58z"
+                                                                        ></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col slds-size_1-of-1"
+                                                                >
+                                                                    <label
+                                                                        class="slds-align_absolute-center camera-off-message"
+                                                                        >{!$Label.TV_CAMERA_OFF}</label
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            id="preview-buttons"
+                                                            class="preview-buttons"
+                                                        >
+                                                            <div
+                                                                class="slds-grid preview-buttons-container"
+                                                            >
+                                                                <div
+                                                                    class="slds-col slds-align_absolute-center preview-left-button"
+                                                                >
+                                                                    <span
+                                                                        class="slds-icon_container slds-icon-utility-groups"
+                                                                    >
+                                                                        <img
+                                                                            src="{!$Resource.televisit_icons + '/Camera.svg'}"
+                                                                            class="cp-main-logo"
+                                                                            id="video-off-icon"
+                                                                        />
+                                                                        <svg
+                                                                            id="video-on-icon"
+                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                        >
+                                                                            <use
+                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
+                                                                            ></use>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <div
+                                                                        class="slds-form-element slds-p-around_x-small"
+                                                                    >
+                                                                        <label
+                                                                            class="slds-checkbox_toggle slds-grid"
+                                                                        >
+                                                                            <input
+                                                                                id="camera-toggle"
+                                                                                type="checkbox"
+                                                                                name="camera-checkbox-toggle"
+                                                                                value="checkbox-toggle-15"
+                                                                                disabled="true"
+                                                                                aria-describedby="checkbox-toggle-15"
+                                                                                onclick="toggleVideoPreview();"
+                                                                            />
+                                                                            <span
+                                                                                id="checkbox-toggle-15"
+                                                                                class="slds-checkbox_faux_container"
+                                                                                aria-live="assertive"
+                                                                            >
+                                                                                <span
+                                                                                    id="video-toggle-background"
+                                                                                    class="slds-checkbox_faux"
+                                                                                ></span>
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col slds-align_absolute-center preview-right-button"
+                                                                >
+                                                                    <span
+                                                                        class="slds-icon_container slds-icon-utility-groups"
+                                                                    >
+                                                                        <img
+                                                                            src="{!$Resource.televisit_icons + '/Microphone.svg'}"
+                                                                            class="cp-main-logo"
+                                                                            id="audio-off-icon"
+                                                                        />
+                                                                        <svg
+                                                                            id="audio-on-icon"
+                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                        >
+                                                                            <use
+                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"
+                                                                            ></use>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <div
+                                                                        class="slds-form-element slds-p-around_x-small"
+                                                                    >
+                                                                        <label
+                                                                            class="slds-checkbox_toggle slds-grid"
+                                                                        >
+                                                                            <input
+                                                                                id="microphone-toggle"
+                                                                                type="checkbox"
+                                                                                name="microphone-checkbox-toggle"
+                                                                                value="checkbox-toggle-15"
+                                                                                disabled="true"
+                                                                                aria-describedby="microphone-permission"
+                                                                                onclick="toggleAudioPreview();"
+                                                                            />
+                                                                            <span
+                                                                                id="checkbox-toggle-15"
+                                                                                class="slds-checkbox_faux_container"
+                                                                                aria-live="assertive"
+                                                                            >
+                                                                                <span
+                                                                                    id="audio-toggle-background"
+                                                                                    class="slds-checkbox_faux"
+                                                                                ></span>
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            id="adjust-message"
+                                                            class="adjust-message slds-p-around_small slds-p-bottom_none"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center slds-text-body_small slds-text-align_center"
+                                                            >
+                                                                {!$Label.You_can_also_adjust_these_options_during_the_visit}
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                        </div>
+                                                        <div
+                                                            id="join-button-container"
+                                                            class="slds-align_absolute-center slds-p-top_small"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center"
+                                                            >
+                                                                <button
+                                                                    id="tv-join-button"
+                                                                    disabled="true"
+                                                                    onclick="confirmJoin();"
+                                                                    class="slds-button slds-button_brand slds-col slds-align_absolute-center join-button join-button-disabled"
+                                                                >
+                                                                    {!$Label.Join_Visit}
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                        </div>
+                                                        <div
+                                                            id="permission-error"
+                                                            class="slds-align_absolute-center permission-error-message slds-p-top_small slds-hide"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center slds-text-align_center"
+                                                            >
+                                                                {!$Label.You_must_grant_microphone_permission_to_join_televisit}
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                        </div>
+                                                        <div
+                                                            id="back-button"
+                                                            class="slds-p-top_small slds-p-bottom_small"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_3-of-8"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center"
+                                                            >
+                                                                <button
+                                                                    id="tv-back-button"
+                                                                    class="slds-button slds-col slds-align_absolute-center back-button"
+                                                                    onclick="confirmCancel();"
+                                                                >
+                                                                    {!$Label.Back}
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_3-of-8"
+                                                            ></div>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        id="certify-error"
-                                                        class="slds-form-element__help slds-hide"
-                                                    >
-                                                        {!$Label.Certify_Identity_Error}
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </apex:outputPanel>
-                                    <div class="slds-align_absolute-center">
-                                        <div
-                                            class="slds-grid slds-gutters slds-m-bottom--xx-large slds-m-top--xx-large welcome-fields"
-                                        >
-                                            <div class="slds-col">
-                                                <div class="slds-form-element">
-                                                    <label class="slds-checkbox_toggle slds-grid">
-                                                        <span
-                                                            class="slds-icon_container slds-icon__svg--default slds-m-right--small"
-                                                        >
-                                                            <svg
-                                                                class="slds-icon slds-icon--small slds-icon-text-default"
-                                                                aria-hidden="true"
-                                                            >
-                                                                <use
-                                                                    xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"
-                                                                ></use>
-                                                            </svg>
-                                                        </span>
-                                                        <span
-                                                            class="slds-form-element__label slds-m-bottom_none"
-                                                        >
-                                                            {!$Label.WelcomeModal_Microphone}
-                                                        </span>
-                                                        <input
-                                                            id="microphone-toggle"
-                                                            name="checkbox"
-                                                            type="checkbox"
-                                                            aria-describedby="toggle-desc"
-                                                            onclick="toggleAudio();"
-                                                        />
-
-                                                        <span
-                                                            id="toggle-desc"
-                                                            class="slds-checkbox_faux_container"
-                                                            aria-live="assertive"
-                                                        >
-                                                            <span class="slds-checkbox_faux"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col">
-                                                <div class="slds-form-element">
-                                                    <label class="slds-checkbox_toggle slds-grid">
-                                                        <span
-                                                            class="slds-icon_container slds-icon__svg--default slds-m-right--small"
-                                                        >
-                                                            <svg
-                                                                class="slds-icon slds-icon--small slds-icon-text-default"
-                                                                aria-hidden="true"
-                                                            >
-                                                                <use
-                                                                    xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
-                                                                ></use>
-                                                            </svg>
-                                                        </span>
-                                                        <span
-                                                            class="slds-form-element__label slds-m-bottom_none"
-                                                        >
-                                                            {!$Label.WelcomeModal_Video}
-                                                        </span>
-                                                        <input
-                                                            id="video-toggle"
-                                                            name="checkbox"
-                                                            type="checkbox"
-                                                            aria-describedby="toggle-desc"
-                                                            onclick="toggleVideo();"
-                                                        />
-
-                                                        <span
-                                                            id="toggle-desc"
-                                                            class="slds-checkbox_faux_container"
-                                                            aria-live="assertive"
-                                                        >
-                                                            <span class="slds-checkbox_faux"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        id="permission-error"
-                                        class="slds-align_absolute-center slds-hide permission-error-message"
-                                    >
-                                        <div class="slds-grid slds-gutters">
-                                            <div class="slds-col slds-size_8-of-8">
-                                                {!$Label.You_must_grant_microphone_permission_to_join_televisit}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Footer -->
-                                <div class="slds-card__footer">
-                                    <div class="slds-float--right">
-                                        <button
-                                            class="slds-button slds-button--neutral"
-                                            onclick="confirmCancel();"
-                                        >
-                                            {!$Label.WelcomeModal_Cancel}
-                                        </button>
-                                        <button
-                                            class="slds-button slds-button--brand"
-                                            onclick="confirmJoin();"
-                                        >
-                                            {!$Label.Join_Visit}
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </apex:outputPanel>
-                    </div>
+                        </div>
+                    </apex:outputPanel>
                 </div>
             </div>
-
             <div
                 class="slds-container_large slds-container_center top-margin-container slds-hide"
                 id="main"
@@ -2628,7 +2795,7 @@
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
-                                    <div class="slds-text-align_center telivisit-rejoin">
+                                    <div class="slds-text-align_center televisit-rejoin">
                                         <span
                                             class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
                                         >
@@ -2673,7 +2840,7 @@
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
-                                    <div class="slds-text-align_center telivisit-rejoin">
+                                    <div class="slds-text-align_center televisit-rejoin">
                                         <span
                                             class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
                                         >
@@ -2705,7 +2872,7 @@
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
-                                    <div class="slds-text-align_center telivisit-rejoin">
+                                    <div class="slds-text-align_center televisit-rejoin">
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
                                                 <div class="televisit-end">{!$Label.CloseTab}</div>
@@ -2729,7 +2896,7 @@
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
-                                    <div class="slds-text-align_center telivisit-rejoin">
+                                    <div class="slds-text-align_center televisit-rejoin">
                                         <span
                                             class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
                                         >
