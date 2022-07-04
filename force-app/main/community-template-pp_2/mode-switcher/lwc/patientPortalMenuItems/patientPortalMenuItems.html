@@ -1,7 +1,22 @@
 <template>
     <template if:true={ifSingleMode}>
-        <lightning-combobox name="progress" label="Status" value={value} placeholder="Select Progress"
-            options={optionsList} onchange={handlePicklistSelection}></lightning-combobox>
+        {comboBoxHeading}
+        <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
+            onchange={handlePicklistSelection}></lightning-combobox>
     </template>
+    <template if:false={ifSingleMode}>
+        <c-patient-portal-menu-list comm-modes={modList} onchangemode={handleChangeMode}></c-patient-portal-menu-list>
+        {selectedMode.title}
+        <template if:true={selectedMode.isDelegate}>
+            {delegateLabel}
+            <div onclick={handleNavigation}>
+                <img src={participantSettingImage}></img>
+            </div>
+        </template>
+        {comboBoxHeading}
+        <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
+            onchange={handlePicklistSelection}></lightning-combobox>
+    </template>
+
 
 </template>

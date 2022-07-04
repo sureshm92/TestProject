@@ -11235,6 +11235,13 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>No_Active_Programs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Active Programs</shortDescription>
+        <value>No Active Programs</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -1,0 +1,15 @@
+<template>
+    <template for:each={commModes} for:item="item">
+        <div key={item.title}>
+            <div data-id={item.title} data-value={item.programList} onclick={handleDisplay}>
+                {item.title}
+            </div>
+            <template if:true={item.isDelegate}>
+                {delegateLabel}
+                <div onclick={handleNavigation}>
+                    <img src={participantSettingImage}></img>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>
