@@ -3484,6 +3484,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Not_Show_Bulk_Instruction__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>false</readable>
     </fieldPermissions>

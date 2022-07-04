@@ -3525,6 +3525,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Not_Show_Bulk_Instruction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>true</readable>
     </fieldPermissions>

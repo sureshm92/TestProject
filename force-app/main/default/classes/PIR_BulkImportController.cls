@@ -157,4 +157,178 @@ public without sharing class PIR_BulkImportController {
       return studySiteList;
     }
   
-  }
+    
+    // Main method to get all records
+    @AuraEnabled
+    public static bulkImportHistoryWrapper getBulkImportHistory(List<String> getStudySite, Integer pageNumber){
+        List<Bulk_Import_History__c> bulkHistoryData=new List<Bulk_Import_History__c>();
+        List<Bulk_Import_History__c> bulkHistoryDataCompleted=new List<Bulk_Import_History__c>();
+        List<Bulk_Import_History__c> bulkHistoryDataInProgress=new List<Bulk_Import_History__c>();
+        Set<String> studies = new Set<String>();
+        Set<String> sites = new Set<String>();
+        
+        bulkImportHistoryWrapper wrap= new bulkImportHistoryWrapper();
+        
+        String getUserContact=UserContext.getUserContactId();
+        String queryString =
+            'SELECT ' +
+            'Id,' +
+            'File_Name__c,' +
+            'Import_Status__c,' +
+            'Import_Type__c,' +
+            'Initial_Total_Records__c,' +
+            'Study_Site__c,' +
+            'Uploaded_By__c,' +
+            'Accepted_Records__c,' +
+            'Rejected_Records__c,' +
+            'CreatedDate,' +
+            'Download_URL__c,'+
+            'Uploaded_By__r.Full_Name__c ' + 
+            ' FROM Bulk_Import_History__c WHERE '+
+            'Uploaded_By__c=:getUserContact ';
+        
+        String filterString;
+        
+        String qCountString = 'SELECT COUNT() FROM Bulk_Import_History__c WHERE Uploaded_By__c=:getUserContact ';
+        
+        String sponsorName = UserContext.getCurrentUserMode().template.templateName;
+        String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
+        
+        if(getStudySite==null|| getStudySite.isEmpty()){
+            List<Study_Site__c> studySiteList = PIR_HomepageController.getStudySite();
+            for (Study_Site__c s : studySiteList) {
+                if (sponsorName == janssen) {
+                    if (s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        sites.add(s.Id);
+                    }
+                } else {
+                    if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        sites.add(s.Id);
+                    }
+                }
+            }
+            filterString=' AND Study_Site__c in: sites';
+        }
+        
+        else{
+            filterString=' AND Study_Site__c in: getStudySite';
+        }
+        Integer offsetLimit = (pageNumber - 1) * 10;
+        String orderByString = ' ORDER BY CreatedDate DESC '+ 'LIMIT 10 ' + ' OFFSET :offsetLimit ';
+        
+        queryString=queryString+filterString+orderByString;
+        
+        bulkHistoryData = Database.query(queryString);
+        qCountString=qCountString+filterString;
+        //SendEmailDebug.sendEmail('qCountString#####'+qCountString);
+        Integer totalCount = Database.countQuery(qCountString);
+        Contact cnt = [Select Id, Not_Show_Bulk_Instruction__c from Contact where Id =: getUserContact];
+        
+        for(Bulk_Import_History__c bdata:bulkHistoryData){
+            if(bdata.Import_Status__c=='Completed'){
+        	bulkHistoryDataCompleted.add(bdata);
+            }
+            if(bdata.Import_Status__c=='In Progress'){
+        	bulkHistoryDataInProgress.add(bdata);
+            }
+        }
+        
+        wrap.showInstructions=cnt.Not_Show_Bulk_Instruction__c;
+        wrap.totalCount=totalCount;
+        wrap.bulkHistoryData=bulkHistoryData;
+        wrap.bulkHistoryDataCompleted=bulkHistoryDataCompleted;
+        wrap.bulkHistoryDataInProgress=bulkHistoryDataInProgress;
+        
+        return wrap;
+    }
+    
+    @auraEnabled
+    public static void getShowInstructValue(boolean flag)
+    {
+        Contact cnt = new Contact();
+        cnt.id = [Select contactId from user where Id =: userInfo.getUserId()].contactId;
+        cnt.Not_Show_Bulk_Instruction__c = flag;
+        update cnt;
+    }
+    
+    
+    public class bulkImportHistoryWrapper{
+        @AuraEnabled
+        public Integer totalCount;
+        @AuraEnabled
+        public List<Bulk_Import_History__c> bulkHistoryDataCompleted;
+        @AuraEnabled
+        public List<Bulk_Import_History__c> bulkHistoryData;
+        @AuraEnabled
+        public List<Bulk_Import_History__c> bulkHistoryDataInProgress;
+        @AuraEnabled
+        public Boolean showInstructions;
+        
+        
+    }
+  /*  @AuraEnabled
+    public static List<Bulk_Import_History__c> getBulkImportHistoryInProgress(List<String> getStudySite){
+        List<Bulk_Import_History__c> bulkHistoryDataInprogress=new List<Bulk_Import_History__c>();
+        Set<String> studies = new Set<String>();
+        Set<String> sites = new Set<String>();
+        
+        
+        String getUserContact=UserContext.getUserContactId();
+        String queryString =
+            'SELECT ' +
+            'Id,' +
+            'File_Name__c,' +
+            'Import_Status__c,' +
+            'Import_Type__c,' +
+            'Initial_Total_Records__c,' +
+            'Study_Site__c,' +
+            'Uploaded_By__c,' +
+            'Accepted_Records__c,' +
+            'Rejected_Records__c,' +
+            'CreatedDate,' +
+            'Download_URL__c,'+
+            'Uploaded_By__r.Full_Name__c ' + 
+            ' FROM Bulk_Import_History__c WHERE '+
+            'Uploaded_By__c=:getUserContact ' +
+			' AND Import_Status__c=:\'In Progress\'';
+        
+        String filterString;
+        
+        
+        String sponsorName = UserContext.getCurrentUserMode().template.templateName;
+        String janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
+        
+        if(getStudySite==null|| getStudySite.isEmpty()){
+            List<Study_Site__c> studySiteList = PIR_HomepageController.getStudySite();
+            for (Study_Site__c s : studySiteList) {
+                if (sponsorName == janssen) {
+                    if (s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        sites.add(s.Id);
+                    }
+                } else {
+                    if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        sites.add(s.Id);
+                    }
+                }
+            }
+            filterString=' AND Study_Site__c in: sites';
+        }
+        
+        else{
+            filterString=' AND Study_Site__c in: getStudySite';
+        }
+        
+        queryString=queryString+filterString;
+        
+        bulkHistoryDataInprogress = Database.query(queryString);
+        //SendEmailDebug.sendEmail('qCountString#####'+qCountString);
+     
+        
+        return bulkHistoryDataInprogress;
+    } */
+    
+}
