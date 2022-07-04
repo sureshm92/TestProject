@@ -344,7 +344,9 @@
 
             function handleSubscriberStreamDestroyed(event) {
 
+                if(document.getElementById(getBlokId(event.stream))){
                 document.getElementById(getBlokId(event.stream)).remove();
+                }
 
                 if (event.stream.videoType === VIDEO_TYPE_SCREEN) {
                     toggleShareSubscriber();
@@ -564,7 +566,9 @@
 
                 feed = document.createElement('span');
                 feed.id = getBlokId(stream);
+                if(document.getElementById(parentEle)){
                 document.getElementById(parentEle).appendChild(feed);
+                }
                 return feed;
             }
 
@@ -896,7 +900,7 @@
                             oldElementContainer.appendChild(newElement);
                         }
 
-                    } else {
+                    } else if(newElement){
                         oldElementContainer.appendChild(newElement);
                     }
                 }
