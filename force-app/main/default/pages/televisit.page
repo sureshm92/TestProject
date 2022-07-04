@@ -2682,7 +2682,7 @@
                                                 >
                                             </button>
                                             <button
-                                                class="slds-col button--sharing slds-button-circle button_white"
+                                                class="slds-col button--sharing slds-button-circle button_white slds-show_medium"
                                                 type="button"
                                                 onclick="toggleSharing();"
                                                 title="{!$Label.Screen_Share_Hover_Message_Off}"
