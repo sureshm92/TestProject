@@ -1204,6 +1204,8 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+          Status_Order__c,
           Participant__r.Full_Name__c,
           (
             SELECT Id, Date__c, Non_Enrollment_Reason__c
@@ -1321,6 +1323,7 @@ public without sharing class PIR_HomepageController {
         }
 
         pe.Participant_Status__c = 'Eligibility Passed';
+        pe.ParticipantNoShow__c= false;
         pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
         PEUpdateList.add(pe);
       }
@@ -2426,6 +2429,7 @@ public without sharing class PIR_HomepageController {
         Boolean outreachDirectMail,
         Id visitPlanId
     ){
+      system.debug('Method called of apreny???');
       Action_UploadParticipantsRemote.uploadParticipants(csvFileLines,fileName,studySiteId,selectedStatus
                                                         ,createUsers,doContact,allowEmail,allowPhone,allowSMS,
                                                         outreachEmail,outreachPhone,outreachSMS,outreachDirectMail,visitPlanId);
