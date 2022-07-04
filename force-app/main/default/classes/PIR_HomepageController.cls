@@ -2284,7 +2284,7 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
-  }
+  } 
 
   @AuraEnabled                            
   public static Id saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
