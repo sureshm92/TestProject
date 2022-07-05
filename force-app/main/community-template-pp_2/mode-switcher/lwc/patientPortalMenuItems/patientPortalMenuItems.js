@@ -2,13 +2,15 @@ import { LightningElement, api } from 'lwc';
 import partipantsDelegate from '@salesforce/label/c.Paticipant_s_Delegate';
 import noActiveStudies from '@salesforce/label/c.No_active_studies';
 import noActivePrograms from '@salesforce/label/c.No_Active_Programs';
+import viewingAs from '@salesforce/label/c.Viewing_as';
 import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
+import jsPDF_Fonts from '@salesforce/resourceUrl/jsPDF_Fonts';
+import ISO_Download_Template from '@salesforce/label/c.ISO_Download_Template';
 
 export default class PatientPortalMenuItems extends LightningElement {
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
     @api allModes;
     @api user;
-    delegateLabel = partipantsDelegate;
     @api pickListOptions = [];
     @api defaultPickListValue;
     comboBoxHeading;
@@ -20,7 +22,12 @@ export default class PatientPortalMenuItems extends LightningElement {
     showCurrentMode;
     setCurrentSelection;
     placeHolder;
-
+    activeStudies = noActiveStudies;
+    delegate = partipantsDelegate;
+    activeProg = noActivePrograms;
+    viewAs = viewingAs;
+    show;
+    showAll = false;
 
     connectedCallback() {
         if (this.allModes.ppModeItems.length == 1) {
@@ -44,13 +51,13 @@ export default class PatientPortalMenuItems extends LightningElement {
         let mode;
         let title;
         let isDelegate;
-        title = currentSubItems[0].title;
+        let contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
+        title = currentSubItems[0].title == contactName ? 'Self' : currentSubItems[0].title;
         isDelegate = currentSubItems[0].isDelegate;
         programList = this.preparePickList(currentSubItems);
-
         if (this.setCurrentSelection) {
             this.selectedMode = {
-                title: this.currentSelection.title,
+                title: this.currentSelection.title == contactName ? 'Self' : currentSubItems[0].title,
                 isDelegate: this.currentSelection.isDelegate,
                 programList: programList
             }
@@ -73,11 +80,10 @@ export default class PatientPortalMenuItems extends LightningElement {
             let peId;
             comboBoxHeader = currentSubItems[i].isProgram ? 'Program' : 'Study';
             let studyName = currentSubItems[i].subTitle;
-            if (studyName == noActivePrograms || studyName == noActiveStudies)
+            if (studyName == this.activeStudies || studyName == this.activeProg)
                 peId = studyName;
             else
                 peId = currentSubItems[i].peId;
-
             pickList = {
                 label: studyName,
                 value: peId,
@@ -105,6 +111,13 @@ export default class PatientPortalMenuItems extends LightningElement {
         return this.pickListOptions;
     }
 
+    get viewingAsLabel() {
+        return this.viewAs;
+    }
+    get delegateLabel() {
+        return this.delegate;
+    }
+
     handlePicklistSelection(event) {
         let currentValue = event.detail.value;
         let currentSubItem;
@@ -125,12 +138,14 @@ export default class PatientPortalMenuItems extends LightningElement {
     }
 
     handleChangeMode(event) {
+        this.showAll = false;
         const item = event.detail;
+        let contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
         if (item[0].programList.length == 1) {
             this.comboBoxHeading = item[0].programList[0].headerValue;
             this.defaultPickListValue = item[0].programList[0].value;
             this.selectedMode = {
-                title: item[0].title,
+                title: item[0].title == contactName ? 'Self' : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
             }
@@ -146,7 +161,7 @@ export default class PatientPortalMenuItems extends LightningElement {
             this.dispatchEvent(selectedEvent);
         } else {
             this.selectedMode = {
-                title: item[0].title,
+                title: item[0].title == contactName ? 'Self' : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
             }
@@ -155,5 +170,31 @@ export default class PatientPortalMenuItems extends LightningElement {
             this.placeHolder = item[0].programList[0].label;
             this.defaultPickListValue = '';
         }
+    }
+    handleNavigation(event) {
+        let item = this.selectedMode.programList[0].subItemValue;
+        const selectedEvent = new CustomEvent('itemselection', {
+            detail: {
+                itemValue: item,
+                navigateTo: 'account-settings'
+            }
+        });
+        this.dispatchEvent(selectedEvent);
+
+    }
+    handleClick() {
+        if (this.showAll) {
+            this.showAll = false;
+        }
+
+        else
+            this.showAll = true;
+    }
+    get svgClass() {
+        return '';
+    }
+    get iconName() {
+        return 'participant_settings';
+
     }
 }

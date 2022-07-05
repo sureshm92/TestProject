@@ -24905,6 +24905,13 @@ communications using the toggles below.</value>
         <value>View Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Viewing_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as</shortDescription>
+        <value>Viewing as</value>
+    </labels>
+    <labels>
         <fullName>Viewing_as_Investigative_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>

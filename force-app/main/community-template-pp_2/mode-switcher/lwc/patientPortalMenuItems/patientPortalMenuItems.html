@@ -4,19 +4,32 @@
         <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
             onchange={handlePicklistSelection}></lightning-combobox>
     </template>
-    <template if:false={ifSingleMode}>
-        <c-patient-portal-menu-list comm-modes={modList} onchangemode={handleChangeMode}></c-patient-portal-menu-list>
-        {selectedMode.title}
-        <template if:true={selectedMode.isDelegate}>
-            {delegateLabel}
-            <div onclick={handleNavigation}>
-                <img src={participantSettingImage}></img>
-            </div>
-        </template>
-        {comboBoxHeading}
-        <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
-            onchange={handlePicklistSelection}></lightning-combobox>
-    </template>
 
+    <template if:false={ifSingleMode}>
+        <lightning-button variant="base" label={viewingAsLabel} title={viewingAsLabel} onclick={handleClick}
+            class="slds-m-left_x-small">
+        </lightning-button>
+        <br />
+        <template if:true={showAll}>
+            <c-patient-portal-menu-list comm-modes={modList} onchangemode={handleChangeMode}>
+            </c-patient-portal-menu-list>
+        </template>
+        <template if:false={showAll}>
+            {selectedMode.title}
+
+            <template if:true={selectedMode.isDelegate}>
+                {delegate}
+                <div onclick={handleNavigation} data-id={selectedMode.title}>
+                    <img src={participantSettingImage}></img>
+                </div>
+            </template>
+            {comboBoxHeading}
+            <br />
+            <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
+                onchange={handlePicklistSelection}></lightning-combobox>
+        </template>
+    </template>
+    <c-web-icon color="white" svg-class={svgClass} icon-name={iconName}></c-web-icon>
+    <c-web-icon svg-class={svgClass} icon-name="participant_settings"></c-web-icon>
 
 </template>

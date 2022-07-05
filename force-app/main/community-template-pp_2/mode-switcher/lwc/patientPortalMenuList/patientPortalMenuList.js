@@ -21,4 +21,31 @@ export default class PatientPortalMenuList extends LightningElement {
         this.dispatchEvent(selectedEvent);
 
     }
+
+    get svgClass() {
+        return '';
+    }
+    get iconName() {
+        return 'participant_settings';
+    }
+    handleNavigation(event) {
+        let participantName = event.currentTarget.dataset.id;
+        let selectedItem;
+        if (participantName) {
+            selectedItem = this.commModes.filter(function (item) {
+                return item.title == participantName;
+            });
+        }
+        let subItem = selectedItem[0].programList[0].subItemValue;
+        const selectedEvent = new CustomEvent('itemselection', {
+            detail: {
+                itemValue: subItem,
+                navigateTo: 'account-settings'
+            },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(selectedEvent);
+
+    }
 }

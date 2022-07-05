@@ -6,10 +6,11 @@
             </div>
             <template if:true={item.isDelegate}>
                 {delegateLabel}
-                <div onclick={handleNavigation}>
+                <div onclick={handleNavigation} data-id={item.title}>
                     <img src={participantSettingImage}></img>
                 </div>
             </template>
+            <br />
         </div>
     </template>
 </template>
