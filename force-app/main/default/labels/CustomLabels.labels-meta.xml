@@ -19544,6 +19544,13 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Paticipant_s_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Paticipant's Delegate</shortDescription>
+        <value>Paticipant's Delegate</value>
+    </labels>
+    <labels>
         <fullName>Participant_quick_reference</fullName>
         <language>en_US</language>
         <protected>true</protected>
