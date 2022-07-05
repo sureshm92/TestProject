@@ -100,8 +100,8 @@
     text-align: center;
 }
 .THIS .footer {
-    position: absolute;
-    bottom: 39px;
+    position: relative;
+    top: 120px;
 }
 @media all and (max-width: 768px) {
     .THIS .login-card {
