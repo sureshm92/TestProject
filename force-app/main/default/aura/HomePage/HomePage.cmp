@@ -21,7 +21,7 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true" />
     <aura:if isTrue="{!v.initialized}">
         <aura:if isTrue="{!v.userMode == 'Participant'}">
-            <aura:if isTrue="{!v.loggedInCommunityName == 'IQVIA Patient Portal'}">
+            <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
                 <c:homePageParticipantNew/>
             <aura:set attribute="else">
                 <c:HomePageParticipant />
