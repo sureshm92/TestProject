@@ -138,7 +138,7 @@
     .filter-area{
         width: 86.6%;
         padding: 0 10px 20px 10px;
-        z-index: 99999;
+        z-index: 99;
         margin-left: var(--lwc-spacingXSmall,0.5rem);
         height: 75vh;
         overflow: auto;
@@ -147,6 +147,25 @@
     .mobile-view{
         height: 100px;
     }
+    /* Safari 11+ */
+    @media not all and (min-resolution:.001dpcm)
+    { 
+        @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+            .filter-area{
+                width: 86.6%;
+                padding: 0 10px 20px 10px;
+                z-index: 999;
+                margin-left: var(--lwc-spacingXSmall,0.5rem);
+                height: 75vh;
+                overflow: auto;
+                overflow-x: hidden;
+            }
+            .mobile-view{
+                height: 100px;
+            }
+        }
+    }
+/* Test website on real Safari 11+ */
     .w-info-icon{
         width:3%;
      }

@@ -30,7 +30,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Greeting</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2 ,</value>
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,</value>
     </labels>
     <labels>
         <fullName>Televisit_Cancel_Email_Header</fullName>
@@ -127,6 +127,30 @@ Duration: ##VisitDuration</value>
         <value>This Televisit has ended. Contact your Study Center for further support.</value>
     </labels>
     <labels>
+        <fullName>PT_Televisit_Left</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Left</shortDescription>
+        <value>Seems like you left your Televisit. Would you like to return?</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Rejoin</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Rejoin</shortDescription>
+        <value>Yes, take me back</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Close</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Close</shortDescription>
+        <value>Close Televisit</value>
+    </labels>
+    <labels>
         <fullName>First_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -165,7 +189,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reminder Two Email Body</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2,
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,
 
 This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
 
@@ -245,6 +269,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Subject</shortDescription>
         <value>Televisit was removed</value>
+    </labels>
+    <labels>
+        <fullName>Participant_No_Show</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant No Show</shortDescription>
+        <value>Participant No Show</value>
     </labels>
     <labels>
         <fullName>PIR_AdditionalInformation</fullName>
@@ -12227,6 +12258,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
         <value>Are you sure you want to delete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Attachment</shortDescription>
+        <value>Delete Attachment</value>
     </labels>
     <labels>
         <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
@@ -26113,6 +26151,15 @@ Please contact the Study Team for further updates or please login for additiona
         <value>This call has either not started, has ended or was canceled. If you have any further questions, please contact the meeting organizer.</value>
     </labels>
     <labels>
+        <fullName>Non_Attendee_Message</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Non Attendee Message</shortDescription>
+        <value>You are not a designated Attendee for this Televisit. A Study Center member must add you as an Attendee.</value>
+    </labels>
+
+    <labels>
         <fullName>StartCall</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26314,7 +26361,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permissions to join televisit. Go back to Rejoin and grant permissions.</value>
+        <value>You must grant microphone and camera permissions to join televisit. Please grant permissions and Rejoin.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>

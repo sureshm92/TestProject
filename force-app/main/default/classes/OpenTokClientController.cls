@@ -97,6 +97,7 @@ public without sharing class OpenTokClientController {
                         Lastname__c,
                         Attendee_Type__c,
                         User__r.Contact.Salutation,
+                        Contact__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
                     FROM Televisit_Attendee__r
                     WHERE User__c = :currentUserId
@@ -249,6 +250,7 @@ public without sharing class OpenTokClientController {
                     LastName__c,
                     Attendee_Type__c,
                     User__r.Contact.Salutation,
+                    Contact__c,
                     Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
                 FROM Televisit_Attendee__c
                 WHERE User__c = :currentUserId
@@ -292,6 +294,7 @@ public without sharing class OpenTokClientController {
                     LastName__c,
                     Attendee_Type__c,
                     User__r.Contact.Salutation,
+                    Contact__c,
                     Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,
                     (SELECT Id, Connection_Id__c FROM Connections__r)
                 FROM Televisit_Attendee__c
@@ -324,6 +327,7 @@ public without sharing class OpenTokClientController {
                 LastName__c,
                 Attendee_Type__c,
                 User__r.Contact.Salutation,
+                Contact__c,
                 Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             FROM Televisit_Attendee__c
             WHERE Id = :attendeeId
@@ -340,8 +344,7 @@ public without sharing class OpenTokClientController {
         ) {
             nameParts.add(attendee.User__r.Contact.Salutation);
         } else if (
-            (attendee.Attendee_Type__c == 'Participant' ||
-            attendee.Attendee_Type__c == 'Participant Delegate') &&
+            (attendee.Attendee_Type__c == 'Participant') &&
             (String.isNotBlank(
                 attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             ))
@@ -349,6 +352,17 @@ public without sharing class OpenTokClientController {
             nameParts.add(
                 attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             );
+        } else if (attendee.Attendee_Type__c == 'Participant Delegate') {
+            List<Participant__c> participantList = [
+                SELECT Id, Contact__c, Salutation__c
+                FROM Participant__c
+                WHERE Contact__c = :attendee.Contact__c
+            ];
+            if (participantList != null && !participantList.isEmpty()) {
+                if (String.isNotBlank(participantList[0].Salutation__c)) {
+                    nameParts.add(participantList[0].Salutation__c);
+                }
+            }
         }
 
         if (String.isNotBlank(attendee.FirstName__c)) {
