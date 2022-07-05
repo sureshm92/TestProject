@@ -570,7 +570,7 @@ doImportParticipant(){
         });
         const evt = new ShowToastEvent({
             title: 'Success',
-            message: 'batch is processing success',
+            message: 'Participant record import in progress, please hold. ',
             variant: "success",
             mode: "dismissable"
           });
