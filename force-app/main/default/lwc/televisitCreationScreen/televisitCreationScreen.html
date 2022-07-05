@@ -95,11 +95,12 @@
                                     <!--05:00:00.000Z-->
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Start Time</label>
+                                    <!--max="23:45:00.000Z"-->
                                         <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
                                             variant="label-hidden"
                                             value={startTime}
                                             label="Start Time"
-                                            title="Start Time" min={defaultTime} max="23:45:00.000Z" placeholder="Select Time">
+                                            title="Start Time" min={defaultTime}  placeholder="Select Time">
                                         </lightning-input>
                                 
                                 </div>
@@ -246,7 +247,7 @@
                         <lightning-layout-item padding="horizontal-small" style="margin-top:-10px;margin-bottom:10px;" size="9" small-device-size="9" medium-device-size="11" large-device-size="11" >
                             <lightning-formatted-text style="font-size: 16px;" value={tv.title}></lightning-formatted-text>&nbsp;&nbsp;
                             <template if:true={tv.isCancelledStatus}>
-                                <lightning-formatted-text class="CancelledTag" value={tv.status}></lightning-formatted-text>
+                                <lightning-formatted-text class="CancelledTag" value="Canceled"></lightning-formatted-text>
                             </template>                            
                         </lightning-layout-item>
                         <template if:true={tv.isScheduledStatus}>
@@ -254,7 +255,8 @@
                                 <lightning-layout >            
                                     <lightning-layout-item  >
                                         <lightning-button-menu onselect={handleOnselect} menu-alignment="auto" >
-                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
+                                            <!--data-starttime={tv.startTime}-->
+                                            <lightning-menu-item value="Edit" label="Edit" data-id={tv.id} data-title={tv.title} data-visitdate={tv.visitDate} data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime} data-duration={tv.duration} data-attendeeslist={tv.attendeesList}  onclick={openModal}></lightning-menu-item>
                                             <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id} onclick={openCancelModal}></lightning-menu-item>
                                         </lightning-button-menu>
                                     </lightning-layout-item>
@@ -279,8 +281,8 @@
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 tv_time">
                                 <lightning-layout-item class="slds-p-right_x-small">
-                                    <lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" >
-                                    </lightning-formatted-date-time>
+                                    <!--<lightning-formatted-date-time time-zone="UTC" value={tv.startTime} hour="2-digit" minute="2-digit" hour12="false" ></lightning-formatted-date-time>-->
+                                    <lightning-formatted-date-time time-zone={userTimeZone} value={tv.visitDateTime} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
                                 </lightning-layout-item>
                                 <lightning-layout-item>
                                     (<lightning-formatted-text value={tv.duration}></lightning-formatted-text>)
@@ -320,7 +322,12 @@
         aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
         <div class="slds-modal_small">
            <div class="slds-modal__container model-small">
-              <div class="slds-modal__content">
+              <div class="slds-modal__content cancelSpinnerHolder">
+                <template if:true={isCancelSpinnerLoading}>
+                    <div>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </template> 
                 <div class="bar"></div>
                  <div class="slds-p-around_large">
                     <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">

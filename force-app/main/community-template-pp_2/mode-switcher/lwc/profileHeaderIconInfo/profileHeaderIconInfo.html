@@ -1,0 +1,50 @@
+<template>
+    <template if:false={reset}>
+        <div class="header-container">
+            <div class="avatar-icon">
+                <template if:true={hasProfilePic}>
+                    <lightning-avatar
+                        src={user.SmallPhotoUrl}
+                        variant="circle"
+                        size="large"
+                        alternative-text=""
+                        fallback-icon-name="standard:avatar"
+                    ></lightning-avatar>
+                </template>
+                <template if:false={hasProfilePic}>
+                    <c-web-icon
+                        color="white"
+                        svg-class={profileSvgClass}
+                        icon-name={profileIconName}
+                    ></c-web-icon>
+                </template>
+            </div>
+            <div class={fullNameClass}>
+                {fullName}
+                <span class={userNameClass}>{user.Username}</span>
+            </div>
+            <div class="header-buttons" title={viewMode}>
+                <div
+                    class={accountSettingsClass}
+                    id="account_settings"
+                    onclick={doNavigateToAccountSettings}
+                >
+                    <c-web-icon
+                        color="white"
+                        svg-class={accSettSvgClass}
+                        icon-name="gear_icon"
+                    ></c-web-icon>
+                    {label.PP_Account_Settings}
+                </div>
+                <div class={manageDelegatesClass} id="manage_delegate" onclick={doManageDelegates}>
+                    <c-web-icon
+                        color="white"
+                        svg-class={manageDelSvgClass}
+                        icon-name="manage_delegate"
+                    ></c-web-icon>
+                    {label.PP_ManageDelegates}
+                </div>
+            </div>
+        </div>
+    </template></template
+>

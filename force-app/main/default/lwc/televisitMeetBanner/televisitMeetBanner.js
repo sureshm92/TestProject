@@ -14,6 +14,7 @@ import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
+    @api urlPathPrefix = '';
     hasVisits = false;
     cometd;
     subscription;
@@ -45,18 +46,16 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.loadCometdScript();
         this.timeInterval();
     }
-    
+
     loadCometdScript() {
         if (!this.subscription) {
-            Promise.all([
-                loadScript(this, cometdStaticResource)
-            ])
+            Promise.all([loadScript(this, cometdStaticResource)])
                 .then(() => {
                     this.loadSessionId();
                 })
-                .catch(error => {
+                .catch((error) => {
                     let message = error.message || error.body.message;
-                    console.log('Error::' + message);//TODO
+                    console.log('Error::' + message);
                 });
         } else {
             //TODO
@@ -66,10 +65,14 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     loadSessionId() {
         getSessionId()
-            .then(sessionId => {
+            .then((sessionId) => {
                 this.cometd = new window.org.cometd.CometD();
                 this.cometd.configure({
-                    url: window.location.protocol + '//' + window.location.hostname + '/cometd/49.0/',
+                    url:
+                        window.location.protocol +
+                        '//' +
+                        window.location.hostname +
+                        '/cometd/49.0/',
                     requestHeaders: { Authorization: 'OAuth ' + sessionId },
                     appendMessageTypeToURL: false
                 });
@@ -77,7 +80,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.cometd.handshake((status) => {
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
-                            let reLoadRequired = (message.data.payload.Payload__c.includes(USER_ID));
+                            let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
                             //TODO check update banner cases
                             if (reLoadRequired) {
                                 this.getVisits();
@@ -88,9 +91,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                         //TODO
                     }
                 });
-
             })
-            .catch(error => {
+            .catch((error) => {
                 let message = error.message || error.body.message;
                 console.log('Error ;;' + message);
                 //TODO
@@ -100,45 +102,53 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits()
-            .then(result => {
+            .then((result) => {
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation) {
                     let visitData = Object.assign(televisitInformation);
                     this.loadVisitData(visitData);
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 let message = error.message || error.body.message;
                 console.log('Error' + message);
             });
     }
     loadVisitData(visitData) {
-
         this.allVisits = visitData;
         this.hasActiveVisits = false;
-        var activeVisits = [];
-        visitData.forEach(visitInfo => {
+        let activeVisits = [];
+        visitData.forEach((visitInfo) => {
             let visitDetail = visitInfo;
             var now = new Date();
             let dateNow = new Date(now);
-            let meetInfo = this.getIsPTorPTDelegate(visitInfo.Attendee_Type__c) ? this.labels.PT_TV_MEET_INFO : this.labels.PI_TV_MEET_INFO;
+            let meetInfo = this.getIsPTorPTDelegate(visitInfo.Attendee_Type__c)
+                ? this.labels.PT_TV_MEET_INFO
+                : this.labels.PI_TV_MEET_INFO;
             meetInfo = this.getTelevisitMeetInfo(meetInfo, visitInfo);
             visitDetail.eachMeetInfo = meetInfo;
 
-            let bannerStartTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c);
+            let bannerStartTime = new Date(
+                visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c
+            );
             let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
             if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
                 activeVisits.push(visitDetail);
             }
         });
         this.allActiveVisits = activeVisits;
-        this.showMoreVisits = (this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1) ? false : this.showMoreVisits);
+        this.showMoreVisits =
+            this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
+                ? false
+                : this.showMoreVisits;
         if (activeVisits.length > 0) {
             this.hasActiveVisits = true;
         }
         if (activeVisits.length === 1) {
             this.singleMeetDetail = activeVisits[0];
-            this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c) ? this.labels.PT_TV_MEET_INFO : this.labels.PI_TV_MEET_INFO;
+            this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
+                ? this.labels.PT_TV_MEET_INFO
+                : this.labels.PI_TV_MEET_INFO;
             this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
             this.singleActiveVisit = true;
             this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
@@ -150,16 +160,25 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     handleJoinClick(event) {
         let url = event.target.dataset.name;
+        this.meetLinkUrl = url;
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
-
+        this.handleOpenCloseVisits();
     }
     handleSingleMeetJoin(event) {
         this.showTelevisitCameraAndMicrophoneAccessPopup = true;
     }
     handleOpenCloseVisits() {
-        this.showMoreVisits = (!this.showMoreVisits);
-        this.moreVisitIconName = (this.moreVisitIconName === 'utility:chevrondown' ? 'utility:chevronup' : 'utility:chevrondown');
+        this.showMoreVisits = !this.showMoreVisits;
+        this.moreVisitIconName =
+            this.moreVisitIconName === 'utility:chevrondown'
+                ? 'utility:chevronup'
+                : 'utility:chevrondown';
     }
+
+    handleCloseAccessPopup(event) {
+        this.showTelevisitCameraAndMicrophoneAccessPopup = event.detail;
+    }
+
     timeInterval() {
         setInterval(() => {
             this.loadVisitData(this.allVisits);
@@ -168,21 +187,50 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     getLocaleTime(televisitDate) {
         let dateValue = new Date(televisitDate);
-        return dateValue.toLocaleString(USER_LOCALE, { timeZone: USER_TIME_ZONE, hour: '2-digit', minute: '2-digit', hour12: true });
+        return dateValue.toLocaleString(USER_LOCALE, {
+            timeZone: USER_TIME_ZONE,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
     }
 
     getIsPTorPTDelegate(attendeeType) {
-        let isPTorPTDelegate = (attendeeType === 'Participant' || attendeeType === 'Participant Delegate') ? true : false;
+        let isPTorPTDelegate =
+            attendeeType === 'Participant' || attendeeType === 'Participant Delegate'
+                ? true
+                : false;
         return isPTorPTDelegate;
     }
 
     getTelevisitMeetInfo(label, visitInfo) {
         let teleMeetMainInfo = label.replace('##TVName', visitInfo.Televisit__r.Title__c);
-        teleMeetMainInfo = teleMeetMainInfo.replace('##PIName', visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Full_Name__c)
-        teleMeetMainInfo = teleMeetMainInfo.replace('##PTName', visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c);
-        teleMeetMainInfo = teleMeetMainInfo.replace('##StartTime', this.getLocaleTime(visitInfo.Televisit__r.Visit_Date_Time__c));
-        teleMeetMainInfo = teleMeetMainInfo.replace('##EndTime', this.getLocaleTime(visitInfo.Televisit__r.Visit_End_Date_Time__c));
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##PIName',
+            visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c
+        );
+        let participantFullName;
+        if (
+            visitInfo.Attendee_Type__c === 'Participant' &&
+            visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+        ) {
+            participantFullName =
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c +
+                ' ' +
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
+        } else {
+            participantFullName =
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
+        }
+        teleMeetMainInfo = teleMeetMainInfo.replace('##PTName', participantFullName);
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##StartTime',
+            this.getLocaleTime(visitInfo.Televisit__r.Visit_Date_Time__c)
+        );
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##EndTime',
+            this.getLocaleTime(visitInfo.Televisit__r.Visit_End_Date_Time__c)
+        );
         return teleMeetMainInfo;
     }
-
 }

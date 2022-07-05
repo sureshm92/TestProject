@@ -1042,6 +1042,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalHistryTabController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1053,6 +1057,10 @@
         <apexClass>MedicalRecordReviewRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalRecordUploadRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
       <classAccesses>
         <apexClass>MedicalRecordVendorPanelRemote</apexClass>
         <enabled>true</enabled>
@@ -1589,6 +1597,10 @@
         <apexClass>SSIncentiveConfigSearchResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
     <classAccesses>
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
@@ -2167,6 +2179,11 @@
         <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Medical_Record_Upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
@@ -2181,7 +2198,7 @@
         <editable>false</editable>
         <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
       <fieldPermissions>
         <editable>true</editable>
         <field>MedicalVendorSettings__c.By_Country__c</field>
