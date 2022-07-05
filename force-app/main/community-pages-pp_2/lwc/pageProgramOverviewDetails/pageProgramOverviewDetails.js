@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 
-export default class ProgramOverviewDetails extends LightningElement {
+export default class PageProgramOverviewDetails extends LightningElement {
     programname;
     participantState;
     clinicaltrailrecrd;
