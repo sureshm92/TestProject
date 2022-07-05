@@ -1,0 +1,7 @@
+<template>
+    <template if:true={ifSingleMode}>
+        <lightning-combobox name="progress" label="Status" value={value} placeholder="Select Progress"
+            options={optionsList} onchange={handlePicklistSelection}></lightning-combobox>
+    </template>
+
+</template>

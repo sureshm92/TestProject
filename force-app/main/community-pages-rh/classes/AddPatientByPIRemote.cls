@@ -96,7 +96,7 @@ public without sharing class AddPatientByPIRemote {
                     );
                 }
             }
-            
+
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -112,9 +112,10 @@ public without sharing class AddPatientByPIRemote {
             pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
-			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
-            if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
-                pe.Invited_To_PP_Date__c =  DateTime.now();
+            //pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
+            if (createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)) {
+                //RH-5163
+                pe.Invited_To_PP_Date__c = DateTime.now();
             }
 
             Participant__c participantDelegate;
@@ -153,7 +154,11 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
-                if(iqviaOutreachEnabled && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                if (
+                    iqviaOutreachEnabled &&
+                    String.isNotBlank(contactConsentJSON) &&
+                    String.isNotEmpty(contactConsentJSON)
+                ) {
                     contact contactConsent = (Contact) JSON.deserialize(
                         contactConsentJSON,
                         Contact.class
@@ -174,7 +179,7 @@ public without sharing class AddPatientByPIRemote {
                 assignParticipantPermissions(ssId, newParticipant.Contact__c);
             }
 
-           // updateParticipant(JSON.serialize(participant));
+            // updateParticipant(JSON.serialize(participant));
             createParticipantDelegate(
                 participantDelegateJSON,
                 delegateDuplicateInfo,
@@ -188,7 +193,7 @@ public without sharing class AddPatientByPIRemote {
             AuraHelper.throwException(e);
         }
     }
- 
+
     @Future
     public static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
@@ -203,7 +208,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-     @Future
+    @Future
     @TestVisible
     public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
@@ -211,34 +216,37 @@ public without sharing class AddPatientByPIRemote {
             Participant__c.class
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
-        if (((participant.Email__c != null 
-            ||participant.Phone__c != Null || !participant.Adult__c) ||
-            (participant.Email__c != null 
-            ||participant.Phone__c != Null || participant.Adult__c)) &&
+        if (
+            ((participant.Email__c != null ||
+            participant.Phone__c != null ||
+            !participant.Adult__c) ||
+            (participant.Email__c != null ||
+            participant.Phone__c != null ||
+            participant.Adult__c)) &&
             participant.First_Name__c != null &&
             participant.Last_Name__c != null
         ) {
             List<Participant__c> newPartcipantObjs = [
                 SELECT
-                Id,
-                First_Name__c,
-                Last_Name__c,
-                Suffix__c,
-                Middle_Name__c,
-                Nickname__c,
-                Date_of_Birth__c,
-                Gender__c,
-                Email__c,
-                Contact__c,
-                Phone_Type__c,
-                Phone__c,
-                Mailing_Zip_Postal_Code__c,
-                Mailing_Country_Code__c,
-                Mailing_State_Code__c
+                    Id,
+                    First_Name__c,
+                    Last_Name__c,
+                    Suffix__c,
+                    Middle_Name__c,
+                    Nickname__c,
+                    Date_of_Birth__c,
+                    Gender__c,
+                    Email__c,
+                    Contact__c,
+                    Phone_Type__c,
+                    Phone__c,
+                    Mailing_Zip_Postal_Code__c,
+                    Mailing_Country_Code__c,
+                    Mailing_State_Code__c
                 FROM Participant__c
                 WHERE
-                    (Email__c = :participant.Email__c 
-                    OR Phone__c =: participant.Phone__c )
+                    (Email__c = :participant.Email__c
+                    OR Phone__c = :participant.Phone__c)
                     AND First_Name__c = :participant.First_Name__c
                     AND Last_Name__c = :participant.Last_Name__c
                 LIMIT :limitRows
@@ -246,53 +254,53 @@ public without sharing class AddPatientByPIRemote {
             List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
                 for (Participant__c partici : newPartcipantObjs) {
-                   if(String.isNotBlank(participant.First_Name__c)){
+                    if (String.isNotBlank(participant.First_Name__c)) {
                         partici.First_Name__c = participant.First_Name__c;
                     }
-                    if(String.isNotBlank(participant.Last_Name__c)){
+                    if (String.isNotBlank(participant.Last_Name__c)) {
                         partici.Last_Name__c = participant.Last_Name__c;
                     }
-                    if(String.isNotBlank(participant.Suffix__c)){
+                    if (String.isNotBlank(participant.Suffix__c)) {
                         partici.Suffix__c = participant.Suffix__c;
                     }
-                    if(String.isNotBlank(participant.Middle_Name__c)){
+                    if (String.isNotBlank(participant.Middle_Name__c)) {
                         partici.Middle_Name__c = participant.Middle_Name__c;
                     }
-                    if(String.isNotBlank(participant.Nickname__c)){
+                    if (String.isNotBlank(participant.Nickname__c)) {
                         partici.Nickname__c = participant.Nickname__c;
                     }
-                    if(String.isNotBlank(participant.Date_of_Birth__c)){
-                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
-                   }
-                   if(String.isNotBlank(participant.Gender__c)){
-                    partici.Gender__c = participant.Gender__c;
-                   }
-                   if(String.isNotBlank(participant.Email__c)){
-                    partici.Email__c = participant.Email__c;
-                   }
-                   if(String.isNotBlank(participant.Phone__c)){
-                    partici.Phone__c = participant.Phone__c;
-                   }
-                   if(String.isNotBlank(participant.Phone_Type__c)){
-                    partici.Phone_Type__c = participant.Phone_Type__c;
-                   }
-                   if(String.isNotBlank(participant.Mailing_Country_Code__c)){
-                    partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
-                   }
-                   if(String.isNotBlank(participant.Mailing_Zip_Postal_Code__c)){
-                    partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
-                   }
-                   if(String.isNotBlank(participant.Mailing_State_Code__c)){
-                    partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-                   }
-                   if(String.isNotBlank(participant.Preferred_Language__c)){
-                    partici.Preferred_Language__c = participant.Preferred_Language__c;
-                   }
+                    if (String.isNotBlank(participant.Date_of_Birth__c)) {
+                        partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    }
+                    if (String.isNotBlank(participant.Gender__c)) {
+                        partici.Gender__c = participant.Gender__c;
+                    }
+                    if (String.isNotBlank(participant.Email__c)) {
+                        partici.Email__c = participant.Email__c;
+                    }
+                    if (String.isNotBlank(participant.Phone__c)) {
+                        partici.Phone__c = participant.Phone__c;
+                    }
+                    if (String.isNotBlank(participant.Phone_Type__c)) {
+                        partici.Phone_Type__c = participant.Phone_Type__c;
+                    }
+                    if (String.isNotBlank(participant.Mailing_Country_Code__c)) {
+                        partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                    }
+                    if (String.isNotBlank(participant.Mailing_Zip_Postal_Code__c)) {
+                        partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                    }
+                    if (String.isNotBlank(participant.Mailing_State_Code__c)) {
+                        partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                    }
+                    if (String.isNotBlank(participant.Preferred_Language__c)) {
+                        partici.Preferred_Language__c = participant.Preferred_Language__c;
+                    }
                     participantPatient.add(partici);
-                } 
+                }
                 if (!participantPatient.isEmpty()) {
                     update participantPatient;
-                }              
+                }
             }
         }
     }
@@ -305,7 +313,7 @@ public without sharing class AddPatientByPIRemote {
         String participantId,
         String participantJSON,
         Boolean createDelegateuser,
-        Map<Id,String> invitationsVisibleTemp
+        Map<Id, String> invitationsVisibleTemp
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -328,14 +336,14 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
             );
-            if (ddInfo != null && ddInfo.participantId != null) {
-                participantDelegate.Id = ddInfo.participantId;
-                try {
-                    upsert participantDelegate;
-                } catch (Exception exp) {
-                    system.debug('No delegate was provided');
-                }
+        if (ddInfo != null && ddInfo.participantId != null) {
+            participantDelegate.Id = ddInfo.participantId;
+            try {
+                upsert participantDelegate;
+            } catch (Exception exp) {
+                system.debug('No delegate was provided');
             }
+        }
 
         if (
             participantDelegate != null &&
@@ -385,10 +393,10 @@ public without sharing class AddPatientByPIRemote {
                         Email,
                         MailingCity,
                         MailingCountryCode,
-                    	MailingState,
-                    	MailingCountry,
+                        MailingState,
+                        MailingCountry,
                         MailingStateCode,
-                    	MailingPostalCode
+                        MailingPostalCode
                     FROM Contact
                     WHERE Id = :ddInfo.contactId
                 ];
@@ -401,7 +409,7 @@ public without sharing class AddPatientByPIRemote {
                 participantDelegate.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
                 participantDelegate.Mailing_State__c = participant.Mailing_State__c;
                 participantDelegate.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-				participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
                 if (String.isNotBlank(participantDelegate.Birth_Year__c)) {
                     participantDelegate.Attestation__c = true;
                     participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
@@ -417,7 +425,7 @@ public without sharing class AddPatientByPIRemote {
                 }
                 insert participantDelegate;
             }
-            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {           
+            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
             if (participantId != null && newContact.Id != null) {
                 List<Patient_Delegate__c> checkPDel = [
                     SELECT Id
@@ -444,9 +452,9 @@ public without sharing class AddPatientByPIRemote {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
-					ptDelegateRef.Primary_Delegate__c = true;
+                    ptDelegateRef.Primary_Delegate__c = true;
                     ptDelegateRef.Status__c = 'Disconnected';
-                   /* if (ddInfo == null || ddInfo.participantId == null){
+                    /* if (ddInfo == null || ddInfo.participantId == null){
                         ptDelegateRef.Attestation__c = true; 
                         ptDelegateRef.Attestation_TimeStamp__c = Date.today(); 
                         ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
@@ -460,7 +468,8 @@ public without sharing class AddPatientByPIRemote {
                         (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c ||
                         particpantEnrollList[0]
                             .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
-                        communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
+                        (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT ||
+                        communityTemplateName == CommunityTemplateService.TEMPLATE_PP)
                     ) {
                         TriggerHandlerExecutor.bypassHandler(
                             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
@@ -478,27 +487,31 @@ public without sharing class AddPatientByPIRemote {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                     .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
-                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
-                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
-                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
+                TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
+                if (
+                    TaskService.invitationsVisibleTemp != null &&
+                    !TaskService.invitationsVisibleTemp.isEmpty()
+                ) {
+                    TaskService.createSurveyTasksforDelegate(
+                        TaskService.invitationsVisibleTemp,
+                        true
+                    );
                 }
             }
-        }
-
-        //REF-3566
-         else{
-             if (participantId != null ) {
-                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
-                 For(Patient_Delegate__c pd : [SELECT Id,
-                                               Primary_Delegate__c
-                                               FROM Patient_Delegate__c
-                                               WHERE Participant__c =: participantId 
-                                              ]) {
-                                                  pd.Primary_Delegate__c = False;
-                                                  pdList.add(pd);
-                                              }
-                 update pdList;
-             }
+        } else {
+            //REF-3566
+            if (participantId != null) {
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                for (Patient_Delegate__c pd : [
+                    SELECT Id, Primary_Delegate__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c = :participantId
+                ]) {
+                    pd.Primary_Delegate__c = false;
+                    pdList.add(pd);
+                }
+                update pdList;
+            }
         }
     }
 
@@ -531,7 +544,7 @@ public without sharing class AddPatientByPIRemote {
     public static String getUserLanguage() {
         return UserInfo.getLanguage();
     }
-	
+
     private static void trimParticipantFields(Participant__c participant) {
         participant.Phone__c = !String.isBlank(participant.Phone__c)
             ? participant.Phone__c.trim()
@@ -551,7 +564,7 @@ public without sharing class AddPatientByPIRemote {
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
     }
-    
+
     @AuraEnabled
     public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
         return ReferringRemote.checkDelegateAge(participantJSON, delegateParticipantJSON);
