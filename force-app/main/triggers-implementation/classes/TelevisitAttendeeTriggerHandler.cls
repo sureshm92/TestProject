@@ -176,7 +176,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                                                       where Televisit__r.Status__c = 'Scheduled' AND Id IN:attendeeList AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff') AND isDeleted = TRUE ALL ROWS]){ 
             Notification__c notification = new Notification__c();
             notification.Recipient__c = tvAttendeeRecord.Contact__c;
-            notification.WhatId__c = tvAttendeeRecord.Televisit__c;
+            notification.WhatId__c = tvAttendeeRecord.Id;
             if(tvAttendeeRecord.Televisit__c != null && tvAttendeeRecord.Televisit__r.Participant_Enrollment__c != null && 
                 tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
                 if(tvAttendeeRecord.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
