@@ -2123,11 +2123,21 @@
                                                                         />
                                                                         <svg
                                                                             id="video-on-icon"
-                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                            class="cp-main-logo slds-hide"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
                                                                         >
-                                                                            <use
-                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
-                                                                            ></use>
+                                                                            <rect
+                                                                                x="0.25"
+                                                                                y="5.499"
+                                                                                width="15"
+                                                                                height="13"
+                                                                                rx="1"
+                                                                                ry="1"
+                                                                            />
+                                                                            <path
+                                                                                d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
+                                                                            />
                                                                         </svg>
                                                                     </span>
                                                                     <div
