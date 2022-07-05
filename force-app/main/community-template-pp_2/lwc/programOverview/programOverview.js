@@ -1,6 +1,4 @@
 import { LightningElement, api } from 'lwc';
-import FORM_FACTOR from '@salesforce/client/formFactor';
-
 
 
 
@@ -18,11 +16,10 @@ export default class ProgramOverview extends LightningElement {
             }
 
         }
-        if(FORM_FACTOR )
      }
     
     handleclick(){
-        communityService.navigateToPage('Overview');
+        communityService.navigateToPage('overview');
     }
 
 }
