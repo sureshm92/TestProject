@@ -159,6 +159,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
 
     handleJoinClick(event) {
+        this.handleOpenCloseVisits();
         let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
         window.open(url, '_blank');
     }

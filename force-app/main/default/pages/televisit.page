@@ -230,12 +230,7 @@
 
                 var communityUser = '{!attendeeType}';
                 var firstAttendeeMsg = document.getElementById("firstAttendeeMsg");
-                if (session.currentState === "disconnected" && communityUser == 'RH') {
-                    if(firstAttendeeMsg != null && firstAttendeeMsg != undefined){
-                        firstAttendeeMsg.style.display = "none";
-                        connectToSession();
-                    }
-                } else if (session.currentState === "disconnected" && communityUser == 'PP') {
+                if (session.currentState === "disconnected") {
                     if(firstAttendeeMsg != null && firstAttendeeMsg != undefined){
                         firstAttendeeMsg.style.display = "none";
                         connectToSession();
@@ -243,6 +238,8 @@
                 } else if (session.currentState === "connected" && jsAutoDisconnectMeetingTime > currentTime) {
                     toggle('#main', 'slds-hide');
                     toggle('#call-end-screen-container', 'slds-hide');
+                    removeParticipant(publisher);
+                    disconnectFromSession();
                 }else if (jsAutoDisconnectMeetingTime < currentTime) {
                     toggle('#main', 'slds-hide');
                     toggle('#tv-end-screen-container', 'slds-hide');
@@ -371,8 +368,7 @@
             }
 
             function confirmReJoin() {
-                toggle('#call-end-screen-container', 'slds-hide');
-                toggle('#main', 'slds-hide');
+                location.reload();
             }
 
             function validateExternalUserForm() {
