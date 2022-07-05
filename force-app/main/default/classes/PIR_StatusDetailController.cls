@@ -688,6 +688,33 @@ public without sharing class PIR_StatusDetailController {
         }
       }
 
+      Participant_Enrollment__c per = new Participant_Enrollment__c();
+      per = [select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c
+              from Participant_Enrollment__c where Id=:pe];
+      if(per.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
+         per.Clinical_Trial_Profile__r.Promote_to_SH__c){
+                     pehistory = [
+                SELECT
+                  Id,
+                  Date__c,Name,
+                  Status_Order__c,
+                  toLabel(Status__c),
+                  toLabel(Non_Enrollment_Reason__c),
+                  Notes__c,
+                  CreatedBy.Name,
+                  Additional_Notes__c,
+                  CreatedBy.IsPortalEnabled,
+                  CreatedBy.contact.userCommunityMode__c,
+                  Status_Label__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE
+                  ParticipantEnrollment__c = :pe
+                  AND (Status_Order__c = 2 OR Status_Order__c = 3
+                  OR Status_Order__c = 1)
+                ORDER BY Name DESC
+              ];
+       }else{
+       
       pehistory = [
         SELECT
           Id,
@@ -704,10 +731,11 @@ public without sharing class PIR_StatusDetailController {
         FROM Participant_Enrollment_Status_History__c
         WHERE
           ParticipantEnrollment__c = :pe
-          AND (Status_Order__c = 2
+          AND (Status_Order__c = 2 
           OR Status_Order__c = 1)
         ORDER BY Name DESC
       ];
+      }
       Integer K = 0;
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         

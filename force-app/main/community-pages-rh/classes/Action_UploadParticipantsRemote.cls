@@ -127,6 +127,17 @@ public without sharing class Action_UploadParticipantsRemote {
             }
 			system.debug('>>finalCSVLines>>'+finalCSVLines);
             system.debug('>>csvFileLines>>'+csvFileLines);
+            //PI Bulk import history record creation
+            Bulk_Import_History__c bulkHistory = new Bulk_Import_History__c(); 
+            bulkHistory.File_Name__c = fileName + '_error.csv';
+            bulkHistory.Import_Status__c = 'In Progress';
+            bulkHistory.Import_Type__c = 'PI Bulk Import';
+            bulkHistory.Initial_Total_Records__c = String.valueOf(totalRowCount);
+            bulkHistory.Study_Site__c = studySiteId;
+            bulkHistory.Uploaded_By__c = UserContext.getUserContactId();
+            
+            insert bulkHistory;
+
             //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
            Database.executeBatch(
                 new UploadParticipantsBatch(
@@ -145,7 +156,9 @@ public without sharing class Action_UploadParticipantsRemote {
                     outreachPhone,
                     outreachSMS,
                     outreachDirectMail,
-                    visitPlanId
+                    visitPlanId,
+                    fileName,
+                    bulkHistory
                 ),
                 7
             );
