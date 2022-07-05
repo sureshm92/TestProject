@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-grid slds-wrap pir-bulkImport">
+    <div class="slds-grid slds-wrap pir-bulkImport pir-parent bulkImport">
         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
             <template if:true={myStudiesPg}>
                 <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
@@ -18,7 +18,7 @@
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
             <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small slds-m-top_x-small">
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
                     <div class="slds-form-element">
                         <label class="slds-form-element__label custom-label" for="">Study Name</label>
                         <div class="slds-form-element__control custom-input">
@@ -41,7 +41,7 @@
                         </div>    
                     </div>    
                 </div>   
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
                     <div class="slds-form-element">
                         <label class="slds-form-element__label custom-label" for="">Study Sites</label>
                         <div class="slds-form-element__control custom-input"> 
@@ -66,13 +66,20 @@
                     </div>        
                 </div>  
             </div>
-            <div class="section-padding tabs importTab">
+            <div class="section-padding tabs bulkimportTab importTab">
                 <lightning-tabset>
                     <lightning-tab label="Bulk import">
-                        <c-pir_-bulk-import-files></c-pir_-bulk-import-files>
+                        <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination}></c-pir_-bulk-import-files>
+                        <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD ">      
+                            <template if:true={totalRecord}>
+                                <c-pir_participant-pagination class="pg" total-records={totalRecord} onpagechange={pageChanged} is-table={isTable} > </c-pir_participant-pagination>
+                             </template>
+                        </div>
                     </lightning-tab>         
                 </lightning-tabset>
+                
             </div>
+            
         </div>    
     </div>
 </template>

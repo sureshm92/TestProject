@@ -1,6 +1,6 @@
 <template>
     <lightning-layout multiple-rows="true">
-        <div class="slds-form-element information-text slds-m-bottom_x-small slds-m-top_small">
+        <div class={HeadingClassName}>
             {PG_Ref_L_Information_Sharing}
         </div> 
     </lightning-layout>
@@ -19,7 +19,7 @@
                                 onchange={handleConsentChange}
                                 disabled={isaccesslevelthree}
                                 class="checkbox_size"></lightning-input>
-                <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
+                <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{CONSENT_TO_STORE_AND_CONTACT}</label></span>
             </div>
         </template>
         
@@ -34,7 +34,7 @@
                                 onchange={handleConsentChange}
                                 disabled={isaccesslevelthree}
                                 class="checkbox_size"></lightning-input>
-                <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
+                <span class={ClassName}><label class={ClassNameforLabel}  for="studyConsent">{EMAIL_ROW_CONSENT}</label></span>
             </div>
             <div class="label_align slds-p-left_large">
                 <lightning-input 
@@ -46,7 +46,7 @@
                                  onchange={handleConsentChange}
                                  disabled={isaccesslevelthree}
                                  class="checkbox_size"></lightning-input>
-                <span class={ClassName}><label class="slds-form-element__label-for-checkbox" for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
+                <span class={ClassName}><label class={ClassNameforLabel} for="studySMSConsent">{PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US}</label></span>
             </div>
         </template>
         <br/>
@@ -63,15 +63,15 @@
                                         onchange={handleConsentChange}
                                         disabled={isaccesslevelthree}
                                         class="checkbox_size"></lightning-input>
-                    <span class={ClassName}><label class="slds-form-element__label-for-checkbox"  for="outReachConsent">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_US}</label></span>
+                    <span class={ClassName}><label class={ClassNameforLabel}  for="outReachConsent">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_US}</label></span>
                 </div>
             </template>
             <template if:false={isCountryUS}>
                 <div>
-                    <label class="slds-form-element__label-for-checkbox ">{PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW}</label>
+                    <label class={ClassNameforLabel} >{PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW}</label>
                 </div> </br>
                 
-                    <div class="label_align slds-p-left_large">
+                    <div class="label_align slds-p-left_large p-left_mobile ">
                         <lightning-input 
                                             data-id="outreachPhoneConsent" 
                                             type="checkbox" 
@@ -81,7 +81,7 @@
                                             onchange={handleConsentChange}
                                             disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachPhoneConsent">{PHONE}</label></span>
+                                        <span> <label class={ClassNameforLabel} for="outreachPhoneConsent">{PHONE}</label></span>
                     </div>
                     <div class="label_align slds-p-left_medium">
                         <lightning-input 
@@ -93,7 +93,7 @@
                                             onchange={handleConsentChange}
                                             disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span><label class="slds-form-element__label-for-checkbox" for="outreachEmailConsent">{EMAIL}</label></span>
+                                        <span><label class={ClassNameforLabel} for="outreachEmailConsent">{EMAIL}</label></span>
                     </div>
                     <div class="label_align slds-p-left_medium">
                         <lightning-input 
@@ -105,9 +105,9 @@
                                             onchange={handleConsentChange}
                                             disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
+                                        <span> <label class={ClassNameforLabel} for="outreachSMSConsent">{SMS_TEXT}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium">
+                    <div class="label_align slds-p-left_medium  p-left_mobile">
                         <lightning-input 
                                             type="checkbox" 
                                             data-id="outreachDirectEmailConsent" 
@@ -117,7 +117,7 @@
                                             onchange={handleConsentChange}
                                             disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachDirectEmailConsent">{DIRECT_EMAIL}</label></span>
+                                        <span> <label class={ClassNameforLabel} for="outreachDirectEmailConsent">{DIRECT_EMAIL}</label></span>
                     </div>
             </template>
         </template>

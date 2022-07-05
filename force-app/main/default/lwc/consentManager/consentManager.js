@@ -104,6 +104,16 @@ export default class ConsentManager extends LightningElement {
         }
     }
 
+    get HeadingClassName(){
+        if(this._callSource == "importParticipant"){
+            return 'slds-form-element information-text slds-m-bottom_x-small slds-m-top_small bulkimportFont';
+        }
+        else {
+            return 'slds-form-element information-text slds-m-bottom_x-small slds-m-top_small';
+        }
+        
+    }
+
     get ClassName(){
          if(this._callSource == "addParticipant"){
             return "addParticipantClass"
@@ -111,12 +121,22 @@ export default class ConsentManager extends LightningElement {
         else if(this._callSource == "editParticipant"){
             return "editParticipantClass"
         }
-        else if(this._callSource == "importParticipant"){
+        else if(this._callSource == "importParticipant"){ 
             return "importParticipantClass"
         }
         else{
             return "addParticipantClass"
         }
+    }
+
+    get ClassNameforLabel(){
+        if(this._callSource == "importParticipant"){
+            return 'slds-form-element__label-for-checkbox bulkimportFont';
+        }
+        else {
+            return 'slds-form-element__label-for-checkbox';
+        }
+
     }
 
     @api

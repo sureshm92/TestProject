@@ -1,5 +1,7 @@
 import { LightningElement, api, wire, track } from "lwc";
 import pirResources from "@salesforce/resourceUrl/pirResources";
+import xlsxmin from '@salesforce/resourceUrl/xlsxmin';
+import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
 import bulkstatusDetail from "@salesforce/apex/PIR_HomepageController.bulkstatusDetail";
@@ -43,7 +45,8 @@ import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
 import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
 import PG_AP_F_Patient_Status from '@salesforce/label/c.PG_AP_F_Patient_Status';
- 
+import PIR_Community_CSS from '@salesforce/resourceUrl/PIR_Community_CSS'; 
+import { loadStyle } from 'lightning/platformResourceLoader';
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -87,6 +90,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studySiteList;
   enableTelevisitTab = false;
   isTelevisitTab=false;
+  //import participant variables
+  shouldDisableImport = true;
+  shouldDisableImportStatus = true;
+  importParticipantStatus = [];
   @api callTelevisistMethod = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
@@ -144,10 +151,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             this.maindivcls = 'ltr';
           }
         })
+        .then(() => {
+         
+        })
         .catch((error) => {
               this.error = error;
         });
     }
+    loadScript(this, xlsxmin).then(() => {});
+    loadStyle(this, PIR_Community_CSS)
   }
 
   @wire(getStudyAccessLevel)
@@ -173,37 +185,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.studyToStudySite = event.detail.studyToStudySite;
     this.studysiteaccess = true;
   }
-  studyhandleChange(event) {
-    var picklist_Value = event.target.value;
-    this.selectedStudy = picklist_Value;
-    
-    var accesslevels = Object.keys(this.siteAccessLevels).length;
-    var conts = this.studyToStudySite;
-    let options = [];
-    var i = this.siteAccessLevels;
-    for (var key in conts) {
-      if (key == picklist_Value) {
-          var temp = conts[key];
-        for (var j in temp) {
-               if(accesslevels == 0){
-                  options.push({ label: temp[j].Name, value: temp[j].Id });
-               }else{
-                  var level = this.siteAccessLevels[temp[j].Id];
-                  if(level != 'Level 3' && level != 'Level 2'){
-                     options.push({ label: temp[j].Name, value: temp[j].Id });
-                  }
-               }
-        }
-      }
-    }
-    this.studySiteList = options;
-    this.selectedSite = '';
-    this.studysiteaccess = false;
-
-  }
-  studysitehandleChange(event) {
-    this.selectedSite = event.target.value;
-  }
+  
   get isStatusDetail(){
      if(this.selectedTab === "Status Details"){
        return true;
@@ -822,7 +804,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         validationList.push(btnValidationSuccess);
       }
     }
+    
     //5. 
+    console.log('selected outcome->'+this.newStatusSelected+'='+this.selectedreason);
     if(this.newStatusSelected == "Pre-review Failed" ||
     this.newStatusSelected == "Screening Failed" ||
     this.newStatusSelected == "Unable to Screen" ||
@@ -836,6 +820,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.newStatusSelected == "Eligibility Failed"
     ){
            if(this.selectedreason == ""){
+             console.log('Reason empty');
              btnValidationSuccess = false;
              validationList.push(btnValidationSuccess);
            }
@@ -866,7 +851,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
           return this.label.PG_ACPE_L_Reason;
     }
   }
-  
+
   handleReasonChange(event){
     if(event.target.value == null || event.target.value == ' '){
        this.selectedreason = '';
@@ -929,7 +914,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             if(this.newStatusSelected == "Contacted - Not Suitable"){
               this.selectedreason ='';
             }else{
-               //Reason changes fix
+              //Reason changes fix
               //this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
@@ -985,6 +970,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   handleCloseStatus(){
     this.isStatusChange = false;
   }
+  
   checkFormChanges(event) {
     this.isSharingOptionsChanged = true;
     this.isSharingTab = true;
@@ -1034,12 +1020,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             { label: 'GSM testing study site GSM testing study', value: 'GSM testing study site GSM testing study' },       
         ];
     }
-    get particiapntStatus() {
-        return [
-            { label: 'Active', value: 'Active' },
-            { label: 'Inactive', value: 'Inactive' },
-        ];
-    }
+    
     get options() {
         return [
             { label: 'By checking this box, you confirm that your patient and/or patients legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.', value: 'option1' },

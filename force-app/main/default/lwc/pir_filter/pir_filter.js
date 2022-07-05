@@ -67,6 +67,7 @@ import pir_mm_dd_yyyy from "@salesforce/label/c.pir_mm_dd_yyyy";
 import PP_To from "@salesforce/label/c.PP_To";
 import PP_Scheduled from "@salesforce/label/c.PP_Scheduled";
 import PIR_Not_Scheduled from "@salesforce/label/c.PIR_Not_Scheduled";
+import Participant_No_Show from "@salesforce/label/c.Participant_No_Show";
 
 export default class Filtertest extends LightningElement {
   @api maindivcls;
@@ -133,7 +134,8 @@ export default class Filtertest extends LightningElement {
     pir_mm_dd_yyyy,
     PP_To,
     PP_Scheduled,
-    PIR_Not_Scheduled
+    PIR_Not_Scheduled,
+    Participant_No_Show
   };
   @api
   filterClass = 'filter-area';
@@ -993,6 +995,7 @@ export default class Filtertest extends LightningElement {
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.SentToDCT, value: "Sent to DCT" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
@@ -1008,6 +1011,7 @@ export default class Filtertest extends LightningElement {
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
           ];
@@ -1027,6 +1031,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.SentToDCT, value: "Sent to DCT" },
             { label:this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
@@ -1042,6 +1047,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
             if(this.defaultStatus == 'Sent to DCT'){
@@ -1087,7 +1093,7 @@ export default class Filtertest extends LightningElement {
       if(this.selectedActiveInactive == 'Active'){
         this.statusoptions = [
           { label: this.label.AllStatuses, value: "All Active Statuses" },
-          { label: this.label.ReceivedStatus, value: "Received" },
+          { label: this.label.ReceivedStatus, value: "Received" }, 
           { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
           { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
           { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
@@ -1095,6 +1101,7 @@ export default class Filtertest extends LightningElement {
           {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
           { label: this.label.ScreeningPassed, value: "Screening Passed" },
           { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
+          { label: this.label.Participant_No_Show, value: "Participant No Show" },
           { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
           { label: this.label.SentToDCT, value: "Sent to DCT" },
           { label: this.label.ReadytoScreen, value: "Ready to Screen" },
