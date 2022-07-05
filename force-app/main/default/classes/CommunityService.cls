@@ -457,13 +457,13 @@ public without sharing class CommunityService {
     }
 
     public static List<Contact> getContactsWithFields(Set<Id> contactIds, List<String> fields) {
-
-        String queryString = 'SELECT ' + 
-            					String.join(fields, ',') + 
-            				' FROM Contact WHERE Id IN: contactIds FOR UPDATE';
+        String queryString =
+            'SELECT ' +
+            String.join(fields, ',') +
+            ' FROM Contact WHERE Id IN: contactIds FOR UPDATE';
         return Database.query(queryString);
     }
-    
+
     private static String getAvailableUserName(String email) {
         List<String> names = new List<String>();
         names.add(email);
@@ -602,11 +602,15 @@ public without sharing class CommunityService {
 
     public static String getCommunityURLFromTemplateName(String templateName) {
         String communityName = '';
-        if (templateName == 'Default') {
-            communityName = CommunityTemplateService.getCommunityURL('IQVIA Referral Hub');
-        } else if (templateName == 'GSK') {
-            communityName = CommunityTemplateService.getCommunityURL('GSK Community');
+        Map<String, CommunityTemplate> allCommunityTemplates = CommunityTemplateService.getTemplatesMap();
+        for (CommunityTemplate currentTemplate : allCommunityTemplates.values()) {
+            if (currentTemplate.templateName == templateName) {
+                communityName = CommunityTemplateService.getCommunityURL(
+                    currentTemplate.communityName
+                );
+            }
         }
+
         return communityName;
     }
 
@@ -639,7 +643,7 @@ public without sharing class CommunityService {
                     }
                     PatientDelegateService.updatePermissionSets(allContactIds);
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 resetInvitationFlag(contactIdsMap);
             }
         }
@@ -681,14 +685,13 @@ public without sharing class CommunityService {
     }
 
     public static void resetInvitationFlag(Map<Id, Id> contactIdsMap) {
-
         List<Participant_Enrollment__c> perList = [
-                            SELECT Id, Invited_To_PP_Date__c,Participant_Contact__c 
-                            FROM Participant_Enrollment__c 
-                            WHERE Participant_Contact__c IN:contactIdsMap.keyset()
-                        ];
-        for(Participant_Enrollment__c per : perList){
-            if(per.Invited_To_PP_Date__c != null) {
+            SELECT Id, Invited_To_PP_Date__c, Participant_Contact__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c IN :contactIdsMap.keyset()
+        ];
+        for (Participant_Enrollment__c per : perList) {
+            if (per.Invited_To_PP_Date__c != null) {
                 per.Invited_To_PP_Date__c = null;
             }
         }
