@@ -60,7 +60,7 @@ public without sharing class OpenTokClientController {
         } else {
             appNamestr = 'IQVIA';
         }*/
-        appNamestr = 'IQVIAᵀᴹ Referral Hub'; //Added by RAviteja
+        appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
         headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
@@ -132,7 +132,7 @@ public without sharing class OpenTokClientController {
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant' ||
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant Delegate'
                 ) {
-                    appNamestr = 'IQVIAᵀᴹ Patient Portal';
+                    appNamestr = 'IQVIA Patient Portal';
                     attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
