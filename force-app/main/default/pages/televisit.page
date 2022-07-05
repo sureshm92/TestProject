@@ -2017,7 +2017,7 @@
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
@@ -2123,11 +2123,21 @@
                                                                         />
                                                                         <svg
                                                                             id="video-on-icon"
-                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                            class="cp-main-logo slds-hide"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
                                                                         >
-                                                                            <use
-                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
-                                                                            ></use>
+                                                                            <rect
+                                                                                x="0.25"
+                                                                                y="5.499"
+                                                                                width="15"
+                                                                                height="13"
+                                                                                rx="1"
+                                                                                ry="1"
+                                                                            />
+                                                                            <path
+                                                                                d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
+                                                                            />
                                                                         </svg>
                                                                     </span>
                                                                     <div
@@ -2171,11 +2181,19 @@
                                                                         />
                                                                         <svg
                                                                             id="audio-on-icon"
-                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                            class="cp-main-logo slds-hide"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
                                                                         >
-                                                                            <use
-                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"
-                                                                            ></use>
+                                                                            <path
+                                                                                d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z"
+                                                                            />
+                                                                            <path
+                                                                                d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z"
+                                                                            />
+                                                                            <path
+                                                                                d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
+                                                                            />
                                                                         </svg>
                                                                     </span>
                                                                     <div

@@ -141,7 +141,7 @@ public without sharing class OpenTokClientController {
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
                 } else {
-                    appNamestr = 'IQVIAᵀᴹ Referral Hub';
+                    appNamestr = 'IQVIA Referral Hub';
                     attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
                 }
