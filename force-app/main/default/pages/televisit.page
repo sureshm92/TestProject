@@ -1606,9 +1606,9 @@
                     padding: 10px;
                 }
                 .televisitBanner {
-                    margin-top: 50px;
-                    padding: unset;
-                    width: 90%;
+                    margin-top: 100px;
+                    padding: 0px;
+                    width: 80%;
                     z-index: 9;
                 }
                 .slds-button-circle {
@@ -2314,11 +2314,7 @@
                                 </h1>
                             </div>
 
-                            <div
-                                role="dialog"
-                                class="slds-card slds-text-align_center"
-                                style="{!IF( attendeeType == 'PP', 'display:none', '')}"
-                            >
+                            <div style="{!IF( attendeeType == 'PP', 'display:none', '')}">
                                 <div id="televisitBanner" class="hideBanner">
                                     <div
                                         class="slds-notify slds-notify_alert slds-alert_warning"
@@ -2368,7 +2364,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="slds-col_bump-left">
                                 <span class="timer mob-timer">
                                     <div id="time">00:00</div>
