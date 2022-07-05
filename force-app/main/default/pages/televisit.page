@@ -2017,7 +2017,7 @@
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
