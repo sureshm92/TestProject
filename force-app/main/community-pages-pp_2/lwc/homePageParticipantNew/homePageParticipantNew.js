@@ -1,14 +1,10 @@
 import { LightningElement } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
-import w3webResource from '@salesforce/resourceUrl/Doctor';
-
-
 
 export default class HomePageParticipantNew extends LightningElement {
     participantState;
     clinicalrecord;
     error;
-    w3webSlider1 = w3webResource;
 
     connectedCallback() {
         getParticipantData()
@@ -20,7 +16,7 @@ export default class HomePageParticipantNew extends LightningElement {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
                             console.log('if condition satisfied');
                             this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
-                            console.log('if condition satisfied'+this.clinicalrecord);
+                            console.log('if condition satisfied' + this.clinicalrecord);
                         }
                     }
                 }
@@ -30,5 +26,4 @@ export default class HomePageParticipantNew extends LightningElement {
                 this.error = error;
             });
     }
-
 }

@@ -1,18 +1,15 @@
-import { LightningElement ,api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 
-
-
 export default class ProgramOverviewDetails extends LightningElement {
     programname;
-     participantState;
-     clinicaltrailrecrd; 
-     activeTab ='overview';
-     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
-     ctpAccordionData;
-    
-    
+    participantState;
+    clinicaltrailrecrd;
+    activeTab = 'overview';
+    homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
+    ctpAccordionData;
+
     connectedCallback() {
         let ctpaccordionDatalist = [];
         //code
@@ -23,42 +20,50 @@ export default class ProgramOverviewDetails extends LightningElement {
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {
                             this.clinicaltrailrecrd = this.participantState.pe.Clinical_Trial_Profile__r;
-                            if(this.clinicaltrailrecrd){
-                                if(this.clinicaltrailrecrd.Study_Code_Name__c){
-                                    this.programname = 'About '+ this.clinicaltrailrecrd.Study_Code_Name__c
+                            if (this.clinicaltrailrecrd) {
+                                if (this.clinicaltrailrecrd.Study_Code_Name__c) {
+                                    this.programname =
+                                        'About ' + this.clinicaltrailrecrd.Study_Code_Name__c;
                                 }
-                                if(this.clinicaltrailrecrd.Override_Inclusion_Criteria__c){
-                                    ctpaccordionDatalist.push({ id : 0, label :  'Inclusion Criteria' , body : this.clinicaltrailrecrd.Override_Inclusion_Criteria__c});
+                                if (this.clinicaltrailrecrd.Override_Inclusion_Criteria__c) {
+                                    ctpaccordionDatalist.push({
+                                        id: 0,
+                                        label: 'Inclusion Criteria',
+                                        body: this.clinicaltrailrecrd.Override_Inclusion_Criteria__c
+                                    });
                                 }
-                                if(this.clinicaltrailrecrd.Override_Exclusion_Criteria__c){
-                                    ctpaccordionDatalist.push({ id : 1, label :  'Exclusion Criteria' , body : this.clinicaltrailrecrd.Override_Exclusion_Criteria__c});
+                                if (this.clinicaltrailrecrd.Override_Exclusion_Criteria__c) {
+                                    ctpaccordionDatalist.push({
+                                        id: 1,
+                                        label: 'Exclusion Criteria',
+                                        body: this.clinicaltrailrecrd.Override_Exclusion_Criteria__c
+                                    });
                                 }
                                 this.ctpAccordionData = ctpaccordionDatalist;
-                             }
+                            }
                         }
                     }
                 }
             })
             .catch((error) => {
-                console.log('error::' + (error));
+                console.log('error::' + error);
                 this.error = error;
             });
     }
-    handleHomePage(){
+    handleHomePage() {
         communityService.navigateToPage('');
     }
-    // JS functions start 
+    // JS functions start
     handleActive(event) {
         this.activeTab = event.target.value;
     }
 
-    get handleDynamicCSS(){
-        if(this.activeTab){
-            console.log('this.activeTab'+this.activeTab);
-            if(this.activeTab =='overview'){
-            return 'font-size: 50px;';
-            }
-            else if(this.activeTab =='parcrt'){
+    get handleDynamicCSS() {
+        if (this.activeTab) {
+            console.log('this.activeTab' + this.activeTab);
+            if (this.activeTab == 'overview') {
+                return 'font-size: 50px;';
+            } else if (this.activeTab == 'parcrt') {
                 return 'font-size: 50px;';
             }
         }
