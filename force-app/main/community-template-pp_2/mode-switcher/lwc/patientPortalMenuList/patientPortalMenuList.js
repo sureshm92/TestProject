@@ -5,9 +5,10 @@ import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 export default class PatientPortalMenuList extends LightningElement {
     @api commModes = [];
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
-    delegateLabel = partipantsDelegate;
-
-    handleDisplay(event) {
+    label={
+        partipantsDelegate
+    };
+    handleListDisplay(event) {
         let participantName = event.currentTarget.dataset.id;
         let selectedItem;
         if (participantName) {
@@ -47,5 +48,5 @@ export default class PatientPortalMenuList extends LightningElement {
         });
         this.dispatchEvent(selectedEvent);
 
-    }
+    }    
 }

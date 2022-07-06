@@ -1,34 +1,46 @@
 <template>
-    <template if:true={ifSingleMode}>
-        {comboBoxHeading}
-        <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
-            onchange={handlePicklistSelection}></lightning-combobox>
+    <template if:true={hasSingleCommMode}>
+        {comboBoxHeader}
+        <lightning-combobox
+            value={defaultPickListValue}
+            placeholder={placeHolder}
+            options={optionsList}
+            onchange={handlePicklistSelection}
+            disabled={disablePicklist}
+        ></lightning-combobox>
     </template>
-
-    <template if:false={ifSingleMode}>
-        <lightning-button variant="base" label={viewingAsLabel} title={viewingAsLabel} onclick={handleClick}
-            class="slds-m-left_x-small">
+    <template if:false={hasSingleCommMode}>
+        <lightning-button
+            variant="base"
+            label={label.viewingAs}
+            title={label.viewingAs}
+            onclick={handleClick}
+            class="slds-m-left_x-small"
+        >
         </lightning-button>
         <br />
-        <template if:true={showAll}>
-            <c-patient-portal-menu-list comm-modes={modList} onchangemode={handleChangeMode}>
+        <template if:true={showAllModes}>
+            <c-patient-portal-menu-list comm-modes={commModeList} onchangemode={handleChangeMode}>
             </c-patient-portal-menu-list>
         </template>
-        <template if:false={showAll}>
-            {selectedMode.title}
+        <template if:false={showAllModes}>
+            {currentMode.title}
 
-            <template if:true={selectedMode.isDelegate}>
-                {delegate}
-                <div onclick={handleNavigation} data-id={selectedMode.title}>
-                    <img src={participantSettingImage}></img>
+            <template if:true={currentMode.isDelegate}>
+                {label.partipantsDelegate}
+                <div onclick={handleNavigation} data-id={currentMode.title}>
+                    <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
                 </div>
             </template>
-            {comboBoxHeading}
+            {comboBoxHeader}
             <br />
-            <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
-                onchange={handlePicklistSelection}></lightning-combobox>
+            <lightning-combobox
+                value={defaultPickListValue}
+                placeholder={placeHolder}
+                options={optionsList}
+                onchange={handlePicklistSelection}
+                disabled={disablePicklist}
+            ></lightning-combobox>
         </template>
     </template>
-    <c-web-icon svg-class={svgClass} icon-name="participant_settings"></c-web-icon>
-
 </template>
