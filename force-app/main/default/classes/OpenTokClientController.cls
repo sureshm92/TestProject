@@ -167,10 +167,8 @@ public without sharing class OpenTokClientController {
         //system.debug(meetingInterval);
         Televisit__c tvUpdate = new Televisit__c();
         tvUpdate.id = lstTelevisit[0].Id;
-        tvUpdate.Visit_Date_Time__c = updatedTelevisit[0]
-            .Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
-        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0]
-            .Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        //tvUpdate.Visit_Date_Time__c = updatedTelevisit[0].Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
         update tvUpdate;
 
         updatedTelevisit = [
