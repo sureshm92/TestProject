@@ -46,6 +46,7 @@ public without sharing class OpenTokClientController {
     public String appNamestr { get; set; } //Indicates Meeting title Raviteja
     public String bannerEndTime { get; set; }
     public String autoDisconnectMeetingTime { get; set; }
+	public String visitDate {get;set;}
     public List<Televisit__c> lstTelevisit { get; set; }
     TokBoxSettings2__c settings;
     public Integer endMinutes;
@@ -121,7 +122,7 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-
+			visitDate = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.date());
             system.debug(
                 'this.session.Televisit_Attendee__r :' + this.session.Televisit_Attendee__r
             );
