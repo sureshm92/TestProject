@@ -1,7 +1,34 @@
 <template>
     <template if:true={ifSingleMode}>
-        <lightning-combobox name="progress" label="Status" value={value} placeholder="Select Progress"
-            options={optionsList} onchange={handlePicklistSelection}></lightning-combobox>
+        {comboBoxHeading}
+        <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
+            onchange={handlePicklistSelection}></lightning-combobox>
     </template>
+
+    <template if:false={ifSingleMode}>
+        <lightning-button variant="base" label={viewingAsLabel} title={viewingAsLabel} onclick={handleClick}
+            class="slds-m-left_x-small">
+        </lightning-button>
+        <br />
+        <template if:true={showAll}>
+            <c-patient-portal-menu-list comm-modes={modList} onchangemode={handleChangeMode}>
+            </c-patient-portal-menu-list>
+        </template>
+        <template if:false={showAll}>
+            {selectedMode.title}
+
+            <template if:true={selectedMode.isDelegate}>
+                {delegate}
+                <div onclick={handleNavigation} data-id={selectedMode.title}>
+                    <img src={participantSettingImage}></img>
+                </div>
+            </template>
+            {comboBoxHeading}
+            <br />
+            <lightning-combobox value={defaultPickListValue} placeholder={placeHolder} options={optionsList}
+                onchange={handlePicklistSelection}></lightning-combobox>
+        </template>
+    </template>
+    <c-web-icon svg-class={svgClass} icon-name="participant_settings"></c-web-icon>
 
 </template>
