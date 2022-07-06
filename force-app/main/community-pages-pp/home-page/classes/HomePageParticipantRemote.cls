@@ -3,7 +3,7 @@
  */
 
 public without sharing class HomePageParticipantRemote {
-    @AuraEnabled
+    @AuraEnabled(cacheable=false)
     public static String getInitData() {
         try {
             List<User> users = [
