@@ -16,6 +16,8 @@
                 JSON.parse(JSON.stringify(component.get('v.communityModes')))
             );
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
+             let currentMode = component.get('v.currentMode');
+            component.set('v.templateName',currentMode.template.templateName );
         });
     },
 
@@ -34,9 +36,16 @@
     },
 
     doSelectItem: function (component, event, helper) {
-        const source = event.getParam('source');
-        let navigateTo = source.get('v.navigateTo');
-        const itemValue = source.get('v.itemValue');
+        let navigateTo;
+        let itemValue;
+     if (component.get('v.templateName') == 'PatientPortal') {
+           itemValue = event.getParam('itemValue');
+           navigateTo = event.getParam('navigateTo');
+       } else {
+            const source = event.getParam('source');
+            navigateTo = source.get('v.navigateTo');
+            itemValue = source.get('v.itemValue');
+       }
         var comModes = component.get('v.communityModes');
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);

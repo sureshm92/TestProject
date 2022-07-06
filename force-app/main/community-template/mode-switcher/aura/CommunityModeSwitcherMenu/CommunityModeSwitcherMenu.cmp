@@ -10,6 +10,7 @@
     <aura:attribute name="currentMode" type="Object" />
     <aura:attribute name="reset" type="Boolean" default="false" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
+    <aura:attribute name="templateName" type="String" />
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
@@ -49,7 +50,16 @@
             </li>
             <li class="body">
                 <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
-                    <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}" />
+                    <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                        <c:patientPortalMenuItems
+                            allModes="{!v.communityModes}"
+                            user="{!v.user}"
+                            onitemselection="{!c.doSelectItem}"
+                        />
+                    </aura:if>
+                    <aura:if isTrue="{!notequals(v.templateName, 'PatientPortal')}">
+                        <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}" />
+                    </aura:if>
                 </aura:if>
                 <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
                     <c:RHCommunityModesList
