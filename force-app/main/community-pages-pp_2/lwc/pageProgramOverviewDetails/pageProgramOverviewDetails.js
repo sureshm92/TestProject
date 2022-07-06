@@ -60,7 +60,6 @@ export default class PageProgramOverviewDetails extends LightningElement {
 
     get handleDynamicCSS() {
         if (this.activeTab) {
-            console.log('this.activeTab' + this.activeTab);
             if (this.activeTab == 'overview') {
                 return 'font-size: 50px;';
             } else if (this.activeTab == 'parcrt') {
