@@ -319,7 +319,9 @@
                         }
 
                         var options = getPublisherProperties(false);
-                        options.name = attendeeName;
+                        var abbr = attendeeName.split(' ').map(function (item) { return item[0] }).join(''); 
+                        options.name = abbr.substring(0, 2).toUpperCase();
+
 
                         var subscriber = session.subscribe(event.stream, getContainer(event.stream), options);
 
@@ -521,9 +523,11 @@
             /*-------------------------------------*/
 
             function getPublisherProperties(isPublishingScreenShare) {
+                var attendeeName = getControllerValue('userName');
+                var abbr = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
                 return {
                     ...options,
-                    name: getControllerValue('userName'),
+                    name: (abbr.length > 1) ? abbr.substring(0, 2).toUpperCase() : abbr.toUpperCase(),
                     publishAudio: publishAudio,
                     publishVideo: isPublishingScreenShare ? true : publishVideo,
                     audioSource: audioSource,
@@ -1292,6 +1296,11 @@
                 background: #f5f6fa !important;
             }
 
+            #self-feed-container h1,
+            #speaker-container h1,
+            #last-active-feed h1 {
+                font-weight: bold;
+            }
             .hideBanner {
                 display: none;
             }
@@ -1420,12 +1429,28 @@
 
             #header {
                 padding: 1em;
-                background: rgb(0, 118, 174);
-                background: url({!URLFOR($Resource.TokboxAssets, '/images/header-wave.png')})
-                        no-repeat left top,
-                    linear-gradient(270deg, rgba(0, 118, 174, 1) 0%, rgba(37, 0, 86, 1) 100%);
                 color: white;
                 text-align: center;
+            }
+
+            .headerbg-rh {
+                background: rgb(0, 118, 174);
+                background: url({!URLFOR($Resource.TokboxAssets, '/images/header-wave.png')
+            }
+
+            ) no-repeat left top,
+            linear-gradient(270deg,
+            rgba(0, 118, 174, 1) 0%,
+            rgba(37, 0, 86, 1) 100%);
+            }
+
+            .headerbg-gsk {
+                background: #EA6621;
+
+            }
+
+            .headerbg-pp {
+                background: linear-gradient(to right, #230559 0%, #036ca7 100%);
             }
 
             .top-margin-container {
@@ -2036,8 +2061,19 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
     >
         <!--OMSF-5206-->
-        <header id="header" class="page-header">
+        <header id="header" class="page-header {!headerbg}">
+            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+                <h1 class="slds-text-heading_small">
+                    <b style="font-family: Helvetica;
+                ">{!appNamestr}</b>
+                </h1>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(commTemplate=='GSK')}">
+                <img src="{!$Resource.GSK_Logos + '/gsk-text.svg'}" style="width:165px" />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(attendeeType=='RH')}">
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+            </apex:outputPanel>
         </header>
 
         <!--Call Preview Screen -->
