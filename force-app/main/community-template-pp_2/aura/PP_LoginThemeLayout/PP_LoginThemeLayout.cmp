@@ -32,31 +32,12 @@
                         <div>
                             <span class="iqvia-txt">IQVIA</span>
                             <span class="patient-portal-txt">Patient Portal</span>
-                            <div class="patient-care-txt">For Participants and Caregivers</div>
-                            <div class="prof-clinical-txt">
-                                Connecting professionals, patients and clinical researchers for
-                                better healthcare.
-                            </div>
                         </div>
                         <!-- Login form section start -->
-                        <c:ppLoginForm name="ppLoginForm"></c:ppLoginForm>
-                        <lightning:button
-                            variant="brand"
-                            label="Log In"
-                            title="Login"
-                            class="btn-login"
-                            onclick="{! c.handleClick }"
-                        />
-                        <div class="slds-grid forgot-unable-link">
-                            <div class="slds-col slds-size_6-of-12">
-                                <span class="forgot-unable-pwd-txt">Forgot Password?</span>
-                            </div>
-                            <div class="slds-col slds-size_6-of-12">
-                                <span class="forgot-unable-pwd-txt unable-login"
-                                    >Unable to log in?</span
-                                >
-                            </div>
-                        </div>
+                          <c:ppLoginForm name="ppLoginForm"></c:ppLoginForm>
+                     <!--  <c:ppEmailLoginForm name="ppEmailLoginForm"></c:ppEmailLoginForm>-->
+                        
+                        
                     </div>
                 </div>
                 <div class="slds-grid slds-wrap footer">
