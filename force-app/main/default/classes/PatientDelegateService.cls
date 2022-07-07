@@ -113,6 +113,7 @@ public without sharing class PatientDelegateService {
         return DatabaseService.query(
             new List<String>{
                 'Id',
+                'Primary_Delegate__c',
                 'Participant__c',
                 'Participant__r.Contact__c',
                 'Participant__r.Contact__r.Name',

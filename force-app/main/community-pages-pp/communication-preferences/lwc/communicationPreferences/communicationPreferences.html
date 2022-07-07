@@ -286,7 +286,7 @@
                                     <div class="sub-header">
                                         <!-- I consent to allow IQVIA (in accordance with <a href="#" class="blue-highlight-text-color">IQVIA's Privacy Policy</a>) to contact me with educational health
                                             information and other clinical trial opportunities using my preferences selected below: -->
-                                        {label.PP_Communication_Pref_Outreach_consentA} &nbsp;
+                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
@@ -296,23 +296,23 @@
                                 </lightning-layout-item>
                             </lightning-layout>
                             <template
-                                for:each={outReachDetails}
+                                for:each={contactDataLocal}
                                 for:item="outreach"
                                 for:index="index"
                             >
                                 <lightning-layout
-                                    key={outreach.iqvia_id}
+                                    key={outreach.Id}
                                     multiple-rows="true"
                                     class="study-card"
                                     vertical-align="center"
                                 >
                                     <lightning-layout-item size="4" class="study-content">
-                                        <span>{outreach.name}</span>
+                                        <span>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                     </lightning-layout-item>
 
                                     <lightning-layout-item size="8" class="study-content">
                                         <lightning-layout
-                                            key={outreach.iqvia_id}
+                                            key={outreach.Id}
                                             multiple-rows="true"
                                             class=""
                                             vertical-align="center"
@@ -334,11 +334,11 @@
                                                         <lightning-input
                                                             type="checkbox"
                                                             label="Phone"
-                                                            class={outreach.iqvia_id}
-                                                            name={outreach.iqvia_id}
+                                                            name={outreach.Id}
                                                             variant="label-hidden"
-                                                            checked={outreach.phone}
+                                                            checked={outreach.Participant_Phone_Opt_In_Permit_Phone__c}
                                                             onchange={selectIndividualOptionsOutreach}
+                                                            disabled={hideConsentsForParticipantView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -358,11 +358,11 @@
                                                         <lightning-input
                                                             type="checkbox"
                                                             label="Email"
-                                                            class={outreach.iqvia_id}
-                                                            name={outreach.iqvia_id}
+                                                            name={outreach.Id}
                                                             variant="label-hidden"
-                                                            checked={outreach.email}
+                                                            checked={outreach.Participant_Opt_In_Status_Emails__c}
                                                             onchange={selectIndividualOptionsOutreach}
+                                                            disabled={hideConsentsForParticipantView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -382,11 +382,11 @@
                                                         <lightning-input
                                                             type="checkbox"
                                                             label="SMS"
-                                                            class={outreach.iqvia_id}
-                                                            name={outreach.iqvia_id}
+                                                            name={outreach.Id}
                                                             variant="label-hidden"
-                                                            checked={outreach.sms}
+                                                            checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                             onchange={selectIndividualOptionsOutreach}
+                                                            disabled={hideConsentsForParticipantView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -406,11 +406,11 @@
                                                         <lightning-input
                                                             type="checkbox"
                                                             label="DMail"
-                                                            class={outreach.iqvia_id}
-                                                            name={outreach.iqvia_id}
+                                                            name={outreach.Id}
                                                             variant="label-hidden"
-                                                            checked={outreach.dmail}
+                                                            checked={outreach.IQVIA_Direct_Mail_Consent__c}
                                                             onchange={selectIndividualOptionsOutreach}
+                                                            disabled={hideConsentsForParticipantView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -432,11 +432,11 @@
                                                         <lightning-input
                                                             type="checkbox"
                                                             label="All"
-                                                            name={outreach.iqvia_id}
-                                                            value={outreach.iqvia_id}
+                                                            name={outreach.Id}
                                                             checked={outreach.all}
                                                             variant="label-hidden"
                                                             onchange={selectAllOptionsOutreach}
+                                                            disabled={hideConsentsForParticipantView}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -674,7 +674,7 @@
                                     <div class="sub-header">
                                         <!-- I consent to allow IQVIA (in accordance with <a href="#" class="blue-highlight-text-color">IQVIA's Privacy Policy</a>) to contact me with educational health
                                             information and other clinical trial opportunities using my preferences selected below: -->
-                                        {label.PP_Communication_Pref_Outreach_consentA} &nbsp;
+                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
@@ -684,13 +684,13 @@
                                 </lightning-layout-item>
                             </lightning-layout>
                             <template
-                                for:each={outReachDetails}
+                                for:each={contactDataLocal}
                                 for:item="outreach"
                                 for:index="index"
                             >
-                                <div key={outreach.iqvia_id} class="mobile">
+                                <div key={outreach.Id} class="mobile">
                                     <lightning-layout
-                                        key={outreach.iqvia_id}
+                                        key={outreach.Id}
                                         multiple-rows="true"
                                         class=""
                                         vertical-align="center"
@@ -699,11 +699,11 @@
                                             size="12"
                                             class="study-content study-content-mobile"
                                         >
-                                            <span>{outreach.name}</span>
+                                            <span>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                         </lightning-layout-item>
                                     </lightning-layout>
                                     <lightning-layout
-                                        key={outreach.iqvia_id}
+                                        key={outreach.Id}
                                         multiple-rows="true"
                                         class="study-card-mobile"
                                         vertical-align="center"
@@ -727,11 +727,11 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="Phone"
-                                                        class={outreach.iqvia_id}
-                                                        name={outreach.iqvia_id}
+                                                        name={outreach.Id}
                                                         variant="label-hidden"
-                                                        checked={outreach.phone}
+                                                        checked={outreach.Participant_Phone_Opt_In_Permit_Phone__c}
                                                         onchange={selectIndividualOptionsOutreach}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -752,11 +752,11 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="Email"
-                                                        class={outreach.iqvia_id}
-                                                        name={outreach.iqvia_id}
+                                                        name={outreach.Id}
                                                         variant="label-hidden"
-                                                        checked={outreach.email}
+                                                        checked={outreach.Participant_Opt_In_Status_Emails__c}
                                                         onchange={selectIndividualOptionsOutreach}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -777,11 +777,11 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="SMS"
-                                                        class={outreach.iqvia_id}
-                                                        name={outreach.iqvia_id}
+                                                        name={outreach.Id}
                                                         variant="label-hidden"
-                                                        checked={outreach.sms}
+                                                        checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                         onchange={selectIndividualOptionsOutreach}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -802,11 +802,11 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="DMail"
-                                                        class={outreach.iqvia_id}
-                                                        name={outreach.iqvia_id}
+                                                        name={outreach.Id}
                                                         variant="label-hidden"
-                                                        checked={outreach.dmail}
+                                                        checked={outreach.IQVIA_Direct_Mail_Consent__c}
                                                         onchange={selectIndividualOptionsOutreach}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -829,11 +829,11 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="All"
-                                                        name={outreach.iqvia_id}
-                                                        value={outreach.iqvia_id}
+                                                        value={outreach.Id}
                                                         checked={outreach.all}
                                                         variant="label-hidden"
                                                         onchange={selectAllOptionsOutreach}
+                                                        disabled={hideConsentsForParticipantView}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
