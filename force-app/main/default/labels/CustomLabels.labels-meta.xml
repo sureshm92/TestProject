@@ -249,11 +249,12 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Body</shortDescription>
-        <value>Dear Site Staff/PI ,
+        <value>This email is to inform you that you were removed from the list of attendees for a televisit for the ##StudyCodeName Study. You will not be able to join this televisit.
 
-Your have been removed from the televisit ##VisitName .
+Televisit title: ##VisitName
 
-Televisit  Date/Time : ##VisitDate
+Televisit Date/Time: ##VisitTime
+
 Duration: ##VisitDuration</value>
     </labels>
     <labels>
@@ -261,14 +262,14 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Header</shortDescription>
-        <value>Televisit Removed</value>
+        <value>You were removed from a televisit</value>
     </labels>
     <labels>
         <fullName>Televisit_Remove_Email_Subject</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Subject</shortDescription>
-        <value>Televisit was removed</value>
+        <value>You were removed from a televisit</value>
     </labels>
     <labels>
         <fullName>Participant_No_Show</fullName>
@@ -25965,7 +25966,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Close Tab</shortDescription>
-        <value>Close this tab to exit.</value>
+        <value>Session Closed. Close this tab to exit.</value>
     </labels>
     <labels>
         <fullName>DeviceSettings_AudioSource</fullName>
