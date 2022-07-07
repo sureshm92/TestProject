@@ -53,7 +53,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         if (this.currentMode) {
             return this.currentMode.participantState === 'ALUMNI' && !this.currentMode.isDelegate
                 ? 'slds-hide'
-                : '';
+                : 'slds-col switcher-list';
         }
         return '';
     }
