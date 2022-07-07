@@ -35,7 +35,7 @@
     <aura:attribute name="urlPathPrefix" type="String" />
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
-    <aura:attribute name="loggedInCommunityName" type="String" />
+
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -64,7 +64,7 @@
                         </div>
                         <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                             <aura:if
-                                isTrue="{!and(v.loggedInCommunityName == 'IQVIA_Patient_Portal1',v.currentMode.userMode == 'Participant')}"
+                                isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
                             >
                                 <img
                                     src="{!$Resource.icon_hamburgerMenu}"
@@ -144,6 +144,7 @@
                             <c:CommunityModeSwitcherMenu
                                 currentMode="{!v.currentMode}"
                                 onModeChange="{!c.doRefresh}"
+                                templateName="{!v.template}"
                             />
                             <aura:if
                                 isTrue="{!and(v.currentMode.userMode == 'PI',v.template != $Label.c.Janssen_Community_Template_Name )}"
