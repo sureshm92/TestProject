@@ -170,6 +170,37 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.error = error;
     }
   }
+  studyhandleChange(event) {
+    var picklist_Value = event.target.value;
+    this.selectedStudy = picklist_Value;
+    
+    var accesslevels = Object.keys(this.siteAccessLevels).length;
+    var conts = this.studyToStudySite;
+    let options = [];
+    var i = this.siteAccessLevels;
+    for (var key in conts) {
+      if (key == picklist_Value) {
+          var temp = conts[key];
+        for (var j in temp) {
+               if(accesslevels == 0){
+                  options.push({ label: temp[j].Name, value: temp[j].Id });
+               }else{
+                  var level = this.siteAccessLevels[temp[j].Id];
+                  if(level != 'Level 3' && level != 'Level 2'){
+                     options.push({ label: temp[j].Name, value: temp[j].Id });
+                  }
+               }
+        }
+      }
+    }
+    this.studySiteList = options;
+    this.selectedSite = '';
+    this.studysiteaccess = false;
+
+  }
+  studysitehandleChange(event) {
+    this.selectedSite = event.target.value;
+  }
   getTelevisitVisibility(peid){
     getTelevisitVisibility({ParticipantEnrollmentId : peid})
             .then((result) => {
