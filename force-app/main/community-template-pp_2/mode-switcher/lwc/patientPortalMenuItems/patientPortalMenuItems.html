@@ -1,13 +1,13 @@
 <template>
     <template if:true={hasSingleCommMode}>
-        {comboBoxHeader}
-        <lightning-combobox
-            value={defaultPickListValue}
-            placeholder={placeHolder}
-            options={optionsList}
-            onchange={handlePicklistSelection}
-            disabled={disablePicklist}
-        ></lightning-combobox>
+        <c-patient-portal-menu-picklist
+            place-holder={placeHolder}
+            pick-list-options={pickListOptions}
+            default-pick-list-value={defaultPickListValue}
+            disable-picklist={disablePicklist}
+            combo-box-header={comboBoxHeader}
+        >
+        </c-patient-portal-menu-picklist>       
     </template>
     <template if:false={hasSingleCommMode}>
         <lightning-button
@@ -32,15 +32,19 @@
                     <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
                 </div>
             </template>
-            {comboBoxHeader}
+            
             <br />
-            <lightning-combobox
-                value={defaultPickListValue}
-                placeholder={placeHolder}
-                options={optionsList}
-                onchange={handlePicklistSelection}
-                disabled={disablePicklist}
-            ></lightning-combobox>
+           
         </template>
+    </template>
+    <template if:false={hasSingleCommMode}>      
+        <c-patient-portal-menu-picklist
+            place-holder={placeHolder}
+            pick-list-options={pickListOptions}
+            default-pick-list-value={defaultPickListValue}
+            disable-picklist={disablePicklist}
+            combo-box-header={comboBoxHeader}
+        >
+        </c-patient-portal-menu-picklist>      
     </template>
 </template>
