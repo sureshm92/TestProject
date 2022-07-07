@@ -5,7 +5,7 @@ import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 export default class PatientPortalMenuList extends LightningElement {
     @api commModes = [];
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
-    label={
+    label = {
         partipantsDelegate
     };
     handleListDisplay(event) {
@@ -20,7 +20,6 @@ export default class PatientPortalMenuList extends LightningElement {
             detail: selectedItem
         });
         this.dispatchEvent(selectedEvent);
-
     }
 
     get svgClass() {
@@ -47,6 +46,5 @@ export default class PatientPortalMenuList extends LightningElement {
             composed: true
         });
         this.dispatchEvent(selectedEvent);
-
-    }    
+    }
 }

@@ -7,7 +7,7 @@
             disable-picklist={disablePicklist}
             combo-box-header={comboBoxHeader}
         >
-        </c-patient-portal-menu-picklist>       
+        </c-patient-portal-menu-picklist>
     </template>
     <template if:false={hasSingleCommMode}>
         <lightning-button
@@ -32,12 +32,11 @@
                     <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
                 </div>
             </template>
-            
+
             <br />
-           
         </template>
     </template>
-    <template if:false={hasSingleCommMode}>      
+    <template if:false={hasSingleCommMode}>
         <c-patient-portal-menu-picklist
             place-holder={placeHolder}
             pick-list-options={pickListOptions}
@@ -45,6 +44,6 @@
             disable-picklist={disablePicklist}
             combo-box-header={comboBoxHeader}
         >
-        </c-patient-portal-menu-picklist>      
+        </c-patient-portal-menu-picklist>
     </template>
 </template>

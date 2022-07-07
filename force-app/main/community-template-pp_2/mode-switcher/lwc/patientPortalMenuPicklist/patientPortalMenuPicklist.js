@@ -1,14 +1,12 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class PatientPortalMenuPicklist extends LightningElement {
-    
     @api pickListOptions = [];
     @api defaultPickListValue;
-    @api comboBoxHeader;   
+    @api comboBoxHeader;
     @api placeHolder;
     @api disablePicklist;
     selectedItemValue;
-
 
     handlePicklistSelection(event) {
         let currentValue = event.detail.value;
@@ -37,6 +35,4 @@ export default class PatientPortalMenuPicklist extends LightningElement {
     get header() {
         return this.comboBoxHeader;
     }
-
-
 }
