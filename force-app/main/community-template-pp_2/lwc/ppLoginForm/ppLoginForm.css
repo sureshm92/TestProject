@@ -1,3 +1,30 @@
+.patient-care-txt {
+    height: 22px;
+    width: 304px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 22px;
+    margin: 12px 0 12px 0;
+}
+.prof-clinical-txt {
+    height: 48px;
+    width: 304px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin: 26px 0 26px 0;
+}
+.slds-form-element__label{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+}
 .input-field-container {
     box-sizing: border-box;
     height: 32px;
@@ -7,8 +34,37 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
     margin-bottom: 15px;
 }
+ .btn-login{
+    height: 32px;
+    width: 304px;
+    color: #ffffff;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    margin: 40px 0 0 0;
+    text-align: center;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    display: inline-block;
+}
 .eye-icon {
     position: absolute;
     top: 8px;
     right: 8px;
+}
+ .unable-login {
+    float: right;
+}
+.forgot-unable-link {
+    margin: 16px 0 0 0;
+}
+ .forgot-unable-pwd-txt {
+    height: 19px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 19px;
 }

@@ -44,50 +44,7 @@
     line-height: 38px;
     margin-left: 8px;
 }
-.THIS .patient-care-txt {
-    height: 22px;
-    width: 304px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 22px;
-    margin: 12px 0 12px 0;
-}
-.THIS .prof-clinical-txt {
-    height: 48px;
-    width: 304px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 24px;
-    margin: 26px 0 26px 0;
-}
-.THIS .btn-login {
-    height: 32px;
-    width: 304px;
-    color: #ffffff;
-    border-radius: 16px;
-    background-color: #0768fd;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
-    margin: 40px 0 0 0;
-}
-.THIS .forgot-unable-link {
-    margin: 16px 0 0 0;
-}
-.THIS .forgot-unable-pwd-txt {
-    height: 19px;
-    color: #0768fd;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 19px;
-}
-.THIS .unable-login {
-    float: right;
-}
+
 .THIS .footer-label {
     height: 26px;
     width: 292px;
