@@ -100,11 +100,21 @@
             </li>
 
             <li class="lo-button">
-                <lightning:button
-                    onclick="{!c.logout}"
-                    label="{!$Label.c.Profile_Menu_Log_Out}"
-                    class="apollo-btn logout-btn"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <lightning:button
+                        variant="base"
+                        label="{!$Label.c.PP_Logout}"
+                        onclick="{!c.logout}"
+                        class="slds-align_absolute-center pp-logout"
+                    />
+                    <aura:set attribute="else">
+                        <lightning:button
+                            onclick="{!c.logout}"
+                            label="{!$Label.c.Profile_Menu_Log_Out}"
+                            class="apollo-btn logout-btn"
+                        />
+                    </aura:set>
+                </aura:if>
             </li>
         </c:ModeHeaderMenu>
     </aura:if>

@@ -47,3 +47,10 @@
 .icon-color {
     --sds-c-icon-color-foreground-default: #005587;
 }
+.list-item {
+    height: 30px;
+}
+.list-item:hover {
+    cursor: pointer;
+    background-color: #fff;
+}

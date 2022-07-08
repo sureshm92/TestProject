@@ -18,7 +18,17 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
 }
-
+.THIS .pp-logout {
+    height: 24px;
+    width: 265px;
+    color: #e20000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
 .THIS.menu-block li.body {
     width: 344px;
 }

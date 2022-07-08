@@ -1656,6 +1656,10 @@ input[type=password]::-ms-clear
         width: .9rem;
         height: .9rem;
     }
+    .logo-container-pp {
+        margin-right: 0px !important;
+        margin-left: 52px !important;
+    }
 }
 
 
