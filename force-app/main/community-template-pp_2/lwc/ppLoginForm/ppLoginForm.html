@@ -1,0 +1,58 @@
+<template>
+    <div class="slds-grid">
+        <div class="slds-col">
+        <div class="patient-care-txt">For Participants and Caregivers</div>
+                            <div class="prof-clinical-txt">
+                                Connecting professionals, patients and clinical researchers for
+                                better healthcare.
+                            </div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="form-element-01">Username</label>
+                <div class="slds-form-element__control">
+                    <input type="text" id="form-element-01" class="slds-input  input-field-container" />
+                </div>
+                <label class="slds-form-element__label" for="form-element-01">Password</label>
+                <div class="slds-form-element__control">
+                    <input type="password" id="form-element-02" class="slds-input  input-field-container" />
+                    <button class="slds-button slds-button_icon eye-icon">
+                        <lightning-button-icon icon-name="utility:preview" variant="bare" alternative-text="Settings" title="Settings">
+
+                        </lightning-button-icon>
+                    </button>
+                </div>
+                <div class="slds-checkbox">
+                    <input
+                        type="checkbox"
+                        name="options"
+                        id="checkbox-unique-id-81"
+                        value="checkbox-unique-id-81"
+                        checked=""
+                    />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-81">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Keep me signed in</span>
+                    </label>
+                </div><br>
+                    <!--<div><lightning:button
+                            variant="brand"
+                            label="Log In"
+                            title="Login"
+                            class="btn-login"/>
+                            <h1>login button</h1>
+                        </div>-->
+                        <button class="slds-button btn-login">Log In</button>
+                        <div class="slds-grid forgot-unable-link">
+                            <div class="slds-col slds-size_6-of-12">
+                                <span class="forgot-unable-pwd-txt">Forgot Password?</span>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <span class="forgot-unable-pwd-txt unable-login"
+                                    >Unable to log in?</span>
+                            </div>
+                        </div>
+                    
+                
+            </div>
+        </div>
+    </div>
+</template>
