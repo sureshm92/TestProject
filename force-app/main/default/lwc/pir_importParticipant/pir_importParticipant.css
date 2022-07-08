@@ -29,7 +29,8 @@
     padding-left: 32px;
 }
 .bulkImportScroll{
-    height: 30rem;
+    /* height: 30rem; */
+    max-height: 66vh;
     overflow-y: auto;
 }
 .bulkautoScroll{
@@ -45,9 +46,9 @@
     line-height: 24px;
 }
 .fileUpload{    
-    color: #444444;
+  /*  color: #444444; */
     font-family: "Proxima Nova";
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 12px;
 }
@@ -84,7 +85,7 @@
 .uploadLabel{
     color: #595959;
     font-family: "Proxima Nova";
-    font-size: 11px;
+    font-size: 12px;
 }
 .linkLabel{
     color: #297CFD;
@@ -94,7 +95,7 @@
 }
 .downloadLabel{
     color: #297CFD;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 13px;
     text-align: right;
 }
@@ -147,6 +148,14 @@
 .containerbackdrop_popup{
     z-index: 9998;
 }
+.display-checkbox{
+    display: flex;
+}
+.checkbox_width{
+    font-size: 14px;
+    margin-left: -8px;
+    width: 100%;
+}
 @media (max-device-width: 767px) {
     .model-small{
         width: auto;
@@ -160,7 +169,7 @@
         margin-top: 5px;
     }
     .bulkImportScroll{
-        height: 28rem;
+        max-height: 68vh;
     }
     .w-instruction {
         width: 100%;
@@ -180,6 +189,7 @@
         text-align: left;
         margin-top: 14px;
         margin-bottom: 4px;
+        font-size: 11px;
     }
     .p-left-icon{
         padding-left: 3px;
@@ -188,19 +198,25 @@
         margin-top: 10px;
     }
     .fileBox{
-        height: 80px;
+        height: 70px;
     }
     .fileInput{
-        height: 80px;
+        height: 70px;
     }
     .fileHolder{
-        min-height: 100px;
+        min-height: 90px;
+    }
+    .uploadLabel{
+        font-size: 11px;
     }
     .marTop{
         margin-top: 10px;
     }
     .slds-text_center{
         text-align: left;
+    }
+    .checkbox_width{
+        margin-left: -4px;
     }
     /* .import-btn{
         float: left;
@@ -220,7 +236,7 @@
 }
 @media (min-width: 992px) {
     .model-small{
-        width: 660px;
+        width: 680px;
     }
 } 
 /* Scrollbar Code */

@@ -2413,7 +2413,7 @@ public without sharing class PIR_HomepageController {
 
 
   @AuraEnabled
-    public static void uploadParticipants(
+    public static String uploadParticipants(
         List<String> csvFileLines,
         String fileName,
         String studySiteId,
@@ -2429,9 +2429,11 @@ public without sharing class PIR_HomepageController {
         Boolean outreachDirectMail,
         Id visitPlanId
     ){
-      Action_UploadParticipantsRemote.uploadParticipants(csvFileLines,fileName,studySiteId,selectedStatus
+      String getReturnValue = Action_UploadParticipantsRemote.uploadParticipants(csvFileLines,fileName,studySiteId,selectedStatus
                                                         ,createUsers,doContact,allowEmail,allowPhone,allowSMS,
                                                         outreachEmail,outreachPhone,outreachSMS,outreachDirectMail,visitPlanId);
+
+      return getReturnValue;
 
     }
 
@@ -2439,4 +2441,8 @@ public without sharing class PIR_HomepageController {
   public static string fetchCurrentUserLanguage() {
     return UserInfo.getLanguage();
   }
+   @AuraEnabled
+   public static String getSite(Id siteId) {
+     return [Select Id,Name from Study_Site__c where id=:siteId].Name;
+   }
 }

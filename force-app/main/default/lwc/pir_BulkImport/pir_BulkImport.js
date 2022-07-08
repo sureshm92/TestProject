@@ -129,11 +129,11 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
                         this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
                         this.isResetPagination=true;
+                        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
                         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
                         
                     } 
                     else{
-                        console.log('this.studylist[0].value',this.studylist[0].value);
                         
                         this.selectedStudy = this.studylist[0].value; 
                         var picklist_Value;
@@ -175,9 +175,9 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                             }
                           }
                         this.studySiteList = options;
-                        console.log('this.studylist[0].value',this.studySiteList);
                         this.selectedSite = this.studySiteList[0].value;
                         this.studysiteaccess = false;
+                        
                     }
             }
       } else if (error) {
@@ -262,7 +262,9 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           }
           this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
           this.isResetPagination=true;
+          this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+          
       
       }
      
@@ -283,6 +285,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         //this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
         this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
         this.isResetPagination=true;
+        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         
         
@@ -311,10 +314,10 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     pageChanged(event) {
       console.log('>>page changed called>>>');
       this.page = event.detail.page;
-      console.log('this.page',this.page);
       this.template.querySelector("c-pir_-bulk-import-files").pageNumber =this.page;
         if(!this.initialLoad){
           console.log('>>>fetch page called>>>');
+          this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         }
         this.initialLoad = false;
@@ -343,7 +346,6 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
       }
     }
     handletotalrecord(event){
-      console.log('334 total records',event.detail);
       this.totalRecord=event.detail;
       
       /*this.initialLoad = true;
