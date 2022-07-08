@@ -4,8 +4,6 @@ import noActiveStudies from '@salesforce/label/c.No_active_studies';
 import noActivePrograms from '@salesforce/label/c.No_Active_Programs';
 import viewingAs from '@salesforce/label/c.Viewing_as';
 import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
-import jsPDF_Fonts from '@salesforce/resourceUrl/jsPDF_Fonts';
-import ISO_Download_Template from '@salesforce/label/c.ISO_Download_Template';
 
 export default class PatientPortalMenuItems extends LightningElement {
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
@@ -13,97 +11,95 @@ export default class PatientPortalMenuItems extends LightningElement {
     @api user;
     @api pickListOptions = [];
     @api defaultPickListValue;
-    comboBoxHeading;
+    comboBoxHeader;
     isSingleCommMode;
-    @api modList = [];
-    selectedSubItem;
+    @api commModeList = [];
+    selectedItemValue;
     currentSelection;
-    selectedMode;
-    showCurrentMode;
-    setCurrentSelection;
+    currentMode;
+    setCurrentMode;
     placeHolder;
-    activeStudies = noActiveStudies;
-    delegate = partipantsDelegate;
-    activeProg = noActivePrograms;
-    viewAs = viewingAs;
-    show;
-    showAll = false;
+    showAllModes = false;
+    label = {
+        viewingAs,
+        noActiveStudies,
+        partipantsDelegate,
+        noActivePrograms
+    };
+    contactName;
 
     connectedCallback() {
+        this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
         if (this.allModes.ppModeItems.length == 1) {
             this.isSingleCommMode = true;
-            let currentSubItems;
-            currentSubItems = this.allModes.ppModeItems[0].subItems;
-            this.pickListOptions = this.preparePickList(currentSubItems);
+            let allSubModes = this.allModes.ppModeItems[0].subItems;
+            this.pickListOptions = this.preparePickListOptions(allSubModes);
         } else {
             let mode;
             this.isSingleCommMode = false;
             let commModes = this.allModes.ppModeItems;
             for (let i = 0; i < commModes.length; i++) {
                 mode = this.prepareRecords(commModes[i].subItems);
-                this.modList.push(mode);
+                this.commModeList.push(mode);
             }
         }
     }
 
-    prepareRecords(currentSubItems) {
-        let programList = [];
+    prepareRecords(allSubModes) {
+        let pickListValues = [];
         let mode;
         let title;
         let isDelegate;
-        let contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
-        title = currentSubItems[0].title == contactName ? 'Self' : currentSubItems[0].title;
-        isDelegate = currentSubItems[0].isDelegate;
-        programList = this.preparePickList(currentSubItems);
-        if (this.setCurrentSelection) {
-            this.selectedMode = {
-                title: this.currentSelection.title == contactName ? 'Self' : currentSubItems[0].title,
+        title = allSubModes[0].title == this.contactName ? 'Self' : allSubModes[0].title;
+        isDelegate = allSubModes[0].isDelegate;
+        pickListValues = this.preparePickListOptions(allSubModes);
+        if (this.setCurrentMode) {
+            this.currentMode = {
+                title:
+                    this.currentSelection.title == this.contactName ? 'Self' : allSubModes[0].title,
                 isDelegate: this.currentSelection.isDelegate,
-                programList: programList
-            }
-            this.pickListOptions = programList;
-            this.setCurrentSelection = false;
+                programList: pickListValues
+            };
+            this.pickListOptions = pickListValues;
+            this.setCurrentMode = false;
         }
         mode = {
             title: title,
             isDelegate: isDelegate,
-            programList: programList
+            programList: pickListValues
         };
         return mode;
-
     }
-    preparePickList(currentSubItems) {
-        let programList = [];
-        var pickList;
-        for (let i = 0; i < currentSubItems.length; i++) {
+    preparePickListOptions(allSubModes) {
+        let pickListOptions = [];
+        let pickList;
+        for (let i = 0; i < allSubModes.length; i++) {
             let comboBoxHeader;
             let peId;
-            comboBoxHeader = currentSubItems[i].isProgram ? 'Program' : 'Study';
-            let studyName = currentSubItems[i].subTitle;
-            if (studyName == this.activeStudies || studyName == this.activeProg)
+            comboBoxHeader = allSubModes[i].isProgram ? 'Program' : 'Study';
+            let studyName = allSubModes[i].subTitle;
+            if (studyName == this.label.noActiveStudies || studyName == this.label.noActivePrograms)
                 peId = studyName;
-            else
-                peId = currentSubItems[i].peId;
+            else peId = allSubModes[i].peId;
             pickList = {
                 label: studyName,
                 value: peId,
-                headerValue: comboBoxHeader,
-                subItemValue: currentSubItems[i]
+                comboBoxLabel: comboBoxHeader,
+                subItemValue: allSubModes[i]
             };
-            programList.push(pickList);
-            if (currentSubItems[i].isSelected == true) {
-                this.currentSelection = currentSubItems[i];
-                this.defaultPickListValue = currentSubItems[i].peId;
-                this.placeHolder = currentSubItems[i].subTitle;
-                this.comboBoxHeading = comboBoxHeader;
-                this.setCurrentSelection = true;
+            pickListOptions.push(pickList);
+            if (allSubModes[i].isSelected == true) {
+                this.currentSelection = allSubModes[i];
+                this.defaultPickListValue = allSubModes[i].peId;
+                this.placeHolder = allSubModes[i].subTitle;
+                this.comboBoxHeader = comboBoxHeader;
+                this.setCurrentMode = true;
             }
         }
-        return programList;
-
+        return pickListOptions;
     }
 
-    get ifSingleMode() {
+    get hasSingleCommMode() {
         return this.isSingleCommMode;
     }
 
@@ -111,68 +107,64 @@ export default class PatientPortalMenuItems extends LightningElement {
         return this.pickListOptions;
     }
 
-    get viewingAsLabel() {
-        return this.viewAs;
-    }
-    get delegateLabel() {
-        return this.delegate;
+    get disablePicklist() {
+        let disablePicklistValue = this.pickListOptions.length == 1 ? true : false;
+        return disablePicklistValue;
     }
 
     handlePicklistSelection(event) {
         let currentValue = event.detail.value;
         let currentSubItem;
         if (currentValue) {
-            currentSubItem = this.pickListOptions.filter(function (option) {
-                return option.value == currentValue;
+            currentSubItem = this.pickListOptions.filter(function (item) {
+                return item.value == currentValue;
             });
         }
-        this.selectedSubItem = currentSubItem[0].subItemValue;
-        const selectedEvent = new CustomEvent('itemselection', {
+        this.selectedItemValue = currentSubItem[0].subItemValue;
+        const modeSelection = new CustomEvent('itemselection', {
             detail: {
-                itemValue: this.selectedSubItem,
+                itemValue: this.selectedItemValue,
                 navigateTo: ''
             }
         });
-        this.dispatchEvent(selectedEvent);
-
+        this.dispatchEvent(modeSelection);
     }
 
     handleChangeMode(event) {
-        this.showAll = false;
+        this.showAllModes = false;
         const item = event.detail;
-        let contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
         if (item[0].programList.length == 1) {
-            this.comboBoxHeading = item[0].programList[0].headerValue;
+            this.comboBoxHeader = item[0].programList[0].comboBoxLabel;
             this.defaultPickListValue = item[0].programList[0].value;
-            this.selectedMode = {
-                title: item[0].title == contactName ? 'Self' : item[0].title,
+            this.currentMode = {
+                title: item[0].title == this.contactName ? 'Self' : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
-            }
+            };
             this.pickListOptions = item[0].programList;
-            this.comboBoxHeading = item[0].programList[0].headerValue;
+            this.comboBoxHeader = item[0].programList[0].comboBoxLabel;
 
-            const selectedEvent = new CustomEvent('itemselection', {
+            const modeselection = new CustomEvent('itemselection', {
                 detail: {
                     itemValue: item[0].programList[0].subItemValue,
                     navigateTo: ''
                 }
             });
-            this.dispatchEvent(selectedEvent);
+            this.dispatchEvent(modeselection);
         } else {
-            this.selectedMode = {
-                title: item[0].title == contactName ? 'Self' : item[0].title,
+            this.currentMode = {
+                title: item[0].title == this.contactName ? 'Self' : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
-            }
+            };
             this.pickListOptions = item[0].programList;
-            this.comboBoxHeading = item[0].programList[0].headerValue;
+            this.comboBoxHeader = item[0].programList[0].comboBoxLabel;
             this.placeHolder = item[0].programList[0].label;
             this.defaultPickListValue = '';
         }
     }
     handleNavigation(event) {
-        let item = this.selectedMode.programList[0].subItemValue;
+        let item = this.currentMode.programList[0].subItemValue;
         const selectedEvent = new CustomEvent('itemselection', {
             detail: {
                 itemValue: item,
@@ -180,21 +172,16 @@ export default class PatientPortalMenuItems extends LightningElement {
             }
         });
         this.dispatchEvent(selectedEvent);
-
     }
     handleClick() {
-        if (this.showAll) {
-            this.showAll = false;
-        }
-
-        else
-            this.showAll = true;
+        if (this.showAllModes) {
+            this.showAllModes = false;
+        } else this.showAllModes = true;
     }
     get svgClass() {
         return '';
     }
     get iconName() {
         return 'participant_settings';
-
     }
 }
