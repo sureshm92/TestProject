@@ -16,8 +16,7 @@
                 JSON.parse(JSON.stringify(component.get('v.communityModes')))
             );
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
-             let currentMode = component.get('v.currentMode');
-            component.set('v.templateName',currentMode.template.templateName );
+            
         });
     },
 

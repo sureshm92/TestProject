@@ -22,31 +22,39 @@
     <aura:handler event="c:RefreshProfile" action="{!c.handleApplicationEvent}" />
 
     <aura:if isTrue="{!not(v.reset)}">
-        <c:ModeHeaderMenu class="menu-block">
+        <c:ModeHeaderMenu class="menu-block" templateName="{!v.templateName}">
             <aura:set attribute="title">
-                <!--<c:SmallIconButton
-                    user="{!v.user}"
-                    isDelegate="{!v.currentMode.isDelegate}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                />-->
-                <c:profileImageDropdown
-                    user="{!v.user}"
-                    isDelegate="{!v.currentMode.isDelegate}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <c:profileImageDropdown
+                        user="{!v.user}"
+                        isDelegate="{!v.currentMode.isDelegate}"
+                        hasProfilePic="{!v.hasProfilePic}"
+                    />
+                    <aura:set attribute="else">
+                        <c:SmallIconButton
+                            user="{!v.user}"
+                            isDelegate="{!v.currentMode.isDelegate}"
+                            hasProfilePic="{!v.hasProfilePic}"
+                        />
+                    </aura:set>
+                </aura:if>
             </aura:set>
             <li class="header">
-                <!--<c:HeaderViewInformation
-                    user="{!v.user}"
-                    currentMode="{!v.currentMode}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                />-->
-                <c:profileHeaderIconInfo
-                    user="{!v.user}"
-                    currentMode="{!v.currentMode}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                    onpageNavigation="{!c.handleCardVisiblity}"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <c:profileHeaderIconInfo
+                        user="{!v.user}"
+                        currentMode="{!v.currentMode}"
+                        hasProfilePic="{!v.hasProfilePic}"
+                        onpageNavigation="{!c.handleCardVisiblity}"
+                    />
+                    <aura:set attribute="else">
+                        <c:HeaderViewInformation
+                            user="{!v.user}"
+                            currentMode="{!v.currentMode}"
+                            hasProfilePic="{!v.hasProfilePic}"
+                        />
+                    </aura:set>
+                </aura:if>
             </li>
             <li class="body">
                 <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
