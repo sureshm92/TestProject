@@ -44,6 +44,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     public UploadParticipantsBatch(
         List<List<String>> csvFileLines,
         String header,
+        String headerInfo,
         String studySiteId,
         String selectedStatus,
         Boolean headerFailed,
@@ -95,10 +96,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
+        String line2 = headerInfo.trim().removeEnd(',').trim().removeEnd(',');
         if (line.endsWith(',')) {
-            listOfFailedRecords.add(line + ' Row Index');
+            listOfFailedRecords.add(line + ' VALIDATION ERROR'  );
+            listOfFailedRecords.add(line2);
         } else {
-            listOfFailedRecords.add(line + ', Row Index');
+            listOfFailedRecords.add(line + ', VALIDATION ERROR' );
+            listOfFailedRecords.add(line2);
         }
 
         if (totalRowCount < 1) {
@@ -106,6 +110,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 '0, VALIDATION ERROR: File is empty. Please correct the problem and try again.'
             );
             valid = false;
+           
         }
         if (totalRowCount > 45005) {
             listOfFailedRecordsWithMsg.add( '0, VALIDATION ERROR: File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
@@ -1660,7 +1665,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             LIMIT 1
         ]
         .Id;
-
+         
+        Map<Integer,String> mapRowIndexToErrorMessage = new Map<Integer,String> ();
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
         adminEmailToSend.setTemplateId(importParticipantsTemplateId);
         adminEmailToSend.setTargetObjectId(contextUser.contactId);
@@ -1669,15 +1675,39 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         adminEmailToSend.setWhatId(studySiteDetails.Id);
 
         String failedRecordsCSV = '';
-        for (String failedRecord : listOfFailedRecords) {
-            failedRecordsCSV = failedRecordsCSV + failedRecord + '\n';
-        }
+
+        
 
         String failedRecordsCSVMsgs = '';
         for (String failedRecordMsg : listOfFailedRecordsWithMsg) {
+            String strRowIndex = failedRecordMsg.substringBefore(',').trim();
+            
+            if(strRowIndex.isNumeric()){
+            Integer intRowIndex = Integer.valueOf(strRowIndex); 
+            String strMessage = failedRecordMsg.substringAfter(',').trim(); 
+               if(!mapRowIndexToErrorMessage.containsKey(intRowIndex))
+                    mapRowIndexToErrorMessage.put(intRowIndex,strMessage);
+                else{
+                    String strTempMessage = mapRowIndexToErrorMessage.get(intRowIndex);
+                    strTempMessage = strTempMessage + ':::' + strMessage;
+                    mapRowIndexToErrorMessage.put(intRowIndex,strTempMessage);
+                }
+            }
+
             failedRecordsCSVMsgs = failedRecordsCSVMsgs + failedRecordMsg + '\n';
         }
 
+        for (String failedRecord : listOfFailedRecords) {
+            String strRowIndex = failedRecord.substringAfterLast(',').trim();
+            if(strRowIndex.isNumeric()){
+            Integer intIndex = Integer.valueOf(strRowIndex);
+            String strBefore = failedRecord.substringBeforeLast(',');
+            failedRecordsCSV = failedRecordsCSV + strBefore + ', ' + mapRowIndexToErrorMessage.get(intIndex) + '\n';  
+            }
+            else{
+            failedRecordsCSV = failedRecordsCSV + failedRecord + '\n';
+            }
+        }
         Messaging.EmailFileAttachment failedRecordsEfa = new Messaging.EmailFileAttachment();
         failedRecordsEfa.setFileName('ProcessOutput_Records_' + formattedDate + '.csv');
         failedRecordsEfa.setBody(Blob.valueOf(failedRecordsCSV));
@@ -1717,12 +1747,23 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });
         }
+        string errFileName = 'error.csv';
+            if( fileName.contains('.csv')){
+                if(fileName.contains('_errors.csv')){
+                    errFileName = fileName;
+                }
+                else{
+                    errFileName  = fileName.split('.csv')[0]+'_errors.csv';
+                }
+            }
+            else if( fileName.contains('.xlsx'))errFileName  = fileName.split('.xlsx')[0]+'_errors.csv';
+            else if( fileName.contains('.xls'))errFileName  = fileName.split('.xls')[0]+'_errors.csv';
         Id conDocId = null;
         if(errorRecordCount != 0){
             Id networkId = [SELECT Id FROM Network LIMIT 1].Id;
             ContentVersion cv = new ContentVersion();
-		    cv.Title = fileName + '_error.csv';
-		    cv.PathOnClient = fileName + '_error';
+		    cv.Title = errFileName;
+		    cv.PathOnClient = '/'+errFileName;
 		    cv.VersionData = Blob.valueOf(failedRecordsCSV);
 		    cv.IsMajorVersion = true;
 		    cv.NetworkId = networkId;
@@ -1733,16 +1774,19 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             ContentDocumentLink cdl = New ContentDocumentLink();
 		    cdl.LinkedEntityId = bulkHistory.Id;
 		    cdl.ContentDocumentId = conDocId;
-		    cdl.shareType = 'V';
+		    cdl.shareType = 'I';
+        	//cdl.Visibility = 'SharedUsers';
 		    Insert cdl;
             
         }
-        
         Bulk_Import_History__c bulkHistory1 = new Bulk_Import_History__c();
         bulkHistory1.Id = bulkHistory.Id;
         bulkHistory1.Import_Status__c = 'Completed';
         bulkHistory1.Initial_Total_Records__c = String.valueOf(totalRecordCount);
         bulkHistory1.Rejected_Records__c = String.valueOf(errorRecordCount);
+        if(bulkHistory1.Rejected_Records__c=='0'){
+            bulkHistory1.File_Name__c= errFileName.remove('_errors');
+        }
         bulkHistory1.Accepted_Records__c = String.valueOf(totalRecordCount - errorRecordCount);
         if(conDocId != null){
             bulkHistory1.Download_URL__c = '/sfc/servlet.shepherd/document/download/'+ conDocId;
