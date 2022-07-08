@@ -197,14 +197,19 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     public class UpdatePatientConsent extends TriggerHandler {
+        Boolean isPortalUser = checkCurrentusrProfile();
         public override void beforeInsert(List<SObject> newList) {
-            patientConsentUpdate((List<Participant_Enrollment__c>) newList);
+            if (isPortalUser) {
+                patientConsentUpdate((List<Participant_Enrollment__c>) newList, null);
+            }
         }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            patientConsentUpdate(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if (isPortalUser) {
+                patientConsentUpdate(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
 
@@ -1513,31 +1518,24 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         }
     }
 
-    private static void patientConsentUpdate(List<Participant_Enrollment__c> newList) {
-        Boolean isPortalUser = checkCurrentusrProfile();
-        if (isPortalUser) {
-            for (Participant_Enrollment__c peNew : newList) {
-                peNew.Study_Assisted_Dialing_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
-                ? true
-                : false);
-                peNew.Study_Artificial_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
-                ? true
-                : false);
-                peNew.Study_Pre_recorded_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
-                ? true
-                : false);
-            }
-        }
-    }
-
     @TestVisible
     private static void patientConsentUpdate(
         List<Participant_Enrollment__c> newList,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
         Boolean isPortalUser = checkCurrentusrProfile();
-        if (isPortalUser) {
-            for (Participant_Enrollment__c peNew : newList) {
+        for (Participant_Enrollment__c peNew : newList) {
+            if (oldMap == null) {
+                peNew.Study_Assisted_Dialing_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+                peNew.Study_Artificial_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+                peNew.Study_Pre_recorded_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+            } else {
                 Participant_Enrollment__c peOld = oldMap.get(peNew.Id);
                 if (
                     peNew.Permit_Voice_Text_contact_for_this_study__c !=
@@ -1548,7 +1546,6 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                     peNew.Study_Assisted_Dialing_Consent__c = true;
                     peNew.Study_Artificial_Voice_Consent__c = true;
                     peNew.Study_Pre_recorded_Voice_Consent__c = true;
-
                 } else if (
                     peNew.Permit_Voice_Text_contact_for_this_study__c !=
                     peOld.Permit_Voice_Text_contact_for_this_study__c &&
@@ -1565,7 +1562,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     public static boolean checkCurrentusrProfile() {
         Id profileId = userinfo.getProfileId();
         String profileName = [SELECT Id, Name FROM Profile WHERE Id = :profileId].Name;
-        if (profileName == 'IQVIA Customer Community Plus Login User') {
+        if (profileName == System.Label.PortalUserProfile) {
             return true;
         } else {
             return false;

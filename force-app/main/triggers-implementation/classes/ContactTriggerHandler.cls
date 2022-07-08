@@ -79,11 +79,16 @@ public without sharing class ContactTriggerHandler {
     }
     //updateParticipantConsent
     public class ParticipantConsentUpdate extends TriggerHandler {
+        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
         public override void beforeInsert(List<SObject> newList) {
-            updateParticipantConsent((List<Contact>) newList);
+            if (isPortalUser) {
+                updateParticipantConsent((List<Contact>) newList, null);
+            }
         }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateParticipantConsent((List<Contact>) newList, (Map<Id, Contact>) oldMap);
+            if (isPortalUser) {
+                updateParticipantConsent((List<Contact>) newList, (Map<Id, Contact>) oldMap);
+            }
         }
     }
 
@@ -872,11 +877,9 @@ public without sharing class ContactTriggerHandler {
     }
 
     @TestVisible
-    //This method check what consents where given and stamps the current time
-    private static void updateParticipantConsent(List<Contact> newList) {
-        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
-        if (isPortalUser) {
-            for (Contact con : newList) {
+    private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
+        for (Contact con : newList) {
+            if (oldMap == null) {
                 con.IQVIA_Assisted_Dialing_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
                     ? true
                     : false);
@@ -886,14 +889,7 @@ public without sharing class ContactTriggerHandler {
                 con.IQVIA_Pre_recorded_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
                     ? true
                     : false);
-            }
-        }
-    }
-    @TestVisible
-    private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
-        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
-        if (isPortalUser) {
-            for (Contact con : newList) {
+            } else {
                 contact oldContact = oldMap.get(con.Id);
                 if (
                     con.Participant_Phone_Opt_In_Permit_Phone__c !=
@@ -903,12 +899,11 @@ public without sharing class ContactTriggerHandler {
                     con.IQVIA_Assisted_Dialing_Consent__c = true;
                     con.IQVIA_Artificial_Voice_Consent__c = true;
                     con.IQVIA_Pre_recorded_Voice_Consent__c = true;
-                }
-                else if(
+                } else if (
                     con.Participant_Phone_Opt_In_Permit_Phone__c !=
                     oldContact.Participant_Phone_Opt_In_Permit_Phone__c &&
                     !con.Participant_Phone_Opt_In_Permit_Phone__c
-                ){
+                ) {
                     con.IQVIA_Assisted_Dialing_Consent__c = false;
                     con.IQVIA_Artificial_Voice_Consent__c = false;
                     con.IQVIA_Pre_recorded_Voice_Consent__c = false;
