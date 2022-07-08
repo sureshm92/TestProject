@@ -1055,6 +1055,9 @@
                     
                     var visitDate = '{!visitDate}';
                     var today = new Date();
+                    today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
+                    today = new Date(today);
+                    
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                     var yyyy = today.getFullYear();
@@ -1065,9 +1068,7 @@
                             manageCall();
                             callDisconnected = true;
                         }
-                    }
-
-                    if (currentTime > jsAutoDisconnectMeetingTime) {
+                    }else if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;

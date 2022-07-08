@@ -47,7 +47,8 @@ public without sharing class OpenTokClientController {
     public String bannerEndTime { get; set; }
     public String autoDisconnectMeetingTime { get; set; }
 	public String visitDate {get;set;}
-    public List<Televisit__c> lstTelevisit { get; set; }
+    public String userTimeZone {get;set;}
+    public List<Televisit__c>  lstTelevisit{get;set;}
     TokBoxSettings2__c settings;
     public Integer endMinutes;
 
@@ -123,10 +124,9 @@ public without sharing class OpenTokClientController {
                 )
                 .remove('.000Z');
 			visitDate = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.date());
-            system.debug(
-                'this.session.Televisit_Attendee__r :' + this.session.Televisit_Attendee__r
-            );
-            if (!this.session.Televisit_Attendee__r.isEmpty()) {
+            userTimeZone = UserInfo.getTimeZone().getID();
+            system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
+            if(!this.session.Televisit_Attendee__r.isEmpty()){
                 this.isSessionJoinable = getIsSessionJoinable();
                 //attendeeType = getAttendeeType(matchingAttendees[0]);
                 if (
