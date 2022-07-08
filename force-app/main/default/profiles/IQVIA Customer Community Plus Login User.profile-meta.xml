@@ -2910,6 +2910,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+		<editable>false</editable>
+		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Publications__c</field>
         <readable>true</readable>

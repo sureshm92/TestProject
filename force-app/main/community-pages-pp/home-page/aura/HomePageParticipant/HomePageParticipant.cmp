@@ -73,7 +73,7 @@
                                 <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                     <div class="rr-width-limiter">
                                         <aura:if
-                                            isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}"
+                                            isTrue="{!OR(equals(v.participantState.communityName, 'IQVIA Referral Hub'),equals(v.participantState.communityName, 'IQVIA Patient Portal'))}"
                                         >
                                             <img
                                                 class="contrast-logo"
@@ -141,8 +141,7 @@
                         >
                             <c:ResourceDashboardCard />
                         </aura:if>
-                        <aura:if
-                            isTrue="{!v.participantState.value == 'ALUMNI'}">
+                        <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                             <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
                         </aura:if>
                     </div>
@@ -198,9 +197,10 @@
                             >
                                 <c:ResourceDashboardCard />
                             </aura:if>
-                            <aura:if
-                                isTrue="{!v.participantState.value == 'ALUMNI'}">
-                                <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
+                            <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
+                                <c:teleVisitsPreviewPanel
+                                    isRTL="{!v.isRTL}"
+                                ></c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -227,7 +227,7 @@
                                     <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                         <div class="rr-width-limiter">
                                             <aura:if
-                                                isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}"
+                                                isTrue="{!OR(equals(v.participantState.communityName, 'IQVIA Referral Hub'),equals(v.participantState.communityName, 'IQVIA Patient Portal'))}"
                                             >
                                                 <img
                                                     class="contrast-logo"

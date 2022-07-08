@@ -11236,6 +11236,13 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>No_Active_Programs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Active Programs</shortDescription>
+        <value>No Active Programs</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18400,6 +18407,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Language and Location</value>
     </labels>
     <labels>
+        <fullName>PP_ManageDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ManageDelegates</shortDescription>
+        <value>Manage Delegates</value>
+    </labels>
+    <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19536,6 +19550,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
         <value>New visit data is available</value>
+    </labels>
+    <labels>
+        <fullName>Paticipant_s_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Paticipant's Delegate</shortDescription>
+        <value>Paticipant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -24883,6 +24904,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>View Visit Legend</shortDescription>
         <value>View Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as</shortDescription>
+        <value>Viewing as</value>
     </labels>
     <labels>
         <fullName>Viewing_as_Investigative_Site</fullName>
