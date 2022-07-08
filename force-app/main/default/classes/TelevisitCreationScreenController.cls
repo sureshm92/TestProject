@@ -46,6 +46,8 @@ Public without sharing Class TelevisitCreationScreenController {
         Datetime visitDateTime = Datetime.newInstance(wrapper.visitDate, timeChange);
         televisitRecord.Visit_Date_Time__c = visitDateTime;
         televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(wrapper.duration.remove(' minutes')));
+        CommunityMode mode = UserContext.getCurrentUserMode();
+        televisitRecord.Source_Community__c = mode.template.communityName;
         upsert televisitRecord;
         Televisit__c televisit = [Select id,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Televisit__c where ID =:televisitRecord.Id];
         if(wrapper.id==''){
