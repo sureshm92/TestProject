@@ -10,9 +10,7 @@ Public without sharing Class TelevisitCreationScreenController {
                 
                 TelevisitVendorSettings__c vendorDetails = [Select id,Study_Site__c, Televisit_Record_Vendor__r.name,isEnable__c from TelevisitVendorSettings__c where Study_Site__c =:ParticipantEnrollment.Study_Site__c and isEnable__c = true limit 1];
                     
-                if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-                   ParticipantEnrollment.Study_Site__r.Study_Site_Type__c == 'Traditional' && 
-                   vendorDetails.isEnable__c ){
+                if(ParticipantEnrollment.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && ParticipantEnrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && vendorDetails.isEnable__c ){
                          enableTelevisitTab = true;
                      
                  }else{
