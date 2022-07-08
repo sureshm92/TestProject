@@ -179,9 +179,7 @@
                         />
                     </aura:if>
                     <!-- Televisit Meet Banner Section PEH-5892 -->
-                    <c:televisitMeetBanner
-                        urlPathPrefix="{!v.urlPathPrefix}"
-                    ></c:televisitMeetBanner>
+                    <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}" currentMode="{!v.currentMode}"></c:televisitMeetBanner>
                 </aura:if>
                 {!v.body}
             </div>
