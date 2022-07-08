@@ -36,7 +36,6 @@
     <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
     <aura:attribute name="communityServ" type="Object" />
 
-
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
 
@@ -53,7 +52,7 @@
             >
                 <aura:if isTrue="{!v.isInitialized}">
                     <div
-                        class="{!'layout-header rr-width-limiter side-padding ' + if(v.isRTL, 'rtl', '')}"
+                        class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                     >
                         <div class="menu-btn" onclick="{!c.switchSideMenu}">
                             <img
@@ -81,7 +80,9 @@
                                 />
                             </div>
                             <aura:set attribute="else">
-                                <div class="logo-container">
+                                <div
+                                    class="{!if(v.template == 'PatientPortal', 'logo-container-pp', 'logo-container')}"
+                                >
                                     <img
                                         src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
                                         class="title-logo"
@@ -162,7 +163,6 @@
             <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
-    
                     <aura:if isTrue="{!v.isPPonPhone}">
                         <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
                     </aura:if>
@@ -178,9 +178,10 @@
                             userMode="{!v.currentMode.userMode}"
                         />
                     </aura:if>
-					<!-- Televisit Meet Banner Section PEH-5892 -->
-                    <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}"></c:televisitMeetBanner>
-
+                    <!-- Televisit Meet Banner Section PEH-5892 -->
+                    <c:televisitMeetBanner
+                        urlPathPrefix="{!v.urlPathPrefix}"
+                    ></c:televisitMeetBanner>
                 </aura:if>
                 {!v.body}
             </div>
