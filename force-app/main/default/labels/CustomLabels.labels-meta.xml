@@ -18166,6 +18166,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Communication_Pref_Outreach_consentC</shortDescription>
         <value>, using the telephone number(s) and/or email I have provided, by the following means:</value>
     </labels>
+       <labels>
+        <fullName>PP_Communication_Pref_Outreach_Gen_Comm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_Gen_Comm</shortDescription>
+        <value>General Communication</value>
+    </labels>
     <labels>
         <fullName>PP_Communication_Pref_Blank_Del</fullName>
         <language>en_US</language>
@@ -26397,5 +26404,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
+    </labels>
+    <labels>
+        <fullName>PortalUserProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalUserProfile</shortDescription>
+        <value>IQVIA Customer Community Plus Login User</value>
     </labels>
 </CustomLabels>
