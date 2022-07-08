@@ -77,6 +77,15 @@ public without sharing class ContactTriggerHandler {
             updateConsentTimeStamps((List<Contact>) newList, (Map<Id, Contact>) oldMap);
         }
     }
+    //updateParticipantConsent
+    public class ParticipantConsentUpdate extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            updateParticipantConsent((List<Contact>) newList);
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateParticipantConsent((List<Contact>) newList, (Map<Id, Contact>) oldMap);
+        }
+    }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -783,7 +792,7 @@ public without sharing class ContactTriggerHandler {
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Contact> newList) {
         for (Contact con : newList) {
-            con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c 
+            con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c
                 ? Datetime.now()
                 : null);
             con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c
@@ -858,6 +867,52 @@ public without sharing class ContactTriggerHandler {
                 oldContact.IQVIA_Artificial_Voice_Consent__c
             ) {
                 con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+            }
+        }
+    }
+
+    @TestVisible
+    //This method check what consents where given and stamps the current time
+    private static void updateParticipantConsent(List<Contact> newList) {
+        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
+        if (isPortalUser) {
+            for (Contact con : newList) {
+                con.IQVIA_Assisted_Dialing_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+                con.IQVIA_Artificial_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+                con.IQVIA_Pre_recorded_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+            }
+        }
+    }
+    @TestVisible
+    private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
+        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
+        if (isPortalUser) {
+            for (Contact con : newList) {
+                contact oldContact = oldMap.get(con.Id);
+                if (
+                    con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                    oldContact.Participant_Phone_Opt_In_Permit_Phone__c &&
+                    con.Participant_Phone_Opt_In_Permit_Phone__c
+                ) {
+                    con.IQVIA_Assisted_Dialing_Consent__c = true;
+                    con.IQVIA_Artificial_Voice_Consent__c = true;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = true;
+                }
+                else if(
+                    con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                    oldContact.Participant_Phone_Opt_In_Permit_Phone__c &&
+                    !con.Participant_Phone_Opt_In_Permit_Phone__c
+                ){
+                    con.IQVIA_Assisted_Dialing_Consent__c = false;
+                    con.IQVIA_Artificial_Voice_Consent__c = false;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = false;
+                }
             }
         }
     }

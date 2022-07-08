@@ -33,5 +33,6 @@ trigger ContactTrigger on Contact(
         );
         //Timestamp should not be bypassed when consents are changed
         TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.ParticipantConsentUpdate.class);
     }
 }
