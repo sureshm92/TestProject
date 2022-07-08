@@ -26405,4 +26405,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
     </labels>
+    <labels>
+        <fullName>PortalUserProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalUserProfile</shortDescription>
+        <value>IQVIA Customer Community Plus Login User</value>
+    </labels>
 </CustomLabels>
