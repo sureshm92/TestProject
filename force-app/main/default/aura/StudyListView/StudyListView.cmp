@@ -239,7 +239,7 @@
             <c:PIR_ImportParticipants aura:id="actionUploadParticipants"  />
             
              <!-- ImportParticipants dialog -->
-            <c:Action_ImportParticipants aura:id="actionImportParticipants" />
+            <!-- <c:Action_ImportParticipants aura:id="actionImportParticipants" /> -->
             
         </div>
     </aura:if>
