@@ -26,6 +26,7 @@
 .pir-bulkImport .custom-label{
     font-weight: 600;
 }
+
 /** --- Pagination Code --- **/
 .bulkImport .pg{
     min-height: 51px;
@@ -92,7 +93,7 @@ input[type=number] {
   }
   .pg{
     text-align: center;
-    padding: 10px 0px;
+    padding: 0px 0px;
     background: #F6F7FB;
   }
 }
