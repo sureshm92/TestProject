@@ -21,16 +21,15 @@
                     </div>
                  </div>
                  <slot name="bolkimport">
-                  <template if:true={isDataLoading}>
-                     <div class="slds-m-around_large vertical-scroll">
-                       <lightning-spinner alternative-text="Loading..." variant="brand">
-                       </lightning-spinner>
-                     </div>
-                   </template>
-                  
-                    <div data-id="mainDivscroll" class="slds-grid slds-wrap slds-gutters importParticipants_popup bulkImportScroll bulkautoScroll">
-                     <template if:false={isMyStudiesPg}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown_truncate dropdown-fonts">
+                    <div data-id="mainDivscroll" class="slds-grid slds-wrap slds-gutters importParticipants_popup bulkImportScroll">
+                     <template if:true={isDataLoading}>
+                        <div class="slds-m-around_large vertical-scroll">
+                          <lightning-spinner alternative-text="Loading..." variant="brand">
+                          </lightning-spinner>
+                        </div>
+                      </template>
+                     
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown_truncate dropdown-fonts_bulk">
                            <lightning-combobox
                            name="Study Name:"
                            label="Study Name:"
@@ -38,21 +37,22 @@
                            placeholder="Study Name"
                            options={studylist}
                            onchange={studyhandleChange}
+                           disabled={isMyStudies}
                            ></lightning-combobox>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown-fonts">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown-fonts_bulk">
                            <lightning-combobox
                                name="studysite"
                                label="Study Site:"
                                value={selectedSite}
-                               placeholder={label.PG_AC_Select}
+                               placeholder={siteLabel}
                                options={studySiteList}
                                onchange={studysitehandleChange}
                                disabled={studysiteaccess}
                                ></lightning-combobox>
                         </div>
                       
-                     </template> 
+                     
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-form-element modalBody">
                              <div class="slds-p-bottom_xxx-small slds-p-top_xxx-small">
@@ -128,12 +128,12 @@
                              </div><!-- slds-p-bottom_xxx-small -->
                           </div><!-- slds-form-element modalBody -->
                        </div><!-- slds-col slds-size_1-of-1 -->
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_xx-small">
                           <div class="fileUpload">
                              Select Participant Status
                           </div>
                        </div>
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-top importInputPopup dropdown-fonts">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top importInputPopup dropdown-fonts_bulk">
                           <lightning-combobox
                              name="Participant Status"
                              label="Participant Status"
@@ -147,7 +147,7 @@
                        </div>
 
                        <template if:true={visitPlanAvailable}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-top importInputPopup dropdown-fonts">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top importInputPopup dropdown-fonts_bulk">
                           
                           <lightning-combobox
                           name="Arm/Cohort:"
@@ -156,6 +156,7 @@
                           placeholder="Select...."
                           options={visitPlansLVList} 
                           disabled ={visitPlanDisabled}
+                          onchange={handleVisitPlan}
                           required ={visitPlanRequired}
                           ></lightning-combobox>
 
@@ -188,9 +189,14 @@
                            </div>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small importInputPopup">
-                           <lightning-input type="checkbox" disabled={disablePatientInvite} label="Invite the patient to join Patient Portal"   onchange={handleppinvite} 
+                           <div class="display-checkbox">
+                           <lightning-input type="checkbox" data-name="ppcheck" disabled={disablePatientInvite} varient="label-hidden"   onchange={handleppinvite} 
                            name="inviteToPP"></lightning-input>
+                           <span class="checkbox_width"><label class="" >Invite the patient to join Patient Portal</label></span>
+                           </div>
                         </div> 
+                        
+                       
                           </template> 
                        </template> 
                      </template>
@@ -199,7 +205,7 @@
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
                              <button title="" class="slds-button apollo-btn primary btn-height import-btn" disabled={shouldDisableImport} onclick={doImportParticipant} > Import </button>
-                             <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleImportParticipantclose}> Cancel</button>
+                             <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleImportParticipantclose}> Cancel</button> 
                           </div> 
                        </div>
                     </div><!-- slds-grid slds-wrap slds-gutters -->

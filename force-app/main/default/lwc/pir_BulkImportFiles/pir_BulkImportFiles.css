@@ -31,7 +31,8 @@
     border-color: #1c577f;
 }
 .bulkImport .table-width{
-    height: 527px;
+    max-height: 529px;
+    overflow-y: hidden !important;
 }
 .bulkImport .table-width-nodata{
     height: auto;
@@ -70,6 +71,9 @@
     width: 1173.6px;
 }
 .bulkImport .table-row:nth-child(even) {
+    background-color: #F8F9FB;
+}
+tbody:nth-child(even) {
     background-color: #F8F9FB;
 }
 .bulkImport .table-text-left{
@@ -159,11 +163,35 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
+.processStatus{
+    background-color: #F2F2F2;
+    padding: 10px 10px 0px 10px;
+    border-radius: 6px;
+    margin-top: 6px;
+}
+.processStatus .fileName{
+    font-size: 12px;
+    margin-left: -60px;
+}
+.processStatus .fileProgress{
+    color: #444444;
+    font-size: 12px;
+    float: right;
+    font-weight: 700;
+}
+.hideDesktop{
+    display: none;
+}
+.processFileScroll{   
+    max-height: 33vh;
+    overflow-y: auto;
+    margin-top: -5px;
+}
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
+
 @media all and (max-width: 63.9375em) {
     
   .rightShift{
@@ -172,7 +200,7 @@ input[type=number] {
   }
   .pg{
     text-align: center;
-    padding: 10px 0px;
+    padding: 0px 0px;
     background: #F6F7FB;
   }
 }
@@ -223,6 +251,35 @@ input[type=number] {
         width: auto;
         margin-left: unset;
     }
+    .bulkImport .table-width{
+        max-height: 550px;
+    }
+    .processFileScroll{   
+        max-height: 28vh;
+    }
+    .processStatus{
+        padding: 10px;
+    }
+    .processStatus .fileName{
+        margin-left: -18px;
+        overflow-wrap: break-word;
+    }
+    .processStatus .fileProgress{
+        float: left !important;
+        margin-left: -18px;
+    }
+    .mobile_viewMargin{
+        margin-top: -12px;
+    }
+    .slds-m-top_small_mobile{
+        margin-top: 6px;
+    }
+    .hideDesktop{
+        display: unset;
+    }
+    .showDesktop{
+        display: none;
+    }
 }
 
 /** pop Import code **/
@@ -272,6 +329,7 @@ input[type=number] {
 }
 .listText{
     font-size: 14px;
+    font-family: 'Proxima Nova';
 }
 .custom-position{
     position: absolute;

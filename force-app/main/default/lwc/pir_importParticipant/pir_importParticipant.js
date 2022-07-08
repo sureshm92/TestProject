@@ -59,7 +59,8 @@ visitPlanDisabled = false;
 selectedvisitPlanId = undefined;
 visitPlanRequired = false;
 visitPlansLVList = [];
-
+communityWithPPInv = false;
+@api siteName='';
 downloadTemplate = DownloadParticipantTemplate;
 ParticipantBulkImportInstructions = ParticipantBulkImportInstructions;
 
@@ -72,6 +73,62 @@ label = { PIR_Study_Site_Name,
 connectedCallback() {
     loadScript(this, xlsxmin).then(() => {});
     loadStyle(this, PIR_Community_CSS);
+    if(this.isMyStudies){
+        this.isDataLoading = true;
+        this.selectedStudy = this.studyid;
+        this.selectedSite = this.siteid;
+        this.studysiteaccess = true;
+
+        if(this.selectedSite){
+            getParticipantsStatusesAndVisitPlans({
+            studySiteId: this.selectedSite 
+            })
+            .then((result) => {
+                this.importParticipantStatus = result.participantStatuses;
+                this.shouldDisableImportStatus = false; 
+                this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
+                if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
+                        &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
+                    {
+                        this.isSuppressed = true;
+                    }
+                else{
+                    this.isSuppressed = false;
+                }
+    
+                if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true && this.communityWithPPInv == true
+                    && result.objStudySite.Study_Site_Type__c != 'Hybrid' && result.objStudySite.Study_Site_Type__c != 'Virtual')
+                    {
+                        this.isStudyPPEnabled = true;
+                    }
+                if(result.visitPlansLVList != undefined && result.visitPlansLVList.length >0){
+                    this.visitPlanAvailable = true;
+                        if(result.visitPlansLVList.length != 1){
+                            result.visitPlansLVList.push({label:'None',value:''});
+                        }else{
+                            this.visitPlanDisabled = true;
+                        this.selectedvisitPlanId = result.visitPlansLVList[0].value;
+                        }
+                }
+                this.visitPlansLVList =  result.visitPlansLVList; 
+                this.isDataLoading = false;
+                this.toggleImportButton();
+            })
+            .catch((error) => {
+            console.error('Error: ', error);
+            })
+            } 
+        return true;
+    }else{
+        return false;
+    }
+}
+get siteLabel(){
+    if(this.isMyStudies){
+        return this.siteName;
+    }else{
+        return this.label.PG_AC_Select;
+    }
 }
 @wire(getStudyStudySiteDetails)
 participantAccess({ error, data }) {
@@ -130,28 +187,55 @@ participantAccess({ error, data }) {
       this.isloading = false;
   }
 }
-get isMyStudiesPg(){
-    if(this.isMyStudies){
-        this.selectedStudy = this.studyid;
-        this.selectedSite = this.siteid;
-        if(this.selectedSite){
-            getParticipantsStatusesAndVisitPlans({
-            studySiteId: this.selectedSite 
-            })
-            .then((result) => {
-            this.importParticipantStatus = result.participantStatuses;
-            this.shouldDisableImportStatus = false;
-            this.toggleImportButton();
-            })
-            .catch((error) => {
-            console.error('Error: ', error);
-            })
-            } 
-        return true;
-    }else{
-        return false;
-    }
-}
+
+generateISOLanguage(){
+    getISOLanguage()
+    .then((result) => {
+        var csvStringResult, counter, keys, columnDivider, lineDivider;
+        if (result == null || !result.length) {
+            return;
+         }
+        columnDivider = ',';
+        lineDivider =  '\n';
+        //keys = ['Language','Language ISO Code'];
+        keys = ['Language','LanguageISOcode'];
+
+        csvStringResult = '';
+        csvStringResult += keys.join(columnDivider);
+        csvStringResult += lineDivider;
+ 
+        for(var i=0; i < result.length; i++){   
+            counter = 0; 
+             for(var sTempkey in keys) {
+                var skey = keys[sTempkey] ; 
+                  if(counter > 0){ 
+                      csvStringResult += columnDivider; 
+                   }   
+                if(result[i][skey] != undefined){
+                    csvStringResult += '"'+ result[i][skey]+'"'; 
+                }else{
+                    csvStringResult += '"'+ '' +'"';
+                }               
+               counter++;
+ 
+            } // inner for loop close 
+             csvStringResult += lineDivider;
+          }// outer main for loop close 
+
+          var hiddenElement = document.createElement('a');
+          hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStringResult);
+          hiddenElement.target = '_self'; // 
+          hiddenElement.download = 'ISO_Language_Guide.csv';  // CSV file Name* you can change it.[only name not .csv] 
+          document.body.appendChild(hiddenElement); // Required for FireFox browser
+          hiddenElement.click(); // using click() js function to download csv file
+
+    })
+    .catch((error) => {
+        console.log(">>error in Generating ISO>>>" + JSON.stringify(error));
+      });
+
+  } 
+
 studyhandleChange(event) {
     this.isDataLoading = true;
     var picklist_Value = event.target.value;
@@ -185,60 +269,6 @@ studyhandleChange(event) {
     this.toggleImportButton();
 
 }
-generateISOLanguage(){
-    console.log('>>>rgenerate iso called>>');
-    getISOLanguage()
-    .then((result) => {
-        console.log('>>>result in iso>>'+result);
-        var csvStringResult, counter, keys, columnDivider, lineDivider;
-        if (result == null || !result.length) {
-            return;
-         }
-        columnDivider = ',';
-        lineDivider =  '\n';
-        //keys = ['Language','Language ISO Code'];
-        keys = ['Language','LanguageISOcode'];
-
-        csvStringResult = '';
-        csvStringResult += keys.join(columnDivider);
-        csvStringResult += lineDivider;
- 
-        for(var i=0; i < result.length; i++){   
-            counter = 0;
-           
-             for(var sTempkey in keys) {
-                var skey = keys[sTempkey] ; 
-                  if(counter > 0){ 
-                      csvStringResult += columnDivider; 
-                   }   
-                if(result[i][skey] != undefined){
-                    csvStringResult += '"'+ result[i][skey]+'"'; 
-                }else{
-                    csvStringResult += '"'+ '' +'"';
-                }               
-               counter++;
- 
-            } // inner for loop close 
-             csvStringResult += lineDivider;
-          }// outer main for loop close 
-
-          var hiddenElement = document.createElement('a');
-          hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStringResult);
-          hiddenElement.target = '_self'; // 
-          hiddenElement.download = 'ISO_Language_Guide.csv';  // CSV file Name* you can change it.[only name not .csv] 
-          document.body.appendChild(hiddenElement); // Required for FireFox browser
-          hiddenElement.click(); // using click() js function to download csv file
-
-    })
-    .catch((error) => {
-        console.log(">>error in Generating ISO>>>" + JSON.stringify(error));
-      });
-
-}
-
-
-
-
 
 
 
@@ -247,55 +277,82 @@ handleppinvite(event){
 }
 studysitehandleChange(event) {
     this.selectedSite = event.target.value;
+    this.isStudyPPEnabled = false;
+    this.visitPlanAvailable = false;
+    this.visitPlanDisabled = false;
+    this.communityWithPPInv = false;
+    this.selectedvisitPlanId = undefined;
+    this.selectedStatus = '';
     if(this.selectedSite){
         this.isDataLoading = true;
-    getParticipantsStatusesAndVisitPlans({
-    studySiteId: this.selectedSite 
-    })
-    .then((result) => {
-        this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
-    this.importParticipantStatus = result.participantStatuses;
-    this.shouldDisableImportStatus = false;
-     
-     var communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name;
-    
-    if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
-            &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
-    {
-        this.isSuppressed = true;
-    }
-    else{
-    this.isSuppressed = false;
-    }
-
-    if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true && communityWithPPInv == true
-        && result.objStudySite.Study_Site_Type__c != 'Hybrid' && result.objStudySite.Study_Site_Type__c != 'Virtual')
-    {
-        this.isStudyPPEnabled = true;
-    }
-    if(result.visitPlansLVList != undefined && result.visitPlansLVList.length >0){
-       this.visitPlanAvailable = true;
-        if(result.visitPlansLVList.length != 1){
-            result.visitPlansLVList.push({label:'None',value:''});
-        }else{
-            this.visitPlanDisabled = true;
-           this.selectedvisitPlanId = result.visitPlansLVList[0].value;
-        }
-    }
-    console.log('>>selectedvisitPlanId>>'+this.selectedvisitPlanId);
-    this.visitPlansLVList =  result.visitPlansLVList;   
+        getParticipantsStatusesAndVisitPlans({
+        studySiteId: this.selectedSite 
+        })
+        .then((result) => {
+        //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
+            this.importParticipantStatus = result.participantStatuses;
+            
+            this.shouldDisableImportStatus = false; 
+            if(this.template.querySelector("c-consent-manager"))
+            {
+                this.template.querySelector("c-consent-manager").resetConsents();
+            }
+            if(this.template.querySelector("[data-name='ppcheck']"))
+            {
+               var ppcheck =  this.template.querySelector("[data-name='ppcheck']");
+               ppcheck.checked = true;
+               this.createUsers = false;
+            }
+            this.disablePatientInvite = true;
+            this.createUsers = false;
+            this.isEmail = false;
+            this.doContact = false;
+             
+           this.isPhone = false;
+           this.isSMS = false;
+               
+            this.iqviaOutreachEmail = false;
+            this.iqviaOutreachSMS = false;
+            this.iqviaOutreachPhone = false;
+            this.iqviaOutreachDirectMail = false;
 
 
-    this.isDataLoading = false;
-    this.toggleImportButton();
 
-    })
-    .catch((error) => {
-    console.error('Error: ', error);
-    })
+            this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
+            if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
+                    &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
+                {
+                    this.isSuppressed = true;
+                }
+            else{
+                this.isSuppressed = false;
+            }
 
+            if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true && this.communityWithPPInv == true
+                && result.objStudySite.Study_Site_Type__c != 'Hybrid' && result.objStudySite.Study_Site_Type__c != 'Virtual')
+                {
+                    this.isStudyPPEnabled = true;
+                }
+            if(result.visitPlansLVList != undefined && result.visitPlansLVList.length >0){
+                this.visitPlanAvailable = true;
+                    if(result.visitPlansLVList.length != 1){
+                        result.visitPlansLVList.push({label:'None',value:''});
+                    }else{
+                        this.visitPlanDisabled = true;
+                    this.selectedvisitPlanId = result.visitPlansLVList[0].value;
+                    }
+            }
+            this.visitPlansLVList =  result.visitPlansLVList; 
+            this.isDataLoading = false;
+            this.toggleImportButton();
+            })
+        .catch((error) => {
+        console.error('Error in handle studysite '+error);
+        console.error('Error in handle studysite '+ JSON.stringify(error));
+        }) 
     } 
-}        
+}
+
 handleImportParticipantclose(){
     const custEvent = new CustomEvent('close');
     this.dispatchEvent(custEvent);
@@ -311,15 +368,15 @@ particiapntStatushandleChange(event){
     }
     this.toggleImportButton();
 }   
+handleVisitPlan(event){
+    this.selectedvisitPlanId = event.target.value;
+}
 handleConsentChange(event){  
-    console.log('>>event>>'+JSON.stringify(event.detail)); 
-
     this.isEmail = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
     this.doContact = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
     this.disablePatientInvite = !this.doContact;
    this.isPhone = event.detail.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c;
    this.isSMS = event.detail.consentMap.pe.Permit_SMS_Text_for_this_study__c;
-   console.log('>>>doContact>>'+this.doContact);
     if (!this.doContact) {
         this.createUsers = false;
     }    
@@ -332,8 +389,7 @@ handleConsentChange(event){
   }
 
   toggleImportButton(){
-    if(this.isFileLoadedComplete && this.selectedStudy && this.selectedSite && this.selectedStatus
-    && this.doContact)
+    if(this.isFileLoadedComplete && this.selectedStudy && this.selectedSite && this.selectedStatus && this.doContact)
     {
     this.shouldDisableImport = false;
 
@@ -341,36 +397,8 @@ handleConsentChange(event){
     else { 
     this.shouldDisableImport = true;
     }
-} 
+}  
 
- 
-deleteFiles(){
-     this.isDataLoading = true;
-      deleteFile({ 
-          fileId: this.fileId   
-      })
-      .then(result => {
-          this.template.querySelector(".fileInput").value=null; 
-          this.template.querySelector(".fileInput").disabled = false;
-          this.fileName = '';
-          this.isFileLoadedComplete = false;
-          this.progress = 0;
-          this.progressWidth='width :0%';
-          this.base = 1;
-          this.progressMultiplier = 0;
-          this.isDataLoading = false;
-          this.isFileAdded = false;
-          this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
-          this.toggleImportButton();
-      })
-      .catch(error => {
-         this.isDataLoading = false;
-          console.error('Error: ', error);
-      })
-      .finally(()=>{
-         this.isDataLoading = false;
-      })
-}
   
 handleFilesChange_new(event) {
       if (event.target.files.length > 0) {
@@ -401,7 +429,7 @@ saveFile() {
           this.fileName.split('.')[1] != 'xlsx' &&
           this.fileName.split('.')[1] != 'xls'
       ) {
-          let message ="Please upload xls file";
+          let message ="Invalid file format. Allowable file formats are .xlsx or .csv only.";
           this.dispatchEvent(
               new ShowToastEvent({
                   title: 'Error',
@@ -416,9 +444,7 @@ saveFile() {
           this.toggleImportButton();
           this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
           return;
-      }
-  
-       
+      } 
   
       this.progressWidth = 'width :8%';
       this.progress = 8;
@@ -441,15 +467,13 @@ saveFile() {
               self.fileLength = length;
               for (var i = 0; i < length; i++) {
                   binary += String.fromCharCode(bytes[i]);
+                  
               }
               var workbook = XLSX.read(binary, { type: 'binary', raw: true });
               var sheet_name_list = workbook.SheetNames; 
               var csvData = XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]);
               self.stringArray = csvData.split('\n');
-              console.log('>>>filebody373>>'+JSON.stringify(self.stringArray));
               self.totalRecords = self.stringArray.length;
-              console.log('>>total records>>'+self.totalRecords);
-              console.log('>>>filebody373>>'+JSON.stringify(self.stringArray));
                
           } catch (e) {
               console.log('error in reader2>>' + e.message);
@@ -457,9 +481,6 @@ saveFile() {
       };
       reader2.readAsArrayBuffer(fileCon);
       reader.readAsDataURL(fileCon);
-}
-get enableDel(){
-    return this.progress == 100;
 } 
   
 upload(file, fileContents) {
@@ -519,7 +540,7 @@ uploadChunk(file, fileContents, fromPos, toPos, attachId) {
         })
         .finally(() => {});
 }
-  
+
 formatBytes(bytes, decimals) {
     if (bytes == 0) return '0 Bytes';
     var k = 1024,
@@ -529,17 +550,43 @@ formatBytes(bytes, decimals) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-testValueComing(event){
-    console.log('>>>>>fileBody>>'+JSON.stringify(this.stringArray))
+get enableDel(){
+    return this.progress == 100;
+} 
 
-}
+
+deleteFiles(){
+    this.isDataLoading = true;
+     deleteFile({ 
+         fileId: this.fileId   
+     })
+     .then(result => {
+         this.template.querySelector(".fileInput").value=null; 
+         this.template.querySelector(".fileInput").disabled = false;
+         this.fileName = '';
+         this.isFileLoadedComplete = false;
+         this.progress = 0;
+         this.progressWidth='width :0%';
+         this.base = 1;
+         this.progressMultiplier = 0;
+         this.isDataLoading = false;
+         this.isFileAdded = false;
+         this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+         this.toggleImportButton();
+     })
+     .catch(error => {
+        this.isDataLoading = false;
+         console.error('Error: ', error);
+     })
+     .finally(()=>{
+        this.isDataLoading = false;
+     })
+} 
+
 
 doImportParticipant(){
   this.isDataLoading  = true;
-   
-
-    
-    uploadParticipants({
+    uploadParticipants({ 
         csvFileLines: this.stringArray,
         fileName:  this.fileName,
         studySiteId: this.selectedSite,
@@ -553,31 +600,54 @@ doImportParticipant(){
         outreachPhone : this.iqviaOutreachPhone,
         outreachSMS : this.iqviaOutreachSMS,
         outreachDirectMail : this.iqviaOutreachDirectMail,
-        visitPlanId: undefined
+        visitPlanId: this.selectedvisitPlanId == '' ? undefined : this.selectedvisitPlanId
     })
     .then((result) => {
-
         console.log('>>result is>>'+result);
-        this.isDataLoading  = false;
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'bulk-imports'
-              },
-            state: {
-              'myParticipants' : true
-             }
-        });
-        const evt = new ShowToastEvent({
-            title: 'Success',
-            message: 'Participant record import in progress, please hold. ',
-            variant: "success",
-            mode: "dismissable"
-          });
-          this.dispatchEvent(evt);
-          const custEvent = new CustomEvent('close');
-          this.dispatchEvent(custEvent);
-
+        switch (result) {
+            case "FileEmpty": {
+              const event = new ShowToastEvent({
+                title: "VALIDATION ERROR:",
+                message: "File is empty. Please correct the problem and try again.",
+                variant: "Error",
+              }); 
+              this.dispatchEvent(event); 
+              this.deleteFiles(); 
+              break;
+            }
+            case "MaxiumumSizeLimit": {
+              const event = new ShowToastEvent({
+                title: "VALIDATION ERROR:",
+                message: "File contains more than 45,000 records; you may split the file. Please correct the problem and try again.",
+                variant: "Error",
+              });
+              this.dispatchEvent(event);
+              this.deleteFiles(); 
+              break;
+            }
+            case "FileFormatError": {
+                const event = new ShowToastEvent({
+                  title: "VALIDATION ERROR:",
+                  message: "File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.",
+                  variant: "Error",
+                });
+                this.dispatchEvent(event);
+                this.deleteFiles(); 
+                break;
+              }
+              case "Success": {
+                this.isDataLoading  = false;
+                this[NavigationMixin.Navigate]({
+                    type: 'comm__namedPage',
+                    attributes: {
+                        pageName: 'bulk-imports'
+                      },
+                    state: {
+                      'myParticipants' : true
+                     }
+                }); 
+              }  
+        }  
 
     })
     .catch((error) => {
