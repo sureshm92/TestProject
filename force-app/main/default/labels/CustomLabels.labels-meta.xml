@@ -30,7 +30,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Greeting</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2 ,</value>
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,</value>
     </labels>
     <labels>
         <fullName>Televisit_Cancel_Email_Header</fullName>
@@ -70,7 +70,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Creation Email Body</shortDescription>
-        <value>This is an email to inform you about an upcoming televisit for the ##StudyCodeName Study.
+        <value>This is an email to inform you about an upcoming televisit for the ##StudyCodeName.
 
 Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime 
@@ -171,7 +171,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Reminder Email Body</shortDescription>
-        <value>This is an email to remind you about an upcoming televisit for the ##StudyCodeName Study.
+        <value>This is an email to remind you about an upcoming televisit for the ##StudyCodeName.
 
 Televisit title: ##VisitName
 Televisit Date/Time: ##VisitTime 
@@ -189,7 +189,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reminder Two Email Body</shortDescription>
-        <value>Dear ##PISSName1 ##PISSName2,
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,
 
 This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
 
@@ -249,11 +249,12 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Body</shortDescription>
-        <value>Dear Site Staff/PI ,
+        <value>This email is to inform you that you were removed from the list of attendees for a televisit for the ##StudyCodeName. You will not be able to join this televisit.
 
-Your have been removed from the televisit ##VisitName .
+Televisit title: ##VisitName
 
-Televisit  Date/Time : ##VisitDate
+Televisit Date/Time: ##VisitDttime
+
 Duration: ##VisitDuration</value>
     </labels>
     <labels>
@@ -261,14 +262,14 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Header</shortDescription>
-        <value>Televisit Removed</value>
+        <value>You were removed from a televisit</value>
     </labels>
     <labels>
         <fullName>Televisit_Remove_Email_Subject</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Subject</shortDescription>
-        <value>Televisit was removed</value>
+        <value>You were removed from a televisit</value>
     </labels>
     <labels>
         <fullName>PIR_Discard</fullName>
@@ -12200,7 +12201,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Delete_Attachment</shortDescription>
         <value>Delete Attachment</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
         <language>en_US</language>
@@ -25782,7 +25783,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Close Tab</shortDescription>
-        <value>Close this tab to exit.</value>
+        <value>Session Closed. Close this tab to exit.</value>
     </labels>
     <labels>
         <fullName>DeviceSettings_AudioSource</fullName>
@@ -25974,7 +25975,7 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Non Attendee Message</shortDescription>
         <value>You are not a designated Attendee for this Televisit. A Study Center member must add you as an Attendee.</value>
     </labels>
-    
+
     <labels>
         <fullName>StartCall</fullName>
         <language>en_US</language>
@@ -26177,7 +26178,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone permissions to join televisit. Go back to Rejoin and grant permissions.</value>
+        <value>You must grant microphone and camera permissions to join televisit. Please grant permissions and Rejoin.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
