@@ -59,6 +59,7 @@
 .THIS .menu-popup-panel.pp.popupTargetContainer {
     border-radius: 16px !important;
     right: 21px !important;
+    width: 313px !important;
 }
 .THIS .menu-popup-panel.popupTargetContainer {
     visibility: hidden;

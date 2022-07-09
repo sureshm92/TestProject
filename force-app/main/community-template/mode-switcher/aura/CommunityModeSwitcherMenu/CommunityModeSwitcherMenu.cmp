@@ -101,6 +101,7 @@
 
             <li class="lo-button">
                 <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <div class="divider-line" />
                     <lightning:button
                         variant="base"
                         label="{!$Label.c.PP_Logout}"
