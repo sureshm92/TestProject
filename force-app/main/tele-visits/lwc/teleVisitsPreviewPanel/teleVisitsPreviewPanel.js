@@ -27,7 +27,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
     isVisitAvailable = false;
     isFilterAvailable = false;
     searchStatus = '';
-@api participantState;
+    @api participantState;
     labels = {
         RTL_Languages,
         FILTER_LABEL,
