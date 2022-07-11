@@ -113,6 +113,15 @@ export default class ConsentManager extends LightningElement {
         }
         
     }
+    get studyConsentClassName(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align bulkimportmargin';
+        }
+        else {
+            return 'label_align slds-p-left_large';
+        }
+        
+    }
 
     get ClassName(){
          if(this._callSource == "addParticipant"){
