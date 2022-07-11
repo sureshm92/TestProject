@@ -20,7 +20,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     pcCss = 'po-tab-menu';
 
     connectedCallback() {
-        DEVICE == 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
         let ctpaccordionDatalist = [];
         //code
