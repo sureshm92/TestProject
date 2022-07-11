@@ -319,7 +319,9 @@
                         }
 
                         var options = getPublisherProperties(false);
-                        options.name = attendeeName;
+                        var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
+                        options.name = (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase();
+
 
                         var subscriber = session.subscribe(event.stream, getContainer(event.stream), options);
 
@@ -521,9 +523,11 @@
             /*-------------------------------------*/
 
             function getPublisherProperties(isPublishingScreenShare) {
+                var attendeeName = getControllerValue('userName');
+                var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
                 return {
                     ...options,
-                    name: getControllerValue('userName'),
+                    name: (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase(),
                     publishAudio: publishAudio,
                     publishVideo: isPublishingScreenShare ? true : publishVideo,
                     audioSource: audioSource,
@@ -1048,7 +1052,23 @@
                         document.getElementById("televisitBanner").setAttribute("class", "hideBanner");
                     }
 
-                    if (currentTime > jsAutoDisconnectMeetingTime) {
+                    
+                    var visitDate = '{!visitDate}';
+                    var today = new Date();
+                    today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
+                    today = new Date(today);
+                    
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+                    var yyyy = today.getFullYear();
+                    today = yyyy +'-'+ mm +'-'+ dd;
+                    
+                    if(visitDate < today){
+                       if (!callDisconnected) {
+                            manageCall();
+                            callDisconnected = true;
+                        }
+                    }else if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;
@@ -1292,6 +1312,11 @@
                 background: #f5f6fa !important;
             }
 
+            #self-feed-container h1,
+            #speaker-container h1,
+            #last-active-feed h1 {
+                font-weight: bold;
+            }
             .hideBanner {
                 display: none;
             }
@@ -1301,7 +1326,7 @@
                 background: rgb(254, 147, 57);
                 padding: 3px 10px 3px 10px;
                 box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-                margin-top: -50px;
+                margin-top: -52px;
                 font-size: 14px;
                 position: absolute;
                 margin-left: auto;
@@ -1309,7 +1334,24 @@
                 left: 0;
                 right: 0;
                 text-align: center;
-                width: 50%;
+                width: 75%;
+            }
+             .tv_banner {
+                padding-right: 0.5rem !important;
+                padding-right: 0 !important;
+            }
+            .tv_banner::before {
+                content: '';
+                flex-basis: 100%;
+            }
+             .warning_content{
+                content: '';
+                flex-basis: 100%;
+            }
+            .extent_time{
+                content: '';
+                flex-basis: 100%;
+                text-align: right;
             }
 
             .tv_warning {
@@ -1359,6 +1401,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
+                 width: 90px;
             }
 
             .cp-main-logo {
@@ -1420,12 +1463,28 @@
 
             #header {
                 padding: 1em;
-                background: rgb(0, 118, 174);
-                background: url({!URLFOR($Resource.TokboxAssets, '/images/header-wave.png')})
-                        no-repeat left top,
-                    linear-gradient(270deg, rgba(0, 118, 174, 1) 0%, rgba(37, 0, 86, 1) 100%);
                 color: white;
                 text-align: center;
+            }
+
+            .headerbg-rh {
+                background: rgb(0, 118, 174);
+                background: url({!URLFOR($Resource.TokboxAssets, '/images/header-wave.png')
+            }
+
+            ) no-repeat left top,
+            linear-gradient(270deg,
+            rgba(0, 118, 174, 1) 0%,
+            rgba(37, 0, 86, 1) 100%);
+            }
+
+            .headerbg-gsk {
+                background: #EA6621;
+
+            }
+
+            .headerbg-pp {
+                background: linear-gradient(to right, #230559 0%, #036ca7 100%);
             }
 
             .top-margin-container {
@@ -1606,9 +1665,9 @@
                     padding: 10px;
                 }
                 .televisitBanner {
-                    margin-top: 50px;
-                    padding: unset;
-                    width: 90%;
+                    margin-top: 100px;
+                    padding: 0px;
+                    width: 80%;
                     z-index: 9;
                 }
                 .slds-button-circle {
@@ -1622,6 +1681,10 @@
                 .height-full {
                     height: 550px !important;
                 }
+                 .tv_banner::before{
+                    display: none;
+                }
+                
             }
 
             @media screen and (max-width: 900px) {
@@ -1939,6 +2002,22 @@
                 opacity: 100 !important;
                 top: 0 !important;
             }
+             .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
+                background-color: white;
+                color: #000;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 15px;
+                /* font-weight: normal; */
+                padding: 2px 5px 2px 0;
+                letter-spacing: normal;
+                border: 1px solid #ccc;
+                border-radius: 3px;               
+                padding-left: 5px;               
+                left: 0;
+                right: auto;
+                height: auto;
+            }
 
             .last-active-feed {
                 height: 9em;
@@ -1959,6 +2038,10 @@
             select.extendCallListUpdatedClass option {
                 background: #fff;
                 color: #000;
+                padding-right: 20px;
+            }
+             .tv_closeBtn{
+                font-size: 16px;
             }
 
             .preview-container {
@@ -2017,7 +2100,7 @@
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
@@ -2036,8 +2119,19 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
     >
         <!--OMSF-5206-->
-        <header id="header" class="page-header">
+        <header id="header" class="page-header {!headerbg}">
+            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+                <h1 class="slds-text-heading_small">
+                    <b style="font-family: Helvetica;
+                ">{!appNamestr}</b>
+                </h1>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(commTemplate=='GSK')}">
+                <img src="{!$Resource.GSK_Logos + '/gsk-text.svg'}" style="width:165px" />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!(attendeeType=='RH')}">
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+            </apex:outputPanel>
         </header>
 
         <!--Call Preview Screen -->
@@ -2123,11 +2217,21 @@
                                                                         />
                                                                         <svg
                                                                             id="video-on-icon"
-                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                            class="cp-main-logo slds-hide"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
                                                                         >
-                                                                            <use
-                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
-                                                                            ></use>
+                                                                            <rect
+                                                                                x="0.25"
+                                                                                y="5.499"
+                                                                                width="15"
+                                                                                height="13"
+                                                                                rx="1"
+                                                                                ry="1"
+                                                                            />
+                                                                            <path
+                                                                                d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
+                                                                            />
                                                                         </svg>
                                                                     </span>
                                                                     <div
@@ -2171,11 +2275,19 @@
                                                                         />
                                                                         <svg
                                                                             id="audio-on-icon"
-                                                                            class="slds-icon slds-icon-text-default slds-icon_medium cp-main-logo slds-hide"
+                                                                            class="cp-main-logo slds-hide"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
                                                                         >
-                                                                            <use
-                                                                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"
-                                                                            ></use>
+                                                                            <path
+                                                                                d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z"
+                                                                            />
+                                                                            <path
+                                                                                d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z"
+                                                                            />
+                                                                            <path
+                                                                                d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
+                                                                            />
                                                                         </svg>
                                                                     </span>
                                                                     <div
@@ -2314,17 +2426,14 @@
                                 </h1>
                             </div>
 
-                            <div
-                                role="dialog"
-                                class="slds-card slds-text-align_center"
-                                style="{!IF( attendeeType == 'PP', 'display:none', '')}"
-                            >
+                            <div style="{!IF( attendeeType == 'PP', 'display:none', '')}">
                                 <div id="televisitBanner" class="hideBanner">
                                     <div
-                                        class="slds-notify slds-notify_alert slds-alert_warning"
+                                        class="slds-notify slds-notify_alert slds-alert_warning tv_banner"
                                         role="alert"
-                                        style="color: #fff"
+                                        style="color:#fff;background:#fe9339"
                                     >
+                                    <div class="warning_content">
                                         <span
                                             class="slds-icon_container slds-icon-utility-warning slds-current-color"
                                         >
@@ -2340,7 +2449,8 @@
                                         <span class="tv_warning"
                                             >Warning - 5 minutes left in call.</span
                                         >
-
+                                        </div>
+                                    <div class="extent_time">
                                         <select
                                             name="extendcallminutes"
                                             id="extendcallminutes"
@@ -2357,18 +2467,18 @@
                                                 Extend Call
                                             </option>
                                             <apex:repeat value="{!extendMeetingOptions}" var="str">
-                                                <option value="{!str}">{!str} minutes</option>
+                                                <option value="{!str}">Extend {!str} minutes</option>
                                             </apex:repeat>
                                         </select>
-                                        <span style="margin-left: 20px">
-                                            <button id="closeButton" onclick="closeBannerPopup()">
+                                        <span>
+                                            <button id="closeButton" class="tv_closeBtn" onclick="closeBannerPopup()">
                                                 X
                                             </button>
                                         </span>
+                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="slds-col_bump-left">
                                 <span class="timer mob-timer">
                                     <div id="time">00:00</div>
