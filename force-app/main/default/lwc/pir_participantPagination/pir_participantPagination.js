@@ -37,9 +37,7 @@ export default class Pir_participantPagination extends LightningElement {
             this.template.querySelectorAll(".page").forEach(function (L) {
                 L.classList.add("pg-bulkimport");
             });
-            this.template.querySelectorAll(".page").forEach(function (L) {
-                L.classList.add("pg-bulkimport input");
-            });
+          
             
         }
         
