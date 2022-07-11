@@ -142,8 +142,8 @@
                             <c:ResourceDashboardCard />
                         </aura:if>
                         <aura:if
-                            isTrue="{!v.participantState.value == 'ALUMNI'}">
-                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
+                        isTrue="{!or(v.participantState.value =='ALUMNI',v.participantState.value =='PARTICIPANT')}">
+                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
                         </aura:if>
                     </div>
                 </div>
@@ -199,8 +199,8 @@
                                 <c:ResourceDashboardCard />
                             </aura:if>
                             <aura:if
-                                isTrue="{!v.participantState.value == 'ALUMNI'}">
-                                <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}"></c:teleVisitsPreviewPanel>
+                            isTrue="{!or(v.participantState.value =='ALUMNI',v.participantState.value =='PARTICIPANT')}">
+                                <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
