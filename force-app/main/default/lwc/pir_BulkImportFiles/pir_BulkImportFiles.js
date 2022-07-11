@@ -258,17 +258,17 @@ export default class Pir_BulkImportFiles extends LightningElement {
             this.bulkHistoryDataInProgress=result;
             var conts=result;
             var newResultIds=[];
-            console.table(result);
+           
             for(var key in conts){
                 newResultIds.push(conts[key].Id);
             }
-            console.log('newResultIds'+newResultIds+''+JSON.stringify(newResultIds));
+            
             if(result.length>0){
                 this.inProgressData=true;
                 if(this.inProgressOldDataid==null || this.inProgressOldDataid==undefined||this.inProgressOldDataid.length==0){
                     for(var key in conts){
                         this.inProgressOldDataid.push(conts[key].Id);
-						console.log('10055',this.inProgressOldDataid); 
+					
                     }
 
                 }
@@ -302,7 +302,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
 
             if(this.isToast ||this.successBoolean){
                 this.showSuccessToast('Participant record import completed succesfully.');
-                this.isToast=false; 
+                this.isToast=false;
+                this.successBoolean=false;
             }
           
         })
@@ -313,6 +314,10 @@ export default class Pir_BulkImportFiles extends LightningElement {
             console.log('Error : '+error.message);
         });
 
+    }
+
+    @api updateInProgressOldData(){
+        this.inProgressOldDataid=[];
     }
     getInstructionData(){
         getInstruction()

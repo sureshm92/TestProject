@@ -18,6 +18,7 @@ export default class Pir_participantPagination extends LightningElement {
     endRecord = 0;
     totalPages= 0;
     pageNumber = 0;
+    @api isTable;
     @api totalRecords = 0;//push from parent
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
@@ -32,6 +33,14 @@ export default class Pir_participantPagination extends LightningElement {
                 this.calculate();
             }            
         }
+        if(this.isTable==true){
+            this.template.querySelectorAll(".page").forEach(function (L) {
+                L.classList.add("pg-bulkimport");
+            });
+          
+            
+        }
+        
         
     }
     

@@ -23,6 +23,11 @@ label{
     align-items: baseline;
 }
 
+.bulkimportmargin {
+    margin-bottom: -8px;
+    margin-top: 6px;
+}
+
 .errorMsg{
     color: rgb(234, 0, 30);
 }

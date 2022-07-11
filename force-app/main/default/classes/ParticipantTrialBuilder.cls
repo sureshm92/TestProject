@@ -125,6 +125,11 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             Boolean shoVi =
                 participantState.showVisits && participantState.ctp.Visits_are_Available__c;
             Boolean visitAvailable = showVisit && shoVi;
+
+            tabs.add(
+                new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
+            );
+            
             /**PEH-525*/
             if (
                 participantState.isPremium &&
@@ -141,10 +146,6 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     )
                 );
             }
-
-            tabs.add(
-                new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
-            );
 
             if (
                 participantState.ctp.Study_Documents_Are_Available__c ||

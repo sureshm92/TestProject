@@ -263,6 +263,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
           this.isResetPagination=true;
           this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+          this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
           
       
@@ -286,6 +287,8 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
         this.isResetPagination=true;
         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+        
         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         
         
