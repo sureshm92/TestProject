@@ -1055,6 +1055,9 @@
                     
                     var visitDate = '{!visitDate}';
                     var today = new Date();
+                    today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
+                    today = new Date(today);
+                    
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                     var yyyy = today.getFullYear();
@@ -1065,9 +1068,7 @@
                             manageCall();
                             callDisconnected = true;
                         }
-                    }
-
-                    if (currentTime > jsAutoDisconnectMeetingTime) {
+                    }else if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;
@@ -1325,7 +1326,7 @@
                 background: rgb(254, 147, 57);
                 padding: 3px 10px 3px 10px;
                 box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-                margin-top: -50px;
+                margin-top: -52px;
                 font-size: 14px;
                 position: absolute;
                 margin-left: auto;
@@ -1333,7 +1334,24 @@
                 left: 0;
                 right: 0;
                 text-align: center;
-                width: 50%;
+                width: 75%;
+            }
+             .tv_banner {
+                padding-right: 0.5rem !important;
+                padding-right: 0 !important;
+            }
+            .tv_banner::before {
+                content: '';
+                flex-basis: 100%;
+            }
+             .warning_content{
+                content: '';
+                flex-basis: 100%;
+            }
+            .extent_time{
+                content: '';
+                flex-basis: 100%;
+                text-align: right;
             }
 
             .tv_warning {
@@ -1383,6 +1401,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
+                 width: 90px;
             }
 
             .cp-main-logo {
@@ -1662,6 +1681,10 @@
                 .height-full {
                     height: 550px !important;
                 }
+                 .tv_banner::before{
+                    display: none;
+                }
+                
             }
 
             @media screen and (max-width: 900px) {
@@ -1979,6 +2002,22 @@
                 opacity: 100 !important;
                 top: 0 !important;
             }
+             .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
+                background-color: white;
+                color: #000;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 15px;
+                /* font-weight: normal; */
+                padding: 2px 5px 2px 0;
+                letter-spacing: normal;
+                border: 1px solid #ccc;
+                border-radius: 3px;               
+                padding-left: 5px;               
+                left: 0;
+                right: auto;
+                height: auto;
+            }
 
             .last-active-feed {
                 height: 9em;
@@ -1999,6 +2038,10 @@
             select.extendCallListUpdatedClass option {
                 background: #fff;
                 color: #000;
+                padding-right: 20px;
+            }
+             .tv_closeBtn{
+                font-size: 16px;
             }
 
             .preview-container {
@@ -2386,10 +2429,11 @@
                             <div style="{!IF( attendeeType == 'PP', 'display:none', '')}">
                                 <div id="televisitBanner" class="hideBanner">
                                     <div
-                                        class="slds-notify slds-notify_alert slds-alert_warning"
+                                        class="slds-notify slds-notify_alert slds-alert_warning tv_banner"
                                         role="alert"
-                                        style="color: #fff"
+                                        style="color:#fff;background:#fe9339"
                                     >
+                                    <div class="warning_content">
                                         <span
                                             class="slds-icon_container slds-icon-utility-warning slds-current-color"
                                         >
@@ -2405,7 +2449,8 @@
                                         <span class="tv_warning"
                                             >Warning - 5 minutes left in call.</span
                                         >
-
+                                        </div>
+                                    <div class="extent_time">
                                         <select
                                             name="extendcallminutes"
                                             id="extendcallminutes"
@@ -2422,14 +2467,15 @@
                                                 Extend Call
                                             </option>
                                             <apex:repeat value="{!extendMeetingOptions}" var="str">
-                                                <option value="{!str}">{!str} minutes</option>
+                                                <option value="{!str}">Extend {!str} minutes</option>
                                             </apex:repeat>
                                         </select>
-                                        <span style="margin-left: 20px">
-                                            <button id="closeButton" onclick="closeBannerPopup()">
+                                        <span>
+                                            <button id="closeButton" class="tv_closeBtn" onclick="closeBannerPopup()">
                                                 X
                                             </button>
                                         </span>
+                                         </div>
                                     </div>
                                 </div>
                             </div>
