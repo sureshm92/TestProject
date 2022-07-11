@@ -1709,7 +1709,8 @@ changeInputValue(event) {
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
-          if (outcome == "Eligibility_Passed") {
+          if (outcome == "Eligibility_Passed"|| this.participantrecord.Participant_Status__c == "Ready to Screen" ||
+          this.participantrecord.Participant_Status__c == "Participant No Show") {
             const selectEventHeader = new CustomEvent(
               "callparticipantstatusdetail",
               {}
