@@ -512,18 +512,9 @@
                                                 >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                             >
                                         </lightning-layout-item>
-                                    </lightning-layout>
-                                    <lightning-layout
-                                        key={study.Id}
-                                        multiple-rows="true"
-                                        class="study-card-mobile"
-                                        vertical-align="center"
-                                    >
-                                        <lightning-layout-item
-                                            size="1"
-                                            class="study-paramters"
-                                        ></lightning-layout-item>
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                    </lightning-layout>                                   
+                                    <div class="slds-grid study-card-mobile study-paramters">
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -546,9 +537,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -571,9 +561,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -596,9 +585,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="3" class={borderStyle}>
+                                        </div>
+                                        <div class="slds-col slds-size-custom_3-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -623,9 +611,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_1-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <div>
@@ -650,8 +637,9 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-                                    </lightning-layout>
+                                        </div>
+                                    </div>
+                                     
                                 </div>
                             </template>
                         </div>
@@ -702,17 +690,9 @@
                                             <span>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                         </lightning-layout-item>
                                     </lightning-layout>
-                                    <lightning-layout
-                                        key={outreach.Id}
-                                        multiple-rows="true"
-                                        class="study-card-mobile"
-                                        vertical-align="center"
-                                    >
-                                        <lightning-layout-item
-                                            size="1"
-                                            class="study-paramters"
-                                        ></lightning-layout-item>
-                                        <lightning-layout-item size="2" class="study-paramters">
+
+                                    <div class="slds-grid study-card-mobile study-paramters">
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -735,9 +715,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -760,9 +739,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -785,9 +763,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="3" class={borderStyle}>
+                                        </div>
+                                        <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -810,9 +787,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-
-                                        <lightning-layout-item size="2" class="study-paramters">
+                                        </div>
+                                        <div class="slds-col slds-size-custom_1-of-10">
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <div>
@@ -837,8 +813,8 @@
                                                     ></lightning-input>
                                                 </div>
                                             </div>
-                                        </lightning-layout-item>
-                                    </lightning-layout>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
                         </div>

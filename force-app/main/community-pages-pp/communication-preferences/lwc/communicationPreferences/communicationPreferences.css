@@ -226,3 +226,10 @@
     width: 200px;
     height: 150px;
 }
+
+.slds-size-custom_2-of-9{
+		width: 22.5%;
+}
+.slds-size-custom_1-of-9{
+		width: 10%;
+}
