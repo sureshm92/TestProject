@@ -1,13 +1,14 @@
 <messaging:emailTemplate subject="{!$Label.Televisit_Remove_Email_Subject}"
                          recipientType="Contact"
-                         relatedToType="Televisit_Attendee__c"
+                         relatedToType="Televisit__c"
                          language="{!recipient.Language__c}"> 
   <messaging:htmlEmailBody >
      <c:EmailWireframe recipientId="{!recipient.Id}"
                         sourceId="{!relatedTo.Id}"
                         header="{!$Label.Televisit_Remove_Email_Header}"
-                        greeting="{!$Label.Televisit_Greeting}"
-                        signature="{!$Label.Televisit_Signature}">
+                        greeting="{!$Label.Email_User_Greeting}"
+                        signature="{!$Label.Televisit_Signature}"
+                        communityTemplate="IQVIA Patient Portal">
      <c:Paragraph emailLabel="{!$Label.Televisit_Remove_Email_Body}"/>
      <!--<c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframe>
@@ -16,8 +17,9 @@
      <c:EmailWireframeText recipientId="{!recipient.Id}"
                            sourceId="{!relatedTo.Id}"
                            header="{!$Label.Televisit_Remove_Email_Header}"
-                           greeting="{!$Label.Televisit_Greeting}"
-                           signature="{!$Label.Televisit_Signature}">
+                           greeting="{!$Label.Email_User_Greeting}"
+                           signature="{!$Label.Televisit_Signature}"
+                           communityTemplate="IQVIA Patient Portal">
      <c:ParagraphText emailLabel="{!$Label.Televisit_Remove_Email_Body}"/>
      <!--<c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
      </c:EmailWireframeText>
