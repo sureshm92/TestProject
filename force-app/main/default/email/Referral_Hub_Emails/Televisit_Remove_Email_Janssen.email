@@ -1,12 +1,12 @@
 <messaging:emailTemplate subject="{!$Label.Televisit_Remove_Email_Subject}"
                          recipientType="Contact"
-                         relatedToType="Televisit_Attendee__c"
+                         relatedToType="Televisit__c"
                          language="{!recipient.Language__c}"> 
   <messaging:htmlEmailBody >
      <c:EmailWireframe recipientId="{!recipient.Id}"
                         sourceId="{!relatedTo.Id}"
                         header="{!$Label.Televisit_Remove_Email_Header}"
-                        greeting="{!$Label.Televisit_Greeting}"
+                        greeting="{!$Label.Email_User_Greeting}"
                         signature="{!$Label.Televisit_Signature}"
                         communityTemplate="Janssen">
      <c:Paragraph emailLabel="{!$Label.Televisit_Remove_Email_Body}"/>
@@ -17,7 +17,7 @@
      <c:EmailWireframeText recipientId="{!recipient.Id}"
                            sourceId="{!relatedTo.Id}"
                            header="{!$Label.Televisit_Remove_Email_Header}"
-                           greeting="{!$Label.Televisit_Greeting}"
+                           greeting="{!$Label.Email_User_Greeting}"
                            signature="{!$Label.Televisit_Signature}"
                            communityTemplate="Janssen">
      <c:ParagraphText emailLabel="{!$Label.Televisit_Remove_Email_Body}"/>
