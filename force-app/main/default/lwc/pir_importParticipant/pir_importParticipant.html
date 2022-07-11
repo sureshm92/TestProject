@@ -133,7 +133,7 @@
                              Select Participant Status
                           </div>
                        </div>
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top importInputPopup dropdown-fonts_bulk">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top slds-m-bottom_small importInputPopup dropdown-fonts_bulk">
                           <lightning-combobox
                              name="Participant Status"
                              label="Participant Status"
@@ -147,7 +147,7 @@
                        </div>
 
                        <template if:true={visitPlanAvailable}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top importInputPopup dropdown-fonts_bulk">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top slds-m-bottom_small importInputPopup dropdown-fonts_bulk ">
                           
                           <lightning-combobox
                           name="Arm/Cohort:"
@@ -172,23 +172,23 @@
                        </template>
                        <template if:false={shouldDisableImportStatus}>
                        <template if:true={isSuppressed}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_small">
                            <div class="fileUpload">
                               Invitation to Patient Portal
                            </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small importInputPopup">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small importInputPopup">
                            <lightning-input type="checkbox" disabled label="Invite the patient to join Patient Portal" name="inviteToPP"></lightning-input>
                         </div>
                        </template>
                        <template if:false={isSuppressed}>
                           <template if:true={isStudyPPEnabled}>
-                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_small">
                            <div class="fileUpload">
                               Invitation to Patient Portal
                            </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small importInputPopup">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small importInputPopup">
                            <div class="display-checkbox">
                            <lightning-input type="checkbox" data-name="ppcheck" disabled={disablePatientInvite} varient="label-hidden"   onchange={handleppinvite} 
                            name="inviteToPP"></lightning-input>
