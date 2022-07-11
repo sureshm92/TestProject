@@ -27,7 +27,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
     isVisitAvailable = false;
     isFilterAvailable = false;
     searchStatus = '';
-
+@api participantState;
     labels = {
         RTL_Languages,
         FILTER_LABEL,
@@ -55,6 +55,18 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         } else {
             this.loadVisits();
         }
+    }
+
+    get urlLink()
+    {
+      var isParticipant =JSON.parse(JSON.stringify(this.participantState.pe));
+      if(isParticipant)
+      {
+          return 'study-workspace?tab=tab-visits&visitmode=TeleVisitDetails';
+      }
+      else {
+          return 'televisits?tab=televisits';
+      }
     }
 
     get containerClass() {
