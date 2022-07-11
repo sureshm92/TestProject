@@ -214,6 +214,7 @@
             component.set('v.contactConsent.Participant_Opt_In_Status_Emails__c',event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
             component.set('v.contactConsent.Participant_Opt_In_Status_SMS__c',event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
             component.set('v.contactConsent.Participant_Phone_Opt_In_Permit_Phone__c',event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c);
+            component.set('v.contactConsent.IQVIA_Direct_Mail_Consent__c',event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c);
         }
     }
 });

@@ -29,7 +29,10 @@ public with sharing class SMSDeliveryStatusService {
     public static void updateDeliveryStatusFlag(Map<Id, String> notificationIdStatusMap) {
         Map<Id, Boolean> pfLevelSMSContIdDelStatusMap = new Map<Id, Boolean>();
         Map<Id, Boolean> studyLevelSMSPERIdDelStatusMap = new Map<Id, Boolean>();
+        Map<Id, Boolean> studyLevelSMSPERIdDelStatusForPDMap = new Map<Id, Boolean>();
         Map<Id, Notification__c> notificationMap = new Map<Id, Notification__c>();
+        List<Id> perIdSetForDel = new List<Id>();
+        Set<Id> recipientIdSetForDel = new Set<Id>();
 
         //Get Welcome Message notification records
         notificationMap = SMSOptOutService.getNotifications(notificationIdStatusMap.keySet());
@@ -39,7 +42,7 @@ public with sharing class SMSDeliveryStatusService {
         Action_SendSMS actionSendSMSobj = new Action_SendSMS(notificationMap.Values());
         for (Notification__c n : notificationMap.Values()) {
             if (NotificationService.platfomLevelSMSSet.contains(n.Id)) {
-                //if Platform level SMS
+                //if Platform level Welcome SMS
                 if (
                     notificationIdStatusMap.get(n.id)
                         .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.DELIVERED)
@@ -54,19 +57,48 @@ public with sharing class SMSDeliveryStatusService {
                     pfLevelSMSContIdDelStatusMap.put(n.Recipient__c, false);
                 }
             } else if (StudyLevelnotIdPEIdMap.containsKey(n.id)) {
-                //if Study level SMS
+                //if Study level Welcome SMS
+                //If Study level Welome message SMS is for Patient Delegate.
                 if (
-                    notificationIdStatusMap.get(n.id)
-                        .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.DELIVERED)
+                    n.Notification_Type__c ==
+                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
                 ) {
-                    //If Delivery Receipt  status is DELIVERED
-                    studyLevelSMSPERIdDelStatusMap.put(StudyLevelnotIdPEIdMap.get(n.Id), true);
-                } else if (
-                    notificationIdStatusMap.get(n.id)
-                        .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.INVALID)
-                ) {
-                    //If Delivery Receipt  status is INVALID
-                    studyLevelSMSPERIdDelStatusMap.put(StudyLevelnotIdPEIdMap.get(n.Id), false);
+                    perIdSetForDel.Add(n.WhatId__c);
+                    recipientIdSetForDel.Add(n.recipient__c);
+                    //studyLevelSMSPERIdDelStatusForPDMap
+                    if (
+                        notificationIdStatusMap.get(n.id)
+                            .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.DELIVERED)
+                    ) {
+                        //If Delivery Receipt  status is DELIVERED
+                        studyLevelSMSPERIdDelStatusForPDMap.put(
+                            StudyLevelnotIdPEIdMap.get(n.Id),
+                            true
+                        );
+                    } else if (
+                        notificationIdStatusMap.get(n.id)
+                            .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.INVALID)
+                    ) {
+                        //If Delivery Receipt  status is INVALID
+                        studyLevelSMSPERIdDelStatusForPDMap.put(
+                            StudyLevelnotIdPEIdMap.get(n.Id),
+                            false
+                        );
+                    }
+                } else {
+                    if (
+                        notificationIdStatusMap.get(n.id)
+                            .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.DELIVERED)
+                    ) {
+                        //If Delivery Receipt  status is DELIVERED
+                        studyLevelSMSPERIdDelStatusMap.put(StudyLevelnotIdPEIdMap.get(n.Id), true);
+                    } else if (
+                        notificationIdStatusMap.get(n.id)
+                            .equalsIgnoreCase(SMSDeliveryStatusTriggerHandler.INVALID)
+                    ) {
+                        //If Delivery Receipt  status is INVALID
+                        studyLevelSMSPERIdDelStatusMap.put(StudyLevelnotIdPEIdMap.get(n.Id), false);
+                    }
                 }
             }
         }
@@ -75,9 +107,22 @@ public with sharing class SMSDeliveryStatusService {
         if (pfLevelSMSContIdDelStatusMap != null && !pfLevelSMSContIdDelStatusMap.isEmpty()) {
             updatePlatFormLevelDelRecFlag(pfLevelSMSContIdDelStatusMap);
         }
-        //Update Delivery Receipt  Flag for Study Level SMS
+        //Update Delivery Receipt  Flag for Study Level SMS for Participants
         if (studyLevelSMSPERIdDelStatusMap != null && !studyLevelSMSPERIdDelStatusMap.isEmpty()) {
             updateStudyLevelDelRecFlag(studyLevelSMSPERIdDelStatusMap);
+        }
+        //Update Delivery Receipt  Flag for Study Level SMS for Patient Delegate
+        if (
+            perIdSetForDel != null &&
+            !perIdSetForDel.isEmpty() &&
+            recipientIdSetForDel != null &&
+            !recipientIdSetForDel.isEmpty()
+        ) {
+            updateStudyLevelDelRecFlagForPD(
+                perIdSetForDel,
+                recipientIdSetForDel,
+                studyLevelSMSPERIdDelStatusForPDMap
+            );
         }
     }
     /**
@@ -134,6 +179,41 @@ public with sharing class SMSDeliveryStatusService {
         //Update Delivery Status Flag at the PERs.
         if (perToUpdate != null && !perToUpdate.isEmpty()) {
             update perToUpdate;
+        }
+    }
+
+    /**
+     * @description: This method will update Delivery Receipt  Status at PER for the Study level SMS.
+     * @author: Krishna Mahto
+     * @param: perIdSetForDel
+     * @param: recipientIdSetForDel
+     * @param: studyLevelSMSPERIdDelStatusMap
+     * @return:
+     **/
+    public static void updateStudyLevelDelRecFlagForPD(
+        List<Id> perIdSetForDel,
+        Set<Id> recipientIdSetForDel,
+        Map<Id, Boolean> studyLevelSMSPERIdDelStatusForPDMap
+    ) {
+        //Get list of ParticipantEnrollmentPatientDelJunction records
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+            perIdSetForDel,
+            recipientIdSetForDel
+        );
+
+        for (ParticipantEnrollmentPatientDelJunction__c perPDJunRec : perDelJunctionRecList) {
+            Boolean smsDeliveryFlag = studyLevelSMSPERIdDelStatusForPDMap.get(
+                perPDJunRec.Participant_Enrollment__c
+            );
+            perPDJunRec.Welcome_Message_Delivered__c = smsDeliveryFlag;
+            //If Delivery Status is INVALID, revert the SMS Welcome Message sent Flag.
+            if (!smsDeliveryFlag) {
+                perPDJunRec.Welcome_Message_Sent__c = smsDeliveryFlag;
+            }
+        }
+        //Update Delivery Status Flag at Participant Enrollment and Patient Delegate contact junction record.
+        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+            update perDelJunctionRecList;
         }
     }
 

@@ -169,7 +169,7 @@ public with sharing class SiteStaffTableRemote {
             Contact staffcontact = new Contact();
             staffcontact.Id = contactId;
             staffcontact.UserCommunityIsDelegate__c = true;
-            DMLService.updateRecord(staffcontact);
+            Update staffcontact;
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             if (
                 CommunityService.getCommunityUsersByContactIds(new Set<Id>{ contactId }).isEmpty()

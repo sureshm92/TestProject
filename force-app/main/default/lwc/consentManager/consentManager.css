@@ -3,6 +3,7 @@
     color: black !important;
     font-weight: bold !important;
 }
+
 label{
     height: 48px;
     width: 812px;
@@ -11,6 +12,10 @@ label{
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+.bulkimportFont{
+    font-size: 14px !important;
 }
 
 .label_align{
@@ -40,4 +45,8 @@ label{
     .importParticipantClass {
         padding-left: 18px;
     }
+    .p-left_mobile{
+        padding-left: 2px;
+    }
+    
 }

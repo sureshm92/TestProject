@@ -580,6 +580,7 @@
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Pre-review Failed</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
+            <controllingFieldValue>Successfully re-engaged</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
@@ -615,6 +616,7 @@
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Pre-review Failed</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
+            <controllingFieldValue>Successfully re-engaged</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
