@@ -140,11 +140,8 @@
                             isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
                         >
                             <c:ResourceDashboardCard />
-                        </aura:if>
-                        <aura:if
-                        isTrue="{!or(v.participantState.value =='ALUMNI',or(v.participantState.value =='PARTICIPANT',v.participantState.value =='REFERRAL'))}">
-                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
-                        </aura:if>
+                        </aura:if>                 
+                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>        
                     </div>
                 </div>
                 <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}" />
@@ -197,11 +194,8 @@
                                 isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
                             >
                                 <c:ResourceDashboardCard />
-                            </aura:if>
-                            <aura:if
-                            isTrue="{!or(v.participantState.value =='ALUMNI',or(v.participantState.value =='PARTICIPANT',v.participantState.value =='REFERRAL'))}">
+                            </aura:if>           
                                 <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
-                            </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="slds-grid slds-grid_vertical slds-gutters">
