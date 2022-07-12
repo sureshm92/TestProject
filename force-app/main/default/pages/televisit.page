@@ -319,7 +319,7 @@
                         }
 
                         var options = getPublisherProperties(false);
-                        var firstName = attendeeName.split(' ')[0];
+                        var firstName = attendeeName;
                         options.name = firstName;
 
 
@@ -524,7 +524,7 @@
 
             function getPublisherProperties(isPublishingScreenShare) {
                 var attendeeName = getControllerValue('userName');
-                var firstName = attendeeName.split(' ')[0];
+                var firstName = attendeeName;
                 return {
                     ...options,
                     name: firstName,
