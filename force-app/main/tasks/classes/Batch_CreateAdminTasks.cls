@@ -103,6 +103,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         TypeOfContactTemp.contains('Participant')
                     ) {
                         TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                        VisibleFor = 'Owner; Delegates';
                     } else if (
                         String.isNotBlank(TypeOfContactTemp) &&
                         TypeOfContactTemp.contains('Delegate')
@@ -150,6 +151,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             TypeOfContactTemp.contains('Participant')
                         ) {
                             TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                            VisibleFor = 'Owner; Delegates';
                         } else if (
                             String.isNotBlank(TypeOfContactTemp) &&
                             TypeOfContactTemp.contains('Delegate')
