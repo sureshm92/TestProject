@@ -319,8 +319,8 @@
                         }
 
                         var options = getPublisherProperties(false);
-                        var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
-                        options.name = (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase();
+                        var firstName = attendeeName;
+                        options.name = firstName;
 
 
                         var subscriber = session.subscribe(event.stream, getContainer(event.stream), options);
@@ -524,10 +524,10 @@
 
             function getPublisherProperties(isPublishingScreenShare) {
                 var attendeeName = getControllerValue('userName');
-                var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
+                var firstName = attendeeName;
                 return {
                     ...options,
-                    name: (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase(),
+                    name: firstName,
                     publishAudio: publishAudio,
                     publishVideo: isPublishingScreenShare ? true : publishVideo,
                     audioSource: audioSource,
