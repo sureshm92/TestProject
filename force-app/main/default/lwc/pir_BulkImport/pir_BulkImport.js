@@ -23,6 +23,10 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urltrialId = null;
     urlsiteId = null;
     isResetPagination=false;
+    @api selectedStudyChild;
+    @api selectedStudySiteChild;
+    @api pageNumberChild=1;
+    @api stopSpinnerChild;
     label = {AllStudy,
         AllStudySite};
     connectedCallback() {
@@ -130,6 +134,8 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
                         this.isResetPagination=true;
                         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+                        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+                       
                         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
                         
                     } 
@@ -177,7 +183,22 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.studySiteList = options;
                         this.selectedSite = this.studySiteList[0].value;
                         this.studysiteaccess = false;
-                        
+                        this.selectedStudyChild=this.selectedStudy;
+                        var getStudySiteList=[];
+                        if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+                            for (var i = 1; i < this.studySiteList.length; i++) {
+                              getStudySiteList.push(this.studySiteList[i].value);
+                              this.selectedStudySiteChild=getStudySiteList;
+                            }
+                          } else if (
+                            this.selectedSite != null &&
+                            this.selectedSite != "All Study Site"
+                          ) {
+                            this.selectedStudySiteChild=getStudySiteList;
+                          }
+                          this.isResetPagination=true;
+                          this.stopSpinnerChild=false;
+                          
                     }
             }
       } else if (error) {
@@ -321,6 +342,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         if(!this.initialLoad){
           console.log('>>>fetch page called>>>');
           this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+          this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         }
         this.initialLoad = false;
