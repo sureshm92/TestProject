@@ -36,7 +36,7 @@ public without sharing class TelevisitMeetBannerController {
             if(userMode != 'Participant' && attendee.Televisit__r.Source_Community__c == communityMode && attendee.Attendee_Type__c != 'Participant'){
                 visits.add(attendee);
             }
-            if(userMode == 'Participant' && attendee.Attendee_Type__c == 'Participant'){
+            if(userMode == 'Participant' && (attendee.Attendee_Type__c == 'Participant' || attendee.Attendee_Type__c == 'Participant Delegate')){
                 visits.add(attendee);
     }
 }
