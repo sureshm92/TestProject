@@ -18,7 +18,7 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--<aura:handler name="providersAuthorizedEvent" event="c:ProvidersAuthorizedEvent"
-        action="{!c.handleAuthorizationEvent}"/>-->
+     action="{!c.handleAuthorizationEvent}"/>-->
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
@@ -132,7 +132,7 @@
                         </aura:if>
                         <aura:if
                             isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
-                        v.participantState.payCardLink != null))}"
+                     v.participantState.payCardLink != null))}"
                         >
                             <c:PaymentsPanel />
                         </aura:if>
@@ -140,6 +140,10 @@
                             isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
                         >
                             <c:ResourceDashboardCard />
+                        </aura:if>
+                        <aura:if
+                        isTrue="{!or(v.participantState.value =='ALUMNI',v.participantState.value =='PARTICIPANT')}">
+                            <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
                         </aura:if>
                     </div>
                 </div>
@@ -185,7 +189,7 @@
                             </aura:if>
                             <aura:if
                                 isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
-                        v.participantState.payCardLink != null))}"
+                     v.participantState.payCardLink != null))}"
                             >
                                 <c:PaymentsPanel />
                             </aura:if>
@@ -193,6 +197,10 @@
                                 isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"
                             >
                                 <c:ResourceDashboardCard />
+                            </aura:if>
+                            <aura:if
+                            isTrue="{!or(v.participantState.value =='ALUMNI',v.participantState.value =='PARTICIPANT')}">
+                                <c:teleVisitsPreviewPanel isRTL="{!v.isRTL}" participantState="{!v.participantState}"></c:teleVisitsPreviewPanel>
                             </aura:if>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">

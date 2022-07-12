@@ -58,41 +58,41 @@
                 </div> </br>
                 
                     <div class="label_align slds-p-left_large">
-                        <lightning-input 
-                                            data-id="outreachPhoneConsent" 
-                                            type="checkbox" 
-                                            varient="label-hidden" 
-                                            name="outreachPhoneConsent" 
-                                            checked={consentModel.outreachPhoneConsent} 
-                                            onchange={handleConsentChange}
-                                            disabled={isaccesslevelthree}
+                    <lightning-input 
+                                        data-id="outreachPhoneConsent" 
+                                        type="checkbox" 
+                                        varient="label-hidden" 
+                                        name="outreachPhoneConsent" 
+                                        checked={consentModel.outreachPhoneConsent} 
+                                        onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachPhoneConsent">{PHONE}</label></span>
+                                    <span> <label class="slds-form-element__label-for-checkbox" for="outreachPhoneConsent">{PHONE}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium">
-                        <lightning-input 
-                                            type="checkbox" 
-                                            data-id="outreachEmailConsent" 
-                                            varient="label-hidden" 
-                                            name="outreachEmailConsent" 
-                                            checked={consentModel.outreachEmailConsent} 
-                                            onchange={handleConsentChange}
-                                            disabled={isaccesslevelthree}
+                <div class="label_align slds-p-left_medium">
+                    <lightning-input 
+                                        type="checkbox" 
+                                        data-id="outreachEmailConsent" 
+                                        varient="label-hidden" 
+                                        name="outreachEmailConsent" 
+                                        checked={consentModel.outreachEmailConsent} 
+                                        onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span><label class="slds-form-element__label-for-checkbox" for="outreachEmailConsent">{EMAIL}</label></span>
+                                    <span><label class="slds-form-element__label-for-checkbox" for="outreachEmailConsent">{EMAIL}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium">
-                        <lightning-input 
-                                            type="checkbox" 
-                                            data-id="outreachSMSConsent" 
-                                            varient="label-hidden" 
-                                            name="outreachSMSConsent" 
-                                            checked={consentModel.outreachSMSConsent} 
-                                            onchange={handleConsentChange}
-                                            disabled={isaccesslevelthree}
+                <div class="label_align slds-p-left_medium">
+                    <lightning-input 
+                                        type="checkbox" 
+                                        data-id="outreachSMSConsent" 
+                                        varient="label-hidden" 
+                                        name="outreachSMSConsent" 
+                                        checked={consentModel.outreachSMSConsent} 
+                                        onchange={handleConsentChange}
+                                        disabled={isaccesslevelthree}
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
-                                        <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
-                    </div>
+                                    <span> <label class="slds-form-element__label-for-checkbox" for="outreachSMSConsent">{SMS_TEXT}</label></span>
+                </div>
             </template>
         </template>
         <!--IQVIA Outreach Ends Here-->
