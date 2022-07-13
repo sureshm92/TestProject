@@ -57,7 +57,6 @@ public without sharing class  televisitConfigurationController {
             for(Televisit_Record_Vendor__c trv:trvList){
                 vendorwrapper vw = new vendorwrapper();
                 vw.vendorId = trv.Id;
-                vw.uniquekey = ss.id+'-'+trv.Id;
                 if(mapwithstudysiteandtvs != null && mapwithstudysiteandtvs.get(ss.id) != null){
                     set<Id> venderset = mapwithstudysiteandtvs.get(ss.id).keyset();
                     List<Id> idLIst = new  List<Id>(venderset);
@@ -302,15 +301,6 @@ public without sharing class  televisitConfigurationController {
 
         return vendors;
     }
-    @AuraEnabled
-    public static Boolean vendoravailability(String studySiteId) {
-        List<TelevisitVendorSettings__c> tvsList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and 
-        Study_Site__c =:studySiteId and Televisit_Record_Vendor__c IN (Select id from Televisit_Record_Vendor__c)];
-        if(tvsList != null && !tvsList.isEmpty()){
-           return true;
-        }
-        return false;
-    }
     
     public class ResponeWrapper {
         
@@ -327,7 +317,6 @@ public without sharing class  televisitConfigurationController {
     public class vendorwrapper{
         @AuraEnabled public string vendorId;
         @AuraEnabled public boolean isEnable;
-        @AuraEnabled public string uniquekey;
     }
     
     public class WrapperResult{
