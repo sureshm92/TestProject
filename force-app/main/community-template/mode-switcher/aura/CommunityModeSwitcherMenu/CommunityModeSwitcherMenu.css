@@ -32,11 +32,20 @@
 }
 .THIS .divider-line {
     border-bottom: 1px solid #d9d9d9;
-    margin: 1em 0 0.5em 0;
-    width: 80%;
+    margin: 1em 0 0 0;
+    width: 88%;
 }
 .THIS.menu-block li.body {
     width: 344px;
+}
+
+.THIS .switcher-logout-txt {
+    color: #e20000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0.5rem 0 0.5rem 0;
+    cursor: pointer;
 }
 
 /*-----------------------------------------------------------------------*/

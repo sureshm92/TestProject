@@ -3,7 +3,8 @@
     height: auto;
     width: 281px;
     border: 1px solid #ecf3ff;
-    border-radius: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     background-color: #ecf3ff;
     margin: 16px 0 0 0;
 }
@@ -42,7 +43,7 @@
     line-height: 16px;
 }
 .switcher-list {
-    padding: 5px 0 5px 0;
+    padding: 10px 0 10px 0;
 }
 .icon-color {
     --sds-c-icon-color-foreground-default: #005587;

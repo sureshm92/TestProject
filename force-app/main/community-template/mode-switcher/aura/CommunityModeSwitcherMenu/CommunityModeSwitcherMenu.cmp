@@ -102,18 +102,16 @@
             <li class="lo-button">
                 <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
                     <div class="divider-line" />
-                    <lightning:button
-                        variant="base"
-                        label="{!$Label.c.PP_Logout}"
-                        onclick="{!c.logout}"
-                        class="slds-align_absolute-center pp-logout"
-                    />
+                    <div class="slds-text-align_center switcher-logout-txt" onclick="{!c.logout}">
+                        Logout
+                    </div>
                     <aura:set attribute="else">
-                        <lightning:button
+                        <div
+                            class="slds-text-align_center switcher-logout-txt"
                             onclick="{!c.logout}"
-                            label="{!$Label.c.Profile_Menu_Log_Out}"
-                            class="apollo-btn logout-btn"
-                        />
+                        >
+                            {!$Label.c.Profile_Menu_Log_Out}
+                        </div>
                     </aura:set>
                 </aura:if>
             </li>
