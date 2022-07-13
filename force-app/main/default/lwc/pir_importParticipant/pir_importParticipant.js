@@ -11,6 +11,27 @@ import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
 import CC_Study from '@salesforce/label/c.CC_Study';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
+import SS_Upload_Participants from '@salesforce/label/c.SS_Upload_Participants';
+import RH_StudyName_Import from '@salesforce/label/c.RH_StudyName_Import';
+import BTN_Close from '@salesforce/label/c.BTN_Close';
+import RH_UploadFile_Import from '@salesforce/label/c.RH_UploadFile_Import';
+import RH_StudySite_Import from '@salesforce/label/c.RH_StudySite_Import';
+import BulkImport_Instructions from '@salesforce/label/c.BulkImport_Instructions';
+import FU_Download_Template from '@salesforce/label/c.FU_Download_Template';
+import ISO_Download_Template from '@salesforce/label/c.ISO_Download_Template';
+import RH_WaitTime_Import from '@salesforce/label/c.RH_WaitTime_Import';
+import BulkImport_Drag_file_here_or from '@salesforce/label/c.BulkImport_Drag_file_here_or';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
+import pir_Delete_Btn from '@salesforce/label/c.pir_Delete_Btn';
+import PG_AP_F_Patient_Status_Select from '@salesforce/label/c.PG_AP_F_Patient_Status_Select';
+import Participant_Status from '@salesforce/label/c.Participant_Status';
+import RH_Arm_Cohert_Import from '@salesforce/label/c.RH_Arm_Cohert_Import';
+import PG_Ref_L_Invitation_To_PP from '@salesforce/label/c.PG_Ref_L_Invitation_To_PP';
+import BTN_Import from '@salesforce/label/c.BTN_Import';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import PIR_Download from '@salesforce/label/c.PIR_Download';
+import RH_Upload_import from '@salesforce/label/c.RH_Upload_import';
+import PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal';
 import getParticipantsStatusesAndVisitPlans from '@salesforce/apex/PIR_HomepageController.getParticipantsStatusesAndVisitPlans';
 import deleteFile from '@salesforce/apex/PIR_HomepageController.deleteFile';
 import saveTheChunkFile from '@salesforce/apex/PIR_HomepageController.saveTheChunkFile';
@@ -68,7 +89,28 @@ label = { PIR_Study_Site_Name,
           PIR_Study_Name,
           CC_Study,
           PG_AC_Select,
-          Janssen_Community_Template_Name
+          Janssen_Community_Template_Name,
+          SS_Upload_Participants,
+          BTN_Close,
+          RH_StudyName_Import,
+          RH_StudySite_Import,
+          RH_UploadFile_Import,
+          BulkImport_Instructions,
+          FU_Download_Template,
+          ISO_Download_Template,
+          BulkImport_Drag_file_here_or,
+          BulkImport_browse,
+          RH_WaitTime_Import,
+          pir_Delete_Btn,
+          PG_AP_F_Patient_Status_Select,
+          Participant_Status,
+          RH_Arm_Cohert_Import,
+          PG_Ref_L_Invitation_To_PP,
+          PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal,
+          BTN_Import,
+          BTN_Cancel,
+          PIR_Download,
+          RH_Upload_import
         };
 connectedCallback() {
     loadScript(this, xlsxmin).then(() => {});
