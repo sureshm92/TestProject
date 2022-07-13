@@ -19,6 +19,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     cometd;
     subscription;
     currentVisit = {};
+    _currentMode = {};
     USER_TIME_ZONE = USER_TIME_ZONE;
     USER_ID = USER_ID;
     meetMainInfo = 'Text';
@@ -101,7 +102,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     getVisits() {
         this.hasVisits = true;
         this.showMoreVisits = false;
-        getVisits()
+        getVisits({communityMode : this._currentMode.template.communityName, userMode : this._currentMode.userMode})
             .then((result) => {
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation) {
@@ -158,14 +159,23 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }
     }
 
+    @api
+    get currentMode() {
+        return this._currentMode;        
+    }
+    set currentMode(value) {  
+        this._currentMode = value;
+        this.getVisits();
+    }
+
     handleJoinClick(event) {
-        let url = event.target.dataset.name;
-        this.meetLinkUrl = url;
-        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
         this.handleOpenCloseVisits();
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
-        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        window.open(url, '_blank');
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = !this.showMoreVisits;

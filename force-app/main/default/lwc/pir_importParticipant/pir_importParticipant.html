@@ -9,73 +9,79 @@
               <div class="slds-p-around_large"><!-- Add RTL class here -->
                  <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                     <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                       <span class="pop-title">Import Participants</span> 
+                       <span class="pop-title">{label.SS_Upload_Participants}</span> 
                     </div>
                     <div class="slds-col slds-size_1-of-12 close-icon">
                        <div onclick={handleImportParticipantclose}>
                           <lightning-icon icon-name="utility:close"
-                             alternative-text="close"
+                             alternative-text={label.BTN_Close} title={label.BTN_Close}
                              size="x-small" ></lightning-icon>
-                          <span class="slds-assistive-text">Close</span>
+                          <span class="slds-assistive-text">{label.BTN_Close}</span>
                        </div>
                     </div>
                  </div>
                  <slot name="bolkimport">
-                  <template if:true={isDataLoading}>
-                     <div class="slds-m-around_large vertical-scroll">
-                       <lightning-spinner alternative-text="Loading..." variant="brand">
-                       </lightning-spinner>
-                     </div>
-                   </template>
-                  
-                    <div data-id="mainDivscroll" class="slds-grid slds-wrap slds-gutters importParticipants_popup bulkImportScroll bulkautoScroll">
-                     <template if:false={isMyStudiesPg}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown_truncate dropdown-fonts">
+                    <div data-id="mainDivscroll" class="slds-grid slds-wrap slds-gutters importParticipants_popup bulkImportScroll">
+                     <template if:true={isDataLoading}>
+                        <div class="slds-m-around_large vertical-scroll">
+                          <lightning-spinner alternative-text="Loading..." variant="brand">
+                          </lightning-spinner>
+                        </div>
+                      </template>
+                     
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown_truncate dropdown-fonts_bulk">
                            <lightning-combobox
-                           name="Study Name:"
-                           label="Study Name:"
+                           name={label.RH_StudyName_Import}
+                           label={label.RH_StudyName_Import}
                            value={selectedStudy}
                            placeholder="Study Name"
                            options={studylist}
                            onchange={studyhandleChange}
+                           disabled={isMyStudies}
                            ></lightning-combobox>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown-fonts">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown-fonts_bulk">
                            <lightning-combobox
-                               name="studysite"
-                               label="Study Site:"
+                               name={label.RH_StudySite_Import}
+                               label={label.RH_StudySite_Import}
                                value={selectedSite}
-                               placeholder={label.PG_AC_Select}
+                               placeholder={siteLabel}
                                options={studySiteList}
                                onchange={studysitehandleChange}
                                disabled={studysiteaccess}
                                ></lightning-combobox>
                         </div>
                       
-                     </template> 
+                     
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-form-element modalBody">
                              <div class="slds-p-bottom_xxx-small slds-p-top_xxx-small">
                                 <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small">
                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 ">
-                                      <div class="fileUpload">Upload File <span class="slds-text-color_error">*</span></div>
+                                      <div class="fileUpload">{label.RH_UploadFile_Import}<span class="slds-text-color_error">*</span></div>
                                    </div>
                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_8-of-12">
                                       <div class="slds-grid slds-wrap slds-gutters">
                                          <div class="slds-col slds-size_1-of-1 w-instruction">
-                                            <div class="downloadLabel">Instructions 
-                                               <a href={ParticipantBulkImportInstructions} title="Download"><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                          <a href={ParticipantBulkImportInstructions} title={label.PIR_Download}>
+                                            <div class="downloadLabel">{label.BulkImport_Instructions} 
+                                               <img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/>
                                             </div>
+                                          </a>
                                          </div>
                                          <div class="slds-col slds-size_1-of-2 w-template">
-                                            <div class="downloadLabel">Download Template  
-                                               <a href={downloadTemplate} title=""><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                          <a href={downloadTemplate} title={label.PIR_Download}>
+                                            <div class="downloadLabel">{label.FU_Download_Template}  
+                                               <img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/>
                                             </div>
+                                          </a>
                                          </div>
                                          <div class="slds-col slds-size_1-of-2 w-langauge">
-                                            <div class="downloadLabel labelRightMob">ISO language Guide
-                                               <a   onclick={generateISOLanguage} title=""><img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/></a>
+                                          <a   onclick={generateISOLanguage} title={label.PIR_Download}>
+                                            <div class="downloadLabel labelRightMob">{label.ISO_Download_Template}
+                                               <img class="p-left-icon" src="/resource/1654599036000/bulkicons/Download.svg"/>
                                             </div>
+                                          </a>
                                          </div>
                                       </div>
                                       <!-- slds-grid slds-wrap -->  
@@ -87,15 +93,15 @@
                                    <div class="fileBox slds-grid slds-wrap">
                                       <div class="slds-col slds-size_2-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                                          <div class="slds-size_full slds-align_absolute-center slds-text-align_center slds-p-top--small marTopIcon">
-                                            <lightning-icon icon-name="utility:upload" size="small" alternative-text="Upload" title="Upload"></lightning-icon>
+                                            <lightning-icon icon-name="utility:upload" size="small" alternative-text={label.RH_Upload_import} title={label.RH_Upload_import}></lightning-icon>
                                          </div>
                                       </div>    
                                       <div class="slds-col slds-size_10-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                                          <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel marTop">  
-                                            Drag files here or <span class="linkLabel slds-p-left_xx-small">browse</span> 
+                                            {label.BulkImport_Drag_file_here_or} <span class="linkLabel slds-p-left_xx-small">{label.BulkImport_browse}</span> 
                                          </div>
                                          <div class="slds-size_full slds-text-align_center slds-text_center uploadLabel slds-p-bottom--small uploadLabel-Italic">  
-                                            <strong>Your wait time may vary based on the number of records you upload</strong> 
+                                            <strong>{label.RH_WaitTime_Import}</strong> 
                                          </div>
                                       </div>
                                    </div>
@@ -114,7 +120,7 @@
                                          <div class="closeIcon">
                                             <template if:true={enableDel}>
                                                <span  onclick={deleteFiles}>
-                                                  <lightning-icon icon-name="utility:close" alternative-text="Delete" title="Delete" size="xx-small"></lightning-icon>
+                                                  <lightning-icon icon-name="utility:close" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn} size="xx-small"></lightning-icon>
                                                </span>
                                             </template>
                                          </div>
@@ -128,17 +134,17 @@
                              </div><!-- slds-p-bottom_xxx-small -->
                           </div><!-- slds-form-element modalBody -->
                        </div><!-- slds-col slds-size_1-of-1 -->
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_xx-small">
                           <div class="fileUpload">
-                             Select Participant Status
+                             {label.PG_AP_F_Patient_Status_Select}
                           </div>
                        </div>
-                       <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-top importInputPopup dropdown-fonts">
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top slds-m-bottom_small importInputPopup dropdown-fonts_bulk">
                           <lightning-combobox
-                             name="Participant Status"
-                             label="Participant Status"
+                             name={label.Participant_Status}
+                             label={label.Participant_Status}
                              value={selectedStatus}
-                             placeholder="Select...."
+                             placeholder={label.PG_AC_Select}
                              options={importParticipantStatus}
                              onchange={particiapntStatushandleChange}
                              disabled ={shouldDisableImportStatus}
@@ -147,15 +153,16 @@
                        </div>
 
                        <template if:true={visitPlanAvailable}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-top importInputPopup dropdown-fonts">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top slds-m-bottom_small importInputPopup dropdown-fonts_bulk ">
                           
                           <lightning-combobox
-                          name="Arm/Cohort:"
-                          label="Arm/Cohort:"
+                          name={label.RH_Arm_Cohert_Import}
+                          label={label.RH_Arm_Cohert_Import}
                           value={selectedvisitPlanId}
-                          placeholder="Select...."
+                          placeholder={label.PG_AC_Select}
                           options={visitPlansLVList} 
                           disabled ={visitPlanDisabled}
+                          onchange={handleVisitPlan}
                           required ={visitPlanRequired}
                           ></lightning-combobox>
 
@@ -171,26 +178,31 @@
                        </template>
                        <template if:false={shouldDisableImportStatus}>
                        <template if:true={isSuppressed}>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_small">
                            <div class="fileUpload">
-                              Invitation to Patient Portal
+                             {label.PG_Ref_L_Invitation_To_PP}
                            </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small importInputPopup">
-                           <lightning-input type="checkbox" disabled label="Invite the patient to join Patient Portal" name="inviteToPP"></lightning-input>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small importInputPopup">
+                           <lightning-input type="checkbox" disabled label={label.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal} name="inviteToPP"></lightning-input>
                         </div>
                        </template>
                        <template if:false={isSuppressed}>
                           <template if:true={isStudyPPEnabled}>
-                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_x-small">
+                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_small">
                            <div class="fileUpload">
-                              Invitation to Patient Portal
+                              {label.PG_Ref_L_Invitation_To_PP}
                            </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small importInputPopup">
-                           <lightning-input type="checkbox" disabled={disablePatientInvite} label="Invite the patient to join Patient Portal"   onchange={handleppinvite} 
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small importInputPopup">
+                           <div class="display-checkbox">
+                           <lightning-input type="checkbox" data-name="ppcheck" disabled={disablePatientInvite} varient="label-hidden"   onchange={handleppinvite} 
                            name="inviteToPP"></lightning-input>
+                           <span class="checkbox_width"><label class="" >{label.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</label></span>
+                           </div>
                         </div> 
+                        
+                       
                           </template> 
                        </template> 
                      </template>
@@ -198,8 +210,8 @@
                     <div class="slds-grid slds-wrap slds-m-top_small">
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <div class="slds-float_right mobile-width">                  
-                             <button title="" class="slds-button apollo-btn primary btn-height import-btn" disabled={shouldDisableImport} onclick={doImportParticipant} > Import </button>
-                             <button class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleImportParticipantclose}> Cancel</button>
+                             <button title={label.BTN_Import} class="slds-button apollo-btn primary btn-height import-btn" disabled={shouldDisableImport} onclick={doImportParticipant} >{label.BTN_Import} </button>
+                             <button title={label.BTN_Cancel} class="slds-button apollo-btn secondary btn-height discard-btn" onclick={handleImportParticipantclose}> {label.BTN_Cancel}</button> 
                           </div> 
                        </div>
                     </div><!-- slds-grid slds-wrap slds-gutters -->

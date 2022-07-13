@@ -291,11 +291,11 @@ public without sharing class DashboardRemoteNew {
                     ![
                             SELECT Id
                             FROM Study_Site__c
-                            WHERE Principal_Investigator__c = :currentContactId
+                            WHERE Principal_Investigator__c = :currentContactId  AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
                         ]
                         .isEmpty()
                 ) {
-                    delegatePIsMap.put(currentContactId, 'Self');
+                    delegatePIsMap.put(currentContactId,'Self' );
                     if (piId == null) {
                         piData.selectedPi = currentContactId;
                         piId = currentContactId;
@@ -310,7 +310,7 @@ public without sharing class DashboardRemoteNew {
                         Study_Site__c,
                         is_Invited__c
                     FROM Site_Staff__c
-                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE
+                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
                 ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,

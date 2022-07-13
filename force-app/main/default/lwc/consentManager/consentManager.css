@@ -15,12 +15,17 @@ label{
 }
 
 .bulkimportFont{
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 
 .label_align{
     display:flex;
     align-items: baseline;
+}
+
+.bulkimportmargin {
+    margin-bottom: -8px;
+    margin-top: 6px;
 }
 
 .errorMsg{

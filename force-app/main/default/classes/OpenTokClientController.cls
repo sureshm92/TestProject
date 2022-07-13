@@ -46,7 +46,9 @@ public without sharing class OpenTokClientController {
     public String appNamestr { get; set; } //Indicates Meeting title Raviteja
     public String bannerEndTime { get; set; }
     public String autoDisconnectMeetingTime { get; set; }
-    public List<Televisit__c> lstTelevisit { get; set; }
+	public String visitDate {get;set;}
+    public String userTimeZone {get;set;}
+    public List<Televisit__c>  lstTelevisit{get;set;}
     TokBoxSettings2__c settings;
     public Integer endMinutes;
 
@@ -60,7 +62,7 @@ public without sharing class OpenTokClientController {
         } else {
             appNamestr = 'IQVIA';
         }*/
-        appNamestr = 'IQVIAᵀᴹ Referral Hub'; //Added by RAviteja
+        appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
         headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
@@ -121,18 +123,17 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-
-            system.debug(
-                'this.session.Televisit_Attendee__r :' + this.session.Televisit_Attendee__r
-            );
-            if (!this.session.Televisit_Attendee__r.isEmpty()) {
+			visitDate = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.date());
+            userTimeZone = UserInfo.getTimeZone().getID();
+            system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
+            if(!this.session.Televisit_Attendee__r.isEmpty()){
                 this.isSessionJoinable = getIsSessionJoinable();
                 //attendeeType = getAttendeeType(matchingAttendees[0]);
                 if (
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant' ||
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant Delegate'
                 ) {
-                    appNamestr = 'IQVIAᵀᴹ Patient Portal';
+                    appNamestr = 'IQVIA Patient Portal';
                     attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
@@ -141,7 +142,7 @@ public without sharing class OpenTokClientController {
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
                 } else {
-                    appNamestr = 'IQVIAᵀᴹ Referral Hub';
+                    appNamestr = 'IQVIA Referral Hub';
                     attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
                 }
@@ -167,10 +168,8 @@ public without sharing class OpenTokClientController {
         //system.debug(meetingInterval);
         Televisit__c tvUpdate = new Televisit__c();
         tvUpdate.id = lstTelevisit[0].Id;
-        tvUpdate.Visit_Date_Time__c = updatedTelevisit[0]
-            .Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
-        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0]
-            .Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        //tvUpdate.Visit_Date_Time__c = updatedTelevisit[0].Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
         update tvUpdate;
 
         updatedTelevisit = [

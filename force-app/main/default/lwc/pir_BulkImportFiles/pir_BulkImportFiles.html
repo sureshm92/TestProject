@@ -3,33 +3,33 @@
         <div class="slds-grid slds-wrap slds-gutters"> 
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <div class="bulkImportFile d_none">
-                    Bulk Import Files
+                    {label.RH_BulkImportFiles}
                 </div>
             </div>     
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <div class="slds-grid slds-wrap slds-gutters"> 
                     <div class="slds-col slds-size_1-of-2 btn-width_Instruction" >
                         <button class="slds-button slds-button_neutral btn_height" onclick={openIntructModal}>
-                            <img src={instructionsSvgURL}/><span class="slds-p-left_small">Instructions</span>
+                            <img src={instructionsSvgURL}/><span class="slds-p-left_small">{label.BulkImport_Instructions}</span>
                         </button>                   
                     </div>   
                     <div class="slds-col slds-size_1-of-2 btn-width_Template" 
                    >
                         <button class="slds-button slds-button_neutral btn_height"  >
                             <a href={downloadTemplate} title="">
-                            <img src={downloadSvgURL}/ ><span class="slds-p-left_small">File Template</span></a>
+                            <img src={downloadSvgURL}/ ><span class="slds-p-left_small">{label.BulkImport_File_Template}</span></a>
                         </button> 
                     </div> 
                     <div class="slds-col slds-size_1-of-1 btn-width_Participants">
                         <button class="slds-button slds-button_neutral bulk-importButton btn_height" onclick={handleImportModal}>
-                            <img src={impotrtSvgURL}/><span class="slds-p-left_small">Import Participants</span>
+                            <img src={impotrtSvgURL}/><span class="slds-p-left_small">{label.PIR_Import_Participants}</span>
                         </button>  
                     </div>  
                 </div>    
             </div> 
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
                 <div class="bulkImportFile d_noneD">
-                    Bulk Import Files
+                    {label.RH_BulkImportFiles}
                 </div>
             </div>   
         </div><!-- slds-grid slds-wrap slds-gutters -->
@@ -48,7 +48,37 @@
                     </div>
                     </div>
             </template>-->
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_medium">
+            <template if:true={inProgressData}>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 processFileScroll">
+                <template for:each={bulkHistoryDataInProgress} for:item="bp"  for:index="index">
+                <div class="processStatus slds-m-top_small_mobile" key={bp.Id}>
+                    <div class="slds-grid slds-wrap slds-gutters"> 
+                        <div class="slds-col slds-size_2-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 hideDesktop"></div><!--Mobile View -->
+                        <div class="slds-col slds-size_10-of-12 slds-medium-size_9-of-12 slds-large-size_9-of-12 hideDesktop"><!--Mobile View -->
+                            <div class="fileProgress">
+                              {label.RH_FileImport} {bp.Import_Status__c}
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 mobile_viewMargin">
+                            <img class="user-img slds-m-bottom_small" src={fileicon}/>
+                            <!--<lightning-icon icon-name="utility:page" size="x-small" alternative-text="page" title="file"> </lightning-icon>-->
+                        </div>
+                        <div class="slds-col slds-size_10-of-12 slds-medium-size_9-of-12 slds-large-size_9-of-12">
+                            <div class="fileName">
+                                {bp.File_Name__c}
+                            </div>
+                       </div>
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 showDesktop">
+                            <div class="fileProgress">
+                              {label.RH_FileImportProgress}
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Process Code -->
+            </template>
+            </div> 
+        </template><!-- Process Status -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small">
                 <div class="table-width nodata">
                     <table role="grid" class="slds-table slds-table_cell-buffer slds-table_bordered table-border table-width-D">
                         <colgroup>
@@ -64,34 +94,34 @@
                         <thead>
                             <tr class="slds-line-height_reset">
                                 <th class="table-header" scope="col">
-                                    <div class="table-header-label slds-truncate" title="File Name">File Name</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_File_Name}>{label.BulkImport_File_Name}</div>
                                 </th>
                                 <th class="table-header slds-text-align_center" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Initial Total Records">Initial Total Records</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Initial_Total_Records}>{label.BulkImport_Initial_Total_Records}</div>
                                 </th>
                                 <th class="table-header slds-text-align_center" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Accepted">Accepted</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Accepted}>{label.BulkImport_Accepted}</div>
                                 </th>
                                 <th class="table-header slds-text-align_center" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Rejected">Rejected</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Rejected}>{label.BulkImport_Rejected}</div>
                                 </th>
                                 <th class="table-header" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Uploaded By">Uploaded By</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Uploaded_By}>{label.BulkImport_Uploaded_By}</div>
                                 </th>
                                 <th class="table-header" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Uploaded On">Uploaded On</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Uploaded_On}>{label.BulkImport_Uploaded_On}</div>
                                 </th>
                                 <th class="table-header slds-text-align_center" scope="col">
-                                    <div class="table-header-label slds-truncate" title="Actions">Actions</div>
+                                    <div class="table-header-label slds-truncate" title={label.Bulk_Actions}>{label.Bulk_Actions}</div>
                                 </th>
                               <!---  <th class="table-header slds-text-align_center" scope="col">
                                     <div class="table-header-label slds-truncate" title="Status">Status</div>
                                 </th>-->
                             </tr>
                         </thead>
-                        <template if:true={bulkImportList}>
+                        <template if:true={bulkHistoryDataCompleted}>
                            
-                        <template for:each={bulkImportList} for:item="b"  for:index="index">
+                        <template for:each={bulkHistoryDataCompleted} for:item="b"  for:index="index">
                             <tbody key={b.Id}>
                                 <tr class="slds-hint-parent table-row">                      
                                     <td data-label="fname">
@@ -119,7 +149,7 @@
                                         <template if:true={b.Download_URL__c}> 
                                         <div class="slds-truncate" title=""> 
                                             <a href={b.Download_URL__c} target="_blank">
-                                                <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon>
+                                                <lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title={label.PIR_Download}> </lightning-icon>
                                             </a>
                                         </div>
                                     </template>
@@ -140,7 +170,7 @@
              <template if:true={isInstrModalOpen}>
                      <!--  Import Participants Model Start  -->  
                         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-                        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+                        aria-describedby="modal-content-id-1" class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open ">
                         <div class="slds-modal_small">
                         <div class="slds-modal__container model-small">
                             <div class="slds-modal__content" id="modal-content-id-1">
@@ -148,14 +178,14 @@
                                 <div class="slds-p-around_large"><!-- Add RTL class here -->
                                     <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                                     <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                                        <span class="pop-title">Instructions for Bulk Import Process</span> 
+                                        <span class="pop-title slds-align_absolute-center">{label.RH_BulkImportInst}</span> 
                                     </div>
                                     <div class="slds-col slds-size_1-of-12 close-icon">
                                         <div onclick={handleClose}>
                                             <lightning-icon icon-name="utility:close"
                                                 alternative-text="close"
                                                 size="x-small" ></lightning-icon>
-                                            <span class="slds-assistive-text">Close</span>
+                                            <span class="slds-assistive-text">{label.BTN_Close}</span>
                                         </div>
                                     </div>
                                     </div>
@@ -165,49 +195,49 @@
                                             <div class="importInfo">
                                                 <div class="processTextBody">
                                                     <ol type="1" class="">
-                                                        <li class="listText"> 
-                                                            Click the <strong>File Template</strong> download button near the top right of the table to access file with the acceptable import format.
-                                                        </li>     
+                                                        <li class="listText"><lightning-formatted-rich-text value={label.RH_FileTemplate}>
+                                                        </lightning-formatted-rich-text></li>
+                                                        <li class="listText"><lightning-formatted-rich-text value={label.RH_ImportInformation}>
+                                                            </lightning-formatted-rich-text></li>                       
+                                                            
                                                         <li class="listText">                         
-                                                            Enter available information for the participants into the file.
-                                                        </li>    
-                                                        <li class="listText">                         
-                                                            Click on <strong> Import Participants </strong> 
+                                                            <lightning-formatted-rich-text value={label.RH_ClickImport}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            Select the <strong>  Study Name and Study Site </strong>
+                                                            <lightning-formatted-rich-text value={label.RH_SelectStudy_SIte}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            Drag-and-drop or browse to locate and <strong> upload </strong> the file.
+                                                            <lightning-formatted-rich-text value={label.RH_File}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            Attest to information sharing and contact consent for the participants and/or their legal guardians included in the file.
+                                                            <lightning-formatted-rich-text value={label.RH_InformationSharing}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            Choose to Invite to Patient Portal if applicable.
+                                                            <lightning-formatted-rich-text value={label.RH_ChoosePP}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            Click <strong>Import.</strong> 
+                                                            <lightning-formatted-rich-text value={label.RH_ClickImportButton}></lightning-formatted-rich-text>
                                                         </li> 
                                                         <li class="listText">                         
-                                                            The results of your upload will appear at the top of the table with the total records, accepted records, and rejected records displayed.                                        </li> 
+                                                            <lightning-formatted-rich-text value={label.RH_UploadResult}></lightning-formatted-rich-text>
+                                                        </li> 
                                                         <li class="listText">                         
-                                                            All accepted records can now be found in your  <strong> My Participants  </strong> list.
+                                                            <lightning-formatted-rich-text value={label.RH_AllRecords}></lightning-formatted-rich-text>
                                                         </li>                              
                                                         <li class="listText"> 
-                                                            Any rejected records will require correction and re-upload
+                                                            <lightning-formatted-rich-text value={label.RH_RejectedRecords}></lightning-formatted-rich-text>
                                                             <ol>
                                                                 <li class="listText">                         
-                                                                    Click the download icon under the Actions column of the applicable row in the Bulk Import Files list 
+                                                                    <lightning-formatted-rich-text value={label.RH_DownloadIcon}></lightning-formatted-rich-text>
                                                                 </li>  
                                                                 <li class="listText">                         
-                                                                    Check the <strong> Validation Errors </strong>  column in the file for the rejection reason
+                                                                    <lightning-formatted-rich-text value={label.RH_ValidationError}></lightning-formatted-rich-text>
                                                                 </li> 
                                                                 <li class="listText">                         
-                                                                    Input applicable changes directly into the file to correct the indicated errors and save the file (do NOT change the file name)
+                                                                    <lightning-formatted-rich-text value={label.RH_InputChanges}></lightning-formatted-rich-text>
                                                                 </li> 
                                                                 <li class="listText">                         
-                                                                    Repeat steps 3-8 above.
+                                                                    <lightning-formatted-rich-text value={label.RH_RepeatSteps}></lightning-formatted-rich-text>
                                                                 </li>    
                                                             </ol>
                                                         </li>
@@ -218,7 +248,7 @@
                                     </div><!-- slds-grid slds-wrap slds-gutters -->
                                     <div class="slds-grid slds-wrap slds-m-top_small">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_x-small custom-position">
-                                            <lightning-input type="checkbox" label="Don't show me again on landing" onchange={instructionUpdate}
+                                            <lightning-input type="checkbox" label={label.RH_ShowLanding} onchange={instructionUpdate}
                                             name="input3" checked={dontshowInstruction}
                                             ></lightning-input>
                                         </div>
@@ -243,8 +273,9 @@
                    <div class="noData slds-align--absolute-center">
                        <div class="slds-grid slds-wrap slds-gutters"> 
                            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bulkImportFile slds-text-align_center">
-                               Imported files with participants will be shown here.<br>
-                               Click on Import Participants to upload a file.
+                               
+                               <lightning-formatted-rich-text value={label.RH_ImportNoRecords}>
+                            </lightning-formatted-rich-text>
                            </div>
                                              
                        </div> <!-- slds-grid slds-wrap slds-gutters -->     
