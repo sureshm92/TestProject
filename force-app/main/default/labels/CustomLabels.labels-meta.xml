@@ -6157,7 +6157,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6215,7 +6215,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFullName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6224,7 +6224,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6236,7 +6236,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
@@ -6299,7 +6299,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6311,7 +6311,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -25646,7 +25646,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit with ##PIFullName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
