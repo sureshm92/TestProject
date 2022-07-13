@@ -6,7 +6,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import AllStudy from "@salesforce/label/c.PIR_All_Study";
 import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
 import PIR_Study_Name from "@salesforce/label/c.PIR_Study_Name";
-import PIR_Study_Site from "@salesforce/label/c.PIR_Study_Site";
+import PIR_Study_Site_Name from "@salesforce/label/c.PIR_Study_Site_Name";
 import My_Participant from "@salesforce/label/c.My_Participant";
 import Home_Page_Label from "@salesforce/label/c.Home_Page_Label";
 import pir_Bulk_Import_History from "@salesforce/label/c.pir_Bulk_Import_History";
@@ -35,7 +35,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     label = {AllStudy,
         AllStudySite,
         PIR_Study_Name,
-        PIR_Study_Site,
+        PIR_Study_Site_Name,
         My_Participant,
         pir_Bulk_Import_History,
         Home_Page_Label};
