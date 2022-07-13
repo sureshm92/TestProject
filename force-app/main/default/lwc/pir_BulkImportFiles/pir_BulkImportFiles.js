@@ -350,7 +350,6 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 else{
                     var arrayLength =  this.inProgressOldDataid.length;
                     for (var i = 0; i < arrayLength; i++) {
-                      console.log(this.inProgressOldDataid[i]);
                       if(!newResultIds.includes(this.inProgressOldDataid[i])){
                           this.isToast=true;
 
