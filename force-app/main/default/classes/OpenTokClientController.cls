@@ -123,7 +123,7 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-			visitDate = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.date());
+			visitDate = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.date());
             userTimeZone = UserInfo.getTimeZone().getID();
             system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
             if(!this.session.Televisit_Attendee__r.isEmpty()){
