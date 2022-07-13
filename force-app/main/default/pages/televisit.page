@@ -734,12 +734,13 @@
                 isSubscribedScreenShare = !isSubscribedScreenShare;
 
                 //toggle('.participants-container', 'slds-hide');
+                //toggle('.controls', 'slds-size_1-of-1');
                 toggle('.share-container', 'slds-hide');
                 toggle('.speaker-container', 'slds-hide');
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_1-of-1');
+                toggle('.controls', 'slds-size_3-of-4');
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
