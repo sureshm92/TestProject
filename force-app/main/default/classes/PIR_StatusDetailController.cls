@@ -705,7 +705,9 @@ public without sharing class PIR_StatusDetailController {
                   Additional_Notes__c,
                   CreatedBy.IsPortalEnabled,
                   CreatedBy.contact.userCommunityMode__c,
-                  Status_Label__c
+                  Status_Label__c,
+                  ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
+                  ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE
                   ParticipantEnrollment__c = :pe
@@ -727,7 +729,9 @@ public without sharing class PIR_StatusDetailController {
           Additional_Notes__c,
           CreatedBy.IsPortalEnabled,
           CreatedBy.contact.userCommunityMode__c,
-          Status_Label__c
+          Status_Label__c,
+          ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
+          ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
         FROM Participant_Enrollment_Status_History__c
         WHERE
           ParticipantEnrollment__c = :pe
@@ -825,11 +829,17 @@ public without sharing class PIR_StatusDetailController {
           ContactHistoryWrap wrap = new ContactHistoryWrap();
           //title = pesh.Status__c;
           if(pesh.Status__c == 'Successfully re-engaged'){
-              String sc = 'Successfully Contacted';
-              title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
-          }else{
-              title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
-          }
+            String sc = 'Successfully Contacted';
+            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+           }else if(pesh.Status__c == 'Eligibility Passed') {
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+                title = Label.Sent_to_Study_Hub;
+              }else{
+                 title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
+              }
+         }else{
+            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
+        }
             if (pesh.Non_Enrollment_Reason__c != null) {
             //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
             title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
