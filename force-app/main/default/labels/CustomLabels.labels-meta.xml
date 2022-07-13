@@ -26589,4 +26589,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>RH_ValidationError</shortDescription>
         <value>Check the &lt;b&gt;Validation Errors&lt;/b&gt; column in the file for the rejection reason</value>
     </labels>
+    <labels>
+        <fullName>RH_AllRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_AllRecords</shortDescription>
+        <value>All accepted records can now be found in your &lt;b&gt;My Participants&lt;/b&gt; list.</value>
+    </labels>
 </CustomLabels>
