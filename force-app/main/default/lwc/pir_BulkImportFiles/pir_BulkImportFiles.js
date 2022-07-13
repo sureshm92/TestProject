@@ -1,9 +1,44 @@
 import { LightningElement, wire, track, api } from "lwc";
 import bulkicons from '@salesforce/resourceUrl/bulkicons';
+import { CurrentPageReference } from 'lightning/navigation';
 import DownloadParticipantTemplate from '@salesforce/resourceUrl/PARTICIPANTS_TEMPLATE'; 
 import AllStudy from "@salesforce/label/c.PIR_All_Study";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
+import RH_BulkImportInst from "@salesforce/label/c.RH_BulkImportInst";
+import RH_FileTemplate from "@salesforce/label/c.RH_FileTemplate";
+import RH_ImportInformation from "@salesforce/label/c.RH_ImportInformation";
+import RH_ClickImport from "@salesforce/label/c.RH_ClickImport";
+import RH_SelectStudy_SIte from "@salesforce/label/c.RH_SelectStudy_SIte";
+import RH_File from "@salesforce/label/c.RH_File";
+import RH_InformationSharing from "@salesforce/label/c.RH_InformationSharing";
+import RH_ChoosePP from "@salesforce/label/c.RH_ChoosePP";
+import BTN_Close from "@salesforce/label/c.BTN_Close";
+import RH_ClickImportButton from "@salesforce/label/c.RH_ClickImportButton";
+import RH_UploadResult from "@salesforce/label/c.RH_UploadResult";
+import RH_AllRecords from "@salesforce/label/c.RH_AllRecords";
+import RH_RejectedRecords from "@salesforce/label/c.RH_RejectedRecords";
+import RH_DownloadIcon from "@salesforce/label/c.RH_DownloadIcon";
+import PIR_Download from "@salesforce/label/c.PIR_Download";
+import RH_ValidationError from "@salesforce/label/c.RH_ValidationError";
+import RH_ShowLanding from "@salesforce/label/c.RH_ShowLanding";
+import RH_InputChanges from "@salesforce/label/c.RH_InputChanges";
+import RH_RepeatSteps from "@salesforce/label/c.RH_RepeatSteps";
+import RH_ImportSuccess from "@salesforce/label/c.RH_ImportSuccess";
+import BulkImport_Instructions from "@salesforce/label/c.BulkImport_Instructions";
+import RH_ImportNoRecords from "@salesforce/label/c.RH_ImportNoRecords";
+import RH_BulkImportFiles from "@salesforce/label/c.RH_BulkImportFiles";
+import RH_FileImport from "@salesforce/label/c.RH_FileImport";
+import RH_FileImportProgress from "@salesforce/label/c.RH_FileImportProgress";
+import BulkImport_File_Template from "@salesforce/label/c.BulkImport_File_Template";
+import PIR_Import_Participants from "@salesforce/label/c.PIR_Import_Participants";
+import BulkImport_File_Name from "@salesforce/label/c.BulkImport_File_Name";
+import BulkImport_Initial_Total_Records from "@salesforce/label/c.BulkImport_Initial_Total_Records";
+import BulkImport_Accepted from "@salesforce/label/c.BulkImport_Accepted";
+import BulkImport_Rejected from "@salesforce/label/c.BulkImport_Rejected";
+import BulkImport_Uploaded_By from "@salesforce/label/c.BulkImport_Uploaded_By";
+import BulkImport_Uploaded_On from "@salesforce/label/c.BulkImport_Uploaded_On";
+import Bulk_Actions from "@salesforce/label/c.Bulk_Actions";
 import getShowInstructValue from '@salesforce/apex/PIR_BulkImportController.getShowInstructValue';
 import getInstruction from '@salesforce/apex/PIR_BulkImportController.getInstruction';
 import getBulkImportHistoryInProgress from '@salesforce/apex/PIR_BulkImportController.getBulkImportHistoryInProgress';
@@ -22,6 +57,13 @@ export default class Pir_BulkImportFiles extends LightningElement {
     noRecords=false;
     saving=true;
     totalRecord;
+    currentPageReference = null;
+    urlStateParameters = null;
+    urlmyStudies = null;
+    urlmyParticipants = null;
+    urltrialId = null;
+    urlsiteId = null;
+    @api myStudiesPg = false;
     isInstrModalOpen=false;
     showInstruction = false;
     batchStartIntervalId;
@@ -41,9 +83,50 @@ export default class Pir_BulkImportFiles extends LightningElement {
     studySiteList;
     selectedStudy='';
     getimportids=[];
+    getTotalCount;
+    showToastSuccess=false;
+    oldMap = new Map();
+    inProgressOldDataid=[];
+    successBoolean=false;
 
     label = {AllStudy,
-        AllStudySite};
+        AllStudySite,
+        RH_BulkImportInst,
+        RH_FileTemplate,
+        RH_ImportInformation,
+        RH_ClickImport,
+        RH_SelectStudy_SIte,
+        RH_File,
+        RH_InformationSharing,
+        RH_ChoosePP,
+        RH_ClickImportButton,
+        RH_UploadResult,
+        RH_AllRecords,
+        RH_RejectedRecords,
+        RH_DownloadIcon,
+        RH_ValidationError,
+        RH_InputChanges,
+        RH_RepeatSteps,
+        BulkImport_Instructions,
+        RH_ImportNoRecords,
+        RH_BulkImportFiles,
+        RH_FileImport,
+        RH_FileImportProgress,
+        BulkImport_Instructions,
+        BulkImport_File_Template,
+        PIR_Import_Participants,
+        BulkImport_File_Name,
+        BulkImport_Initial_Total_Records,
+        BulkImport_Accepted,
+        BulkImport_Rejected,
+        BulkImport_Uploaded_By,
+        BulkImport_Uploaded_On,
+        Bulk_Actions,
+        PIR_Download,
+        BTN_Close,
+        RH_ShowLanding,
+        RH_ImportSuccess
+    };
     downloadTemplate = DownloadParticipantTemplate;
 
     get dontshowInstruction() {
@@ -51,14 +134,31 @@ export default class Pir_BulkImportFiles extends LightningElement {
     }
    
     connectedCallback() {
-        // Register error listener
-        //this.saving=true;
         this.getStudySiteData();
-        //this.fetchData();
         this.getInstructionData();
-        //this.getLatest();
-       
     }
+    
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+       if (currentPageReference) {
+          this.urlStateParameters = currentPageReference.state;
+          this.setParametersBasedOnUrl();
+       }
+    }
+    setParametersBasedOnUrl() {
+       this.urlmyStudies = this.urlStateParameters.myStudies || null;
+       this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+       this.urltrialId = this.urlStateParameters.trialId || null;
+       this.urlsiteId = this.urlStateParameters.ssId || null;
+     
+       if(this.urlmyStudies){
+            this.myStudiesPg = true;
+            this.selectedStudy = this.urltrialId; 
+       }else{
+            this.myStudiesPg = false;
+       }
+    }
+
     getStudySiteData(){
         getStudyStudySiteDetails()
         .then(data => {
@@ -162,7 +262,10 @@ export default class Pir_BulkImportFiles extends LightningElement {
                                   ) {
                                     this.getStudySite=this.selectedSite;
                                   }
+                                  
+                                  if(!this.myStudiesPg){
                                   this.fetchData();
+                                  }
                                   this.getLatest();
                             
                         }
@@ -176,11 +279,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
         
                 
     }
-    getTotalCount;
-    showToastSuccess=false;
-    oldMap = new Map();
-    inProgressOldDataid=[];
-    successBoolean=false;
+    
     @api fetchData(){
         if(!this.stopSpinner){
         this.saving = true; 
@@ -189,26 +288,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
         getBulkImportHistoryCompleted({getStudySite:this.getStudySite, pageNumber:this.pageNumber})
         .then(result => {
             this.bulkHistoryDataCompleted=result.bulkHistoryDataCompleted;
-           // this.bulkHistoryDataInProgress=result.bulkHistoryDataInProgress;
             this.totalRecord=result.totalCount;
-            //this.isInstrModalOpen=!result.showInstructions;  
-            //this.showInstruction = !result.showInstructions; 
-
-            /*if(this.getTotalCount==null){
-                this.getTotalCount=this.totalRecord; //34 35
-            }
-            else{
-                if(this.getTotalCount!=this.totalRecord){
-                    console.log('record updated');
-                    this.showToastSuccess=true; 
-
-                }
-            }
-            if(this.showToastSuccess){
-                this.showSuccessToast('Success');
-                this.showToastSuccess=false; 
-            }*/
-
+            
             const selectEvent = new CustomEvent('gettotalrecord', {
                 detail: this.totalRecord
             });
@@ -232,13 +313,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 });
                 this.noRecords=true;
             }
-           /* if(this.bulkHistoryDataInProgress.length>0){
-                this.inProgressData=true;
-            }
-            else{
-                this.inProgressData=false;
-            }*/
-
+           
             if(this.isSpinnerRunning){
             this.saving = false; 
             this.isSpinnerRunning=false;
@@ -274,17 +349,13 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 }
                 else{
                     var arrayLength =  this.inProgressOldDataid.length;
-                    console.log('old data length:'+arrayLength);console.log('new data length:'+newResultIds.length);
                     for (var i = 0; i < arrayLength; i++) {
                       console.log(this.inProgressOldDataid[i]);
                       if(!newResultIds.includes(this.inProgressOldDataid[i])){
-                          console.log('NOT THERE');
                           this.isToast=true;
 
                       }else{
-                          console.log('ITS THERE');
                       }
-                    //Do something
                     }
                     this.inProgressOldDataid=newResultIds;
 
@@ -301,7 +372,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
             }
 
             if(this.isToast ||this.successBoolean){
-                this.showSuccessToast('Participant record import completed succesfully.');
+                this.showSuccessToast(this.label.RH_ImportSuccess);
                 this.isToast=false;
                 this.successBoolean=false;
             }

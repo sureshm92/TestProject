@@ -40,7 +40,11 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
+        /*Start Email Consent story*/
+        NotificationCatalog.MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE, 
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -71,14 +75,14 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,  
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> taskSurveyReminderTypes = new List<String>{
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE, 
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
     };
     static public Set<String> welcomemsgNoticationtypes = new Set<String>{
@@ -405,13 +409,12 @@ public without sharing class NotificationService {
                                     n.WhatId__c,
                                     notificationType.Recipient_Type__c,
                                     nt.Target_Type__c,
-                                    n.Recipient__c
+                                    n.Recipient__c,
+                                    notificationType
                                 )
                             ) {
                                 if (
-                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
-                                    (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                                    !String.isBlank(n.Task_Id__c))
+                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) 
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&
