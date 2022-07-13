@@ -1,5 +1,6 @@
 import { LightningElement, wire, track, api } from "lwc";
 import bulkicons from '@salesforce/resourceUrl/bulkicons';
+import { CurrentPageReference } from 'lightning/navigation';
 import DownloadParticipantTemplate from '@salesforce/resourceUrl/PARTICIPANTS_TEMPLATE'; 
 import AllStudy from "@salesforce/label/c.PIR_All_Study";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -22,6 +23,13 @@ export default class Pir_BulkImportFiles extends LightningElement {
     noRecords=false;
     saving=true;
     totalRecord;
+    currentPageReference = null;
+    urlStateParameters = null;
+    urlmyStudies = null;
+    urlmyParticipants = null;
+    urltrialId = null;
+    urlsiteId = null;
+    @api myStudiesPg = false;
     isInstrModalOpen=false;
     showInstruction = false;
     batchStartIntervalId;
@@ -41,6 +49,11 @@ export default class Pir_BulkImportFiles extends LightningElement {
     studySiteList;
     selectedStudy='';
     getimportids=[];
+    getTotalCount;
+    showToastSuccess=false;
+    oldMap = new Map();
+    inProgressOldDataid=[];
+    successBoolean=false;
 
     label = {AllStudy,
         AllStudySite};
@@ -59,6 +72,29 @@ export default class Pir_BulkImportFiles extends LightningElement {
         //this.getLatest();
        
     }
+    
+    
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+       if (currentPageReference) {
+          this.urlStateParameters = currentPageReference.state;
+          this.setParametersBasedOnUrl();
+       }
+    }
+    setParametersBasedOnUrl() {
+       this.urlmyStudies = this.urlStateParameters.myStudies || null;
+       this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+       this.urltrialId = this.urlStateParameters.trialId || null;
+       this.urlsiteId = this.urlStateParameters.ssId || null;
+     
+       if(this.urlmyStudies){
+            this.myStudiesPg = true;
+            this.selectedStudy = this.urltrialId; 
+       }else{
+            this.myStudiesPg = false;
+       }
+    }
+
     getStudySiteData(){
         getStudyStudySiteDetails()
         .then(data => {
@@ -162,7 +198,10 @@ export default class Pir_BulkImportFiles extends LightningElement {
                                   ) {
                                     this.getStudySite=this.selectedSite;
                                   }
+                                  
+                                  if(!this.myStudiesPg){
                                   this.fetchData();
+                                  }
                                   this.getLatest();
                             
                         }
@@ -176,11 +215,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
         
                 
     }
-    getTotalCount;
-    showToastSuccess=false;
-    oldMap = new Map();
-    inProgressOldDataid=[];
-    successBoolean=false;
+    
     @api fetchData(){
         if(!this.stopSpinner){
         this.saving = true; 
