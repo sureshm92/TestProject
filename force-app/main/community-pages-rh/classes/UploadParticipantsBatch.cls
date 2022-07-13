@@ -1742,9 +1742,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         emailToSend.setSubject(adminEmailToSend.getSubject());
         emailToSend.setOrgWideEmailAddressId(owea.Id);
 
-        emailToSend.setFileAttachments(
+       /*mailToSend.setFileAttachments(
             new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
-        );
+        );*/
 
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });
