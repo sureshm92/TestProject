@@ -306,6 +306,7 @@ studyhandleChange(event) {
     this.selectedSite = '';
     this.shouldDisableImportStatus = true;
     this.studysiteaccess = false;
+    this.visitPlanAvailable = false;
     this.selectedStatus = '';
     this.isDataLoading = false;
     this.toggleImportButton();

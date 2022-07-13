@@ -12704,6 +12704,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Sent to DCT Platform</value>
     </labels>
     <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+    <labels>
         <fullName>Send_to_DCT</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20222,6 +20236,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Apply Filters</value>
     </labels>
     <labels>
+        <fullName>RH_Arm_Cohert_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Arm_Cohert_Import</shortDescription>
+        <value>Arm/Cohort:</value>
+    </labels>
+    <labels>
         <fullName>RH_Business_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20816,6 +20837,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_WaitTime_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_WaitTime_Import</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
