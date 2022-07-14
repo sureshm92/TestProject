@@ -62,6 +62,7 @@
             <script>
                 jsBannerEndTime = '{!bannerEndTime}';
                 jsAutoDisconnectMeetingTime = '{!autoDisconnectMeetingTime}';
+                console.log(jsAutoDisconnectMeetingTime);
                 enableExtendCallDropDown = false;
                 if (document.getElementById('televisitBanner') != null)
                     document.getElementById('televisitBanner').setAttribute('class', 'hideBanner');
@@ -93,6 +94,7 @@
                 });
 
                 $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
+                    console.log('Tele event fired');
                     fetchUpdatedTelevisitDetails();
                 });
             </script>
