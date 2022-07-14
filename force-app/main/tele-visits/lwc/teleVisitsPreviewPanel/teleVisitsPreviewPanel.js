@@ -93,18 +93,18 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         this.searchStatus = event.detail;
         this.loadVisits();
     }
-
     handleStatusChange(value) {
         if (value.length > 5) {
             value.splice(5);
         }
         this.tabTeleVisits = JSON.parse(JSON.stringify(value));
     }
-
+    
     loadVisits() {
         console.log('rtl', this.isRTL);
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) this.spinner.show();
+
         getTeleVisits({ visitMode: this.searchStatus })
             .then((result) => {
                 let allTeleVisits = result;
@@ -112,8 +112,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                     if (allTeleVisits != null && allTeleVisits.length > 0) {
                         let teleVisitStatusOptions = [
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
-                        ];
-                       
+                        ];                    
                         //removing blank values
                         let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
                         if (teleVisitStatus.length >= 1) {
@@ -167,8 +166,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
             })
             .catch((error) => {
                 console.error('error', error);
-            });
-           
+            });    
     }
 
      filterVisits(initialArray, filterValue) {
@@ -183,8 +181,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                     }
             return filteredArray;
         }
-    
-    
+
     sortVisitStatus(sortAttribute) {
         return function (elementOne, elementTwo) {
             if (elementOne[sortAttribute] > elementTwo[sortAttribute]) {
