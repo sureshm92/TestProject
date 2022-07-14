@@ -57,16 +57,13 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         }
     }
 
-    get urlLink()
-    {
-      var isParticipant =JSON.parse(JSON.stringify(this.participantState.pe));
-      if(isParticipant)
-      {
-          return 'study-workspace?tab=tab-visits&visitmode=TeleVisitDetails';
-      }
-      else {
-          return 'televisits?tab=televisits';
-      }
+    get urlLink() {
+        var isParticipant = JSON.parse(JSON.stringify(this.participantState.pe));
+        if (isParticipant) {
+            return 'study-workspace?tab=tab-visits&visitmode=TeleVisitDetails';
+        } else {
+            return 'televisits?tab=televisits';
+        }
     }
 
     get containerClass() {
@@ -93,7 +90,6 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         this.searchStatus = event.detail;
         this.loadVisits();
     }
-
     handleStatusChange(value) {
         if (value.length > 5) {
             value.splice(5);
@@ -105,6 +101,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         console.log('rtl', this.isRTL);
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) this.spinner.show();
+
         getTeleVisits({ visitMode: this.searchStatus })
             .then((result) => {
                 let allTeleVisits = result;
@@ -176,6 +173,9 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                 filteredArray = [...filteredArray, visit];
             }
         });
+        if (filterValue === 'Scheduled') {
+            filteredArray.sort().reverse();
+        }
         return filteredArray;
     }
 
