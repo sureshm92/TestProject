@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Alternate_Parameter_Source__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">PIFullName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Id</value>
     </values>
     <values>
         <field>Parameters__c</field>
@@ -17,7 +17,8 @@ PIFirstName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Fi
 PILastName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName
 StudyCodeName=Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
 ParticipantFirstName=Participant_Enrollment__r.Participant__r.First_Name__c
-ParticipantLastName=Participant_Enrollment__r.Participant__r.Last_Name__c</value>
+ParticipantLastName=Participant_Enrollment__r.Participant__r.Last_Name__c
+PIFullName=Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Full_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
