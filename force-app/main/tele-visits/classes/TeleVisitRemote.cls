@@ -17,6 +17,9 @@ public without sharing class TeleVisitRemote {
             query += '  AND Status__c = :visitMode ';
         }
         query += ' ORDER BY Visit_Date_Time__c';
+        if (visitMode != 'Scheduled'){
+            query += ' DESC';
+           }
         List<Televisit__c> teleVisits = Database.query(query);
         return generateVisitWrappers(teleVisits);
     }
@@ -30,6 +33,9 @@ public without sharing class TeleVisitRemote {
             query += '  AND Status__c = :visitMode ';
         }
         query += ' ORDER BY Visit_Date_Time__c';
+       if (visitMode != 'Scheduled'){
+        query += ' DESC';
+       }
         List<Televisit__c> teleVisits = Database.query(query);
         return generateVisitWrappers(teleVisits);
     }

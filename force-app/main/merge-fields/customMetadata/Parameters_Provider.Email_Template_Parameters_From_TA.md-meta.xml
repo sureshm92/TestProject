@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Alternate_Parameter_Source__c</field>
-        <value xsi:nil="true" />
+        <value xsi:type="xsd:string">PIFullName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Id</value>
     </values>
     <values>
         <field>Parameters__c</field>
@@ -14,6 +14,7 @@ VisitDate=Televisit__r.Visit_Date__c
 VisitDuration=Televisit__r.Duration__c
 PIFirstName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.FirstName
 PILastName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.LastName
+PIFullName=Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Full_Name__c
 firstname = Participant_First_Name__c
 LastName = Participant_Last_Name__c
 VisitTime = Televisit__r.Visit_Date_Time__c
