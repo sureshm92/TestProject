@@ -188,6 +188,9 @@
     margin-bottom: 4px;
     font-size: 0.75rem;
 }
+.THIS .dob-error {
+    color: rgb(234, 0, 30)
+}
 
 .THIS .visit-plan-display {
     width: fit-content;

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
  ({
-    doInit: function (component, event, hepler) {
+    doInit: function (component, event, helper) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         var formData = component.get('v.formData');
@@ -36,9 +36,18 @@
             else if(charSize > 50){
                 document.getElementsByClassName('customWidth')[0].style.width = 50 + '%';
             }
-        },3000)
-        
-       
+        },3000);
+
+        //DOB
+        component.set('v.lastDay', 31);
+        try{
+        helper.setDD(component, event, helper);
+        helper.setMM(component, event, helper);
+        helper.setYYYY(component, event, helper);
+        }
+        catch(e){
+            console.log(e);
+        }
     },
 
     doRefreshDateInput: function (component, event, helper) {
@@ -578,33 +587,7 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        component.find('spinner').show();
-        let parent = component.get('v.parentComponent');
-        if (parent!=null && parent.checkDateOfBith) {
-            console.log('Parent checkDateOfBith');
-            parent.checkDateOfBith(function(result) {
-                component.set('v.participant.Adult__c', result);
-                 $A.enqueueAction(component.get('c.doCheckFields'));
-                component.find('spinner').hide(); 
-            });
-        }else {
-            if(parent!=null && parent.checkParticipantDateOfBith){
-                parent.checkParticipantDateOfBith(function(result) {
-                    component.set('v.participant.Adult__c', result);
-                    $A.enqueueAction(component.get('c.doCheckFields'));
-                    component.find('spinner').hide(); 
-                });
-            }
-        }
-        if( component.get('v.needsGuardian') && 
-           component.get('v.participant.Adult__c') 
-           && (component.get('v.participant.email__c') ==''
-               || !component.get('v.participant.email__c')
-              ) 
-          ){
-            component.set('v.createUsers',false);
-        }
-        console.log('END doCheckDateOfBith');
+        helper.doCheckDateOfBith(component, event, helper); 
     },
 
     doCountryCodeChanged: function (component, event, helper) {
@@ -673,4 +656,20 @@
         component.set('v.isEmailConfrmBtnClick',true);
         component.set('v.useThisDelegate', true); 
     },
+    // DOB
+    YYYYChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.YYYYChange(component, event, helper), 50);
+    },
+    MMChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.MMChange(component, event, helper), 50);
+    },
+    DDChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.DDChange(component, event, helper), 50);
+    },
+    ageChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.ageChange(component, event, helper), 50);
+    },
+    validateDOB: function (component, event, helper){
+        helper.validateDOB(component, event, helper);
+    }
 });
