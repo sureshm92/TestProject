@@ -148,6 +148,10 @@ export default class TeleVisitsListView extends LightningElement {
                 filteredArray = [...filteredArray, visit];
             }
         });
+                if(filterValue === 'Scheduled'){
+                        filteredArray.sort().reverse();
+                }
+
         return filteredArray;
     }
 

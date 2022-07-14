@@ -105,19 +105,23 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         console.log('rtl', this.isRTL);
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) this.spinner.show();
+        console.log('stattus for passingg',this.searchStatus);
         getTeleVisits({ visitMode: this.searchStatus })
             .then((result) => {
+                console.log('result',result);
                 let allTeleVisits = result;
                 if (!this.isInitialized) {
                     if (allTeleVisits != null && allTeleVisits.length > 0) {
                         let teleVisitStatusOptions = [
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
                         ];
+                       
                         //removing blank values
                         let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
                         if (teleVisitStatus.length >= 1) {
                             //configute  filter
                             for (let tvStatus of teleVisitStatus) {
+                                console.log("visitmode====================="+ tvStatus);
                                 let visitOption = {
                                     label:
                                         tvStatus == 'Scheduled'
@@ -133,12 +137,15 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                             //assign default filter
                             if (teleVisitStatus.includes('Scheduled')) {
                                 this.searchStatus = 'Scheduled';
+                                console.log("visitmode====================="+ this.searchStatus);
                                 this.teleVisits = this.filterVisits(allTeleVisits, 'Scheduled');
                             } else if (teleVisitStatus.includes('Completed')) {
                                 this.searchStatus = 'Completed';
+                                console.log("visitmode====================="+ this.searchStatus);
                                 this.teleVisits = this.filterVisits(allTeleVisits, 'Completed');
                             } else {
                                 this.searchStatus = 'Cancelled';
+                                console.log("visitmode====================="+ this.searchStatus);
                                 this.teleVisits = this.filterVisits(allTeleVisits, 'Cancelled');
                             }
                             this.isFilterAvailable = true;
@@ -167,18 +174,24 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
             .catch((error) => {
                 console.error('error', error);
             });
+           
     }
 
-    filterVisits(initialArray, filterValue) {
-        let filteredArray = [];
-        initialArray.map((visit) => {
-            if (visit.visitStatus === filterValue) {
-                filteredArray = [...filteredArray, visit];
-            }
-        });
-        return filteredArray;
-    }
 
+     filterVisits(initialArray, filterValue) {
+            let filteredArray = [];
+            initialArray.map((visit) => {
+                if (visit.visitStatus === filterValue) {
+                    filteredArray = [...filteredArray, visit];
+                }
+            });
+                    if(filterValue === 'Scheduled'){
+                            filteredArray.sort().reverse();
+                    }
+            return filteredArray;
+        }
+    
+    
     sortVisitStatus(sortAttribute) {
         return function (elementOne, elementTwo) {
             if (elementOne[sortAttribute] > elementTwo[sortAttribute]) {
