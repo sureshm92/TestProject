@@ -258,7 +258,7 @@
                   <div class="slds-grid slds-wrap slds-gutters">       
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
                               <div class="slds-form-element">
-                                    <label class="slds-form-element__label" >
+                                    <label class="slds-form-element__label iosopacitycss" >
                                           {Source_ID}
                                           <lightning-helptext class="info-icon" content={PG_AS_F_Source_ID_Help_Text}></lightning-helptext>  
                                     </label>
@@ -274,27 +274,24 @@
                               </div>
                               <!-- <lightning-input type="text" label="Source ID"></lightning-input> -->
                         </div>
-                        <div if:true={pd.pe.Screening_ID__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
+                        <div if:true={pd.pe.Screening_ID__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 iosopacitycss outcome-form-element slds-m-bottom_medium">                     
                               <lightning-input type="text" disabled label={PG_AP_F_Screening_Subject_Id}  data-lvl="1" name="sceenid" value={pd.pe.Screening_ID__c}></lightning-input>
                         </div> 
                         <div if:true={showVisitPlan} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
                               <!--<lightning-input type="text" disabled label={FD_PE_Field_Arm_Cohort}  data-lvl="1" name="sceenid" value={pd.pe.Visit_Plan__r.Name}></lightning-input>-->
-                              <!-- <lightning-combobox name="VisitPlan" data-value="VisitPlan"
+                              <lightning-combobox name="VisitPlan" data-value="VisitPlan"
                                 label={FD_PE_Field_Arm_Cohort} title={FD_PE_Field_Arm_Cohort}
                                 value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
-                               ></lightning-combobox>   -->
-                               <div class="slds-form-element">
-                                    <label class="slds-form-element__label" for="">
-                                          {FD_PE_Field_Arm_Cohort}
-                                    </label>
-                                    <div class="slds-form-element__control input-margin-top">
-                                          <lightning-combobox name="VisitPlan" data-value="VisitPlan"
-                                          label={FD_PE_Field_Arm_Cohort} variant="label-hidden" title={FD_PE_Field_Arm_Cohort}
-                                          value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
-                                         ></lightning-combobox>
-                                     </div>
-                                 </div>
-                        </div>                
+                               ></lightning-combobox>  
+                        </div> 
+                  </div>
+                  <div if:true={pd.pe.Additional_Information__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
+                        <div class="slds-form-element addInfoCssDiv">
+                              <label class="slds-form-element__label" for="textarea-id-02">{PIR_AdditionalInformation}</label>
+                              <div class="slds-form-element__control">
+                                    <textarea id="textarea-id-02" disabled rows=3 title={pd.pe.Additional_Information__c} class="slds-textarea"  data-lvl="2" name="AddiInfo">{pd.pe.Additional_Information__c}</textarea>
+                              </div>
+                        </div>
                   </div> <!--    Participation Information  End  --> 
 
                   <!-- consenting section starts here-->
