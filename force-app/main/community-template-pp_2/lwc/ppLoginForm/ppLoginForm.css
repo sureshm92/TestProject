@@ -1,52 +1,44 @@
 .patient-care-txt {
-    height: 22px;
-    width: 304px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: 0;
     line-height: 22px;
-    margin: 12px 0 12px 0;
+    margin: 16px 0 16px 0;
 }
 .prof-clinical-txt {
-    height: 48px;
-    width: 304px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    letter-spacing: 0;
     line-height: 24px;
     margin: 26px 0 26px 0;
 }
-.slds-form-element__label{
+.slds-form-element__label {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
-    letter-spacing: 0;
 }
 .input-field-container {
     box-sizing: border-box;
     height: 32px;
-    width: 304px;
+    width: 319px;
     border-radius: 16px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
-    margin-bottom: 15px;
+    margin-bottom: 28px;
 }
- .btn-login{
+.btn-login {
     height: 32px;
-    width: 304px;
+    width: 319px;
     color: #ffffff;
     border-radius: 16px;
     background-color: #0768fd;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
-    margin: 40px 0 0 0;
+    margin: 22px 0 0 0;
     text-align: center;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0;
     display: inline-block;
 }
 .eye-icon {
@@ -54,17 +46,38 @@
     top: 8px;
     right: 8px;
 }
- .unable-login {
+.eye-icon img {
+    height: 14.34px;
+    width: 15.67px;
+    opacity: 0.5;
+}
+.unable-login {
     float: right;
 }
 .forgot-unable-link {
     margin: 16px 0 0 0;
 }
- .forgot-unable-pwd-txt {
+.forgot-unable-pwd-txt {
     height: 19px;
     color: #0768fd;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    letter-spacing: 0;
     line-height: 19px;
+}
+.login-validation{
+    display: flex;
+    border: 1px solid #E20000;
+    border-radius: 8px;
+    background: #fde5e5;
+    padding: 8px;
+}
+.login-validation img{
+    margin-left: 0;
+}
+.error-container {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
 }
