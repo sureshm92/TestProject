@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Setting REST API for timeout issue"
+sfdx config:set restDeploy=true --global
+
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
@@ -51,7 +54,7 @@ sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 echo "Pushing project in progress..."
 sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 
-sfdx force:source:push -f
+sfdx force:source:push -f -w 100
 
 if [ $? = 0 ]; 
 then
@@ -60,7 +63,7 @@ then
     
     echo "Post setup in progress..."
     
-    sfdx force:source:push -f
+    sfdx force:source:push -f -w 100
 
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
