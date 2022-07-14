@@ -2,7 +2,9 @@
     <template for:each={participantTabs} for:item="item">
         <div class="nav-item slds-m-around_small slds-align_absolute-center" key={item.page}>
             <template if:true={item.displayIcon}>
-                <c-web-icon icon-name={item.icon} icon-color="white" icon-size="small"></c-web-icon>
+                <div data-page-name={item.page} onclick={handleNavigation}>
+                    <c-web-icon icon-name={item.icon} icon-color="white" icon-size="small"></c-web-icon>
+                </div>
             </template>
             <template if:false={item.displayIcon}>
                 <div data-page-name={item.page} onclick={handleNavigation}>

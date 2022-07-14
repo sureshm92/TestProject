@@ -1,4 +1,4 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
 import navigationHome from '@salesforce/label/c.Navigation_Home';
 import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
@@ -10,14 +10,15 @@ import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 
 
 export default class PpCommunityNavigation extends LightningElement {
-    @api communityServic;    
+    @api communityServic;
+    @api isRTL;
     participantTabs = [];
     currentPageName;
-    navDivider=desktopLogos + '/Nav_Tab_Divider.svg';
+    navDivider = desktopLogos + '/Nav_Tab_Divider.svg';
     connectedCallback() {
         this.populateNavigationItems();
     }
-    populateNavigationItems() {       
+    populateNavigationItems() {
         let allPagesMap = {
             help: {
                 page: 'help',
@@ -28,7 +29,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 page: '',
                 label: navigationHome,
                 icon: 'icon-home-brand-new',
-                displayIcon:true
+                displayIcon: true
             },
             'my-study': {
                 page: 'study-workspace',
@@ -61,6 +62,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: 'trial-match-mob'
             }
         };
+        console.log('???????????/' + JSON.stringify(allPagesMap));
         this.participantTabs.push(allPagesMap['participant-home']);
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
             this.participantTabs.push(allPagesMap['my-study']);
@@ -88,18 +90,26 @@ export default class PpCommunityNavigation extends LightningElement {
         if (event.currentTarget.dataset.pageName) {
             this.currentPageName = event.currentTarget.dataset.pageName;
             this.updateCurrentPage(this.currentPageName);
+            console.log('?????????11111' + this.currentPageName);
         }
-        try{
+        try {
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
             currentPageName = this.communityServic.getPageName();
-        }catch (e) {
+        } catch (e) {
             console.error(e);
         }
-        
+
     }
 
     updateCurrentPage(pageNam) {
-        document.title = this.participantTabs[pageNam];
+        let pageDetails;
+        if (pageNam) {
+            pageDetails = this.participantTabs.filter(function (item) {
+                return item.page == pageNam;
+            });
+        }
+        let page = pageDetails[0].label;
+        document.title = page;
     }
     get iconName() {
         return this.navDivider;
