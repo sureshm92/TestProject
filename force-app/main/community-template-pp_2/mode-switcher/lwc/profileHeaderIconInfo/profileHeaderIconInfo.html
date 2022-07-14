@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="slds-col switcher-list">
-            <div class="slds-grid">
+            <div class="slds-grid list-item" onclick={doNavigateToAccountSettings}>
                 <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
                     <lightning-icon
                         icon-name="utility:settings"
@@ -45,8 +45,8 @@
                 </div>
             </div>
         </div>
-        <div class="slds-col switcher-list">
-            <div class="slds-grid">
+        <div class={manageDelegatesClass}>
+            <div class="slds-grid list-item" onclick={doManageDelegates}>
                 <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
                     <lightning-icon
                         icon-name="utility:user"
