@@ -31,11 +31,6 @@
                 <default>false</default>
                 <label>Janssen Community</label>
             </value>
-            <value>
-                <fullName>IQVIA Patient Portal</fullName>
-                <default>false</default>
-                <label>IQVIA Patient Portal</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
