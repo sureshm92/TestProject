@@ -47,10 +47,15 @@
                     <thead>
                         <tr class="slds-line-height_reset">
                             <th class="" scope="col">
+                                <div class="slds-truncate" title="reengage">
+                                    {!$Label.c.ReEngaged}
+                                </div>
+                            </th>
+                            <th class="" scope="col">
                                 <div class="slds-truncate" title="Name">
                                     {!$Label.c.PI_DB_PAC_Name_Header}
                                 </div>
-                            </th>
+                            </th>                            
                             <th class="" scope="col">
                                 <div class="slds-truncate" title="Source">
                                     {!$Label.c.PI_DB_PAC_Source_Header}
@@ -79,6 +84,17 @@
                     <tbody>
                         <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
                             <tr class="slds-hint-parent">
+                                <td>
+                                    <div class="slds-truncate slds-text-align_center">
+                                        <aura:if isTrue="{!item.isReEngagePar}">
+                                            <lightning:input type="checkbox" name="reegnage" checked="true" disabled="true"/>
+                                            <aura:set attribute="else">
+                                                <lightning:input type="checkbox" name="noshow" checked="false" disabled="true"/>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </div>
+                                </td>
                                 <th scope="row">
                                     <div class="slds-truncate">
                                         <aura:if isTrue="{!item.isAbleToEdit}">
