@@ -255,7 +255,7 @@ public with sharing class televisitConfigurationControllerTest {
         televisitConfigurationController.vendorwrapper vw = new televisitConfigurationController.vendorwrapper();
         vw.vendorId = trv.id;
         vw.isEnable = true;
-        vw.uniquekey = per.Study_Site__c + '-'+trv.id;
+       // vw.uniquekey = per.Study_Site__c + '-'+trv.id;
         vendorrapperlist.add(vw);   
         rwList.add(rw);
         televisitConfigurationController.selectallstudysites(string.valueof(trv.Id),string.valueof(per.Study_Site__r.Clinical_Trial_Profile__c),JSON.serialize(rwList));
@@ -264,7 +264,7 @@ public with sharing class televisitConfigurationControllerTest {
         televisitConfigurationController.updatestudysite(string.valueof(per.Study_Site__c),'displyoffsettime','10');
         televisitConfigurationController.updatestudysite(string.valueof(per.Study_Site__c),'','20');
         televisitConfigurationController.getVendors(string.valueof(per.Study_Site__c));
-        televisitConfigurationController.vendoravailability(string.valueof(per.Study_Site__c));
+        //televisitConfigurationController.vendoravailability(string.valueof(per.Study_Site__c));
         televisitConfigurationController.deleteVendor(string.valueof(trv.Id));
     }
 }
