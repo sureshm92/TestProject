@@ -804,9 +804,6 @@ public without sharing class CommunityModeService {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
         Map<Id, Id>permissionSetOfUserMapId = new Map<Id,Id>();
-        system.debug('>>>>contactId>>'+contactId);
-        //  system.debug('>>>check801>>'+contactId != Null ? contactId : 'sandas');
-        //  system.debug('>>>check802>>'+contactId != '' ? contactId : 'Bijesh');
         
         List<Site_Staff__c> siteStaffs = [
             SELECT Id, Study_Site__c, is_Invited__c
