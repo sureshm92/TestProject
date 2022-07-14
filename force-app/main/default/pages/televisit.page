@@ -93,6 +93,7 @@
                 });
 
                 $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
+                    console.log('Tele event fired');
                     fetchUpdatedTelevisitDetails();
                 });
             </script>
