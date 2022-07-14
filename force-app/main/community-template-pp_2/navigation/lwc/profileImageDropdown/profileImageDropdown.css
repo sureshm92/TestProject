@@ -7,3 +7,8 @@
 .down-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
 }
+@media all and (max-width: 768px) {
+    .caret-icon {
+        display: none;
+    }
+}

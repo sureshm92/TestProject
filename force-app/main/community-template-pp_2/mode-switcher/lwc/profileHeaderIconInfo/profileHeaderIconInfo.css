@@ -42,8 +42,16 @@
     line-height: 16px;
 }
 .switcher-list {
-    padding: 10px 0 10px 0;
+    padding: 5px 0 5px 0;
 }
 .icon-color {
     --sds-c-icon-color-foreground-default: #005587;
+}
+.list-item {
+    height: 30px;
+    align-items: center;
+}
+.list-item:hover {
+    cursor: pointer;
+    background-color: #fff;
 }

@@ -25460,6 +25460,13 @@ communications using the toggles below.</value>
         <value>required</value>
     </labels>
     <labels>
+        <fullName>PP_Logout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Logout</shortDescription>
+        <value>Logout</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Comments</fullName>
         <language>en_US</language>
         <protected>true</protected>
