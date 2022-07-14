@@ -82,8 +82,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
                             let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
+                            console.log('Televisit event Fired on banner');
                             //TODO check update banner cases
                             if (reLoadRequired) {
+                                console.log('Televisit event Fired on banner : reload requested');
                                 this.getVisits();
                             }
                         });
@@ -100,6 +102,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             });
     }
     getVisits() {
+        console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits({communityMode : this._currentMode.template.communityName, userMode : this._currentMode.userMode})
