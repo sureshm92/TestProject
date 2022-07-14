@@ -57,16 +57,13 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         }
     }
 
-    get urlLink()
-    {
-      var isParticipant =JSON.parse(JSON.stringify(this.participantState.pe));
-      if(isParticipant)
-      {
-          return 'study-workspace?tab=tab-visits&visitmode=TeleVisitDetails';
-      }
-      else {
-          return 'televisits?tab=televisits';
-      }
+    get urlLink() {
+        var isParticipant = JSON.parse(JSON.stringify(this.participantState.pe));
+        if (isParticipant) {
+            return 'study-workspace?tab=tab-visits&visitmode=TeleVisitDetails';
+        } else {
+            return 'televisits?tab=televisits';
+        }
     }
 
     get containerClass() {
@@ -99,7 +96,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
         }
         this.tabTeleVisits = JSON.parse(JSON.stringify(value));
     }
-    
+
     loadVisits() {
         console.log('rtl', this.isRTL);
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -112,7 +109,7 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
                     if (allTeleVisits != null && allTeleVisits.length > 0) {
                         let teleVisitStatusOptions = [
                             ...new Set(allTeleVisits.map((visit) => visit.visitStatus))
-                        ];                    
+                        ];
                         //removing blank values
                         let teleVisitStatus = teleVisitStatusOptions.filter((tv) => tv);
                         if (teleVisitStatus.length >= 1) {
@@ -166,21 +163,21 @@ export default class TeleVisitsPreviewPanel extends LightningElement {
             })
             .catch((error) => {
                 console.error('error', error);
-            });    
+            });
     }
 
-     filterVisits(initialArray, filterValue) {
-            let filteredArray = [];
-            initialArray.map((visit) => {
-                if (visit.visitStatus === filterValue) {
-                    filteredArray = [...filteredArray, visit];
-                }
-            });
-                    if(filterValue === 'Scheduled'){
-                            filteredArray.sort().reverse();
-                    }
-            return filteredArray;
-        }
+    filterVisits(initialArray, filterValue) {
+        let filteredArray = [];
+        initialArray.map((visit) => {
+            if (visit.visitStatus === filterValue) {
+                filteredArray = [...filteredArray, visit];
+            }
+        });
+        if (filterValue === 'Scheduled') {
+            filteredArray.sort().reverse();
+        }
+        return filteredArray;
+    }
 
     sortVisitStatus(sortAttribute) {
         return function (elementOne, elementTwo) {
