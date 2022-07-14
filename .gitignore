@@ -24,3 +24,4 @@ force-app/main/default/staticresources/WalkMeCommunity.resource
 force-app/main/default/staticresources/WalkMeCommunity.resource-meta.xml
 node_modules
 package-lock.json
+package.json

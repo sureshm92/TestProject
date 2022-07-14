@@ -2033,13 +2033,16 @@
                 height: auto;
             }
             
+            .share-container {
+                width: 76%;
+            }
             
+            /*
             .OT_subscriber .OT_video-element{
                 height: 90%;
                 width: 78%;
                 margin-top: 26px;
-            }
-            
+            }*/
 
             .last-active-feed {
                 height: 9em;
