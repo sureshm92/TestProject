@@ -156,6 +156,11 @@ private class Test_MyTeamRemote {
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         System.runAs(testData.piUser) {
+        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -227,7 +232,11 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            
+        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -314,7 +323,11 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-            
+        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
