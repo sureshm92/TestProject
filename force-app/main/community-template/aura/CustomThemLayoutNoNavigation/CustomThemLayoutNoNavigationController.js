@@ -25,6 +25,7 @@
                 RTL = component.get('v.isRTL');
             }
             component.set('v.urlPathPrefix', communityService.getCommunityURLPathPrefix());
+            component.set('v.currentMode', communityService.getCurrentCommunityMode());
         }
     },
 
