@@ -62,7 +62,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: 'trial-match-mob'
             }
         };
-        console.log('???????????/' + JSON.stringify(allPagesMap));
         this.participantTabs.push(allPagesMap['participant-home']);
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
             this.participantTabs.push(allPagesMap['my-study']);
@@ -90,7 +89,6 @@ export default class PpCommunityNavigation extends LightningElement {
         if (event.currentTarget.dataset.pageName) {
             this.currentPageName = event.currentTarget.dataset.pageName;
             this.updateCurrentPage(this.currentPageName);
-            console.log('?????????11111' + this.currentPageName);
         }
         try {
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
