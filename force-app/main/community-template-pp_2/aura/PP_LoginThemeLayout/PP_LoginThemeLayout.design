@@ -1,0 +1,9 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<design:component>
+    <design:attribute name="title" label="Title" />
+    <design:attribute name="subTitle" label="Sub title" />
+    <design:attribute name="communityType" label="Community Type" />
+</design:component>
