@@ -1,4 +1,4 @@
-import { LightningElement, track, wire  } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
@@ -14,6 +14,7 @@ import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
+    spinner;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -67,7 +68,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         } else {
             password.setCustomValidity(this.label.enterPasswordMsg);
         }
-        console.log('User Name : '+userName.value +'\n Password : '+password.value);
+        console.log('User Name : ' + userName.value + '\n Password : ' + password.value);
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
             (validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
@@ -75,50 +76,50 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             },
             true
         );
-        console.log('Test allValid : '+allValid);
+        console.log('Test allValid : ' + allValid);
         if (allValid) {
             console.log('Inside allValid');
             console.log(decodeURIComponent(this.currentPageReference.state.startURL));
-           // this.spinner = this.template.querySelector('c-web-spinner');
-           // this.spinner.show();
+            this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner.show();
             communityLogin({
                 userName: userName.value,
                 password: password.value,
                 startUrl: decodeURIComponent(this.currentPageReference.state.startURL)
             })
-            .then((result) => {
-                console.log('Result : '+result);
-                //Key: startUrl, lockoutError, wrongPasswordError, exception
-               // this.spinner.hide();
-                if (result.startUrl) {
-                    //re-direct to homepage
-                    location.href = result.startUrl;
-                } else if (result.lockoutError) {
-                    //handle lockout error
-                    if (result.TimeDifference) {
-                        this.timeLeft = Number(result['TimeDifference']);
-                        this.isLockOut = true;
+                .then((result) => {
+                    console.log('Result : ' + result);
+                    //Key: startUrl, lockoutError, wrongPasswordError, exception
+                    this.spinner.hide();
+                    if (result.startUrl) {
+                        //re-direct to homepage
+                        location.href = result.startUrl;
+                    } else if (result.lockoutError) {
+                        //handle lockout error
+                        if (result.TimeDifference) {
+                            this.timeLeft = Number(result['TimeDifference']);
+                            this.isLockOut = true;
+                        }
+                    } else if (result.wrongPasswordError) {
+                        //handle wrong password error
+                        this.inError = true;
+                        this.errorMsg = result.wrongPasswordError;
+                    } else if (result.exception) {
+                        //handle system exception
+                        this.inError = true;
+                        this.errorMsg = result.exception;
+                    } else {
+                        //handle unknown error
+                        this.inError = true;
+                        this.errorMsg = 'Unknown error!';
                     }
-                } else if (result.wrongPasswordError) {
-                    //handle wrong password error
-                    this.inError = true;
-                    this.errorMsg = result.wrongPasswordError;
-                } else if (result.exception) {
-                    //handle system exception
-                    this.inError = true;
-                    this.errorMsg = result.exception;
-                } else {
-                    //handle unknown error
-                    this.inError = true;
-                    this.errorMsg = 'Unknown error!';
-                }
-            })
-            .catch((error) => {
-                console.log(JSON.stringify(error));
-                this.error = error;
-                this.spinner.hide();
-            });
+                })
+                .catch((error) => {
+                    console.log(JSON.stringify(error));
+                    this.error = error;
+                    this.spinner.hide();
+                });
         }
     }
-    
+
 }
