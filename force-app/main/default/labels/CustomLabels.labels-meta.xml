@@ -18407,6 +18407,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Language and Location</value>
     </labels>
     <labels>
+        <fullName>PP_Login_Wrong_Password_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Wrong Password Error Message</shortDescription>
+        <value>Incorrect username/password.&lt;br/&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
+    </labels>
+    <labels>
         <fullName>PP_ManageDelegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21856,6 +21863,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH RP YOB</shortDescription>
         <value>YOB</value>
+    </labels>
+    <labels>
+        <fullName>Remember_My_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remember My Username</shortDescription>
+        <value>Remember My Username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
