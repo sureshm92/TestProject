@@ -26236,4 +26236,28 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
     </labels>
+    <labels>
+        <fullName>Chapter</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chapter</shortDescription>
+        <value>Chapter</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP_as_PDF</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download PP as PDF</shortDescription>
+        <value>Download Privacy Policy as PDF</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_On</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated On</shortDescription>
+        <value>Last Updated on:</value>
+    </labels>
 </CustomLabels>
