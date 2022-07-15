@@ -26026,6 +26026,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Are you sure you want to cancel a Televisit?</value>
     </labels>
     <labels>
+        <fullName>RH_TV_InitialVisitPopUpMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_InitialVisitPopUpMessage</shortDescription>
+        <value>Are you sure you want to add a Televisit? Upon saving, the Televisit will be visible in Referral Hub in 5 minutes.</value>
+    </labels>
+    <labels>
         <fullName>RH_To</fullName>
         <language>en_US</language>
         <protected>true</protected>
