@@ -17,7 +17,7 @@
     <aura:attribute name="cookieText" type="String" />
 
     <aura:if isTrue="{!v.languageChecked}">
-        <div class="body-content slds-grid slds-wrap">
+        <div class="body-content slds-grid slds-wrap body-image">
             <img class="body-img" src="{!$Resource.PP_DesktopLogos + '/Doctor_checks_patients_breathing.jpg'}" />
             <div class="slds-col slds-size_1-of-1 login-card">
                 <div class="wave">
