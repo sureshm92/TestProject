@@ -57,6 +57,7 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_CONTACT_ATTEMPTED = 'Contact Attempted'; //TODO:check
     public static final String PE_STATUS_CONTACTED_NOT_SUITABLE = 'Contacted - Not Suitable'; //TODO:check
     public static final String PE_STATUS_UNABLE_TO_REACH = 'Unable to Reach'; //TODO:check
+
     //Eligibility Step
     public static final String PE_STATUS_ELIGIBILITY_PASSED = 'Eligibility Passed';
     public static final String PE_STATUS_ELIGIBILITY_FAILED = 'Eligibility Failed';
@@ -229,6 +230,25 @@ public without sharing class PEStatusState {
         PE_STATUS_PARTICIPATION_COMPLETE
     };
 
+    public static final List<String> PE_STATUS_GROUP_POSITIVE_PARTICIPANTS_CONTACTED = new List<String>{
+        PE_STATUS_Eligibility_Passed,
+        PE_STATUS_Screening_In_Progress,
+        PE_STATUS_Enrollment_Success,
+        PE_STATUS_Treatment_Period_Started,
+        PE_STATUS_Follow_Up_Period_Started,
+        PE_STATUS_Participation_Complete,
+        PE_STATUS_Trial_Complete,
+        PE_STATUS_Received,
+        PE_STATUS_Successfully_Contacted,
+        PE_STATUS_Contact_Attempted,
+        PE_STATUS_Screening_Passed,
+        PE_STATUS_Randomization_Success,
+        PE_STATUS_Screening_In_Progress_Wash_Out_Period,
+        PE_STATUS_Ready_to_Screen,
+        PE_STATUS_Pre_review_Passed,
+        PE_STATUS_Unable_to_Reach
+    };
+    
     public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
         PE_STATUS_REFERRAL_DECLINED,
         PE_STATUS_CONTACTED_NOT_SUITABLE,
