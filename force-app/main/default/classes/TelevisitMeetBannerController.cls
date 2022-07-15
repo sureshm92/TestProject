@@ -4,7 +4,7 @@ public without sharing class TelevisitMeetBannerController {
         return UserInfo.getSessionId();
     }
     @AuraEnabled
-    public static String getVisits() {
+    public static String getVisits(String communityMode, String userMode) {
         Datetime currentDateTime = Datetime.now();
         Datetime next24HoursDateTime = Datetime.now().addHours(24);
         List<Televisit_Attendee__c> allVisitis = [
@@ -21,7 +21,8 @@ public without sharing class TelevisitMeetBannerController {
                 Attendee_Type__c,
                 Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c,
                 Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c,
-                Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+                Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,
+                Televisit__r.Source_Community__c 
             FROM Televisit_Attendee__c
             WHERE
                 User__c = :UserInfo.getUserId()
@@ -30,7 +31,15 @@ public without sharing class TelevisitMeetBannerController {
                 AND Televisit__r.Status__c = 'Scheduled'
             ORDER BY Televisit__r.Visit_Date_Time__c
         ];
-
-        return JSON.serialize(allVisitis);
+        List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c> ();
+        for(Televisit_Attendee__c attendee : allVisitis){
+            if(userMode != 'Participant' && attendee.Televisit__r.Source_Community__c == communityMode && attendee.Attendee_Type__c != 'Participant'){
+                visits.add(attendee);
+            }
+            if(userMode == 'Participant' && attendee.Attendee_Type__c == 'Participant'){
+                visits.add(attendee);
+    }
+}
+        return JSON.serialize(visits);
     }
 }

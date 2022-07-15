@@ -2,7 +2,11 @@ import { LightningElement, api } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 
-export default class PageProgramOverviewDetails extends LightningElement {
+import desktopTemplate from './desktopTemplate.html';
+import mobileTemplate from './mobileTemplate.html';
+import DEVICE from '@salesforce/client/formFactor';
+
+export default class ProgramOverviewDetails extends LightningElement {
     programname;
     participantState;
     clinicaltrailrecrd;
@@ -10,7 +14,14 @@ export default class PageProgramOverviewDetails extends LightningElement {
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
     ctpAccordionData;
 
+    desktop = true;
+    tabContent = true;
+    overviewCss = 'po-tab-menu active';
+    pcCss = 'po-tab-menu';
+
     connectedCallback() {
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+
         let ctpaccordionDatalist = [];
         //code
         getParticipantData()
@@ -50,6 +61,11 @@ export default class PageProgramOverviewDetails extends LightningElement {
                 this.error = error;
             });
     }
+
+    render() {
+        return this.desktop ? desktopTemplate : mobileTemplate;
+    }
+
     handleHomePage() {
         communityService.navigateToPage('');
     }
@@ -66,5 +82,17 @@ export default class PageProgramOverviewDetails extends LightningElement {
                 return 'font-size: 50px;';
             }
         }
+    }
+
+    overViewHandler() {
+        this.tabContent = true;
+        this.overviewCss = 'po-tab-menu active';
+        this.pcCss = 'po-tab-menu';
+    }
+
+    participationHandler() {
+        this.tabContent = false;
+        this.overviewCss = 'po-tab-menu';
+        this.pcCss = 'po-tab-menu active';
     }
 }

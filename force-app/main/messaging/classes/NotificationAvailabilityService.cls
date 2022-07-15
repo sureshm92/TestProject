@@ -254,6 +254,7 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                     FROM Televisit_Attendee__c
                     WHERE Id IN :objectsByStrings.get(objType)
+                    ALL ROWS
                 ];
                 for (Televisit_Attendee__c ta : televisitAttendees) {
                     objectsByIds.put(ta.Id, ta);
