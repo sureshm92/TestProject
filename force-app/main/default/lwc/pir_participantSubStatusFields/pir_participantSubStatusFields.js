@@ -1662,25 +1662,20 @@ changeInputValue(event) {
     }
     
     if( this.pe_record.ParticipantNoShow__c  &&
-    this.participantrecord.Participant_Status__c == "Successfully Contacted"
-   ){
-    this.participantrecord.Participant_Status__c = "Successfully re-engaged";
-      this.isReEngaged=true;
-    }
-    else{
-      this.isReEngaged=false;
-    }
-    
-    if( this.pe_record.ParticipantNoShow__c  && this.participantrecord.Participant_Status__c && this.participantrecord.Participant_Status__c != undefined &&
-        this.participantrecord.Participant_Status__c != "Successfully Contacted"
+      this.participantrecord.Participant_Status__c == "Successfully Contacted"
      ){
-        
-        this.participantrecord.ParticipantNoShow__c = false;
-    }else{
-       if(this.pe_record.ParticipantNoShow__c){
-           delete this.participantrecord.ParticipantNoShow__c;
-          }
-    }
+      this.participantrecord.Participant_Status__c = "Successfully re-engaged";
+      this.participantrecord.ParticipantNoShow__c = false;
+        this.isReEngaged=true;
+      }
+      else{
+        this.isReEngaged=false;
+      }
+      if( this.pe_record.ParticipantNoShow__c  &&
+        this.participantrecord.Participant_Status__c != "Successfully re-engaged"
+       ){
+          delete this.participantrecord.ParticipantNoShow__c;
+        }
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
