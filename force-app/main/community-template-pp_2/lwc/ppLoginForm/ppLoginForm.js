@@ -42,16 +42,14 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     handleuserNameChange(event) {
         console.log(event.target.value);
         if (event.target.value !== '') {
-            this.template
-                .querySelector('[data-id="userName"]').value = event.target.value;
+            this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
     }
 
     handlepasswordChange(event) {
         console.log(event.target.value);
         if (event.target.value !== '') {
-            this.template
-                .querySelector('[data-id="password"]').value = event.target.value;
+            this.template.querySelector('[data-id="password"]').value = event.target.value;
         }
     }
 
@@ -121,5 +119,4 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 });
         }
     }
-
 }
