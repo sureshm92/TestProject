@@ -1,0 +1,85 @@
+.THIS.body {
+    font-family: 'Proxima Nova';
+}
+.THIS.body-content .body-img {
+    height: 947px;
+    width: 100%;
+    background: linear-gradient(268.65deg, #005587 0%, #0E548A 34.43%, #CD48B3 100%);
+    opacity: 0.7;
+}
+.THIS .login-card {
+    z-index: 2;
+    position: absolute;
+    top: 76px;
+    right: 48px;
+    height: 795px;
+    width: 414px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
+}
+.THIS .wave{
+    position: relative;
+    top: -1px;
+}
+.THIS .wave img{
+    position: absolute;
+}
+.THIS .login-form-layout {
+    height: 448px;
+    width: 318px;
+    margin-top: 100px;
+}
+.THIS .iqvia-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    line-height: 38px;
+}
+.THIS .patient-portal-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 38px;
+    margin-left: 8px;
+}
+
+.THIS .footer-label {
+    height: 26px;
+    width: 292px;
+    color: #9a9a9a;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    margin-top: 8px;
+    padding: 3px 0;
+    display: inline-block;
+}
+.THIS .footer {
+    position: relative;
+    top: 152px;
+}
+.THIS .body-content {
+    width: 20rem;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+.THIS .slds-col--padded{
+    padding: 0;
+}
+@media all and (max-width: 768px) {
+    .THIS .login-card {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 947px;
+        border-radius: 0px;
+        background-color: #ffffff;
+        box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
+    }
+}
