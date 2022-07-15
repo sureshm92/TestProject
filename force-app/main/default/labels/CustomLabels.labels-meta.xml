@@ -18411,7 +18411,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Login Wrong Password Error Message</shortDescription>
-        <value>Incorrect username/password.<br>After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
+        <value>Incorrect username/password.&lt;br /&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
     </labels>
     <labels>
         <fullName>PP_ManageDelegates</fullName>
