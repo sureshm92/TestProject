@@ -123,7 +123,7 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-			visitDate = String.valueOf(lstTelevisit[0].Visit_Date_Time__c.date());
+			visitDate = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.date());
             userTimeZone = UserInfo.getTimeZone().getID();
             system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
             if(!this.session.Televisit_Attendee__r.isEmpty()){
@@ -258,7 +258,7 @@ public without sharing class OpenTokClientController {
 
             if (!matchingAttendees.isEmpty()) {
                 Id attendeeId = matchingAttendees[0].Id;
-                this.userName = getName(matchingAttendees[0]);
+                this.userName = getFirstName(matchingAttendees[0]);
                 this.token = generateToken(this.sessionId, attendeeId);
                 this.isAttendeeEmailValid = true;
                 return;
@@ -332,7 +332,7 @@ public without sharing class OpenTokClientController {
             WHERE Id = :attendeeId
         ];
 
-        return getName(attendee);
+        return getFirstName(attendee);
     }
     private static String getName(Televisit_Attendee__c attendee) {
         List<String> nameParts = new List<String>();
@@ -376,6 +376,14 @@ public without sharing class OpenTokClientController {
         return name;
     }
 
+    public static String getFirstName(Televisit_Attendee__c attendee) {
+        if (String.isNotBlank(attendee.FirstName__c)) {
+            return attendee.FirstName__c;
+        } else {
+            return attendee.LastName__c;
+        }
+    }
+
     /**
      * Helper function to getting the session id parameter from the page.
      */
@@ -402,7 +410,7 @@ public without sharing class OpenTokClientController {
     private Boolean getIsSessionJoinable() {
         system.debug('++++++++++++++Token' + this.session);
         Id attendeeId = this.session.Televisit_Attendee__r[0].Id;
-        this.userName = getName(this.session.Televisit_Attendee__r[0]);
+        this.userName = getFirstName(this.session.Televisit_Attendee__r[0]);
         this.token = generateToken(this.sessionId, attendeeId);
         system.debug('++++++++++++++Token' + this.token);
         return true;

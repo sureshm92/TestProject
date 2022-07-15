@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ReEngaged</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngaged</shortDescription>
+        <value>Re-engaged</value>
+    </labels>
+    <labels>
         <fullName>Add_Televisit_Vendor</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5753,7 +5760,9 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body Participant Import Completed</shortDescription>
         <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
-            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
+            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.
+
+			Your user name is ##userName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient0</fullName>
@@ -6206,7 +6215,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6264,7 +6273,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFirstName ##PILastName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFullName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6273,7 +6282,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6285,7 +6294,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
@@ -6348,7 +6357,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Rescheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFirstName ##PILastName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6360,7 +6369,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Scheduled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFirstName ##PILastName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -12555,6 +12564,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Visit Out Of Window</value>
     </labels>
     <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
+    </labels>
+    <labels>
         <fullName>PIR_addParticipantFillMandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12700,6 +12716,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
     </labels>
     <labels>
         <fullName>Send_to_DCT</fullName>
@@ -20220,6 +20250,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Apply Filters</value>
     </labels>
     <labels>
+        <fullName>RH_Arm_Cohert_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Arm_Cohert_Import</shortDescription>
+        <value>Arm/Cohort:</value>
+    </labels>
+    <labels>
         <fullName>RH_Business_Address</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20814,6 +20851,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_WaitTime_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_WaitTime_Import</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -25864,7 +25908,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit with ##PIFirstName ##PILastName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your ##VisitName televisit with ##PIFullName is no longer happening. This might be because the televisit no longer needs your participation.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
@@ -26411,5 +26455,187 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>PortalUserProfile</shortDescription>
         <value>IQVIA Customer Community Plus Login User</value>
+    </labels>
+	 <labels>
+        <fullName>RH_BulkImportFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportFiles</shortDescription>
+        <value>Bulk Import Files</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImportInst</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportInst</shortDescription>
+        <value>Instructions for Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>RH_ChoosePP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ChoosePP</shortDescription>
+        <value>Choose to Invite to Patient Portal if applicable.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImport</shortDescription>
+        <value>Click on &lt;b&gt; Import Participants. &lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImportButton</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImportButton</shortDescription>
+        <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_DownloadIcon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DownloadIcon</shortDescription>
+        <value>Click the download icon under the Actions column of the applicable row in the Bulk Import Files list</value>
+    </labels>
+    <labels>
+        <fullName>RH_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_File</shortDescription>
+        <value>Drag-and-drop or browse to locate and &lt;b&gt;upload&lt;/b&gt; the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImport</shortDescription>
+        <value>File Import</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImportProgress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImportProgress</shortDescription>
+        <value>File Import in Progress</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileTemplate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileTemplate</shortDescription>
+        <value>Click the &lt;b&gt; File Template &lt;/b&gt; download button near the top right of the table to access file with the acceptable import format.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportInformation</shortDescription>
+        <value>Enter available information for the participants into the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportNoRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportNoRecords</shortDescription>
+        <value>Imported files with participants will be shown here. &lt;br&gt; Click on Import Participants to upload a file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportSuccess</shortDescription>
+        <value>Participant record import completed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InformationSharing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InformationSharing</shortDescription>
+        <value>Attest to information sharing and contact consent for the participants and/or their legal guardians included in the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InputChanges</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InputChanges</shortDescription>
+        <value>Input applicable changes directly into the file to correct the indicated errors and save the file (do NOT change the file name)</value>
+    </labels>
+    <labels>
+        <fullName>RH_RejectedRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RejectedRecords</shortDescription>
+        <value>Any rejected records will require correction and re-upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_RepeatSteps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RepeatSteps</shortDescription>
+        <value>Repeat steps 3-8 above.</value>
+    </labels>
+    <labels>
+        <fullName>RH_SelectStudy_SIte</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_SelectStudy_SIte</shortDescription>
+        <value>Select the &lt;b&gt;Study Name and Study Site.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ShowLanding</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ShowLanding</shortDescription>
+        <value>Don&apos;t show me again on landing</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadFile_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadFile_Import</shortDescription>
+        <value>Upload File</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadResult</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadResult</shortDescription>
+        <value>The results of your upload will appear at the top of the table with the total records, accepted records, and rejected records displayed.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Upload_import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Upload_import</shortDescription>
+        <value>Upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_ValidationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ValidationError</shortDescription>
+        <value>Check the &lt;b&gt;Validation Errors&lt;/b&gt; column in the file for the rejection reason</value>
+    </labels>
+    <labels>
+        <fullName>RH_AllRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_AllRecords</shortDescription>
+        <value>All accepted records can now be found in your &lt;b&gt;My Participants&lt;/b&gt; list.</value>
     </labels>
 </CustomLabels>

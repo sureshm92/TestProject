@@ -443,7 +443,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - First Name'
+                        'Required field missing: First Name'
                     );
                 }
                 if (String.isEmpty(LastName)) {
@@ -453,7 +453,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - Last Name'
+                        'Required field missing: Last Name'
                     );
                 }
                 if (String.isEmpty(Phone)) {
@@ -463,7 +463,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - Phone'
+                        'Required field missing: Phone'
                     );
                 }
                 if (!String.isEmpty(PhoneType) && !phoneTypeLVSet.contains(PhoneType)) {
@@ -503,7 +503,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecordsWithMsg.add(
                         '' +
                         totalRecordCount + ', ' +
-                        'mandatory field is empty - Postal Code'
+                        'Required field missing: Postal Code'
                     );
                 }
                 try {
@@ -561,7 +561,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             '' +
                             totalRecordCount +
                             ', ' +
-                            'Date of Birth, incorrect, can\'t be empty or in the future'
+                            'Date of Birth value is missing or invalid'
                         );
                     }
                 } catch (Exception exp) {
@@ -1648,7 +1648,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         );
         Id contextUserId = UserInfo.getUserId();
         User contextUser = [
-            SELECT Id, Email, Contact.Email, contactId
+            SELECT Id, Email, Contact.Email, contactId, Username
             FROM User
             WHERE id = :contextUserId
         ];
@@ -1689,7 +1689,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     mapRowIndexToErrorMessage.put(intRowIndex,strMessage);
                 else{
                     String strTempMessage = mapRowIndexToErrorMessage.get(intRowIndex);
-                    strTempMessage = strTempMessage + ':::' + strMessage;
+                    strTempMessage = strTempMessage + '-' + strMessage;
                     mapRowIndexToErrorMessage.put(intRowIndex,strTempMessage);
                 }
             }
@@ -1725,9 +1725,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
         htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
+        htmlBody = htmlBody.replace('##userName', '' + contextUser.userName);
         String plainBody = (!Test.isRunningTest() ? adminEmailToSend.getPlainTextBody() : 'test');
         plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+        plainBody = plainBody.replace('##userName', '' + contextUser.userName);
 
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
         emailToSend.setToAddresses(
@@ -1740,9 +1742,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         emailToSend.setSubject(adminEmailToSend.getSubject());
         emailToSend.setOrgWideEmailAddressId(owea.Id);
 
-        emailToSend.setFileAttachments(
+       /*mailToSend.setFileAttachments(
             new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
-        );
+        );*/
 
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });
