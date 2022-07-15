@@ -1,7 +1,49 @@
 <template>
-    <template if:true={ifSingleMode}>
-        <lightning-combobox name="progress" label="Status" value={value} placeholder="Select Progress"
-            options={optionsList} onchange={handlePicklistSelection}></lightning-combobox>
+    <template if:true={hasSingleCommMode}>
+        <c-patient-portal-menu-picklist
+            place-holder={placeHolder}
+            pick-list-options={pickListOptions}
+            default-pick-list-value={defaultPickListValue}
+            disable-picklist={disablePicklist}
+            combo-box-header={comboBoxHeader}
+        >
+        </c-patient-portal-menu-picklist>
     </template>
+    <template if:false={hasSingleCommMode}>
+        <lightning-button
+            variant="base"
+            label={label.viewingAs}
+            title={label.viewingAs}
+            onclick={handleClick}
+            class="slds-m-left_x-small"
+        >
+        </lightning-button>
+        <br />
+        <template if:true={showAllModes}>
+            <c-patient-portal-menu-list comm-modes={commModeList} onchangemode={handleChangeMode}>
+            </c-patient-portal-menu-list>
+        </template>
+        <template if:false={showAllModes}>
+            {currentMode.title}
 
+            <template if:true={currentMode.isDelegate}>
+                {label.partipantsDelegate}
+                <div onclick={handleNavigation} data-id={currentMode.title}>
+                    <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
+                </div>
+            </template>
+
+            <br />
+        </template>
+    </template>
+    <template if:false={hasSingleCommMode}>
+        <c-patient-portal-menu-picklist
+            place-holder={placeHolder}
+            pick-list-options={pickListOptions}
+            default-pick-list-value={defaultPickListValue}
+            disable-picklist={disablePicklist}
+            combo-box-header={comboBoxHeader}
+        >
+        </c-patient-portal-menu-picklist>
+    </template>
 </template>
