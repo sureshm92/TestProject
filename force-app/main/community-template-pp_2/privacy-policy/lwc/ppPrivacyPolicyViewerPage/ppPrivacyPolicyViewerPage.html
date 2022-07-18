@@ -1,0 +1,64 @@
+<template>
+    <div class="rr-body-content">
+        <!-- Loading Spinner-->
+        <c-web-spinner class="main-spinner"></c-web-spinner>
+        <!-- Header label-->
+        <div class={headerContainer}>
+            <div class={headerLabel}>
+                <div class={privacyHeader}>{labels.PP_HEADER}</div>
+            </div>
+            <div class={lastUpdatedDateClass}>
+                <div class={acceptedDateLabel}>{labels.LAST_UPDATED} {lastUpdated}</div>
+            </div>
+        </div>
+
+        <template if:true={isMobile}>
+            <!-- Mobile Dropdown-->
+            <div class={comboboxClass}>
+                <div class={chapterClass}>{labels.CHAPTER}</div>
+                <div
+                    id="dropdown"
+                    class={dropdownClass}
+                    onclick={toggleElement}
+                    onfocusout={removeElementFocus}
+                    tabindex="0"
+                >
+                    <span class="dropdown-span">{currentHeaderLabel}</span>
+                    <ul class="dropdown-menu" data-id="dropdown-menu">
+                        <template for:each={options} for:item="option">
+                            <li
+                                key={option.value}
+                                class="dropdown-li"
+                                value={option.value}
+                                data-header={option.value}
+                                data-label={option.label}
+                                onclick={navigateToSelectedHeader}
+                            >
+                                <lightning-formatted-rich-text
+                                    value={option.label}
+                                ></lightning-formatted-rich-text>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+            <!-- Privacy Policy Body Content-->
+            <div class={ppBodyContentClass}>
+                <div class={ppContentClass} data-id="ppRichText" id="ppRichText">
+                    <!--Rich text displayed here-->
+                </div>
+            </div>
+        </template>
+
+        <!-- Privacy Policy Footer-->
+        <template if:true={isMobile}>
+            <div class="rr-bottom-bar-area">
+                <div class="rr-bottom-bar">
+                    <div class="rr-width-limiter bar-content side-padding">
+                        <a onclick={donwloadPPAsPDF}>{labels.DOWNLOAD_AS_PDF}</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>
