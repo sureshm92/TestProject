@@ -101,8 +101,8 @@ export default class TeleVisitsListView extends LightningElement {
                                         tvStatus === 'Scheduled'
                                             ? this.labels.TV_UPCOMING
                                             : tvStatus === 'Completed'
-                                                ? this.labels.TV_PAST
-                                                : this.labels.TV_CANCELED,
+                                            ? this.labels.TV_PAST
+                                            : this.labels.TV_CANCELED,
                                     value: tvStatus
                                 };
                                 this.options = [...this.options, visitOption];
@@ -148,6 +148,10 @@ export default class TeleVisitsListView extends LightningElement {
                 filteredArray = [...filteredArray, visit];
             }
         });
+        if (filterValue === 'Scheduled') {
+            filteredArray.sort().reverse();
+        }
+
         return filteredArray;
     }
 
