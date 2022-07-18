@@ -18,6 +18,7 @@ import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
+import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVisitPopUpMessage';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
@@ -79,6 +80,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     BTN_Yes,
     PWS_Contact_Outcome_Placeholder,
     PG_RP_L_Not_selected,
+    RH_TV_InitialVisitPopUpMessage,
     PIR_Reason_Required
  };
  connectedCallback() {
