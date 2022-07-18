@@ -147,6 +147,11 @@ public without sharing class AccountSettingsController {
                         initData.consentPreferenceData.isEmailAvailabelForParticipant = isEmailAvailabelForParticipant;
                         initData.consentPreferenceData.isDelegateSelfView = isDelegateSelfView;
                         initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
+                        initData.consentPreferenceData.myContact = initData.myContact;
+                        initData.consentPreferenceData.LoggedInUserParticipantId = initData.participant.Id;
+                        if(initData.participant.Alternative_Phone_Type__c=='Mobile' && !String.isEmpty(initData.participant.Alternative_Phone_Number__c)){
+                            initData.consentPreferenceData.isMobilePhoneNumberAvailable =true;
+                        }
 
                         if (isDelegateSelfView) {
                             //As delegate switched to his own Account setting so set isParticipantLoggedIn to false.
@@ -155,7 +160,11 @@ public without sharing class AccountSettingsController {
                                 initData.consentPreferenceData.isParticipantLoggedIn = true;
                                 initData.consentPreferenceData.isPrimaryDelegate = false;
                                 initData.consentPreferenceData.isDelegateSelfView = false;
-                                initData.consentPreferenceData.perList.addAll(perListforCommPref);
+                                if (perListforCommPref != null) {
+                                    initData.consentPreferenceData.perList.addAll(
+                                        perListforCommPref
+                                    );
+                                }
                             } else {
                                 initData.consentPreferenceData.perList.addAll(
                                     participantEnrollments
@@ -455,6 +464,8 @@ public without sharing class AccountSettingsController {
                 HasOptedOutOfEmail,
                 Participant_Opt_In_Status_Emails__c,
                 Participant_Opt_In_Status_SMS__c,
+                Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Direct_Mail_Consent__c,
                 HCP_Opt_In_Patient_Status_Emails__c,
                 HCP_Opt_In_Study_Emails__c,
                 HCP_Opt_In_Referral_Status_Emails__c,
@@ -678,10 +689,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
     }
 
     public class ConsentPreferenceData {
-        //@AuraEnabled
-        //public Contact myContact;
-        //@AuraEnabled
-        //public Contact delegateContact;
+        @AuraEnabled
+        public Contact myContact;
+        @AuraEnabled
+        public Id LoggedInUserParticipantId;
         //@AuraEnabled
         //public Participant__c participant;
         @AuraEnabled
@@ -698,6 +709,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isDelegateSelfView;
         @AuraEnabled
         public Boolean isParticipantLoggedIn = true;
+        @AuraEnabled
+        public Boolean isMobilePhoneNumberAvailable = false;
     }
 
     public class PersonWrapper {
@@ -924,12 +937,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 perTemp.Add(per);
                 participantIdListOfPerMap.put(per.Participant__c, perTemp);
             }
-
-            /* if (currentParticipantId == null) {
+        }
+        /* if (currentParticipantId == null) {
                 currentParticipantId = per.Participant__c;
             }
             */
-            //Check if Participant is adule
+        //Check if Participant is adule
+        for (Participant_Enrollment__c per : perList) {
             if (per.Participant__r.Adult__c) {
                 isAdultParticipant = true;
             }

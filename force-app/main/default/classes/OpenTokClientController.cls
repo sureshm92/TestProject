@@ -46,7 +46,9 @@ public without sharing class OpenTokClientController {
     public String appNamestr { get; set; } //Indicates Meeting title Raviteja
     public String bannerEndTime { get; set; }
     public String autoDisconnectMeetingTime { get; set; }
-    public List<Televisit__c> lstTelevisit { get; set; }
+	public String visitDate {get;set;}
+    public String userTimeZone {get;set;}
+    public List<Televisit__c>  lstTelevisit{get;set;}
     TokBoxSettings2__c settings;
     public Integer endMinutes;
 
@@ -60,7 +62,7 @@ public without sharing class OpenTokClientController {
         } else {
             appNamestr = 'IQVIA';
         }*/
-        appNamestr = 'IQVIAᵀᴹ Referral Hub'; //Added by RAviteja
+        appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
         headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
@@ -97,6 +99,7 @@ public without sharing class OpenTokClientController {
                         Lastname__c,
                         Attendee_Type__c,
                         User__r.Contact.Salutation,
+                        Contact__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
                     FROM Televisit_Attendee__r
                     WHERE User__c = :currentUserId
@@ -120,18 +123,17 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-
-            system.debug(
-                'this.session.Televisit_Attendee__r :' + this.session.Televisit_Attendee__r
-            );
-            if (!this.session.Televisit_Attendee__r.isEmpty()) {
+			visitDate = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.date());
+            userTimeZone = UserInfo.getTimeZone().getID();
+            system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
+            if(!this.session.Televisit_Attendee__r.isEmpty()){
                 this.isSessionJoinable = getIsSessionJoinable();
                 //attendeeType = getAttendeeType(matchingAttendees[0]);
                 if (
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant' ||
                     this.session.Televisit_Attendee__r[0].Attendee_Type__c == 'Participant Delegate'
                 ) {
-                    appNamestr = 'IQVIAᵀᴹ Patient Portal';
+                    appNamestr = 'IQVIA Patient Portal';
                     attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
@@ -140,7 +142,7 @@ public without sharing class OpenTokClientController {
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
                 } else {
-                    appNamestr = 'IQVIAᵀᴹ Referral Hub';
+                    appNamestr = 'IQVIA Referral Hub';
                     attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
                 }
@@ -166,10 +168,8 @@ public without sharing class OpenTokClientController {
         //system.debug(meetingInterval);
         Televisit__c tvUpdate = new Televisit__c();
         tvUpdate.id = lstTelevisit[0].Id;
-        tvUpdate.Visit_Date_Time__c = updatedTelevisit[0]
-            .Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
-        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0]
-            .Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        //tvUpdate.Visit_Date_Time__c = updatedTelevisit[0].Visit_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
+        tvUpdate.Visit_End_Date_Time__c = updatedTelevisit[0].Visit_End_Date_Time__c.addMinutes(Integer.valueOf(meetingInterval));
         update tvUpdate;
 
         updatedTelevisit = [
@@ -249,6 +249,7 @@ public without sharing class OpenTokClientController {
                     LastName__c,
                     Attendee_Type__c,
                     User__r.Contact.Salutation,
+                    Contact__c,
                     Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
                 FROM Televisit_Attendee__c
                 WHERE User__c = :currentUserId
@@ -257,7 +258,7 @@ public without sharing class OpenTokClientController {
 
             if (!matchingAttendees.isEmpty()) {
                 Id attendeeId = matchingAttendees[0].Id;
-                this.userName = getName(matchingAttendees[0]);
+                this.userName = getFirstName(matchingAttendees[0]);
                 this.token = generateToken(this.sessionId, attendeeId);
                 this.isAttendeeEmailValid = true;
                 return;
@@ -292,6 +293,7 @@ public without sharing class OpenTokClientController {
                     LastName__c,
                     Attendee_Type__c,
                     User__r.Contact.Salutation,
+                    Contact__c,
                     Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,
                     (SELECT Id, Connection_Id__c FROM Connections__r)
                 FROM Televisit_Attendee__c
@@ -324,12 +326,13 @@ public without sharing class OpenTokClientController {
                 LastName__c,
                 Attendee_Type__c,
                 User__r.Contact.Salutation,
+                Contact__c,
                 Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             FROM Televisit_Attendee__c
             WHERE Id = :attendeeId
         ];
 
-        return getName(attendee);
+        return getFirstName(attendee);
     }
     private static String getName(Televisit_Attendee__c attendee) {
         List<String> nameParts = new List<String>();
@@ -340,8 +343,7 @@ public without sharing class OpenTokClientController {
         ) {
             nameParts.add(attendee.User__r.Contact.Salutation);
         } else if (
-            (attendee.Attendee_Type__c == 'Participant' ||
-            attendee.Attendee_Type__c == 'Participant Delegate') &&
+            (attendee.Attendee_Type__c == 'Participant') &&
             (String.isNotBlank(
                 attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             ))
@@ -349,6 +351,17 @@ public without sharing class OpenTokClientController {
             nameParts.add(
                 attendee.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
             );
+        } else if (attendee.Attendee_Type__c == 'Participant Delegate') {
+            List<Participant__c> participantList = [
+                SELECT Id, Contact__c, Salutation__c
+                FROM Participant__c
+                WHERE Contact__c = :attendee.Contact__c
+            ];
+            if (participantList != null && !participantList.isEmpty()) {
+                if (String.isNotBlank(participantList[0].Salutation__c)) {
+                    nameParts.add(participantList[0].Salutation__c);
+                }
+            }
         }
 
         if (String.isNotBlank(attendee.FirstName__c)) {
@@ -361,6 +374,14 @@ public without sharing class OpenTokClientController {
 
         String name = (nameParts.isEmpty() ? attendee.Name : String.join(nameParts, ' '));
         return name;
+    }
+
+    public static String getFirstName(Televisit_Attendee__c attendee) {
+        if (String.isNotBlank(attendee.FirstName__c)) {
+            return attendee.FirstName__c;
+        } else {
+            return attendee.LastName__c;
+        }
     }
 
     /**
@@ -389,7 +410,7 @@ public without sharing class OpenTokClientController {
     private Boolean getIsSessionJoinable() {
         system.debug('++++++++++++++Token' + this.session);
         Id attendeeId = this.session.Televisit_Attendee__r[0].Id;
-        this.userName = getName(this.session.Televisit_Attendee__r[0]);
+        this.userName = getFirstName(this.session.Televisit_Attendee__r[0]);
         this.token = generateToken(this.sessionId, attendeeId);
         system.debug('++++++++++++++Token' + this.token);
         return true;

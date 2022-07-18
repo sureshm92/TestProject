@@ -139,6 +139,10 @@
     margin-bottom: 25px;
 }
 
+.THIS .size{
+font-size: large;
+}
+
 .THIS .ap-section-title {
     font-size: 1rem;
     line-height: 36px;

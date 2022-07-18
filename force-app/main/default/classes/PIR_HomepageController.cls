@@ -364,6 +364,9 @@ public without sharing class PIR_HomepageController {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
         }
+          if( selectedStatusList.contains('Successfully Contacted')){
+              selectedStatusList.add('Successfully re-engaged');
+          }
       }
 
       //For Source
@@ -1201,6 +1204,8 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+          Status_Order__c,
           Participant__r.Full_Name__c,
           (
             SELECT Id, Date__c, Non_Enrollment_Reason__c
@@ -1318,6 +1323,7 @@ public without sharing class PIR_HomepageController {
         }
 
         pe.Participant_Status__c = 'Eligibility Passed';
+        pe.ParticipantNoShow__c= false;
         pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
         PEUpdateList.add(pe);
       }
@@ -2278,10 +2284,165 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
+  } 
+
+  @AuraEnabled                            
+  public static Id saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
+    Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+      
+      base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+      if ( String.isBlank(fileId) ) {
+          fileId = saveFiles(currentContactId, fileName, base64Data );
+      } else {
+          appendToFile(fileId, base64Data);
+      }
+      
+      return Id.valueOf(fileId);
   }
+
+  @AuraEnabled
+    public static Id saveFiles(Id recordId, String fileName, String base64Data )  { 
+        
+        ContentVersion contentToInsert =new ContentVersion(); 
+        contentToInsert.Title =fileName; 
+        contentToInsert.VersionData=EncodingUtil.base64Decode(base64Data);
+        contentToInsert.PathOnClient='/' + fileName ;
+        contentToInsert.IsMajorVersion = false;
+        insert contentToInsert; 
+        
+        contentToInsert = [select id, ContentDocumentId from ContentVersion WHERE Id =: contentToInsert.Id];
+        ContentDocumentLink cl = new ContentDocumentLink();
+        cl.ContentDocumentId = contentToInsert.ContentDocumentId;
+        cl.LinkedEntityId = recordId; 
+        cl.ShareType = 'V';
+        cl.Visibility = 'AllUsers';
+        insert cl;
+        
+        return contentToInsert.id;
+        
+    }
+
+    @AuraEnabled
+    public static void appendToFile(Id contentDocumentId, String base64Data) {
+        //base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+        ContentVersion versionData = [
+            SELECT Id, VersionData,ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :contentDocumentId
+        ];
+        
+        String existingBody     = EncodingUtil.base64Encode(versionData.VersionData);
+        versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+        
+        update versionData;
+    }
+
+    @AuraEnabled
+    public static void deleteFile(String fileId)  { 
+        ContentVersion cv = [SELECT ContentDocumentId FROM ContentVersion WHERE id = :fileId];
+        contentdocument cd = new contentdocument(id = cv.contentDocumentId);
+        delete cd;
+    }
+
+    public Class ParticipantStatusesVisitPlans{
+      @AuraEnabled
+      public List<LabelValueItem> participantStatuses;
+      @AuraEnabled
+      public List<LabelValueItem> visitPlansLVList;
+      @AuraEnabled
+      Public Study_Site__c objStudySite; 
+  }
+
+  public class LabelValueItemISO {
+    @AuraEnabled
+    public String Language;
+    @AuraEnabled
+    public String LanguageISOcode;
+
+    public LabelValueItemISO(String Language, String LanguageISOcode) {
+      this.Language = Language;
+      this.LanguageISOcode = LanguageISOcode;
+     }
+  }
+
+  @AuraEnabled
+  public static List<LabelValueItemISO> getISOLanguage() {
+      List<LabelValueItemISO> languageLVList =getPicklistLabelValueList(Participant__c.Preferred_Language__c);
+      return languageLVList;
+
+  }
+  
+  public static List<LabelValueItemISO> getPicklistLabelValueList(SObjectField field) {
+      List<LabelValueItemISO> items = new List<LabelValueItemISO>();
+      for (PicklistEntry ple : field.getDescribe().getPicklistValues()) {
+          items.add(new LabelValueItemISO(ple.getLabel(), ple.getValue()));
+      }
+      return items;
+  }
+
+  
+
+    @AuraEnabled
+    public static ParticipantStatusesVisitPlans getParticipantsStatusesAndVisitPlans(Id studySiteId) {
+        ParticipantStatusesVisitPlans result = new ParticipantStatusesVisitPlans();
+        List<Study_Site__c> sites = [
+            SELECT
+                Id,
+                Study_Site_Type__c,Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+                Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+                Clinical_Trial_Profile__r.Final_Consent_Required__c
+            FROM Study_Site__c
+            WHERE Id = :studySiteId
+        ];
+        if (sites.isEmpty()){
+            result.participantStatuses = new List<LabelValueItem>();
+            result.visitPlansLVList = new List<LabelValueItem>();
+            result.objStudySite = new Study_Site__c();
+        }else{
+            result.participantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
+            result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
+          result.objStudySite = sites[0];
+        }
+        return result;    
+    }
+
+
+
+
+  @AuraEnabled
+    public static String uploadParticipants(
+        List<String> csvFileLines,
+        String fileName,
+        String studySiteId,
+        String selectedStatus,
+        Boolean createUsers,
+        Boolean doContact,
+        Boolean allowEmail,
+        Boolean allowPhone,
+        Boolean allowSMS,
+        Boolean outreachEmail,
+        Boolean outreachPhone,
+        Boolean outreachSMS,
+        Boolean outreachDirectMail,
+        Id visitPlanId
+    ){
+      String getReturnValue = Action_UploadParticipantsRemote.uploadParticipants(csvFileLines,fileName,studySiteId,selectedStatus
+                                                        ,createUsers,doContact,allowEmail,allowPhone,allowSMS,
+                                                        outreachEmail,outreachPhone,outreachSMS,outreachDirectMail,visitPlanId);
+
+      return getReturnValue;
+
+    }
 
   @AuraEnabled(cacheable=true)
   public static string fetchCurrentUserLanguage() {
     return UserInfo.getLanguage();
   }
+   @AuraEnabled
+   public static String getSite(Id siteId) {
+     return [Select Id,Name from Study_Site__c where id=:siteId].Name;
+   }
 }

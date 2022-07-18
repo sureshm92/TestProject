@@ -242,6 +242,10 @@
                 <behavior>Edit</behavior>
                 <field>IQVIA_Pre_recorded_Voice_Consent__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Not_Show_Bulk_Instruction__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

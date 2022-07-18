@@ -1,6 +1,15 @@
 import { LightningElement,api,wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { NavigationMixin } from 'lightning/navigation';
+import PIR_Community_CSS from '@salesforce/resourceUrl/PIR_Community_CSS';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import AllStudy from "@salesforce/label/c.PIR_All_Study";
+import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
+import PIR_Study_Name from "@salesforce/label/c.PIR_Study_Name";
+import PIR_Study_Site_Name from "@salesforce/label/c.PIR_Study_Site_Name";
+import My_Participant from "@salesforce/label/c.My_Participant";
+import Home_Page_Label from "@salesforce/label/c.Home_Page_Label";
+import pir_Bulk_Import_History from "@salesforce/label/c.pir_Bulk_Import_History";
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
 export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     @api myStudiesPg = false;
@@ -8,6 +17,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     siteAccessLevels;
     studyToStudySite;
     studysiteaccess=false;
+    isTable=true;
     selectedSite='';
     studySiteList;
     selectedStudy='';
@@ -17,7 +27,22 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urlmyParticipants = null;
     urltrialId = null;
     urlsiteId = null;
- 
+    isResetPagination=false;
+    @api selectedStudyChild;
+    @api selectedStudySiteChild;
+    @api pageNumberChild=1;
+    @api stopSpinnerChild;
+    label = {AllStudy,
+        AllStudySite,
+        PIR_Study_Name,
+        PIR_Study_Site_Name,
+        My_Participant,
+        pir_Bulk_Import_History,
+        Home_Page_Label};
+    connectedCallback() {
+        loadStyle(this, PIR_Community_CSS)
+    }
+
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
@@ -48,10 +73,12 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
             var studyToStudySite;
             ctpListNoAccess = data.ctpNoAccess;
             var k = 0;var a = 0;
+            
             var accesslevels = Object.keys(siteAccessLevels).length;
             if (studySiteMap.ctpMap) {
                 var conts = studySiteMap.ctpMap;
                 let options = [];
+                options.push({ label: this.label.AllStudy, value: "All Study" });
                 var sites = studySiteMap.studySiteMap; 
                 for (var key in conts) {
                     if(!ctpListNoAccess.includes(conts[key])){ 
@@ -85,12 +112,13 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                     this.siteAccessLevels = siteAccessLevels;
                     this.studyToStudySite = studyToStudySite;
                     this.studysiteaccess = true;
-
+                    
                     if(this.myStudiesPg){
                         this.selectedStudy = this.urltrialId; 
                         var accesslevels = Object.keys(this.siteAccessLevels).length; 
                         var conts = this.studyToStudySite;
                         let options = []; 
+                        options.push({ label: this.label.AllStudySite, value: "All Study Site" });
                         var i = this.siteAccessLevels;
                         for (var key in conts) {
                         if (key == this.urltrialId) {
@@ -110,8 +138,78 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.studySiteList = options;
                         this.selectedSite = this.urlsiteId;
                         this.studysiteaccess = false;
+                        
+                        this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
+                        this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
+                        this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
+                      
+                        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+                        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+                       
+                        this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+                        
                     } 
-
+                    else{
+                        
+                        this.selectedStudy = this.studylist[0].value; 
+                        var picklist_Value;
+                        picklist_Value=this.selectedStudy;
+                        var accesslevels = Object.keys(this.siteAccessLevels).length;
+                        var conts = this.studyToStudySite;
+                        let options = [];
+                        options.push({ label: this.label.AllStudySite, value: "All Study Site" });
+                        var i = this.siteAccessLevels;
+                        if (picklist_Value != "All Study") {
+                            for (var key in conts) {
+                              if (key == picklist_Value) {
+                                var temp = conts[key];
+                                for (var j in temp) {
+                                    if(accesslevels == 0){
+                                        options.push({ label: temp[j].Name, value: temp[j].Id });
+                                    }else{
+                                        var level = this.siteAccessLevels[temp[j].Id];
+                                        if(level != 'Level 3' && level != 'Level 2'){
+                                            options.push({ label: temp[j].Name, value: temp[j].Id });
+                                        }
+                                    }
+                                }
+                              }
+                            }
+                          } else {
+                            for (var key in conts) {
+                              var temp = conts[key];
+                              for (var j in temp) {
+                                if(accesslevels == 0){
+                                    options.push({ label: temp[j].Name, value: temp[j].Id });
+                                }else{
+                                    var level = this.siteAccessLevels[temp[j].Id];
+                                    if(level != 'Level 3' && level != 'Level 2'){
+                                        options.push({ label: temp[j].Name, value: temp[j].Id });
+                                    }
+                                }
+                              }
+                            }
+                          }
+                        this.studySiteList = options;
+                        this.selectedSite = this.studySiteList[0].value;
+                        this.studysiteaccess = false;
+                        this.selectedStudyChild=this.selectedStudy;
+                        var getStudySiteList=[];
+                        if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+                            for (var i = 1; i < this.studySiteList.length; i++) {
+                              getStudySiteList.push(this.studySiteList[i].value);
+                              this.selectedStudySiteChild=getStudySiteList;
+                            }
+                          } else if (
+                            this.selectedSite != null &&
+                            this.selectedSite != "All Study Site"
+                          ) {
+                            this.selectedStudySiteChild=getStudySiteList;
+                          }
+                         
+                          this.stopSpinnerChild=false;
+                          
+                    }
             }
       } else if (error) {
           this.error = error;
@@ -122,32 +220,95 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         var picklist_Value = event.target.value;
         this.selectedStudy = picklist_Value;
         
+        
         var accesslevels = Object.keys(this.siteAccessLevels).length;
         var conts = this.studyToStudySite;
         let options = [];
+        options.push({ label: this.label.AllStudySite, value: "All Study Site" });
         var i = this.siteAccessLevels;
-        for (var key in conts) {
-          if (key == picklist_Value) {
+       
+        if (picklist_Value != "All Study") {
+            for (var key in conts) {
+              if (key == picklist_Value) {
+                var temp = conts[key];
+                for (var j in temp) {
+                    if(accesslevels == 0){
+                        options.push({ label: temp[j].Name, value: temp[j].Id });
+                    }else{
+                        var level = this.siteAccessLevels[temp[j].Id];
+                        if(level != 'Level 3' && level != 'Level 2'){
+                            options.push({ label: temp[j].Name, value: temp[j].Id });
+                        }
+                    }
+                }
+              }
+            }
+          } else {
+            for (var key in conts) {
               var temp = conts[key];
-            for (var j in temp) {
-                   if(accesslevels == 0){
-                      options.push({ label: temp[j].Name, value: temp[j].Id });
-                   }else{
-                      var level = this.siteAccessLevels[temp[j].Id];
-                      if(level != 'Level 3' && level != 'Level 2'){
-                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                      }
-                   }
+              for (var j in temp) {
+                if(accesslevels == 0){
+                    options.push({ label: temp[j].Name, value: temp[j].Id });
+                }else{
+                    var level = this.siteAccessLevels[temp[j].Id];
+                    if(level != 'Level 3' && level != 'Level 2'){
+                        options.push({ label: temp[j].Name, value: temp[j].Id });
+                    }
+                }
+              }
             }
           }
-        }
         this.studySiteList = options;
-        this.selectedSite = '';
+       
+        this.selectedSite= this.studySiteList[0].value;
+        
+        //this.selectedSite = '';
         this.studysiteaccess = false;
-    
+        this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
+        var getStudySiteList=[];
+        if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+            for (var i = 1; i < this.studySiteList.length; i++) {
+              getStudySiteList.push(this.studySiteList[i].value);
+              this.template.querySelector("c-pir_-bulk-import-files").getStudySite=getStudySiteList;
+            }
+          } else if (
+            this.selectedSite != null &&
+            this.selectedSite != "All Study Site"
+          ) {
+            this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
+          }
+          this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
+          this.isResetPagination=true;
+          this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+          this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+          this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+          
+      
       }
+     
     studysitehandleChange(event) {
         this.selectedSite = event.target.value;
+        var getStudySiteList=[];
+        if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+            for (var i = 1; i < this.studySiteList.length; i++) {
+              getStudySiteList.push(this.studySiteList[i].value);
+              this.template.querySelector("c-pir_-bulk-import-files").getStudySite=getStudySiteList;
+            }
+          } else if (
+            this.selectedSite != null &&
+            this.selectedSite != "All Study Site"
+          ) {
+            this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
+          }
+        //this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
+        this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
+        this.isResetPagination=true;
+        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+        
+        this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+        
+        
     }
     handleStudiesPg(event){
         this[NavigationMixin.Navigate]({
@@ -165,4 +326,46 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
               }
         });
     }
+    //pagination
+    totalRecord;
+    showZeroErr  = false;
+    initialLoad = true;
+    page;
+    pageChanged(event) {
+      console.log('>>page changed called>>>');
+      this.page = event.detail.page;
+      this.template.querySelector("c-pir_-bulk-import-files").pageNumber =this.page;
+        if(!this.initialLoad){
+          console.log('>>>fetch page called>>>');
+          this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+          this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+          this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+        }
+        this.initialLoad = false;
+    }  
+    changePage(event) {
+      let dir = event.detail;
+      if (dir == "next") { 
+        this.template.querySelector("c-pir_participant-pagination").nextPage();
+      }
+      if (dir == "prev") {
+        this.template
+          .querySelector("c-pir_participant-pagination")
+          .previousPage();
+      }
+    }
+    handletotalrecord(event){
+      this.totalRecord=event.detail;
+      
+    }
+    handleresetpagination(event){
+      if(this.isResetPagination ){
+        this.initialLoad = true;
+        this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
+        this.template.querySelector("c-pir_participant-pagination").goToStart();
+      }
+      this.isResetPagination = false;  
+    }
+  
+    
 }

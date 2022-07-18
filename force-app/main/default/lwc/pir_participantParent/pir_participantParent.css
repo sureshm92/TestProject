@@ -43,6 +43,10 @@
    font-size: 16px;
    font-weight: 600;
 }
+.progressBar {
+    width: 95%;
+    display: inline-block;
+}
 .title {
     color: #000000;
     font-family: "Proxima Nova";
@@ -332,6 +336,14 @@ and (-webkit-min-device-pixel-ratio: 1) {
     height: 23rem;
     overflow-y: auto;
 }
+.fileName{    
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}
 .fileUpload{    
     color: #444444;
     font-family: "Proxima Nova";
@@ -339,18 +351,26 @@ and (-webkit-min-device-pixel-ratio: 1) {
     font-weight: 700;
     line-height: 12px;
 }
+.closeIcon {
+    width: 5%;
+    display: inline;
+    padding-left: 2%;
+}
 .fileInput{
     width: 100%;
-    height: 117px;
+    height: 95px;
     position: absolute;
     cursor: pointer;
 }
 .fileHolder{
-    min-height: 130px;
+    min-height: 110px;
+}
+.disabledrag{
+    opacity: 0.5;
 }
 .fileBox{
     width: 100%;
-    height: 117px;
+    height: 95px;
     border: 1px dashed #B5B5B5;
     border-radius: 4px;
     background-color: #F2F2F2;
@@ -375,13 +395,15 @@ and (-webkit-min-device-pixel-ratio: 1) {
     text-align: right;
 }
 .w-instruction{
-   width: 30%;
+   width: 31%;
+   padding-right: 0;
 }
 .w-template{
-    width: 35%;
+    width: 33%;
+    padding-right: 0;
 }
 .w-langauge{
-    width: 35%;
+    width: 36%;
 }
 .p-left-icon{
     padding-left: 6px;
@@ -522,7 +544,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
     float: left;
     margin-left: 0;
 }
-.rtlLangauge .p-left-icon{
+.rtlLangauge .p-left-icon{ 
     padding-right: 6px;
     cursor: pointer;
 }

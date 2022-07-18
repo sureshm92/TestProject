@@ -19,6 +19,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     cometd;
     subscription;
     currentVisit = {};
+    _currentMode = {};
     USER_TIME_ZONE = USER_TIME_ZONE;
     USER_ID = USER_ID;
     meetMainInfo = 'Text';
@@ -81,8 +82,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
                             let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
+                            console.log('Televisit event Fired on banner');
                             //TODO check update banner cases
                             if (reLoadRequired) {
+                                console.log('Televisit event Fired on banner : reload requested');
                                 this.getVisits();
                             }
                         });
@@ -99,9 +102,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             });
     }
     getVisits() {
+        console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
-        getVisits()
+        getVisits({communityMode : this._currentMode.template.communityName, userMode : this._currentMode.userMode})
             .then((result) => {
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation) {
@@ -158,13 +162,23 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }
     }
 
+    @api
+    get currentMode() {
+        return this._currentMode;        
+    }
+    set currentMode(value) {  
+        this._currentMode = value;
+        this.getVisits();
+    }
+
     handleJoinClick(event) {
-        let url = event.target.dataset.name;
-        this.meetLinkUrl = url;
-        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        this.handleOpenCloseVisits();
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
-        this.showTelevisitCameraAndMicrophoneAccessPopup = true;
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        window.open(url, '_blank');
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = !this.showMoreVisits;
@@ -209,7 +223,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c
         );
         let participantFullName;
-        if (visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c) {
+        if (
+            visitInfo.Attendee_Type__c === 'Participant' &&
+            visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+        ) {
             participantFullName =
                 visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c +
                 ' ' +
