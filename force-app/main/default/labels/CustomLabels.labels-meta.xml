@@ -11236,6 +11236,13 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>No_Active_Programs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Active Programs</shortDescription>
+        <value>No Active Programs</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18407,6 +18414,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Language and Location</value>
     </labels>
     <labels>
+        <fullName>PP_Login_Wrong_Password_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Wrong Password Error Message</shortDescription>
+        <value>Incorrect username/password.&lt;br /&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ManageDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ManageDelegates</shortDescription>
+        <value>Manage Delegates</value>
+    </labels>
+    <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19543,6 +19564,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
         <value>New visit data is available</value>
+    </labels>
+    <labels>
+        <fullName>Paticipant_s_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Paticipant's Delegate</shortDescription>
+        <value>Paticipant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -21842,6 +21870,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH RP YOB</shortDescription>
         <value>YOB</value>
+    </labels>
+    <labels>
+        <fullName>Remember_My_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remember My Username</shortDescription>
+        <value>Remember My Username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
@@ -24892,6 +24927,13 @@ communications using the toggles below.</value>
         <value>View Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Viewing_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as</shortDescription>
+        <value>Viewing as</value>
+    </labels>
+    <labels>
         <fullName>Viewing_as_Investigative_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25437,6 +25479,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
+    </labels>
+    <labels>
+        <fullName>PP_Logout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Logout</shortDescription>
+        <value>Logout</value>
     </labels>
     <labels>
         <fullName>RH_RP_Comments</fullName>
@@ -26200,5 +26249,29 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
+    </labels>
+    <labels>
+        <fullName>Chapter</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chapter</shortDescription>
+        <value>Chapter</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP_as_PDF</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download PP as PDF</shortDescription>
+        <value>Download Privacy Policy as PDF</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_On</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated On</shortDescription>
+        <value>Last Updated on:</value>
     </labels>
 </CustomLabels>
