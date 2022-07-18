@@ -216,11 +216,27 @@
                                 </aura:if>
                             </aura:iteration>
 
+                            <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
-                                <div data-gtm="btn_AddParticipant_menu">
+                                 <button
+                                            id=""
+                                            data-gtm=""
+                                            value=""
+                                            class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
+                                            disabled="false"
+                                            title=""
+                                            style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
+                                            onclick="{!c.doActionBulkImport}"
+                                        >
+                                           {!$Label.c.pir_Bulk_Import_History}
+                                        </button>
+                            </aura:if>
+                            <!-- builk import page --> 
+                            <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
+                                <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">
                                     <c:uiHeaderMenu aura:id="menuId" class="mode-block">
                                         <aura:set attribute="title">
-                                            <div class="apollo-btn primary slds-align-bottom">
+                                            <div class="apollo-btn primary slds-align-bottom slds-top-margin-mobiles">
                                                 <div title="Add Participant">
                                                     {!v.addParticipantInfo.label}
                                                 </div>
@@ -255,6 +271,7 @@
                                     </c:uiHeaderMenu>
                                 </div>
                             </aura:if>
+                           
                         </div>
                     </div>
                 </div>

@@ -688,6 +688,35 @@ public without sharing class PIR_StatusDetailController {
         }
       }
 
+      Participant_Enrollment__c per = new Participant_Enrollment__c();
+      per = [select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c
+              from Participant_Enrollment__c where Id=:pe];
+      if(per.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
+         per.Clinical_Trial_Profile__r.Promote_to_SH__c){
+                     pehistory = [
+                SELECT
+                  Id,
+                  Date__c,Name,
+                  Status_Order__c,
+                  toLabel(Status__c),
+                  toLabel(Non_Enrollment_Reason__c),
+                  Notes__c,
+                  CreatedBy.Name,
+                  Additional_Notes__c,
+                  CreatedBy.IsPortalEnabled,
+                  CreatedBy.contact.userCommunityMode__c,
+                  Status_Label__c,
+                  ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
+                  ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE
+                  ParticipantEnrollment__c = :pe
+                  AND (Status_Order__c = 2 OR Status_Order__c = 3
+                  OR Status_Order__c = 1)
+                ORDER BY Name DESC
+              ];
+       }else{
+       
       pehistory = [
         SELECT
           Id,
@@ -700,14 +729,17 @@ public without sharing class PIR_StatusDetailController {
           Additional_Notes__c,
           CreatedBy.IsPortalEnabled,
           CreatedBy.contact.userCommunityMode__c,
-          Status_Label__c
+          Status_Label__c,
+          ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c,
+          ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c
         FROM Participant_Enrollment_Status_History__c
         WHERE
           ParticipantEnrollment__c = :pe
-          AND (Status_Order__c = 2
+          AND (Status_Order__c = 2 
           OR Status_Order__c = 1)
         ORDER BY Name DESC
       ];
+      }
       Integer K = 0;
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
         
@@ -796,8 +828,19 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
           //title = pesh.Status__c;
-          title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
-          if (pesh.Non_Enrollment_Reason__c != null) {
+          if(pesh.Status__c == 'Successfully re-engaged'){
+            String sc = 'Successfully Contacted';
+            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+           }else if(pesh.Status__c == 'Eligibility Passed') {
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+                title = Label.Sent_to_Study_Hub;
+              }else{
+                 title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
+              }
+         }else{
+            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
+        }
+            if (pesh.Non_Enrollment_Reason__c != null) {
             //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
             title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
           }
@@ -977,7 +1020,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1601,7 +1644,8 @@ public without sharing class PIR_StatusDetailController {
       'Contact Attempted',
       'Contacted - Not Suitable',
       'Unable to Reach',
-      'Successfully Contacted'
+      'Successfully Contacted',
+      'Successfully re-engaged'
     };
      try {
         
@@ -1733,14 +1777,22 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Initial_Visit_Televisit_Created__c = true;
       }
       update perRecord;
-
-      if (perRecord.ParticipantNoShow__c) {
+      if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
-        pesh.Status__c = 'Unable to Reach';
+        pesh.Status__c = 'Successfully re-engaged'; //re-engaged
         pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
         pesh.ParticipantEnrollment__c = perRecord.Id;
-        pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
+        //pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
+        insert pesh;
+      } 
+      else if (perRecord.ParticipantNoShow__c) {
+        Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+        pesh.Date__c = Datetime.now();
+        pesh.Status__c = 'Participant No Show'; //Participant No Show
+        pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
+        pesh.ParticipantEnrollment__c = perRecord.Id;
+        //pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
         insert pesh;
       } else if (perRecord.Participant_Status__c != null) {
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();

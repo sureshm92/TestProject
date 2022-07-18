@@ -37,6 +37,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
+    /*Start Email Consent*/
+    public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
+
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -111,6 +114,7 @@ public without sharing class NotificationCatalog {
     public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
     public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+
     /*
      * MESSAGE TO TELEVISIT ATTENDEE
      *
@@ -130,4 +134,20 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL = 'Message_to_PT_Televisit_Day_Reminder_Del';
     public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY = 'Message_to_PT_Televisit_Hour_Reminder_Ty';
     public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE = 'Message_to_PT_Televisit_Hour_Reminder_De';
+
+    //Group Non Welcome Notification Type for Delegate
+    //Add Non welcome Notification Types for Delegates to this list wheneverwe create a new non welcome notification type
+    static public Set<String> nonWelcomeNoticationTypesForDelegate = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE_ECOA,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
+    };
 }

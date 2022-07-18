@@ -24,6 +24,8 @@ public without sharing class NotificationAvailabilityService {
     private Map<Id, Boolean> piDelegateHasSiteWithEnabledEmailMap;
     private Map<String, List<String>> countryDialCodeMap;
     public Map<Id, String> contactLangZoneMap;
+    public Map<Id, Task> taskList; 
+
 
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
@@ -104,15 +106,9 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             if (objType == PARTICIPANT_OBJ_NAME) {
-                List<Participant__c> participants = [
-                    SELECT
-                        Id,
-                        Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Contact__r.Participant_Opt_In_Status_SMS__c,
-                        IsCountry_NOT_Eligible_for_Emails__c
-                    FROM Participant__c
-                    WHERE Id IN :objectsByStrings.get(objType)
-                ];
+                List<Participant__c> participants = getParticipantList(
+                    new Set<Id>(objectsByStrings.get(objType))
+                );
                 for (Participant__c participant : participants) {
                     objectsByIds.put(participant.Id, participant);
                 }
@@ -133,9 +129,14 @@ public without sharing class NotificationAvailabilityService {
             }
             if (objType == SURVEY_INVITATION_OBJ_NAME) {
                 List<SurveyInvitation> survInvList = [
-                    SELECT
-                        Id,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                   SELECT
+                    Id,
+                    IsTrialSurvey__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
                     FROM SurveyInvitation
                     WHERE Id IN :objectsByStrings.get(objType)
                 ];
@@ -144,24 +145,50 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             if (objType == TASK_OBJ_NAME) {
-                List<Task> taskList = [
-                    SELECT Id, Community_Template_Name__c, WhatId
-                    FROM Task
-                    WHERE Id IN :objectsByStrings.get(objType)
-                ];
+                taskList = new Map<Id, Task>([
+                        SELECT Id, 
+                        Community_Template_Name__c, 
+                        WhatId,
+                        Task_Type__c,
+                        Ecoa_Task_Configuration_del__c,
+                        Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                        Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c,
+                        Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c
+                        FROM Task
+                        WHERE Id IN :objectsByStrings.get(objType)
+                    ]);
                 Set<Id> peIds = new Set<Id>();
-                for (Task tsk : taskList) {
+                Set<Id> participantId = new Set<Id>();
+                for (Task tsk : taskList.values()) {
                     Id whatId = tsk.WhatId;
                     if (
                         whatId != null &&
                         whatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
-                    )
-                        peIds.add(whatId);
+                    ){
+                        peIds.add(whatId);  
+                    }
+                    else if (
+                        whatId != null  &&
+                        whatId.getSobjectType() == Participant__c.getSObjectType()
+                    ){
+                        participantId.add(whatId);
+                    }
                     objectsByIds.put(tsk.Id, tsk);
                 }
-                List<Participant_Enrollment__c> peList = getPEList(peIds);
-                for (Participant_Enrollment__c pe : peList) {
-                    objectsByIds.put(pe.Id, pe);
+                if(peIds != null){
+                    List<Participant_Enrollment__c> peList = getPEList(peIds);
+                    for (Participant_Enrollment__c pe : peList) {
+                        objectsByIds.put(pe.Id, pe);
+                    }
+                }
+                if(participantId != null){
+                    List<Participant__c> participants = getParticipantList(
+                        new Set<Id>(objectsByStrings.get(objType))
+                    );
+                    for (Participant__c par : participants) {
+                        objectsByIds.put(par.Id, par);
+                    }
                 }
             }
             if (objType == HCP_ENROLLMENT_OBJ_NAME) {
@@ -279,11 +306,148 @@ public without sharing class NotificationAvailabilityService {
         }
     }
 
+    public Boolean isEmailtoSend(
+        String whatId,
+        String recipientType,
+        String notificationTarget,
+        Id contactId,
+        Notification_Type__mdt notificationType,
+        String objType
+    ){
+        Boolean isEmailAvailableAtPER = false;
+        if (notificationType.IsStudyLevel__c) {
+            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                Boolean perEmailToSend = isPEREmailtoSend(pe);
+                if(perEmailToSend){
+                    isEmailAvailableAtPER = true;
+                }
+            }
+            else if(objType == TASK_OBJ_NAME){
+                isEmailAvailableAtPER =  isTaskEmailToSend(objectsByIds,whatId,notificationType,contactId); 
+            }
+            else if (objType == TELEVISIT_OBJ_NAME) {
+                Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
+                Participant_Enrollment__c pe = tv.Participant_Enrollment__r;
+                Boolean perEmailToSend = isPEREmailtoSend(pe);
+                if (perEmailToSend){
+                    isEmailAvailableAtPER = true;
+                }
+            } 
+            else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+                Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
+                //Contact contact = contactByIdMap.get(contactId);
+                Boolean perEmailToSend = isPEREmailtoSend(pe);
+                if (perEmailToSend){
+                    isEmailAvailableAtPER = true;
+                }
+            }
+        }
+        else{
+            if(objType == SURVEY_INVITATION_OBJ_NAME){
+                SurveyInvitation surveyInvitation = (SurveyInvitation) objectsByIds.get(
+                    Id.valueOf(whatId)
+                );
+                if(surveyInvitation.IsTrialSurvey__c){
+                    Boolean perEmailToSend = surveyInvitation != null && surveyInvitation.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
+                        && !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                        !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c ;
+                    if(perEmailToSend){
+                        isEmailAvailableAtPER = true;
+                    }
+                }
+                else{
+                    Contact contact = contactByIdMap.get(contactId);
+                    if (contact.Participant_Opt_In_Status_Emails__c)
+                        isEmailAvailableAtPER = true;
+                }
+            }
+            else if(objType == TASK_OBJ_NAME){
+                isEmailAvailableAtPER = isTaskEmailToSend(objectsByIds,whatId,notificationType,contactId);
+            }
+            else if (objType == CASE_OBJ_NAME) {
+                ///Platform Level
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c)
+                    isEmailAvailableAtPER = true;
+            }
+            else if (objType == null) {
+                // Platform Level      
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c)
+                    isEmailAvailableAtPER = true;
+            } 
+        } 
+        
+        return isEmailAvailableAtPER;
+    }
+    public Boolean isTaskEmailToSend(
+        Map<Id, SObject> objectsByIds,
+        String whatIdrecrd,
+        Notification_Type__mdt notificationType,
+        Id contactId
+    ){
+        Boolean isEmailAvailableAtPER = false;
+        Boolean isStudyLevelEcoaPar = false;
+        Boolean isPlatformLevelPar = false;
+        if(!objectsByIds.isEmpty()){
+            Id whatId = Id.valueOf(whatIdrecrd);
+            Task taskrecrd = (Task) objectsByIds.get(whatId);
+            String objType = String.valueOf(taskrecrd.whatId.getSobjectType());
+            isStudyLevelEcoaPar = notificationType.IsStudyLevel__c && objType ==
+            'Participant__c' && taskrecrd.Task_Type__c == 'Ecoa';
+            isPlatformLevelPar = !notificationType.IsStudyLevel__c && objType ==
+            'Participant__c';
+            if(objType == 'Participant_Enrollment__c'){
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(taskrecrd.whatId);  
+                    Boolean perEmailToSend = isPEREmailtoSend(pe);
+                    if(perEmailToSend){
+                        isEmailAvailableAtPER = true;
+                    } 
+            }
+            else if(isStudyLevelEcoaPar){
+                Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
+                Boolean perEmailToSend =  taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                    .Permit_Mail_Email_contact_for_this_study__c && 
+                    !taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c
+                    && !taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                    && !pe.IsCountry_NOT_Eligible_for_Emails__c;
+                if(perEmailToSend){
+                    isEmailAvailableAtPER = true;
+                } 
+            }
+         else if(isPlatformLevelPar){
+             //Write for platform Level
+             Contact contact = contactByIdMap.get(contactId);
+                    if (contact.Participant_Opt_In_Status_Emails__c)
+                        isEmailAvailableAtPER = true;
+                    }
+          }
+        return isEmailAvailableAtPER;
+    }
+    public Boolean isPEREmailtoSend(
+         Participant_Enrollment__c pe
+    ){
+        Boolean perEmailToSend = false;
+        if(pe != null){
+             perEmailToSend =  pe.Permit_Mail_Email_contact_for_this_study__c && !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+            !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+            !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c ;
+        }
+        return perEmailToSend;
+    }
     public Boolean isAvailable(
         String whatId,
         String recipientType,
         String notificationTarget,
-        Id contactId
+        Id contactId,
+        Notification_Type__mdt notificationType
     ) {
         if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
             return false;
@@ -295,91 +459,7 @@ public without sharing class NotificationAvailabilityService {
             objType = String.valueOf(objId.getSobjectType());
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
-            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
-                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
-                    Id.valueOf(whatId)
-                );
-                Contact contact = contactByIdMap.get(contactId);
-                if (
-                    pe != null &&
-                    contact != null &&
-                    ((contact.UserCommunityIsDelegate__c &&
-                    contact.Participant_Opt_In_Status_Emails__c) ||
-                    (!contact.UserCommunityIsDelegate__c &&
-                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
-                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
-                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
-                ) {
-                    checkForNotification = true;
-                }
-            } else if (objType == PARTICIPANT_OBJ_NAME) {
-                Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
-                if (
-                    participant != null &&
-                    participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
-                    !participant.IsCountry_NOT_Eligible_for_Emails__c
-                ) {
-                    checkForNotification = true;
-                }
-            } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
-                Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(
-                    Id.valueOf(whatId)
-                );
-                if (
-                    !ctp.Suppress_Participant_Emails__c &&
-                    contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c
-                )
-                    checkForNotification = true;
-            } else if (objType == SURVEY_INVITATION_OBJ_NAME || objType == TASK_OBJ_NAME) {
-                Contact contact = contactByIdMap.get(contactId);
-                if (contact.Participant_Opt_In_Status_Emails__c)
-                    checkForNotification = true;
-            } else if (objType == CASE_OBJ_NAME) {
-                Contact contact = contactByIdMap.get(contactId);
-                if (contact.Participant_Opt_In_Status_Emails__c)
-                    checkForNotification = true;
-            } else if (objType == null) {
-                Contact contact = contactByIdMap.get(contactId);
-                if (contact.Participant_Opt_In_Status_Emails__c)
-                    checkForNotification = true;
-            } else if (objType == TELEVISIT_OBJ_NAME) {
-                Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
-                Participant_Enrollment__c pe = tv.Participant_Enrollment__r;
-                Contact contact = contactByIdMap.get(contactId);
-                if (
-                    pe != null &&
-                    contact != null &&
-                    ((contact.UserCommunityIsDelegate__c &&
-                    contact.Participant_Opt_In_Status_Emails__c) ||
-                    (!contact.UserCommunityIsDelegate__c &&
-                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
-                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
-                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
-                ) {
-                    checkForNotification = true;
-                }
-            } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
-                Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
-                    Id.valueOf(whatId)
-                );
-                Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
-                Contact contact = contactByIdMap.get(contactId);
-                if (
-                    pe != null &&
-                    contact != null &&
-                    ((contact.UserCommunityIsDelegate__c &&
-                    contact.Participant_Opt_In_Status_Emails__c) ||
-                    (!contact.UserCommunityIsDelegate__c &&
-                    pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)) &&
-                    !pe.Study_Site__r.Suppress_Participant_Emails__c &&
-                    !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                    !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c
-                ) {
-                    checkForNotification = true;
-                }
-            }
+              checkForNotification = isEmailtoSend(whatId,recipientType,notificationTarget,contactId,notificationType,objType);
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
@@ -435,7 +515,7 @@ public without sharing class NotificationAvailabilityService {
                     piDelegateHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c)) ||
                     (piHasSiteWithEnabledEmailMap.containsKey(teleAttendee.Contact__c) &&
                     piHasSiteWithEnabledEmailMap.get(teleAttendee.Contact__c));
-            }else if(objType == TELEVISIT_OBJ_NAME){
+            } else if (objType == TELEVISIT_OBJ_NAME) {
                 checkForNotification =
                     (piDelegateHasSiteWithEnabledEmailMap.containsKey(contactId) &&
                     piDelegateHasSiteWithEnabledEmailMap.get(contactId)) ||
@@ -459,13 +539,190 @@ public without sharing class NotificationAvailabilityService {
      * @author: Krishna Mahto
      * @param: contactId
      * @return: Boolean
-     ***/
+     **/
     public Boolean isInvalidNumber(Id contactId) {
         Boolean isInvalid = true;
         Contact contact = contactByIdMap.get(contactId);
         isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
 
         return isInvalid;
+    }
+
+    /**
+     * @description: This Method will check if Platform level Welcome message send and Delivered status for the delegate.
+     * @author: Krishna Mahto
+     * @param: contactId
+     * @return: Boolean
+     **/
+    public Boolean isPlaformLevelWelmMssgSendAndDeliveredToDel(Id contactId) {
+        Boolean isInvalid = true;
+        Contact contact = contactByIdMap.get(contactId);
+        isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
+
+        return isInvalid;
+    }
+
+    /**
+     * @description:  This method checks if the SMS notification is eligible to send depending upon the different notification types and SMS availablility flags
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean checkSMSIsEligibleToSkip(Notification__c n, String recipientType) {
+        Boolean skipSMS = false;
+        //If Notification is for Participant or Delegate
+        if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
+            skipSMS = checkParticipantDelSMSSkipEligibility(n);
+        } else {
+            //TODO: Implement logic as per the need based on the recipientType.
+        }
+        return skipSMS;
+    }
+    /**
+     * @description:  This method checks if the SMS notification is eligible to send or skip for Paricipants/Delegates.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean checkParticipantDelSMSSkipEligibility(notification__c n) {
+        //Boolean skipSMS = false;
+        String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
+
+        //If Number is Invalid at contact then skip the SMS.
+        if (isInvalidNumber(n.Recipient__c)) {
+            return true;
+        }
+
+        //If any of the AWS details are not available for the notification then skip the SMS.
+        if (
+            NotificationService.awsDetailsAreAvailable.containsKey(n.Id) &&
+            !NotificationService.awsDetailsAreAvailable.get(n.Id)
+        ) {
+            return true;
+        }
+
+        //Check if SMS are neither navailable to send for Platform level nor available to send for Study level then Skip the SMS
+        Boolean isSMSAvailableAtPlatformLevel =
+            NotificationService.platfomLevelSMSSet.contains(n.Id) &&
+            isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+        Boolean isSMSAvailableAtStudyLevel = NotificationService.studyLevelSMSSet.contains(n.Id);
+
+        //Check if Notification is platform level or study level and available to send else skip the SMS.
+        if (isSMSAvailableAtPlatformLevel) {
+            //Process Platform level SMS notification eligibility check.
+            Boolean skipSMS = skipPlatformLevelSMSCheck(n);
+            if (skipSMS)
+                return true;
+        } else if (isSMSAvailableAtStudyLevel) {
+            //Process Study level SMS notification eligibility check.
+            Boolean skipSMS = skipStudyLevelSMSCheck(n);
+            if (skipSMS)
+                return true;
+        } else {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * @description:  This method checks if the Study level SMS notification is eligible to send SMS.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean skipStudyLevelSMSCheck(Notification__c n) {
+        String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
+
+        if (n.Notification_Type__c == NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG) {
+            // If SMS Type is Welcome Message for Patient Delegate and welcome message is sent to Patient delegate then skip the non welcome SMS.
+            Boolean welcomeMessageSendToDel =
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.get(perIdRecipientIdKey);
+
+            if (welcomeMessageSendToDel) {
+                return true;
+            }
+        } else if (
+            n.Notification_Type__c == NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+        ) {
+            //If SMS Type is Welcome Message for Participant and welcome message is sent  to participant then skip SMS.
+            Boolean isWelcomeMessageSendToParticipant =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id);
+            if (isWelcomeMessageSendToParticipant) {
+                return true;
+            }
+        } else if (
+            NotificationCatalog.nonWelcomeNoticationTypesForDelegate.contains(
+                n.Notification_Type__c
+            )
+        ) {
+            //If SMS Type is Study Level non welcome Message for Patient Delegate and any of the welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Patient delegate is not true then skip the SMS.
+            Boolean isWelcomeMessageSentAndDeliveredToDel =
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.get(perIdRecipientIdKey) &&
+                NotificationService.perIdDelConIdWelcomeMessageDeleveredMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageDeleveredMap.get(
+                    perIdRecipientIdKey
+                );
+            if (!isWelcomeMessageSentAndDeliveredToDel) {
+                return true;
+            }
+        } else if (
+            !NotificationCatalog.nonWelcomeNoticationTypesForDelegate.contains(
+                n.Notification_Type__c
+            ) && !NotificationService.welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
+        ) {
+            //If SMS Type is Study Level Non welcome Message for Participant and welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Participant is not true then skip the SMS.
+            Boolean isWelcomeMessageSentAndDeliveredPar =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id) &&
+                NotificationService.welcomemsgDelivered.containsKey(n.Id) &&
+                NotificationService.welcomemsgDelivered.get(n.Id);
+            if (!isWelcomeMessageSentAndDeliveredPar) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * @description:  This method checks if the Platform level SMS notification is eligible to send SMS.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean skipPlatformLevelSMSCheck(Notification__c n) {
+        //TODO: Implement logic if we have to handle the Platform level SMS for participant and delegate separatly.
+        //If Notification is welcome message and welcome message is already sent, skip the SMS.
+        if (NotificationService.welcomemsgNoticationtypes.Contains(n.Notification_Type__c)) {
+            Boolean iSPlatformLevelWelcomeMessageSent =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id);
+
+            if (iSPlatformLevelWelcomeMessageSent) {
+                return true;
+            }
+        } else {
+            //If SMS Type is Study Level Non welcome Message  welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Participant is not true then skip the SMS.
+            Boolean iSPlatformLevelWelcomeMessageSent =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id) &&
+                NotificationService.welcomemsgDelivered.containsKey(n.Id) &&
+                NotificationService.welcomemsgDelivered.get(n.Id);
+            if (!iSPlatformLevelWelcomeMessageSent) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Boolean isAvailableForPush(Id contactId, String whatId) {
@@ -559,6 +816,7 @@ public without sharing class NotificationAvailabilityService {
         return [
             SELECT
                 Id,
+                Permit_Mail_Email_contact_for_this_study__c,
                 Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                 Study_Site__r.Suppress_Participant_Emails__c,
                 Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
@@ -568,11 +826,22 @@ public without sharing class NotificationAvailabilityService {
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
-            FROM Participant_Enrollment__c
-            WHERE Id IN :peIds
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
         ];
     }
-
+     private List<Participant__c> getParticipantList(Set<Id> parIds) {
+        return [
+            SELECT
+            Id,
+            Contact__r.Participant_Opt_In_Status_Emails__c,
+            Contact__r.Participant_Opt_In_Status_SMS__c,
+            IsCountry_NOT_Eligible_for_Emails__c
+            FROM Participant__c
+            WHERE Id IN :parIds
+        ];
+    }
+   
     private Map<Id, Boolean> checkIfPIContactsHaveSitesWithEnabledEmails(List<Id> contactIds) {
         Map<Id, Boolean> resultMap = new Map<Id, Boolean>();
         for (Id contactId : contactIds) {

@@ -3,7 +3,7 @@
     <fullName>Participant_Opt_In_Status_Emails__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Opt In Emails</label>
+    <label>IQVIA Email Consent</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>
