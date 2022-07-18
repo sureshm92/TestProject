@@ -142,7 +142,7 @@
         <zip destfile="${dist.dir}/${dist.name}-communities-janssen.zip">
             <zipfileset dir="${source.dir}/janssen" prefix="${release.version}" includes="**/*.*" />
         </zip>
-                <zip destfile="${dist.dir}/${dist.name}-communities-pp.zip">
+        <zip destfile="${dist.dir}/${dist.name}-communities-pp.zip">
             <zipfileset dir="${source.dir}/pp" prefix="${release.version}" includes="**/*.*" />
         </zip>
 
