@@ -18411,7 +18411,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Login Wrong Password Error Message</shortDescription>
-        <value>Incorrect username/password.&lt;br/&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
+        <value>Incorrect username/password.&lt;br /&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
     </labels>
     <labels>
         <fullName>PP_ManageDelegates</fullName>
@@ -26235,5 +26235,29 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
+    </labels>
+    <labels>
+        <fullName>Chapter</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chapter</shortDescription>
+        <value>Chapter</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP_as_PDF</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download PP as PDF</shortDescription>
+        <value>Download Privacy Policy as PDF</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_On</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated On</shortDescription>
+        <value>Last Updated on:</value>
     </labels>
 </CustomLabels>
