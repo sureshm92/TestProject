@@ -33,7 +33,7 @@ public without sharing class TelevisitMeetBannerController {
         ];
         List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c> ();
         for(Televisit_Attendee__c attendee : allVisitis){
-            if(userMode != 'Participant' && attendee.Televisit__r.Source_Community__c == communityMode && (attendee.Attendee_Type__c != 'Participant' && attendee.Attendee_Type__c == 'Participant Delegate')){
+            if(userMode != 'Participant' && attendee.Televisit__r.Source_Community__c == communityMode && (attendee.Attendee_Type__c != 'Participant' && attendee.Attendee_Type__c != 'Participant Delegate')){
                 visits.add(attendee);
             }
             if(userMode == 'Participant' && (attendee.Attendee_Type__c == 'Participant' || attendee.Attendee_Type__c == 'Participant Delegate')){
