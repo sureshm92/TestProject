@@ -7,7 +7,7 @@
            <div class="slds-modal__content" >
               <div class="bar"></div>
               <div class="slds-p-around_large"><!-- Add RTL class here -->
-                 <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                 <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_x-small">
                     <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
                        <span class="pop-title">{label.SS_Upload_Participants}</span> 
                     </div>
@@ -23,12 +23,12 @@
                  <slot name="bolkimport">
                     <div data-id="mainDivscroll" class="slds-grid slds-wrap slds-gutters importParticipants_popup bulkImportScroll">
                      <template if:true={isDataLoading}>
-                        <div class="slds-m-around_large vertical-scroll">
+                        <div class="vertical-scroll">
                           <lightning-spinner alternative-text="Loading..." variant="brand">
                           </lightning-spinner>
                         </div>
                       </template>
-                     
+                      <div class="slds-grid slds-wrap">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown_truncate dropdown-fonts_bulk">
                            <lightning-combobox
                            name={label.RH_StudyName_Import}
@@ -140,16 +140,24 @@
                           </div>
                        </div>
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top slds-m-bottom_small importInputPopup dropdown-fonts_bulk">
-                          <lightning-combobox
-                             name={label.Participant_Status}
-                             label={label.Participant_Status}
-                             value={selectedStatus}
-                             placeholder={label.PG_AC_Select}
-                             options={importParticipantStatus}
-                             onchange={particiapntStatushandleChange}
-                             disabled ={shouldDisableImportStatus}
-                             required
-                             ></lightning-combobox>
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="select-01">
+                                    {label.Participant_Status} <abbr class="slds-required" title="required">* </abbr></label>
+                                 <div class="slds-form-element__control">
+                                    <div class="dropdown-margin-top slds-unselectdropdown">
+                                       <lightning-combobox
+                                         data-name="selectStatus" 
+                                          name={label.Participant_Status}
+                                          varient="label-hidden"
+                                          value={selectedStatus}
+                                          placeholder={label.PG_AC_Select}
+                                          options={importParticipantStatus}
+                                          onchange={particiapntStatushandleChange}
+                                          read-only ={shouldDisableImportStatus}
+                                          ></lightning-combobox>
+                                    </div>
+                                 </div>
+                                 </div>
                        </div>
 
                        <template if:true={visitPlanAvailable}>
@@ -206,6 +214,7 @@
                           </template> 
                        </template> 
                      </template>
+                    </div>
                     </div><!-- slds-grid slds-wrap slds-gutters -->
                     <div class="slds-grid slds-wrap slds-m-top_small">
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">

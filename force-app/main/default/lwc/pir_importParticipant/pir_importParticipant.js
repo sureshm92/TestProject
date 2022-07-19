@@ -31,6 +31,10 @@ import BTN_Import from '@salesforce/label/c.BTN_Import';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import PIR_Download from '@salesforce/label/c.PIR_Download';
 import RH_Upload_import from '@salesforce/label/c.RH_Upload_import';
+import RH_Bulkimport_EmptyFile from '@salesforce/label/c.RH_Bulkimport_EmptyFile';
+import RH_Bulkimport_MaxiumRecord from '@salesforce/label/c.RH_Bulkimport_MaxiumRecord';
+import RH_Bulkimport_HeaderFailed from '@salesforce/label/c.RH_Bulkimport_HeaderFailed';
+import RH_BulkImport_InvalidFileFormat from '@salesforce/label/c.RH_BulkImport_InvalidFileFormat';
 import PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal';
 import getParticipantsStatusesAndVisitPlans from '@salesforce/apex/PIR_HomepageController.getParticipantsStatusesAndVisitPlans';
 import deleteFile from '@salesforce/apex/PIR_HomepageController.deleteFile';
@@ -46,7 +50,7 @@ export default class Pir_importParticipant extends NavigationMixin(LightningElem
 @api importParticipant=false; @api isMyStudies = false;@api studyid;@api siteid;
 @api selectedStudy='';@api selectedSite=''; @api studylist;@api siteAccessLevels;@api studyToStudySite;
 studySiteList;shouldDisableImportStatus = true;@api studysiteaccess=false;
-@api selectedStatus; importParticipantStatus = [];shouldDisableImport = true;
+@api selectedStatus; importParticipantStatus = [];  participentStatus = [];shouldDisableImport = true;
 progress = 0;
 progressWidth = 'width :0%';
 base = 1;
@@ -81,6 +85,7 @@ selectedvisitPlanId = undefined;
 visitPlanRequired = false;
 visitPlansLVList = [];
 communityWithPPInv = false;
+ 
 @api siteName='';
 downloadTemplate = DownloadParticipantTemplate;
 ParticipantBulkImportInstructions = ParticipantBulkImportInstructions;
@@ -110,7 +115,11 @@ label = { PIR_Study_Site_Name,
           BTN_Import,
           BTN_Cancel,
           PIR_Download,
-          RH_Upload_import
+          RH_Upload_import,
+          RH_Bulkimport_EmptyFile,
+          RH_Bulkimport_MaxiumRecord,
+          RH_Bulkimport_HeaderFailed,
+          RH_BulkImport_InvalidFileFormat
         };
 connectedCallback() {
     loadScript(this, xlsxmin).then(() => {});
@@ -126,7 +135,18 @@ connectedCallback() {
             studySiteId: this.selectedSite 
             })
             .then((result) => {
-                this.importParticipantStatus = result.participantStatuses;
+                var participentStatuses = result.participantStatuses;
+                if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
+                    for(let i=0 ; i < result.participantStatuses.length ; i++){
+                        if(result.participantStatuses[i].value != 'Screening Passed' && result.participantStatuses[i].value != 'Enrollment Success' && result.participantStatuses[i].value != 'Randomization Success'){  
+                            this.participentStatus.push(participentStatuses[i]);
+                        }
+                    }
+                    this.importParticipantStatus = this.participentStatus;
+                }
+                else{
+                    this.importParticipantStatus = participentStatuses;
+                }
                 this.shouldDisableImportStatus = false; 
                 this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
                 if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
@@ -157,7 +177,7 @@ connectedCallback() {
                 this.toggleImportButton();
             })
             .catch((error) => {
-            console.error('Error: ', error);
+            console.error('Error in visitplan and status>>>>: ', error);
             })
             } 
         return true;
@@ -390,7 +410,6 @@ studysitehandleChange(event) {
             this.toggleImportButton();
             })
         .catch((error) => {
-        console.error('Error in handle studysite '+error);
         console.error('Error in handle studysite '+ JSON.stringify(error));
         }) 
     } 
@@ -464,19 +483,16 @@ handleFilesChange_new(event) {
 saveFile() {
       var fileCon = this.filesUploaded[0];
       this.fileSize = this.formatBytes(fileCon.size, 2);
-      console.log('>>fileSize123>>'+this.fileSize);
-      console.log('>>fileSize123>>'+this.fileName);
-      console.log('>>fileSize123>>'+this.fileName.split('.')[1]);
       if (
           this.fileName.split('.')[1] != 'csv' &&
           this.fileName.split('.')[1] != 'xlsx' &&
           this.fileName.split('.')[1] != 'xls'
       ) {
-          let message ="Invalid file format. Allowable file formats are .xlsx or .csv only.";
+          
           this.dispatchEvent(
               new ShowToastEvent({
                   title: 'Error',
-                  message: message,
+                  message: this.label.RH_BulkImport_InvalidFileFormat,
                   variant: 'error'
               })
           );
@@ -517,9 +533,8 @@ saveFile() {
               var csvData = XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]);
               self.stringArray = csvData.split('\n');
               self.totalRecords = self.stringArray.length;
-               
           } catch (e) {
-              console.log('error in reader2>>' + e.message);
+              console.log('error inreading file>>' + e.message);
           }
       };
       reader2.readAsArrayBuffer(fileCon);
@@ -527,7 +542,6 @@ saveFile() {
 } 
   
 upload(file, fileContents) {
-    console.log('>>upload>>');
     var fromPos = 0;
     var toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
     this.uploadChunk(file, fileContents, fromPos, toPos, '');
@@ -536,7 +550,6 @@ upload(file, fileContents) {
 uploadChunk(file, fileContents, fromPos, toPos, attachId) {
    // this.isLoading = true;
     var chunk = fileContents.substring(fromPos, toPos);
-    console.log('>>upload>>');
     saveTheChunkFile({
         fileName: file.name,
         base64Data: encodeURIComponent(chunk),
@@ -561,12 +574,11 @@ uploadChunk(file, fileContents, fromPos, toPos, attachId) {
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Error',
-                        message:'file contains more than 45,000 records; you may split the file. Please correct the problem and try again.',
+                        message: this.label.RH_Bulkimport_MaxiumRecord,
                         variant: 'error'
                     })
                 );
                 this.deleteFiles();
-               // this.isLoading = false;
                 }
             else {
                     this.progress = 100;
@@ -574,12 +586,10 @@ uploadChunk(file, fileContents, fromPos, toPos, attachId) {
                         'width :' + this.progress + '%;background-color: #00C221;';
                         this.isFileLoadedComplete=true;
                         this.toggleImportButton();
-                  //  this.isLoading = false;
-                
             }
         })
         .catch((error) => {
-            console.error('Error: ', error);
+            console.error('Error in saving file>>> ', error);
         })
         .finally(() => {});
 }
@@ -619,7 +629,7 @@ deleteFiles(){
      })
      .catch(error => {
         this.isDataLoading = false;
-         console.error('Error: ', error);
+         console.error('Error while deleting>>: ', error);
      })
      .finally(()=>{
         this.isDataLoading = false;
@@ -646,12 +656,11 @@ doImportParticipant(){
         visitPlanId: this.selectedvisitPlanId == '' ? undefined : this.selectedvisitPlanId
     })
     .then((result) => {
-        console.log('>>result is>>'+result);
         switch (result) {
             case "FileEmpty": {
               const event = new ShowToastEvent({
                 title: "VALIDATION ERROR:",
-                message: "File is empty. Please correct the problem and try again.",
+                message: this.label.RH_Bulkimport_EmptyFile,
                 variant: "Error",
               }); 
               this.dispatchEvent(event); 
@@ -661,7 +670,7 @@ doImportParticipant(){
             case "MaxiumumSizeLimit": {
               const event = new ShowToastEvent({
                 title: "VALIDATION ERROR:",
-                message: "File contains more than 45,000 records; you may split the file. Please correct the problem and try again.",
+                message: this.label.RH_Bulkimport_MaxiumRecord,
                 variant: "Error",
               });
               this.dispatchEvent(event);
@@ -671,7 +680,7 @@ doImportParticipant(){
             case "FileFormatError": {
                 const event = new ShowToastEvent({
                   title: "VALIDATION ERROR:",
-                  message: "File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.",
+                  message: this.label.RH_Bulkimport_HeaderFailed,
                   variant: "Error",
                 });
                 this.dispatchEvent(event);
