@@ -2284,23 +2284,23 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
-  } 
+  }
 
   @AuraEnabled                            
-  public static Id saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
+  public static Boolean saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
     Id currentContactId = CommunityService.getInstance().getCurrentContactId();
       
-      base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+     /*base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
       if ( String.isBlank(fileId) ) {
           fileId = saveFiles(currentContactId, fileName, base64Data );
       } else {
           appendToFile(fileId, base64Data);
-      }
+      } */
       
-      return Id.valueOf(fileId);
+      return true;
   }
 
-  @AuraEnabled
+  /*@AuraEnabled
     public static Id saveFiles(Id recordId, String fileName, String base64Data )  { 
         
         ContentVersion contentToInsert =new ContentVersion(); 
@@ -2320,9 +2320,9 @@ public without sharing class PIR_HomepageController {
         
         return contentToInsert.id;
         
-    }
+    } */
 
-    @AuraEnabled
+   /*@AuraEnabled
     public static void appendToFile(Id contentDocumentId, String base64Data) {
         //base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         ContentVersion versionData = [
@@ -2335,7 +2335,7 @@ public without sharing class PIR_HomepageController {
         versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
         
         update versionData;
-    }
+    } */
 
     @AuraEnabled
     public static void deleteFile(String fileId)  { 
@@ -2393,7 +2393,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
-                Clinical_Trial_Profile__r.Final_Consent_Required__c
+                Clinical_Trial_Profile__r.Final_Consent_Required__c,
+                Clinical_Trial_Profile__r.Tokenization_Support__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];

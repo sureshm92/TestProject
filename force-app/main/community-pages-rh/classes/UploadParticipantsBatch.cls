@@ -270,6 +270,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String LastName = '';
                 String Nickname = '';
                 String Sex = '';
+                String YearofBirth = '';
+                String MonthofBirth = '';
+                String strDate = '';
+                String DateofBirthError = '';
                 String DateOfBirth = '';
                 String EmailAddress = '';
                 String Phone = '';
@@ -315,11 +319,29 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Sex = headerIndexes.get('PARTICIPANT SEX') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT SEX')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT SEX')].trim()
+                    : null; 
+                YearofBirth =  headerIndexes.get('PARTICIPANT YEAR OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')].trim()
                     : null;
-                DateOfBirth = headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
+                MonthofBirth =  headerIndexes.get('PARTICIPANT MONTH OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')].trim()
+                    : null;
+                strDate =  headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')].trim()
                     : null;
+                if(String.isNotBlank(YearofBirth) && String.isNotBlank(MonthofBirth) && String.isNotBlank(strDate)){
+                 DateofBirthError = YearofBirth.length() != 4 ? 'yearError' : MonthofBirth.length() > 2 ? 'MonthError' : strDate.length() > 2 ? 'DateError' : 'NoError'   ;
+                    if(DateofBirthError == 'NoError')
+                    {
+                        DateOfBirth = YearofBirth + '-' + MonthofBirth + '-' + strDate;    
+                    }
+                }
+               
+ 
+
                 EmailAddress = headerIndexes.get('PARTICIPANT EMAIL ADDRESS') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')].trim()
@@ -1742,7 +1764,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         emailToSend.setSubject(adminEmailToSend.getSubject());
         emailToSend.setOrgWideEmailAddressId(owea.Id);
 
-       /*mailToSend.setFileAttachments(
+        /*emailToSend.setFileAttachments(
             new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
         );*/
 
