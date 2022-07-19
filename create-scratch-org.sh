@@ -1,7 +1,9 @@
 #!/bin/sh
 
-echo "Setting REST API for timeout issue"
-sfdx config:set restDeploy=true --global
+#Reduce component size
+echo "Deploy static files"
+sfdx force:source:deploy -p force-app/main/onboarding-tour
+sfdx force:source:deploy -p force-app/main/default/staticresources
 
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
@@ -11,6 +13,8 @@ echo "Step 1 - Move current files to scratch-org-files/original-files"
 sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
 sed -i 's/#force-app\/main\/default\/flows/force-app\/main\/default\/flows/g' '.forceignore'
 sed -i 's/#\*\*/\*\*/' '.forceignore'
+sed -i 's/#force-app\/main\/default\/staticresources/force-app\/main\/default\/staticresources/g' '.forceignore'
+sed -i 's/#force-app\/main\/onboarding-tour/force-app\/main\/onboarding-tour/g' '.forceignore'
 if [ "$(ls -A ./scratch-org-files/original-files)" ]
 then
     rm -rf ./scratch-org-files/original-files
