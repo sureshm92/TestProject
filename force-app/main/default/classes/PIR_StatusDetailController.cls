@@ -827,9 +827,7 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
-          //title = pesh.Status__c;
           if(pesh.Status__c == 'Successfully re-engaged'){
-              //String sc = 'Successfully Contacted';
               String sc = 'Successfully re-engaged';
               title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
           }else if(pesh.Status__c == 'Eligibility Passed') {
