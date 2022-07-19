@@ -1806,11 +1806,16 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
           !statusList.contains(perRecord.Participant_Status__c)
         ) {
+          if(perRecord.Initial_visit_occurred_flag__c==false){
+            pesh.Disabled_PESH__c =true;
+          }
+          else{
           pesh.Disabled_PESH__c = isPESHnotDisabled(
             perRecord.Initial_visit_scheduled_date__c,
             perRecord.Initial_visit_scheduled_time__c,
             perRecord.Initial_visit_occurred_flag__c
           );
+          }
         }
         insert pesh;
       } else if (perRecord.Last_Status_Changed_Additional_Notes__c != null && perRecord.Last_Status_Changed_Additional_Notes__c != '') {
