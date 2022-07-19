@@ -2187,6 +2187,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Terms_And_Conditions__c.T_C_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2353,6 +2358,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Chatbot_optout__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Additional_Information__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

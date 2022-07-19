@@ -1616,6 +1616,8 @@ public without sharing class PIR_StatusDetailController {
             Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
             televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
             televisitRecord.Visit_Date_Time__c = visitDateTime;
+            CommunityMode mode = UserContext.getCurrentUserMode();
+        	  televisitRecord.Source_Community__c = mode.template.communityName;
             insert televisitRecord;
             
             List<Televisit__c> lstTelevisit = new List<Televisit__c>([SELECT Id, CreatedBy.ContactId FROM Televisit__c WHERE Id =: televisitRecord.Id]);

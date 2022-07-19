@@ -1055,6 +1055,7 @@ public without sharing class DashboardRemoteNew {
                         AND ParticipantEnrollment__r.Participant__c != NULL
                         AND Date__c != NULL
                         AND Status__c IN :(new List<String>{ PE_STATUS_SUCCESSFULLY_CONTACTED })
+                        AND ParticipantEnrollment__r.Participant_Status__c  IN :PEStatusState.PE_STATUS_GROUP_POSITIVE_PARTICIPANTS_CONTACTED
                     ORDER BY Createddate DESC
                     LIMIT 40000
                 ];
