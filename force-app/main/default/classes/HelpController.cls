@@ -229,7 +229,11 @@ public without sharing class HelpController {
         ]) {
             siteIdList.add(sStaff.Study_Site__c);
         }
-
+        List<String> communityNames = new List<String>(); 
+        if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
+            communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+        }
+        communityNames.add(communityName);
         List<Study_Site__c> ssList = [
             SELECT
                 Id,
@@ -241,7 +245,7 @@ public without sharing class HelpController {
             FROM Study_Site__c
             WHERE
                 (Principal_Investigator__c = :cnt.Id
-                OR Id IN :siteIdList) AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                OR Id IN :siteIdList) AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                 AND (Override_PI_Referral_Status__c = 'Accepted'
                 OR Override_PI_Referral_Status__c = 'Accepted (Admin)')
         ];
