@@ -115,7 +115,7 @@ textdecoration {
     border-radius: 6px;
     padding: 8px 10px;
     position: absolute;
-    z-index: 1;
+    z-index: 5;
     top: 150%;
     left: -200%;
     margin-left: -60px;

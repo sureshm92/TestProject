@@ -612,7 +612,7 @@ public without sharing class StudySiteTriggerHandler {
 
         Map<Id, Study_Site__c> ssByIds = new Map<Id, Study_Site__c>(
             [
-                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
+                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c,Override_PI_Referral_Status__c
                 FROM Study_Site__c
                 WHERE Id IN :newList
             ]
@@ -623,13 +623,15 @@ public without sharing class StudySiteTriggerHandler {
                 permNamesByPiIds.put(ss.Principal_Investigator__c, new Set<String>());
             }
             String commTemplate = ssByIds.get(ss.Id).Clinical_Trial_Profile__r.CommunityTemplate__c;
-            if (commTemplate.equals(CommunityTemplateService.TEMPLATE_JANSSEN)) {
+            if (commTemplate.equals(CommunityTemplateService.TEMPLATE_JANSSEN) && ss.Override_PI_Referral_Status__c == 'Invitation Sent') {
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
             } else {
+                if(ss.Override_PI_Referral_Status__c == 'Invitation Sent'){
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
             }
+          }
         }
 
         if (!permNamesByPiIds.isEmpty()) {

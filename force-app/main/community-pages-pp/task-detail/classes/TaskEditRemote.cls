@@ -3,13 +3,11 @@
  */
 
 public without sharing class TaskEditRemote {
-    
-    
     public Boolean isDelegate;
-    
-     @AuraEnabled
-    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
-        return CommunityService.getMaxLength(so,fieldNames);
+
+    @AuraEnabled
+    public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
+        return CommunityService.getMaxLength(so, fieldNames);
     }
 
     public class TaskEditDataWrapper {
@@ -203,13 +201,12 @@ public without sharing class TaskEditRemote {
     public static Boolean getisTravelSupportEnabled() {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            if(state.value == ParticipantService.ParticipantStates.REFERRAL){
-                return (state.ctp.Received_Until_Consent_Is_Available__c || state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
-            }
-            else{
+            if (state.value == ParticipantService.ParticipantStates.REFERRAL) {
+                return (state.ctp.Received_Until_Consent_Is_Available__c ||
+                state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
+            } else {
                 return state.isTravelSupportEnabled;
             }
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -313,7 +310,6 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
                 taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
                 taskToUpsert.Is_Reminder_Sent__c = false;
-
             }
             if (taskToUpsert.Id != null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId) {
                 update taskToUpsert;
@@ -354,7 +350,8 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c;
+        return (ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c ||
+        ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c);
     }
 
     private static Boolean checkSMSPreferencesIsOn() {

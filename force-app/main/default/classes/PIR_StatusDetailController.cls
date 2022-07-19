@@ -1647,7 +1647,7 @@ public without sharing class PIR_StatusDetailController {
       'Successfully Contacted',
       'Successfully re-engaged'
     };
-    try {
+     try {
         
       if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
         Televisit__c televisitRecord = new Televisit__c();
@@ -1660,6 +1660,8 @@ public without sharing class PIR_StatusDetailController {
         Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
         televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
         televisitRecord.Visit_Date_Time__c = visitDateTime;
+		    CommunityMode mode = UserContext.getCurrentUserMode();
+		    televisitRecord.Source_Community__c = mode.template.communityName;
         insert televisitRecord;
         
         List<Televisit__c> lstTelevisit = new List<Televisit__c>([SELECT Id, CreatedBy.ContactId FROM Televisit__c WHERE Id =: televisitRecord.Id]);
@@ -1763,8 +1765,7 @@ public without sharing class PIR_StatusDetailController {
         if(!lstAttendees.isEmpty()){
             insert lstAttendees;
         }
-    }
-    
+    }   
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
