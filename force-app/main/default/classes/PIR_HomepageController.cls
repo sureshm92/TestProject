@@ -316,6 +316,7 @@ public without sharing class PIR_HomepageController {
         status.add('Screening Passed');
         status.add('Eligibility Passed');
         status.add('Ready to Screen');
+        status.add('Participant No Show');
         // status.add('Randomization Success');
         // status.add('Enrollment Success');
         
