@@ -1,4 +1,5 @@
 <template>
+    <template if:false={isLockOut}>
     <div class="slds-grid slds-grid_align-center">
         <div class="slds-col">
             <div class="patient-care-txt">For Participants and Caregivers</div>
@@ -63,5 +64,19 @@
             </div>
         </div>
     </div>
+</template>
+<template if:true={isLockOut}>
+    <c-lockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-lockout>
+    <div class="slds-align_absolute-center slds-p-top_medium">
+        <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
+            >{label.unableToLogin}</a
+        >
+    </div>
+    <c-unable-to-login
+        is-r-t-l-language={isRTL}
+        onunabletologin={handleShowTimer}
+    ></c-unable-to-login>
+</template>
     <c-web-spinner fixed="true"></c-web-spinner>
+
 </template>

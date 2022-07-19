@@ -14,6 +14,9 @@ import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
+    @track isRTL;
+    isLockOut = false;
+    timeLeft = 900000;
     spinner;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
@@ -37,6 +40,20 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
+        }
     }
 
     handleuserNameChange(event) {
@@ -51,6 +68,24 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
         }
+    }
+
+    handleShowTimer(event) {
+        this.timeLeft = event.detail;
+        this.isLockOut = true;
+    }
+
+    handleUnlock(event) {
+        this.isLockOut = false;
+        this.inError = false;
+    }
+
+    handleUnableToLogin() {
+        let userName = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('lightning-input[data-id=userName]').value;
+
+        this.template.querySelector('c-unable-to-login').show(userName);
     }
 
     handleLogin() {
