@@ -2129,6 +2129,16 @@
     </recordTypeVisibilities>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Birth_Day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Birth_Month__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
     </fieldPermissions>
