@@ -11855,6 +11855,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Visit Out Of Window</value>
     </labels>
     <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
+    </labels>
+    <labels>
         <fullName>PIR_addParticipantFillMandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>

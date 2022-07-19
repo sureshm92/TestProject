@@ -202,4 +202,9 @@
     .THIS .ap-section > .slds-grid.rr-form-element .slds-size--2-of-10 {
         min-width: 50%;
     }
+
+    .THIS .dob-mobile-size{
+   font-size: medium;
+   text-rendering: geometricPrecision 500 ;
+}
 }

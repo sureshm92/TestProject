@@ -42,13 +42,13 @@
              </div>
           </div>
        </div>
+       <template if:true={isDeleted} class="slds-is-relative">
+         <div class="slds-m-around_large vertical-scroll">
+           <lightning-spinner alternative-text="Loading..." variant="brand">
+           </lightning-spinner>
+         </div>
+       </template>
     </div>
-    <template if:true={isDeleted} class="slds-is-relative">
-      <div class="slds-m-around_large vertical-scroll">
-        <lightning-spinner alternative-text="Loading..." variant="brand">
-        </lightning-spinner>
-      </div>
-    </template>
  </section>
 </div>
  <div class="slds-backdrop slds-backdrop_open containerbackdrop_popup"></div>
