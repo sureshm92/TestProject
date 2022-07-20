@@ -214,7 +214,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Banner Display (minutes)</shortDescription>
-        <value>Banner display</value>
+        <value>Banner Display (minutes)</value>
     </labels>
     <labels>
         <fullName>Banner_dispose</fullName>
