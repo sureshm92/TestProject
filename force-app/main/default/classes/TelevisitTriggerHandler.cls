@@ -50,21 +50,6 @@ public class TelevisitTriggerHandler {
                 }
             }
         }
-        //fetching delegates code
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Participant__r.Contact__c, Contact__c, Primary_Delegate__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :allContactIds
-        ];
-        Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
-        for (Id conId : allContactIds)
-            if (!participantIdsByDelegates.containsKey(conId)) {
-                participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
-            }
-        for (Patient_Delegate__c pd : patientDelegates) {
-            allContactIds.add(pd.Contact__c);
-            participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
-        }
 
         //end
         List<Id> cancelledContactIds = new List<Id>();
