@@ -10,6 +10,8 @@ public without sharing class Action_UploadParticipantsRemote {
         'PARTICIPANT NICKNAME',
         'PARTICIPANT SEX',
         'PARTICIPANT DATE OF BIRTH',
+        'PARTICIPANT MONTH OF BIRTH',
+        'PARTICIPANT YEAR OF BIRTH',
         'PARTICIPANT EMAIL ADDRESS',
         'PARTICIPANT PHONE',
         'PARTICIPANT PHONE TYPE',
@@ -98,7 +100,6 @@ public without sharing class Action_UploadParticipantsRemote {
                 for (Integer indx = 0; indx < csvHeaderData.size(); indx++) {
                     if (csvHeaderData[indx] != null && String.isNotBlank(csvHeaderData[indx])) {
                         String columnName = csvHeaderData[indx].trim();
-                        system.debug('Header: ' + columnName);
                         
                         if (HEADER_COLUMNS.contains(columnName)) {
                             headerIndexes.put(columnName.toUpperCase(), indx);
@@ -139,8 +140,6 @@ public without sharing class Action_UploadParticipantsRemote {
                 }
             }
            
-			system.debug('>>finalCSVLines>>'+finalCSVLines);
-            system.debug('>>csvFileLines>>'+csvFileLines);
             string errFileName = 'error.csv';
             if( fileName.contains('.csv')){
                 if(fileName.contains('_errors.csv')){
@@ -175,7 +174,6 @@ public without sharing class Action_UploadParticipantsRemote {
             bulkHistory.Uploaded_By__c = UserContext.getUserContactId();
             
             insert bulkHistory;
-
             //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
            Database.executeBatch(
                 new UploadParticipantsBatch(
