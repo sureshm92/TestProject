@@ -95,6 +95,7 @@ public without sharing class OpenTokClientController {
                 (
                     SELECT
                         Id,
+                        name,
                         Firstname__c,
                         Lastname__c,
                         Attendee_Type__c,
@@ -245,6 +246,7 @@ public without sharing class OpenTokClientController {
             matchingAttendees = [
                 SELECT
                     Id,
+                    Name,
                     FirstName__c,
                     LastName__c,
                     Attendee_Type__c,
