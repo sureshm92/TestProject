@@ -362,6 +362,7 @@ public without sharing class TaskEditRemote {
         Boolean emailPreferencesIsOn,
         List<Contact> delegates
     ) {
+        String errorMessage = '';
         Boolean emailEnabled = (ParticipantContext.getCurrentContact()
                 .Participant_Opt_In_Status_Emails__c ||
             ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c)
