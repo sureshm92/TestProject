@@ -95,19 +95,24 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                     if (this.isRTL) {
                         this.ppRichText = this.ppRichText.replace(
                             /<li style="text-align: right;">/g,
-                            '<li style="text-align: right;margin-right: 2.5%;">'
+                            '<li style="text-align: right;margin-right: 5%;">'
                         );
                         this.ppRichText = this.ppRichText.replace(
                             /<li>/g,
-                            '<li style="margin-right: 2.5%;">'
+                            '<li style="margin-right: 5%;">'
                         );
                     } else {
                         this.ppRichText = this.ppRichText.replace(
                             /<li>/g,
-                            '<li style="margin-left: 2.5%;">'
+                            '<li style="margin-left: 5%;">'
                         );
                     }
-                    let ppContent = this.template.querySelector('[data-id="ppRichText"]');
+                    let ppContent = '';
+                    if (this.isMobile) {
+                        ppContent = this.template.querySelector('[data-id="ppRichText"]');
+                    } else {
+                        ppContent = this.template.querySelector('[data-id="ppRichTextD"]');
+                    }
                     if (ppContent) {
                         ppContent.innerHTML = this.ppRichText;
                         this.spinner.hide();
@@ -127,6 +132,20 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         return this.isMobile
             ? 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium'
             : 'slds-grid slds-gutters slds-p-around_medium';
+    }
+
+    get headerDesktopClass() {
+        return this.isRTL
+            ? 'slds-col slds-size_3-of-12 tc-text tc-text-rtl slds-p-right_large rtl'
+            : 'slds-col slds-size_3-of-12 tc-text slds-p-left_large';
+    }
+
+    get headerScrollerClass() {
+        return this.isRTL ? 'header-scroller rtl' : 'header-scroller';
+    }
+
+    get richContentClass() {
+        return this.isRTL ? 'rich-content rtl' : 'rich-content';
     }
 
     get headerLabel() {
@@ -197,20 +216,36 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                 selectedHeader,
                 selectedHeader + '<a data-id="currentheader"></a>'
             );
-            this.template.querySelector('[data-id="ppRichText"]').innerHTML = newValue;
+            if (this.isMobile) {
+                this.template.querySelector('[data-id="ppRichText"]').innerHTML = newValue;
+            } else {
+                this.template.querySelector('[data-id="ppRichTextD"]').innerHTML = newValue;
+                this.template.querySelector('.slds-is-active')
+                    ? this.template
+                          .querySelector('.slds-is-active')
+                          .classList.remove('slds-is-active')
+                    : '';
+                this.template
+                    .querySelector(`[data-header="${selectedHeader}"]`)
+                    .classList.add('slds-is-active');
+            }
 
             let myElement = this.template.querySelector('[data-id="currentheader"]');
 
-            let headerOffset = 230;
+            let headerOffset = this.isMobile ? 230 : 90;
             let elementPosition = myElement.offsetTop;
 
             let offsetPosition = elementPosition - headerOffset;
-            this.template.querySelector('[data-id="ppRichText"]').scrollTop = offsetPosition;
+            this.isMobile
+                ? (this.template.querySelector('[data-id="ppRichText"]').scrollTop = offsetPosition)
+                : (this.template.querySelector(
+                      '[data-id="ppRichTextD"]'
+                  ).scrollTop = offsetPosition);
             this.currentHeaderLabel = event.currentTarget.dataset.label;
         }
     }
 
-    donwloadPPAsPDF() {
+    downloadPPAsPDF() {
         generatePDF({
             ppId: this.tcId
         })
