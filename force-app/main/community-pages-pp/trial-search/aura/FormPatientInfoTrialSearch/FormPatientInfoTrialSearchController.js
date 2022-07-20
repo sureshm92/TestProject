@@ -7,8 +7,11 @@
         component.set('v.todayDate', todayDate);
         var formData = component.get('v.formData');
         const val = [
-            { label: $A.get('$Label.c.trialSearch_me'), value: 'Me' },
-            { label: $A.get('$Label.c.trialSearch_Someone_else'), value: 'Someone else' }
+            {
+                label: $A.get('$Label.c.trialSearch_me'),
+                value: 'Me'
+            } /*,
+            { label: $A.get('$Label.c.trialSearch_Someone_else'), value: 'Someone else' }*/
         ];
 
         component.set('v.sendForList', val);
