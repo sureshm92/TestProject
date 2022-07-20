@@ -10,11 +10,15 @@ import login from '@salesforce/label/c.PG_Login_Title';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
+import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
     spinner;
+    lockedOutUsrName;
+    timeLeft = 900000;
+    isLockOut = false;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -40,7 +44,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     }
 
     handleuserNameChange(event) {
-        console.log(event.target.value);
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
@@ -117,6 +120,38 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     this.error = error;
                     this.spinner.hide();
                 });
+        }
+    }
+    handleForgotPassword() {
+        let userName = this.template.querySelector('input[data-id=userName]').value;
+        this.lockedOutUsrName = userName;
+
+        if (userName) {
+            isUserPasswordLocked({ userName: userName })
+                .then((result) => {
+                    if (result.TimeDifference) {
+                        this.timeLeft = result['TimeDifference'];
+                        this.isLockOut = true;
+                    } else {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Forgot_Password'
+                            }
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
+        } else {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    name: 'Forgot_Password'
+                }
+            });
         }
     }
 }
