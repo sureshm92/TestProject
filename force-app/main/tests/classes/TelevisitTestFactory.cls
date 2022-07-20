@@ -3,7 +3,7 @@ public class TelevisitTestFactory {
 
     public static User createSysAdmin(Boolean doInsert, String email) {
         User admin = TelevisitTestFactory.createUser('System Administrator', doInsert, email);
-        TelevisitTestFactory.addPermSet(admin, 'Tokbox_User');
+        //TelevisitTestFactory.addPermSet(admin, 'Tokbox_User');
         return admin;
     }
 

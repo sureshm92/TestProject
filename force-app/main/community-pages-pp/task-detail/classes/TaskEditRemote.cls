@@ -363,16 +363,18 @@ public without sharing class TaskEditRemote {
         List<Contact> delegates
     ) {
         String errorMessage = '';
-
-        if (
-            !emailEnabledForAllRelatedContacts(
-                ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c,
-                delegates
-            )
-        ) {
+        Boolean emailEnabled = (ParticipantContext.getCurrentContact()
+                .Participant_Opt_In_Status_Emails__c ||
+            ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c)
+            ? true
+            : false;
+        if (!emailEnabledForAllRelatedContacts(emailEnabled, delegates)) {
             errorMessage = Label.Task_Reminders_Missing;
         }
-        if (!emailEnabledForCurrentContact()) {
+        if (
+            !emailEnabledForCurrentContact() &&
+            !ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c
+        ) {
             errorMessage = Label.EmailPreferencesIsOff;
         }
         return errorMessage;
