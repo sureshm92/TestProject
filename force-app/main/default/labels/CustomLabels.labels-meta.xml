@@ -213,7 +213,7 @@ The IQVIA Referral Hub Support Team</value>
         <fullName>Banner_Display_Offset_Time</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Banner display</shortDescription>
+        <shortDescription>Banner Display (minutes)</shortDescription>
         <value>Banner display</value>
     </labels>
     <labels>
