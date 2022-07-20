@@ -57,26 +57,9 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> allContactIds = new List<Id>();
         Map<Id, Id> attendeeDayTelevisitMap = new Map<Id, Id>();
-        Map<Id, Id> attendeeDayDelTelevisitMap = new Map<Id, Id>();
         Map<Id, Id> attendeeHourTelevisitMap = new Map<Id, Id>();
-        Map<Id, Id> attendeeHourDelTelevisitMap = new Map<Id, Id>();
         Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
-        for (Televisit_Attendee__c teleAttendee : attendeeList) {
-            allContactIds.add(teleAttendee.Contact__c);
-        }
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Participant__r.Contact__c, Contact__c, Primary_Delegate__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :allContactIds
-        ];
-        for (Id conId : allContactIds) {
-            if (!participantIdsByDelegates.containsKey(conId)) {
-                participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
-            }
-        }
-        for (Patient_Delegate__c pd : patientDelegates) {
-            participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
-        }
+
         for (Televisit_Attendee__c attendee : attendeeList) {
             Notification__c notification = new Notification__c();
             notification.Recipient__c = attendee.Contact__c;
@@ -107,26 +90,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     attendee.Is_First_Reminder_Sent__c = true;
 
                     attendeeDayTelevisitMap.put(attendee.Contact__c, attendee.Id);
-                    Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
-                        participantIdsByDelegates,
-                        attendee.Contact__c
-                    );
-                    if (delContactId != null) {
-                        attendeeDayDelTelevisitMap.put(delContactId, attendee.Id);
-                    }
                 }
                 if (
                     attendee.Televisit__r.Visit_Date_Time__c.dateGmt() == Datetime.now().dateGmt()
                 ) {
                     attendeeHourTelevisitMap.put(attendee.Contact__c, attendee.Id);
                     attendee.Is_Second_Reminder_Sent__c = true;
-                    Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
-                        participantIdsByDelegates,
-                        attendee.Contact__c
-                    );
-                    if (delContactId != null) {
-                        attendeeHourDelTelevisitMap.put(delContactId, attendee.Id);
-                    }
                 }
             }
 
@@ -140,27 +109,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                 )
             );
         }
-        if (attendeeDayDelTelevisitMap != null || !attendeeDayDelTelevisitMap.isEmpty()) {
-            notifications.addAll(
-                createAttendeeNotifications(
-                    attendeeDayDelTelevisitMap,
-                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL
-                )
-            );
-        }
+
         if (attendeeHourTelevisitMap != null || !attendeeHourTelevisitMap.isEmpty()) {
             notifications.addAll(
                 createAttendeeNotifications(
                     attendeeHourTelevisitMap,
                     NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
-                )
-            );
-        }
-        if (attendeeHourDelTelevisitMap != null || !attendeeHourDelTelevisitMap.isEmpty()) {
-            notifications.addAll(
-                createAttendeeNotifications(
-                    attendeeHourDelTelevisitMap,
-                    NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
                 )
             );
         }
