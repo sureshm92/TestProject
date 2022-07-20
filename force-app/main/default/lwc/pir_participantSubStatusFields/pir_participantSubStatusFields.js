@@ -1630,22 +1630,18 @@ changeInputValue(event) {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-    // if (
-    //   this.selectedOutcome == "Successfully_Contacted" ||
-    //   this.selectedOutcome == "Pre_review_Passed"
-    // ) {
-    //   //this.participantrecord.ParticipantNoShow__c = false;
-    // } else if (
-    //   this.pe_record.ParticipantNoShow__c ==
-    //   this.participantrecord.ParticipantNoShow__c
-    // ) {
-    //   //delete this.participantrecord.ParticipantNoShow__c;
-    // }
-    // if(this.participantrecord.ParticipantNoShow__c){ 
-    //   //this.participantrecord.Participant_Status__c = 'Unable to Reach';
-    //   //this.participantrecord.Participant_Status__c = 'Participant No Show';
-    //   //this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
-    // }
+     if (
+       this.selectedOutcome == "Successfully_Contacted" ||
+       this.selectedOutcome == "Pre_review_Passed"
+     ) {
+       this.participantrecord.ParticipantNoShow__c = false;
+     } else if (
+       this.pe_record.ParticipantNoShow__c ==
+       this.participantrecord.ParticipantNoShow__c
+     ) {
+       delete this.participantrecord.ParticipantNoShow__c;
+   }
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1663,21 +1659,8 @@ changeInputValue(event) {
           this.participantrecord.Final_consent__c = false;
     }
     
-    if( this.pe_record.ParticipantNoShow__c  &&
-      this.participantrecord.Participant_Status__c == "Successfully Contacted"
-     ){
-      this.participantrecord.Participant_Status__c = "Successfully re-engaged";
-      this.participantrecord.ParticipantNoShow__c = false;
-        this.isReEngaged=true;
-      }
-      else{
-        this.isReEngaged=false;
-      }
-      if( this.pe_record.ParticipantNoShow__c  &&
-        this.participantrecord.Participant_Status__c != "Successfully re-engaged"
-       ){
-          delete this.participantrecord.ParticipantNoShow__c;
-        }
+   
+
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
