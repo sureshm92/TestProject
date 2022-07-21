@@ -104,9 +104,9 @@
                     <div class="divider-line" />
                     <lightning:button
                         variant="base"
-                        label="{!$Label.c.Profile_Menu_Log_Out}"
+                        label="{!$Label.c.PP_Logout}"
                         onclick="{!c.logout}"
-                        class="switcher-logout-txt"
+                        class="apollo-btn switcher-logout-txt"
                     ></lightning:button>
                     <aura:set attribute="else">
                         <lightning:button
