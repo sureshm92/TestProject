@@ -67,6 +67,10 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public String screeningId;
     @AuraEnabled
+    public Boolean allowScreeningPassed;
+    @AuraEnabled
+    public Boolean allowFinalSuccessStatus;
+    @AuraEnabled
     public Participant_Enrollment__c per;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
@@ -229,6 +233,7 @@ public without sharing class PIR_HomepageController {
         'Participant__r.Phone__c,' +
         'Clinical_Trial_Profile__r.Study_Code_Name__c,' +
         'Clinical_Trial_Profile__r.Promote_to_SH__c,' +
+        'Clinical_Trial_Profile__r.Tokenization_Support__c,' +
         'Study_Site__c,' +
         'Study_Site__r.name,' +
         'Study_Site__r.Study_Site_Type__c,' +
@@ -240,6 +245,7 @@ public without sharing class PIR_HomepageController {
         'Participant__c,' +
         'Participant__r.Adult__c,' +
         'Participant__r.Email__c,' +
+        'Participant__r.Gender__c,' +
         'Clinical_Trial_Profile__r.CommunityTemplate__c,' +
         'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,' +
         'Study_Site__r.Suppress_Participant_Emails__c,' +
@@ -1126,6 +1132,11 @@ public without sharing class PIR_HomepageController {
       wrap.notEligibleEmail = lst.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
       wrap.screeningId = lst.Screening_ID__c;
+      wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
+        ? lst.Screening_ID__c != null : true;
+      wrap.allowFinalSuccessStatus = lst.Screening_ID__c != null 
+        ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
+        : false;
 
       listViewWrapper.add(wrap);
     }
