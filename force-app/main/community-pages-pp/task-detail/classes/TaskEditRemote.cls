@@ -74,7 +74,8 @@ public without sharing class TaskEditRemote {
                 status == ParticipantService.ParticipantStates.PARTICIPANT;
 
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
-            emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            //emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            emailOptIn = emailPreferencesIsOn;
             smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
             createdByAdmin = false;
 
@@ -368,9 +369,9 @@ public without sharing class TaskEditRemote {
             ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c)
             ? true
             : false;
-        if (!emailEnabledForAllRelatedContacts(emailEnabled, delegates)) {
+        /* if (!emailEnabledForAllRelatedContacts(emailEnabled, delegates)) {
             errorMessage = Label.Task_Reminders_Missing;
-        }
+        }*/
         if (
             !emailEnabledForCurrentContact() &&
             !ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c
@@ -386,10 +387,10 @@ public without sharing class TaskEditRemote {
     ) {
         if (!emailPreferencesIsOn)
             return false;
-        for (Contact delegate : delegates) {
+        /*for (Contact delegate : delegates) {
             if (!delegate.Participant_Opt_In_Status_Emails__c)
                 return false;
-        }
+        }*/
         return true;
     }
     private static Boolean emailEnabledForOneRelatedContact(
