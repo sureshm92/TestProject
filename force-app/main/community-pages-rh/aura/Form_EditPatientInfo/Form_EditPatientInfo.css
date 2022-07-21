@@ -206,5 +206,6 @@
     .THIS .dob-mobile-size{
    font-size: medium;
    text-rendering: geometricPrecision 500 ;
+   color: #000000;
 }
 }
