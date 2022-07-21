@@ -116,7 +116,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PI Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime.</value>
     </labels>
     <labels>
         <fullName>PT_Televisit_Meet_Info</fullName>
@@ -213,8 +213,8 @@ The IQVIA Referral Hub Support Team</value>
         <fullName>Banner_Display_Offset_Time</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Banner display</shortDescription>
-        <value>Banner display</value>
+        <shortDescription>Banner Display (minutes)</shortDescription>
+        <value>Banner Display (minutes)</value>
     </labels>
     <labels>
         <fullName>Banner_dispose</fullName>
@@ -26281,6 +26281,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Are you sure you want to cancel a Televisit?</value>
     </labels>
     <labels>
+        <fullName>RH_TV_InitialVisitPopUpMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_InitialVisitPopUpMessage</shortDescription>
+        <value>Are you sure you want to add a Televisit? Upon saving, the Televisit will be visible in Referral Hub in 5 minutes.</value>
+    </labels>
+    <labels>
         <fullName>RH_To</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26457,11 +26464,32 @@ Please contact the Study Team for further updates or please login for additiona
         <value>IQVIA Customer Community Plus Login User</value>
     </labels>
 	 <labels>
+        <fullName>RH_Bulkimport_HeaderFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_HeaderFailed</shortDescription>
+        <value>File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.</value>
+    </labels>
+	 <labels>
         <fullName>RH_BulkImportFiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_BulkImportFiles</shortDescription>
         <value>Bulk Import Files</value>
+    </labels>
+	 <labels>
+        <fullName>RH_BulkImport_InvalidFileFormat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImport_InvalidFileFormat</shortDescription>
+        <value>Invalid file format. Allowable file formats are .xlsx or .csv only.</value>
+    </labels>
+	 <labels>
+        <fullName>RH_Bulkimport_EmptyFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_EmptyFile</shortDescription>
+        <value>File is empty. Please correct the problem and try again.</value>
     </labels>
     <labels>
         <fullName>RH_BulkImportInst</fullName>
@@ -26469,6 +26497,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>RH_BulkImportInst</shortDescription>
         <value>Instructions for Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_MaxiumRecord</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_MaxiumRecord</shortDescription>
+        <value>File contains more than 45,000 records; you may split the file. Please correct the problem and try again.</value>
     </labels>
     <labels>
         <fullName>RH_ChoosePP</fullName>

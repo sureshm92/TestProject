@@ -62,6 +62,7 @@
             <script>
                 jsBannerEndTime = '{!bannerEndTime}';
                 jsAutoDisconnectMeetingTime = '{!autoDisconnectMeetingTime}';
+                console.log(jsAutoDisconnectMeetingTime);
                 enableExtendCallDropDown = false;
                 if (document.getElementById('televisitBanner') != null)
                     document.getElementById('televisitBanner').setAttribute('class', 'hideBanner');
@@ -93,6 +94,7 @@
                 });
 
                 $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
+                    console.log('Tele event fired');
                     fetchUpdatedTelevisitDetails();
                 });
             </script>
@@ -2031,13 +2033,16 @@
                 height: auto;
             }
             
+            .share-container {
+                width: 76%;
+            }
             
+            /*
             .OT_subscriber .OT_video-element{
                 height: 90%;
                 width: 78%;
                 margin-top: 26px;
-            }
-            
+            }*/
 
             .last-active-feed {
                 height: 9em;

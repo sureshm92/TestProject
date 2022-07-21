@@ -827,11 +827,10 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
-          //title = pesh.Status__c;
           if(pesh.Status__c == 'Successfully re-engaged'){
-            String sc = 'Successfully Contacted';
-            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
-           }else if(pesh.Status__c == 'Eligibility Passed') {
+              String sc = 'Successfully re-engaged';
+              title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+          }else if(pesh.Status__c == 'Eligibility Passed') {
               if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                 title = Label.Sent_to_Study_Hub;
               }else{
@@ -1647,7 +1646,7 @@ public without sharing class PIR_StatusDetailController {
       'Successfully Contacted',
       'Successfully re-engaged'
     };
-    try {
+     try {
         
       if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
         Televisit__c televisitRecord = new Televisit__c();
@@ -1660,6 +1659,8 @@ public without sharing class PIR_StatusDetailController {
         Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
         televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
         televisitRecord.Visit_Date_Time__c = visitDateTime;
+		    CommunityMode mode = UserContext.getCurrentUserMode();
+		    televisitRecord.Source_Community__c = mode.template.communityName;
         insert televisitRecord;
         
         List<Televisit__c> lstTelevisit = new List<Televisit__c>([SELECT Id, CreatedBy.ContactId FROM Televisit__c WHERE Id =: televisitRecord.Id]);
@@ -1763,8 +1764,7 @@ public without sharing class PIR_StatusDetailController {
         if(!lstAttendees.isEmpty()){
             insert lstAttendees;
         }
-    }
-    
+    }   
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
@@ -1804,11 +1804,16 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
           !statusList.contains(perRecord.Participant_Status__c)
         ) {
+          if(perRecord.Initial_visit_occurred_flag__c==false){
+            pesh.Disabled_PESH__c =true;
+          }
+          else{
           pesh.Disabled_PESH__c = isPESHnotDisabled(
             perRecord.Initial_visit_scheduled_date__c,
             perRecord.Initial_visit_scheduled_time__c,
             perRecord.Initial_visit_occurred_flag__c
           );
+          }
         }
         insert pesh;
       } else if (perRecord.Last_Status_Changed_Additional_Notes__c != null && perRecord.Last_Status_Changed_Additional_Notes__c != '') {

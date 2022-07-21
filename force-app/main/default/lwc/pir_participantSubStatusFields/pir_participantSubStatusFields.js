@@ -18,6 +18,7 @@ import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
+import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVisitPopUpMessage';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
@@ -79,6 +80,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     BTN_Yes,
     PWS_Contact_Outcome_Placeholder,
     PG_RP_L_Not_selected,
+    RH_TV_InitialVisitPopUpMessage,
     PIR_Reason_Required
  };
  connectedCallback() {
@@ -1628,22 +1630,18 @@ changeInputValue(event) {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-    // if (
-    //   this.selectedOutcome == "Successfully_Contacted" ||
-    //   this.selectedOutcome == "Pre_review_Passed"
-    // ) {
-    //   //this.participantrecord.ParticipantNoShow__c = false;
-    // } else if (
-    //   this.pe_record.ParticipantNoShow__c ==
-    //   this.participantrecord.ParticipantNoShow__c
-    // ) {
-    //   //delete this.participantrecord.ParticipantNoShow__c;
-    // }
-    // if(this.participantrecord.ParticipantNoShow__c){ 
-    //   //this.participantrecord.Participant_Status__c = 'Unable to Reach';
-    //   //this.participantrecord.Participant_Status__c = 'Participant No Show';
-    //   //this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
-    // }
+     if (
+       this.selectedOutcome == "Successfully_Contacted" ||
+       this.selectedOutcome == "Pre_review_Passed"
+     ) {
+       this.participantrecord.ParticipantNoShow__c = false;
+     } else if (
+       this.pe_record.ParticipantNoShow__c ==
+       this.participantrecord.ParticipantNoShow__c
+     ) {
+       delete this.participantrecord.ParticipantNoShow__c;
+   }
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1661,26 +1659,8 @@ changeInputValue(event) {
           this.participantrecord.Final_consent__c = false;
     }
     
-    if( this.pe_record.ParticipantNoShow__c  &&
-    this.participantrecord.Participant_Status__c == "Successfully Contacted"
-   ){
-    this.participantrecord.Participant_Status__c = "Successfully re-engaged";
-      this.isReEngaged=true;
-    }
-    else{
-      this.isReEngaged=false;
-    }
-    
-    if( this.pe_record.ParticipantNoShow__c  && this.participantrecord.Participant_Status__c && this.participantrecord.Participant_Status__c != undefined &&
-        this.participantrecord.Participant_Status__c != "Successfully Contacted"
-     ){
-        
-        this.participantrecord.ParticipantNoShow__c = false;
-    }else{
-       if(this.pe_record.ParticipantNoShow__c){
-           delete this.participantrecord.ParticipantNoShow__c;
-          }
-    }
+   
+
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
