@@ -355,7 +355,6 @@ studysitehandleChange(event) {
         //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
             var participentStatuses = result.participantStatuses;
             this.participentStatus = [];
-        
             if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
                 for(let i=0 ; i < participentStatuses.length ; i++){
                     if(participentStatuses[i].value != 'Screening Passed' && participentStatuses[i].value != 'Enrollment Success' && participentStatuses[i].value != 'Randomization Success'){  
