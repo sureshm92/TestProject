@@ -141,7 +141,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 visitAvailable ||
                 (participantState.ctp.Televisit_Vendor_is_Available__c &&
                 participantState.showTeleVisits &&
-                participantState.isTeleVendorEnabled))
+                participantState.isTeleVendorEnabled)) //Condition for Televisits
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
