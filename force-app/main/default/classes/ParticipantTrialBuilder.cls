@@ -88,7 +88,8 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 participantState.isPremium &&
                 (participantState.showVisits ||
                 (participantState.ctp.Received_Until_Consent_Is_Available__c ||
-                participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c))
+                participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c ||
+                participantState.showTeleVisits))
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
@@ -135,7 +136,8 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 participantState.isPremium &&
                 (participantState.showTravelCardInPreEnrollment ||
                 participantState.ctp.Travel_Vendor_Is_Available__c ||
-                visitAvailable)
+                visitAvailable ||
+                participantState.showTeleVisits)
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
