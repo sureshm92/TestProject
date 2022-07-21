@@ -353,7 +353,19 @@ studysitehandleChange(event) {
         })
         .then((result) => {
         //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
-            this.importParticipantStatus = result.participantStatuses;
+            var participentStatuses = result.participantStatuses;
+            this.participentStatus = [];
+            if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
+                for(let i=0 ; i < participentStatuses.length ; i++){
+                    if(participentStatuses[i].value != 'Screening Passed' && participentStatuses[i].value != 'Enrollment Success' && participentStatuses[i].value != 'Randomization Success'){  
+                        this.participentStatus.push(participentStatuses[i]);
+                    }
+                }
+                this.importParticipantStatus = this.participentStatus;
+            }
+            else{
+                this.importParticipantStatus = participentStatuses;
+            }
             
             this.shouldDisableImportStatus = false; 
             if(this.template.querySelector("c-consent-manager"))
