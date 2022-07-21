@@ -185,12 +185,22 @@
                         <div class="card-content checkboxdisplay">  
                             <template if:false={enableStatus}>
                                <template if:true={checknewStatus}>
-                                     <template if:true={p.screeningId}>
-                                        <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
-                                     </template>
-                                     <template if:false={p.screeningId}>
-                                        <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                     </template>
+                                    <template if:true={checkFinalSuccessStatus}>
+                                        <template if:true={p.allowFinalSuccessStatus}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                        </template>
+                                        <template if:false={p.allowFinalSuccessStatus}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                        </template>
+                                    </template>
+                                    <template if:true={checkScreeningPassedStatus}>
+                                        <template if:true={p.allowScreeningPassed}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                        </template>
+                                        <template if:false={p.allowScreeningPassed}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                        </template>
+                                    </template>
                                </template>
                                <template if:false={checknewStatus}>
                                     <template if:true={dctCheck}>
