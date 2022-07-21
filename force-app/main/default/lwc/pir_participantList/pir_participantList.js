@@ -703,7 +703,25 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
       
     }
     get checknewStatus(){
+        if(this.newstatus == 'Enrollment Success' 
+            || this.newstatus == 'Randomization Success'
+            || this.newstatus == 'Screening Passed'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get checkFinalSuccessStatus(){
         if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get checkScreeningPassedStatus(){
+        if(this.newstatus == 'Screening Passed'){
             return true;
         }else{
             return false;
@@ -1409,7 +1427,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
                 if(this.checknewStatus){
-                    if(this.participantList[i].screeningId){
+                    if((this.checkFinalSuccessStatus && this.participantList[i].allowFinalSuccessStatus)
+                        || (this.checkScreeningPassedStatus && this.participantList[i].allowScreeningPassed)){
                         checkboxes[i].checked = event.target.checked;
                         if(checkboxes[i].checked==true){
                             if(!this.selectedCheckboxes.includes(this.participantList[i].id))
