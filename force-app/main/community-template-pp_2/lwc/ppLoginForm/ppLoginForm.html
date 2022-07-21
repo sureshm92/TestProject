@@ -57,7 +57,13 @@
                     </button>
                     <div class="slds-grid forgot-unable-link">
                         <div class="slds-col slds-size_6-of-12">
-                            <span class="forgot-unable-pwd-txt">{label.forgotPassword}</span>
+                            <lightning-button
+                                variant="base"
+                                label={label.forgotPassword}
+                                onclick={handleForgotPassword}
+                                class="forgot-unable-pwd-txt"
+                            >
+                            </lightning-button>
                         </div>
                         <div class="slds-col slds-size_6-of-12">
                             <span class="forgot-unable-pwd-txt unable-login"
@@ -81,5 +87,4 @@
             onunabletologin={handleShowTimer}
         ></c-unable-to-login>
     </template>
-    <c-web-spinner fixed="true"></c-web-spinner>
 </template>
