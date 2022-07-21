@@ -9,8 +9,10 @@
                 <div class="login-validation" style="margin-top: -1em; margin-bottom: 0.5em">
                     <img style={errorIconPosition} src={exclamation} />
                     <span style={erroContainerPosition}>
-                        <lightning-formatted-rich-text class="error-container" value={errorMsg}>
-                        </lightning-formatted-rich-text>
+                        <lightning-formatted-rich-text
+                            class="error-container"
+                            value={errorMsg}
+                        ></lightning-formatted-rich-text>
                     </span>
                 </div>
             </template>
@@ -36,23 +38,28 @@
                         <img class="" src={eyeHidden} style="" title="Show" />
                     </button>
                 </div>
-                <div class="slds-checkbox">
-                    <input
-                        type="checkbox"
-                        name="options"
-                        id="checkbox-unique-id-83"
-                        value="checkbox-unique-id-83"
-                    />
-                    <label class="slds-checkbox__label" for="checkbox-unique-id-83">
-                        <span class="slds-checkbox_faux"></span>
-                        <span class="slds-form-element__label">Remember My Username</span>
+                <div class="slds-checkbox checkbox-container">
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-83"
+                        >Remember My Username
+                        <input
+                            type="checkbox"
+                            name="options"
+                            id="checkbox-unique-id-83"
+                            value="checkbox-unique-id-83"
+                        />
+                        <span class="checkmark"></span>
                     </label>
                 </div>
-                <br />
                 <button class="slds-button btn-login" onclick={handleLogin}>{label.login}</button>
                 <div class="slds-grid forgot-unable-link">
                     <div class="slds-col slds-size_6-of-12">
-                        <span class="forgot-unable-pwd-txt">{label.forgotPassword}</span>
+                        <lightning-button
+                            variant="base"
+                            label={label.forgotPassword}
+                            onclick={handleForgotPassword}
+                            class="forgot-unable-pwd-txt"
+                        >
+                        </lightning-button>
                     </div>
                     <div class="slds-col slds-size_6-of-12">
                         <span class="forgot-unable-pwd-txt unable-login"
@@ -63,5 +70,4 @@
             </div>
         </div>
     </div>
-    <c-web-spinner fixed="true"></c-web-spinner>
 </template>
