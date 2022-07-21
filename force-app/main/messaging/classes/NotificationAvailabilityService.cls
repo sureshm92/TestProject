@@ -293,6 +293,7 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Status__c,
                         Televisit__r.Title__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
