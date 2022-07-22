@@ -98,10 +98,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
         String line2 = headerInfo.trim().removeEnd(',').trim().removeEnd(',');
         if (line.endsWith(',')) {
-            listOfFailedRecords.add(line + ' VALIDATION ERROR'  );
+            listOfFailedRecords.add(line + ' Validation Errors'  );
             listOfFailedRecords.add(line2);
         } else {
-            listOfFailedRecords.add(line + ', VALIDATION ERROR' );
+            listOfFailedRecords.add(line + ', Validation Errors' );
             listOfFailedRecords.add(line2);
         }
 
