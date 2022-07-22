@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
-import lockoutErrorMessage from '@salesforce/label/c.PG_Lockout_Error_Message';
-import lockoutLabel from '@salesforce/label/c.PG_Lockout';
+import lockoutErrorMessage from '@salesforce/label/c.PP_Lockout_Error_Message';
+import lockoutLabel from '@salesforce/label/c.PP_Lockout';
 
-export default class Lockout extends LightningElement {
+export default class Pplockout extends LightningElement {
     labels = {
         lockoutErrorMessage,
         lockoutLabel
