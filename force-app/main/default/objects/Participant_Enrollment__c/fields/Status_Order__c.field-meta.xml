@@ -11,7 +11,9 @@ TEXT(Participant_Status__c) == &apos;Pre-review Failed&apos;,
 TEXT(Participant_Status__c) == &apos;Ready to Contact&apos;,
 TEXT(Participant_Status__c) == &apos;Contacted - Not Suitable&apos;,
 TEXT(Participant_Status__c) == &apos;Unable to Reach&apos;,
-TEXT(Participant_Status__c) == &apos;Successfully Contacted&apos;
+TEXT(Participant_Status__c) == &apos;Successfully Contacted&apos;,
+TEXT(Participant_Status__c) == &apos;Successfully re-engaged&apos;,
+TEXT(Participant_Status__c) == &apos;Participant No Show&apos;
 ),
 2,
 IF(

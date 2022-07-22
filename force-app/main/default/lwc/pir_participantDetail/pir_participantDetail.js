@@ -52,6 +52,7 @@ import PG_Ref_L_Permit_Study_Outreach_By from '@salesforce/label/c.PG_Ref_L_P
 import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
 import SMS_TEXT from '@salesforce/label/c.SMS_Text';
+import DIRECT_MAIL from '@salesforce/label/c.RH_Direct_Mail';
 import Age from '@salesforce/label/c.Age';
 import RH_Ethnicity from '@salesforce/label/c.RH_Ethnicity';
 import PG_AP_F_Preferred_Contact_Time from '@salesforce/label/c.PG_AP_F_Preferred_Contact_Time';
@@ -72,7 +73,7 @@ import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
 import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save' 
-import PIR_AdditionalInformation from '@salesforce/label/c.PIR_AdditionalInformation';
+import PIR_AdditionalInformation from '@salesforce/label/c.PIR_AdditionalInformation';
 
 export default class Pir_participantDetail extends LightningElement {
     @api selectedPE;@api delegateLevels='';@api lststudysiteaccesslevel = [];
@@ -98,6 +99,7 @@ export default class Pir_participantDetail extends LightningElement {
 				["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
 				["smscnt" , "Permit_SMS_Text_for_this_study__c"],
 				["txtcnt" , "Permit_Voice_Text_contact_for_this_study__c"],
+                ["dmcnt" , "Study_Direct_Mail_Consent__c"],
 				["pid" , "Id"],
 				["adult" , "Adult__c"],
 				["firstname" , "First_Name__c"],
@@ -130,6 +132,7 @@ export default class Pir_participantDetail extends LightningElement {
 			    ["iqConsentEmail" , "Participant_Opt_In_Status_Emails__c"],
                 ["iqConsentPhone" , "Participant_Phone_Opt_In_Permit_Phone__c"],
                 ["iqConsentSMS" , "Participant_Opt_In_Status_SMS__c"],
+                ["iqConsentDM" , "IQVIA_Direct_Mail_Consent__c"],
                 ["dpid" , "Id"]]);
     @api pd;
     initPd;
@@ -330,6 +333,9 @@ export default class Pir_participantDetail extends LightningElement {
             case 'outreachSMSConsent':
                     this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = consent;
                     break;
+            case 'outreachDirectMailConsent':
+                this.pd['pe']['Participant_Contact__r']['IQVIA_Direct_Mail_Consent__c'] = consent;
+                break;
             case 'studyPhoneConsent':
                 this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = consent;
                 break;
@@ -339,6 +345,9 @@ export default class Pir_participantDetail extends LightningElement {
             case 'studySMSConsent':
                 this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = consent;
                 break;
+            case 'studyDirectEmailConsent':
+                this.pd['pe']['Study_Direct_Mail_Consent__c'] = consent;
+                    break;
         }
         this.toggleSave();
     }   
@@ -992,13 +1001,13 @@ export default class Pir_participantDetail extends LightningElement {
     isUpdated(){
         if(this.pd){
             if(this.initPd){
-        var peFields = ['src','cnt','smscnt','txtcnt'];
+        var peFields = ['src','cnt','smscnt','txtcnt','dmcnt'];
         var isPeUpdated=false;
         var partFields =['pid','adult','ethnicity','firstname','lastname','middlename','fullname','nickname','suffixname','lang','dob','gender','email','phone','phonetype','altph','altphtype','prefCntTime','state','statecode','country','countrycode','zipcode'];
         var isPartUpdated=false;
         var delFields = ['dfirstname','dlstname','dphone','demail','dbyear','dattest','dpid'];
         var isDelUpdated=false;
-        var iqviaConsentFields = ['iqConsentEmail','iqConsentPhone','iqConsentSMS'];
+        var iqviaConsentFields = ['iqConsentEmail','iqConsentPhone','iqConsentSMS','iqConsentDM'];
         var isIqviaConsentUpdated=false;
         //check for per update
         peFields.forEach(function(field){
@@ -1075,21 +1084,6 @@ export default class Pir_participantDetail extends LightningElement {
         return false;
     }
 
-    handleConsentUpdate(event){
-        if(event.detail.consentMap.cType == 'study'){
-            this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
-            this.pd['pe']['Permit_SMS_Text_for_this_study__c'] = event.detail.consentMap.pe.Permit_SMS_Text_for_this_study__c;
-            this.pd['pe']['Permit_Voice_Text_contact_for_this_study__c'] = event.detail.consentMap.pe.Permit_Voice_Text_contact_for_this_study__c;
-        }
-        if(event.detail.consentMap.cType == 'outreach'){
-            this.isOutreachUpdated = true;
-            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_Emails__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
-            this.pd['pe']['Participant_Contact__r']['Participant_Opt_In_Status_SMS__c'] = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
-            this.pd['pe']['Participant_Contact__r']['Participant_Phone_Opt_In_Permit_Phone__c'] = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
-        }
-        this.toggleSave();
-    }
-
     isConsentComplete(){
         if((this.pd.pe.Participant__r.Mailing_Country_Code__c == 'US' && (!this.pd.pe.Permit_Mail_Email_contact_for_this_study__c 
             || !this.pd.pe.Permit_SMS_Text_for_this_study__c || !this.pd.pe.Permit_Voice_Text_contact_for_this_study__c)) 
@@ -1147,5 +1141,7 @@ export default class Pir_participantDetail extends LightningElement {
     EMAIL = EMAIL;
     PHONE = PHONE;
     SMS_TEXT = SMS_TEXT;
+    DIRECT_MAIL = DIRECT_MAIL;
     PIR_AdditionalInformation = PIR_AdditionalInformation;
+ 
 }

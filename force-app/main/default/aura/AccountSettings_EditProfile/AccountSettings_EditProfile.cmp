@@ -420,9 +420,21 @@
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
                         <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
                         <div class="contactDesc">
-                            {!v.userMode == 'CC' ? $Label.c.CC_Toggle_Information : (v.userMode ==
-                            'Participant'? $Label.c.PP_Toggle_Information :
-                            $Label.c.PI_Toggle_Information) }
+                            <aura:if isTrue="{!v.userMode == 'CC'}">
+                                {!$Label.c.CC_Toggle_Information}
+                            <aura:set attribute="else">  
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    {!$Label.c.PP_Toggle_Information} 
+                                    <lightning:formattedUrl class="slds-p-left_xx-small"
+                                        value="./account-settings?communication-preferences"
+                                        label="{!$Label.c.PP_Communication_Pref}"
+                                        target="_blank" />.
+                                <aura:set attribute="else"> 
+                                    {!$Label.c.PI_Toggle_Information}    
+                                </aura:set>
+                                </aura:if>
+                            </aura:set>  
+                            </aura:if>
                         </div>
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             <div
@@ -460,27 +472,6 @@
                                                disabled="true"/> -->
                                 </aura:if>
                             </div>
-                            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                <lightning:input
-                                    type="toggle"
-                                    label=""
-                                    messageToggleActive="{!$Label.c.BTN_On}"
-                                    variant="label-hidden"
-                                    messageToggleInactive="{!$Label.c.BTN_Off}"
-                                    class="slds-col ah-toggle slds-m-top--large"
-                                    checked="{!v.optInEmail}"
-                                    onchange="{!c.doSwitchOptInEmail}"
-                                    value="{v.personWrapper.optInEmail}"
-                                    disabled="{!empty(v.contact.Email)||(v.disableEmailToggle)}"
-                                />
-                                <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-small-size_1-of-3 slds-m-top--large"
-                                >
-                                    {!v.userMode == 'Participant'?
-                                    $Label.c.PG_AS_L_Opt_In_Participant_Status_Emails :
-                                    $Label.c.RH_OPT_INT_STATUS_EMAIL}
-                                </div>
-                            </aura:if>
                         </div>
                         <aura:if isTrue="{!!v.isDelegate}">
                             <div
@@ -512,31 +503,6 @@
                                     class="{!v.isRTL?'rightAlign':''}"
                                 />
                             </div>
-                            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                <aura:if
-                                    isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}"
-                                >
-                                    <lightning:input
-                                        type="toggle"
-                                        label=""
-                                        messageToggleActive="{!$Label.c.BTN_On}"
-                                        variant="label-hidden"
-                                        messageToggleInactive="{!$Label.c.BTN_Off}"
-                                        class="slds-col ah-toggle slds-m-top--large slds-media--responsive"
-                                        checked="{!v.optInSMS}"
-                                        onchange="{!c.doSwitchOptInSMS}"
-                                        value="{!v.personWrapper.optInSMS}"
-                                        disabled="{!empty(v.personWrapper.mobilePhone)||(v.disableToggle)}"
-                                    />
-                                    <div
-                                        class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-small-size_1-of-3 slds-m-top--large slds-media--responsive"
-                                    >
-                                        {!v.userMode == 'Participant'?
-                                        $Label.c.PG_AS_L_Opt_In_Participant_Status_SMS :
-                                        $Label.c.RH_OPT_IN_STATUS_SMS}
-                                    </div>
-                                </aura:if>
-                            </aura:if>
                         </div>
 
                         <!--<aura:if isTrue="{!v.userMode == 'Participant'}">  -->

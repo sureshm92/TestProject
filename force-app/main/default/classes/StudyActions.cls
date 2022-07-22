@@ -111,7 +111,7 @@ public abstract class StudyActions {
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
     public static final String LABEL_ADD_PATIENT = Label.PG_Add_Patients_Header;
-    public static final String LABEL_UPLOAD_PATIENT = Label.BTN_Upload_Patient;
+    public static final String LABEL_UPLOAD_PATIENT = Label.PIR_Import_Participants;
     public static final String LABEL_DOWNLOAD_CONSENT = Label.BTN_View_Download_Consent;
     public static final String LABEL_HOME = Label.Link_Back_To_Home;
 

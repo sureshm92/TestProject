@@ -103,13 +103,18 @@ public without sharing class SMSOptOutService {
      **/
     public static void processPlatFormLevelOptOut(Set<Id> recipientId) {
         List<Contact> contactToUpdate = [
-            SELECT Id, Participant_Opt_In_Status_SMS__c
+            SELECT
+                Id,
+                Participant_Opt_In_Status_SMS__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c
             FROM Contact
             WHERE Id IN :recipientId
         ];
         for (Contact con : contactToUpdate) {
             con.Participant_Opt_In_Status_SMS__c = false;
             con.Welcome_Message_Sent__c = false;
+            con.Welcome_Message_Delivered__c = false;
         }
 
         //Update SMS Opt In Flag to False at the Contact.
@@ -133,6 +138,8 @@ public without sharing class SMSOptOutService {
                 Id,
                 Participant_contact__c,
                 Permit_SMS_Text_for_this_study__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c,
                 Clinical_Trial_Profile__r.Study_Sponsor__c
             FROM Participant_Enrollment__c
             WHERE Participant_contact__c IN :participantContactSponsorMap.keySet()
@@ -146,6 +153,7 @@ public without sharing class SMSOptOutService {
             ) {
                 per.Permit_SMS_Text_for_this_study__c = false;
                 per.Welcome_Message_Sent__c = false;
+                per.Welcome_Message_Delivered__c = false;
                 perToUpdate.Add(per);
             }
         }
