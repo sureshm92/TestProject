@@ -100,7 +100,8 @@
          var dataStamp = component.get('v.dataStamp');
          var isValid = false;
          const screeningIdRequiredStatuses =
-             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete'
+             + (formData.ctp && formData.ctp.Tokenization_Support__c ? '; Screening Passed' : '');
          const visitPlanRequiredStatuses =
              'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
          let screeningIdRequired = false;

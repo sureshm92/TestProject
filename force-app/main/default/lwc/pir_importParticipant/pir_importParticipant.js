@@ -353,7 +353,19 @@ studysitehandleChange(event) {
         })
         .then((result) => {
         //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
-            this.importParticipantStatus = result.participantStatuses;
+            var participentStatuses = result.participantStatuses;
+            this.participentStatus = [];
+            if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
+                for(let i=0 ; i < participentStatuses.length ; i++){
+                    if(participentStatuses[i].value != 'Screening Passed' && participentStatuses[i].value != 'Enrollment Success' && participentStatuses[i].value != 'Randomization Success'){  
+                        this.participentStatus.push(participentStatuses[i]);
+                    }
+                }
+                this.importParticipantStatus = this.participentStatus;
+            }
+            else{
+                this.importParticipantStatus = participentStatuses;
+            }
             
             this.shouldDisableImportStatus = false; 
             if(this.template.querySelector("c-consent-manager"))
@@ -610,30 +622,23 @@ get enableDel(){
 
 deleteFiles(){
     this.isDataLoading = true;
-     deleteFile({ 
-         fileId: this.fileId   
-     })
-     .then(result => {
-         this.template.querySelector(".fileInput").value=null; 
-         this.template.querySelector(".fileInput").disabled = false;
-         this.fileName = '';
-         this.isFileLoadedComplete = false;
-         this.progress = 0;
-         this.progressWidth='width :0%';
-         this.base = 1;
-         this.progressMultiplier = 0;
-         this.isDataLoading = false;
-         this.isFileAdded = false;
-         this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
-         this.toggleImportButton();
-     })
-     .catch(error => {
-        this.isDataLoading = false;
-         console.error('Error while deleting>>: ', error);
-     })
-     .finally(()=>{
-        this.isDataLoading = false;
-     })
+
+
+
+
+    this.template.querySelector(".fileInput").value=null;
+    this.template.querySelector(".fileInput").disabled = false;
+    this.fileName = '';
+    this.isFileLoadedComplete = false;
+    this.progress = 0;
+    this.progressWidth='width :0%';
+    this.base = 1;
+    this.progressMultiplier = 0;
+    this.isFileAdded = false;
+    this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+    this.toggleImportButton();
+    this.isDataLoading = false;
+    
 } 
 
 

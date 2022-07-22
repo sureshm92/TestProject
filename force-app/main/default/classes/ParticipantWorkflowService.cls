@@ -1836,10 +1836,6 @@ public without sharing class ParticipantWorkflowService {
                 Participant_Enrollment__c.Participant_Status__c,
                 pesh.Status__c
             );
-            if(String.valueOf(pesh.Status__c)=='Successfully re-engaged'){
-                 result.title = Label.Successfully_Contacted;
-            }
-           
             if(pesh.Status__c == 'Eligibility Passed' && pe.Clinical_Trial_Profile__r.Promote_To_SH__c ==true){
                 result.title = TranslateHelper.getLabelValue(Label.Sent_to_Study_Hub);
             }
