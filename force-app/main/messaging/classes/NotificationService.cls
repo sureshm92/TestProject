@@ -40,11 +40,8 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
-        /*Start Email Consent story*/
-        NotificationCatalog.MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE, 
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -414,7 +411,9 @@ public without sharing class NotificationService {
                                 )
                             ) {
                                 if (
-                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) 
+                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
+                                    (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
+                                     !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&
