@@ -369,10 +369,11 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             }
             //If Delegate Visits Communication Preference tab of his own Account setting(self View).
             if (this.isDelegateSelfView) {
+                return true;
                 //If Delegate is not primary Delegate, then don't show IQVIA Outreach Consent to Delegate.
-                if (this.isPrimaryDelegate) {
-                    return true;
-                }
+                // if (this.isPrimaryDelegate) {
+                //     return true;
+                // }
             }
         }
         return false;
