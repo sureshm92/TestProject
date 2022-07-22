@@ -17,7 +17,7 @@
       "subTitle" : "null",
       "title" : "null"
     },
-    "componentName" : "c:Lofi_LoginThemeLayout",
+    "componentName" : "c:PP_LoginThemeLayout",
     "id" : "4d082a76-e011-4396-8d50-ff6f0d44da85",
     "label" : "Login",
     "regions" : [ {

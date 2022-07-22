@@ -10,11 +10,17 @@ import login from '@salesforce/label/c.PG_Login_Title';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
+import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
+    @track isRTL;
+    errorIconPosition;
+    isLockOut = false;
+    timeLeft = 900000;
     spinner;
+    lockedOutUsrName;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -33,14 +39,64 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
+    connectedCallback() {
+        console.log(this.isLockOut);
+    }
+
+    adjustWindowHeight() {
+        if (this.inError) {
+            switch (window.innerHeight) {
+                case 609:
+                case 577:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '115vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '115vh';
+                    break;
+                case 554:
+                case 525:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '130vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '130vh';
+                    break;
+                case 487:
+                case 462:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '150vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '145vh';
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7 img'
+                    )[0].style.marginTop = '-25px';
+                    break;
+            }
+        }
+    }
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
+        }
     }
 
     handleuserNameChange(event) {
-        console.log(event.target.value);
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
@@ -53,8 +109,27 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
     }
 
+    handleShowTimer(event) {
+        this.timeLeft = event.detail;
+        this.isLockOut = true;
+    }
+
+    handleUnlock(event) {
+        this.isLockOut = false;
+        this.inError = false;
+    }
+
+    handleUnableToLogin() {
+        let userName = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('lightning-input[data-id=userName]').value;
+
+        this.template.querySelector('c-unable-to-login').show(userName);
+    }
+
     handleLogin() {
         let userName = this.template.querySelector('input[data-id=userName]');
+        this.lockedOutUsrName = userName.value;
         let password = this.template.querySelector('input[data-id=password]');
         if (userName.value !== '') {
             userName.setCustomValidity('');
@@ -117,6 +192,38 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     this.error = error;
                     this.spinner.hide();
                 });
+        }
+    }
+    handleForgotPassword() {
+        let userName = this.template.querySelector('input[data-id=userName]').value;
+        this.lockedOutUsrName = userName;
+
+        if (userName) {
+            isUserPasswordLocked({ userName: userName })
+                .then((result) => {
+                    if (result.TimeDifference) {
+                        this.timeLeft = result['TimeDifference'];
+                        this.isLockOut = true;
+                    } else {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Forgot_Password'
+                            }
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
+        } else {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    name: 'Forgot_Password'
+                }
+            });
         }
     }
 }
