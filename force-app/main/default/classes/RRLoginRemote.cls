@@ -366,23 +366,23 @@ global without sharing class RRLoginRemote {
                             )
                         );
                     } else {
-                        String forgotPasswordLink =
-                            '<a class="no-float" href="' +
-                            getForgotPasswordUrl() +
-                            '">' +
-                            Label.PG_Login_L_here_link +
-                            '</a>';
-                        returnMap.put(
-                            'wrongPasswordError',
-                            Label.PG_Login_Wrong_Password_Error_Message.replace(
-                                    '##AttemptsLeft',
-                                    String.valueOf(5 - attempts)
-                                )
-                                .replace('##ForgotPasswordLink', forgotPasswordLink)
-                        );
-                    }
+                    String forgotPasswordLink =
+                        '<a class="no-float" href="' +
+                        getForgotPasswordUrl() +
+                        '">' +
+                        Label.PG_Login_L_here_link +
+                        '</a>';
+                    returnMap.put(
+                        'wrongPasswordError',
+                        Label.PG_Login_Wrong_Password_Error_Message.replace(
+                                '##AttemptsLeft',
+                                String.valueOf(5 - attempts)
+                            )
+                            .replace('##ForgotPasswordLink', forgotPasswordLink)
+                    );
                 }
             }
+        }
             returnMap.put('exception', ex.getMessage());
             return returnMap;
         }
