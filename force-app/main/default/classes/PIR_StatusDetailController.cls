@@ -366,7 +366,6 @@ public without sharing class PIR_StatusDetailController {
         Clinical_Trial_Profile__r.Final_Consent_Required__c,
         Clinical_Trial_Profile__r.Tokenization_Support__c,
         Participant__r.Gender__c,
-        Participant__c,
         Add_televisit_for_Initial_Visit__c,
         Initial_Visit_Televisit_Created__c,
         Participant__r.First_Name__c,
