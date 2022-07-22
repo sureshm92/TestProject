@@ -22,9 +22,9 @@ import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVis
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
-import Gender_Female from '@salesforce/label/c.Gender_Female';//7059
-import Gender_Male from '@salesforce/label/c.Gender_Male';//7059
-import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';//7059
+import Gender_Female from '@salesforce/label/c.Gender_Female';
+import Gender_Male from '@salesforce/label/c.Gender_Male';
+import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
 import { label } from "c/pir_label";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class Pir_participantSubStatusFields extends LightningElement {
@@ -50,7 +50,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   selectedreason = "";
   selectedreasonIV = "";
   revisitDateReq=false;
-  isScreeningReq=false;//7059
+  isScreeningReq=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -85,7 +85,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     PG_RP_L_Not_selected,
     RH_TV_InitialVisitPopUpMessage,
     PIR_Reason_Required,
-    PE_Sex_At_Birth//7059
+    PE_Sex_At_Birth
  };
  connectedCallback() {
   if(this.isrtl) {
@@ -143,7 +143,7 @@ changeInputValue(event) {
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
       this.participantrecord.IVRS_IWRS__c = event.target.value;
-      if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){//7059
+      if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
         if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
           this.isScreeningReq=true;
           this.customButtonValidation();
@@ -151,7 +151,7 @@ changeInputValue(event) {
           this.customButtonValidation();
         }
       }
-    } else if(event.target.dataset.value === 'SexatBirth'){//7059
+    } else if(event.target.dataset.value === 'SexatBirth'){
       this.participantRec.Gender__c=event.target.value;
       this.customButtonValidation();
     } else if (event.target.dataset.value === "RevisitDate") {
@@ -386,13 +386,13 @@ changeInputValue(event) {
       return this.pe_record.Informed_Consent__c;
     }
   }
-  get isTokanizationSupportReq(){//7059
+  get isTokanizationSupportReq(){
     if (this.pe_record.Clinical_Trial_Profile__r.Tokenization_Support__c){
       return true;
     }else{
       return false;
     }
-  }//7059
+  }
   get isconsentSignedPlaceholder() {
     if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
       return " ";
@@ -423,7 +423,7 @@ changeInputValue(event) {
   reasoneoptions = [];
   outcomeoptions = [];
   participantrecord;
-  participantRec;//7059
+  participantRec;
   additionalNote = "";
   @api runinwashout = "";
   statusChanged = false;
@@ -447,7 +447,7 @@ changeInputValue(event) {
     this.notesNeeded = [];
     this.statusChanged = false;
     this.participantrecord = JSON.parse(JSON.stringify(this.pe_record));
-    this.participantRec={//7059
+    this.participantRec={
       Id:this.participantrecord.Participant__c,
       Gender__c:this.participantrecord.Participant__r.Gender__c
     };
@@ -869,7 +869,7 @@ changeInputValue(event) {
       this.customFieldValidation("Consent Signed");
       this.customButtonValidation();
     }
-    if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {//7059
+    if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {
       if (this.selectedOutcome === "Screening_Passed") {
         this.isScreeningReq=true;
         this.customButtonValidation();
@@ -879,7 +879,7 @@ changeInputValue(event) {
         this.isScreeningReq=false;
         this.customButtonValidation();
       }
-    }//7059
+    }
     if(this.selectedOutcome == "Unable_to_Reach"){
       this.customButtonValidation();
     }
@@ -1234,7 +1234,7 @@ changeInputValue(event) {
             validationList.push(btnValidationSuccess);
            }
     }
-    //9. 7059
+    //9.
     if(this.isScreeningReq && (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c=='')){
       btnValidationSuccess = false;
       validationList.push(btnValidationSuccess);
@@ -1264,13 +1264,13 @@ changeInputValue(event) {
       { label: this.label.BTN_Yes, value: "Yes" }
     ];
   }
-  get sexAssignedBirth() {//7059
+  get sexAssignedBirth() {
     return [      
         { label: Gender_Male, value: 'Male' },
         { label: Gender_Female, value: 'Female' },
        
     ];
-  }//7059
+  }
   get initialVisitAttended() {
     return [
       { label: this.label.BTN_No, value: "No" },
@@ -1553,7 +1553,7 @@ changeInputValue(event) {
       return false;
     }
   }
-  get isSexatBirthReq(){//7059
+  get isSexatBirthReq(){
     if (
       this.selectedOutcome == "Randomization_Success" ||
       this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"

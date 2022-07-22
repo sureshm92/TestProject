@@ -755,7 +755,6 @@ public without sharing class PIR_StatusDetailControllerTest {
         peshList.add(pehistory1);
         //byPassTriggersMethod();
         insert peshList;
-        //7059
         Participant__c perRec= [select Id,Gender__c from Participant__c where Email__c='part1@email.com' limit 1];
         perRec.Gender__c='Female';
         Test.startTest();
