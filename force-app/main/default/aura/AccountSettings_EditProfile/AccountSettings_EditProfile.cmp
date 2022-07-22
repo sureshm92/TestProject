@@ -420,9 +420,21 @@
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
                         <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
                         <div class="contactDesc">
-                            {!v.userMode == 'CC' ? $Label.c.CC_Toggle_Information : (v.userMode ==
-                            'Participant'? $Label.c.PP_Toggle_Information :
-                            $Label.c.PI_Toggle_Information) }
+                            <aura:if isTrue="{!v.userMode == 'CC'}">
+                                {!$Label.c.CC_Toggle_Information}
+                            <aura:set attribute="else">  
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    {!$Label.c.PP_Toggle_Information} 
+                                    <lightning:formattedUrl class="slds-p-left_xx-small"
+                                        value="./account-settings?communication-preferences"
+                                        label="{!$Label.c.PP_Communication_Pref}"
+                                        target="_blank" />.
+                                <aura:set attribute="else"> 
+                                    {!$Label.c.PI_Toggle_Information}    
+                                </aura:set>
+                                </aura:if>
+                            </aura:set>  
+                            </aura:if>
                         </div>
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             <div

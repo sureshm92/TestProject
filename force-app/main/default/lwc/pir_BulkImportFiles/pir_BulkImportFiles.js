@@ -26,6 +26,7 @@ import RH_InputChanges from "@salesforce/label/c.RH_InputChanges";
 import RH_RepeatSteps from "@salesforce/label/c.RH_RepeatSteps";
 import RH_ImportSuccess from "@salesforce/label/c.RH_ImportSuccess";
 import BulkImport_Instructions from "@salesforce/label/c.BulkImport_Instructions";
+import BulkImport_Actions from "@salesforce/label/c.BulkImport_Actions";
 import RH_ImportNoRecords from "@salesforce/label/c.RH_ImportNoRecords";
 import RH_BulkImportFiles from "@salesforce/label/c.RH_BulkImportFiles";
 import RH_FileImport from "@salesforce/label/c.RH_FileImport";
@@ -111,6 +112,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
         RH_ImportNoRecords,
         RH_BulkImportFiles,
         RH_FileImport,
+        BulkImport_Actions,
         RH_FileImportProgress,
         BulkImport_Instructions,
         BulkImport_File_Template,

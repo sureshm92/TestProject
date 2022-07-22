@@ -98,10 +98,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
         String line2 = headerInfo.trim().removeEnd(',').trim().removeEnd(',');
         if (line.endsWith(',')) {
-            listOfFailedRecords.add(line + ' VALIDATION ERROR'  );
+            listOfFailedRecords.add(line + ' Validation Errors'  );
             listOfFailedRecords.add(line2);
         } else {
-            listOfFailedRecords.add(line + ', VALIDATION ERROR' );
+            listOfFailedRecords.add(line + ', Validation Errors' );
             listOfFailedRecords.add(line2);
         }
 
@@ -801,13 +801,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone = Phone,
                         MobilePhone = Phone2,
                         MailingState = State,
-                        Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
-                        IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false),
-                        Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Artificial_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Assisted_Dialing_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Pre_recorded_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,
@@ -817,6 +810,23 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             ? uploadUser.Contact.Language__c
                             : Language)
                     );
+                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                        if(this.outreachEmail){
+                            participantContact.Participant_Opt_In_Status_Emails__c = true;
+                        }
+                        if(this.outreachPhone){
+                            participantContact.IQVIA_Artificial_Voice_Consent__c = true;
+                            participantContact.IQVIA_Assisted_Dialing_Consent__c = true;
+                            participantContact.IQVIA_Pre_recorded_Voice_Consent__c = true;
+                            participantContact.Participant_Phone_Opt_In_Permit_Phone__c = true;
+                        }
+                        if(this.outreachDirectMail){
+                            participantContact.IQVIA_Direct_Mail_Consent__c = true;
+                        }
+                        if(this.outreachSMS){
+                            participantContact.Participant_Opt_In_Status_SMS__c = true;
+                        }
+                    }
                     if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                         participantContact.IQVIA_Contact_info_storage_consent__c = true;
                     }
@@ -1318,8 +1328,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for(String conId : duplicateContactIds){
                 Contact con = new Contact();
                 con.Id = conId;
-                con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
-                con.IQVIA_Contact_info_storage_consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
                 if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                     con.IQVIA_Contact_info_storage_consent__c = true;
                 }
@@ -1330,6 +1338,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     con.IQVIA_Assisted_Dialing_Consent__c = outreachPhone;
                     con.IQVIA_Pre_recorded_Voice_Consent__c = outreachPhone;
                     con.Participant_Opt_In_Status_SMS__c = outreachSMS;
+                    con.Participant_Opt_In_Status_Emails__c = outreachEmail;
                 }
                 existingContact.add(con);
             }
