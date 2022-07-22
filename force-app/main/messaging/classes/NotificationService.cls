@@ -55,16 +55,10 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
