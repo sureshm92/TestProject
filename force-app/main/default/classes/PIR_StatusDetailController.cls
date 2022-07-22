@@ -364,6 +364,9 @@ public without sharing class PIR_StatusDetailController {
         isBulkUpdate__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
         Clinical_Trial_Profile__r.Final_Consent_Required__c,
+        Clinical_Trial_Profile__r.Tokenization_Support__c,//7059
+        Participant__r.Gender__c,//7059
+        Participant__c,//7059
         Add_televisit_for_Initial_Visit__c,
         Initial_Visit_Televisit_Created__c,
         Participant__r.First_Name__c,
@@ -1590,7 +1593,7 @@ public without sharing class PIR_StatusDetailController {
   }
   @AuraEnabled
   public static Boolean doSaveStatusDetails(
-    Participant_Enrollment__c perRecord, String visitPlan
+    Participant_Enrollment__c perRecord,Participant__c perRec, String visitPlan
   ) {
     Map<String,String> initReasonMap = new Map<String,String>{
                                                             'PIR_Other' => 'Other',
@@ -1776,6 +1779,30 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Initial_Visit_Televisit_Created__c = true;
       }
       update perRecord;
+      if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){//7059
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.CheckBecomesAdultHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.UpdateNameOnPE.class
+        );
+        update perRec;
+      }//7059
       if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
