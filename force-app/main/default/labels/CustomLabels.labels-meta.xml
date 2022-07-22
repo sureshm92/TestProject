@@ -18274,6 +18274,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
+        <fullName>PP_Enter_Associated_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Enter Associated Email</shortDescription>
+        <value>Enter the email associated with your account.</value>
+    </labels>
+     <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -29,6 +29,10 @@
         <apexClass>ChangePasswordPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>RRLoginRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
