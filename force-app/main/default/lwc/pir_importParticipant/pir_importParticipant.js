@@ -622,30 +622,23 @@ get enableDel(){
 
 deleteFiles(){
     this.isDataLoading = true;
-     deleteFile({ 
-         fileId: this.fileId   
-     })
-     .then(result => {
-         this.template.querySelector(".fileInput").value=null; 
-         this.template.querySelector(".fileInput").disabled = false;
-         this.fileName = '';
-         this.isFileLoadedComplete = false;
-         this.progress = 0;
-         this.progressWidth='width :0%';
-         this.base = 1;
-         this.progressMultiplier = 0;
-         this.isDataLoading = false;
-         this.isFileAdded = false;
-         this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
-         this.toggleImportButton();
-     })
-     .catch(error => {
-        this.isDataLoading = false;
-         console.error('Error while deleting>>: ', error);
-     })
-     .finally(()=>{
-        this.isDataLoading = false;
-     })
+
+
+
+
+    this.template.querySelector(".fileInput").value=null;
+    this.template.querySelector(".fileInput").disabled = false;
+    this.fileName = '';
+    this.isFileLoadedComplete = false;
+    this.progress = 0;
+    this.progressWidth='width :0%';
+    this.base = 1;
+    this.progressMultiplier = 0;
+    this.isFileAdded = false;
+    this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+    this.toggleImportButton();
+    this.isDataLoading = false;
+    
 } 
 
 
