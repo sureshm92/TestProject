@@ -1,0 +1,23 @@
+.titleFont {
+    color: #000;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 29px;
+    margin: 0.5em 0;
+}
+.sectionFont {
+    line-height: 24px;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 0.875em;
+}
+.timerFont {
+    line-height: 58px;
+    font-size: 48px;
+    color: #000000;
+    font-weight: 550;
+}
+.rtl {
+    direction: rtl;
+}
