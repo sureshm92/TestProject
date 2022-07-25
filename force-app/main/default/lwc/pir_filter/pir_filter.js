@@ -34,6 +34,7 @@ import ReceivedStatus from "@salesforce/label/c.PWS_Received_Name";
 import PreReviewPassedStatus from "@salesforce/label/c.Pre_review_Passed";
 import ContactAttemptedStatus from "@salesforce/label/c.Contact_Attempted";
 import SuccessfullyContacted from "@salesforce/label/c.Successfully_Contacted";
+import Successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged';
 import ScreeningInProgress from "@salesforce/label/c.Screening_In_Progress";
 import InWashOutPeriod from "@salesforce/label/c.In_Wash_Out_Period";
 import ScreeningPassed from "@salesforce/label/c.Screening_Passed";
@@ -106,6 +107,7 @@ export default class Filtertest extends LightningElement {
     PreReviewPassedStatus,
     ContactAttemptedStatus,
     SuccessfullyContacted,
+    Successfully_Re_Engaged,
     ScreeningInProgress,
     InWashOutPeriod,
     ScreeningPassed,
@@ -991,6 +993,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
@@ -1007,6 +1010,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
@@ -1026,6 +1030,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
@@ -1042,6 +1047,7 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
@@ -1097,6 +1103,7 @@ export default class Filtertest extends LightningElement {
           { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
           { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
           { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+          { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
           { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
           {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
           { label: this.label.ScreeningPassed, value: "Screening Passed" },
