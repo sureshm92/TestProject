@@ -5760,7 +5760,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body Participant Import Completed</shortDescription>
         <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
-            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.
+            If there were any records that were not able to be imported, corrections may be made in the file available on Bulk Import History Page and re-imported .
 
 			Your user name is ##userName.</value>
     </labels>
