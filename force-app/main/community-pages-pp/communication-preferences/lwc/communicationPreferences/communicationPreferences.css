@@ -23,15 +23,15 @@
     padding-left: 2px;
 }
 
-.text-ceter{
+.text-ceter {
     text-align: center;
 }
 
-.po-bradius-20{
+.po-bradius-20 {
     border-radius: 20px;
 }
 
-.po-text-red{
+.po-text-red {
     color: #d43e33;
     font-weight: 600;
 }
@@ -165,6 +165,26 @@
     margin-bottom: 5px;
 }
 
+.mt-10 {
+    margin-top: 10px;
+}
+
+.ml-0 {
+    margin-left: 0px;
+}
+
+.pb-10 {
+    padding-bottom: 10px;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.overridePad {
+    padding: 10px 0px 0px 10px;
+}
+
 .save-btn {
     color: #fff;
 }
@@ -173,14 +193,40 @@
     margin-right: 10px;
 }
 
-.po-mr-15{
+.po-mr-15 {
     margin-right: 20px;
+}
+
+.po-margin {
+    margin-top: 20px;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.border-r {
+    border-radius: 5px;
+}
+
+.pad-top-10 {
+    padding-top: 10px;
+}
+
+.pad-r-10 {
+    padding-right: 10px;
+}
+
+.pad-b-10 {
+    padding-bottom: 10px;
 }
 
 .com-icon {
     fill: #595959;
     height: 20px;
     width: 20px;
+}
+
+.exclamation_orange {
+    fill: #ff9300;
 }
 
 /* Error Box */
@@ -190,11 +236,15 @@
 }
 
 .po-error {
-    padding: 0px 13px 10px 13px;
+    padding: 5px 13px 10px 13px;
 }
 
-.po-white-border {
+.po-white-border-right {
     border-right: 2px solid #fff;
+}
+
+.po-white-border-left {
+    border-left: 2px solid #fff;
 }
 
 /* Spinner */
@@ -218,8 +268,14 @@
 :host {
     --sds-c-checkbox-color-background-checked: #0769fd;
     --sds-c-checkbox-mark-color-foreground: #fff;
+    --slds-c-input-radius-border: 20px;
 }
 
+.highlightErrorCheckbox {
+    --sds-c-checkbox-color-background-checked: #fff;
+    --slds-c-checkbox-color-border-checked: red;
+    --slds-c-checkbox-color-border: red;
+}
 .participant-empty-card {
     border-radius: 25px;
     background: #808080;
@@ -227,9 +283,65 @@
     height: 150px;
 }
 
-.slds-size-custom_2-of-9{
-		width: 22.5%;
+.slds-size-custom_2-of-9 {
+    width: 22.5%;
 }
-.slds-size-custom_1-of-9{
-		width: 10%;
+.slds-size-custom_1-of-9 {
+    width: 10%;
+}
+
+.static-msg {
+    font-size: 14px;
+    background-color: #fff4e5;
+    border: 1px solid #ffce89;
+    padding: 5px;
+    margin-right: 10px;
+    padding-left: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-weight: normal;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.saveBtn {
+    font-family: 'Proxima Nova';
+    width: 90%;
+    color: #0070d2;
+    margin-top: 0;
+    background-color: #fff;
+    border: 1px solid #dddbda;
+    line-height: 28px;
+    border-radius: 5px;
+}
+.saveBtn:hover:not(disabled) {
+    cursor: pointer;
+}
+
+.saveBtn:disabled {
+    cursor: not-allowed;
+    color: rgb(188, 190, 192);
+}
+
+.h-40 {
+    height: 40px;
+}
+
+.ml-5 {
+    margin-left: 0.5rem;
+}
+
+.mr-5 {
+    margin-right: 0.5rem;
+}
+
+.mr-10 {
+    margin-right: 10px !important;
+}
+
+.mobile-align {
+    text-align: right;
+    margin-right: 10px;
 }

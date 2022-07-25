@@ -18265,6 +18265,62 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Save Changes</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Del_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
+        <value>Delegate&apos;s mobile phone updated succesfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Par_Mobile_Upd_Success</shortDescription>
+        <value>Mobile phone updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required</shortDescription>
+        <value>Mobile phone is required to receive SMS/Text communication. Provided information will be updated in your</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required_Del</shortDescription>
+        <value>Participant delegate&apos;s mobile phone is required to receive SMS/Text communication. Provided information will be updated in the delegate&apos;s</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Study_Static_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Study_Static_Message</shortDescription>
+        <value>One communication preference must be selected at all times for each study.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Profile Information</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+	<labels>
+        <fullName>PP_Communication_Pref_Study_Static_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study_Static_Message</shortDescription>
+        <value>One communication preference must be selected at all times for each study.</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
