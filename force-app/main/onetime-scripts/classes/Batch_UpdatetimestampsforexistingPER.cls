@@ -1,7 +1,7 @@
 global with sharing class Batch_UpdatetimestampsforexistingPER implements Database.Batchable<sObject>{
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Permit_Mail_Email_contact_for_this_study__c','Permit_Voice_Text_contact_for_this_study__c','Permit_SMS_Text_for_this_study__c','Permit_IQVIA_to_contact_about_study__c'};
-        String query  = 'Select id,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_SMS_Consent_Time__c,Study_PI_Storage_Consent_Time__c,';
+            String query  = 'Select id,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_SMS_Consent_Time__c,Study_PI_Storage_Consent_Time__c,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query = query + ' from Participant_Enrollment__c where (Study_Email_Consent_Time__c = null or Study_Phone_Consent_Time__c = null or Study_SMS_Consent_Time__c = null or Study_PI_Storage_Consent_Time__c = null)';
         return Database.getQueryLocator(query);
@@ -56,7 +56,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                        pertoupdate.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
                    }
                 toupdateConsent.add(pertoupdate);
-            }           
+            }            
         }
         if(!toupdateConsent.isEmpty()){
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -102,6 +102,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
             update toupdateConsent;
         }
