@@ -19,16 +19,71 @@
 				>
 				</c-privacy-policy-viewer>
 			 </lightning-layout-item>
-		</lightning-layout>
+    </lightning-layout>
 
     <template if:true={isDesktop}>
         <div class={cardRTL}>
             <div class="communication-pref">
-                <!-- <lightning-card> -->
-                <span class="header">
+                <span class={communicationPrefHeader}>
                     {label.PP_Communication_Pref}
-                    <!-- Replace with custom label-->
                 </span>
+                <template if:true={studyError}>
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="po-error-container po-mr-10 po-margin"
+                        vertical-align="center"
+                    >
+                        <lightning-layout-item size="7" class={phoneErrorBorder}>
+                            <div class="sub-header po-error">
+                                <lightning-layout
+                                    multiple-rows="true"
+                                    vertical-align="center"
+                                >
+                                    <lightning-layout-item size="1">
+                                        <span>
+                                            <img style={errorIconPosition} src={exclamation} />
+                                        </span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="11" class="pad-top-10">
+                                        <span class="po-text-red">{label.PP_Communication_Pref_Warning} </span>
+                                        <span>{errorLabelText}</span>
+                                        <span
+                                            class="blue-highlight-text-color"
+                                            onclick={redirectToProfileInfoTab}
+                                            >&nbsp;{label.PP_Profile_Information}</span
+                                        >.
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class="sub-header po-error">
+                                <div class={phoneErrorHeaderMarPad}>Mobile Phone</div>
+                                <lightning-layout
+                                multiple-rows="true"
+                                class="po-error-container po-mr-10"
+                                 >
+                                 <lightning-layout-item size="8">
+                                    <lightning-input
+                                        type="tel"
+                                        label="Phone Input"
+                                        variant="label-hidden"
+                                        name="phone1"
+                                        value=""
+                                        class="po-bradius-20 userInputField"
+                                        required="true"
+                                        onchange={isInputValid}
+                                     ></lightning-input>
+                                 </lightning-layout-item>
+            
+                                 <lightning-layout-item size="4">
+                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarin}>Save</button>
+                                </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
                 <Template if:true={hideConsentsForParticipantView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
@@ -46,18 +101,26 @@
                 <Template if:true={showStudyConsentFlag}>
                     <div class="study-container">
                         <div class="header">
-                            {label.PP_Communication_Pref_Study}
-                            <!-- Replace with custom label-->
+                            <span class={getPad10}>{label.PP_Communication_Pref_Study}</span>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item
                                     size="12"
                                     small-device-size="12"
                                     large-device-size="12"
                                 >
-                                    <div class="sub-header">
+                                    <div class={getStudyConsentMargin}>
                                         {label.PP_Communication_Pref_Study_consent}
                                     </div>
                                 </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="true"  vertical-align="center" class="static-msg">
+                                <lightning-layout-item size="1" class="center-align">
+                                    <img style={errorIconPosition} src={exclamation_orange} class="pad-r-10 exclamation_orange"/>
+                                </lightning-layout-item>   
+                                <lightning-layout-item size="11">
+                                    <span>{label.PP_Communication_Study_Static_Message}
+                                    </span>
+                                </lightning-layout-item>  
                             </lightning-layout>
                             <template
                                 for:each={consentPreferenceDataLocal.perList}
@@ -74,7 +137,7 @@
                                         size="4"
                                         class="study-content study-content-mobile"
                                     >
-                                        <span
+                                        <span class={getPad10}
                                             >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                         >
                                     </lightning-layout-item>
@@ -156,6 +219,9 @@
                                                             checked={study.Permit_SMS_Text_for_this_study__c}
                                                             onchange={selectIndividualOptions}
                                                             disabled={hideConsentsForParticipantView}
+                                                            class="smsElements"
+                                                            data-label="SMS_STUDY"
+                                                            data-id={study.Id}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -208,6 +274,8 @@
                                                             checked={study.all}
                                                             onchange={selectAllOptions}
                                                             disabled={hideConsentsForParticipantView}
+                                                            data-id={study.Id}
+                                                            data-label="All"
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -215,77 +283,18 @@
                                         </lightning-layout>
                                     </lightning-layout-item>
                                 </lightning-layout>
-                            </template>
-                            <template if:true={studyError}>
-                                <lightning-layout
-                                    multiple-rows="true"
-                                    class="po-error-container po-mr-10"
-                                    vertical-align="center"
-                                >
-                                    <lightning-layout-item size="7" class="po-white-border">
-                                        <div class="sub-header po-error">
-                                            <lightning-layout
-                                                multiple-rows="true"
-                                                vertical-align="center"
-                                            >
-                                                <lightning-layout-item size="1">
-                                                    <span>
-                                                        <lightning-icon
-                                                            icon-name="utility:warning"
-                                                            alternative-text="Warning"
-                                                            title="Warning"
-                                                        ></lightning-icon>
-                                                        <!-- <img src="abc.png"/> -->
-                                                    </span>
-                                                </lightning-layout-item>
-                                                <lightning-layout-item size="11">
-                                                    <span class="po-text-red">Warning: </span>
-                                                    <span>
-                                                        Mobile phone is required to receive SMS/Text
-                                                        communication. Provided information will be
-                                                        updated in your
-                                                    </span>
-                                                    <span
-                                                        class="blue-highlight-text-color"
-                                                        onclick={redirectToProfileInfoTab}
-                                                        >&nbsp;Profile Information</span
-                                                    >.
-                                                </lightning-layout-item>
-                                            </lightning-layout>
-                                        </div>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item size="5">
-                                        <div class="sub-header po-error">
-                                            <div class="mb-10">Mobile Phone</div>
-                                            <div>
-                                                <lightning-input
-                                                    type="tel"
-                                                    label="Phone Input"
-                                                    variant="label-hidden"
-                                                    name="phone1"
-                                                    value="9887655437"
-                                                    class="po-bradius-20"
-                                                ></lightning-input>
-                                            </div>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </template>
+                            </template>                         
                         </div>
                     </div>
                 </Template>
 
-                <!--IQVIA Outrach section: Desktop : Starts-->
                 <Template if:true={showIQIVAOutreachConsentFlag}>
                     <div class="outreach-container">
                         <div class="header">
-                            {label.PP_Communication_Pref_Outreach}
-                            <!-- Replace with custom label-->
+                            <span class={getPad10}>{label.PP_Communication_Pref_Outreach}</span>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
-                                    <div class="sub-header">
-                                        <!-- I consent to allow IQVIA (in accordance with <a href="#" class="blue-highlight-text-color">IQVIA's Privacy Policy</a>) to contact me with educational health
-                                            information and other clinical trial opportunities using my preferences selected below: -->
+                                    <div class={getStudyConsentMargin}>
                                         {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
@@ -307,7 +316,7 @@
                                     vertical-align="center"
                                 >
                                     <lightning-layout-item size="4" class="study-content">
-                                        <span>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                        <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                     </lightning-layout-item>
 
                                     <lightning-layout-item size="8" class="study-content">
@@ -387,6 +396,9 @@
                                                             checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                             onchange={selectIndividualOptionsOutreach}
                                                             disabled={hideConsentsForParticipantView}
+                                                            class="smsElements"
+                                                            data-label="SMS_OUTREACH"
+                                                            data-id={outreach.Id}
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -437,6 +449,8 @@
                                                             variant="label-hidden"
                                                             onchange={selectAllOptionsOutreach}
                                                             disabled={hideConsentsForParticipantView}
+                                                            data-id={outreach.Id}
+                                                            data-label="All_OUTREACH"
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
@@ -448,20 +462,75 @@
                         </div>
                     </div>
                 </Template>
-
-                <!--IQVIA Outrach section: Desktop : Ends-->
             </div>
         </div>
     </template>
 
     <template if:false={isDesktop}>
         <div class={cardRTL}>
-            <div class="communication-pref">
-                <!-- <lightning-card> -->
-                <span class="header">
+            <div class="communication-pref">              
+                <span class={communicationPrefHeader}>
                     {label.PP_Communication_Pref}
-                    <!-- Replace with custom label-->
                 </span>
+                <template if:true={studyError}>
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="po-error-container po-mr-10 po-margin"
+                        vertical-align="center"
+                    >
+                        <lightning-layout-item size="2">
+                            <div class="sub-header po-error">
+                                <lightning-layout
+                                    multiple-rows="true"
+                                    vertical-align="center"
+                                >
+                                    <lightning-layout-item size="12">
+                                        <span>
+                                            <img style={errorIconPosition} src={exclamation} />
+                                        </span>
+                                    </lightning-layout-item>                                   
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10" class={phoneErrorBorder}>
+                            <div class="sub-header overridePad">                               
+                                <lightning-layout
+                                multiple-rows="true"
+                                class="po-error-container po-mr-10 align-left"
+                                 >
+                                 <lightning-layout-item size="12" class="pad-top-10">
+                                    <span class="po-text-red">{label.PP_Communication_Pref_Warning} </span>
+                                    <span>{errorLabelText}</span>
+                                    <span
+                                        class="blue-highlight-text-color"
+                                        onclick={redirectToProfileInfoTab}
+                                        >&nbsp;{label.PP_Profile_Information}</span
+                                    >.
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="pad-top-10">
+                                    <div class={phoneErrorHeaderMarPadMobile}>Mobile Phone</div>
+                                </lightning-layout-item>
+                                 <lightning-layout-item size="7" class="pad-r-10">
+                                    <lightning-input
+                                        type="tel"
+                                        label="Phone Input"
+                                        variant="label-hidden"
+                                        name="phone1"
+                                        value=""
+                                        class="po-bradius-20 userInputField pad-b-10"
+                                        required="true"
+                                        onchange={isInputValid}
+                                     ></lightning-input>
+                                 </lightning-layout-item>
+            
+                                 <lightning-layout-item size="5" class="pb-10">
+                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarinMobile}>Save</button>
+                                </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
                 <Template if:true={hideConsentsForParticipantView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
@@ -479,18 +548,25 @@
                 <Template if:true={showStudyConsentFlag}>
                     <div class="study-container study-container-mobile">
                         <div class="header headerMobile">
-                            {label.PP_Communication_Pref_Study}
-                            <!-- Replace with custom label-->
+                            <span class={getPad10}>{label.PP_Communication_Pref_Study}</span>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item
                                     size="12"
                                     small-device-size="12"
                                     large-device-size="12"
                                 >
-                                    <div class="sub-header">
+                                    <div class={getStudyConsentMargin}>
                                         {label.PP_Communication_Pref_Study_consent}
                                     </div>
                                 </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout multiple-rows="true"  vertical-align="center" class="static-msg">
+                                <lightning-layout-item size="1">
+                                    <img style={errorIconPosition} src={exclamation_orange} class="pad-r-10 exclamation_orange"/>                                  
+                                </lightning-layout-item>
+                                <lightning-layout-item size="11">                                   
+                                    <span>{label.PP_Communication_Study_Static_Message}</span>
+                                </lightning-layout-item>   
                             </lightning-layout>
                             <template
                                 for:each={consentPreferenceDataLocal.perList}
@@ -508,7 +584,7 @@
                                             size="12"
                                             class="study-content study-content-mobile"
                                         >
-                                            <span
+                                            <span class={getPad10}
                                                 >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                             >
                                         </lightning-layout-item>
@@ -582,11 +658,14 @@
                                                         checked={study.Permit_SMS_Text_for_this_study__c}
                                                         onchange={selectIndividualOptions}
                                                         disabled={hideConsentsForParticipantView}
+                                                        class="smsElements"
+                                                        data-label="SMS_STUDY"
+                                                        data-id={study.Id}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size-custom_3-of-10">
+                                        <div class={borderStyleMobile}>
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -634,6 +713,8 @@
                                                         checked={study.all}
                                                         onchange={selectAllOptions}
                                                         disabled={hideConsentsForParticipantView}
+                                                        data-id={study.Id}
+                                                        data-label="All"
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -646,22 +727,18 @@
                     </div>
                 </Template>
 
-                <!--IQVIA Outrach section: Mobile : Starts-->
                 <Template if:true={showIQIVAOutreachConsentFlag}>
                     <div class="outreach-container outreach-container-mobile">
                         <div class="header">
-                            {label.PP_Communication_Pref_Outreach}
-                            <!-- Replace with custom label-->
-
+                            <span class={getPad10}>{label.PP_Communication_Pref_Outreach}</span>
+                          
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item
                                     size="12"
                                     small-device-size="12"
                                     large-device-size="12"
                                 >
-                                    <div class="sub-header">
-                                        <!-- I consent to allow IQVIA (in accordance with <a href="#" class="blue-highlight-text-color">IQVIA's Privacy Policy</a>) to contact me with educational health
-                                            information and other clinical trial opportunities using my preferences selected below: -->
+                                    <div class={getStudyConsentMargin}>
                                         {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
@@ -687,7 +764,7 @@
                                             size="12"
                                             class="study-content study-content-mobile"
                                         >
-                                            <span>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                            <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
                                         </lightning-layout-item>
                                     </lightning-layout>
 
@@ -751,7 +828,7 @@
                                                     </svg>
                                                 </div>
                                                 <div>{label.PP_Communication_Pref_SMS}</div>
-                                                <div class="ml-5">
+                                                <div class="ml-5" >
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="SMS"
@@ -760,11 +837,14 @@
                                                         checked={outreach.Participant_Opt_In_Status_SMS__c}
                                                         onchange={selectIndividualOptionsOutreach}
                                                         disabled={hideConsentsForParticipantView}
+                                                        class="smsElements"
+                                                        data-label="SMS_OUTREACH"
+                                                        data-id={outreach.Id}
                                                     ></lightning-input>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size-custom_2-of-10">
+                                        <div class={borderStyleMobile}>
                                             <div class="mb-child-div-10">
                                                 <div>
                                                     <svg
@@ -805,11 +885,14 @@
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="All"
+                                                        name={outreach.Id}
                                                         value={outreach.Id}
                                                         checked={outreach.all}
                                                         variant="label-hidden"
                                                         onchange={selectAllOptionsOutreach}
                                                         disabled={hideConsentsForParticipantView}
+                                                        data-id={outreach.Id}
+                                                        data-label="All_OUTREACH"
                                                     ></lightning-input>
                                                 </div>
                                             </div>
@@ -820,7 +903,6 @@
                         </div>
                     </div>
                 </Template>
-                <!--IQVIA Outrach section: Mobile : Ends-->
             </div>
         </div>
     </template>
