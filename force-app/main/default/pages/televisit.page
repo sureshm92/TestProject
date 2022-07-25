@@ -62,6 +62,7 @@
             <script>
                 jsBannerEndTime = '{!bannerEndTime}';
                 jsAutoDisconnectMeetingTime = '{!autoDisconnectMeetingTime}';
+                console.log(jsAutoDisconnectMeetingTime);
                 enableExtendCallDropDown = false;
                 if (document.getElementById('televisitBanner') != null)
                     document.getElementById('televisitBanner').setAttribute('class', 'hideBanner');
@@ -93,6 +94,7 @@
                 });
 
                 $.cometd.subscribe('/event/Televisit_Event__e', function (message) {
+                    console.log('Tele event fired');
                     fetchUpdatedTelevisitDetails();
                 });
             </script>
@@ -319,8 +321,8 @@
                         }
 
                         var options = getPublisherProperties(false);
-                        var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
-                        options.name = (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase();
+                        var firstName = attendeeName;
+                        options.name = firstName;
 
 
                         var subscriber = session.subscribe(event.stream, getContainer(event.stream), options);
@@ -524,10 +526,10 @@
 
             function getPublisherProperties(isPublishingScreenShare) {
                 var attendeeName = getControllerValue('userName');
-                var initials = attendeeName.split(' ').map(function (item) { return item[0] }).join('');
+                var firstName = attendeeName;
                 return {
                     ...options,
-                    name: (initials.length > 1) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase(),
+                    name: firstName,
                     publishAudio: publishAudio,
                     publishVideo: isPublishingScreenShare ? true : publishVideo,
                     audioSource: audioSource,
@@ -733,13 +735,14 @@
             function toggleShareSubscriber(stream) {
                 isSubscribedScreenShare = !isSubscribedScreenShare;
 
-                toggle('.participants-container', 'slds-hide');
+                //toggle('.participants-container', 'slds-hide');
+                //toggle('.controls', 'slds-size_1-of-1');
                 toggle('.share-container', 'slds-hide');
                 toggle('.speaker-container', 'slds-hide');
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_1-of-1');
+                toggle('.controls', 'slds-size_3-of-4');
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
@@ -1156,7 +1159,18 @@
                 activeSpeakerArray = new KeyArray(2);
                 var currTime = getCurrentTime();
                 /** Checking if Meeting Time has ended or not before joining*/
-                if(currTime > jsAutoDisconnectMeetingTime){
+                var visitDate = '{!visitDate}';
+                var today = new Date();
+                today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
+                today = new Date(today);
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+                var yyyy = today.getFullYear();
+                today = yyyy +'-'+ mm +'-'+ dd;
+                    
+                if(visitDate < today){
+                   toggle('#tv-end-screen-container', 'slds-hide');
+                }else if(currTime > jsAutoDisconnectMeetingTime){
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
@@ -2018,6 +2032,17 @@
                 right: auto;
                 height: auto;
             }
+            
+            .share-container {
+                width: 76%;
+            }
+            
+            /*
+            .OT_subscriber .OT_video-element{
+                height: 90%;
+                width: 78%;
+                margin-top: 26px;
+            }*/
 
             .last-active-feed {
                 height: 9em;

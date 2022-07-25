@@ -1284,7 +1284,8 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 per.Initial_visit_occurred_flag__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c) &&
                 ((per.Initial_visit_scheduled_date__c == null &&
-                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true)
+                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true
+				|| per.Initial_visit_occurred_flag__c == false)
             ) {
                 if (per.Status_Order__c > 3) {
                     per.Participant_Status__c = 'Successfully Contacted';
@@ -1561,10 +1562,15 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     }
     public static boolean checkCurrentusrProfile() {
         Id profileId = userinfo.getProfileId();
-        String profileName = [SELECT Id, Name FROM Profile WHERE Id = :profileId].Name;
-        if (profileName == System.Label.PortalUserProfile) {
-            return true;
-        } else {
+        List<Profile> profiles = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
+        if (profiles != null && !profiles.isEmpty()) {
+            String profileName = profiles[0].Name;
+            if (profileName == System.Label.PortalUserProfile) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
     }

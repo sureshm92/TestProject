@@ -426,6 +426,59 @@
                                 {!v.userMode == 'CC' ? $Label.c.CC_Toggle_Information : (v.userMode ==
                                 'Participant'? $Label.c.PP_Toggle_Information :
                                 $Label.c.PI_Toggle_Information) }
+                        <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
+                        <div class="contactDesc">
+                            <aura:if isTrue="{!v.userMode == 'CC'}">
+                                {!$Label.c.CC_Toggle_Information}
+                            <aura:set attribute="else">  
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    {!$Label.c.PP_Toggle_Information} 
+                                    <lightning:formattedUrl class="slds-p-left_xx-small"
+                                        value="./account-settings?communication-preferences"
+                                        label="{!$Label.c.PP_Communication_Pref}"
+                                        target="_blank" />.
+                                <aura:set attribute="else"> 
+                                    {!$Label.c.PI_Toggle_Information}    
+                                </aura:set>
+                                </aura:if>
+                            </aura:set>  
+                            </aura:if>
+                        </div>
+                        <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                            <div
+                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2"
+                            >
+                                <aura:if isTrue="{!not(v.isDelegate)}">
+                                    <!-- <div class="label">{!$Label.c.PG_AS_F_Email_address}</div> -->
+
+                                    <lightning:input
+                                        aura:id="emailInput"
+                                        type="text"
+                                        label="{!$Label.c.PG_AS_F_Email_address}"
+                                        value="{!v.contact.Email}"
+                                        onblur="{!c.doCheckEmailFieldValidity}"
+                                        messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
+                                    />
+
+                                    <!-- <c:rrInput valueString="{!v.contact.Email}"
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" isSaveBtnDisable="{!v.disableSave}"/> -->
+                                </aura:if>
+
+                                <aura:if isTrue="{!(v.isDelegate)}">
+                                    <lightning:input
+                                        aura:id="emailInput1"
+                                        type="text"
+                                        label="{!$Label.c.PG_AS_F_Email_address}"
+                                        value="{!v.contact.Email}"
+                                        onblur="{!c.doCheckEmailFieldValidity}"
+                                        disabled="true"
+                                    />
+                                    <!-- <c:rrInput valueString="{!v.contact.Email}"
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" 
+                                               onblur="{!c.doCheckFieldsValidity}"
+                                               disabled="true"/> -->
+                                </aura:if>
                             </div>
                             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                 <div

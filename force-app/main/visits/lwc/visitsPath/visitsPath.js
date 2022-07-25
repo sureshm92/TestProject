@@ -466,7 +466,7 @@ export default class VisitsPath extends LightningElement {
         //this.reRender = true;
     }
     doNavigateToAccountSettings() {
-        window.open('account-settings', '_blank');
+        window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         this.handleHideDialog();
     }

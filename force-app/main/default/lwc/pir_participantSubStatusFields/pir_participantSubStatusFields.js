@@ -18,10 +18,13 @@ import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
+import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVisitPopUpMessage';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
 import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
-
+import Gender_Female from '@salesforce/label/c.Gender_Female';
+import Gender_Male from '@salesforce/label/c.Gender_Male';
+import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
 import { label } from "c/pir_label";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class Pir_participantSubStatusFields extends LightningElement {
@@ -47,6 +50,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   selectedreason = "";
   selectedreasonIV = "";
   revisitDateReq=false;
+  isScreeningReq=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -79,7 +83,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     BTN_Yes,
     PWS_Contact_Outcome_Placeholder,
     PG_RP_L_Not_selected,
-    PIR_Reason_Required
+    RH_TV_InitialVisitPopUpMessage,
+    PIR_Reason_Required,
+    PE_Sex_At_Birth
  };
  connectedCallback() {
   if(this.isrtl) {
@@ -137,6 +143,17 @@ changeInputValue(event) {
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
       this.participantrecord.IVRS_IWRS__c = event.target.value;
+      if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
+        if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
+          this.isScreeningReq=true;
+          this.customButtonValidation();
+        }else{
+          this.customButtonValidation();
+        }
+      }
+    } else if(event.target.dataset.value === 'SexatBirth'){
+      this.participantRec.Gender__c=event.target.value;
+      this.customButtonValidation();
     } else if (event.target.dataset.value === "RevisitDate") {
       this.participantrecord.Revisit_Date__c = event.target.value;
       this.reVisitDt = event.target.value;
@@ -369,6 +386,13 @@ changeInputValue(event) {
       return this.pe_record.Informed_Consent__c;
     }
   }
+  get isTokanizationSupportReq(){
+    if (this.pe_record.Clinical_Trial_Profile__r.Tokenization_Support__c){
+      return true;
+    }else{
+      return false;
+    }
+  }
   get isconsentSignedPlaceholder() {
     if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
       return " ";
@@ -399,6 +423,7 @@ changeInputValue(event) {
   reasoneoptions = [];
   outcomeoptions = [];
   participantrecord;
+  participantRec;
   additionalNote = "";
   @api runinwashout = "";
   statusChanged = false;
@@ -422,6 +447,10 @@ changeInputValue(event) {
     this.notesNeeded = [];
     this.statusChanged = false;
     this.participantrecord = JSON.parse(JSON.stringify(this.pe_record));
+    this.participantRec={
+      Id:this.participantrecord.Participant__c,
+      Gender__c:this.participantrecord.Participant__r.Gender__c
+    };
     this.consentSigned = this.pe_record.Informed_Consent__c;
     this.reVisitDt = this.participantrecord.Revisit_Date__c;
 
@@ -840,6 +869,17 @@ changeInputValue(event) {
       this.customFieldValidation("Consent Signed");
       this.customButtonValidation();
     }
+    if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {
+      if (this.selectedOutcome === "Screening_Passed") {
+        this.isScreeningReq=true;
+        this.customButtonValidation();
+      }else if(this.selectedOutcome === "Randomization_Success" || this.selectedOutcome === "PE_STATUS_ENROLLMENT_SUCCESS"){
+        this.customButtonValidation();
+      }else{
+        this.isScreeningReq=false;
+        this.customButtonValidation();
+      }
+    }
     if(this.selectedOutcome == "Unable_to_Reach"){
       this.customButtonValidation();
     }
@@ -1194,7 +1234,17 @@ changeInputValue(event) {
             validationList.push(btnValidationSuccess);
            }
     }
-
+    //9.
+    if(this.isScreeningReq && (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c=='')){
+      btnValidationSuccess = false;
+      validationList.push(btnValidationSuccess);
+    }else if(this.isSexatBirthReq && (!this.participantRec.Gender__c || this.participantrecord.Gender__c=='')){
+      btnValidationSuccess = false;
+      validationList.push(btnValidationSuccess);
+    }else{
+      btnValidationSuccess = true;
+      validationList.push(btnValidationSuccess);
+    }
     if (validationList.includes(false)) {
       const validatesavebtn = new CustomEvent("validatesavebutton", { 
         detail: true
@@ -1212,6 +1262,13 @@ changeInputValue(event) {
     return [
       { label: this.label.BTN_No, value: "No" },
       { label: this.label.BTN_Yes, value: "Yes" }
+    ];
+  }
+  get sexAssignedBirth() {
+    return [      
+        { label: Gender_Male, value: 'Male' },
+        { label: Gender_Female, value: 'Female' },
+       
     ];
   }
   get initialVisitAttended() {
@@ -1496,7 +1553,18 @@ changeInputValue(event) {
       return false;
     }
   }
-
+  get isSexatBirthReq(){
+    if (
+      this.selectedOutcome == "Randomization_Success" ||
+      this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
+    ) {
+      return true;
+    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+      return true;
+    }else{
+      return false;
+    }
+  } 
   get makerequiredrandomizationid() {
     if (
       this.selectedOutcome == "Randomization_Success" ||
@@ -1628,22 +1696,18 @@ changeInputValue(event) {
         delete this.participantrecord.Participant_Status__c;
       }
     }
-    // if (
-    //   this.selectedOutcome == "Successfully_Contacted" ||
-    //   this.selectedOutcome == "Pre_review_Passed"
-    // ) {
-    //   //this.participantrecord.ParticipantNoShow__c = false;
-    // } else if (
-    //   this.pe_record.ParticipantNoShow__c ==
-    //   this.participantrecord.ParticipantNoShow__c
-    // ) {
-    //   //delete this.participantrecord.ParticipantNoShow__c;
-    // }
-    // if(this.participantrecord.ParticipantNoShow__c){ 
-    //   //this.participantrecord.Participant_Status__c = 'Unable to Reach';
-    //   //this.participantrecord.Participant_Status__c = 'Participant No Show';
-    //   //this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
-    // }
+     if (
+       this.selectedOutcome == "Successfully_Contacted" ||
+       this.selectedOutcome == "Pre_review_Passed"
+     ) {
+       this.participantrecord.ParticipantNoShow__c = false;
+     } else if (
+       this.pe_record.ParticipantNoShow__c ==
+       this.participantrecord.ParticipantNoShow__c
+     ) {
+       delete this.participantrecord.ParticipantNoShow__c;
+   }
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1661,26 +1725,8 @@ changeInputValue(event) {
           this.participantrecord.Final_consent__c = false;
     }
     
-    if( this.pe_record.ParticipantNoShow__c  &&
-    this.participantrecord.Participant_Status__c == "Successfully Contacted"
-   ){
-    this.participantrecord.Participant_Status__c = "Successfully re-engaged";
-      this.isReEngaged=true;
-    }
-    else{
-      this.isReEngaged=false;
-    }
-    
-    if( this.pe_record.ParticipantNoShow__c  && this.participantrecord.Participant_Status__c && this.participantrecord.Participant_Status__c != undefined &&
-        this.participantrecord.Participant_Status__c != "Successfully Contacted"
-     ){
-        
-        this.participantrecord.ParticipantNoShow__c = false;
-    }else{
-       if(this.pe_record.ParticipantNoShow__c){
-           delete this.participantrecord.ParticipantNoShow__c;
-          }
-    }
+   
+
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
@@ -1704,12 +1750,13 @@ changeInputValue(event) {
         delete this.participantrecord.Non_Enrollment_Reason__c;
       }
       
-      doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
+      doSaveStatusDetails({ perRecord: this.participantrecord,perRec:this.participantRec, visitPlan : visitPln })
         .then((result) => {
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
-          if (outcome == "Eligibility_Passed") {
+          if (outcome == "Eligibility_Passed"|| this.participantrecord.Participant_Status__c == "Ready to Screen" ||
+          this.participantrecord.Participant_Status__c == "Participant No Show") {
             const selectEventHeader = new CustomEvent(
               "callparticipantstatusdetail",
               {}

@@ -21,7 +21,9 @@ public without sharing class NotificationService {
     };
 
     static public List<String> participantStatusListForPT = new List<String>{
-        PEStatusState.PE_STATUS_RECEIVED
+        PEStatusState.PE_STATUS_RECEIVED,
+        PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED,
+        PEStatusState.PE_STATUS_NO_SHOW
     };
 
     static public List<String> notificationWithoutPermissions = new List<String>{
@@ -41,6 +43,7 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -54,16 +57,10 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
@@ -71,14 +68,14 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,  
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
     static public List<String> taskSurveyReminderTypes = new List<String>{
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE, 
         NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
     };
     static public Set<String> welcomemsgNoticationtypes = new Set<String>{
@@ -405,13 +402,14 @@ public without sharing class NotificationService {
                                     n.WhatId__c,
                                     notificationType.Recipient_Type__c,
                                     nt.Target_Type__c,
-                                    n.Recipient__c
+                                    n.Recipient__c,
+                                    notificationType
                                 )
                             ) {
                                 if (
                                     (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                     (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
-                                    !String.isBlank(n.Task_Id__c))
+                                     !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&

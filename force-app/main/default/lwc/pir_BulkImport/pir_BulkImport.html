@@ -4,15 +4,15 @@
             <template if:true={myStudiesPg}>
                 <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
                     <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon>
-                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleStudiesPg} title="My Studies" class="breadcrumbfont slds-p-left_xx-small">My Studies</a>
-                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">Bulk Import History</span>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleStudiesPg} title={label.Home_Page_Label} class="breadcrumbfont slds-p-left_xx-small">{label.Home_Page_Label}</a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
                 </div>
             </template>
             <template if:false={myStudiesPg}>
                 <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
                     <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon>
-                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleParticipantPg} title="My Participants" class="breadcrumbfont slds-p-left_xx-small">My Participants</a>
-                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">Bulk Import History</span>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleParticipantPg} title={label.My_Participant} class="breadcrumbfont slds-p-left_xx-small">{label.My_Participant}</a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
                 </div>
             </template>
         </div>
@@ -20,7 +20,7 @@
             <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small slds-m-top_x-small">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
                     <div class="slds-form-element">
-                        <label class="slds-form-element__label custom-label" for="">Study Name</label>
+                        <label class="slds-form-element__label custom-label" for="">{label.PIR_Study_Name}</label>
                         <div class="slds-form-element__control custom-input">
                             <!-- <lightning-combobox
                             name="Study Name"
@@ -43,7 +43,7 @@
                 </div>   
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
                     <div class="slds-form-element">
-                        <label class="slds-form-element__label custom-label" for="">Study Sites</label>
+                        <label class="slds-form-element__label custom-label" for="">{label.PIR_Study_Site_Name}</label>
                         <div class="slds-form-element__control custom-input"> 
                             <!-- <lightning-combobox
                             name="Study Sites"
@@ -69,7 +69,7 @@
             <div class="section-padding tabs bulkimportTab importTab">
                 <lightning-tabset>
                     <lightning-tab label="Bulk import">
-                        <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination}></c-pir_-bulk-import-files>
+                        <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} get-study={selectedStudyChild} get-study-site={selectedStudySiteChild}  stop-spinner={stopSpinnerChild}></c-pir_-bulk-import-files>
                         <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD ">      
                             <template if:true={totalRecord}>
                                 <c-pir_participant-pagination class="pg" total-records={totalRecord} onpagechange={pageChanged} is-table={isTable} > </c-pir_participant-pagination>

@@ -50,21 +50,6 @@ public class TelevisitTriggerHandler {
                 }
             }
         }
-        //fetching delegates code
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Participant__r.Contact__c, Contact__c, Primary_Delegate__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :allContactIds
-        ];
-        Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
-        for (Id conId : allContactIds)
-            if (!participantIdsByDelegates.containsKey(conId)) {
-                participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
-            }
-        for (Patient_Delegate__c pd : patientDelegates) {
-            allContactIds.add(pd.Contact__c);
-            participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
-        }
 
         //end
         List<Id> cancelledContactIds = new List<Id>();
@@ -83,10 +68,6 @@ public class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
-                        Id delegateContactId = getPrimaryDelegateContactId(
-                            participantIdsByDelegates,
-                            teleAttendee.Contact__c
-                        );
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
@@ -94,18 +75,6 @@ public class TelevisitTriggerHandler {
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE
                             )
                         );
-                        if (delegateContactId != null) {
-                            notificationsList.add(
-                                new Notification__c(
-                                    Recipient__c = getPrimaryDelegateContactId(
-                                        participantIdsByDelegates,
-                                        teleAttendee.Contact__c
-                                    ),
-                                    WhatId__c = teleObj.Id,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY
-                                )
-                            );
-                        }
                     }
                 }
                 }
@@ -119,10 +88,6 @@ public class TelevisitTriggerHandler {
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
                             teleAttendee.Attendee_Type__c != 'PI'
                         ) {
-                        Id delegateContactId = getPrimaryDelegateContactId(
-                            participantIdsByDelegates,
-                            teleAttendee.Contact__c
-                        );
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
@@ -130,18 +95,6 @@ public class TelevisitTriggerHandler {
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE
                             )
                         );
-                        if (delegateContactId != null) {
-                            notificationsList.add(
-                                new Notification__c(
-                                    Recipient__c = getPrimaryDelegateContactId(
-                                        participantIdsByDelegates,
-                                        teleAttendee.Contact__c
-                                    ),
-                                    WhatId__c = teleObj.Id,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL
-                                )
-                            );
-                        }
                         teleAttendee.Is_First_Reminder_Sent__c = false;
                         teleAttendee.Is_Second_Reminder_Sent__c = false;
                         taList.add(teleAttendee);
@@ -163,24 +116,6 @@ public class TelevisitTriggerHandler {
         }
     }
 
-    public static Id getPrimaryDelegateContactId(
-        Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates,
-        Id contactId
-    ) {
-        if (participantIdsByDelegates.size() > 0) {
-            if (participantIdsByDelegates.get(contactId).size() == 1) {
-                List<Patient_Delegate__c> pdList = participantIdsByDelegates.get(contactId);
-                return pdList[0].Contact__c;
-            } else if (participantIdsByDelegates.get(contactId).size() > 1) {
-                for (Patient_Delegate__c del : participantIdsByDelegates.get(contactId)) {
-                    if (del.Primary_Delegate__c) {
-                        return del.Contact__c;
-                    }
-                }
-            }
-        }
-        return null;
-    }
     @Future(callout=true)
     public static Void SendRequestToVonageAPI(list<Id> listTelevisitId) {
         TokBoxSettings2__c tokbox = TokBoxSettings2__c.getOrgDefaults();

@@ -98,10 +98,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
         String line2 = headerInfo.trim().removeEnd(',').trim().removeEnd(',');
         if (line.endsWith(',')) {
-            listOfFailedRecords.add(line + ' VALIDATION ERROR'  );
+            listOfFailedRecords.add(line + ' Validation Errors'  );
             listOfFailedRecords.add(line2);
         } else {
-            listOfFailedRecords.add(line + ', VALIDATION ERROR' );
+            listOfFailedRecords.add(line + ', Validation Errors' );
             listOfFailedRecords.add(line2);
         }
 
@@ -270,6 +270,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String LastName = '';
                 String Nickname = '';
                 String Sex = '';
+                String YearofBirth = '';
+                String MonthofBirth = '';
+                String strDate = '';
+                String DateofBirthError = '';
                 String DateOfBirth = '';
                 String EmailAddress = '';
                 String Phone = '';
@@ -315,11 +319,29 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Sex = headerIndexes.get('PARTICIPANT SEX') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT SEX')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT SEX')].trim()
+                    : null; 
+                YearofBirth =  headerIndexes.get('PARTICIPANT YEAR OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')].trim()
                     : null;
-                DateOfBirth = headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
+                MonthofBirth =  headerIndexes.get('PARTICIPANT MONTH OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')].trim()
+                    : null;
+                strDate =  headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')].trim()
                     : null;
+                if(String.isNotBlank(YearofBirth) && String.isNotBlank(MonthofBirth) && String.isNotBlank(strDate)){
+                 DateofBirthError = YearofBirth.length() != 4 ? 'yearError' : MonthofBirth.length() > 2 ? 'MonthError' : strDate.length() > 2 ? 'DateError' : 'NoError'   ;
+                    if(DateofBirthError == 'NoError')
+                    {
+                        DateOfBirth = YearofBirth + '-' + MonthofBirth + '-' + strDate;    
+                    }
+                }
+               
+ 
+
                 EmailAddress = headerIndexes.get('PARTICIPANT EMAIL ADDRESS') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')].trim()
@@ -443,7 +465,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - First Name'
+                        'Required field missing: First Name'
                     );
                 }
                 if (String.isEmpty(LastName)) {
@@ -453,7 +475,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - Last Name'
+                        'Required field missing: Last Name'
                     );
                 }
                 if (String.isEmpty(Phone)) {
@@ -463,7 +485,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         '' +
                         totalRecordCount +
                         ', ' +
-                        'mandatory field is empty - Phone'
+                        'Required field missing: Phone'
                     );
                 }
                 if (!String.isEmpty(PhoneType) && !phoneTypeLVSet.contains(PhoneType)) {
@@ -503,7 +525,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecordsWithMsg.add(
                         '' +
                         totalRecordCount + ', ' +
-                        'mandatory field is empty - Postal Code'
+                        'Required field missing: Postal Code'
                     );
                 }
                 try {
@@ -561,7 +583,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             '' +
                             totalRecordCount +
                             ', ' +
-                            'Date of Birth, incorrect, can\'t be empty or in the future'
+                            'Date of Birth value is missing or invalid'
                         );
                     }
                 } catch (Exception exp) {
@@ -779,13 +801,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone = Phone,
                         MobilePhone = Phone2,
                         MailingState = State,
-                        Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false),
-                        IQVIA_Direct_Mail_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachDirectMail : false),
-                        Participant_Phone_Opt_In_Permit_Phone__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Artificial_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Assisted_Dialing_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        IQVIA_Pre_recorded_Voice_Consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachPhone : false),
-                        Participant_Opt_In_Status_SMS__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachSMS : false),
                         MailingCountry = countryName,
                         MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,
@@ -795,6 +810,23 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             ? uploadUser.Contact.Language__c
                             : Language)
                     );
+                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                        if(this.outreachEmail){
+                            participantContact.Participant_Opt_In_Status_Emails__c = true;
+                        }
+                        if(this.outreachPhone){
+                            participantContact.IQVIA_Artificial_Voice_Consent__c = true;
+                            participantContact.IQVIA_Assisted_Dialing_Consent__c = true;
+                            participantContact.IQVIA_Pre_recorded_Voice_Consent__c = true;
+                            participantContact.Participant_Phone_Opt_In_Permit_Phone__c = true;
+                        }
+                        if(this.outreachDirectMail){
+                            participantContact.IQVIA_Direct_Mail_Consent__c = true;
+                        }
+                        if(this.outreachSMS){
+                            participantContact.Participant_Opt_In_Status_SMS__c = true;
+                        }
+                    }
                     if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                         participantContact.IQVIA_Contact_info_storage_consent__c = true;
                     }
@@ -1296,8 +1328,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for(String conId : duplicateContactIds){
                 Contact con = new Contact();
                 con.Id = conId;
-                con.Participant_Opt_In_Status_Emails__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
-                con.IQVIA_Contact_info_storage_consent__c = (studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c? this.outreachEmail : false);
                 if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
                     con.IQVIA_Contact_info_storage_consent__c = true;
                 }
@@ -1308,6 +1338,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     con.IQVIA_Assisted_Dialing_Consent__c = outreachPhone;
                     con.IQVIA_Pre_recorded_Voice_Consent__c = outreachPhone;
                     con.Participant_Opt_In_Status_SMS__c = outreachSMS;
+                    con.Participant_Opt_In_Status_Emails__c = outreachEmail;
                 }
                 existingContact.add(con);
             }
@@ -1648,7 +1679,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         );
         Id contextUserId = UserInfo.getUserId();
         User contextUser = [
-            SELECT Id, Email, Contact.Email, contactId
+            SELECT Id, Email, Contact.Email, contactId, Username
             FROM User
             WHERE id = :contextUserId
         ];
@@ -1689,7 +1720,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     mapRowIndexToErrorMessage.put(intRowIndex,strMessage);
                 else{
                     String strTempMessage = mapRowIndexToErrorMessage.get(intRowIndex);
-                    strTempMessage = strTempMessage + ':::' + strMessage;
+                    strTempMessage = strTempMessage + '-' + strMessage;
                     mapRowIndexToErrorMessage.put(intRowIndex,strTempMessage);
                 }
             }
@@ -1725,9 +1756,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
         htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
+        htmlBody = htmlBody.replace('##userName', '' + contextUser.userName);
         String plainBody = (!Test.isRunningTest() ? adminEmailToSend.getPlainTextBody() : 'test');
         plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+        plainBody = plainBody.replace('##userName', '' + contextUser.userName);
 
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
         emailToSend.setToAddresses(
@@ -1740,9 +1773,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         emailToSend.setSubject(adminEmailToSend.getSubject());
         emailToSend.setOrgWideEmailAddressId(owea.Id);
 
-        emailToSend.setFileAttachments(
+        /*emailToSend.setFileAttachments(
             new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
-        );
+        );*/
 
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });

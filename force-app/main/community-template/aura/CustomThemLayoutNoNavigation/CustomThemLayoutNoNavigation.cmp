@@ -20,6 +20,7 @@
     <aura:attribute name="isRTL" type="Boolean" default="true" />
     <aura:attribute name="isGSKGuestUser" type="Boolean" default="false" />
     <aura:attribute name="urlPathPrefix" type="String" />
+    <aura:attribute name="currentMode" type="Object" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -54,7 +55,10 @@
                 </div>
                 <div class="rr-header-margin"></div>
                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}"></c:televisitMeetBanner>
+                <c:televisitMeetBanner
+                    urlPathPrefix="{!v.urlPathPrefix}"
+                    currentMode="{!v.currentMode}"
+                ></c:televisitMeetBanner>
                 {!v.body}
             </div>
             <c:CookiesInfo />
