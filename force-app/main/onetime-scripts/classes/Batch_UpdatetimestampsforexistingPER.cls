@@ -16,12 +16,12 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         }
         for(Participant_Enrollment__History peh:ListPers){  
             Map<String,DateTime> maph = new Map<String,DateTime>();
-            if(mapPer.containsKey(peh.Id)){
-                Map<String,DateTime> maph1 = mapPer.get(peh.Id);
+            if(mapPer.containsKey(peh.parentId)){
+                Map<String,DateTime> maph1 = mapPer.get(peh.parentId);
                 if(maph1.keyset() != null && maph1.keyset().contains(peh.Field) && maph1.get(peh.Field) < peh.createddate){
                     maph1.put(peh.Field,peh.createddate);
                     mapPer.get(peh.parentId).putAll(maph1);
-                }else{
+                }else if(maph1.keyset() != null && !maph1.keyset().contains(peh.Field)){
                     maph.put(peh.Field,peh.createddate);
                     mapPer.get(peh.parentId).putAll(maph);
                 }
@@ -30,30 +30,33 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 mapPer.put(peh.parentId,maph);
             }
         }
+        system.debug('++++++++'+mapPer);
         for(Participant_Enrollment__c per:lst_PER){
-            Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
-            pertoupdate.Id = per.Id;
-            if(per.Study_Email_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
-
-                per.Study_Email_Consent_Time__c = mapPer.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
-            }
-            if(per.Study_Phone_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
-
-                per.Study_Phone_Consent_Time__c = mapPer.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
-            } 
-            if(per.Study_SMS_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
-
-                per.Study_SMS_Consent_Time__c = mapPer.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
-            } 
-            if(per.Study_PI_Storage_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
-
-                per.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
-            }
-            toupdateConsent.add(pertoupdate);
+            if(per.Histories != null && per.Histories.size() > 0){
+                Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
+                pertoupdate.Id = per.Id;
+                if(per.Study_Email_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
+                       
+                       pertoupdate.Study_Email_Consent_Time__c = mapPer.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
+                   }
+                if(per.Study_Phone_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
+                       
+                       pertoupdate.Study_Phone_Consent_Time__c = mapPer.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
+                   } 
+                if(per.Study_SMS_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
+                       
+                       pertoupdate.Study_SMS_Consent_Time__c = mapPer.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
+                   } 
+                if(per.Study_PI_Storage_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
+                       
+                       pertoupdate.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
+                   }
+                toupdateConsent.add(pertoupdate);
+            }           
         }
         if(!toupdateConsent.isEmpty()){
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
