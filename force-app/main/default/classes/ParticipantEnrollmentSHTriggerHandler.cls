@@ -140,6 +140,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 Id,
                 Enrolled_Date__c,
                 Informed_Consent__c,
+            	Succesfully_Re_Engaged__c,
                 Last_Status_Changed_Notes__c,
                 Non_Enrollment_Reason__c,
                 Participant_Status__c,
@@ -180,6 +181,11 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 pe.Informed_Consent__c = true;
                 if (headHistory.Date__c != null)
                     pe.Enrolled_Date__c = headHistory.Date__c.date();
+            }
+            if (
+                headHistory.Status__c == 'Successfully re-engaged'
+            ) {
+                pe.Succesfully_Re_Engaged__c = true;   
             }
         }
         System.debug('enrollments:' + enrollments);
