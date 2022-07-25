@@ -323,6 +323,7 @@ public without sharing class PIR_HomepageController {
         status.add('Eligibility Passed');
         status.add('Ready to Screen');
         status.add('Participant No Show');
+        status.add('Successfully re-engaged');
         // status.add('Randomization Success');
         // status.add('Enrollment Success');
         
@@ -371,9 +372,7 @@ public without sharing class PIR_HomepageController {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
         }
-          if( selectedStatusList.contains('Successfully Contacted')){
-              selectedStatusList.add('Successfully re-engaged');
-          }
+          
       }
 
       //For Source
@@ -1988,7 +1987,8 @@ public without sharing class PIR_HomepageController {
           Initial_visit_scheduled_date__c,
           Initial_visit_occurred_date__c,
           Initial_visit_occurred_flag__c,
-          isBulkUpdate__c
+          isBulkUpdate__c,
+          ParticipantNoShow__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -2033,6 +2033,10 @@ public without sharing class PIR_HomepageController {
         ) {
           pe.Initial_visit_occurred_date__c= null;
           pe.Initial_visit_occurred_flag__c= false;
+        }
+        if(oParticipantStatus == 'Participant No Show')
+        {
+           pe.ParticipantNoShow__c=false;
         }
 
         PEUpdateList.add(pe);
