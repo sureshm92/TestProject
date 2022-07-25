@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Reasons_List__c</field>
-        <value xsi:type="xsd:string">;Not Ready to Schedule;Call Back</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Show_Only_If_Selected__c</field>

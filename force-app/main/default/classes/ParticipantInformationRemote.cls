@@ -116,15 +116,17 @@ public without sharing class ParticipantInformationRemote {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                     createdName;
-           }else if(pehistory[0].Status_Label__c == 'Successfully_Contacted'){
-               
+           }
+           
+          else if(pehistory[0].Status_Label__c == 'Successfully_Contacted' || pehistory[0].Status_Label__c == 'Successfully_Re_Engaged'){
+              
                 pi.dateOccured=pehistory[0].Date__c.date().format();
                 pi.occuredDate=pehistory[0].Date__c.date();
                 pi.reason=pehistory[0].Non_Enrollment_Reason__c;
                 pi.isPNS= false;  
                   String title = '';
                   if(pehistory[0].Status__c == 'Successfully re-engaged'){
-                      String sc = 'Successfully Contacted'; 
+                      String sc = 'Successfully Re-Engaged';
                       title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
                        pi.isContact=true;
                   }else{
@@ -154,7 +156,11 @@ public without sharing class ParticipantInformationRemote {
                     ' ' +
                     createdName;
            }
-      }else{
+
+           
+      }
+      
+      else{
            pi.isPNS= false;
              pi.isContact= false; 
       }
@@ -1987,7 +1993,88 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
-    } 
+    }
+    
+    @AuraEnabled
+    public static peBubbleChartInfo getPESH(Id peId) {
+    try{ system.debug('PRINTINFO');
+       Participant_Enrollment_Status_History__c pehistory = new Participant_Enrollment_Status_History__c();
+         pehistory = [
+        SELECT
+          Id,
+          Date__c,Name,
+          Status_Order__c,
+          toLabel(Status__c),
+          toLabel(Non_Enrollment_Reason__c),
+          Notes__c,
+          CreatedBy.Name,
+          Additional_Notes__c,
+          CreatedBy.IsPortalEnabled,
+          CreatedBy.contact.userCommunityMode__c,
+          Status_Label__c
+        FROM Participant_Enrollment_Status_History__c
+        WHERE
+          ParticipantEnrollment__c = :peId
+          AND Status_Order__c = 2
+        ORDER BY Name DESC Limit 1
+      ];
+      peBubbleChartInfo bubblechart = new peBubbleChartInfo();
+      if(pehistory !=null){
+          system.debug('history');
+           if(pehistory.Status_Label__c == 'Participant_No_Show'){
+                bubblechart.isPNS= true;
+                bubblechart.dateOccured=pehistory.Date__c.date().format();
+                bubblechart.occuredDate=pehistory.Date__c.date();
+                bubblechart.isContact=false;
+           }else if(pehistory.Status_Label__c == 'Successfully_Contacted' ||pehistory.Status_Label__c == 'Successfully_Re_Engaged'){
+                bubblechart.isContact=true;
+                bubblechart.dateOccured=pehistory.Date__c.date().format();
+                bubblechart.occuredDate=pehistory.Date__c.date();
+                bubblechart.reason=pehistory.Non_Enrollment_Reason__c;
+                bubblechart.isPNS= false;  
+                  system.debug('SCONTACTED');
+                  String title = '';
+                  if(pehistory.Status__c == 'Successfully re-engaged'){
+                      //String sc = 'Successfully Contacted';
+                       system.debug('SCONTACTED12');
+                      String sc = 'Successfully re-engaged';
+                      title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+                  }
+                  if (pehistory.Non_Enrollment_Reason__c != null) { system.debug('SCONTACTED0011');
+                    //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+                    title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pehistory.Non_Enrollment_Reason__c.trim());
+                  }
+                  if (pehistory.Notes__c != null) { system.debug('SCONTACTED4444');
+                    title = title + ', ' + pehistory.Notes__c;
+                  }
+                   bubblechart.historyTitle = title;
+                    system.debug('SCONTACTED');
+                     bubblechart.detailDate = pehistory.Date__c.format('YYYY-MM-dd hh:mm:ss a');
+                  bubblechart.createdBy = ParticipantInformationRemote.getMasked(
+                    pehistory.CreatedBy.IsPortalEnabled,
+                    pehistory.CreatedBy.contact.userCommunityMode__c,
+                    pehistory.CreatedBy.Name
+                  ); system.debug('SCONTACTED masked');
+                  String createdName =   bubblechart.createdBy; system.debug('SCONTACTEDby333');
+                  bubblechart.detail =  ' ' +
+                    TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
+                    ' ' +
+                    pehistory.Date__c.format() +
+                    ' ' +
+                    TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
+                    ' ' +
+                    createdName;  system.debug('SCONTACTEDlassstttt');
+           }
+      }
+        return bubblechart;
+     }catch (Exception e) {
+      throw new AuraHandledException(
+        e.getMessage() +
+        '\n' +
+        e.getStackTraceString()
+      );
+      }
+    }
     public static String getMasked(
     Boolean IsPortalEnabled,
     String userCommunityMode,
@@ -2069,5 +2156,26 @@ public without sharing class ParticipantInformationRemote {
         public Date dateOfSH { get; set; }
         @AuraEnabled
         public Decimal shLogStatus { get; set; }
+    }
+    public class peBubbleChartInfo {
+        @AuraEnabled
+        public Boolean isPNS{ get; set; }
+        @AuraEnabled
+        public String dateOccured;
+        @AuraEnabled
+        public Date occuredDate;
+        @AuraEnabled
+        public String reason;
+        @AuraEnabled
+        public Boolean isContact{ get; set; }
+        @AuraEnabled
+        public String historyTitle;
+        @AuraEnabled
+        public String detailDate;
+        @AuraEnabled
+        public String createdBy;
+        @AuraEnabled
+        public String detail;
+       
     }
 }

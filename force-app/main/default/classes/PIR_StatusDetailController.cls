@@ -368,6 +368,7 @@ public without sharing class PIR_StatusDetailController {
         Participant__r.Gender__c,
         Add_televisit_for_Initial_Visit__c,
         Initial_Visit_Televisit_Created__c,
+        Succesfully_Re_Engaged__c,
         Participant__r.First_Name__c,
         Participant__r.Last_Name__c,
         Participant_Contact__c,
@@ -1802,16 +1803,17 @@ public without sharing class PIR_StatusDetailController {
         );
         update perRec;
       }
-      if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
+      /*if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
         pesh.Status__c = 'Successfully re-engaged'; //re-engaged
         pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
         pesh.ParticipantEnrollment__c = perRecord.Id;
-        //pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
+        pesh.Non_Enrollment_Reason__c = perRecord.Non_Enrollment_Reason__c;
         insert pesh;
       } 
-      else if (perRecord.ParticipantNoShow__c) {
+      else */
+      if (perRecord.ParticipantNoShow__c) {
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
         pesh.Status__c = 'Participant No Show'; //Participant No Show
@@ -1897,5 +1899,29 @@ public without sharing class PIR_StatusDetailController {
       bol = true;
     }
     return bol;
+  }
+  @AuraEnabled
+    public static Boolean isSuccessfullyReEngaged(Id pe){
+    List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
+    pehistory = [
+        SELECT
+          Id,
+          Date__c,Name,
+          Status__c,
+          CreatedBy.Name,
+          Additional_Notes__c, 
+          CreatedBy.IsPortalEnabled,
+          Status_Order__c,Status_Label__c,
+          CreatedBy.contact.userCommunityMode__c
+        FROM Participant_Enrollment_Status_History__c
+        WHERE ParticipantEnrollment__c = :pe AND Status_Label__c = 'Successfully_Re_Engaged'
+        ORDER BY Name DESC
+      ];
+      if(!pehistory.isEmpty()){
+        return true;
+      }
+      else{
+        return false;
+      }
   }
 }

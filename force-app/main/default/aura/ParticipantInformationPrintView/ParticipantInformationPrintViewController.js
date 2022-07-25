@@ -1,7 +1,7 @@
 /**
  * Created by Kryvolap
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         var res;
@@ -46,6 +46,9 @@
                                         pathItems[ind].isCurrent = true;
                                     }
                                     if(ind == 1){
+                                        if(pathItems[ind].title = $A.get("$Label.c.Participant_No_Show")){
+                                            pathItems[0].right = "success";
+                                        }
                                         pathItems[ind].title = $A.get("$Label.c.Participant_No_Show");
                                         pathItems[ind].stepHistory[0].title =returnValue.historyTitle; 
                                         pathItems[ind].stepHistory[0].source =null;
@@ -58,8 +61,8 @@
                                         pathItems[ind].right = "neutral";
                                         pathItems[ind].reason = null;
                                         pathItems[ind].occuredDate =returnValue.occuredDate;
-                                        pathItems[ind].left = "neutral";
-                                        pathItems[ind].isCurrent = false;
+                                        pathItems[ind].left = "success";
+                                        pathItems[ind].isCurrent = true;
                                         pathItems[ind].dateOccured =returnValue.dateOccured; 
                                     }
                                     if(ind == 2){

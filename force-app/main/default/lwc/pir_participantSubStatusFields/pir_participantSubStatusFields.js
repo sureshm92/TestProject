@@ -7,6 +7,7 @@ import getEligibilityHistory from "@salesforce/apex/PIR_StatusDetailController.g
 import getScreeningHistory from "@salesforce/apex/PIR_StatusDetailController.getScreeningHistory";
 import getEnrollmentHistory from "@salesforce/apex/PIR_StatusDetailController.getEnrollmentHistory";
 import doSaveStatusDetails from "@salesforce/apex/PIR_StatusDetailController.doSaveStatusDetails";
+import isSuccessfullyReEngaged from "@salesforce/apex/PIR_StatusDetailController.isSuccessfullyReEngaged";
 import FD_PE_Field_Initial_Visit_Attended_Validation from '@salesforce/label/c.FD_PE_Field_Initial_Visit_Attended_Validation';
 import FG_PE_Inf_Consent_Validation from '@salesforce/label/c.FG_PE_Inf_Consent_Validation';
 import PWS_Withdrew_Conscent_Disclaimer from '@salesforce/label/c.PWS_Withdrew_Conscent_Disclaimer';
@@ -51,6 +52,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   selectedreasonIV = "";
   revisitDateReq=false;
   isScreeningReq=false;
+  isWithdrew=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -69,6 +71,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @track televisitInitialVisitCheckboxStatus = 'Disabled';
   @track isTelevisitModalOpen = false;
   @track proceedSaveRecord = false;
+  @api getreengaged=false;
   maindivcls;
   label = {
     FD_PE_Field_Initial_Visit_Attended_Validation,
@@ -237,6 +240,7 @@ changeInputValue(event) {
       this.participantrecord.ParticipantNoShow__c = event.target.checked;
       if(event.target.checked){
         this.noShow = true; this.additionalNote="";
+        this.participantrecord.Non_Enrollment_Reason__c='';
         this.participantrecord.Participant_Status__c = "Participant No Show";
         this.statusChanged = true;
       }else{
@@ -1725,6 +1729,9 @@ changeInputValue(event) {
           this.participantrecord.Final_consent__c = false;
     }
     
+    if(this.participantrecord.Participant_Status__c == "Withdrew Consent" && this.participantrecord.Initial_visit_occurred_flag__c==true){
+      this.participantrecord.Informed_Consent__c=false;
+    }
    
 
     let outcome = this.selectedOutcome;
