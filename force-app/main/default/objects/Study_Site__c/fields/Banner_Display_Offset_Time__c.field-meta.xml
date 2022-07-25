@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Banner_Display_Offset_Time__c</fullName>
     <externalId>false</externalId>
-    <label>Banner Display Offset Time</label>
+    <label>Banner Display (minutes)</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

@@ -21,7 +21,9 @@ public without sharing class NotificationService {
     };
 
     static public List<String> participantStatusListForPT = new List<String>{
-        PEStatusState.PE_STATUS_RECEIVED
+        PEStatusState.PE_STATUS_RECEIVED,
+        PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED,
+        PEStatusState.PE_STATUS_NO_SHOW
     };
 
     static public List<String> notificationWithoutPermissions = new List<String>{
