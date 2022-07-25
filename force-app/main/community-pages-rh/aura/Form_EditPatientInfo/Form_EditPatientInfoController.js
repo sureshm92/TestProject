@@ -404,7 +404,8 @@
                           (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
                           participant.Mailing_Zip_Postal_Code__c &&
                           pe &&
-                          pe.Participant_Status__c &&
+                          pe.Participant_Status__c && 
+                          (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c)) &&
                           (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
                           (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                           //stateVaild &&

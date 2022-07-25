@@ -29,6 +29,9 @@ import PP_Profile_Information from '@salesforce/label/c.PP_Profile_Information';
 import PP_Communication_Study_Static_Message from '@salesforce/label/c.PP_Communication_Study_Static_Message';
 import PP_Phone_Mandatory from '@salesforce/label/c.PP_Phone_Mandatory';
 import PP_Phone_Numeric from '@salesforce/label/c.PP_Phone_Numeric';
+import Mob_Phone_Field from '@salesforce/label/c.Mob_Phone_Field';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+
 //END TO DO
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
@@ -73,7 +76,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         PP_Profile_Information,
         PP_Communication_Study_Static_Message,
         PP_Phone_Mandatory,
-        PP_Phone_Numeric
+        PP_Phone_Numeric,
+        Mob_Phone_Field,
+        BTN_Save
     };
 
     @track studyDetails = [];
@@ -254,7 +259,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     get phoneErrorBorder() {
-        return this.isRTL ? 'po-white-border-left' : 'po-white-border-right';
+        return this.isRTL ? 'po-white-border-right' : 'po-white-border-left';
     }
 
     get phoneErrorBtnMarin() {
