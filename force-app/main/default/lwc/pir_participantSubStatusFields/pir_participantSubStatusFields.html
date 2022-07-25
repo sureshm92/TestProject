@@ -550,7 +550,7 @@
                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                         <lightning-input type="text" data-value="screeningID" value={participantrecord.IVRS_IWRS__c}
                             label={utilLabels.PG_AP_F_Screening_Subject_Id}
-                            title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue}>
+                            title={utilLabels.PG_AP_F_Screening_Subject_Id} onchange={changeInputValue} required={isScreeningReq}>
                         </lightning-input>
                     </div>
                     <template if:true={isTelevisitEnabled}>
@@ -649,12 +649,6 @@
                         </lightning-textarea>
                     </div>
                     <template if:true={isOnlyVisitPlan}>
-                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
-                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
-                                value={plan} options={visitplanoptions} onchange={changeInputValue}
-                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
-                        </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input type="text" data-value="EnrollmentID"
@@ -662,15 +656,47 @@
                                 title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
+                        
                     </template>
                     <template if:true={isOnlyFinalConsent}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" data-value="EnrollmentID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
+                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
                                 onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
                                 title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
                                 style="padding-top:33px"></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentRequired}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input type="text" data-value="EnrollmentID"
@@ -678,28 +704,27 @@
                                 title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
                         </div>
-                    </template>
-                    <template if:true={isVisitPlanAndFinalConsentRequired}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
+                                onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
+                                title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
+                                style="padding-top:33px"></lightning-input>
+                        </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
                                 label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
                                 value={plan} options={visitplanoptions} onchange={changeInputValue}
                                 required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
-                        </div>
-                        <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
-                                onchange={changeInputValue} type="checkbox" label={utilLabels.FD_PE_Field_Final_Consent}
-                                title={utilLabels.FD_PE_Field_Final_Consent} required={makerequiredfinalConsent}
-                                style="padding-top:33px"></lightning-input>
-                        </div>
-                        <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-input type="text" data-value="EnrollmentID"
-                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Enrollment_ID}
-                                title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
-                                required={makerequiredrandomizationid}></lightning-input>
                         </div>
                     </template>
                     <template if:true={isVisitPlanAndFinalConsentNotRequired}>
@@ -710,6 +735,14 @@
                                 title={utilLabels.PE_Enrollment_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
                     </template>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <ul class="slds-accordion">
@@ -794,12 +827,6 @@
                         </lightning-textarea>
                     </div>
                     <template if:true={isOnlyVisitPlan}>
-                        <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
-                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
-                                value={plan} options={visitplanoptions} onchange={changeInputValue}
-                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
-                        </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
@@ -807,8 +834,29 @@
                                 title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
+                        </div>
                     </template>
                     <template if:true={isOnlyFinalConsent}>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
+                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
+                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
+                                required={makerequiredrandomizationid}></lightning-input>
+                        </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input checked={participantrecord.Final_consent__c} data-value="FinalConsent"
@@ -816,21 +864,22 @@
                                 title={utilLabels.FD_PE_Field_Final_Consent} style="padding-top:33px"
                                 required={makerequiredfinalConsent}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={isVisitPlanAndFinalConsentRequired}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
                             <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
                                 value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
                                 title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
-                        </div>
-                    </template>
-                    <template if:true={isVisitPlanAndFinalConsentRequired}>
-                        <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
-                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
-                                value={plan} options={visitplanoptions} onchange={changeInputValue}
-                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
                         </div>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
@@ -840,12 +889,20 @@
                                 title={utilLabels.FD_PE_Field_Final_Consent} style="padding-top:33px"
                                 required={makerequiredfinalConsent}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
                         <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
-                            <lightning-input type="text" name="RandomizationID" data-value="RandomizationID"
-                                value={participantrecord.Screening_ID__c} label={utilLabels.PE_Randomization_ID}
-                                title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
-                                required={makerequiredrandomizationid}></lightning-input>
+                            <lightning-combobox name="VisitPlan" placeholder={label.PG_AC_Select} data-value="VisitPlan"
+                                label={utilLabels.FD_PE_Field_Arm_Cohort} title={utilLabels.FD_PE_Field_Arm_Cohort}
+                                value={plan} options={visitplanoptions} onchange={changeInputValue}
+                                required={makerequiredvisitplan} disabled={isvisitplanreadonly}></lightning-combobox>
                         </div>
                     </template>
                     <template if:true={isVisitPlanAndFinalConsentNotRequired}>
@@ -856,6 +913,14 @@
                                 title={utilLabels.PE_Randomization_ID} onchange={changeInputValue}
                                 required={makerequiredrandomizationid}></lightning-input>
                         </div>
+                        <template if:true={isTokanizationSupportReq}>
+                            <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 outcome-form-element slds-m-bottom_medium">
+                            <lightning-combobox name="SexatBirth" data-value="SexatBirth" label={label.PE_Sex_At_Birth}
+                                title={label.PE_Sex_At_Birth} placeholder="--" value={participantRec.Gender__c}
+                                options={sexAssignedBirth} onchange={changeInputValue} required={isSexatBirthReq}></lightning-combobox>
+                            </div>
+                        </template>
                     </template>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <ul class="slds-accordion">
