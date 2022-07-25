@@ -58,7 +58,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="5">
                             <div class="sub-header po-error">
-                                <div class={phoneErrorHeaderMarPad}>Mobile Phone</div>
+                                <div class={phoneErrorHeaderMarPad}>{label.Mob_Phone_Field}</div>
                                 <lightning-layout
                                 multiple-rows="true"
                                 class="po-error-container po-mr-10"
@@ -76,7 +76,7 @@
                                  </lightning-layout-item>
             
                                  <lightning-layout-item size="4">
-                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarin}>Save</button>
+                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarin}>{label.BTN_Save}</button>
                                 </lightning-layout-item>
                                 </lightning-layout>
                             </div>
@@ -507,7 +507,7 @@
                                     >.
                                 </lightning-layout-item>
                                 <lightning-layout-item size="12" class="pad-top-10">
-                                    <div class={phoneErrorHeaderMarPadMobile}>Mobile Phone</div>
+                                    <div class={phoneErrorHeaderMarPadMobile}>{label.Mob_Phone_Field}</div>
                                 </lightning-layout-item>
                                  <lightning-layout-item size="7" class="pad-r-10">
                                     <lightning-input
@@ -522,7 +522,7 @@
                                  </lightning-layout-item>
             
                                  <lightning-layout-item size="5" class="pb-10">
-                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarinMobile}>Save</button>
+                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarinMobile}>{label.BTN_Save}</button>
                                 </lightning-layout-item>
                                 </lightning-layout>
                             </div>
