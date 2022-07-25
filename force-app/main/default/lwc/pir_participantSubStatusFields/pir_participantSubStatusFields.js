@@ -1734,6 +1734,13 @@ changeInputValue(event) {
     }
    
 
+    if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
+      this.participantrecord.Participant_Status__c == "Successfully Contacted" && 
+      this.participantrecord.Initial_visit_scheduled_date__c!=null
+     ){
+      this.participantrecord.Succesfully_Re_Engaged__c = false;
+      
+      }
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
