@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
-import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
+import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
@@ -21,6 +21,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     timeLeft = 900000;
     spinner;
     lockedOutUsrName;
+    showPopup = false;
+    @track userNam;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -225,5 +227,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 }
             });
         }
+    }
+    handleUnableToLogin() {
+        this.userNam = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('input[data-id=userName]').value;
+        this.showPopup = true;
+    }
+    handleModalClose(event) {
+        const item = event.detail;
+        this.showPopup = item;
     }
 }

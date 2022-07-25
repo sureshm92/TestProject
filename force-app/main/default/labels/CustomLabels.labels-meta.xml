@@ -14957,6 +14957,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Lockout</shortDescription>
         <value>Locked out</value>
     </labels>
+     <labels>
+        <fullName>PP_BTN_Back_To_Log_in</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP BTN Back to Log in</shortDescription>
+        <value>Back to Log in</value>
+    </labels>
     <labels>
         <fullName>PG_Lockout_Error_Message</fullName>
         <language>en_US</language>
@@ -18281,6 +18288,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
     </labels>
     <labels>
+        <fullName>PP_Email_Sent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent</shortDescription>
+        <value>Email sent!</value>
+    </labels>
+     <labels>
+        <fullName>PP_Email_Sent_To_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent To User</shortDescription>
+        <value>If there is an account linked to this email, we&apos;ll send instructions to recover your password.</value>
+    </labels>
+    <labels>
         <fullName>PP_Emergency</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18288,6 +18309,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
+        <fullName>PP_Enter_Associated_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Enter Associated Email</shortDescription>
+        <value>Enter the email associated with your account.</value>
+    </labels>
+     <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>
