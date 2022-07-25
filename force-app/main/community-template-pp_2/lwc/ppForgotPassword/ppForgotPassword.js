@@ -1,11 +1,35 @@
 import { LightningElement, track } from 'lwc';
+import { loadScript } from 'lightning/platformResourceLoader';
+import { NavigationMixin } from 'lightning/navigation';
 import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPasswordCommunity';
-import usrnameLabel from '@salesforce/label/c.PG_AS_F_Username';
 import ppEnterAssociatedEmail from '@salesforce/label/c.PP_Enter_Associated_Email';
 import forgotLabel from '@salesforce/label/c.PP_ForgotPwd';
+import email from '@salesforce/label/c.Email';
+import emailSentToUser from '@salesforce/label/c.PP_Email_Sent_To_User';
+import emailSent from '@salesforce/label/c.PP_Email_Sent';
+import backToLogin from '@salesforce/label/c.PP_BTN_Back_To_Log_in';
+import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
+import communityResource from '@salesforce/resourceUrl/rr_community_js';
+import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
 
-export default class PpForgotPassword extends LightningElement {
+export default class PpForgotPassword extends NavigationMixin(LightningElement) {
     @track showEmailSent = false;
+    @track isRTL;
+    @track usrnameval;
+    @track checkEmailUrl = './CheckPasswordResetEmail';
+    @track emailMessage;
+    @track errorMessage;
+    labels = {
+        ppEnterAssociatedEmail,
+        forgotLabel,
+        email,
+        emailSentToUser,
+        emailSent,
+        backToLogin,
+        rtlLanguageLabel,
+        sendEmailLabel
+    };
+
     connectedCallback() {
         Promise.all([loadScript(this, communityResource)])
             .then(() => {
@@ -20,19 +44,12 @@ export default class PpForgotPassword extends LightningElement {
             });
         if (!this.usrnameval) {
             this.usrnameval = '';
-            this.userPlaceholder = this.labels.usrPlaceholder;
         }
     }
 
-    get rtlStyleClass() {
-        //if (this.isRTL) {
-        //     this.rtlCss = 'forgotpwd-rtl';
-        // }
-        //  return this.rtlCss;
-    }
+    get rtlStyleClass() {}
 
     handleForgotPassword() {
-        console.log('&&&&&&&&&&&&&&&&%%%2');
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
@@ -68,5 +85,20 @@ export default class PpForgotPassword extends LightningElement {
                 this.error = error;
                 spinner.hide();
             });
+    }
+    onKeyUp(event) {
+        //checks for "enter" key
+        if (event.which === 13) {
+            this.handleForgotPassword();
+        }
+    }
+
+    goBack() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Login'
+            }
+        });
     }
 }
