@@ -821,7 +821,7 @@ public without sharing class CommunityModeService {
         ]; 
                 for (Study_Site__c ss : studySites) {
                     if (
-                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c))
+                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)
                     )  {
                         if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
                             ssByCommunity.put(
