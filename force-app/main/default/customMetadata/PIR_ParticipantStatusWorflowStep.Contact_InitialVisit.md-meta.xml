@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>In_progress_criteria__c</field>
-        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Contact Attempted;Received;Participant No Show</value>
+        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Contact Attempted;Received;Participant No Show;Successfully re-engaged</value>
     </values>
     <values>
         <field>InitialVisit__c</field>
@@ -40,6 +40,6 @@
     </values>
     <values>
         <field>Success_Criteria__c</field>
-        <value xsi:type="xsd:string">Successfully Contacted;Successfully re-engaged</value>
+        <value xsi:type="xsd:string">Successfully Contacted</value>
     </values>
 </CustomMetadata>

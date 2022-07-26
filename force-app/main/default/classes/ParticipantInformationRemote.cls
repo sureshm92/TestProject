@@ -116,15 +116,17 @@ public without sharing class ParticipantInformationRemote {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                     createdName;
-           }else if(pehistory[0].Status_Label__c == 'Successfully_Contacted'){
-               
+           }
+           
+          else if(pehistory[0].Status_Label__c == 'Successfully_Contacted' || pehistory[0].Status_Label__c == 'Successfully_Re_Engaged'){
+              
                 pi.dateOccured=pehistory[0].Date__c.date().format();
                 pi.occuredDate=pehistory[0].Date__c.date();
                 pi.reason=pehistory[0].Non_Enrollment_Reason__c;
                 pi.isPNS= false;  
                   String title = '';
                   if(pehistory[0].Status__c == 'Successfully re-engaged'){
-                      String sc = 'Successfully Contacted'; 
+                      String sc = 'Successfully Re-Engaged';
                       title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
                        pi.isContact=true;
                   }else{
@@ -154,7 +156,11 @@ public without sharing class ParticipantInformationRemote {
                     ' ' +
                     createdName;
            }
-      }else{
+
+           
+      }
+      
+      else{
            pi.isPNS= false;
              pi.isContact= false; 
       }
@@ -1987,7 +1993,9 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
-    } 
+    }
+    
+    
     public static String getMasked(
     Boolean IsPortalEnabled,
     String userCommunityMode,
@@ -2070,4 +2078,5 @@ public without sharing class ParticipantInformationRemote {
         @AuraEnabled
         public Decimal shLogStatus { get; set; }
     }
+    
 }

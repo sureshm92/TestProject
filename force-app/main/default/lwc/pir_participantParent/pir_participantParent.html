@@ -398,7 +398,7 @@
                              {newStatusSelected}
                            </div>
                      </div>
-                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small">
+                     <div class={reasonClass}>
                            <lightning-combobox
                               name="reason"
                               title={label.PG_ACPE_L_Reason}
@@ -410,6 +410,12 @@
                               disabled={isReasonEmpty}
                               ></lightning-combobox>
                      </div>
+                     <template if:true={checkStatusReEngaged}>
+                        <div class="slds-col slds-size_2-of-5 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_large slds-m-bottom_xx-small">
+                            <lightning-input type="checkbox" data-value="reengaged" disabled=true checked=true
+                               label={label.successfully_Re_Engaged} name="re-Engaged"></lightning-input>
+                         </div>
+                      </template>
                      <template if:true={consentSigned}>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small"></div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">

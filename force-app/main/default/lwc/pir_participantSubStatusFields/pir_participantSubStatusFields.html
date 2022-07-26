@@ -128,7 +128,17 @@
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
                             onchange={changeInputValue}></lightning-input>
                     </div>
-                    <div class="sitepreferences" title={utilLabels.SitePreference}>{utilLabels.SitePreference}</div>
+                    <div class="sitepreferences marginchecboxleft" title={utilLabels.SitePreference}>{utilLabels.SitePreference}</div>
+                    <template if:true={getreengaged}>
+                    <div class="slds-grid slds-wrap slds-size_1-of-1 slds-margintop">
+                        <div class="slds-col slds-size_1-of-12 ">
+                            <lightning-input type="checkbox" data-value="reengaged" disabled=true checked={participantrecord.Succesfully_Re_Engaged__c}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_11-of-12 " >
+                            <p class="sitepreferences slds-marginleft">{utilLabels.Successfully_Re_Engaged}</p>
+                        </div>
+                    </div>
+                    </template>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium">
                         <ul class="slds-accordion">
                             <li class="slds-accordion__list-item">
@@ -281,7 +291,7 @@
                             checked={participantrecord.Site_Communication_Preference__c} data-value="sitePreference"
                             onchange={changeInputValue}></lightning-input>
                     </div>
-                    <div class="sitepreferences">{utilLabels.SitePreference}</div>
+                    <div class="sitepreferences marginchecboxleft">{utilLabels.SitePreference}</div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element slds-m-bottom_medium"
                         style="padding-top: 10px">
                         <div class="step-card-title">{utilLabels.FG_PE_Inf_Consent}</div>
