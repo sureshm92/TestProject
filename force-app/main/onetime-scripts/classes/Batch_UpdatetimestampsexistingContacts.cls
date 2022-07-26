@@ -34,22 +34,28 @@ global with sharing class Batch_UpdatetimestampsexistingContacts implements Data
             if(con.Histories != null && con.Histories.size() > 0 ){
                 Contact contoupdate = new Contact();
                 contoupdate.Id = con.Id;
+                Boolean check = false;
                 if(con.IQVIA_Email_Consent_Time__c == null && mapCon.get(con.Id) != null && 
                    mapCon.get(con.Id).keyset().contains('Participant_Opt_In_Status_Emails__c')){
                        
                        contoupdate.IQVIA_Email_Consent_Time__c = mapCon.get(con.Id).get('Participant_Opt_In_Status_Emails__c');
+                       check = true;
                    }
                 if(con.IQVIA_Phone_Consent_Time__c == null && mapCon.get(con.Id) != null && 
                    mapCon.get(con.Id).keyset().contains('Participant_Phone_Opt_In_Permit_Phone__c')){
                        
                        contoupdate.IQVIA_Phone_Consent_Time__c = mapCon.get(con.Id).get('Participant_Phone_Opt_In_Permit_Phone__c');
+                       check = true;
                    } 
                 if(con.IQVIA_SMS_Consent_Time__c == null && mapCon.get(con.Id) != null && 
                    mapCon.get(con.Id).keyset().contains('Participant_Opt_In_Status_SMS__c')){
                        
                        contoupdate.IQVIA_SMS_Consent_Time__c = mapCon.get(con.Id).get('Participant_Opt_In_Status_SMS__c');
+                       check = true;
                    } 
-                toupdateConsent.add(contoupdate);
+                if(check){
+                    toupdateConsent.add(contoupdate);
+                }
             }
         }
         if(!toupdateConsent.isEmpty()){

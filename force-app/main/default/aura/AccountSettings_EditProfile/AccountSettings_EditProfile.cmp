@@ -419,7 +419,7 @@
                     <!--  <aura:if isTrue="{!v.userMode != 'PI'}">  -->
                     <div class="as-email-preference">
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
-						<aura:if isTrue="{!and(v.userMode == 'Participant', !v.hideContactInformationForDel)}">
+						<aura:if isTrue="{!(!v.hideContactInformationForDel)}">
 							<div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
 							<div class="contactDesc">
 								<aura:if isTrue="{!v.userMode == 'CC'}">
