@@ -904,7 +904,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         }
 
         Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
-        Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isParticipantLoggedIn;
+        Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
         Participant__c currentParticipantTemp = new Participant__c();
         Contact currentContactTemp = new Contact();
         if (isParticipantLoggedInTemp || isDelegateSelfViewTemp) {
