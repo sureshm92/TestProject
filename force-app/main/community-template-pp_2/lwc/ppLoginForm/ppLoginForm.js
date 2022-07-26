@@ -111,11 +111,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
     }
 
-    handleShowTimer(event) {
-        this.timeLeft = event.detail;
-        this.isLockOut = true;
-    }
-
     handleUnlock(event) {
         this.isLockOut = false;
         this.inError = false;
@@ -235,7 +230,14 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         this.showPopup = true;
     }
     handleModalClose(event) {
-        const item = event.detail;
-        this.showPopup = item;
+        const showHideModal = event.detail.showpopup;
+        const timeLeft = event.detail.timeleft;
+        if (timeLeft) {
+            this.timeLeft = timeLeft;
+            this.isLockOut = true;
+            this.showPopup = showHideModal;
+        } else {
+            this.showPopup = showHideModal;
+        }
     }
 }

@@ -39,9 +39,11 @@ export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
                 .then((result) => {
                     console.log('##result: ' + JSON.stringify(result));
                     if (result.TimeDifference) {
-                        this.template.querySelector('.unableToLoginPopup').cancel();
-                        const unableToLoginEvent = new CustomEvent('unabletologin', {
-                            detail: result['TimeDifference']
+                        const unableToLoginEvent = new CustomEvent('modalclose', {
+                            detail: {
+                                showpopup: false,
+                                timeleft: result['TimeDifference']
+                            }
                         });
                         this.dispatchEvent(unableToLoginEvent);
                     } else {
@@ -68,9 +70,11 @@ export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
     }
 
     closeModal() {
-        let closemodal = false;
         const selectedEvent = new CustomEvent('modalclose', {
-            detail: closemodal
+            detail: {
+                showpopup: false,
+                timeleft: ''
+            }
         });
         this.dispatchEvent(selectedEvent);
     }
