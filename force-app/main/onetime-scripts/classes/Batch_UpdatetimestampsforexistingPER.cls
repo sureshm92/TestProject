@@ -1,7 +1,7 @@
 global with sharing class Batch_UpdatetimestampsforexistingPER implements Database.Batchable<sObject>{
     global Database.QueryLocator start(Database.BatchableContext bc) {
         List<String> filedsList = new List<String>{'Permit_Mail_Email_contact_for_this_study__c','Permit_Voice_Text_contact_for_this_study__c','Permit_SMS_Text_for_this_study__c','Permit_IQVIA_to_contact_about_study__c'};
-        String query  = 'Select id,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_SMS_Consent_Time__c,Study_PI_Storage_Consent_Time__c,';
+            String query  = 'Select id,Study_Email_Consent_Time__c,Study_Phone_Consent_Time__c,Study_SMS_Consent_Time__c,Study_PI_Storage_Consent_Time__c,';
         query = query + '(Select id,parentId,Field, OldValue , NewValue,createddate from Histories where Field IN :filedsList)';
         query = query + ' from Participant_Enrollment__c where (Study_Email_Consent_Time__c = null or Study_Phone_Consent_Time__c = null or Study_SMS_Consent_Time__c = null or Study_PI_Storage_Consent_Time__c = null)';
         return Database.getQueryLocator(query);
@@ -16,12 +16,12 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
         }
         for(Participant_Enrollment__History peh:ListPers){  
             Map<String,DateTime> maph = new Map<String,DateTime>();
-            if(mapPer.containsKey(peh.Id)){
-                Map<String,DateTime> maph1 = mapPer.get(peh.Id);
+            if(mapPer.containsKey(peh.parentId)){
+                Map<String,DateTime> maph1 = mapPer.get(peh.parentId);
                 if(maph1.keyset() != null && maph1.keyset().contains(peh.Field) && maph1.get(peh.Field) < peh.createddate){
                     maph1.put(peh.Field,peh.createddate);
                     mapPer.get(peh.parentId).putAll(maph1);
-                }else{
+                }else if(maph1.keyset() != null && !maph1.keyset().contains(peh.Field)){
                     maph.put(peh.Field,peh.createddate);
                     mapPer.get(peh.parentId).putAll(maph);
                 }
@@ -30,30 +30,33 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                 mapPer.put(peh.parentId,maph);
             }
         }
+        system.debug('++++++++'+mapPer);
         for(Participant_Enrollment__c per:lst_PER){
-            Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
-            pertoupdate.Id = per.Id;
-            if(per.Study_Email_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
-
-                per.Study_Email_Consent_Time__c = mapPer.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
-            }
-            if(per.Study_Phone_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
-
-                per.Study_Phone_Consent_Time__c = mapPer.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
-            } 
-            if(per.Study_SMS_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
-
-                per.Study_SMS_Consent_Time__c = mapPer.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
-            } 
-            if(per.Study_PI_Storage_Consent_Time__c == null && mapPer.get(per.Id) != null && 
-               mapPer.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
-
-                per.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
-            }
-            toupdateConsent.add(pertoupdate);
+            if(per.Histories != null && per.Histories.size() > 0){
+                Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
+                pertoupdate.Id = per.Id;
+                if(per.Study_Email_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
+                       
+                       pertoupdate.Study_Email_Consent_Time__c = mapPer.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
+                   }
+                if(per.Study_Phone_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
+                       
+                       pertoupdate.Study_Phone_Consent_Time__c = mapPer.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
+                   } 
+                if(per.Study_SMS_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
+                       
+                       pertoupdate.Study_SMS_Consent_Time__c = mapPer.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
+                   } 
+                if(per.Study_PI_Storage_Consent_Time__c == null && mapPer.get(per.Id) != null && 
+                   mapPer.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
+                       
+                       pertoupdate.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
+                   }
+                toupdateConsent.add(pertoupdate);
+            }            
         }
         if(!toupdateConsent.isEmpty()){
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -99,6 +102,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
             update toupdateConsent;
         }
