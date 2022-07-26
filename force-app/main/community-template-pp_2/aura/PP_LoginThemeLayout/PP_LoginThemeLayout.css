@@ -81,16 +81,15 @@
         margin-top: 215px;
     }
     .THIS .login-card {
-        position: absolute;
         top: 0px;
         width: 100%;
         height: 900px;
         right: 0px;
         border-radius: 0px;
     }
-    .THIS .footer {
+    /* .THIS .footer {
         top: 128px;
-    }
+    } */
 }
 /* Tablet media query start here */
 @media (min-width: 760px) and (max-width: 1024px) {
