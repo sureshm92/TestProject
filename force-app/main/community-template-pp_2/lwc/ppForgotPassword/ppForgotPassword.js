@@ -11,6 +11,10 @@ import backToLogin from '@salesforce/label/c.PP_BTN_Back_To_Log_in';
 import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
 import communityResource from '@salesforce/resourceUrl/rr_community_js';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
+import footer1 from '@salesforce/label/c.PP_Forgot_Password_Footer1';
+import footer2 from '@salesforce/label/c.PP_Forgot_Password_Footer2';
+import unableToLogin6 from '@salesforce/label/c.PG_Unable_To_Login_L6';
+import backButton from '@salesforce/label/c.BTN_Back';
 
 export default class PpForgotPassword extends NavigationMixin(LightningElement) {
     @track showEmailSent = false;
@@ -27,7 +31,11 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         emailSent,
         backToLogin,
         rtlLanguageLabel,
-        sendEmailLabel
+        sendEmailLabel,
+        footer1,
+        footer2,
+        unableToLogin6,
+        backButton
     };
 
     connectedCallback() {
@@ -50,12 +58,15 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
     get rtlStyleClass() {}
 
     handleForgotPassword() {
+        console.log('?????????????????????1');
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
+        console.log('?????????????????????2' + JSON.stringify(this.usrnameval));
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
                 if (result.includes('./CheckPasswordResetEmail')) {
+                    console.log('?????????????????????3');
                     this.showEmailSent = true;
                     if (this.showEmailSent == true) {
                         this.emailMessage = this.labels.emailsentsubtitle.replace(
@@ -64,6 +75,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                         );
                     }
                 } else if (result) {
+                    console.log('?????????????????????4');
                     let returnValue = JSON.parse(result);
                     if (returnValue['timeDifference']) {
                         this[NavigationMixin.Navigate]({
@@ -82,6 +94,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                 spinner.hide();
             })
             .catch((error) => {
+                console.log('?????????????????????4');
                 this.error = error;
                 spinner.hide();
             });
