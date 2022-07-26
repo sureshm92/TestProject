@@ -42,14 +42,14 @@ public class Test_HelpController {
 
         Test.startTest();
         try {
-            HelpController.getHelpInitData('PI');
+            HelpController.getHelpInitData('PI','Default');
         } catch (Exception e) {
             initExceptionMessage = e.getMessage();
         }
 
         System.runAs(testDataInstance.participantUser) {
             initDataPart = (HelpInitData) JSON.deserialize(
-                HelpController.getHelpInitData('PI'),
+                HelpController.getHelpInitData('PI','Default'),
                 HelpInitData.class
             );
         }
