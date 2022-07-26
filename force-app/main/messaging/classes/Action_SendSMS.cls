@@ -996,13 +996,6 @@ public with sharing class Action_SendSMS implements Action {
                         fromNumber = apiParamsMap.get(FROM_NUMBER).ParamValue__c;
                     }
                 } 
-                NotificationService.welcomemsgSent.put(notObj.Id,welcomemsgsent);
-                NotificationService.welcomemsgDelivered.put(notObj.Id,welcomemsgDelivered);
-                 if(!String.isBlank(pinPoint) && !String.isBlank(sponsorName) && !String.isBlank(studyName) && !String.isBlank(fromNumber)){
-                    if(!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)){
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id,True);
-                    }
-                }
                 NotificationService.welcomemsgSent.put(notObj.Id, welcomemsgsent);
                 NotificationService.welcomemsgDelivered.put(notObj.Id, welcomemsgDelivered);
                 if (
