@@ -35,4 +35,14 @@ export default class PatientPortalMenuPicklist extends LightningElement {
     get header() {
         return this.comboBoxHeader;
     }
+    toggleElement() {
+        console.log('inside toggle list');
+        let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
+        console.log('inside toggle list------' + ddMenu);
+        ddMenu.classList.toggle('active');
+    }
+    removeElementFocus(event) {
+        let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
+        ddMenu.classList.remove('active');
+    }
 }

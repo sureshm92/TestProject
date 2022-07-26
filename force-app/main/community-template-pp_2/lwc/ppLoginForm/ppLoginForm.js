@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
-import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
+import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
@@ -15,10 +15,14 @@ import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordL
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
+    @track isRTL;
+    errorIconPosition;
+    isLockOut = false;
+    timeLeft = 900000;
     spinner;
     lockedOutUsrName;
-    timeLeft = 900000;
-    isLockOut = false;
+    showPopup = false;
+    @track userNam;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -37,10 +41,61 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
+    connectedCallback() {
+        console.log(this.isLockOut);
+    }
+
+    adjustWindowHeight() {
+        if (this.inError) {
+            switch (window.innerHeight) {
+                case 609:
+                case 577:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '115vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '115vh';
+                    break;
+                case 554:
+                case 525:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '130vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '130vh';
+                    break;
+                case 487:
+                case 462:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '150vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '145vh';
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7 img'
+                    )[0].style.marginTop = '-25px';
+                    break;
+            }
+        }
+    }
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
+        }
     }
 
     handleuserNameChange(event) {
@@ -56,8 +111,27 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
     }
 
+    handleShowTimer(event) {
+        this.timeLeft = event.detail;
+        this.isLockOut = true;
+    }
+
+    handleUnlock(event) {
+        this.isLockOut = false;
+        this.inError = false;
+    }
+
+    handleUnableToLogin() {
+        let userName = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('lightning-input[data-id=userName]').value;
+
+        this.template.querySelector('c-unable-to-login').show(userName);
+    }
+
     handleLogin() {
         let userName = this.template.querySelector('input[data-id=userName]');
+        this.lockedOutUsrName = userName.value;
         let password = this.template.querySelector('input[data-id=password]');
         if (userName.value !== '') {
             userName.setCustomValidity('');
@@ -153,5 +227,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 }
             });
         }
+    }
+    handleUnableToLogin() {
+        this.userNam = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('input[data-id=userName]').value;
+        this.showPopup = true;
+    }
+    handleModalClose(event) {
+        const item = event.detail;
+        this.showPopup = item;
     }
 }
