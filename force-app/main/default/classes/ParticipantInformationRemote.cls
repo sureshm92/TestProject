@@ -128,7 +128,7 @@ public without sharing class ParticipantInformationRemote {
                   if(pehistory[0].Status__c == 'Successfully re-engaged'){
                       String sc = 'Successfully Re-Engaged';
                       title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
-                       pi.isContact=true;
+                       pi.isContact=false;
                   }else{
                      pi.isContact=false;
                   }
