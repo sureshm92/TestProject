@@ -310,6 +310,8 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         let studyError = this.studyError;
         let template = this.template;
 
+        let checkOtherSMSOptInsAvailable = false;
+
         if (label == 'All') {
             this.consentPreferenceDataLocal.perList.forEach(function (study) {
                 // debugger;
@@ -341,7 +343,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                     if (processSave) {
                         study.Permit_Voice_Text_contact_for_this_study__c = study.Permit_Mail_Email_contact_for_this_study__c = study.Study_Direct_Mail_Consent__c = study.Permit_SMS_Text_for_this_study__c = value;
                         processConsentSave = true;
-                        studyError = false;
+                        //studyError = false;
+                        // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
+                        study.Permit_SMS_Text_for_this_study__c == false ? checkOtherSMSOptInsAvailable = true : checkOtherSMSOptInsAvailable = false;
                         study['error'] = false;
                     } else {
                         if (value) {
@@ -408,7 +412,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                             if (processSave) {
                                 study.Permit_SMS_Text_for_this_study__c = value;
                                 processConsentSave = true;
-                                studyError = false;
+                                //studyError = false;
+                                // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
+                                study.Permit_SMS_Text_for_this_study__c == false ? checkOtherSMSOptInsAvailable = true : checkOtherSMSOptInsAvailable = false;
                                 study['error'] = false;
                             } else {
                                 if (value) {
@@ -430,6 +436,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             });
         }
         this.studyError = studyError;
+        if(checkOtherSMSOptInsAvailable){
+            this.studyError = this.checkSMSCheckedOrNot();
+        }
         if (processConsentSave) {
             this.updateALLFlag();
             this.doSaveCommunicationPref('PER');
@@ -532,6 +541,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         let mobileAvailability = this.isMobilePhoneNumberAvailable;
         let studyError = this.studyError;
         let template = this.template;
+        let checkOtherSMSOptInsAvailable = false;
 
         this.contactDataLocal.forEach(function (con) {
             switch (label) {
@@ -563,7 +573,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                     if (processSave) {
                         con.Participant_Phone_Opt_In_Permit_Phone__c = con.Participant_Opt_In_Status_Emails__c = con.Participant_Opt_In_Status_SMS__c = con.IQVIA_Direct_Mail_Consent__c = value;
                         processConsentSave = true;
-                        studyError = false;
+                        //studyError = false;
+                        // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
+                        con.Participant_Opt_In_Status_SMS__c == false ? checkOtherSMSOptInsAvailable = true : checkOtherSMSOptInsAvailable = false;
                         con['error'] = false;
                     } else {
                         if (value) {
@@ -619,7 +631,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                     if (processOutreachSave) {
                         con.Participant_Opt_In_Status_SMS__c = value;
                         processConsentSave = true;
-                        studyError = false;
+                        //studyError = false;
+                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
+                        con.Participant_Opt_In_Status_SMS__c == false ? checkOtherSMSOptInsAvailable = true : checkOtherSMSOptInsAvailable = false;
                         con['error'] = false;
                     } else {
                         if (value) {
@@ -636,6 +650,9 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             }
         });
         this.studyError = studyError;
+        if(checkOtherSMSOptInsAvailable){
+            this.studyError = this.checkSMSCheckedOrNot();
+        }
         if (processConsentSave) {
             this.updateALLOutReachFlag();
             this.doSaveCommunicationPref('IQVIA_OUTREACH');
@@ -794,25 +811,26 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     checkSMSCheckedOrNot() {
         // debugger;
         let isSmsChecked = false;
+        
+        if(!this.isMobilePhoneNumberAvailable){
+            if (this.consentPreferenceDataLocal.perList.length > 0) {
+                this.consentPreferenceDataLocal.perList.forEach(function (study) {
+                    // debugger;
+                    if (study.Permit_SMS_Text_for_this_study__c) {
+                        isSmsChecked = true;
+                    }
+                });
+            }
 
-        if (this.consentPreferenceDataLocal.perList.length > 0) {
-            this.consentPreferenceDataLocal.perList.forEach(function (study) {
-                // debugger;
-                if (study.Permit_SMS_Text_for_this_study__c) {
-                    isSmsChecked = true;
-                }
-            });
+            if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
+                this.contactDataLocal.forEach(function (con) {
+                    // debugger;
+                    if (con.Participant_Opt_In_Status_SMS__c) {
+                        isSmsChecked = true;
+                    }
+                });
+            }
         }
-
-        if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
-            this.contactDataLocal.forEach(function (con) {
-                // debugger;
-                if (con.Participant_Opt_In_Status_SMS__c) {
-                    isSmsChecked = true;
-                }
-            });
-        }
-
         return isSmsChecked;
     }
 

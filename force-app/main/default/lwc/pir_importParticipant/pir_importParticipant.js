@@ -129,6 +129,7 @@ connectedCallback() {
         this.selectedStudy = this.studyid;
         this.selectedSite = this.siteid;
         this.studysiteaccess = true;
+        this.visitPlanRequired = false;
 
         if(this.selectedSite){
             getParticipantsStatusesAndVisitPlans({
@@ -329,6 +330,7 @@ studyhandleChange(event) {
     this.visitPlanAvailable = false;
     this.selectedStatus = '';
     this.isDataLoading = false;
+    this.visitPlanRequired = false;
     this.toggleImportButton();
 
 }
@@ -345,6 +347,7 @@ studysitehandleChange(event) {
     this.visitPlanDisabled = false;
     this.communityWithPPInv = false;
     this.selectedvisitPlanId = undefined;
+    this.visitPlanRequired = false;
     this.selectedStatus = '';
     if(this.selectedSite){
         this.isDataLoading = true;
@@ -435,7 +438,7 @@ handleImportParticipantclose(){
 particiapntStatushandleChange(event){
     this.selectedStatus =  event.target.value;
     if((this.selectedStatus =='Enrollment Success' || this.selectedStatus =='Randomization Success') && 
-       this.visitPlanDisabled == true){
+       this.visitPlanAvailable == true){
         this.visitPlanRequired = true;
     }else{
     this.visitPlanRequired = false;
@@ -444,6 +447,7 @@ particiapntStatushandleChange(event){
 }   
 handleVisitPlan(event){
     this.selectedvisitPlanId = event.target.value;
+    this.toggleImportButton();
 }
 handleConsentChange(event){  
     this.isEmail = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;
@@ -462,11 +466,13 @@ handleConsentChange(event){
 
   }
 
-  toggleImportButton(){
+  toggleImportButton(){ 
     if(this.isFileLoadedComplete && this.selectedStudy && this.selectedSite && this.selectedStatus && this.doContact)
     {
-    this.shouldDisableImport = false;
-
+        if(this.visitPlanAvailable && this.visitPlanRequired && !this.selectedvisitPlanId)
+            this.shouldDisableImport = true;
+            else
+                this.shouldDisableImport = false; 
     }
     else { 
     this.shouldDisableImport = true;

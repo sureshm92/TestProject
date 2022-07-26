@@ -895,7 +895,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                     initData.consentPreferenceData.perList.addAll(perListforCommPref);
                 }
             } else {
-                initData.consentPreferenceData.perList.addAll(participantEnrollments);
+                // initData.consentPreferenceData.perList.addAll(participantEnrollments);
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
                 initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
             }
@@ -1013,7 +1013,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
      * @param: delContId
      * @return:
      **/
-
     public static void checkIfDelegateIsAlsoAparticipant(Id delContId) {
         list<Participant_Enrollment__c> perList = [
             SELECT Id
