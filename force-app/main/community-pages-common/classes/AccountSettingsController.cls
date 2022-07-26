@@ -895,7 +895,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                     initData.consentPreferenceData.perList.addAll(perListforCommPref);
                 }
             } else {
-                initData.consentPreferenceData.perList.addAll(participantEnrollments);
+                //initData.consentPreferenceData.perList.addAll(participantEnrollments);
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
                 initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
             }
