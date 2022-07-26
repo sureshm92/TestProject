@@ -1817,8 +1817,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         bulkHistory1.Import_Status__c = 'Completed';
         bulkHistory1.Initial_Total_Records__c = String.valueOf(totalRecordCount);
         bulkHistory1.Rejected_Records__c = String.valueOf(errorRecordCount);
-        if(bulkHistory1.Rejected_Records__c=='0'){
-            bulkHistory1.File_Name__c= errFileName.remove('_errors');
+        if(bulkHistory1.Rejected_Records__c!='0'){
+            bulkHistory1.File_Name__c= errFileName;
         }
         bulkHistory1.Accepted_Records__c = String.valueOf(totalRecordCount - errorRecordCount);
         if(conDocId != null){
