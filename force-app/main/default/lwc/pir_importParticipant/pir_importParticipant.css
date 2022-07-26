@@ -60,6 +60,7 @@
     width: 5%;
     display: inline;
     padding-left: 2%;
+    cursor: pointer;
 }
 .fileInput{
     width: 100%;

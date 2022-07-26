@@ -405,8 +405,8 @@
                           participant.Mailing_Zip_Postal_Code__c &&
                           pe &&
                           pe.Participant_Status__c && 
-                          (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c)) &&
-                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
+                          (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
+                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
                           (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                           //stateVaild &&
                           (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
