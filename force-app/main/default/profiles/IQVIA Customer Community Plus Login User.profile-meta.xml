@@ -36,11 +36,11 @@
         <apexClass>ECOADiariesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>rpPatientOutreachController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	 <classAccesses>
+    <classAccesses>
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -64,8 +64,8 @@
         <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-   <classAccesses>
-	    <apexClass>AccountSettingsController</apexClass>
+    <classAccesses>
+        <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -676,7 +676,7 @@
         <apexClass>DashboardRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>DashboardRemoteNew</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -919,7 +919,7 @@
     <classAccesses>
         <apexClass>HCPInviteControllerNew</apexClass>
         <enabled>true</enabled>
-    </classAccesses> 
+    </classAccesses>
     <classAccesses>
         <apexClass>HCPTrialBuilder</apexClass>
         <enabled>true</enabled>
@@ -1064,7 +1064,7 @@
         <apexClass>LightningSelfRegisterControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>ListViewParticipantController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1100,14 +1100,14 @@
         <apexClass>MediaOutreachServices</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>MedicalHistoryViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MedicalRecordAccessRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
@@ -1136,11 +1136,11 @@
         <apexClass>MessageTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>RPRecordReviewLogController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>NonReferredPatientController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1340,7 +1340,7 @@
         <apexClass>ParticipantItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>ParticipantParagraphController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1487,22 +1487,22 @@
     <classAccesses>
         <apexClass>RPRecordReviewFilterController</apexClass>
         <enabled>true</enabled>
-   </classAccesses>
-    <classAccesses>
-            <apexClass>RPRecordReviewLogController</apexClass>
-            <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-            <apexClass>RPRecordReviewLogHelper</apexClass>
-            <enabled>true</enabled>
+        <apexClass>RPRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-            <apexClass>FileContainer</apexClass>
-            <enabled>true</enabled>
+        <apexClass>RPRecordReviewLogHelper</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-            <apexClass>nonReferedBulkUpload</apexClass>
-            <enabled>true</enabled>
+        <apexClass>FileContainer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>nonReferedBulkUpload</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RRPicklistLookupRemote</apexClass>
@@ -1852,7 +1852,7 @@
         <apexClass>StudySiteItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>StudySiteCountryWarning</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1875,7 +1875,7 @@
     <classAccesses>
         <apexClass>StudySiteItemRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses> 
+    </classAccesses>
     <classAccesses>
         <apexClass>StudySiteVisitConfigRemote</apexClass>
         <enabled>true</enabled>
@@ -2213,13 +2213,13 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
-    
+
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Ethnicity__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
         <readable>true</readable>
@@ -2434,7 +2434,7 @@
         <field>Booking__c.Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.IQVIA_intervention_required__c</field>
         <readable>true</readable>
@@ -2444,7 +2444,7 @@
         <field>Call_Dispositions__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
         <readable>true</readable>
@@ -2469,12 +2469,12 @@
         <field>Comorbidities__c.Comorbidity_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Comorbidities__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Comorbidities__c.Participant__c</field>
         <readable>true</readable>
@@ -2599,7 +2599,7 @@
         <field>Clinical_Trial_Profile__c.Co_morbidity__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Block_Outreach__c</field>
         <readable>true</readable>
@@ -2644,7 +2644,7 @@
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
@@ -2809,7 +2809,7 @@
         <field>Clinical_Trial_Profile__c.Orientation_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
         <readable>true</readable>
@@ -2879,7 +2879,7 @@
         <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
         <readable>false</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>false</readable>
@@ -3009,7 +3009,7 @@
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Study_Content__c</field>
         <readable>true</readable>
@@ -3159,7 +3159,7 @@
         <field>Community_Template__mdt.Community_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Media_Outreach__c.Actual_End_Date__c</field>
         <readable>true</readable>
@@ -3169,17 +3169,17 @@
         <field>Media_Outreach__c.Actual_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Media_Outreach__c.Media_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Media_Outreach__c.fMediaType__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
         <readable>true</readable>
@@ -3194,13 +3194,13 @@
         <field>Media_Outreach__c.Preferred_contact_method__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-		<editable>false</editable>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Requested_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-	    <editable>false</editable>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Requested_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3209,19 +3209,19 @@
         <field>Media_Outreach__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-		<editable>false</editable>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Study_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-	<editable>false</editable>
+        <editable>false</editable>
         <field>Media_Outreach__c.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-		<field>Media_Outreach__c.Type__c</field>
+        <field>Media_Outreach__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3384,7 +3384,7 @@
         <field>Contact.Override_Phone__c</field>
         <readable>false</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Parent_Account__c</field>
         <readable>false</readable>
@@ -3449,12 +3449,12 @@
         <field>Contact.RRCookiesAllowedCookie__c</field>
         <readable>false</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRJanssenCookiesAllowedCookie__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRJanssenLanguageAllowedCookie__c</field>
         <readable>true</readable>
@@ -4924,7 +4924,7 @@
         <field>Notification__c.WhatId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Notification__c.RemindUsing__c</field>
         <readable>true</readable>
@@ -5009,7 +5009,7 @@
         <field>Participant_Enrollment_Status_History__c.NewStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Disabled_PESH__c</field>
         <readable>true</readable>
@@ -5019,7 +5019,7 @@
         <field>Participant_Enrollment_Status_History__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment_Status_History__c.Status_Order__c</field>
         <readable>true</readable>
@@ -5169,7 +5169,7 @@
         <field>Participant_Enrollment__c.HCP_Contact__c</field>
         <readable>false</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.isBulkUpdate__c</field>
         <readable>true</readable>
@@ -5189,12 +5189,12 @@
         <field>Participant_Enrollment__c.isAuthorized__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Human_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Unique_HumanId__c</field>
         <readable>true</readable>
@@ -5298,7 +5298,7 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Last_Status_Changed_Additional_Notes__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.MRN_Id__c</field>
@@ -5488,7 +5488,7 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Screener_Survey_Response__c</field>
         <readable>true</readable>
-    </fieldPermissions>         
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Randomized_Date__c</field>
@@ -5513,7 +5513,7 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Notes__c</field>
         <readable>true</readable>
-   </fieldPermissions>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Completedby_Name__c</field>
@@ -5645,119 +5645,119 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Date_of_Birth__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Date_of_Birth__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Excluded_for_Referring__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Excluded_for_Referring__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Included_for_Referring__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Included_for_Referring__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Is_Contact__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Contact__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Is_Delegate_Certify__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Delegate_Certify__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Is_Email__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Email__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Is_Phone__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Phone__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Is_SMS__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_SMS__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Legal_Status_of_Primary_Delegate__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Legal_Status_of_Primary_Delegate__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Outreach_Mail_Sent__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Outreach_Mail_Sent__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Participant_Alt_Phone_Type__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Alt_Phone_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Participant_Alternative_Phone__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Alternative_Phone__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Patient_Middle_Name_Initial__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Patient_Middle_Name_Initial__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Patient_Phone_Type__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Patient_Phone_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Patient_Sex__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Patient_Sex__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Postal_Code__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Postal_Code__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_Email__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_Email__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_First_Name__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_First_Name__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_Last_Name__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_Last_Name__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_Phone_Number__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_Phone_Number__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_Phone_Type__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_Phone_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Primary_Delegate_YOB__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Primary_Delegate_YOB__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-            <editable>true</editable>
-            <field>Participant_Enrollment__c.Legal_Status__c</field>
-            <readable>true</readable>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Legal_Status__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5782,6 +5782,76 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.utmz__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ParticipantEnrollmentPatientDelJunction__c.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ParticipantEnrollmentPatientDelJunction__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ParticipantEnrollmentPatientDelJunction__c.Process_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.From_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Sponsor_AWS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Study_AWS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Pin_Point_ProjectId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Welcome_Message_Delivered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Welcome_Message_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Is_Contact_welcome_Message_Sent__c	</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Is_Study_Site_SMS_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6079,7 +6149,7 @@
         <field>Participant__c.Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Block_Outreach__c</field>
         <readable>true</readable>
@@ -6259,7 +6329,7 @@
         <field>Participant__c.ZIP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Primary_Delegate__c</field>
         <readable>true</readable>
@@ -6694,7 +6764,7 @@
         <field>Resource__c.Sponsor__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Submitted_By__c</field>
         <readable>true</readable>
@@ -6934,7 +7004,7 @@
         <field>Study_Site__c.Agrees_to_Referral_Reimbursement__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Include_PII_on_Export__c</field>
         <readable>true</readable>
@@ -6954,7 +7024,7 @@
         <field>Study_Site__c.Chart_Review__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	  <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Block_Outreach__c</field>
         <readable>true</readable>
@@ -7014,16 +7084,16 @@
         <field>Study_Site__c.Is_Virtual_Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.IQVIA_intervention_required__c</field>
-		<readable>true</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Medical_Record_Upload__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Messages_Are_Available__c</field>
@@ -7039,7 +7109,7 @@
         <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Ready_for_Training__c</field>
         <readable>true</readable>
@@ -7064,12 +7134,12 @@
         <field>Study_Site__c.PI_Contact__c</field>
         <readable>false</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Completed_training__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Review_Board_Approval__c</field>
         <readable>true</readable>
@@ -7279,17 +7349,17 @@
         <field>Task.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.CreatedByAdmin__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.CronTriggerId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.CronTriggerIdExpired__c</field>
         <readable>true</readable>
@@ -7484,22 +7554,22 @@
         <field>Topic__c.TopicId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Token__c.Expiration_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Token__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Token__c.Token_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Token__c.Token_Value__c</field>
         <readable>true</readable>
@@ -7824,112 +7894,112 @@
         <field>XLF_White_List__mdt.Pattern__c</field>
         <readable>false</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Assessed_On__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Data_JSON1__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Data_JSON2__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Integration_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Result_JSON1__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Result_JSON2__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Vendor_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Assessed_On__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Assessed_on_datetime__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Integration_Biomarker__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Referral__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Referral_Auto_Dialer_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.BiomarkerVendorReachoutStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RH_Biomarker__c.Vendor_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Biomarker_Result__c.Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Biomarker_Result__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Biomarker_Result__c.Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.BiomarkerVendorReachoutStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Biomarker_Error__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Biomarker__c.Completed__c</field>
         <readable>true</readable>
@@ -8202,9 +8272,9 @@
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>
     </layoutAssignments>
-	<layoutAssignments>
+    <layoutAssignments>
         <layout>Media_Outreach__c-Media Outreach Layout</layout>
-	</layoutAssignments>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
     </layoutAssignments>
@@ -8566,14 +8636,14 @@
         <object>Clinical_Trial_Profile__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-	<objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Call_Dispositions__c</object>
-		<viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -8655,6 +8725,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Participant_Enrollment__c</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ParticipantEnrollmentPatientDelJunction__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -8800,14 +8879,14 @@
         <object>Therapeutic_Area_Assignment__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-	<objectPermissions>
-		<allowCreate>true</allowCreate>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Media_Outreach__c</object>
-		<viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -8836,7 +8915,7 @@
         <object>Tracking_Information__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-     <objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -8863,7 +8942,7 @@
         <object>Trial_Notification__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-	<objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -8872,7 +8951,7 @@
         <object>RH_Biomarker__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-	<objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -8881,7 +8960,7 @@
         <object>Biomarker_Result__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-	<objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -9019,7 +9098,7 @@
         <recordType>Resource__c.Study_Document</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-	<recordTypeVisibilities>
+    <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Submitted_Articles</recordType>
         <visible>true</visible>
@@ -9085,7 +9164,7 @@
         <tab>Booking__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-	<tabVisibilities>
+    <tabVisibilities>
         <tab>Call_Dispositions__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -9217,11 +9296,11 @@
         <tab>Visit__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-	<tabVisibilities>
+    <tabVisibilities>
         <tab>RH_Biomarker__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-	<tabVisibilities>
+    <tabVisibilities>
         <tab>Integration_Biomarker__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>

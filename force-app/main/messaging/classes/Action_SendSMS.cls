@@ -385,7 +385,7 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> televisitIdList = new List<Id>();
         List<Id> televisitAttendeeIdList = new List<Id>();
         Boolean isPlatFormEvent = SMSOptOutService.isPlatFormEvent;
-
+        Set<Id> recipientIdSet = new Set<Id>();
         for (Notification__c notificationObj : notificationsList) {
             if (notificationObj.WhatId__c != null) {
                 Id whatId = Id.valueOf(notificationObj.WhatId__c);
@@ -394,6 +394,7 @@ public with sharing class Action_SendSMS implements Action {
 
                 if (objType == 'Participant_Enrollment__c') {
                     peIdList.add(whatId);
+                    recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Clinical_Trial_Profile__c') {
                     ctpIdList.add(whatId);
                 } else if (objType == 'Task') {
@@ -415,6 +416,17 @@ public with sharing class Action_SendSMS implements Action {
             }
         }
         system.debug('peIdList:::' + peIdList + 'ctpIdList::' + ctpIdList);
+
+        //For Welcome Message functionality for Patient Delgate
+        if (
+            peIdList != null &&
+            !peIdList.isEmpty() &&
+            recipientIdSet != null &&
+            !recipientIdSet.isEmpty()
+        ) {
+            populateWelcomMessageFlagsForDel(peIdList, recipientIdSet);
+        }
+
         Map<Id, SurveyInvitation> surveyInvitationMap = new Map<Id, SurveyInvitation>();
 
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
@@ -984,13 +996,6 @@ public with sharing class Action_SendSMS implements Action {
                         fromNumber = apiParamsMap.get(FROM_NUMBER).ParamValue__c;
                     }
                 } 
-                NotificationService.welcomemsgSent.put(notObj.Id,welcomemsgsent);
-                NotificationService.welcomemsgDelivered.put(notObj.Id,welcomemsgDelivered);
-                 if(!String.isBlank(pinPoint) && !String.isBlank(sponsorName) && !String.isBlank(studyName) && !String.isBlank(fromNumber)){
-                    if(!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)){
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id,True);
-                    }
-                }
                 NotificationService.welcomemsgSent.put(notObj.Id, welcomemsgsent);
                 NotificationService.welcomemsgDelivered.put(notObj.Id, welcomemsgDelivered);
                 if (
@@ -999,12 +1004,12 @@ public with sharing class Action_SendSMS implements Action {
                     !String.isBlank(studyName) &&
                     !String.isBlank(fromNumber)
                 ) {
-                    if (!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)) {
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id, true);
+                    if (!NotificationService.awsDetailsAreAvailable.containskey(notObj.Id)) {
+                        NotificationService.awsDetailsAreAvailable.put(notObj.Id, true);
                     }
                 } else {
-                    if (!NotificationService.nonskipSMSLevelMap.containskey(notObj.Id)) {
-                        NotificationService.nonskipSMSLevelMap.put(notObj.Id, false);
+                    if (!NotificationService.awsDetailsAreAvailable.containskey(notObj.Id)) {
+                        NotificationService.awsDetailsAreAvailable.put(notObj.Id, false);
                     }
                 }
                 //If this method is not called from platform Event
@@ -1023,5 +1028,64 @@ public with sharing class Action_SendSMS implements Action {
             }
         }
         return pinPointWrapperMapObj;
+    }
+
+    /**
+     * @description: This method populate them Map for WelcomeMessageSend and WelcomeMessageDelivered Flags from junction object betwene Participant Enrollment
+     *               and Patient Delegate contact record.
+     * @author: Krishna Mahto
+     * @param:  peIdList
+     * @param:  recipientIdSet
+     * @return: Void
+     **/
+    public static void populateWelcomMessageFlagsForDel(List<Id> peIdList, Set<Id> recipientIdSet) {
+        //Get list of ParticipantEnrollmentPatientDelJunction records
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = getPERPatientDelJunctionRecords(
+            peIdList,
+            recipientIdSet
+        );
+
+        //Populate the Maps for Welome Message Sent and Welcome Message Delevered flags.
+        for (ParticipantEnrollmentPatientDelJunction__c perPdObj : perDelJunctionRecList) {
+            String perIdDelContIdKey =
+                perPdObj?.Participant_Enrollment__c +
+                '_' +
+                perPdObj?.Patient_Delegate_Contact__c;
+            NotificationService.perIdDelConIdWelcomeMessageSentMap.put(
+                perIdDelContIdKey,
+                perPdObj.Welcome_Message_Sent__c
+            );
+            NotificationService.perIdDelConIdWelcomeMessageDeleveredMap.put(
+                perIdDelContIdKey,
+                perPdObj.Welcome_Message_Delivered__c
+            );
+        }
+    }
+    /**
+     * @description: This method will return list of ParticipantEnrollmentPatientDelJunction records.
+     * @author: Krishna Mahto
+     * @param:  peIdList
+     * @param:  recipientIdSet
+     * @return:  List<ParticipantEnrollmentPatientDelJunction__c>
+     **/
+    public static List<ParticipantEnrollmentPatientDelJunction__c> getPERPatientDelJunctionRecords(
+        List<Id> peIdList,
+        Set<Id> recipientIdSet
+    ) {
+        //Query to get the Participant Enrollment and Patient Delegate contact junction record. //kk
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = [
+            SELECT
+                Id,
+                Participant_Enrollment__c,
+                Patient_Delegate_Contact__c,
+                Welcome_Message_Sent__c,
+                Welcome_Message_Delivered__c
+            FROM ParticipantEnrollmentPatientDelJunction__c
+            WHERE
+                Process_Type__c = 'Welcome Message'
+                AND Participant_Enrollment__c IN :peIdList
+                AND Patient_Delegate_Contact__c IN :recipientIdSet
+        ];
+        return perDelJunctionRecList;
     }
 }
