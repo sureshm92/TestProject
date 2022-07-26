@@ -1430,7 +1430,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                 width: 90px;
+                width: 100px;
             }
 
             .cp-main-logo {
