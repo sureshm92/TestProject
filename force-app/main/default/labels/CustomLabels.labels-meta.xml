@@ -25523,6 +25523,20 @@ communications using the toggles below.</value>
         <value>required</value>
     </labels>
     <labels>
+        <fullName>PP_Forgot_Password_Footer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer1</shortDescription>
+        <value>In need of extra assistance? Send us an email at</value>
+    </labels>
+    <labels>
+        <fullName>PP_Forgot_Password_Footer2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer2</shortDescription>
+        <value>for help.</value>
+    </labels>
+    <labels>
         <fullName>PP_Logout</fullName>
         <language>en_US</language>
         <protected>true</protected>
