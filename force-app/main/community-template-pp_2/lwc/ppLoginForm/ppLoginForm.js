@@ -6,7 +6,7 @@ import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import userName from '@salesforce/label/c.PG_AS_F_Username';
 import password from '@salesforce/label/c.PG_Login_F_Password';
-import login from '@salesforce/label/c.PG_Login_Title';
+import login from '@salesforce/label/c.BTN_Log_In';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
