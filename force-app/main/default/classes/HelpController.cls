@@ -17,7 +17,7 @@ public without sharing class HelpController {
      * @return UserContact
      */
     @AuraEnabled
-    public static String getHelpInitData(String userMode) {
+    public static String getHelpInitData(String userMode,String communityName) {
         try {
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
             List<Study_Site__c> ssList = new List<Study_Site__c>();
@@ -25,7 +25,7 @@ public without sharing class HelpController {
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = ParticipantContext.isCurrentDelegate();
             peList = getParticipants(userContact.currentContact);
-            ssList = getSites(userContact.currentContact);
+            ssList = getSites(userContact.currentContact,communityName);
             HelpInitData initData = new HelpInitData();
             initData.participantEnrollList = peList;
             initData.siteList = ssList;
@@ -220,7 +220,7 @@ public without sharing class HelpController {
         return peList;
     }
 
-    private static List<Study_Site__c> getSites(Contact cnt) {
+    private static List<Study_Site__c> getSites(Contact cnt,String communityName) {
         Set<Id> siteIdList = new Set<Id>();
         for (Site_Staff__c sStaff : [
             SELECT Id, Study_Site__c
@@ -229,7 +229,11 @@ public without sharing class HelpController {
         ]) {
             siteIdList.add(sStaff.Study_Site__c);
         }
-
+        List<String> communityNames = new List<String>(); 
+        if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
+            communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+        }
+        communityNames.add(communityName);
         List<Study_Site__c> ssList = [
             SELECT
                 Id,
@@ -241,7 +245,7 @@ public without sharing class HelpController {
             FROM Study_Site__c
             WHERE
                 (Principal_Investigator__c = :cnt.Id
-                OR Id IN :siteIdList)
+                OR Id IN :siteIdList) AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                 AND (Override_PI_Referral_Status__c = 'Accepted'
                 OR Override_PI_Referral_Status__c = 'Accepted (Admin)')
         ];

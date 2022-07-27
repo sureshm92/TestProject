@@ -433,9 +433,6 @@ public without sharing class ContactTriggerHandler {
                     participantIds
                 );
                 system.debug('partPerDelegateIds:::' + partPerDelegateIds);
-                /*if(!partPerDelegateIds.isEmpty()){
-participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, Participant__c, Contact__c,Contact__r.Welcome_Message_Sent__c,Contact__r.Welcome_Message_Delivered__c FROM Participants__r ) From Participant__c where ID IN : partPerDelegateIds.keyset()]);
-}*/
             }
         }
         for (Contact con : newList) {
@@ -594,6 +591,7 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
     //This method is to retry the welcome msg whenever is_Invalid_number__c field is true  and Mobile no is updated at contact
     private static void retryWelcomeMsg(List<Contact> newList, Map<Id, Contact> oldMap) {
         Set<ID> mbleupdateconidslst = new Set<ID>();
+        Set<ID> deleConIdSet = new Set<ID>();
         Map<Id, Contact> contMapForStatusUpdate = new Map<Id, Contact>();
         List<ID> participantids = new List<ID>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
@@ -603,7 +601,12 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
         for (contact cont : newList) {
             if (cont.is_Invalid_number__c && cont.MobilePhone != oldMap.get(cont.Id).MobilePhone) {
                 contMapForStatusUpdate.put(cont.Id, cont);
-                mbleupdateconidslst.add(cont.Id);
+                // For purely participant
+                if (!cont.UserCommunityIsDelegate__c) {
+                    mbleupdateconidslst.add(cont.Id);
+                } else {
+                    deleConIdSet.add(cont.Id);
+                }
                 cont.Is_Invalid_Number__c = false;
             }
         }
@@ -658,6 +661,38 @@ participantconMap = new Map<Id,Participant__c>([Select Id,Adult__c, (SELECT Id, 
                     }
                 }
             }
+        }
+        if (deleConIdSet.size() > 0) {
+            /*Sending Study level SMS to delegate for Mobile no update*/
+            Map<Id, ParticipantEnrollmentPatientDelJunction__c> perJunctionIdMap = new Map<Id, ParticipantEnrollmentPatientDelJunction__c>(
+                [
+                    SELECT
+                        Id,
+                        Participant_Enrollment__c,
+                        Welcome_Message_Delivered__c,
+                        Patient_Delegate_Contact__c,
+                        Welcome_Message_Sent__c
+                    FROM ParticipantEnrollmentPatientDelJunction__c
+                    WHERE
+                        Patient_Delegate_Contact__c IN :deleConIdSet
+                        AND Welcome_Message_Sent__c = FALSE
+                        AND Welcome_Message_Delivered__c = FALSE
+                ]
+            );
+            if (!perJunctionIdMap.isEmpty()) {
+                for (ParticipantEnrollmentPatientDelJunction__c per : perJunctionIdMap.values()) {
+                    /*Study Level Welcome Msg to Delegate*/
+                    welcomemsgnotifications.addAll(
+                        ContactService.addwelcomeNotifications(
+                            per.Patient_Delegate_Contact__c,
+                            per.Participant_Enrollment__c,
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                        )
+                    );
+                }
+            }
+        }
+        if (mbleupdateconidslst.size() > 0 || deleConIdSet.size() > 0) {
             /*Send Platform Level Msg*/
             welcomemsgnotifications.addAll(
                 platformLevelNotifications(mbleupdateconidslst, oldMap, newList, 'Mobile')
