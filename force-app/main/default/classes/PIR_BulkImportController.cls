@@ -205,10 +205,15 @@ public without sharing class PIR_BulkImportController {
                      where Study_Site__c in: getStudySite and Delegate_Level__c=:'Level 1' ];
        }
        
-       for(Site_Staff__c s:getAccess){
-           getAllSiteStaff.add(s.Study_Site__r.Principal_Investigator__c );
-           getAllSiteStaff.add(s.Site_Contact__c );
-       }
+       if(!getAccess.isEmpty()){
+        for(Site_Staff__c s:getAccess){
+            getAllSiteStaff.add(s.Study_Site__r.Principal_Investigator__c );
+            getAllSiteStaff.add(s.Site_Contact__c );
+        }
+    }
+    else{
+        getAllSiteStaff.add(getUserContact);
+    }
        
        
        String queryString =
@@ -313,10 +318,15 @@ public without sharing class PIR_BulkImportController {
                       from Site_Staff__c
                      where Study_Site__c in: getStudySite and Delegate_Level__c=:'Level 1' ];
        }
+       if(!getAccess.isEmpty()){
         for(Site_Staff__c s:getAccess){
-           getAllSiteStaff.add(s.Study_Site__r.Principal_Investigator__c );
-           getAllSiteStaff.add(s.Site_Contact__c );
-       }
+            getAllSiteStaff.add(s.Study_Site__r.Principal_Investigator__c );
+            getAllSiteStaff.add(s.Site_Contact__c );
+        }
+    }
+    else{
+        getAllSiteStaff.add(getUserContact);
+    }
        
         String orderByString = ' ORDER BY CreatedDate DESC ';
        String queryString =

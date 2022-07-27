@@ -68,7 +68,7 @@
             </div>
             <div class="section-padding tabs bulkimportTab importTab">
                 <lightning-tabset>
-                    <lightning-tab label="Bulk import">
+                    <lightning-tab label={label.RH_RP_Bulk_Import}>
                         <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} get-study={selectedStudyChild} get-study-site={selectedStudySiteChild}  stop-spinner={stopSpinnerChild}></c-pir_-bulk-import-files>
                         <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD ">      
                             <template if:true={totalRecord}>
