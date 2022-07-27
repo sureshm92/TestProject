@@ -100,7 +100,7 @@
                         component.set('v.currentState', 'Select Source');
                     }
                     if (!initData.trial.Link_to_Pre_screening__c) {
-                        if(!component.get('v.patientVeiwRedirection')){
+                        if(!component.get('v.patientVeiwRedirection') && communityService.getUrlParameter('navigatetodiscussion')!== 'true'){
                             component.set('v.currentState', 'Search PE');
                           }
                         component.set('v.steps', [
@@ -411,6 +411,18 @@
             }
         );
     },
+   
+    doReferPatient: function (component) {
+        communityService.navigateToPage(
+            'referring?id=' +
+                component.get('v.trialId') +
+                '&peid=' +
+                component.get('v.searchResult').pe.Id  
+                +
+                '&navigatetodiscussion=true'  
+        );
+    }, 
+   
     doSaveParticipant: function (component) {
         let participant = component.get('v.participant');
         console.log('part-->'+JSON.stringify(participant));
@@ -542,5 +554,15 @@
                 helper.checkFields(component, event, helper);
 
         }                                      
+    },
+    doStartMRR: function (component) {
+        communityService.navigateToPage('medical-record-review?id=' + component.get('v.trialId'));
+    },
+    doClearForm: function (component) {
+        component.set('v.searchResult', undefined);
+        component.set('v.searchData', {
+            participantId: ''
+        });
+        component.set('v.mrrResult', 'Pending');
     }
 });
