@@ -819,15 +819,9 @@ public without sharing class CommunityModeService {
             FROM Study_Site__c
             WHERE Principal_Investigator__c = :contactId OR Id IN :ssDelegateIds
         ];
-        List<User> permissionSetAssignToUserLST = new List<User>();
         List<String>LstOfPermissionSet = new List<String>();
-        permissionSetAssignToUserLST = [SELECT id,contactId FROM User WHERE contactId = :contactId OR contactId IN :ssDelegateIds];
-        if(!permissionSetAssignToUserLST.isEmpty()){
-            for(User usr : permissionSetAssignToUserLST){
-                permissionSetOfUserMapId.put(usr.Id,usr.contactId);
-            }
-        }
-        List<PermissionSetAssignment>permissionSetLST = [SELECT Id, PermissionSetId, PermissionSet.Name,AssigneeId FROM PermissionSetAssignment WHERE AssigneeId IN :permissionSetOfUserMapId.keySet()];
+       
+       List<PermissionSetAssignment>permissionSetLST = [SELECT Id, PermissionSetId, PermissionSet.Name,AssigneeId,Assignee.contactId FROM PermissionSetAssignment WHERE Assignee.contactId = :contactId OR Assignee.contactId IN :ssDelegateIds];
         if(!studySites.isEmpty() && !permissionSetLST.isEmpty()){
             for(PermissionSetAssignment per : permissionSetLST){
                 LstOfPermissionSet.add(per.PermissionSet.Name);
