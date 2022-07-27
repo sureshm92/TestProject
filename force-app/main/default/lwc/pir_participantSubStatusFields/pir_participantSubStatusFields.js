@@ -145,7 +145,7 @@ changeInputValue(event) {
       this.additionalNoteIV = event.target.value;
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
-      this.participantrecord.IVRS_IWRS__c = event.target.value;
+      this.participantrecord.IVRS_IWRS__c = event.target.value.trim();
       if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
         if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
           this.isScreeningReq=true;
@@ -1733,14 +1733,23 @@ changeInputValue(event) {
       this.participantrecord.Informed_Consent__c=false;
     }
    
-
-    if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
-      this.participantrecord.Participant_Status__c == "Successfully Contacted" && 
-      this.participantrecord.Initial_visit_scheduled_date__c!=null
+    if(this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
+      if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
+      (this.participantrecord.Participant_Status__c == "Successfully Contacted" || this.pe_record.Participant_Status__c=="Successfully Contacted")
+      && this.participantrecord.Initial_visit_scheduled_date__c!=null 
+      && this.participantrecord.Initial_visit_scheduled_date__c!=null
      ){
       this.participantrecord.Succesfully_Re_Engaged__c = false;
-      
       }
+    }
+    else{
+      if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
+        (this.participantrecord.Participant_Status__c == "Successfully Contacted" ||this.pe_record.Participant_Status__c=="Successfully Contacted")
+       ){
+        this.participantrecord.Succesfully_Re_Engaged__c = false;
+        }
+    }
+    
     let outcome = this.selectedOutcome;
     
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
