@@ -37,8 +37,16 @@
     font-weight: 500;
     display: inline-block;
 }
+.font-thickness {
+    font-weight: bold;
+    opacity: 0.9;
+}
+
 @media all and (max-width: 768px) {
     .slds-modal__container {
         width: 83%;
+    }
+    .btn-close {
+        width: 100%;
     }
 }

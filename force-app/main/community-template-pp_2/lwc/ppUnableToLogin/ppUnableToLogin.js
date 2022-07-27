@@ -12,7 +12,7 @@ import unableToLogin7 from '@salesforce/label/c.PG_Unable_To_Login_L7';
 import unableToLogin8 from '@salesforce/label/c.PG_Unable_To_Login_L8';
 import unableToLogin9 from '@salesforce/label/c.PG_Unable_To_Login_L9';
 import unableToLogin10 from '@salesforce/label/c.PG_Unable_To_Login_L10';
-import loginLinkForgot from '@salesforce/label/c.PG_Login_Link_Forgot';
+import loginLinkForgot from '@salesforce/label/c.Lofi_Forgot_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 
 export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
