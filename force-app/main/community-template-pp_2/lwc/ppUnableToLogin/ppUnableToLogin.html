@@ -7,64 +7,58 @@
         class="slds-modal slds-fade-in-open"
     >
         <div class="slds-modal__container">
-            <div class="slds-modal__header">
-                <div class="slds-grid">
-                    <div class="slds-col slds-size_11-of-12">
-                        <h2 class={h2Class}>{labels.unableToLogin}</h2>
-                    </div>
-                    <div class="slds-col slds-size_1-of-12">
-                        <button
-                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                            title="Close"
+            <div class="slds-grid unable-login-card-top"></div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-col unable-login-title">{labels.unableToLogin}</div>
+                    <div class="slds-col">
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="close"
+                            title="close"
+                            size="x-small"
                             onclick={closeModal}
                         >
-                            <lightning-icon
-                                icon-name="utility:close"
-                                alternative-text="close"
-                                variant="inverse"
-                                size="small"
-                            ></lightning-icon>
-                            <span class="slds-assistive-text">Close</span>
-                        </button>
+                        </lightning-icon>
                     </div>
                 </div>
-            </div>
-            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                <div>
-                    <b>{labels.unableToLogin1}</b>
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin1}</span>
+                    <p class="slds-m-top_xx-small">
+                        {labels.unableToLogin2}&nbsp;
+                        <span
+                            ><a onclick={redirectToForgotPassword}>
+                                {labels.loginLinkForgot}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin3}
+                    </p>
                 </div>
-                <br />
-                <div>
-                    {labels.unableToLogin2}
-                    <span
-                        ><a onclick={redirectToForgotPassword}> {labels.loginLinkForgot} </a>
-                    </span>
-                    {labels.unableToLogin3}
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin4}</span>
+                    <p class="slds-m-top_xx-small">
+                        {labels.unableToLogin5}&nbsp;
+                        <span
+                            ><a href="mailto:support@mail.clinicalresearch.com ">
+                                {labels.unableToLogin6}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin7}
+                    </p>
                 </div>
-                <br />
-                <div>
-                    <b> {labels.unableToLogin4}</b>
-                </div>
-                <br />
-                <div>
-                    {labels.unableToLogin5}
-                    <a class="SFDC_links" href="mailto:support@mail.clinicalresearch.com ">
-                        {labels.unableToLogin6} </a
-                    >{labels.unableToLogin7}
-                </div>
-                <br />
-                <div>
-                    <b> {labels.unableToLogin8}</b>
-                </div>
-                <br />
-                <div>
-                    {labels.unableToLogin9}
-                    <a href="mailto:support@mail.clinicalresearch.com "> {labels.unableToLogin6} </a
-                    >{labels.unableToLogin10}
+
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin8}</span>
+                    <p class="slds-m-top_xx-small">
+                        {labels.unableToLogin9}&nbsp;
+                        <span
+                            ><a href="mailto:support@mail.clinicalresearch.com ">
+                                {labels.unableToLogin6}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin10}
+                    </p>
                 </div>
             </div>
             <div class="slds-modal__footer">
-                <button class="slds-button" onclick={closeModal}>Close</button>
+                <button class="slds-button btn-close" onclick={closeModal}>Close</button>
             </div>
         </div>
     </section>
