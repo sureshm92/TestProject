@@ -145,7 +145,7 @@ changeInputValue(event) {
       this.additionalNoteIV = event.target.value;
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
-      this.participantrecord.IVRS_IWRS__c = event.target.value;
+      this.participantrecord.IVRS_IWRS__c = event.target.value.trim();
       if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
         if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
           this.isScreeningReq=true;
