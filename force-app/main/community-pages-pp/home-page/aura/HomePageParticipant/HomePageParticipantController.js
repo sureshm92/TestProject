@@ -3,9 +3,11 @@
  */
 ({
     doInit: function (component, event, helper) {
-       if (communityService.getCurrentCommunityMode().hasPastStudies){
-            component.set('v.showPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
-            
+        if (communityService.getCurrentCommunityMode().hasPastStudies) {
+            component.set(
+                'v.showPastStudies',
+                communityService.getCurrentCommunityMode().hasPastStudies
+            );
         }
 
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
@@ -19,13 +21,16 @@
                 );
             } else {
                 component.set('v.participantState', ps);
-              
+
                 component.set(
                     'v.isDelegateMode',
                     communityService.getCurrentCommunityMode().currentDelegateId
                 );
 
-                if (ps.communityName === 'IQVIA Referral Hub')
+                if (
+                    ps.communityName === 'IQVIA Referral Hub' ||
+                    ps.communityName === 'IQVIA Patient Portal'
+                )
                     component.set(
                         'v.showTrialSearch',
                         !communityService.getCurrentCommunityMode().currentDelegateId &&
@@ -37,11 +42,9 @@
             }
             component.set('v.initialized', true);
         });
-        
     },
 
     navigateToTrialSearchPage: function (component, event, helper) {
         communityService.navigateToPage('trial-search');
     }
-   
 });

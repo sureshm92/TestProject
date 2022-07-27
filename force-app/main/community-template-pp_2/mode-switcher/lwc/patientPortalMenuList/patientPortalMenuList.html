@@ -1,0 +1,27 @@
+<template>
+    <template for:each={commModes} for:item="item">
+        <div class="slds-grid curr-mode-delg-title" key={item.title}>
+            <div class="slds-col slds-size_10-of-12">
+                <div class="slds-grid slds-grid_vertical">
+                    <div
+                        class="slds-col slds-m-left_xx-small title-label-div-height"
+                        data-id={item.title}
+                        data-value={item.programList}
+                        onclick={handleListDisplay}
+                    >
+                        {item.title}
+                    </div>
+                    <div
+                        class="slds-col slds-m-left_xx-small title-label-div-height"
+                        if:true={item.isDelegate}
+                    >
+                        <span class="participants-delega">{label.partipantsDelegate}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-m-top_x-small slds-size_2-of-12" if:true={item.isDelegate}>
+                <c-web-icon color="blue" icon-name="participant_settings"> </c-web-icon>
+            </div>
+        </div>
+    </template>
+</template>

@@ -19,8 +19,6 @@ public with sharing class Action_SendSMS implements Action {
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
     public static final String PHONE_TYPE_MOBILE = 'Mobile';
-    public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
-    public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
     public class Action_SendSMS_Exception extends Exception {
     }
@@ -304,7 +302,7 @@ public with sharing class Action_SendSMS implements Action {
                      public String awsStudy; */
                 }
                 // Pinpoint code Ends
-                
+
                 messageParametersList.add(msgParam);
             }
         }
@@ -589,12 +587,14 @@ public with sharing class Action_SendSMS implements Action {
         Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
             [
                 SELECT
-                    Id, Participant_Enrollment__c, 
+                    Id,
+                    Participant_Enrollment__c,
                     Participant_Enrollment__r.Study_Site__c,
                     Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
                     Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c, 
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
                     Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
                     Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                     Participant_Enrollment__r.Study_Site__r.From_Number__c,
@@ -818,17 +818,19 @@ public with sharing class Action_SendSMS implements Action {
                             tvOBJ = tva.Televisit__r;
                         }
                         if (tvOBJ != null) {
-                        pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
-                        studySiteId = tvOBJ.Participant_Enrollment__r.Study_Site__c;
-                        sponsorName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
-                        sponsorNameSms = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
-                        ctpTemplateName = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                        studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
-                        isSMSAvailableForPER = tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c && tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                        fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
-                        welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
-                        welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
-                    }
+                            pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;
+                            studySiteId = tvOBJ.Participant_Enrollment__r.Study_Site__c;
+                            sponsorName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c;
+                            sponsorNameSms = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c;
+                            ctpTemplateName = tvOBJ.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                            studyName = tvOBJ.Participant_Enrollment__r.Study_Site__r.Study_AWS__c;
+                            isSMSAvailableForPER =
+                                tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                            fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
+                            welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                            welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                        }
                     }
                 } else {
                     if (objType == 'SurveyInvitation') {
@@ -943,10 +945,14 @@ public with sharing class Action_SendSMS implements Action {
                                 String permSetName = userIdMap.get(taskMap.get(whatId).OwnerId)
                                     .PermissionSetAssignments.get(0)
                                     .PermissionSet.Name;
-                                if (permSetName == PERMISSION_COMMUNITY_DEFAULT_NAME) {
-                                    ctpTemplateName = 'Default';
-                                } else if (permSetName == PERMISSION_COMMUNITY_GSK_NAME) {
-                                    ctpTemplateName = 'GSK';
+                                Set<String> allPermissionSets = CommunityTemplateService.getAllPermissionSets();
+                                for (String permiSet : allPermissionSets) {
+                                    if (permiSet == permSetName) {
+                                        ctpTemplateName = CommunityTemplateService.getTemplateByPermissionSetName(
+                                                permiSet
+                                            )
+                                            .templateName;
+                                    }
                                 }
                             }
                         }

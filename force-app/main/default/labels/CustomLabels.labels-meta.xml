@@ -11236,6 +11236,13 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>No_Active_Programs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Active Programs</shortDescription>
+        <value>No Active Programs</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14944,11 +14951,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Locked Out!</value>
     </labels>
     <labels>
+        <fullName>PP_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Lockout</shortDescription>
+        <value>Locked out</value>
+    </labels>
+     <labels>
+        <fullName>PP_BTN_Back_To_Log_in</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP BTN Back to Log in</shortDescription>
+        <value>Back to Log in</value>
+    </labels>
+    <labels>
         <fullName>PG_Lockout_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Lockout Error Message</shortDescription>
         <value>You have been locked out of your account because of several failed login attempts. Please wait for 15 minutes before trying to log back in again.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Lockout_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Lockout Error Message</shortDescription>
+        <value>After several failed login attempts you are locked out of your account. Please wait 15 minutes before trying to log back in.</value>
     </labels>
     <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
@@ -18260,6 +18288,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
     </labels>
     <labels>
+        <fullName>PP_Email_Sent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent</shortDescription>
+        <value>Email sent!</value>
+    </labels>
+     <labels>
+        <fullName>PP_Email_Sent_To_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent To User</shortDescription>
+        <value>If there is an account linked to this email, we&apos;ll send instructions to recover your password.</value>
+    </labels>
+    <labels>
         <fullName>PP_Emergency</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18267,6 +18309,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
+        <fullName>PP_Enter_Associated_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Enter Associated Email</shortDescription>
+        <value>Enter the email associated with your account.</value>
+    </labels>
+     <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18405,6 +18454,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
         <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_Login_Wrong_Password_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Wrong Password Error Message</shortDescription>
+        <value>Incorrect username/password.&lt;br /&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ManageDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ManageDelegates</shortDescription>
+        <value>Manage Delegates</value>
     </labels>
     <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
@@ -19543,6 +19606,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
         <value>New visit data is available</value>
+    </labels>
+    <labels>
+        <fullName>Paticipant_s_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Paticipant's Delegate</shortDescription>
+        <value>Paticipant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -21842,6 +21912,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH RP YOB</shortDescription>
         <value>YOB</value>
+    </labels>
+    <labels>
+        <fullName>Remember_My_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remember My Username</shortDescription>
+        <value>Remember My Username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
@@ -24860,6 +24937,13 @@ communications using the toggles below.</value>
         <value>View Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Viewing_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as</shortDescription>
+        <value>Viewing as</value>
+    </labels>
+    <labels>
         <fullName>Viewing_as_Investigative_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25405,6 +25489,27 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
+    </labels>
+    <labels>
+        <fullName>PP_Forgot_Password_Footer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer1</shortDescription>
+        <value>In need of extra assistance? Send us an email at</value>
+    </labels>
+    <labels>
+        <fullName>PP_Forgot_Password_Footer2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer2</shortDescription>
+        <value>for help.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Logout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Logout</shortDescription>
+        <value>Logout</value>
     </labels>
     <labels>
         <fullName>RH_RP_Comments</fullName>
@@ -26168,5 +26273,29 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
         <value>Visit Preview</value>
+    </labels>
+    <labels>
+        <fullName>Chapter</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chapter</shortDescription>
+        <value>Chapter</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP_as_PDF</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download PP as PDF</shortDescription>
+        <value>Download Privacy Policy as PDF</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_On</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated On</shortDescription>
+        <value>Last Updated on:</value>
     </labels>
 </CustomLabels>
