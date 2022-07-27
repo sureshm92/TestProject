@@ -216,7 +216,7 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.LastName);
     }
 
-    @IsTest
+ @IsTest
     static void piDelegateWithParentTest() {
         TestData testData = new TestData();
         Test.startTest();
@@ -287,7 +287,6 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.FirstName);
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.LastName);
     }
-    
     @IsTest
     static void getInitDataNegativeTest() {
         TestData testData = new TestData();

@@ -255,7 +255,7 @@ public without sharing class DashboardRemoteNew {
             return -1;
         }
     }
-
+ 
     @AuraEnabled
     public static String getInitData(
         String userMode,
@@ -287,11 +287,16 @@ public without sharing class DashboardRemoteNew {
                     currentContact.LastName;
                 Map<Id, String> delegatePIsMap = new Map<Id, String>();
                 PIData piData = new PIData();
+                List<String> communityNames = new List<String>(); 
+                if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
+                    communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+                }
+                communityNames.add(communityName);
                 if (
                     ![
                             SELECT Id
                             FROM Study_Site__c
-                            WHERE Principal_Investigator__c = :currentContactId  AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                            WHERE Principal_Investigator__c = :currentContactId  AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                         ]
                         .isEmpty()
                 ) {
@@ -310,7 +315,7 @@ public without sharing class DashboardRemoteNew {
                         Study_Site__c,
                         is_Invited__c
                     FROM Site_Staff__c
-                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                 ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,
@@ -1055,6 +1060,7 @@ public without sharing class DashboardRemoteNew {
                         AND ParticipantEnrollment__r.Participant__c != NULL
                         AND Date__c != NULL
                         AND Status__c IN :(new List<String>{ PE_STATUS_SUCCESSFULLY_CONTACTED })
+                        AND ParticipantEnrollment__r.Participant_Status__c  IN :PEStatusState.PE_STATUS_GROUP_POSITIVE_PARTICIPANTS_CONTACTED
                     ORDER BY Createddate DESC
                     LIMIT 40000
                 ];

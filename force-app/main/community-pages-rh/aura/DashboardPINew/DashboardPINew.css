@@ -33,10 +33,27 @@
     .THIS.db-section > .slds-col:nth-child(-n + 2) {
             min-width: 100%;
         }
-    }
-    
-    @media all and (max-width: 500px) {
+    }       
+    @media (max-width: 768px) {
+
         .THIS.pi-picklist-container {
-            padding-right: 12px;
-        }
-    }
+             padding-right: 0;
+             width: 100%;
+             padding-left: 0;
+             display: block;
+             margin-right: 0;
+             margin-left: 0;
+                 }
+     
+      .THIS.pi-picklist-container .slds-p-right_large {
+          padding-right: 0;
+      }
+     
+      .THIS .cRrSelect.rrs-container {
+                width: 100%;
+      }
+     
+      .THIS.cRrSelect.rrs-container:first-child {
+                margin: 1rem 0 .5rem;
+      } }
+  

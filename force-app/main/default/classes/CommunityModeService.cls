@@ -803,48 +803,43 @@ public without sharing class CommunityModeService {
     private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
-        system.debug('>>>>contactId>>'+contactId);
-      //  system.debug('>>>check801>>'+contactId != Null ? contactId : 'sandas');
-       //  system.debug('>>>check802>>'+contactId != '' ? contactId : 'Bijesh');
         
-            List<Site_Staff__c> siteStaffs = [
-                SELECT Id, Study_Site__c, is_Invited__c
-                FROM Site_Staff__c
-                WHERE Site_Contact__c = :contactId AND is_Invited__c = TRUE
-            ];
-            
-            for (Site_Staff__c staff : siteStaffs)
-                ssDelegateIds.add(staff.Study_Site__c);
-            List<Study_Site__c> studySites = new List<Study_Site__c> ();
-             
-                  studySites = [
-                    SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Study_Site__c
-                    WHERE Principal_Investigator__c = :contactId OR Id IN :ssDelegateIds
-                ];
-            
-            for (Study_Site__c ss : studySites) {
-                if (
-                    rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)
-                ) {
-                    if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                        ssByCommunity.put(
-                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            new List<Study_Site__c>()
-                        );
+        List<Site_Staff__c> siteStaffs = [
+            SELECT Id, Study_Site__c, is_Invited__c
+            FROM Site_Staff__c
+            WHERE Site_Contact__c = :contactId AND is_Invited__c = TRUE
+        ];
+        
+        for (Site_Staff__c staff : siteStaffs)
+            ssDelegateIds.add(staff.Study_Site__c);
+        List<Study_Site__c> studySites = new List<Study_Site__c> ();
+        
+        studySites = [
+            SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Study_Site__c
+            WHERE Principal_Investigator__c = :contactId OR Id IN :ssDelegateIds
+        ]; 
+                for (Study_Site__c ss : studySites) {
+                    if (
+                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)
+                    )  {
+                        if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                            ssByCommunity.put(
+                                ss.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                new List<Study_Site__c>()
+                            );
+                        }
+                        ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
+                    } else {
+                        if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
+                            ssByCommunity.put(
+                                CommunityTemplateService.TEMPLATE_DEFAULT,
+                                new List<Study_Site__c>()
+                            );
+                        }
+                            ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
                     }
-                    ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
-                } else {
-                    if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                        ssByCommunity.put(
-                            CommunityTemplateService.TEMPLATE_DEFAULT,
-                            new List<Study_Site__c>()
-                        );
-                    }
-                    ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
                 }
-            }
-        
         return ssByCommunity;
     }
 
