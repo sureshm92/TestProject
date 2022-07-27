@@ -531,12 +531,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
             } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
-                           if (
-                               oldMap == null ||
-                               (oldMap != null &&
-                                oldMap.get(pe.Id).Participant_Status__c !=
-                                 PEStatusState.PE_STATUS_ELIGIBILITY_PASSED )
-                           ) {
+                if (
+                    oldMap == null ||
+                    (oldMap != null &&
+                    oldMap.get(pe.Id).Participant_Status__c !=
+                    PEStatusState.PE_STATUS_ELIGIBILITY_PASSED)
+                ) {
                     if (
                         oldMap != null &&
                         oldMap.get(pe.Id).Participant_Status__c != 'Successfully Contacted'
@@ -965,6 +965,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
 }*/
         }
         //Added for study Level Delegate
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (
                 oldMap == null &&
@@ -982,6 +983,12 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                             NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
                         )
                     );
+                    //Create jonction object record between PER and Patient Delegate contact records
+                    ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                    perPDJunObj.Participant_Enrollment__c = pe.Id;
+                    perPDJunObj.Patient_Delegate_Contact__c = delegateId;
+                    perPDJunObj.Process_Type__c = 'Welcome Message';
+                    perDelJunctionRecList.Add(perPDJunObj);
                     Boolean isDelegatePlatformNotification =
                         ContactService.patientdelList.containskey(delegateId) &&
                         ContactService.patientdelList.get(delegateId)
@@ -1010,6 +1017,10 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
             !perToBeUpdated.isEmpty() //For updating the welcome msg flag - Added by Sonal
         )
             update perToBeUpdated;
+
+        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+            insert perDelJunctionRecList;
+        }
     }
     /*For Welcome Msg -- Added by Anitha End*/
     @TestVisible

@@ -720,6 +720,15 @@ public without sharing class PIR_StatusDetailControllerTest {
         Initial_visit_scheduled_date__c,
         Initial_visit_scheduled_time__c,
         Initial_visit_occurred_flag__c,
+        PI_Contact__c,
+        Participant__c,
+        Participant_Contact__c,
+        Participant__r.First_Name__c,
+        Participant__r.Last_Name__c,
+        Participant__r.Adult__c,
+        Participant__r.Email__c,
+        Add_televisit_for_Initial_Visit__c,
+        Initial_Visit_Televisit_Created__c,
         Last_Status_Changed_Additional_Notes__c FROM
         Participant_Enrollment__c
         ];
@@ -746,6 +755,23 @@ public without sharing class PIR_StatusDetailControllerTest {
         //byPassTriggersMethod();
         insert peshList;
         Test.startTest();
+        parList[0].Add_televisit_for_Initial_Visit__c = true;
+        parList[0].Initial_Visit_Televisit_Created__c = false;
+        parList[0].Initial_visit_scheduled_date__c = system.now().addminutes(15).date();
+        parList[0].Initial_visit_scheduled_time__c = system.now().addminutes(15).time();
+        update parList[0];
+        /*Patient_Delegate__c pd = new Patient_Delegate__c();
+        pd.Participant_Delegate__c = parList[1].Participant__c;
+        pd.Primary_Delegate__c = true;
+        pd.Contact__c = parList[1].PI_Contact__c;
+        pd.Participant__c = parList[0].Participant__c;
+        insert pd;*/
+        TriggerHandlerExecutor.bypassHandler(
+                                TelevisitTriggerHandler.TelevisitEventTrigger.class
+                            );
+        TriggerHandlerExecutor.bypassHandler(
+                                TelevisitTriggerHandler.NotifyAttendees.class
+                            );
         PIR_StatusDetailController.doSaveStatusDetails(parList[0],'');
         PIR_StatusDetailController.doSaveStatusDetails(parList[1],'');
         PIR_StatusDetailController.doSaveStatusDetails(parList[2],'');
