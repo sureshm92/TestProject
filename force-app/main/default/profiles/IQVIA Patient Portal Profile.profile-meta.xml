@@ -8413,7 +8413,7 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>RRChangePassword</apexPage>
+        <apexPage>PPChangePassword</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <userLicense>Guest User License</userLicense>

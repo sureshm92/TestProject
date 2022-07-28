@@ -18153,6 +18153,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Password is not meeting criteria</value>
     </labels>
     <labels>
+        <fullName>PP_PasswordCriteriaNotMet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
+        <value>Password does not meet criteria</value>
+    </labels>
+    <labels>
         <fullName>PP_Custom</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18615,6 +18622,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_PasswordsMismatch</shortDescription>
         <value>Passwords are not matching</value>
+    </labels>
+    <labels>
+        <fullName>PPLite_PasswordsMismatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PPLite_PasswordsMismatch</shortDescription>
+        <value>Passwords do not match</value>
     </labels>
     <labels>
         <fullName>PP_Paste_URL</fullName>
