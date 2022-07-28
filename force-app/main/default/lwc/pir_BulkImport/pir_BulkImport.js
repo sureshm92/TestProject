@@ -29,6 +29,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urltrialId = null;
     urlsiteId = null;
     isResetPagination=false;
+    calledfrombulkimporthistry = false;
     @api selectedStudyChild;
     @api selectedStudySiteChild;
     @api pageNumberChild=1;
@@ -55,10 +56,11 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+       this.calledfrombulkimporthistry=this.urlStateParameters.navigateFromComponent  == 'BulkimportHistryPage' ? true : false;;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
      
-       if(this.urlmyStudies){
+       if(this.urlmyStudies || this.urlStateParameters.navigateFromComponent == 'MyStudies'){
             this.myStudiesPg = true;
             this.selectedStudy = this.urltrialId; 
        }else{
@@ -115,7 +117,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                     this.studyToStudySite = studyToStudySite;
                     this.studysiteaccess = true;
                     
-                    if(this.myStudiesPg){
+                    if(this.myStudiesPg && this.urltrialId){
                         this.selectedStudy = this.urltrialId; 
                         var accesslevels = Object.keys(this.siteAccessLevels).length; 
                         var conts = this.studyToStudySite;
@@ -147,7 +149,6 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                       
                         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
                         this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-                       
                         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
                         
                     } 
@@ -307,7 +308,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.isResetPagination=true;
         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
         this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-        
+
         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         
         
@@ -358,7 +359,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     }
     handletotalrecord(event){
       this.totalRecord=event.detail;
-      
+    
     }
     handleresetpagination(event){
       if(this.isResetPagination ){
