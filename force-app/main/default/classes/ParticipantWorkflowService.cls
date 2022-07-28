@@ -1866,7 +1866,6 @@ public without sharing class ParticipantWorkflowService {
                 pesh.Status__c
             );
             if(String.valueOf(pesh.Status__c)=='Successfully re-engaged'){
-                 //result.title = 'Successfully Re-Engaged';
                  result.title =TranslateHelper.getLabelValue(Label.Successfully_Re_Engaged);
             }
            
