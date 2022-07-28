@@ -58,6 +58,9 @@
             formInputs[i].showHelpMessageIfInvalid();
         }
         for(var i = 0; i < formInputs2.length; i++){
+            if(formInputs2[i] && formInputs2[i].get('v.value')) {
+                formInputs2[i].set('v.value',  formInputs2[i].get('v.value').trim());
+            }
            formInputs2[i].showHelpMessageIfInvalid();
         }
         var selectYr = component.find("yearField");

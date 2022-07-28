@@ -1834,7 +1834,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         String strValue = '';
         for(String str : csvString.get(count - 1))
         {
-            strValue = String.isNotBlank(strValue) ? strValue + ',' +str : str;
+            strValue = String.isNotBlank(strValue) ? strValue + ',' +str : '"'+str+'"';
         }
         cleanMessage = ('' + strValue).removeStart('(').removeEnd(')') + ', ' + count;
         return cleanMessage;
