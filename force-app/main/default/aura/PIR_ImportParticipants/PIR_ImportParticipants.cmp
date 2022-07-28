@@ -12,6 +12,6 @@
         <aura:attribute name="callback" type="Function" />
 </aura:method>
   <aura:if isTrue="{!v.showImport}">
-     <c:pir_importParticipant onclose="{!c.handleImportParticipant}" isMyStudies="true" studyid="{!v.studyId}"  siteid="{!v.studySiteId}" siteName="{!v.siteName}" />
+     <c:pir_importParticipant onclose="{!c.handleImportParticipant}" isMyStudies="true" navigateFromComponent="MyStudies" studyid="{!v.studyId}"  siteid="{!v.studySiteId}" siteName="{!v.siteName}" />
   </aura:if> 
 </aura:component>
