@@ -3,15 +3,19 @@
         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
             <template if:true={myStudiesPg}>
                 <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
-                    <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon>
+                    <a href="#" onmousedown={handleStudiesPg}>   <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon></a>
+                 <template if:false={calledfrombulkimporthistry}>
                     <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleStudiesPg} title={label.Home_Page_Label} class="breadcrumbfont slds-p-left_xx-small">{label.Home_Page_Label}</a>
+                 </template>
                     <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
                 </div>
             </template>
             <template if:false={myStudiesPg}>
                 <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
-                    <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon>
+                    <a href="#" onmousedown={handleStudiesPg}>  <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon></a>
+                 <template if:false={calledfrombulkimporthistry}>
                     <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleParticipantPg} title={label.My_Participant} class="breadcrumbfont slds-p-left_xx-small">{label.My_Participant}</a>
+                 </template>
                     <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
                 </div>
             </template>
@@ -68,7 +72,7 @@
             </div>
             <div class="section-padding tabs bulkimportTab importTab">
                 <lightning-tabset>
-                    <lightning-tab label="Bulk import">
+                    <lightning-tab label={label.RH_RP_Bulk_Import}>
                         <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} get-study={selectedStudyChild} get-study-site={selectedStudySiteChild}  stop-spinner={stopSpinnerChild}></c-pir_-bulk-import-files>
                         <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD ">      
                             <template if:true={totalRecord}>
