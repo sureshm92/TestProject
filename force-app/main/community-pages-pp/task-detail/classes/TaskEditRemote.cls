@@ -76,7 +76,8 @@ public without sharing class TaskEditRemote {
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             //emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             emailOptIn = emailPreferencesIsOn;
-            smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
+            //smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
+            smsOptIn= smsPreferenceIsOn
             createdByAdmin = false;
 
             task = new Task(Task_Type__c = 'Not Selected');
@@ -390,7 +391,45 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkSMSPreferencesIsOn() {
-        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
+        //return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
+        Boolean SMSOptinPlatformlevel = ParticipantContext.getCurrentContact()
+            .Participant_Opt_In_Status_SMS__c;
+        if (SMSOptinPlatformlevel) {
+            return SMSOptinPlatformlevel;
+        }
+        Boolean SMSOptinStudyLevel = false;
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+            .getState();
+        List<Id> peIds = new List<Id>();
+        peIds = PatientDelegateService.getAvailablePEIdsForContact(
+            participantState.participant.Contact__c
+        );
+        List<Participant_Enrollment__c> availablePEs = [
+            SELECT
+                Id,
+                Participant__c,
+                Participant__r.Contact__c,
+                Participant__r.Adult__c,
+                Participant__r.Email__c,
+                Study_Site__r.SMS_Are_Available__c,
+                Permit_Mail_Email_contact_for_this_study__c,
+                Permit_SMS_Text_for_this_study__c,
+                Permit_Voice_Text_contact_for_this_study__c,
+                Study_Direct_Mail_Consent__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :peIds
+        ];
+        if (availablePEs != null) {
+            for (Participant_Enrollment__c peRec : availablePEs) {
+                if (peRec.Permit_SMS_Text_for_this_study__c) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static String checkEmailPermissions(
