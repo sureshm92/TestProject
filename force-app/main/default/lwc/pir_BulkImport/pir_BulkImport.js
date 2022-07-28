@@ -8,6 +8,7 @@ import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
 import PIR_Study_Name from "@salesforce/label/c.PIR_Study_Name";
 import PIR_Study_Site_Name from "@salesforce/label/c.PIR_Study_Site_Name";
 import My_Participant from "@salesforce/label/c.My_Participant";
+import RH_RP_Bulk_Import from "@salesforce/label/c.RH_RP_Bulk_Import";
 import Home_Page_Label from "@salesforce/label/c.Home_Page_Label";
 import RH_RP_Bulk_Import from "@salesforce/label/c.RH_RP_Bulk_Import";
 import pir_Bulk_Import_History from "@salesforce/label/c.pir_Bulk_Import_History";
