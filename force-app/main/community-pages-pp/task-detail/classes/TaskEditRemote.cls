@@ -77,7 +77,7 @@ public without sharing class TaskEditRemote {
             //emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             emailOptIn = emailPreferencesIsOn;
             //smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
-            smsOptIn= smsPreferenceIsOn
+            smsOptIn = smsPreferenceIsOn;
             createdByAdmin = false;
 
             task = new Task(Task_Type__c = 'Not Selected');
