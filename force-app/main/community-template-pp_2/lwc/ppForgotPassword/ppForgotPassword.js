@@ -58,15 +58,12 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
     get rtlStyleClass() {}
 
     handleForgotPassword() {
-        console.log('?????????????????????1');
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
-        console.log('?????????????????????2' + JSON.stringify(this.usrnameval));
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
                 if (result.includes('./CheckPasswordResetEmail')) {
-                    console.log('?????????????????????3');
                     this.showEmailSent = true;
                     if (this.showEmailSent == true) {
                         this.emailMessage = this.labels.emailsentsubtitle.replace(
@@ -75,7 +72,6 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                         );
                     }
                 } else if (result) {
-                    console.log('?????????????????????4');
                     let returnValue = JSON.parse(result);
                     if (returnValue['timeDifference']) {
                         this[NavigationMixin.Navigate]({
@@ -94,7 +90,6 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                 spinner.hide();
             })
             .catch((error) => {
-                console.log('?????????????????????4');
                 this.error = error;
                 spinner.hide();
             });
