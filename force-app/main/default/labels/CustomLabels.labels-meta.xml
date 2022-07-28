@@ -109,7 +109,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PI Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime.</value>
     </labels>
     <labels>
         <fullName>PT_Televisit_Meet_Info</fullName>
@@ -6157,7 +6157,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Cancelled</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6191,12 +6191,12 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Day Reminder</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for ##StudyCodeName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Day_Signature</fullName>
@@ -6274,7 +6274,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Televisit Hour Reminder</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for ##StudyCodeName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
@@ -6304,7 +6304,7 @@ Sincerely,
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Scheduled</fullName>
@@ -6859,7 +6859,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Televisit Cancelled</shortDescription>
-        <value>This is to notify you that your ##VisitName televisit is canceled</value>
+        <value>This is to notify you of a canceled televisit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Televisit_Day_Del_Reminder</fullName>
@@ -6919,7 +6919,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Televisit Rescheduled</shortDescription>
-        <value>This is to notify you that your ##VisitName televisit is rescheduled</value>
+        <value>This is to notify you of a rescheduled televisit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Televisit_Scheduled</fullName>
@@ -7782,7 +7782,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Televisit Cancelled</shortDescription>
-        <value>televisit is canceled</value>
+        <value>televisit has been canceled</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Day_Del_Reminder</fullName>
@@ -7856,7 +7856,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Televisit Rescheduled</shortDescription>
-        <value>televisit is rescheduled</value>
+        <value>televisit has been rescheduled</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Televisit_Scheduled</fullName>
@@ -22562,14 +22562,6 @@ communications using the toggles below.</value>
         <value>##ShortCommunityName: You have been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
-        <fullName>SMS_Body_Removed_as_Televisit_Del_Attendee</fullName>
-        <categories>Televisits</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>SMS_Body_Removed_as_Televisit_Del_Attendee</shortDescription>
-        <value>##ShortCommunityName: Your patient ##ParticipantFirstName ##ParticipantLastName has been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
         <fullName>SMS_Body_Televisit_Attendee</fullName>
         <categories>Televisits</categories>
         <language>en_US</language>
@@ -22584,30 +22576,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>SMS_Body_Televisit_Cancelled</shortDescription>
         <value>##ShortCommunityName: Your ##StudyCodeName televisit on ##VisitDttime has been canceled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>SMS_Body_Televisit_Del_Attendee</fullName>
-        <categories>Televisits</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>SMS_Body_Televisit_Del_Attendee</shortDescription>
-        <value>##ShortCommunityName: Your patient ##ParticipantFirstName ##ParticipantLastName has been invited to a ##StudyCodeName televisit on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>SMS_Body_Televisit_Del_Cancelled</fullName>
-        <categories>Televisits</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>SMS_Body_Televisit_Del_Cancelled</shortDescription>
-        <value>##ShortCommunityName: Your patient ##ParticipantFirstName ##ParticipantLastName’s  ##StudyCodeName televisit on ##VisitDttime has been canceled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>SMS_Body_Televisit_Del_Rescheduled</fullName>
-        <categories>Televisits</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>SMS_Body_Televisit_Del_Rescheduled</shortDescription>
-        <value>##ShortCommunityName: Your patient ##ParticipantFirstName ##ParticipantLastName’s ##StudyCodeName televisit on ##VisitDttime has been rescheduled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Televisit_Rescheduled</fullName>
@@ -22930,7 +22898,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to Del</shortDescription>
-        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyCodeName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Level_Welcome_Msg_Body_to_PT</fullName>
@@ -25758,7 +25726,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
-        <value>Your ##VisitName televisit with ##PIFullName is no longer happening. This might be because the televisit no longer needs your participation.
+        <value>Your attendance for the ##VisitName televisit with ##PIFullName is no longer required.
 
 Please contact the Study Team for further updates or please login for additional details.</value>
     </labels>
@@ -25767,7 +25735,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Removed as Televisit Attendee</shortDescription>
-        <value>This is to notify you that your ##VisitName televisit is no longer happening</value>
+        <value>This is to notify you that your attendance for the ##VisitName televisit is no longer required</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Removed_as_Televisit_Attendee</fullName>
@@ -25775,7 +25743,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
-        <value>is not happening</value>
+        <value>televisit attendance is no longer required</value>
     </labels>
     <labels>
         <fullName>Televisit_Canceled</fullName>
@@ -26262,7 +26230,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone and camera permissions to join televisit. Please grant permissions and Rejoin.</value>
+        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
     </labels>
     <labels>
         <fullName>Back</fullName>
