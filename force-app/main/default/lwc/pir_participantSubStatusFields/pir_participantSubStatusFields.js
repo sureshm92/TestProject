@@ -1737,7 +1737,7 @@ changeInputValue(event) {
       if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
       (this.participantrecord.Participant_Status__c == "Successfully Contacted" || this.pe_record.Participant_Status__c=="Successfully Contacted")
       && this.participantrecord.Initial_visit_scheduled_date__c!=null 
-      && this.participantrecord.Initial_visit_scheduled_date__c!=null
+      && this.participantrecord.Initial_visit_scheduled_time__c!=null
      ){
       this.participantrecord.Succesfully_Re_Engaged__c = false;
       }
