@@ -364,11 +364,12 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     }
     isResetOnUpdate=false;
     handleresetpageonupdate(event){
-      this.isResetOnUpdate=event.detail;
+      this.isResetOnUpdate=event.detail.type;
       if(this.isResetOnUpdate){
-        this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
+        this.template.querySelector("c-pir_participant-pagination").totalRecords=event.detail.record;
         this.template.querySelector("c-pir_participant-pagination").updateInprogress();
-        }
+        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
+      }
       this.isResetOnUpdate=false;
       
 

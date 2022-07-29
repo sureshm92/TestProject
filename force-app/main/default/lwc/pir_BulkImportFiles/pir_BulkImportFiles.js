@@ -303,6 +303,18 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 detail: ''
             });
             this.dispatchEvent(selectEventnew);
+
+            const selectEventneww = new CustomEvent('resetpageonupdate', {
+                detail: 
+		
+		{type:this.inProgressData,
+                 record: this.totalRecord
+                 }                     
+                  
+             });
+             this.dispatchEvent(selectEventneww);
+           
+           
             console.table(result);
             if(result.bulkHistoryDataCompleted.length>0){
                 this.noRecords=false;
@@ -375,12 +387,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
             }
 
             if(this.isToast ||this.successBoolean){
-                const selectEventneww = new CustomEvent('resetpageonupdate', {
-                    detail: 'true'
-                });
-                this.dispatchEvent(selectEventneww);
-                
-                this.showSuccessToast(this.label.RH_ImportSuccess);
+               this.showSuccessToast(this.label.RH_ImportSuccess);
                 this.isToast=false;
                 this.successBoolean=false;
             }
