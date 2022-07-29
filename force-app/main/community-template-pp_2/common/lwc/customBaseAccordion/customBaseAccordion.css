@@ -1,61 +1,68 @@
-.accordion_container {
-    width: 100%;
-    margin: 10px;
-  }
-  
-  .accordion_head {
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 16px;
-    margin-right: 10px;
-    color: #297dfd;
-  }
-  
-  .accordion_body {
-    padding : 10px;
-    text-align: justify;
-    color: #444444;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 30px;
-    display: inline-flex;
-    flex-grow: 1;
-    align-items: center;
-    min-width: 0;
-    margin-top: -16px;
-    margin-bottom: 1px;
-    padding-bottom: 15px;
-    word-break: break-word;
+.cardRTL {
+  direction: rtl;
 }
-  .accordion-margin{
-    margin-bottom: 10px;
-  }
-  .accordion-section{
-    line-height: 36px;
-    box-sizing: border-box;
-    border: 1px solid #D9D9D9;
-    border-radius: 8px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);
-    margin-right: 32px;
 
-  }
-  
+.accordion_container {
+  width: 100%;
+}
 
-  .accordion_body p {
-    padding: 18px 5px;
-    margin: 0px;
-    padding-right: 18px;
-    text-align: justify;
-  }
-  
-  .plusminus {
-    float: right;
-    padding-right: 10px;
-  }
+.accordion_head {
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 16px;
+  margin-right: 10px;
+  color: #297dfd;
+  cursor: pointer;
+}
 
-  .hide{
-      display: none;
-  }
+.accordion_body {
+  padding: 10px;
+  text-align: justify;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 30px;
+  display: inline-flex;
+  flex-grow: 1;
+  align-items: center;
+  min-width: 0;
+  margin-top: -16px;
+  margin-bottom: 1px;
+  padding-bottom: 15px;
+  word-break: break-word;
+}
+.accordion-margin {
+  margin-bottom: 10px;
+}
+.accordion-section {
+  line-height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);
+  margin-right: 32px;
+}
+
+.accordion_body p {
+  padding: 18px 5px;
+  margin: 0px;
+  padding-right: 18px;
+  text-align: justify;
+}
+
+.plusminus {
+  float: right;
+  padding-right: 10px;
+}
+
+.plusminusRTL {
+  float: left;
+  padding-left: 10px;
+}
+
+.hide {
+  display: none;
+}

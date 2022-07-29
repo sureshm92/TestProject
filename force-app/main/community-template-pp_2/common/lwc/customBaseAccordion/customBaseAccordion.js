@@ -9,6 +9,16 @@ export default class CustomBaseAccordion extends LightningElement {
     allowAllSectionDefaultToOpen;
     allowOnlyOneSectionAtATime;
 
+    isRTL = false;
+
+    get arrowCss(){
+        return this.isRTL ? 'plusminusRTL' : 'plusminus';
+    }
+
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';
+    }
+
     connectedCallback(){
        this.allowAllSectionDefaultToOpen = this.allowAllSectionDefaultOpen;
        this.allowOnlyOneSectionAtATime = this.allowOnlyOneSectionAtTime;
