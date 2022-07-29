@@ -1415,7 +1415,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                 width: 90px;
+                 width: 100px;
             }
 
             .cp-main-logo {
@@ -1679,9 +1679,9 @@
                     padding: 10px;
                 }
                 .televisitBanner {
-                    margin-top: 100px;
+                    margin-top: 55px;
                     padding: 0px;
-                    width: 80%;
+                    width: 80% !important;
                     z-index: 9;
                 }
                 .slds-button-circle {
@@ -1698,6 +1698,14 @@
                  .tv_banner::before{
                     display: none;
                 }
+                .warning_content{
+                    display: flex;
+                    justify-content: right;
+                    align-items: center;
+                }
+                button.extendCallListUpdatedClass{width : auto}
+                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 95px}
+                .extent_time{display: flex}
                 
             }
 
@@ -1718,6 +1726,8 @@
                 .height-full {
                     height: 520px !important;
                 }
+                .extent_time{display: flex}
+                .televisitBanner{width: 90%}
             }
 
             .main-container-open {
