@@ -13675,6 +13675,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New Password</value>
     </labels>
     <labels>
+        <fullName>PP_New_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP New password</shortDescription>
+        <value>New password</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Nickname</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13743,6 +13750,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Re-enter new password</shortDescription>
+        <value>Re-enter new password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Screening_Subject_ID</fullName>
@@ -13820,6 +13834,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS H Change Password</shortDescription>
         <value>Change Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Password</shortDescription>
+        <value>Change password</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Contact_Information</fullName>
@@ -18060,6 +18081,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_CannotReuseOldPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CannotReuseOldPwd</shortDescription>
+        <value>You can not reuse your old password</value>
+    </labels>
+    <labels>
         <fullName>PP_ChangeUsrname_DntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18428,6 +18456,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>And include any 3 below</value>
     </labels>
     <labels>
+        <fullName>PP_IncludeAnythreeofbelow</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_IncludeAnythree of below</shortDescription>
+        <value>And include any 3 of the following:</value>
+    </labels>
+    <labels>
         <fullName>PP_InvalidUsername</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18545,6 +18580,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_MustInclude</shortDescription>
         <value>Must Include Atleast</value>
+    </labels>
+    <labels>
+        <fullName>PP_MustIncludeAtleast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MustInclude Atleast</shortDescription>
+        <value>Your password must include at least:</value>
     </labels>
     <labels>
         <fullName>PP_NewPwdPlaceHolder</fullName>
