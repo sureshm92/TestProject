@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 
 import desktopTemplate from './desktopTemplate.html';
@@ -18,6 +19,44 @@ export default class ProgramOverviewDetails extends LightningElement {
     tabContent = true;
     overviewCss = 'po-tab-menu active';
     pcCss = 'po-tab-menu';
+
+    isRTL = false;
+
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';
+    }
+
+    get breadCrum(){
+        return this.isRTL ? 'po-mt-20 po-mr-25' : 'po-mt-20';
+    }
+
+    get programName(){
+        return this.isRTL ? 'po-mr-36' : '';
+    }
+
+    get breadCrumMobile(){
+        return this.isRTL ? 'po-mt-20 po-mr-10' : 'po-mt-20';
+    }
+
+    get programNameMobile(){
+        return this.isRTL ? 'po-mr-26' : '';
+    }
+
+    get parCriterionMRight(){
+        return this.isRTL ? 'po-pb-10 po-mr-16plus' : 'po-pb-10 po-ml-3';
+    }
+
+    get parCriterionMRightDesktop(){
+        return this.isRTL ? 'po-pb-10 po-mr-16' : 'po-pb-10 po-ml-3';
+    }
+
+    get accordianMargin(){
+        return this.isRTL ? 'po-mr-16' : 'po-mr-20minus';
+    }
+
+    get accordianMarginDesktop(){
+        return this.isRTL ? 'po-mr-16plus' : '';
+    }
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
@@ -59,6 +98,15 @@ export default class ProgramOverviewDetails extends LightningElement {
             .catch((error) => {
                 console.log('error::' + error);
                 this.error = error;
+            });
+
+            getisRTL()
+                .then((data) => {
+                    debugger;
+                    this.isRTL = data;
+                })
+                .catch(function (error) {
+                    console.error('Error RTL: ' + JSON.stringify(error));
             });
     }
 
