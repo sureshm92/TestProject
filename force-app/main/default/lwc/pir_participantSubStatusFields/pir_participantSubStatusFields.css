@@ -312,6 +312,21 @@
     .sitepreferences {
         width: 85%;
     }
+    .p-r0{
+        padding-right: 0;
+    }
+    .p-l0{
+        padding-left: 0;
+    }
+    .mobile-width{
+        float: none !important;
+    }
+    .mobile-width .save-btn, .mobile-width .discard-btn{
+        width: 100%;
+    }
+    .mobile-width .discard-btn{
+        margin-top: 20px;
+    }
 }
 /**
  * Created by Andrii Kryvolap.

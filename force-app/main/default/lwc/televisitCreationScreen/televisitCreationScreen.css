@@ -247,6 +247,9 @@ textdecoration {
 .tv_edit {
     margin-top: -15px;
 }
+.space_between{
+    justify-content: space-between;
+}
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .visit-date,
@@ -265,7 +268,7 @@ textdecoration {
         margin-left: unset;
         display: unset;
         width: unset;
-        margin-top: -1px;
+        margin-top: -3px;
     }
 
     .televisit {
@@ -294,10 +297,11 @@ textdecoration {
     }
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 767px) {
     .televisit {
         float: none;
         margin-left: 0;
+        margin-top: -2px;
         display: grid;
         width: 100%;
     }
@@ -355,6 +359,9 @@ textdecoration {
     .tv_edit {
         padding-left: 35px;
         margin-top: -15px;
+    }
+    .CancelledTag {       
+        padding: 2px 8px 2px 8px;       
     }
 }
 
