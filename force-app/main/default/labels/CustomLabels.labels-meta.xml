@@ -19987,6 +19987,13 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_ValidationMsg7</shortDescription>
         <value>The password you entered is too easy to guess. Enter a different one</value>
     </labels>
+     <labels>
+        <fullName>PP_Email_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Error</shortDescription>
+        <value>Enter a valid email format</value>
+    </labels>
     <labels>
         <fullName>Pswd_ValidationMsg8</fullName>
         <language>en_US</language>
