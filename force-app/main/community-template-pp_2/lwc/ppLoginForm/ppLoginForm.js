@@ -1,5 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
+import { loadStyle } from 'lightning/platformResourceLoader';
 import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
@@ -11,6 +12,7 @@ import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
+import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -43,6 +45,16 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     errorIconPosition = 'margin-left: 8px';
     connectedCallback() {
         console.log(this.isLockOut);
+    }
+
+    renderedCallback() {
+        Promise.all([loadStyle(this, communityPPTheme)])
+            .then(() => {
+                console.log('Files loaded');
+            })
+            .catch((error) => {
+                console.log(error.body.message);
+            });
     }
 
     adjustWindowHeight() {
