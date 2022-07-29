@@ -75,7 +75,7 @@ window.communityService = (function () {
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 //console.log('isMobileApp: '+isMobileApp);
                 component.init();
-                if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
+                if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions' && service.getPageName() !== 'privacy-policy') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
                     $A.get('e.c:EventCommunityInitialized').fire();
