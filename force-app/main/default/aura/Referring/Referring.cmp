@@ -183,7 +183,7 @@
                         <button
                             class="apollo-btn primary"
                             onclick="{!c.doReferPatient}"
-                            disabled="{!v.actions.referToThisStudy.disabled}"
+                            disabled="{!OR(v.accessUserLevel == 'Level 2' , v.accessUserLevel == 'Level 3')}"
                             title="{!v.actions.referToThisStudy.disableReason}"
                         >
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
