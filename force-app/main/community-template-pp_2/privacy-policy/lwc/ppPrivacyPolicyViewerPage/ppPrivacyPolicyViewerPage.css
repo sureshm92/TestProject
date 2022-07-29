@@ -103,7 +103,6 @@
     top: 2rem;
     left: -1px;
     background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
     box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
@@ -204,6 +203,7 @@
     overflow: scroll;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    box-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%);
 }
 .tc-content {
     height: 100%;
@@ -222,6 +222,7 @@
     scroll-behavior: smooth;
     overflow-x: hidden;
     word-break: break-word;
+    box-shadow: 0px 1px 1px 0px rgb(0 0 0 / 15%);
 }
 .last-updated {
     height: 100%;
