@@ -18081,6 +18081,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_CannotReuseOldPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CannotReuseOldPwd</shortDescription>
+        <value>You can not reuse your old password</value>
+    </labels>
+    <labels>
         <fullName>PP_ChangeUsrname_DntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
