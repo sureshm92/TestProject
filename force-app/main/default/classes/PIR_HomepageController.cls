@@ -877,11 +877,50 @@ public without sharing class PIR_HomepageController {
           pw.isFault = true;
         }
       }
+      if(pw.status.size() > 1){
+        pw.status = getUpdatedStatusForPreset(pw.activeInactive);
+      }
       pwList.add(pw);
     }
 
     return pwlist;
   }
+
+  public static List<String> getUpdatedStatusForPreset (String isActive) {
+    List<String> ststusList = new List<String>();
+    if(isActive == 'Active'){
+      ststusList.add('Received');
+      ststusList.add('Pre-review Passed');
+      ststusList.add('Contact Attempted');
+      ststusList.add('Successfully Contacted');
+      ststusList.add('Successfully re-engaged');
+      ststusList.add('Screening In Progress');
+      ststusList.add('Screening In Progress - Wash Out Period');
+      ststusList.add('Screening Passed');
+      ststusList.add('Enrollment Success');
+      ststusList.add('Randomization Success');
+      ststusList.add('Eligibility Passed');
+      ststusList.add('Participant No Show');
+      ststusList.add('Ready to Screen');
+      ststusList.add('Sent To DCT');
+
+    }else if(isActive == 'Inactive'){
+      ststusList.add('Pre-review Failed');
+      ststusList.add('Unable to Reach');
+      ststusList.add('Contacted - Not Suitable');
+      ststusList.add('Eligibility Failed');
+      ststusList.add('Declined Consent');
+      ststusList.add('Withdrew Consent');
+      ststusList.add('Screening Failed');
+      ststusList.add('Unable To Screen');
+      ststusList.add('Withdrew Consent After Screening');
+      ststusList.add('Enrollment Failed');
+      ststusList.add('Randomization Failed');
+      ststusList.add('Declined Final Consent');
+    }
+    return ststusList;
+  }
+
   @AuraEnabled
   public static String deletePreset(String strPresetwrapper) {
     presetwrapper objPresetWrapper = (presetwrapper) JSON.deserialize(
