@@ -1,33 +1,36 @@
 public without sharing class PreferenceManagementController {
-    
-     /**
-    * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
-    * @author: Krishna Mahto
-    * @param: studyDataJSON
-    * @param: outReachData
-    * @param: requestFrom
-    * @return:
-    **/
+    /**
+     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @param: outReachData
+     * @param: requestFrom
+     * @return:
+     **/
     @AuraEnabled
-    public static void saveConsent(String studyDataJSON, String outReachDataJSON, String requestFrom) {
+    public static void saveConsent(
+        String studyDataJSON,
+        String outReachDataJSON,
+        String requestFrom
+    ) {
         System.debug('***Study Data: ' + studyDataJSON);
         System.debug('****Outreach Data: ' + outReachDataJSON);
         //Update Study Consent.
-        if(requestFrom=='PER'){
-            saveStudyConsent(studyDataJSON);  
+        if (requestFrom == 'PER') {
+            saveStudyConsent(studyDataJSON);
         }
         //Update IQVIA Outreach Consent.
-        if(requestFrom=='IQVIA_OUTREACH'){
-            saveIQVIAOutreachConsent(outReachDataJSON);  
+        if (requestFrom == 'IQVIA_OUTREACH') {
+            saveIQVIAOutreachConsent(outReachDataJSON);
         }
     }
-    
+
     /**
-    * @description: This Method will save the Study Consent data checked/uncheck by participant/Patient delegate.
-    * @author: Krishna Mahto
-    * @param: studyDataJSON
-    * @return:
-    **/
+     * @description: This Method will save the Study Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @return:
+     **/
     public static void saveStudyConsent(String studyDataJSON) {
         try {
             ConsentPreferenceDataWrapper consentData = (ConsentPreferenceDataWrapper) JSON.deserialize(
@@ -47,13 +50,13 @@ public without sharing class PreferenceManagementController {
             AuraHelper.throwException(e);
         }
     }
-    
+
     /**
-    * @description: This Method will save the IQVIA Outreach Consent data checked/uncheck by participant/Patient delegate.
-    * @author: Krishna Mahto
-    * @param: outReachData
-    * @return:
-    **/
+     * @description: This Method will save the IQVIA Outreach Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: outReachDataJSON
+     * @return:
+     **/
     public static void saveIQVIAOutreachConsent(String outReachDataJSON) {
         try {
             ConsentPreferenceContactDataWrapper consentContactData = (ConsentPreferenceContactDataWrapper) JSON.deserialize(
@@ -66,13 +69,50 @@ public without sharing class PreferenceManagementController {
                 update cont;
             }
             //Update consent at Primady Delegate contact also when Participant consents got updated by Participant or Primary Delegate under participant account setting.
-            if (consentContactData.participantLoogedIn || (!consentContactData.participantLoogedIn && !consentContactData.isDelegateSelfView)) {
+            if (
+                consentContactData.participantLoogedIn ||
+                (!consentContactData.participantLoogedIn && !consentContactData.isDelegateSelfView)
+            ) {
                 //If Participant is Minor or Adult without email.
-                if(!consentContactData.isAdultParticipant || (consentContactData.isAdultParticipant && !consentContactData.isEmailAvailabelForParticipant)){
-                     updatePrimaryDelegateCommConsent(cont);
+                if (
+                    !consentContactData.isAdultParticipant ||
+                    (consentContactData.isAdultParticipant &&
+                    !consentContactData.isEmailAvailabelForParticipant)
+                ) {
+                    updatePrimaryDelegateCommConsent(cont);
                 }
-               
             }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    /**
+     * @description: This Method will save the phone number at Participant record.
+     * @author: Krishna Mahto
+     * @param: parId
+     * @param: mobilePhone
+     * @return:
+     **/
+    @AuraEnabled
+    public static void updateParticipantMobileNumber(
+        String parId,
+        String contId,
+        String mobilePhone
+    ) {
+        try {
+            Participant__c participant = new Participant__c();
+            participant.Id = parId;
+            participant.Alternative_Phone_Number__c = mobilePhone;
+            participant.Alternative_Phone_Type__c = 'Mobile';
+
+            update participant;
+
+            Contact cont = new Contact();
+            cont.Id = contId;
+            cont.MobilePhone = mobilePhone;
+
+            update cont;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -137,7 +177,6 @@ public without sharing class PreferenceManagementController {
         public Boolean isEmailAvailabelForParticipant;
         @AuraEnabled
         public Boolean isDelegateSelfView;
-        
 
         public Contact convertToCont() {
             Contact cont = new Contact();
@@ -157,7 +196,6 @@ public without sharing class PreferenceManagementController {
      * @param: perList
      * @return:
      **/
-    @AuraEnabled
     public static Void processSMSOptOutForDelegate(Id perId, Id ParticipantContId) {
         Set<Id> delContactIdSet = new Set<Id>();
         List<Id> perIdList = new List<Id>{ perId };
@@ -188,7 +226,6 @@ public without sharing class PreferenceManagementController {
      * @param: parContact
      * @return:
      **/
-    @AuraEnabled
     public static Void updatePrimaryDelegateCommConsent(Contact parContact) {
         //Get Patient Delegate for the logged in Participant.
         List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(parContact.Id);

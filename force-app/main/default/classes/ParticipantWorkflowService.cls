@@ -417,12 +417,17 @@ public without sharing class ParticipantWorkflowService {
         List<Participant_Workflow_Step__mdt> workflowSteps,
         Clinical_Trial_Profile__c ctp
     ) {
+        String UserMode = UserContext.getCurrentUserMode().userMode;
         Set<String> stepNames = new Set<String>();
         for (Participant_Workflow_Step__mdt step : workflowSteps) {
             stepNames.add(step.DeveloperName);
         }
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> result = new Map<String, Map<String, Participant_Workflow_Outcome__mdt>>();
-        for (Participant_Workflow_Outcome__mdt outcome : [
+        
+
+        List<Participant_Workflow_Outcome__mdt> participantOutcomeList = new List<Participant_Workflow_Outcome__mdt>();
+        if(UserMode == 'HCP'){
+        participantOutcomeList = [
             SELECT
                 Id,
                 Status_Name__c,
@@ -439,7 +444,31 @@ public without sharing class ParticipantWorkflowService {
             FROM Participant_Workflow_Outcome__mdt
             WHERE Step__c IN :stepNames
             ORDER BY Order__c ASC
-        ]) {
+        ]; 
+        }
+        else{
+           participantOutcomeList = [
+            SELECT
+                Id,
+                Status_Name__c,
+                Step__c,
+                Reasons_List__c,
+                State__c,
+                Order__c,
+                Show_Only_If_Selected__c,
+                Readonly_if_Current__c,
+                Disclaimer_if_Current__c,
+                Condition_for_Auto_Update__c,
+                Suppress_Multiple__c,
+                Condition__c
+            FROM Participant_Workflow_Outcome__mdt
+            WHERE Step__c IN :stepNames 
+            AND Status_Name__c != 'Participant No Show'
+            ORDER BY Order__c ASC
+        ];
+        }
+        
+        for(Participant_Workflow_Outcome__mdt outcome : participantOutcomeList){
             if (!result.containsKey(outcome.Status_Name__c)) {
                 result.put(
                     outcome.Status_Name__c,
@@ -1837,7 +1866,7 @@ public without sharing class ParticipantWorkflowService {
                 pesh.Status__c
             );
             if(String.valueOf(pesh.Status__c)=='Successfully re-engaged'){
-                 result.title = Label.Successfully_Contacted;
+                 result.title =TranslateHelper.getLabelValue(Label.Successfully_Re_Engaged);
             }
            
             if(pesh.Status__c == 'Eligibility Passed' && pe.Clinical_Trial_Profile__r.Promote_To_SH__c ==true){

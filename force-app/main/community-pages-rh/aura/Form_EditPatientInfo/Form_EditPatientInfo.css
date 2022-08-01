@@ -139,10 +139,6 @@
     margin-bottom: 25px;
 }
 
-.THIS .size{
-font-size: large;
-}
-
 .THIS .ap-section-title {
     font-size: 1rem;
     line-height: 36px;
@@ -209,4 +205,10 @@ font-size: large;
     .THIS .ap-section > .slds-grid.rr-form-element .slds-size--2-of-10 {
         min-width: 50%;
     }
+
+    .THIS .dob-mobile-size{
+   font-size: medium;
+   text-rendering: geometricPrecision 500 ;
+   color: #000000;
+}
 }

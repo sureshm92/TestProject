@@ -1284,7 +1284,8 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 per.Initial_visit_occurred_flag__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c) &&
                 ((per.Initial_visit_scheduled_date__c == null &&
-                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true)
+                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true
+				|| per.Initial_visit_occurred_flag__c == false)
             ) {
                 if (per.Status_Order__c > 3) {
                     per.Participant_Status__c = 'Successfully Contacted';

@@ -112,7 +112,7 @@
                                     <div class="table-header-label slds-truncate" title={label.BulkImport_Uploaded_On}>{label.BulkImport_Uploaded_On}</div>
                                 </th>
                                 <th class="table-header slds-text-align_center" scope="col">
-                                    <div class="table-header-label slds-truncate" title={label.Bulk_Actions}>{label.Bulk_Actions}</div>
+                                    <div class="table-header-label slds-truncate" title={label.BulkImport_Actions}>{label.BulkImport_Actions}</div>
                                 </th>
                               <!---  <th class="table-header slds-text-align_center" scope="col">
                                     <div class="table-header-label slds-truncate" title="Status">Status</div>
@@ -133,14 +133,21 @@
                                     <td data-label="faccepted" class="slds-text-align_center">
                                         <div class="slds-truncate" title={b.Accepted_Records__c}>{b.Accepted_Records__c}</div>
                                     </td>    
-                                    <td data-label="frejected" class="slds-text-align_center">
+                                    <template if:true={b.Download_URL__c}>
+                                    <td data-label="frejected" class="slds-text-align_center ">
                                         <div class="slds-truncate slds-text-color_error color_error_bold" title={b.Rejected_Records__c}>{b.Rejected_Records__c}</div>
                                     </td>   
+                                    </template>
+                                    <template if:false={b.Download_URL__c}>
+                                        <td data-label="frejected" class="slds-text-align_center ">
+                                            <div class="slds-truncate " title={b.Rejected_Records__c}>{b.Rejected_Records__c}</div>
+                                        </td>   
+                                    </template>
                                     <td data-label="fuploadedBy">
                                         <div class="slds-truncate" title={b.Uploaded_By__r.Full_Name__c}>{b.Uploaded_By__r.Full_Name__c}</div>
                                     </td>   
                                     <td data-label="fuploadedOn">
-                                        <div class="slds-truncate" title={b.CreatedDate}> 
+                                        <div class="slds-truncate" > 
                                             <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value={b.CreatedDate}></lightning-formatted-date-time>
                                         </div>
                                     </td>  
@@ -283,15 +290,9 @@
                 </div>
                </template>             
         </div><!-- slds-grid slds-wrap slds-gutters table with data  -->  
-       
-       <!---<div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD">      
-            <template if:true={totalRecord}>
-                <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
-             </template>
-        </div>--> <!-- slds-grid slds-wra Pg pagination End -->      
-    
-    </div><!-- bulkImport -->
+     </div><!-- bulkImport -->
     <template if:true={importParticipant}> 
-        <c-pir_import-participant onclose={handleImportParticipant} > </c-pir_import-participant>
+    
+    <c-pir_import-participant onclose={handleImportParticipant} is-bulk-import-history-page={isBulkImportHistoryPage} navigate-from-component="BulkimportHistryPage"> </c-pir_import-participant>
      </template>
 </template>

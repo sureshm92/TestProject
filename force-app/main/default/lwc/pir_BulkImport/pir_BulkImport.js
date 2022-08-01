@@ -8,6 +8,7 @@ import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
 import PIR_Study_Name from "@salesforce/label/c.PIR_Study_Name";
 import PIR_Study_Site_Name from "@salesforce/label/c.PIR_Study_Site_Name";
 import My_Participant from "@salesforce/label/c.My_Participant";
+import RH_RP_Bulk_Import from "@salesforce/label/c.RH_RP_Bulk_Import";
 import Home_Page_Label from "@salesforce/label/c.Home_Page_Label";
 import pir_Bulk_Import_History from "@salesforce/label/c.pir_Bulk_Import_History";
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
@@ -28,6 +29,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urltrialId = null;
     urlsiteId = null;
     isResetPagination=false;
+    calledfrombulkimporthistry = false;
     @api selectedStudyChild;
     @api selectedStudySiteChild;
     @api pageNumberChild=1;
@@ -38,6 +40,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         PIR_Study_Site_Name,
         My_Participant,
         pir_Bulk_Import_History,
+        RH_RP_Bulk_Import,
         Home_Page_Label};
     connectedCallback() {
         loadStyle(this, PIR_Community_CSS)
@@ -53,10 +56,11 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+       this.calledfrombulkimporthistry=this.urlStateParameters.navigateFromComponent  == 'BulkimportHistryPage' ? true : false;;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
      
-       if(this.urlmyStudies){
+       if(this.urlmyStudies || this.urlStateParameters.navigateFromComponent == 'MyStudies'){
             this.myStudiesPg = true;
             this.selectedStudy = this.urltrialId; 
        }else{
@@ -113,7 +117,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                     this.studyToStudySite = studyToStudySite;
                     this.studysiteaccess = true;
                     
-                    if(this.myStudiesPg){
+                    if(this.myStudiesPg && this.urltrialId){
                         this.selectedStudy = this.urltrialId; 
                         var accesslevels = Object.keys(this.siteAccessLevels).length; 
                         var conts = this.studyToStudySite;
@@ -145,7 +149,6 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                       
                         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
                         this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-                       
                         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
                         
                     } 
@@ -305,7 +308,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.isResetPagination=true;
         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
         this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-        
+
         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         
         
@@ -356,7 +359,19 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     }
     handletotalrecord(event){
       this.totalRecord=event.detail;
+      this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
+    
+    }
+    isResetOnUpdate=false;
+    handleresetpageonupdate(event){
+      this.isResetOnUpdate=event.detail;
+      if(this.isResetOnUpdate){
+        this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
+        this.template.querySelector("c-pir_participant-pagination").updateInprogress();
+        }
+      this.isResetOnUpdate=false;
       
+
     }
     handleresetpagination(event){
       if(this.isResetPagination ){

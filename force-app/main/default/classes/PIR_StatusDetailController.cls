@@ -364,8 +364,11 @@ public without sharing class PIR_StatusDetailController {
         isBulkUpdate__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
         Clinical_Trial_Profile__r.Final_Consent_Required__c,
+        Clinical_Trial_Profile__r.Tokenization_Support__c,
+        Participant__r.Gender__c,
         Add_televisit_for_Initial_Visit__c,
         Initial_Visit_Televisit_Created__c,
+        Succesfully_Re_Engaged__c,
         Participant__r.First_Name__c,
         Participant__r.Last_Name__c,
         Participant_Contact__c,
@@ -827,11 +830,10 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
-          //title = pesh.Status__c;
           if(pesh.Status__c == 'Successfully re-engaged'){
-            String sc = 'Successfully Contacted';
-            title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
-           }else if(pesh.Status__c == 'Eligibility Passed') {
+              String sc = 'Successfully Re-Engaged';
+              title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+          }else if(pesh.Status__c == 'Eligibility Passed') {
               if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
                 title = Label.Sent_to_Study_Hub;
               }else{
@@ -1591,7 +1593,7 @@ public without sharing class PIR_StatusDetailController {
   }
   @AuraEnabled
   public static Boolean doSaveStatusDetails(
-    Participant_Enrollment__c perRecord, String visitPlan
+    Participant_Enrollment__c perRecord,Participant__c perRec, String visitPlan
   ) {
     Map<String,String> initReasonMap = new Map<String,String>{
                                                             'PIR_Other' => 'Other',
@@ -1777,16 +1779,41 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Initial_Visit_Televisit_Created__c = true;
       }
       update perRecord;
-      if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
+      if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.CheckBecomesAdultHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ParticipantTriggerHandler.UpdateNameOnPE.class
+        );
+        update perRec;
+      }
+      /*if(perRecord.Participant_Status__c == 'Successfully re-engaged'){
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
         pesh.Status__c = 'Successfully re-engaged'; //re-engaged
         pesh.Notes__c = perRecord.Last_Status_Changed_Notes__c;
         pesh.ParticipantEnrollment__c = perRecord.Id;
-        //pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
+        pesh.Non_Enrollment_Reason__c = perRecord.Non_Enrollment_Reason__c;
         insert pesh;
       } 
-      else if (perRecord.ParticipantNoShow__c) {
+      else */
+      if (perRecord.ParticipantNoShow__c) {
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.Date__c = Datetime.now();
         pesh.Status__c = 'Participant No Show'; //Participant No Show
@@ -1805,11 +1832,16 @@ public without sharing class PIR_StatusDetailController {
           perRecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c &&
           !statusList.contains(perRecord.Participant_Status__c)
         ) {
+          if(perRecord.Initial_visit_occurred_flag__c==false){
+            pesh.Disabled_PESH__c =true;
+          }
+          else{
           pesh.Disabled_PESH__c = isPESHnotDisabled(
             perRecord.Initial_visit_scheduled_date__c,
             perRecord.Initial_visit_scheduled_time__c,
             perRecord.Initial_visit_occurred_flag__c
           );
+          }
         }
         insert pesh;
       } else if (perRecord.Last_Status_Changed_Additional_Notes__c != null && perRecord.Last_Status_Changed_Additional_Notes__c != '') {
@@ -1867,5 +1899,29 @@ public without sharing class PIR_StatusDetailController {
       bol = true;
     }
     return bol;
+  }
+  @AuraEnabled
+    public static Boolean isSuccessfullyReEngaged(Id pe){
+    List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
+    pehistory = [
+        SELECT
+          Id,
+          Date__c,Name,
+          Status__c,
+          CreatedBy.Name,
+          Additional_Notes__c, 
+          CreatedBy.IsPortalEnabled,
+          Status_Order__c,Status_Label__c,
+          CreatedBy.contact.userCommunityMode__c
+        FROM Participant_Enrollment_Status_History__c
+        WHERE ParticipantEnrollment__c = :pe AND Status_Label__c = 'Successfully_Re_Engaged'
+        ORDER BY Name DESC
+      ];
+      if(!pehistory.isEmpty()){
+        return true;
+      }
+      else{
+        return false;
+      }
   }
 }

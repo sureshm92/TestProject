@@ -21,7 +21,9 @@ public without sharing class NotificationService {
     };
 
     static public List<String> participantStatusListForPT = new List<String>{
-        PEStatusState.PE_STATUS_RECEIVED
+        PEStatusState.PE_STATUS_RECEIVED,
+        PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED,
+        PEStatusState.PE_STATUS_NO_SHOW
     };
 
     static public List<String> notificationWithoutPermissions = new List<String>{
@@ -40,11 +42,8 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
-        /*Start Email Consent story*/
-        NotificationCatalog.MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE, 
-        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+      
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -58,16 +57,10 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_DEL_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_DEL,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_DEL_TY,
         NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_DEL,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY,
-        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
@@ -414,7 +407,9 @@ public without sharing class NotificationService {
                                 )
                             ) {
                                 if (
-                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) 
+                                    (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
+                                    (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
+                                     !String.isBlank(n.Task_Id__c))
                                 ) {
                                     if (
                                         !String.isBlank(n.Task_Id__c) &&

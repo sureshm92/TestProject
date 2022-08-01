@@ -67,6 +67,10 @@ public without sharing class PIR_HomepageController {
     @AuraEnabled
     public String screeningId;
     @AuraEnabled
+    public Boolean allowScreeningPassed;
+    @AuraEnabled
+    public Boolean allowFinalSuccessStatus;
+    @AuraEnabled
     public Participant_Enrollment__c per;
     // Implement the compareTo() method
     // public Integer compareTo(Object compareTo) {
@@ -229,6 +233,7 @@ public without sharing class PIR_HomepageController {
         'Participant__r.Phone__c,' +
         'Clinical_Trial_Profile__r.Study_Code_Name__c,' +
         'Clinical_Trial_Profile__r.Promote_to_SH__c,' +
+        'Clinical_Trial_Profile__r.Tokenization_Support__c,' +
         'Study_Site__c,' +
         'Study_Site__r.name,' +
         'Study_Site__r.Study_Site_Type__c,' +
@@ -240,6 +245,7 @@ public without sharing class PIR_HomepageController {
         'Participant__c,' +
         'Participant__r.Adult__c,' +
         'Participant__r.Email__c,' +
+        'Participant__r.Gender__c,' +
         'Clinical_Trial_Profile__r.CommunityTemplate__c,' +
         'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,' +
         'Study_Site__r.Suppress_Participant_Emails__c,' +
@@ -316,6 +322,8 @@ public without sharing class PIR_HomepageController {
         status.add('Screening Passed');
         status.add('Eligibility Passed');
         status.add('Ready to Screen');
+        status.add('Participant No Show');
+        status.add('Successfully re-engaged');
         // status.add('Randomization Success');
         // status.add('Enrollment Success');
         
@@ -364,9 +372,7 @@ public without sharing class PIR_HomepageController {
           Integer indx = selectedStatusList.indexOf('Sent to DCT');
           selectedStatusList.remove(indx);
         }
-          if( selectedStatusList.contains('Successfully Contacted')){
-              selectedStatusList.add('Successfully re-engaged');
-          }
+          
       }
 
       //For Source
@@ -426,9 +432,7 @@ public without sharing class PIR_HomepageController {
       //For High Priority
       if (highPriority != null && highPriority == true) {
         filterString = filterString + ' AND High_Priority__c = : highPriority ';
-      } else {
-        filterString = filterString + ' AND High_Priority__c = false ';
-      }
+      } 
 
       //For High comorbidities
       if (!String.isBlank(comorbidities)) {
@@ -1125,6 +1129,11 @@ public without sharing class PIR_HomepageController {
       wrap.notEligibleEmail = lst.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
       wrap.screeningId = lst.Screening_ID__c;
+      wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
+        ? lst.Screening_ID__c != null : true;
+      wrap.allowFinalSuccessStatus = lst.Screening_ID__c != null 
+        ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
+        : false;
 
       listViewWrapper.add(wrap);
     }
@@ -1976,7 +1985,8 @@ public without sharing class PIR_HomepageController {
           Initial_visit_scheduled_date__c,
           Initial_visit_occurred_date__c,
           Initial_visit_occurred_flag__c,
-          isBulkUpdate__c
+          isBulkUpdate__c,
+          ParticipantNoShow__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -2021,6 +2031,10 @@ public without sharing class PIR_HomepageController {
         ) {
           pe.Initial_visit_occurred_date__c= null;
           pe.Initial_visit_occurred_flag__c= false;
+        }
+        if(oParticipantStatus == 'Participant No Show')
+        {
+           pe.ParticipantNoShow__c=false;
         }
 
         PEUpdateList.add(pe);
@@ -2284,23 +2298,23 @@ public without sharing class PIR_HomepageController {
         e.getStackTraceString()
       );
     }
-  } 
+  }
 
   @AuraEnabled                            
-  public static Id saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
+  public static Boolean saveTheChunkFile(String fileName, String base64Data, String contentType, String fileId){
     Id currentContactId = CommunityService.getInstance().getCurrentContactId();
       
-      base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+     /*base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
       if ( String.isBlank(fileId) ) {
           fileId = saveFiles(currentContactId, fileName, base64Data );
       } else {
           appendToFile(fileId, base64Data);
-      }
+      } */
       
-      return Id.valueOf(fileId);
+      return true;
   }
 
-  @AuraEnabled
+  /*@AuraEnabled
     public static Id saveFiles(Id recordId, String fileName, String base64Data )  { 
         
         ContentVersion contentToInsert =new ContentVersion(); 
@@ -2320,9 +2334,9 @@ public without sharing class PIR_HomepageController {
         
         return contentToInsert.id;
         
-    }
+    } */
 
-    @AuraEnabled
+   /*@AuraEnabled
     public static void appendToFile(Id contentDocumentId, String base64Data) {
         //base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         ContentVersion versionData = [
@@ -2335,7 +2349,7 @@ public without sharing class PIR_HomepageController {
         versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
         
         update versionData;
-    }
+    } */
 
     @AuraEnabled
     public static void deleteFile(String fileId)  { 
@@ -2393,7 +2407,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
-                Clinical_Trial_Profile__r.Final_Consent_Required__c
+                Clinical_Trial_Profile__r.Final_Consent_Required__c,
+                Clinical_Trial_Profile__r.Tokenization_Support__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];

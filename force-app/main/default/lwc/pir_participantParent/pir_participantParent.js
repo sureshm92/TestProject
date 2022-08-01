@@ -38,6 +38,7 @@ import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
 import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
 import RH_TV_TabTitle from '@salesforce/label/c.RH_TV_TabTitle';
+import successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
@@ -132,7 +133,8 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PIR_Study_Name,
     PG_AP_F_Patient_Status,
     RH_TV_TabTitle,
-    PIR_Reason_Required
+    PIR_Reason_Required,
+    successfully_Re_Engaged
   };
   
   @api isRTL = false; 
@@ -902,7 +904,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 }
   handleStatusChanges(event){
     this.newStatusSelected = event.detail.newStatusSelected;
+    if(event.detail.oParticipantStatus=='Successfully re-engaged'){
+      this.oParticipantStatus = 'Successfully Re-Engaged';
+    }
+    else{
     this.oParticipantStatus = event.detail.oParticipantStatus;
+    }
     this.studyID = event.detail.studyId;
     
  }
@@ -1059,4 +1066,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         ];
     }
   //import modal end-->
+  get checkStatusReEngaged(){
+    
+    return this.oParticipantStatus == this.label.successfully_Re_Engaged;
+  } 
+  get reasonClass(){
+    return 'slds-col '+ (this.checkStatusReEngaged ? 'slds-size_1-of-2' : 'slds-size_1-of-1')
+      + ' slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small';
+  } 
 }

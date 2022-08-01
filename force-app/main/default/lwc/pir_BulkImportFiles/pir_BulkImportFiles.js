@@ -20,6 +20,7 @@ import RH_AllRecords from "@salesforce/label/c.RH_AllRecords";
 import RH_RejectedRecords from "@salesforce/label/c.RH_RejectedRecords";
 import RH_DownloadIcon from "@salesforce/label/c.RH_DownloadIcon";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
+import BulkImport_Actions from "@salesforce/label/c.BulkImport_Actions";
 import RH_ValidationError from "@salesforce/label/c.RH_ValidationError";
 import RH_ShowLanding from "@salesforce/label/c.RH_ShowLanding";
 import RH_InputChanges from "@salesforce/label/c.RH_InputChanges";
@@ -69,6 +70,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
     batchStartIntervalId;
     currentBatchStatus;
     BatchReturnValue;
+    @api isBulkImportHistoryPage=false;
     inProgressData=false;
     @api stopSpinner=false;
     isSpinnerRunning=false;
@@ -111,6 +113,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
         RH_ImportNoRecords,
         RH_BulkImportFiles,
         RH_FileImport,
+        BulkImport_Actions,
         RH_FileImportProgress,
         BulkImport_Instructions,
         BulkImport_File_Template,
@@ -137,6 +140,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
         this.getStudySiteData();
         this.getInstructionData();
     }
+    renderedCallback(){
+    }
     
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -147,6 +152,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
     }
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
+       this.isBulkImportHistoryPage=this.urlStateParameters.navigateFromComponent == 'BulkimportHistryPage' ? true : false;
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
@@ -262,7 +268,6 @@ export default class Pir_BulkImportFiles extends LightningElement {
                                   ) {
                                     this.getStudySite=this.selectedSite;
                                   }
-                                  
                                   if(!this.myStudiesPg){
                                   this.fetchData();
                                   }
@@ -289,7 +294,6 @@ export default class Pir_BulkImportFiles extends LightningElement {
         .then(result => {
             this.bulkHistoryDataCompleted=result.bulkHistoryDataCompleted;
             this.totalRecord=result.totalCount;
-            
             const selectEvent = new CustomEvent('gettotalrecord', {
                 detail: this.totalRecord
             });
@@ -299,7 +303,6 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 detail: ''
             });
             this.dispatchEvent(selectEventnew);
-
             console.table(result);
             if(result.bulkHistoryDataCompleted.length>0){
                 this.noRecords=false;
@@ -313,7 +316,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 });
                 this.noRecords=true;
             }
-           
+
             if(this.isSpinnerRunning){
             this.saving = false; 
             this.isSpinnerRunning=false;
@@ -337,13 +340,12 @@ export default class Pir_BulkImportFiles extends LightningElement {
             for(var key in conts){
                 newResultIds.push(conts[key].Id);
             }
-            
             if(result.length>0){
                 this.inProgressData=true;
                 if(this.inProgressOldDataid==null || this.inProgressOldDataid==undefined||this.inProgressOldDataid.length==0){
                     for(var key in conts){
                         this.inProgressOldDataid.push(conts[key].Id);
-					
+     
                     }
 
                 }
@@ -355,6 +357,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
 
                       }else{
                       }
+                    //Do something
                     }
                     this.inProgressOldDataid=newResultIds;
 
@@ -365,17 +368,24 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 this.inProgressData=false;
                 
             }
+            
             if(result.length==0 && this.inProgressOldDataid.length!=0){
                 this.successBoolean=true;
                 this.inProgressOldDataid=[];
             }
 
             if(this.isToast ||this.successBoolean){
+                const selectEventneww = new CustomEvent('resetpageonupdate', {
+                    detail: 'true'
+                });
+                this.dispatchEvent(selectEventneww);
+                
                 this.showSuccessToast(this.label.RH_ImportSuccess);
                 this.isToast=false;
                 this.successBoolean=false;
             }
-          
+            
+            
         })
         .catch(error => {
             this.saving = true; 
@@ -383,7 +393,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
             console.log('Error : '+JSON.stringify( this.err));
             console.log('Error : '+error.message);
         });
-
+        
     }
 
     @api updateInProgressOldData(){
@@ -392,8 +402,12 @@ export default class Pir_BulkImportFiles extends LightningElement {
     getInstructionData(){
         getInstruction()
         .then(result => {
+            this.isInstrModalOpen=false;  
+            this.showInstruction = false; 
+            if(!this.isBulkImportHistoryPage){
             this.isInstrModalOpen=!result;  
             this.showInstruction = !result; 
+            }
         })
         .catch(error => {
             this.saving = true; 
@@ -422,10 +436,12 @@ export default class Pir_BulkImportFiles extends LightningElement {
 
     handleImportModal(){
         this.importParticipant=true;
+       
     }
 
     handleImportParticipant(){
         this.importParticipant=false;
+        this.isBulkImportHistoryPage=false;
     }
     openIntructModal(){
         this.isInstrModalOpen = true;
@@ -437,6 +453,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
         this.showInstruction = !event.target.checked; 
     }
     updateShowInstructValue() {
+        this.isBulkImportHistoryPage=false;
         getShowInstructValue({
             flag: !this.showInstruction 
         }).then((result) => {
