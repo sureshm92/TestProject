@@ -816,10 +816,14 @@
 
                 if (attendees.length === 1 && countFlag !== true) {
                     countFlag = true;
+                    if(document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined){
                     document.getElementById("firstAttendeeMsg").style.display = "block";
+                    }
                 }
                 else {
+                    if(document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined){
                     document.getElementById("firstAttendeeMsg").style.display = "none";
+                    }
                 }
 
                 updateAttendees(attendeesJson);
@@ -887,8 +891,18 @@
                 if (stream) {
                     let newElement = document.getElementById(getBlokId(stream));
                     let oldElementContainer = document.getElementById(targetClass);
-                    let oldElement = oldElementContainer.firstChild;
+                    //let oldElement = oldElementContainer.firstChild;
+                    
+                    let oldElement = (oldElementContainer != null ?oldElementContainer.firstChild:null);
+                    if(oldElement != null){
+                        hiddenFeedsElement.appendChild(oldElement);
+                    }
+                    
+                    if (newElement != null) {
+                        oldElementContainer.appendChild(newElement);
+                    }
 
+                    /*
                     if (oldElement && newElement) {
 
                         if (oldElement) {
@@ -902,6 +916,7 @@
                     } else if(newElement){
                         oldElementContainer.appendChild(newElement);
                     }
+                    */
                 }
             }
 
@@ -1415,7 +1430,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                 width: 100px;
+                width: 100px;
             }
 
             .cp-main-logo {

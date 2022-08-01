@@ -261,7 +261,7 @@ public without sharing class DashboardRemoteNew {
             return -1;
         }
     }
-
+ 
     @AuraEnabled
     public static String getInitData(
         String userMode,
