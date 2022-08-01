@@ -153,6 +153,52 @@
             smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}"
             bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}"
         >
+        <aura:if isTrue="{!AND(OR(v.mrrResult == 'Fail',v.mrrResult == 'Pass'),v.currentState == 'Search PE')}">
+        <div class="rr-body-content" style="{!if(v.isRTL, 'position: relative; direction: rtl;','position: relative;')}">
+            <div class="rr-width-limiter side-padding">
+
+                <aura:if isTrue="{!v.mrrResult == 'Fail'}">
+                    <div class="mrr-alert fail">
+                        <c:RRIcon iconName="icon-close-circle" />
+                        <div class="main-title" id="anchor">
+                            {!v.searchResult.pe.Participant_Name__c}
+                            &nbsp;{!$Label.c.PG_MRR_R_Failed}
+                        </div>
+                        <button class="apollo-btn primary" onclick="{!c.doClearForm}">
+                            {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review}
+                        </button>
+                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                            {!$Label.c.RH_RP_Back_to_My_Patients}
+                        </button>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.mrrResult == 'Pass'}">
+                    <div class="mrr-alert pass">
+                        <c:RRIcon iconName="icon-check-circle" />
+                        <div class="main-title" id="anchor">
+                            {!v.searchResult.pe.Participant_Name__c}
+                            &nbsp;{!$Label.c.PG_MRR_R_Passed}
+                        </div>
+                        <button
+                            class="apollo-btn primary"
+                            onclick="{!c.doReferPatient}"
+                            disabled="{!OR(v.accessUserLevel == 'Level 2' , v.accessUserLevel == 'Level 3')}"
+                            title="{!v.actions.referToThisStudy.disableReason}"
+                        >
+                            {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
+                        </button>
+                        <button class="apollo-btn secondary" onclick="{!c.doStartMRR}">
+                            {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study}
+                        </button>
+                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                            {!$Label.c.RH_RP_Back_to_My_Patients}
+                        </button>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        </aura:if>
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
@@ -2407,7 +2453,7 @@
             </aura:if>
 
             <div class="rr-width-limiter side-padding">
-                <aura:if isTrue="{!v.currentState == 'Search PE'}">
+                <aura:if isTrue="{!AND(AND(v.mrrResult != 'Fail',v.mrrResult != 'Pass'),v.currentState == 'Search PE')}">
                     <div class="slds-grid slds-wrap" style="align-items: stretch">
                         <div
                             class="{!'slds-col slds-size_1-of-1 slds-large-size_4-of-12 ' + if(v.isRTL,'left-columnRTL','left-column')}"
