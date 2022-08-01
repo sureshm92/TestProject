@@ -50,6 +50,16 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE
     };
 
+    static public List<String> televisitNotificationTypes = new List<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_SCHEDULED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ADDED_ATTENDEE_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_RESCHEDULED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP,
+        NotificationCatalog.MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY
+    };
+
     static public List<String> taskAndVisitReminderTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
@@ -372,7 +382,6 @@ public without sharing class NotificationService {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
             );
-            System.debug('notificationType:::' + notificationType);
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {

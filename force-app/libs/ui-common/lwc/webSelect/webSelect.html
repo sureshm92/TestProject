@@ -1,0 +1,26 @@
+<template>
+    <div id={id} class={applyContainerClass} title={title}>
+        <template if:false={isEmptylabel}>
+            <div class="rrs-label">
+                <template if:true={isRequired}>
+                    <div class="rrs-error">*</div>
+                </template>
+                <div class={labelClass}>{label}</div>
+            </div>
+        </template>
+        <div class="rrs-relative">
+            <lightning-combobox
+                name="web-select"
+                class={comboxClass}
+                label=""
+                variant="label-hidden"
+                value={value}
+                placeholder={placeHolder}
+                options={options}
+                onchange={handleChange}
+            ></lightning-combobox>
+            <!--<img src={triangleDownPath} height="16" width="16" />-->
+        </div>
+        <div class={errorMessageClass}>{errorMessage}</div>
+    </div>
+</template>

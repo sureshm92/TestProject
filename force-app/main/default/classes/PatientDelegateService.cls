@@ -162,8 +162,10 @@ public without sharing class PatientDelegateService {
                 'Contact__r.userCommunityMode__c',
                 'Contact__r.Next_Notify_Date__c',
                 'Status__c',
+                'Participant__r.Contact__r.Id',
                 'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
-                'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c'
+                'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
+                'Primary_Delegate__c'
             },
             Patient_Delegate__c.getSObjectType(),
             DatabaseService.fieldInValues('Participant__r.Contact__c', participantContactIds)
