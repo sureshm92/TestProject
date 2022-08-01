@@ -25,6 +25,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     lockedOutUsrName;
     showPopup = false;
     @track userNam;
+    @track inputError = false;
+    btnclassName = 'slds-input input-field-container';
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -114,6 +116,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
+        this.btnclassName = 'slds-input input-field-container';
     }
 
     handlepasswordChange(event) {
@@ -121,6 +124,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
         }
+        this.btnclassName = 'slds-input input-field-container';
     }
 
     handleUnlock(event) {
@@ -185,11 +189,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     } else if (result.wrongPasswordError) {
                         //handle wrong password error
                         this.inError = true;
+                        this.inputError = true;
                         this.errorMsg = result.wrongPasswordError;
+                        this.btnclassName = 'slds-input input-field-container-error';
                     } else if (result.exception) {
                         //handle system exception
                         this.inError = true;
                         this.errorMsg = result.exception;
+                        this.inputError = true;
+                        this.btnclassName = 'slds-input input-field-container-error';
                     } else {
                         //handle unknown error
                         this.inError = true;
@@ -251,5 +259,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         } else {
             this.showPopup = showHideModal;
         }
+    }
+    get className() {
+        return this.btnclassName;
     }
 }
