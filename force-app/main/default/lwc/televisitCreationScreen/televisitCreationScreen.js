@@ -45,7 +45,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     @api fetchTelevisitRecord3(){
-        console.log('fetchTelevisitRecord3');
         this.fetchTelevisitRecord();
     }
     backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
@@ -137,7 +136,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             var today = new Date();
             var newdatetimezone = today.toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
             newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
-            this.defaultTime = newdatetimezone;
+            if(this.visitDate > this.today){
+                this.defaultTime = '00:00:00.000Z';
+            }else{
+                this.defaultTime = newdatetimezone;
+            }
             this.currentTime = newdatetimezone;
         }else{
             this.televisitEditView = false;
@@ -183,9 +186,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     checkSiteStaffAdded(localSelectedAttendeesList){
-        console.log('this.siteStaffAdded',this.siteStaffAdded);
         for(let i=0; i<localSelectedAttendeesList.length; i++){
-            console.log('localSelectedAttendeesList.attendeeType',localSelectedAttendeesList[i].attendeeType);
             if(localSelectedAttendeesList[i].attendeeType === 'Site Staff' || 
                 localSelectedAttendeesList[i].attendeeType === 'PI'
             ){
@@ -199,13 +200,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     compareArrayOfObjects(a,b){
-        console.log('Inside',a);
-        console.log('Inside',b);
         a = a.filter(function(obj) {
             return !this.has(obj.id);
         }, new Set(b.map(obj => obj.id)));
         
-        console.log(a);
         return a;
     }
 
@@ -232,7 +230,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         let hrs = (s - mins) / 60;
         hrs = hrs < 10 ? '0' + hrs : hrs;
         mins = mins < 10 ? '0' + mins : mins;
-        console.log(hrs + '  ' + mins);
         return hrs+':' + mins + ':00.000Z';
     }
 
@@ -292,7 +289,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     
     handleChangeValidation(event){
         let fieldName = event.target.name;
-        console.log('fieldName',fieldName);
+        
         let dom = this.template.querySelector('[data-id="' + fieldName + '"]');
             let val = dom.value;
             if(fieldName === 'Title'){
@@ -309,6 +306,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                         this.template.querySelector('[data-id="Start Time"]').setCustomValidity('Please Enter the Start Time');
                         this.template.querySelector('[data-id="Start Time"]').reportValidity();
                     }
+                }else if(this.visitDate < this.today){
+                    this.defaultTime = this.currentTime;
                 }
             }
             if(fieldName === 'Start Time'){
@@ -319,14 +318,12 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 this.duration = val;
             }   
             if(!val.replace(/\s/g, '')){
-                console.log('success');
                 dom.setCustomValidity('Please Enter the ' +fieldName);
             }else{
                 dom.setCustomValidity('');
             }
             dom.reportValidity();
             //this.fieldValidationStatus = dom.reportValidity();
-            console.log('Validation status :',dom.reportValidity());
             this.checkAllFieldsArePopulated();
     }
 
@@ -348,8 +345,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         var visitDate = this.template.querySelector('[data-id="Visit Date"]').value;
         var startTime = this.template.querySelector('[data-id="Start Time"]').value;
         var duration = this.template.querySelector('[data-id="Duration"]').value;
-        console.log('startTime ',startTime);
-        console.log('this.startTime ',this.startTime);
         if(title !== null && title !== undefined && title !== '' && 
         visitDate !== null && visitDate !== undefined && visitDate !== '' && 
         this.startTime !== null && this.startTime !== undefined && this.startTime !== '' && 
@@ -404,7 +399,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.televisitRecord.title = this.title;
         this.televisitRecord.visitDate = this.visitDate;
         this.televisitRecord.startTime = this.startTime;
-        console.log('Start Time:',this.startTime);
         this.televisitRecord.duration = this.duration;
         this.televisitRecord.peid = this.peid.id;
         this.televisitRecord.attendeesList = this.selectedTelevisitAttendeesList;
@@ -444,7 +438,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     fetchTelevisitRecord(){
         fetchRecord({status : this.value, participantEnrollmentId : this.peid.id})
             .then((result) => {
-                console.log(result);
                 this.televisitRecordsList = result;
                 if(result.length > 0){
                     this.displayTelevisitRecords = true;   

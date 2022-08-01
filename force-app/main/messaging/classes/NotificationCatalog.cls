@@ -128,7 +128,6 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TELEVISIT_CANCELLED_TYPE = 'Message_to_PT_Televisit_Cancelled_Type';
     public static final String MESSAGE_TO_PT_TELEVISIT_DAY_REMINDER_TYP = 'Message_to_PT_Televisit_Day_Reminder_Typ';
     public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_TY = 'Message_to_PT_Televisit_Hour_Reminder_Ty';
-    public static final String MESSAGE_TO_PT_TELEVISIT_HOUR_REMINDER_DE = 'Message_to_PT_Televisit_Hour_Reminder_De';
 
     //Group Non Welcome Notification Type for Delegate
     //Add Non welcome Notification Types for Delegates to this list wheneverwe create a new non welcome notification type
