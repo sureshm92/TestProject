@@ -109,7 +109,8 @@
          var dataStamp = component.get('v.dataStamp');
          var isValid = false;
          const screeningIdRequiredStatuses =
-             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete'
+             + (formData.ctp && formData.ctp.Tokenization_Support__c ? '; Screening Passed' : '');
          const visitPlanRequiredStatuses =
              'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
          let screeningIdRequired = false;
@@ -412,8 +413,9 @@
                           (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
                           participant.Mailing_Zip_Postal_Code__c &&
                           pe &&
-                          pe.Participant_Status__c &&
-                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
+                          pe.Participant_Status__c && 
+                          (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
+                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
                           (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                           //stateVaild &&
                           (pe.Visit_Plan__c || isVisitPlanNotRequired) &&

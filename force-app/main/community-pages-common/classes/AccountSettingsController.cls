@@ -11,6 +11,8 @@ public without sharing class AccountSettingsController {
     public static Boolean isPrimaryDelegate = false;
     public static Boolean isDelegateAlsoAParticipant = false;
     public static Id currentParticipantId = null;
+    public static Participant__c delegateParticipant = new Participant__c();
+    public static Contact delegateContact = new Contact();
     public static Map<Id, List<Participant_Enrollment__c>> participantIdListOfPerMap = new Map<Id, List<Participant_Enrollment__c>>();
     public static List<Participant_Enrollment__c> perListforCommPref = new List<Participant_Enrollment__c>();
     @AuraEnabled
@@ -31,6 +33,11 @@ public without sharing class AccountSettingsController {
                 );
                 //As delegate switched to Participant Account setting so set isParticipantLoggedIn to false.
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
+                //Store the Delegate contact record.
+                delegateContact = initData.myContact;
+                //get the delegate's own participant record.
+                delegateParticipant = getParticipantRecord(initData.myContact.Id);
+
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -43,33 +50,8 @@ public without sharing class AccountSettingsController {
 
             if (initData.myContact.primaryContact__c == null) {
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                    initData.participant = [
-                        SELECT
-                            Id,
-                            First_Name__c,
-                            Middle_Name__c,
-                            Last_Name__c,
-                            Phone__c,
-                            Mailing_Zip_Postal_Code__c,
-                            Mailing_State__c,
-                            Mailing_Country__c,
-                            Mailing_Country_Code__c,
-                            Mailing_State_Code__c,
-                            Adult__c,
-                            Gender__c,
-                            Date_of_Birth__c,
-                            Initials__c,
-                            Suffix__c,
-                            Salutation__c,
-                            Nickname__c,
-                            Phone_Type__c,
-                            Alternative_Phone_Number__c,
-                            Alternative_Phone_Type__c,
-                            Birth_Year__c,
-                            Email__c
-                        FROM Participant__c
-                        WHERE Contact__c = :initData.myContact.Id
-                    ][0];
+                    // get the Participant record from contact Id.
+                    initData.participant = getParticipantRecord(initData.myContact.Id);
                     //translate country:
                     initData.participant.Mailing_Country__c = CountryStateUtil.getCountryName(
                         initData.participant.Mailing_Country_Code__c
@@ -134,47 +116,8 @@ public without sharing class AccountSettingsController {
                         participantEnrollments.addAll(pastEnrollments);
 
                     if (participantEnrollments != null) {
-                        // Populate Consent Preference Data to Static variables
-                        setConsentPreferenceData(
-                            participantEnrollments,
-                            initData.participant.Id,
-                            initData.myContact.Id
-                        );
-
-                        //Set the consent Preference data to wrapper variables.
-                        //initData.consentPreferenceData.perList.addAll(participantEnrollments);
-                        initData.consentPreferenceData.isAdultParticipant = isAdultParticipant;
-                        initData.consentPreferenceData.isEmailAvailabelForParticipant = isEmailAvailabelForParticipant;
-                        initData.consentPreferenceData.isDelegateSelfView = isDelegateSelfView;
-                        initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
-                        initData.consentPreferenceData.myContact = initData.myContact;
-                        initData.consentPreferenceData.LoggedInUserParticipantId = initData.participant.Id;
-                        if(initData.participant.Alternative_Phone_Type__c=='Mobile' && !String.isEmpty(initData.participant.Alternative_Phone_Number__c)){
-                            initData.consentPreferenceData.isMobilePhoneNumberAvailable =true;
-                        }
-
-                        if (isDelegateSelfView) {
-                            //As delegate switched to his own Account setting so set isParticipantLoggedIn to false.
-                            //But if Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
-                            if (isDelegateAlsoAParticipant) {
-                                initData.consentPreferenceData.isParticipantLoggedIn = true;
-                                initData.consentPreferenceData.isPrimaryDelegate = false;
-                                initData.consentPreferenceData.isDelegateSelfView = false;
-                                if (perListforCommPref != null) {
-                                    initData.consentPreferenceData.perList.addAll(
-                                        perListforCommPref
-                                    );
-                                }
-                            } else {
-                                initData.consentPreferenceData.perList.addAll(
-                                    participantEnrollments
-                                );
-                                initData.consentPreferenceData.isParticipantLoggedIn = false;
-                                initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
-                            }
-                        } else {
-                            initData.consentPreferenceData.perList.addAll(participantEnrollments);
-                        }
+                        //Prepare Communication Preference data.
+                        prepareCommunicationPreferenceData(participantEnrollments, initData);
                     }
 
                     for (Participant_Enrollment__c p : participantEnrollments) {
@@ -693,8 +636,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Contact myContact;
         @AuraEnabled
         public Id LoggedInUserParticipantId;
-        //@AuraEnabled
-        //public Participant__c participant;
+        @AuraEnabled
+        public Participant__c currentParticipant;
         @AuraEnabled
         public List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         @AuraEnabled
@@ -711,6 +654,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isParticipantLoggedIn = true;
         @AuraEnabled
         public Boolean isMobilePhoneNumberAvailable = false;
+        @AuraEnabled
+        public Boolean isSelfAccountSettingWarningMessage = false;
     }
 
     public class PersonWrapper {
@@ -912,6 +857,89 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             return true;
         }
     }
+
+    /**
+     * @description: This Method will set the consent Preference data to the static variables.
+     * @author: Krishna Mahto
+     * @param: perList
+     * @return:
+     **/
+    public static Void prepareCommunicationPreferenceData(
+        List<Participant_Enrollment__c> participantEnrollments,
+        AccountSettingsController.AccountData initData
+    ) {
+        // Populate Consent Preference Data to Static variables
+        setConsentPreferenceData(
+            participantEnrollments,
+            initData.participant.Id,
+            initData.myContact.Id
+        );
+
+        //Set the consent Preference data to wrapper variables.
+        //initData.consentPreferenceData.perList.addAll(participantEnrollments);
+        initData.consentPreferenceData.isAdultParticipant = isAdultParticipant;
+        initData.consentPreferenceData.isEmailAvailabelForParticipant = isEmailAvailabelForParticipant;
+        initData.consentPreferenceData.isDelegateSelfView = isDelegateSelfView;
+        initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
+        initData.consentPreferenceData.myContact = initData.myContact;
+        initData.consentPreferenceData.LoggedInUserParticipantId = initData.participant.Id;
+
+        if (isDelegateSelfView) {
+            //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.
+            //But if patient Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
+            if (isDelegateAlsoAParticipant) {
+                initData.consentPreferenceData.isParticipantLoggedIn = true;
+                initData.consentPreferenceData.isPrimaryDelegate = false;
+                initData.consentPreferenceData.isDelegateSelfView = false;
+                if (perListforCommPref != null) {
+                    initData.consentPreferenceData.perList.addAll(perListforCommPref);
+                }
+            } else {
+                // initData.consentPreferenceData.perList.addAll(participantEnrollments);
+                initData.consentPreferenceData.isParticipantLoggedIn = false;
+                initData.consentPreferenceData.isPrimaryDelegate = isPrimaryDelegate;
+            }
+        } else {
+            initData.consentPreferenceData.perList.addAll(participantEnrollments);
+        }
+
+        Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
+        Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
+        Participant__c currentParticipantTemp = new Participant__c();
+        Contact currentContactTemp = new Contact();
+        if (isParticipantLoggedInTemp || isDelegateSelfViewTemp) {
+            //If Participant logged to his own accound setting or Delegate logged in to his Self Account setting.
+            currentParticipantTemp = initData.participant;
+            currentContactTemp = initData.myContact;
+            initData.consentPreferenceData.isSelfAccountSettingWarningMessage = true;
+        } else if (!isParticipantLoggedInTemp && !isDelegateSelfViewTemp) {
+            //If Delegate switch to participant account setting
+            if (!isAdultParticipant || (isAdultParticipant && !isEmailAvailabelForParticipant)) {
+                //If Participant is Minor or adult without email, make current Participant to Delegate Participant record.
+                currentParticipantTemp = delegateParticipant;
+                currentContactTemp = delegateContact;
+                initData.consentPreferenceData.isSelfAccountSettingWarningMessage = false;
+            } else if (isAdultParticipant && isEmailAvailabelForParticipant) {
+                //If Participant is adult with email, make current Participant to actual Participant record.
+                currentParticipantTemp = initData.participant;
+                currentContactTemp = initData.myContact;
+                initData.consentPreferenceData.isSelfAccountSettingWarningMessage = true;
+            }
+        }
+        if (currentParticipantTemp != null) {
+            initData.consentPreferenceData.currentParticipant = currentParticipantTemp;
+            /*if(currentParticipantTemp.Alternative_Phone_Type__c=='Mobile' && 
+               !String.isEmpty(currentParticipantTemp.Alternative_Phone_Number__c)){
+            	initData.consentPreferenceData.isMobilePhoneNumberAvailable =true;
+        	}
+			*/
+            initData.consentPreferenceData.isMobilePhoneNumberAvailable = checkMobilePhoneIsAvailable(
+                currentContactTemp,
+                currentParticipantTemp
+            );
+        }
+    }
+
     /**
      * @description: This Method will set the consent Preference data to the static variables.
      * @author: Krishna Mahto
@@ -993,6 +1021,75 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         ];
         if (perList != null && !perList.isEmpty()) {
             isDelegateAlsoAParticipant = true;
+        }
+    }
+
+    /**
+     * @description: This Method return the Participant record from contact Id.
+     * @author: Krishna Mahto
+     * @param: ContId
+     * @return:
+     **/
+    public static Participant__c getParticipantRecord(Id contId) {
+        return [
+            SELECT
+                Id,
+                First_Name__c,
+                Middle_Name__c,
+                Last_Name__c,
+                Phone__c,
+                Mailing_Zip_Postal_Code__c,
+                Mailing_State__c,
+                Mailing_Country__c,
+                Mailing_Country_Code__c,
+                Mailing_State_Code__c,
+                Adult__c,
+                Gender__c,
+                Date_of_Birth__c,
+                Initials__c,
+                Suffix__c,
+                Salutation__c,
+                Nickname__c,
+                Phone_Type__c,
+                Alternative_Phone_Number__c,
+                Alternative_Phone_Type__c,
+                Birth_Year__c,
+                Email__c,
+                Contact__c
+            FROM Participant__c
+            WHERE Contact__c = :contId
+        ][0];
+    }
+    /**
+     * @description: This Method return check if mobile phone is available for participant is not.
+     * @author: Krishna Mahto
+     * @param: contact
+     * @param: participant
+     * @return:
+     **/
+    public static Boolean checkMobilePhoneIsAvailable(Contact contact, Participant__c participant) {
+        Boolean isParticipant = participant != null;
+        String mobilePhone = '';
+        if (isParticipant) {
+            mobilePhone = isParticipant &&
+                participant.Alternative_Phone_Type__c == 'Mobile' &&
+                participant.Alternative_Phone_Number__c != null
+                ? participant.Alternative_Phone_Number__c
+                : isParticipant &&
+                      participant.Alternative_Phone_Number__c == null &&
+                      participant.Phone_Type__c == 'Mobile'
+                      ? participant.Phone__c
+                      : isParticipant &&
+                            participant.Alternative_Phone_Type__c != 'Mobile' &&
+                            participant.Phone_Type__c != 'Mobile'
+                            ? ''
+                            : contact.MobilePhone;
+        }
+
+        if (mobilePhone != null && mobilePhone != '') {
+            return true;
+        } else {
+            return false;
         }
     }
 }

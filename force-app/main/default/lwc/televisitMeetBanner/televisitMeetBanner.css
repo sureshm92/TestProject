@@ -62,11 +62,12 @@ a:hover {
         margin: 0 auto;
         text-align: left;
         position: unset;
-        margin-top: -30px;
+        margin-top: -15px;
     }
     .meet_info{
         padding: 0px 15px 0px 5px;
         line-height: 30px;
+        align-items: center;
     }
     .desktop{
         display: none;

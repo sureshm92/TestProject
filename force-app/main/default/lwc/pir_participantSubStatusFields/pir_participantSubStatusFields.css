@@ -35,8 +35,6 @@
     font-family: 'Proxima Nova';
     font-weight: 550;
     color: #000000;
-    margin-left: -2px;
-    margin-top: 2px;
 }
 .history-item-title {
     color: #595959;
@@ -148,6 +146,16 @@
 }
 .sitepre_Checkbox {
     padding-left: 12px;
+}
+.marginchecboxleft{
+    margin-left: -3px;
+}
+.slds-marginleft{
+    margin-left: -20px;
+    
+}
+.slds-margintop{
+    margin-top: 2px;
 }
 .label2 {
     color: #444444;
@@ -286,7 +294,10 @@
     .hideMobile {
         display: none;
     }
-    .showDesktop {
+    .slds-marginleft{
+        margin-left: -6px;
+    }
+    .showDesktop{
         display: none;
     }
     .hideDesktopView {
@@ -300,6 +311,21 @@
     }
     .sitepreferences {
         width: 85%;
+    }
+    .p-r0{
+        padding-right: 0;
+    }
+    .p-l0{
+        padding-left: 0;
+    }
+    .mobile-width{
+        float: none !important;
+    }
+    .mobile-width .save-btn, .mobile-width .discard-btn{
+        width: 100%;
+    }
+    .mobile-width .discard-btn{
+        margin-top: 20px;
     }
 }
 /**

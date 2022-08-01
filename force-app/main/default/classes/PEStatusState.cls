@@ -57,6 +57,8 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_CONTACT_ATTEMPTED = 'Contact Attempted'; //TODO:check
     public static final String PE_STATUS_CONTACTED_NOT_SUITABLE = 'Contacted - Not Suitable'; //TODO:check
     public static final String PE_STATUS_UNABLE_TO_REACH = 'Unable to Reach'; //TODO:check
+    public static final String PE_STATUS_SUCCESSFULLY_REENGAGED = 'Successfully re-engaged';
+    public static final String PE_STATUS_NO_SHOW = 'Participant No Show';
 
     //Eligibility Step
     public static final String PE_STATUS_ELIGIBILITY_PASSED = 'Eligibility Passed';
@@ -436,7 +438,9 @@ public without sharing class PEStatusState {
         PE_STATUS_SCREENING_IN_PROGRESS,
         PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
         PE_STATUS_READY_TO_SCREEN,
-        PE_STATUS_ELIGIBILITY_PASSED
+        PE_STATUS_ELIGIBILITY_PASSED,
+        PE_STATUS_SUCCESSFULLY_REENGAGED,
+        PE_STATUS_NO_SHOW
     };
     //Pre Enrollment status group for Pre-consent Toggle at CTP:
     public static final List<String> PE_STATUS_GROUP_FOR_PRE_CONSENT_TOGGLE = new List<String>{
@@ -444,7 +448,9 @@ public without sharing class PEStatusState {
         PE_STATUS_SUCCESSFULLY_CONTACTED,
         PE_STATUS_PRE_REVIEW_PASSED,
         PE_STATUS_CONTACT_ATTEMPTED,
-        PE_STATUS_ELIGIBILITY_PASSED
+        PE_STATUS_ELIGIBILITY_PASSED,
+        PE_STATUS_SUCCESSFULLY_REENGAGED,
+        PE_STATUS_NO_SHOW
     };
     //Pre Enrollment status group for Consent through Enrolled/Randomized toggle at CTP:
     public static final List<String> PE_STATUS_GROUP_FOR_CONSENT_ENROLL_RANDMZ_TOGGLE = new List<String>{

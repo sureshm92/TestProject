@@ -261,7 +261,7 @@ public without sharing class DashboardRemoteNew {
             return -1;
         }
     }
-
+ 
     @AuraEnabled
     public static String getInitData(
         String userMode,
@@ -293,11 +293,16 @@ public without sharing class DashboardRemoteNew {
                     currentContact.LastName;
                 Map<Id, String> delegatePIsMap = new Map<Id, String>();
                 PIData piData = new PIData();
+                List<String> communityNames = new List<String>(); 
+                if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
+                    communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+                }
+                communityNames.add(communityName);
                 if (
                     ![
                             SELECT Id
                             FROM Study_Site__c
-                            WHERE Principal_Investigator__c = :currentContactId  AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                            WHERE Principal_Investigator__c = :currentContactId  AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                         ]
                         .isEmpty()
                 ) {
@@ -316,7 +321,7 @@ public without sharing class DashboardRemoteNew {
                         Study_Site__c,
                         is_Invited__c
                     FROM Site_Staff__c
-                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityNames
                 ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,
@@ -571,7 +576,8 @@ public without sharing class DashboardRemoteNew {
                 	Study_Site__r.Name,
                     Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Study_Site__r.Clinical_Trial_Profile__c,
-                    Participant_Status__c
+                    Participant_Status__c,
+                    Succesfully_Re_Engaged__c
                 FROM Participant_Enrollment__c
                 WHERE
                     (Participant_Status__c = :PEStatusState.PE_STATUS_CONTACT_ATTEMPTED
@@ -601,10 +607,8 @@ public without sharing class DashboardRemoteNew {
             }
 
             for (Participant_Enrollment__c pe : contactAtemptedList) {
-                Boolean isReEngagePar = false;                
-                if(pe.Participant_Status__c.equals(STATUS_RE_ENGAGED)) {
-                    isReEngagePar = true;
-                }
+                Boolean isReEngagePar = false;      
+                isReEngagePar = pe.Succesfully_Re_Engaged__c;
                 if (avaliableSS.isEmpty()) {
                     Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
                     resList.add(

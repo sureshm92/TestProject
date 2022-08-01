@@ -5720,6 +5720,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Succesfully_Re_Engaged__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.ParticipantNoShow__c</field>
         <readable>true</readable>
     </fieldPermissions>
