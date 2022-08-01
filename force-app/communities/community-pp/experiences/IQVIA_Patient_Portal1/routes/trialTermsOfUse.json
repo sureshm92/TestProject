@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "c6a40247-7ea6-4f0b-b933-d1981add21c0",
   "label" : "Trial Terms of Use",
-  "pageAccess" : "UseParent",
+  "pageAccess" : "Public",
   "routeType" : "custom-trial-terms-and-conditions",
   "type" : "route",
   "urlPrefix" : "trial-terms-and-conditions"
