@@ -375,12 +375,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
             }
 
             if(this.isToast ||this.successBoolean){
-                const selectEventneww = new CustomEvent('resetpageonupdate', {
-                    detail: 'true'
-                });
-                this.dispatchEvent(selectEventneww);
-                
-                this.showSuccessToast(this.label.RH_ImportSuccess);
+               this.showSuccessToast(this.label.RH_ImportSuccess);
                 this.isToast=false;
                 this.successBoolean=false;
             }

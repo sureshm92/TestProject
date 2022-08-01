@@ -357,20 +357,22 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           .previousPage();
       }
     }
+    handleUpdate=false;
     handletotalrecord(event){
       this.totalRecord=event.detail;
-      this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
-    
+     
+      this.handleUpdate=true;
+      this.handleresetpageonupdate();
     }
     isResetOnUpdate=false;
-    handleresetpageonupdate(event){
-      this.isResetOnUpdate=event.detail;
-      if(this.isResetOnUpdate){
+    handleresetpageonupdate(){
+      if( this.handleUpdate && !this.isResetPagination ){
+        this.initialLoad=true;
         this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
         this.template.querySelector("c-pir_participant-pagination").updateInprogress();
         }
-      this.isResetOnUpdate=false;
-      
+      this.handleUpdate=false;
+      this.initialLoad=false; 
 
     }
     handleresetpagination(event){
