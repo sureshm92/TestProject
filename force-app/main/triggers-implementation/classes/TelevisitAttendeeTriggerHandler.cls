@@ -57,21 +57,10 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         ]) {
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
             attendeeTelevisitMap.put(attendee.Contact__c, attendee.Televisit__c);
-            Id delContactId = TelevisitTriggerHandler.getPrimaryDelegateContactId(
-                participantIdsByDelegates,
-                attendee.Contact__c
-            );
-            if (delContactId != null) {
-                attendeeDelTelevisitMap.put(delContactId, attendee.Televisit__c);
-            }
         }
         }
 
         createAttendeeNotifications(attendeeTelevisitMap, 'Message_to_PT_Added_Attendee_Type');
-        createAttendeeNotifications(
-            attendeeDelTelevisitMap,
-            'Message_to_PT_Added_Attendee_Del_Type'
-        );
     }
 
     @TestVisible

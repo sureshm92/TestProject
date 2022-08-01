@@ -92,6 +92,14 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                         /<ul>/g,
                         '<ul style="list-style: disc;">'
                     );
+
+                    this.ppRichText = this.ppRichText.replace(
+                        '<strong><u>' + this.currentHeader + '</u></strong>',
+                        '<a data-id="startheader"></a>' +
+                            '<strong><u>' +
+                            this.currentHeader +
+                            '</u></strong>'
+                    );
                     if (this.isRTL) {
                         this.ppRichText = this.ppRichText.replace(
                             /<li style="text-align: right;">/g,
@@ -213,8 +221,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                 selectedHeader = selectedHeader.replace("'", '&#39;');
             }
             let newValue = this.ppRichText.replace(
-                selectedHeader,
-                selectedHeader + '<a data-id="currentheader"></a>'
+                '<strong><u>' + selectedHeader + '</u></strong>',
+                '<strong><u>' + selectedHeader + '</u></strong>' + '<a data-id="currentheader"></a>'
             );
             if (this.isMobile) {
                 this.template.querySelector('[data-id="ppRichText"]').innerHTML = newValue;
@@ -225,14 +233,16 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                           .querySelector('.slds-is-active')
                           .classList.remove('slds-is-active')
                     : '';
+                let headerLabel = event.currentTarget.dataset.header;
                 this.template
-                    .querySelector(`[data-header="${selectedHeader}"]`)
+                    .querySelector(`[data-header="${headerLabel}"]`)
                     .classList.add('slds-is-active');
             }
 
             let myElement = this.template.querySelector('[data-id="currentheader"]');
+            let startElement = this.template.querySelector('[data-id="startheader"]');
 
-            let headerOffset = this.isMobile ? 230 : 90;
+            let headerOffset = startElement ? startElement.offsetTop : 90;
             let elementPosition = myElement.offsetTop;
 
             let offsetPosition = elementPosition - headerOffset;

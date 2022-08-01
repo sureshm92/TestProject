@@ -468,6 +468,183 @@ public without sharing class NotificationAvailabilityService {
         return isInvalid;
     }
 
+    /**
+     * @description: This Method will check if Platform level Welcome message send and Delivered status for the delegate.
+     * @author: Krishna Mahto
+     * @param: contactId
+     * @return: Boolean
+     **/
+    public Boolean isPlaformLevelWelmMssgSendAndDeliveredToDel(Id contactId) {
+        Boolean isInvalid = true;
+        Contact contact = contactByIdMap.get(contactId);
+        isInvalid = isInvalid && Contact.Is_Invalid_Number__c;
+
+        return isInvalid;
+    }
+
+    /**
+     * @description:  This method checks if the SMS notification is eligible to send depending upon the different notification types and SMS availablility flags
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean checkSMSIsEligibleToSkip(Notification__c n, String recipientType) {
+        Boolean skipSMS = false;
+        //If Notification is for Participant or Delegate
+        if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
+            skipSMS = checkParticipantDelSMSSkipEligibility(n);
+        } else {
+            //TODO: Implement logic as per the need based on the recipientType.
+        }
+        return skipSMS;
+    }
+    /**
+     * @description:  This method checks if the SMS notification is eligible to send or skip for Paricipants/Delegates.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean checkParticipantDelSMSSkipEligibility(notification__c n) {
+        //Boolean skipSMS = false;
+        String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
+
+        //If Number is Invalid at contact then skip the SMS.
+        if (isInvalidNumber(n.Recipient__c)) {
+            return true;
+        }
+
+        //If any of the AWS details are not available for the notification then skip the SMS.
+        if (
+            NotificationService.awsDetailsAreAvailable.containsKey(n.Id) &&
+            !NotificationService.awsDetailsAreAvailable.get(n.Id)
+        ) {
+            return true;
+        }
+
+        //Check if SMS are neither navailable to send for Platform level nor available to send for Study level then Skip the SMS
+        Boolean isSMSAvailableAtPlatformLevel =
+            NotificationService.platfomLevelSMSSet.contains(n.Id) &&
+            isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+        Boolean isSMSAvailableAtStudyLevel = NotificationService.studyLevelSMSSet.contains(n.Id);
+
+        //Check if Notification is platform level or study level and available to send else skip the SMS.
+        if (isSMSAvailableAtPlatformLevel) {
+            //Process Platform level SMS notification eligibility check.
+            Boolean skipSMS = skipPlatformLevelSMSCheck(n);
+            if (skipSMS)
+                return true;
+        } else if (isSMSAvailableAtStudyLevel) {
+            //Process Study level SMS notification eligibility check.
+            Boolean skipSMS = skipStudyLevelSMSCheck(n);
+            if (skipSMS)
+                return true;
+        } else {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * @description:  This method checks if the Study level SMS notification is eligible to send SMS.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean skipStudyLevelSMSCheck(Notification__c n) {
+        String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
+
+        if (n.Notification_Type__c == NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG) {
+            // If SMS Type is Welcome Message for Patient Delegate and welcome message is sent to Patient delegate then skip the non welcome SMS.
+            Boolean welcomeMessageSendToDel =
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.get(perIdRecipientIdKey);
+
+            if (welcomeMessageSendToDel) {
+                return true;
+            }
+        } else if (
+            n.Notification_Type__c == NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+        ) {
+            //If SMS Type is Welcome Message for Participant and welcome message is sent  to participant then skip SMS.
+            Boolean isWelcomeMessageSendToParticipant =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id);
+            if (isWelcomeMessageSendToParticipant) {
+                return true;
+            }
+        } else if (
+            NotificationCatalog.nonWelcomeNoticationTypesForDelegate.contains(
+                n.Notification_Type__c
+            )
+        ) {
+            //If SMS Type is Study Level non welcome Message for Patient Delegate and any of the welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Patient delegate is not true then skip the SMS.
+            Boolean isWelcomeMessageSentAndDeliveredToDel =
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageSentMap.get(perIdRecipientIdKey) &&
+                NotificationService.perIdDelConIdWelcomeMessageDeleveredMap.containsKey(
+                    perIdRecipientIdKey
+                ) &&
+                NotificationService.perIdDelConIdWelcomeMessageDeleveredMap.get(
+                    perIdRecipientIdKey
+                );
+            if (!isWelcomeMessageSentAndDeliveredToDel) {
+                return true;
+            }
+        } else if (
+            !NotificationCatalog.nonWelcomeNoticationTypesForDelegate.contains(
+                n.Notification_Type__c
+            ) && !NotificationService.welcomemsgNoticationtypes.Contains(n.Notification_Type__c)
+        ) {
+            //If SMS Type is Study Level Non welcome Message for Participant and welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Participant is not true then skip the SMS.
+            Boolean isWelcomeMessageSentAndDeliveredPar =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id) &&
+                NotificationService.welcomemsgDelivered.containsKey(n.Id) &&
+                NotificationService.welcomemsgDelivered.get(n.Id);
+            if (!isWelcomeMessageSentAndDeliveredPar) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * @description:  This method checks if the Platform level SMS notification is eligible to send SMS.
+     * @author: Krishna Mahto
+     * @param:  n
+     * @return: Boolean
+     **/
+    public Boolean skipPlatformLevelSMSCheck(Notification__c n) {
+        //TODO: Implement logic if we have to handle the Platform level SMS for participant and delegate separatly.
+        //If Notification is welcome message and welcome message is already sent, skip the SMS.
+        if (NotificationService.welcomemsgNoticationtypes.Contains(n.Notification_Type__c)) {
+            Boolean iSPlatformLevelWelcomeMessageSent =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id);
+
+            if (iSPlatformLevelWelcomeMessageSent) {
+                return true;
+            }
+        } else {
+            //If SMS Type is Study Level Non welcome Message  welcomeMessageSend and welcomeMessageDelivered Flag for
+            //Participant is not true then skip the SMS.
+            Boolean iSPlatformLevelWelcomeMessageSent =
+                NotificationService.welcomemsgSent.containsKey(n.Id) &&
+                NotificationService.welcomemsgSent.get(n.Id) &&
+                NotificationService.welcomemsgDelivered.containsKey(n.Id) &&
+                NotificationService.welcomemsgDelivered.get(n.Id);
+            if (!iSPlatformLevelWelcomeMessageSent) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public Boolean isAvailableForPush(Id contactId, String whatId) {
         //TODO
         return true;
