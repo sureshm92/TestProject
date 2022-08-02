@@ -75,7 +75,7 @@ import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All'
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save' 
 import PIR_AdditionalInformation from '@salesforce/label/c.PIR_AdditionalInformation';
 import RH_MOB from '@salesforce/label/c.RH_MOB';
-import RH_YOB from '@salesforce/label/c.RH_YOB';
+import RH_YOB from '@salesforce/label/c.RH_YearofBirth';
 import RH_DOB from '@salesforce/label/c.RH_DOB';
 
 export default class Pir_participantDetail extends LightningElement {
