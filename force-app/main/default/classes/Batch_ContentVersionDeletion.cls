@@ -1,3 +1,7 @@
+/**
+ * This batch for deleting PI bulk import error files which are more than 6 months old.
+*/
+
 global class Batch_ContentVersionDeletion implements Database.Batchable<sObject>{
 
     set<ID> bulkImportIds = new set<ID>();

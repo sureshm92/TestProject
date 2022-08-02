@@ -1,3 +1,7 @@
+/**
+ * Test class for deleting PI bulk import error files which are more than 6 months old.
+*/
+
 @isTest
 public with sharing class Batch_ContentVersionDel_SchedulerTest {
     public static String CRON_EXP = '0 0 0 10 2 ? 2022';
