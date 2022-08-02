@@ -7,6 +7,7 @@ import deselectallstudysite from '@salesforce/apex/televisitConfigurationControl
 import deletevendordetails from '@salesforce/apex/televisitConfigurationController.deleteVendor';
 import updatestudysitedetails from '@salesforce/apex/televisitConfigurationController.updatestudysite';
 import vendoravailabilitycheck from '@salesforce/apex/televisitConfigurationController.vendoravailability';
+import updateremindervalues from '@salesforce/apex/televisitConfigurationController.updateremindervalues';
 import saveLabel from '@salesforce/label/c.Save';
 import cancelLabel from '@salesforce/label/c.Cancel';
 import selectcountryLabel from '@salesforce/label/c.RH_RP_Select_Country';
@@ -611,11 +612,27 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     
         unsubscribe(this.subscription);
         this.subscription = null;
-      }
+    }
     
-      handleClear() {
+    handleClear() {
         this.receivedMessage = null;
-      }
-
-    
+    }
+    updateremindervalues(event){
+        this.isSpinner = true;
+        let studysiteid = event.currentTarget.dataset.id;
+        let targetId = event.target.dataset.targetId;
+        console.log('++++++++++'+studysiteid);
+        console.log('++++++++++targetId'+targetId);
+        console.log('++++++++++111'+event.target.value);
+        updateremindervalues({ studysiteId:studysiteid,remindername:targetId,selValue:event.target.value})
+        .then((result) => {
+            console.log('result-->'+result);
+            this.isSpinner = false;
+          //  this.getteledetails(this.recordId);
+        })
+        .catch((error) => {
+            this.isSpinner = false;
+            console.log(JSON.stringify(error));
+        });
+    }    
 }
