@@ -39,6 +39,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         unableToLogin6,
         backButton
     };
+    @track btnClassName = 'slds-button btn-sendEmail';
 
     connectedCallback() {
         Promise.all([loadScript(this, communityResource)])
@@ -66,10 +67,13 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                 console.log(error.body.message);
             });
     }
-    get className() {
+    get inputClass() {
         return this.showError
             ? 'slds-input input-field-container-error'
             : 'slds-input input-field-container';
+    }
+    get btnClass() {
+        return this.btnClassName;
     }
 
     handleForgotPassword() {
@@ -101,6 +105,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                     }
                     this.errorMessage = returnValue['invalidEmail'];
                     this.showError = true;
+                    this.btnClassName = 'slds-button btn-sendEmail btn-disable';
                 }
                 spinner.hide();
             })
@@ -110,6 +115,11 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
             });
     }
     onKeyUp(event) {
+        if (event.target.value !== '') {
+            this.usrnameval = event.target.value;
+        }
+        this.btnClassName = 'slds-button btn-sendEmail';
+        this.showError = false;
         //checks for "enter" key
         if (event.which === 13) {
             this.handleForgotPassword();
