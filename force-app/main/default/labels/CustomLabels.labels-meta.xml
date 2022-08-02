@@ -18228,7 +18228,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>General Communication</value>
     </labels>
     <labels>
-        <fullName>  </fullName>
+        <fullName>PP_Communication_Pref_Blank_Del</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
