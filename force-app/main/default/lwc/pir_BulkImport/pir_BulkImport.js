@@ -8,6 +8,7 @@ import AllStudySite from "@salesforce/label/c.PIR_All_Study_Site";
 import PIR_Study_Name from "@salesforce/label/c.PIR_Study_Name";
 import PIR_Study_Site_Name from "@salesforce/label/c.PIR_Study_Site_Name";
 import My_Participant from "@salesforce/label/c.My_Participant";
+import RH_RP_Bulk_Import from "@salesforce/label/c.RH_RP_Bulk_Import";
 import Home_Page_Label from "@salesforce/label/c.Home_Page_Label";
 import pir_Bulk_Import_History from "@salesforce/label/c.pir_Bulk_Import_History";
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
@@ -28,6 +29,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urltrialId = null;
     urlsiteId = null;
     isResetPagination=false;
+    calledfrombulkimporthistry = false;
     @api selectedStudyChild;
     @api selectedStudySiteChild;
     @api pageNumberChild=1;
@@ -38,13 +40,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         PIR_Study_Site_Name,
         My_Participant,
         pir_Bulk_Import_History,
+        RH_RP_Bulk_Import,
         Home_Page_Label};
     connectedCallback() {
         loadStyle(this, PIR_Community_CSS)
     }
 
     @wire(CurrentPageReference)
-    getStateParameters(currentPageReference) {
+    getStateParameters(currentPageReference) { 
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
           this.setParametersBasedOnUrl();
@@ -53,10 +56,11 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
+       this.calledfrombulkimporthistry=this.urlStateParameters.navigateFromComponent  == 'BulkimportHistryPage' ? true : false;;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
      
-       if(this.urlmyStudies){
+       if(this.urlmyStudies || this.urlStateParameters.navigateFromComponent == 'MyStudies'){
             this.myStudiesPg = true;
             this.selectedStudy = this.urltrialId; 
        }else{
@@ -113,7 +117,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                     this.studyToStudySite = studyToStudySite;
                     this.studysiteaccess = true;
                     
-                    if(this.myStudiesPg){
+                    if(this.myStudiesPg && this.urltrialId){
                         this.selectedStudy = this.urltrialId; 
                         var accesslevels = Object.keys(this.siteAccessLevels).length; 
                         var conts = this.studyToStudySite;
@@ -138,15 +142,10 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.studySiteList = options;
                         this.selectedSite = this.urlsiteId;
                         this.studysiteaccess = false;
-                        
-                        this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
-                        this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
-                        this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
-                      
-                        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
-                        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
+                        this.selectedStudySiteChild=this.selectedStudy;
+                        this.selectedStudyChild=this.selectedSite;
+                        this.stopSpinnerChild=false;
                        
-                        this.template.querySelector("c-pir_-bulk-import-files").fetchData();
                         
                     } 
                     else{
@@ -206,7 +205,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                           ) {
                             this.selectedStudySiteChild=getStudySiteList;
                           }
-                         
+
                           this.stopSpinnerChild=false;
                           
                     }
@@ -226,7 +225,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         let options = [];
         options.push({ label: this.label.AllStudySite, value: "All Study Site" });
         var i = this.siteAccessLevels;
-       
+
         if (picklist_Value != "All Study") {
             for (var key in conts) {
               if (key == picklist_Value) {
@@ -342,7 +341,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         }
         this.initialLoad = false;
-    }  
+    }    
     changePage(event) {
       let dir = event.detail;
       if (dir == "next") { 
@@ -354,9 +353,23 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           .previousPage();
       }
     }
+    handleUpdate=false;
     handletotalrecord(event){
       this.totalRecord=event.detail;
-      
+
+      this.handleUpdate=true;
+      this.handleresetpageonupdate();
+      }
+    isResetOnUpdate=false;
+    handleresetpageonupdate(){
+      if( this.handleUpdate && !this.isResetPagination ){
+        this.initialLoad=true;
+        this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
+        this.template.querySelector("c-pir_participant-pagination").updateInprogress();
+        }
+      this.handleUpdate=false;
+      this.initialLoad=false; 
+
     }
     handleresetpagination(event){
       if(this.isResetPagination ){
@@ -365,7 +378,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.template.querySelector("c-pir_participant-pagination").goToStart();
       }
       this.isResetPagination = false;  
-    }
+    }    
   
     
 }

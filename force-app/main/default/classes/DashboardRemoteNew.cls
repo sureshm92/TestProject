@@ -261,7 +261,7 @@ public without sharing class DashboardRemoteNew {
             return -1;
         }
     }
-
+ 
     @AuraEnabled
     public static String getInitData(
         String userMode,
@@ -576,7 +576,8 @@ public without sharing class DashboardRemoteNew {
                 	Study_Site__r.Name,
                     Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Study_Site__r.Clinical_Trial_Profile__c,
-                    Participant_Status__c
+                    Participant_Status__c,
+                    Succesfully_Re_Engaged__c
                 FROM Participant_Enrollment__c
                 WHERE
                     (Participant_Status__c = :PEStatusState.PE_STATUS_CONTACT_ATTEMPTED
@@ -606,10 +607,8 @@ public without sharing class DashboardRemoteNew {
             }
 
             for (Participant_Enrollment__c pe : contactAtemptedList) {
-                Boolean isReEngagePar = false;                
-                if(pe.Participant_Status__c.equals(STATUS_RE_ENGAGED)) {
-                    isReEngagePar = true;
-                }
+                Boolean isReEngagePar = false;      
+                isReEngagePar = pe.Succesfully_Re_Engaged__c;
                 if (avaliableSS.isEmpty()) {
                     Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
                     resList.add(

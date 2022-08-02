@@ -52,6 +52,7 @@ export default class Pir_importParticipant extends NavigationMixin(LightningElem
 studySiteList;shouldDisableImportStatus = true;@api studysiteaccess=false;
 @api selectedStatus; importParticipantStatus = [];  participentStatus = [];shouldDisableImport = true;
 progress = 0;
+@api isBulkImportHistoryPage=false;
 progressWidth = 'width :0%';
 base = 1;
 progressMultiplier = 0;
@@ -85,6 +86,7 @@ selectedvisitPlanId = undefined;
 visitPlanRequired = false;
 visitPlansLVList = [];
 communityWithPPInv = false;
+@api navigateFromComponent = '';
  
 @api siteName='';
 downloadTemplate = DownloadParticipantTemplate;
@@ -124,6 +126,10 @@ label = { PIR_Study_Site_Name,
 connectedCallback() {
     loadScript(this, xlsxmin).then(() => {});
     loadStyle(this, PIR_Community_CSS);
+     if(!this.navigateFromComponent)
+     {
+        this.navigateFromComponent = 'myparticipant';
+     }
     if(this.isMyStudies){
         this.isDataLoading = true;
         this.selectedStudy = this.studyid;
@@ -706,7 +712,7 @@ doImportParticipant(){
                         pageName: 'bulk-imports'
                       },
                     state: {
-                      'myParticipants' : true
+                      'navigateFromComponent' : this.navigateFromComponent
                      }
                 }); 
               }  

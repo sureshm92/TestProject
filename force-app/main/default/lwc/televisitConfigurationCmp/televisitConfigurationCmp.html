@@ -109,6 +109,9 @@
       <th class="" scope="col">
         <div class="slds-truncate" title="Some Custom Column" ><a>{label.bannerdisplayLabel}</a></div>
     </th>
+    <th class="" scope="col">
+      <div class="slds-truncate" title="Some Custom Column" ><a>Reminders(hours)</a></div>
+    </th>
     <!--
     <th class="" scope="col">
       <div class="slds-truncate" title="Some Custom Column"><a>{label.bannerdisposeLabel}</a></div>
@@ -148,6 +151,20 @@
                 </select> 
         </td>
         <td>
+            <lightning-layout>
+              <lightning-layout-item>
+                <div class="slds-form-element slds-form-element_horizontal" >
+                  <label class="slds-form-element__label">1st:</label>
+                  <lightning-input type="text" value = {row.FirstReminder} data-target-id = "FirstReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                </div>
+              </lightning-layout-item>&nbsp;
+              <lightning-layout-item>
+                <div class="slds-form-element slds-form-element_horizontal">
+                  <label class="slds-form-element__label">2nd:</label>
+                  <lightning-input type="text" value = {row.SecondReminder} data-target-id = "SecondReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
           <!--<lightning-combobox dropdown-alignment = "auto" data-target-id = "disposeoffsettime" name="disposeoffsettime" data-id = {row.studysiteid}  value={row.bannerdisposeoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> -->
          <!--
           <select class="slds-select" 

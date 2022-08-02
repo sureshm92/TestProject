@@ -1735,19 +1735,17 @@ changeInputValue(event) {
    
     if(this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
       if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
-      (this.participantrecord.Participant_Status__c == "Successfully Contacted" || this.pe_record.Participant_Status__c=="Successfully Contacted")
-      && this.participantrecord.Initial_visit_scheduled_date__c!=null 
-      && this.participantrecord.Initial_visit_scheduled_date__c!=null
+     ( (this.participantrecord.Participant_Status__c == "Successfully Contacted" ||
+       this.pe_record.Participant_Status__c=="Successfully Contacted") 
+      || 
+      (this.participantrecord.Participant_Status__c=='Eligibility Passed' || 
+      this.pe_record.Participant_Status__c=='Eligibility Passed'))
+      &&
+      this.participantrecord.Initial_visit_scheduled_date__c!=null &&
+      this.participantrecord.Initial_visit_scheduled_time__c!=null
      ){
       this.participantrecord.Succesfully_Re_Engaged__c = false;
       }
-    }
-    else{
-      if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
-        (this.participantrecord.Participant_Status__c == "Successfully Contacted" ||this.pe_record.Participant_Status__c=="Successfully Contacted")
-       ){
-        this.participantrecord.Succesfully_Re_Engaged__c = false;
-        }
     }
     
     let outcome = this.selectedOutcome;
