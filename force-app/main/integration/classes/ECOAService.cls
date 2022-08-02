@@ -254,7 +254,7 @@ public with sharing class ECOAService {
                             timeZoneVal = delegateUserObj.TimeZoneSidKey;
                         }
                     }
-                    if(timeZoneVal != null){
+                    if(timeZoneVal != ''){
                         List<Map<String, String>> requestMapList = new List<Map<String, String>>();
                         Map<String, String> requestMap = new Map<String, String>{
                             'username' => peObj.Id,
