@@ -24,8 +24,9 @@
                         <input
                             type="text"
                             data-id="userName"
-                            class="slds-input input-field-container"
+                            class={className}
                             onkeyup={handleuserNameChange}
+                            onclick={handleClick}
                         />
                     </div>
                     <label class="slds-form-element__label" for="password">{label.password}</label>
@@ -33,7 +34,7 @@
                         <input
                             type="password"
                             data-id="password"
-                            class="slds-input input-field-container"
+                            class={className}
                             onkeyup={handlepasswordChange}
                         />
                         <button class="slds-button slds-button_icon eye-icon">
