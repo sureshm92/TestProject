@@ -222,6 +222,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>televisitConfigurationCmp</componentName>
+                <identifier>c_televisitConfigurationCmp1</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-095c6f92-994f-4258-9649-a1004afdb8ed</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -400,6 +410,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-095c6f92-994f-4258-9649-a1004afdb8ed</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Televisits</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab1</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>

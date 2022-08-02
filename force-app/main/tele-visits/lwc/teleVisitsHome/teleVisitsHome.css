@@ -1,0 +1,53 @@
+.cardRTL {
+    direction: rtl;
+}
+
+.navigation {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    margin-bottom: 30px;
+    padding-top: 1rem;
+}
+
+.ui-link{
+    cursor: pointer;
+    transition: 0.3s;
+    color: #999999;
+    display:inline-block;
+}
+
+.ui-link-current{
+    display:inline-block;
+    font-weight:bold;
+    padding-left: 4px;
+}
+
+.ui-link:hover{
+    color: #666666;
+}
+
+@media all and (max-width: 500px) {
+
+    .navigation .cwebNavigationPath.navigation-path {
+        font-size: 0.875rem;
+    }
+
+    .links .apollo-btn {
+        font-weight: 400;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .links .apollo-btn:nth-child(n + 2) {
+        border-left: 1px solid #d9d9d9;
+    }
+
+    .sdv-top-bar .title {
+        padding: 10px 0;
+    }
+
+    .rr-width-limiter.side-padding .sv-body {
+        margin: 0;
+    }
+}

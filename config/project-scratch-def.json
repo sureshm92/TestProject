@@ -10,7 +10,8 @@
         "Workflow",
         "DefaultWorkflowUser",
         "StateAndCountryPicklist",
-        "FieldAuditTrail"
+        "FieldAuditTrail",
+        "NumPlatformEvents:20"
     ],
     "settings": {
         "apexSettings": {

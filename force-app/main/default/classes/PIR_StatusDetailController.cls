@@ -53,7 +53,7 @@ public without sharing class PIR_StatusDetailController {
     public Integer noteKey;
     @AuraEnabled
     public Boolean isAdditionalNoteOld;
-    
+
   }
 
   public class InitialVistHistoryWrap {
@@ -163,9 +163,9 @@ public without sharing class PIR_StatusDetailController {
             Disabled_PESH__c
           FROM Participant_Enrollment_Status_History__r
           WHERE Disabled_PESH__c = FALSE
-            AND Backward_Bulk_Update__c = FALSE
+          AND Backward_Bulk_Update__c = FALSE
           ORDER BY Name DESC
-        )
+        ) 
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -363,7 +363,18 @@ public without sharing class PIR_StatusDetailController {
         ParticipantNoShow__c,
         isBulkUpdate__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
-        Clinical_Trial_Profile__r.Final_Consent_Required__c
+        Clinical_Trial_Profile__r.Final_Consent_Required__c,
+        Add_televisit_for_Initial_Visit__c,
+        Initial_Visit_Televisit_Created__c,
+        Participant__r.First_Name__c,
+        Participant__r.Last_Name__c,
+        Participant_Contact__c,
+        Participant__c,
+        Participant__r.Adult__c,
+        Participant__r.Email__c,
+        PI_Contact__r.FirstName,
+        PI_Contact__r.LastName,
+        PI_Contact__c
       FROM Participant_Enrollment__c
       WHERE Id = :perId
     ];
@@ -733,8 +744,8 @@ public without sharing class PIR_StatusDetailController {
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
             }
-            
-          /**  ---- 
+
+            /**  ---- 
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
@@ -784,8 +795,8 @@ public without sharing class PIR_StatusDetailController {
           }
           String title = '';
           ContactHistoryWrap wrap = new ContactHistoryWrap();
-           //title = pesh.Status__c;
-           title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
+          //title = pesh.Status__c;
+          title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
           if (pesh.Non_Enrollment_Reason__c != null) {
             //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
             title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Non_Enrollment_Reason__c.trim());
@@ -810,7 +821,7 @@ public without sharing class PIR_StatusDetailController {
             pesh.Additional_Notes__c != null &&
             pesh.Additional_Notes__c != ''
           ) {
-              List<String> lstnotes = new List<String>();
+            List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
               ContactHistoryWrap wrapp = new ContactHistoryWrap();
@@ -839,8 +850,8 @@ public without sharing class PIR_StatusDetailController {
               wrapp.isFovHistory = false;
               wrapperList.add(wrapp);
             }
-             
-          /**  -----
+
+            /**  -----
             List<String> lstnotes = new List<String>();
             lstnotes = pesh.Additional_Notes__c.split('#');
             for (String note : lstnotes) {
@@ -952,12 +963,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }
               }else{
-                   //wrapp.historyTitle = note;
-                   if(startOfIQVIA>0){
-                      wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                   }else{
-                       wrapp.historyTitle = note;
-                   }
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                    wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                 }else{
+                     wrapp.historyTitle = note;
+                 }
               }
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -966,7 +977,7 @@ public without sharing class PIR_StatusDetailController {
           String title = '';
           EligibilityHistoryWrap wrap = new EligibilityHistoryWrap();
           if (pesh.Status__c == 'Eligibility Passed') {
-              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){ 
+              if(pesh.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Promote_To_SH__c && pesh.ParticipantEnrollment__r.Study_Site__r.Study_Site_Type__c!='Traditional'){
                   title = Label.Sent_to_Study_Hub;
               }else{
                   title = Label.Eligibility_Passed_Status_Value;
@@ -1012,13 +1023,13 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                      }
                  }else{
-                       //wrapp.historyTitle = note;
-                       if(startOfIQVIA>0){
-                          wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                       }else{
-                           wrapp.historyTitle = note;
-                       }
-                 }
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                     wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                      wrapp.historyTitle = note;
+                  }
+            }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
               }
@@ -1079,12 +1090,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.notesDetails = note.substring(startOfOnLabel, note.length());
                 }
               }else{
-                   //wrapp.notes = note;
-                   if(startOfIQVIA>0){
-                      wrapp.notesDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                   }else{
-                      wrapp.notes = note;
-                   }
+                  //wrapp.notes = note;
+                  if(startOfIQVIA>0){
+                    wrapp.notesDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                 }else{
+                    wrapp.notes = note;
+                 }
               }
             wrapperList.add(wrapp);
           }
@@ -1150,12 +1161,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }    
                 }else{
-                    //wrapp.historyTitle = note;
-                      if(startOfIQVIA>0){
-                           wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                       }else{
-                           wrapp.historyTitle = note;
-                       }
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                      wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                      wrapp.historyTitle = note;
+                  }
                 }      
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -1206,11 +1217,11 @@ public without sharing class PIR_StatusDetailController {
                     }  
                   }else{
                       //wrapp.historyTitle = note;
-                       if(startOfIQVIA>0){
-                           wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                       }else{
-                           wrapp.historyTitle = note;
-                       }
+                      if(startOfIQVIA>0){
+                        wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                    }else{
+                        wrapp.historyTitle = note;
+                    }
                   }
                 wrapp.isAdditionalNote = true;
                 wrapperList.add(wrapp);
@@ -1278,12 +1289,12 @@ public without sharing class PIR_StatusDetailController {
                        wrapp.noteDetails = note.substring(startOfOnLabel, note.length());
                   }
                 }else{
-                   //wrapp.historyTitle = note;
-                    if(startOfIQVIA>0){
-                           wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                     }else{
-                           wrapp.historyTitle = note;
-                     } 
+                  //wrapp.historyTitle = note;
+                  if(startOfIQVIA>0){
+                    wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                  }else{
+                        wrapp.historyTitle = note;
+                  } 
                 }  
               wrapp.isAdditionalNote = true;
               wrapperList.add(wrapp);
@@ -1335,9 +1346,9 @@ public without sharing class PIR_StatusDetailController {
                  }else{
                       //wrapp.historyTitle = note;
                       if(startOfIQVIA>0){
-                           wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
+                        wrapp.noteDetails = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
                       }else{
-                           wrapp.historyTitle = note;
+                            wrapp.historyTitle = note;
                       } 
                  }
                 wrapp.isAdditionalNote = true;
@@ -1593,12 +1604,134 @@ public without sharing class PIR_StatusDetailController {
       'Successfully Contacted'
     };
     try {
+        
+        if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
+            Televisit__c televisitRecord = new Televisit__c();
+            televisitRecord.Duration__c = System.Label.RH_TV_InitialVisitDefaultDuration +' minutes';
+            televisitRecord.Start_Time__c = perRecord.Initial_visit_scheduled_time__c;
+            televisitRecord.Status__c = 'Scheduled';
+            televisitRecord.Title__c = 'Initial Visit';
+            televisitRecord.Visit_Date__c = perRecord.Initial_visit_scheduled_date__c;
+            televisitRecord.Participant_Enrollment__c = perRecord.Id;
+            Datetime visitDateTime = Datetime.newInstance(perRecord.Initial_visit_scheduled_date__c, perRecord.Initial_visit_scheduled_time__c);
+            televisitRecord.Visit_End_Date_Time__c = visitDateTime.addMinutes(Integer.valueOf(System.Label.RH_TV_InitialVisitDefaultDuration));
+            televisitRecord.Visit_Date_Time__c = visitDateTime;
+            CommunityMode mode = UserContext.getCurrentUserMode();
+        	  televisitRecord.Source_Community__c = mode.template.communityName;
+            insert televisitRecord;
+            
+            List<Televisit__c> lstTelevisit = new List<Televisit__c>([SELECT Id, CreatedBy.ContactId FROM Televisit__c WHERE Id =: televisitRecord.Id]);
+            
+            String televisitCreatedUserContactId = lstTelevisit[0].CreatedBy.ContactId;
+            
+            List<String> contactIds = new List<String>();
+            contactIds.add(perRecord.PI_Contact__c);
+            contactIds.add(perRecord.Participant_Contact__c);
+            contactIds.add(televisitCreatedUserContactId);
+            
+            for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
+                  contactIds.add(participantDelegate.Contact__c);                                    
+            }
+            
+            
+            Map<String,User> mapUser = new Map<String,User>();
+            for(User usr :[SELECT Id,FirstName,LastName,contactId FROM User WHERE contactId IN:contactIds]){
+                mapUser.put(usr.contactId, usr);
+            }
+            
+            List<Televisit_Attendee__c> lstAttendees = new List<Televisit_Attendee__c>();
+            Televisit_Attendee__c televisitAttendee = new Televisit_Attendee__c();
+            televisitAttendee.Televisit__c = televisitRecord.id;
+            televisitAttendee.Participant_First_Name__c = perRecord.Participant__r.First_Name__c;
+            televisitAttendee.Participant_Last_Name__c = perRecord.Participant__r.Last_Name__c;
+            
+            if(televisitCreatedUserContactId == perRecord.PI_Contact__c){
+                televisitAttendee.Contact__c = perRecord.PI_Contact__c;
+                //televisitAttendee.User__c = (mapUser.get(perRecord.PI_Contact__c)!= null)? mapUser.get(perRecord.PI_Contact__c).Id:null;
+                if(mapUser.get(perRecord.PI_Contact__c) != null){
+                    televisitAttendee.User__c =(String) mapUser.get(perRecord.PI_Contact__c).Id;
+                }
+                televisitAttendee.Attendee_Type__c = 'PI';
+                televisitAttendee.Firstname__c =perRecord.PI_Contact__r.FirstName;
+                televisitAttendee.Lastname__c =perRecord.PI_Contact__r.LastName;
+                if(televisitAttendee.Firstname__c == null && televisitAttendee.Lastname__c.startsWith('P-') && mapUser.get(perRecord.PI_Contact__c) != null){
+                    televisitAttendee.Firstname__c = mapUser.get(perRecord.PI_Contact__c).FirstName;
+                    televisitAttendee.Lastname__c = mapUser.get(perRecord.PI_Contact__c).LastName;
+                }
+            }
+            else{
+                televisitAttendee.Contact__c = televisitCreatedUserContactId;
+                //televisitAttendee.User__c = (mapUser.get(televisitCreatedUserContactId)!= null)? mapUser.get(televisitCreatedUserContactId).Id:null;
+                if(mapUser.get(televisitCreatedUserContactId) != null){
+                    televisitAttendee.User__c =(String) mapUser.get(televisitCreatedUserContactId).Id;
+                }
+                televisitAttendee.Attendee_Type__c = 'Site Staff';
+                televisitAttendee.Firstname__c =mapUser.get(televisitCreatedUserContactId).FirstName;
+                televisitAttendee.Lastname__c =mapUser.get(televisitCreatedUserContactId).LastName;
+            }
+            
+            
+            //lstAttendees.add(televisitAttendee);
+            
+            Televisit_Attendee__c televisitAttendee1 = new Televisit_Attendee__c();
+            //televisitAttendee1.User__c = (mapUser.get(perRecord.Participant_Contact__c)!= null)? mapUser.get(perRecord.Participant_Contact__c).Id:null;
+            if(perRecord.Participant__r.Adult__c && perRecord.Participant__r.Email__c != null){
+                televisitAttendee1.Televisit__c = televisitRecord.id;
+                televisitAttendee1.Contact__c = perRecord.Participant_Contact__c;
+                if(mapUser.get(perRecord.Participant_Contact__c) != null){
+                    televisitAttendee1.User__c = (String) mapUser.get(perRecord.Participant_Contact__c).Id;
+                }
+                televisitAttendee1.Firstname__c =perRecord.Participant__r.First_Name__c;
+                televisitAttendee1.Lastname__c =perRecord.Participant__r.Last_Name__c;
+                televisitAttendee1.Attendee_Type__c = 'Participant';
+                if(televisitAttendee1.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(perRecord.Participant_Contact__c) != null){
+                    televisitAttendee1.Firstname__c = mapUser.get(perRecord.Participant_Contact__c).FirstName;
+                    televisitAttendee1.Lastname__c = mapUser.get(perRecord.Participant_Contact__c).LastName;
+                }
+                lstAttendees.add(televisitAttendee1);
+            }
+            Televisit_Attendee__c televisitAttendee2 = new Televisit_Attendee__c();
+            for(Patient_Delegate__c participantDelegate : [SELECT Id,Participant__c,Participant__r.Adult__c,Participant__r.Email__c, Primary_Delegate__c,Participant_Delegate__c,Participant_Delegate__r.First_Name__c, 
+                                                  Participant_Delegate__r.Last_Name__c, Contact__c,Contact__r.FirstName, contact__r.LastName FROM Patient_Delegate__c WHERE 
+                                                  Participant__c =: perRecord.Participant__c AND Primary_Delegate__c = true]){
+                                                     
+                televisitAttendee2.Televisit__c = televisitRecord.id;
+                televisitAttendee2.Contact__c = participantDelegate.Contact__c;
+                if(mapUser.get(participantDelegate.Contact__c) != null){
+                    televisitAttendee2.User__c = (String) mapUser.get(participantDelegate.Contact__c).Id;
+                }
+                if(participantDelegate.Participant_Delegate__c != null){
+                    televisitAttendee2.Firstname__c= participantDelegate.Participant_Delegate__r.First_Name__c;
+                    televisitAttendee2.Lastname__c= participantDelegate.Participant_Delegate__r.Last_Name__c;
+                }else{
+                    televisitAttendee2.Firstname__c= participantDelegate.Contact__r.FirstName;
+                    televisitAttendee2.Lastname__c= participantDelegate.contact__r.LastName;
+                }
+                televisitAttendee2.Attendee_Type__c = 'Participant Delegate';
+                
+                //if(televisitAttendee2.Firstname__c == null && televisitAttendee1.Lastname__c.startsWith('P-') && mapUser.get(participantDelegate.Contact__c) != null){
+                //    televisitAttendee2.Firstname__c = mapUser.get(participantDelegate.Contact__c).FirstName;
+                //    televisitAttendee2.Lastname__c = mapUser.get(participantDelegate.Contact__c).LastName;
+                //}
+                lstAttendees.add(televisitAttendee2);
+            }
+            lstAttendees.add(televisitAttendee);
+            if(!lstAttendees.isEmpty()){
+                insert lstAttendees;
+            }
+        }
+    
       if(perRecord.Non_Enrollment_Reason__c !=null && perRecord.Non_Enrollment_Reason__c!='')
       {
         perRecord.Non_Enrollment_Reason__c = initReasonMap.get(perRecord.Non_Enrollment_Reason__c);
       }
       if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
         perRecord.Visit_Plan__c = visitPlan;
+      }
+      if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
+          perRecord.Initial_Visit_Televisit_Created__c = true;
       }
       update perRecord;
 

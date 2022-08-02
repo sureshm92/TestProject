@@ -1,21 +1,34 @@
 /**
  * Created by Igor Malyuta on 18.11.2019.
  */
-.rr-icon-default {
+.rr-icon_default {
     height: 32px;
     width: 26px;
     display: inline-block;
 }
 
-.rr-icon-small {
+.rr-icon_small {
     height: 15px;
     width: 15px;
 }
 
-.rr-icon-big {
+.rr-icon_big {
     height: 60px;
     width: 60px;
 }
+
+.rr-icon_small-custom {
+    height: 11px;
+    width: 14px;
+}
+
 .tooltip:hover {
     fill: #595959 !important;
+}
+
+.rr-icon_xsmall-custom {
+    height: 12px;
+    width: 12px;
+    margin-bottom: 2px;
+    margin-left: 2px;
 }

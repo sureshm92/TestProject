@@ -305,7 +305,7 @@ public without sharing class AddPatientByPIRemote {
         String participantId,
         String participantJSON,
         Boolean createDelegateuser,
-        Map<Id,String> invitationsVisibleTemp 
+        Map<Id,String> invitationsVisibleTemp
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -417,7 +417,7 @@ public without sharing class AddPatientByPIRemote {
                 }
                 insert participantDelegate;
             }
-            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {           
             if (participantId != null && newContact.Id != null) {
                 List<Patient_Delegate__c> checkPDel = [
                     SELECT Id
