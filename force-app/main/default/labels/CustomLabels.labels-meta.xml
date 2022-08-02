@@ -18204,11 +18204,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>General Communication</value>
     </labels>
     <labels>
-        <fullName>PP_Communication_Pref_Blank_Del</fullName>
+        <fullName>  </fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
-        <value>There are currently no communication options available.</value>
+        <value>The study level consents are present under Patient Communication preferences tab. Please check Patient Communication preferences tab for study level consents.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
