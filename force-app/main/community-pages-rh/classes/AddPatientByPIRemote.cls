@@ -132,10 +132,25 @@ public without sharing class AddPatientByPIRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-            //DOB changes start
+            //DOB changes start 
             String studyConfig = [select Participant_DOB_format__c FROM Study_Site__c where id=:ssId].Participant_DOB_format__c;
             if(studyConfig.contains('DD')){
                 participant.Birth_Day__c = participant.Date_of_Birth__c.substring(8,10);
+                Date birthDate = Date.newInstance(
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(0, 4)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(5, 7)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(8, 10))
+                );
+
+                Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                    ? Date.today().year() - birthDate.year()
+                    : Date.today().year() - birthDate.year() - 1;
+                
+                participant.Age__c = participantAge;
             }
             if(studyConfig.contains('MM')){
                 participant.Birth_Month__c = participant.Date_of_Birth__c.substring(5,7);
