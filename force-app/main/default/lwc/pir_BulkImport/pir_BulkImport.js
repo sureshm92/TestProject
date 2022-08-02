@@ -47,7 +47,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     }
 
     @wire(CurrentPageReference)
-    getStateParameters(currentPageReference) {
+    getStateParameters(currentPageReference) { 
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
           this.setParametersBasedOnUrl();
@@ -142,14 +142,10 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.studySiteList = options;
                         this.selectedSite = this.urlsiteId;
                         this.studysiteaccess = false;
-                        
-                        this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
-                        this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
-                        this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
-                      
-                        this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
-                        this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-                        this.template.querySelector("c-pir_-bulk-import-files").fetchData();
+                        this.selectedStudySiteChild=this.selectedStudy;
+                        this.selectedStudyChild=this.selectedSite;
+                        this.stopSpinnerChild=false;
+                       
                         
                     } 
                     else{
@@ -209,7 +205,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                           ) {
                             this.selectedStudySiteChild=getStudySiteList;
                           }
-                         
+
                           this.stopSpinnerChild=false;
                           
                     }
@@ -229,7 +225,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         let options = [];
         options.push({ label: this.label.AllStudySite, value: "All Study Site" });
         var i = this.siteAccessLevels;
-       
+
         if (picklist_Value != "All Study") {
             for (var key in conts) {
               if (key == picklist_Value) {
@@ -308,7 +304,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.isResetPagination=true;
         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
         this.template.querySelector("c-pir_-bulk-import-files").updateInProgressOldData();
-
+        
         this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         
         
@@ -345,7 +341,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         }
         this.initialLoad = false;
-    }  
+    }    
     changePage(event) {
       let dir = event.detail;
       if (dir == "next") { 
@@ -357,20 +353,22 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           .previousPage();
       }
     }
+    handleUpdate=false;
     handletotalrecord(event){
       this.totalRecord=event.detail;
-      this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
-    
-    }
+
+      this.handleUpdate=true;
+      this.handleresetpageonupdate();
+      }
     isResetOnUpdate=false;
-    handleresetpageonupdate(event){
-      this.isResetOnUpdate=event.detail;
-      if(this.isResetOnUpdate){
+    handleresetpageonupdate(){
+      if( this.handleUpdate && !this.isResetPagination ){
+        this.initialLoad=true;
         this.template.querySelector("c-pir_participant-pagination").totalRecords=this.totalRecord;
         this.template.querySelector("c-pir_participant-pagination").updateInprogress();
         }
-      this.isResetOnUpdate=false;
-      
+      this.handleUpdate=false;
+      this.initialLoad=false; 
 
     }
     handleresetpagination(event){
@@ -380,7 +378,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.template.querySelector("c-pir_participant-pagination").goToStart();
       }
       this.isResetPagination = false;  
-    }
+    }    
   
     
 }
