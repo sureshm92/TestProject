@@ -91,6 +91,30 @@ Duration: ##VisitDuration</value>
         <value>New Televisit scheduled</value>
     </labels>
     <labels>
+        <fullName>Televisit_Reschedule_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Body</shortDescription>
+        <value>Your ##VisitName televisit is rescheduled
+
+Televisit revised Date/Time : ##VisitTime
+Duration:  ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Header</shortDescription>
+        <value>Televisit Rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Subject</shortDescription>
+        <value>Televisit Rescheduled</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Meet_Sub1</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18208,7 +18232,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
-        <value>There are currently no communication options available.</value>
+        <value>The study level consents are present under Patient Communication preferences tab. Please check Patient Communication preferences tab for study level consents.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>

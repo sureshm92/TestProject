@@ -76,6 +76,9 @@ height: 70px;
 .importInputPopup .slds-form-element__label{
     font-size: 14px !important;
 }
+.filter-area .slds-listbox__option .slds-media__body {
+    font-size: 12px;
+}
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;
