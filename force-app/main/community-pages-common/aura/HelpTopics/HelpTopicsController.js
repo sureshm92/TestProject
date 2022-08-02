@@ -3,13 +3,16 @@
  * Updated by Sumit Surve on 13.07.2020
  */
 
-({
+ ({
     doInit: function (component, event, helper) {
+        var communityTemplate=communityService.getCurrentCommunityTemplateName();
         communityService.executeAction(
             component,
             'getHelpInitData',
+            
             {
-                userMode: component.get('v.userMode')
+                userMode: component.get('v.userMode'),
+                communityName:communityTemplate
             },
             function (response) {
                 var initData = JSON.parse(response);

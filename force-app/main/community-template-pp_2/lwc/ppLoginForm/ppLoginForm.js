@@ -1,16 +1,18 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
-import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import userName from '@salesforce/label/c.PG_AS_F_Username';
 import password from '@salesforce/label/c.PG_Login_F_Password';
-import login from '@salesforce/label/c.PG_Login_Title';
+import login from '@salesforce/label/c.BTN_Log_In';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
+import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -21,6 +23,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     timeLeft = 900000;
     spinner;
     lockedOutUsrName;
+    showPopup = false;
+    @track userNam;
 
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
@@ -41,6 +45,16 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     errorIconPosition = 'margin-left: 8px';
     connectedCallback() {
         console.log(this.isLockOut);
+    }
+
+    renderedCallback() {
+        Promise.all([loadStyle(this, communityPPTheme)])
+            .then(() => {
+                console.log('Files loaded');
+            })
+            .catch((error) => {
+                console.log(error.body.message);
+            });
     }
 
     adjustWindowHeight() {
@@ -107,11 +121,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
         }
-    }
-
-    handleShowTimer(event) {
-        this.timeLeft = event.detail;
-        this.isLockOut = true;
     }
 
     handleUnlock(event) {
@@ -224,6 +233,23 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     name: 'Forgot_Password'
                 }
             });
+        }
+    }
+    handleUnableToLogin() {
+        this.userNam = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('input[data-id=userName]').value;
+        this.showPopup = true;
+    }
+    handleModalClose(event) {
+        const showHideModal = event.detail.showpopup;
+        const timeLeft = event.detail.timeleft;
+        if (timeLeft) {
+            this.timeLeft = timeLeft;
+            this.isLockOut = true;
+            this.showPopup = showHideModal;
+        } else {
+            this.showPopup = showHideModal;
         }
     }
 }

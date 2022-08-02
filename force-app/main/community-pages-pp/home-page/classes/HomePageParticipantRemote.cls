@@ -28,4 +28,13 @@ public without sharing class HomePageParticipantRemote {
             return (String) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static Boolean getIsRTL() {
+        try {
+            return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
 }

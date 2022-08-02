@@ -1,25 +1,47 @@
 <template>
-    <template if:true={clinicalrecord}>
-        <div class="po-container">
-            <lightning-layout multiple-rows="true">
-                <lightning-layout-item padding="around-small" size="12">
-                    <lightning-layout>
-                        <lightning-layout-item padding="around-small" size="3">
-                            <div class="page-right">
-                                <!--<img src={w3webSlider1}>-->
-                            </div>
-                        </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="9">
-                            <h2 class="po-fontsize">Welcome, Sarah</h2>
-                            <template if:true={clinicalrecord}>
-                                <c-program-overview
-                                    clinicalrecord={clinicalrecord}
-                                ></c-program-overview>
-                            </template>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </lightning-layout-item>
-            </lightning-layout>
-        </div>
+    <template if:true={desktop}>
+        <template if:true={clinicalrecord}>
+            <div class="po-container">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small" size="3">
+                                <div class="page-right">
+                                    <!--<img src={w3webSlider1}>-->
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="9">
+                                <h2 class="po-fontsize">Welcome, {userName}</h2>
+                                <template if:true={clinicalrecord}>
+                                    <c-program-overview
+                                        clinicalrecord={clinicalrecord}
+                                    ></c-program-overview>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </template>
+    <template if:false={desktop}>
+        <template if:true={clinicalrecord}>
+            <div class="po-container">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout>                          
+                            <lightning-layout-item padding="around-small" size="12">
+                                <h2 class="po-fontsize">Welcome, {userName}</h2>
+                                <template if:true={clinicalrecord}>
+                                    <c-program-overview
+                                        clinicalrecord={clinicalrecord}
+                                    ></c-program-overview>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
     </template>
 </template>
