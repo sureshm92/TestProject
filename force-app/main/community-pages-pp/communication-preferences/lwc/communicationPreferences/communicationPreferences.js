@@ -262,7 +262,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     }
 
     get phoneErrorBorder() {
-        return this.isRTL ? 'po-white-border-right' : 'po-white-border-left';
+        return this.isRTL ? 'po-white-border-left' : 'po-white-border-right';
     }
 
     get phoneErrorBtnMarin() {
