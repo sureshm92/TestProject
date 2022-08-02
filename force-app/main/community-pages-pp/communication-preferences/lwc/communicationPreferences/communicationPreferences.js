@@ -93,7 +93,8 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
     showIQIVAOutreachConsentFlag = false;
     showStudyConsentFlag = false;
     hideConsentsForParticipantView = false;
-    hideConsentsForDelegateView = false;
+    //hideConsentsForDelegateView = false;
+    showStaticMessageForDelSelfView = false;
     isParticipantLoggedIn = false;
     isPrimaryDelegate = false;
     isDelegateSelfView = false;
@@ -216,11 +217,18 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
             this.showStudyConsentFlag = true;
         }
 
-        if (!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag) {
+        /*if (!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag) {
             if (!this.isParticipantLoggedIn && this.isDelegateSelfView) {
                 this.hideConsentsForDelegateView = true;
                 console.log('Hide for Delegate self View');
             }
+        }
+        */
+
+        //Show Static message for delegate self view.
+        if (!this.isParticipantLoggedIn && this.isDelegateSelfView) {
+            this.showStaticMessageForDelSelfView = true;
+            //console.log('Hide for Delegate self View');
         }
 
         this.consentPreferenceDataLocal.isSelfAccountSettingWarningMessage
