@@ -414,6 +414,7 @@ public with sharing class Action_SendSMS implements Action {
             }
         }
         system.debug('peIdList:::' + peIdList + 'ctpIdList::' + ctpIdList);
+
         //For Welcome Message functionality for Patient Delgate
         if (
             peIdList != null &&
@@ -1001,7 +1002,7 @@ public with sharing class Action_SendSMS implements Action {
                         studyName = apiParamsMap.get(PL_STUDY).ParamValue__c;
                         fromNumber = apiParamsMap.get(FROM_NUMBER).ParamValue__c;
                     }
-                }
+                } 
                 NotificationService.welcomemsgSent.put(notObj.Id, welcomemsgsent);
                 NotificationService.welcomemsgDelivered.put(notObj.Id, welcomemsgDelivered);
                 if (
