@@ -32,12 +32,12 @@
                     <label class="slds-form-element__label" for="password">{label.password}</label>
                     <div class="slds-form-element__control">
                         <input
-                            type="password"
+                            type={passwordInputType}
                             data-id="password"
                             class={className}
                             onkeyup={handlepasswordChange}
                         />
-                        <button class="slds-button slds-button_icon eye-icon">
+                        <button class="slds-button slds-button_icon eye-icon" onclick={changeImgSrc}>
                             <img class="" src={eyeHidden} style="" title="Show" />
                         </button>
                     </div>
