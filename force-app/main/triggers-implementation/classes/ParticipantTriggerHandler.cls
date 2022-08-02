@@ -62,10 +62,10 @@ public without sharing class ParticipantTriggerHandler {
 
     public class UpdateParticipantAge extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            updateAge(newList, null);
+            //updateAge(newList, null);
         }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateAge(newList, (Map<Id, Participant__c>) oldMap);
+            //updateAge(newList, (Map<Id, Participant__c>) oldMap);
         }
     }
 
