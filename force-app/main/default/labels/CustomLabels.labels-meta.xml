@@ -104,22 +104,22 @@ Duration: ##VisitDuration</value>
         <shortDescription>Televisit Reschedule Email Body</shortDescription>
         <value>Your ##VisitName televisit is rescheduled
 
-Televisit revised Date/Time : ##VisitTime
-Duration:  ##VisitDuration</value>
+            &lt;b&gt;Televisit revised Date/Time: &lt;/b&gt; ##VisitTime
+            &lt;b&gt;Duration:&lt;/b&gt;  ##VisitDuration</value>
     </labels>
     <labels>
         <fullName>Televisit_Reschedule_Email_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reschedule Email Header</shortDescription>
-        <value>Televisit Rescheduled</value>
+        <value>Televisit was rescheduled</value>
     </labels>
     <labels>
         <fullName>Televisit_Reschedule_Email_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reschedule Email Subject</shortDescription>
-        <value>Televisit Rescheduled</value>
+        <value>Televisit was rescheduled</value>
     </labels>
     <labels>
         <fullName>Televisit_Meet_Sub1</fullName>
