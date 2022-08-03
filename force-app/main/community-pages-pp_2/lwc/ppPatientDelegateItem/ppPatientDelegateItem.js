@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import changeDelegateStatus from '@salesforce/apex/RRLoginRemote.changeDelegateStatus';
+import changeDelegateStatus from '@salesforce/apex/PatientDelegateRemote.changeDelegateStatus';
 import btnMainActivate from '@salesforce/label/c.BTN_Main_Activate';
 import btnDectivate from '@salesforce/label/c.BTN_Deactivate';
 import patientDelegateDeactivateMess from '@salesforce/label/c.Patient_Delegate_Deactivate_Mess';
@@ -31,16 +31,14 @@ export default class PpPatientDelegateItem extends LightningElement {
         });
         if (this.isActive) {
             contact = contact;
-            messText = $A;
-            label.Patient_Delegate_Deactivate_Mess(
+            messText = label.Patient_Delegate_Deactivate_Mess.replace(
                 '##Name',
                 contact.FirstName + ' ' + contact.LastName
             );
-            titText = label.c.PG_PST_L_Delegates_Remove_Delegate;
-            else {
-                this.spinner = this.template.querySelector('c-web-spinner');
-                callback();
-            }
+            titText = label.PG_PST_L_Delegates_Remove_Delegate;
+        } else {
+            this.spinner = this.template.querySelector('c-web-spinner');
+            callback();
         }
     }
 }
