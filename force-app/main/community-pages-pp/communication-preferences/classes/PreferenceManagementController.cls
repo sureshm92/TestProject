@@ -177,6 +177,8 @@ public without sharing class PreferenceManagementController {
         public Boolean isEmailAvailabelForParticipant;
         @AuraEnabled
         public Boolean isDelegateSelfView;
+        @AuraEnabled
+        public Boolean contactStorageOptIn;
 
         public Contact convertToCont() {
             Contact cont = new Contact();
@@ -185,6 +187,7 @@ public without sharing class PreferenceManagementController {
             cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
             cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
             cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
+            cont.IQVIA_Contact_info_storage_consent__c = contactStorageOptIn;
 
             return cont;
         }

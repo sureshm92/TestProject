@@ -3,6 +3,12 @@
  */
 ({
     doInit: function (component, event, hepler) {
+        component.find('spinner').show();
+        var device = $A.get('$Browser.formFactor');
+        device == 'PHONE' ? component.set('v.mobile', true) : component.set('v.mobile', false);
+        let rtl_language = $A.get('$Label.c.RTL_Languages');
+        let paramLanguage = communityService.getUrlParameter('language');
+        component.set('v.isRTL', rtl_language.includes(paramLanguage));
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         var formData = component.get('v.formData');
@@ -17,6 +23,26 @@
         component.set('v.sendForList', val);
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                userMode: 'Participant'
+            },
+            function (initData) {
+                component.set('v.contactInfo', JSON.parse(initData).myContact);
+                component.set(
+                    'v.isDisclaimer',
+                    JSON.parse(initData).myContact.IQVIA_Contact_info_storage_consent__c
+                );
+                component.set('v.preferenceData', JSON.parse(initData).consentPreferenceData);
+                component.set(
+                    'v.isStorage',
+                    JSON.parse(initData).myContact.IQVIA_Contact_info_storage_consent__c
+                );
+                component.find('spinner').hide();
+            }
+        );
     },
 
     doCheckFields: function (component, event, hepler) {
@@ -91,7 +117,12 @@
     onClickDisclaimer: function (component, event, helper) {
         component.set('v.isDisclaimer', !component.get('v.isDisclaimer'));
     },
-
+    onClickDisclaimerchange: function (component, event, helper) {
+        component.set(
+            'v.isDisclaimer',
+            component.get('v.contactInfo.IQVIA_Contact_info_storage_consent__c')
+        );
+    },
     changeFor: function (component, event, helper) {
         if (component.get('v.sendFor') === 'Me') {
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
@@ -112,5 +143,11 @@
             };
             component.set('v.participantInfo', participant);
         }
+    },
+    OpenPPPopup: function (component) {
+        component.set('v.showPpPopup', true);
+    },
+    closePpPopup: function (component) {
+        component.set('v.showPpPopup', false);
     }
 });

@@ -418,7 +418,8 @@ public without sharing class AccountSettingsController {
                 Salutation,
                 userCommunityDelegateId__c,
                 userCommunytyType__c,
-                Phone_Type__c
+                Phone_Type__c,
+                IQVIA_Contact_info_storage_consent__c
             FROM Contact
             WHERE Id IN (SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId())
             LIMIT 1

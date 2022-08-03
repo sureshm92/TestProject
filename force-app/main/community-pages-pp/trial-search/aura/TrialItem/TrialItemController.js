@@ -57,9 +57,38 @@
         form.checkFields();
         if (form.get('v.isValid')) {
             let participantInfo = component.get('v.participantInfo');
+            let contactInfo = component.get('v.ContactInfo');
+            let preferenceData = component.get('v.preferenceData');
+            console.log('contactInfo' + JSON.stringify(contactInfo.Id));
             let ctp = component.get('v.trialTDO').ctp;
             component.find('mainSpinner').show();
             component.find('contactModal').hide();
+            let conObj = {};
+            conObj.contactId = contactInfo.Id;
+            conObj.contactOptInEmail = contactInfo.Participant_Opt_In_Status_Emails__c;
+            conObj.contactOptInSMSText = contactInfo.Participant_Opt_In_Status_SMS__c;
+            conObj.contactOptInPhone = contactInfo.Participant_Phone_Opt_In_Permit_Phone__c;
+            conObj.contactOptInDirectEmail = contactInfo.IQVIA_Direct_Mail_Consent__c;
+            conObj.participantLoogedIn = preferenceData.isParticipantLoggedIn;
+            conObj.contactStorageOptIn = contactInfo.IQVIA_Contact_info_storage_consent__c;
+            conObj.isSelfAccountSettingWarningMessage =
+                preferenceData.isSelfAccountSettingWarningMessage;
+            conObj.isDelegateSelfView = preferenceData.isDelegateSelfView;
+            conObj.isEmailAvailabelForParticipant = preferenceData.isEmailAvailabelForParticipant;
+            conObj.isSelfAccountSettingWarningMessage =
+                preferenceData.isSelfAccountSettingWarningMessage;
+            conObj.isAdultParticipant = preferenceData.isAdultParticipant;
+            console.log('obj ---' + JSON.stringify(conObj));
+            communityService.executeAction(
+                component,
+                'updatePreferences',
+                {
+                    contactInfo: JSON.stringify(conObj)
+                },
+                function () {},
+                null,
+                function () {}
+            );
             communityService.executeAction(
                 component,
                 'createCaseToStudy',
@@ -82,6 +111,7 @@
                 null,
                 function () {
                     component.find('mainSpinner').hide();
+                    $A.get('e.force:refreshView').fire();
                 }
             );
         }
