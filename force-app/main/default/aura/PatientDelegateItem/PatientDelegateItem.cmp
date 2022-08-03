@@ -1,0 +1,45 @@
+<!--
+ - Created by Igor Malyuta on 22.03.2019.
+ -->
+<aura:component
+    controller="PatientDelegateRemote"
+    description="PatientDelegateItem"
+    extends="c:CommunityContext"
+>
+    <ltng:require scripts="{!$Resource.rr_community_js}" />
+
+    <!-- attributes: -->
+    <aura:attribute name="contact" type="Object" required="true" />
+    <aura:attribute name="isActive" type="Boolean" />
+    <aura:attribute name="parentComponent" type="Aura.Component" />
+
+    <!-- component body:-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <div class="rr-white-panel mti-container">
+        <div class="mti-name">
+            {!if(v.contact.FirstName == null, '', v.contact.FirstName) + ' ' + v.contact.LastName}
+        </div>
+        <div class="mti-email">{!v.contact.Email}</div>
+        <div class="mti-button-container">
+            <aura:if isTrue="{!($Browser.formFactor != 'DESKTOP')}">
+                <button
+                    class="apollo-btn tertiary"
+                    onclick="{!c.handleClick}"
+                    title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}"
+                >
+                    {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
+                </button>
+                <aura:set attribute="else"
+                    ><button
+                        class="apollo-btn tertiary"
+                        style="{!if(v.isRTL, 'margin-right: 600px;', '')}"
+                        onclick="{!c.handleClick}"
+                        title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}"
+                    >
+                        {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
+                    </button>
+                </aura:set>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
