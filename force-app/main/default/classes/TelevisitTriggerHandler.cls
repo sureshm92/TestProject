@@ -35,7 +35,7 @@ public without sharing class TelevisitTriggerHandler {
     public static void checkForTelevisitreschedulenotify(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
         for (Televisit__c televisitRecord : televisits) {
-            if(televisitRecord.Visit_Date_Time__c != oldMap.get(televisitRecord.id).Visit_Date_Time__c){
+            if(televisitRecord.Visit_Date_Time__c != oldMap.get(televisitRecord.id).Visit_Date_Time__c || televisitRecord.Duration__c != oldMap.get(televisitRecord.id).Duration__c ){
                 Televisit__c teleVisObj = (Televisit__c) televisitRecord;
                 televisitRecordIdsSet.add(teleVisObj.Id);
             }

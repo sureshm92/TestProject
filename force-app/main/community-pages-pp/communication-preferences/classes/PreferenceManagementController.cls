@@ -177,6 +177,8 @@ public without sharing class PreferenceManagementController {
         public Boolean isEmailAvailabelForParticipant;
         @AuraEnabled
         public Boolean isDelegateSelfView;
+        @AuraEnabled
+        public Boolean contactStorageOptIn;
 
         public Contact convertToCont() {
             Contact cont = new Contact();
@@ -185,13 +187,12 @@ public without sharing class PreferenceManagementController {
             cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
             cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
             cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
-
+            cont.IQVIA_Contact_info_storage_consent__c = contactStorageOptIn;
             //IF SMS opt out, revert the welcome message flag at contact.
             if (!cont.Participant_Opt_In_Status_SMS__c) {
                 cont.Welcome_Message_Sent__c = false;
                 cont.Welcome_Message_Delivered__c = false;
             }
-
             return cont;
         }
     }
