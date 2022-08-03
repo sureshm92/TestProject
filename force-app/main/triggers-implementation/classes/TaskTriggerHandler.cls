@@ -167,7 +167,7 @@ public without sharing class TaskTriggerHandler {
             partContactsIds.add(usersByIds.get(usId).ContactId);
 
         List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Participant__r.Contact__c
+            SELECT Contact__c, Status__c,Participant__r.Contact__c
             FROM Patient_Delegate__c
             WHERE
                 Participant__r.Contact__c IN :partContactsIds
