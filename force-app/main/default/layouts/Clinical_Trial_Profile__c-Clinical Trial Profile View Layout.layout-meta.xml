@@ -178,6 +178,10 @@
                 <behavior>Edit</behavior>
                 <field>Terms_And_Conditions_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Privacy_Policy_ID__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
