@@ -1,391 +1,141 @@
-<aura:component description="FormPatientInfoTrialSearch" controller="AccountSettingsController">
-    <ltng:require
-        scripts="{!join(',', $Resource.rr_community_js)}"
-        afterScriptsLoaded="{!c.doInit}"
-    />
+/**
+ * Created by Leonid Bartenev
+ */
 
-    <!-- public attributes: -->
-    <aura:attribute name="participant" type="Participant__c" access="public" />
-    <aura:attribute name="participantInfo" type="Participant__c" />
-    <aura:attribute name="formData" type="Object" access="public" />
-    <aura:attribute name="updateMode" type="Boolean" default="false" access="public" />
-    <aura:attribute name="isValid" type="Boolean" default="false" access="public" />
-    <aura:attribute name="isFinalUpdate" type="Boolean" default="false" />
-    <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public" />
-    <aura:attribute name="ctp" type="Object" />
-    <aura:attribute name="contactInfo" type="Contact" />
-    <aura:attribute name="preferenceData" type="AccountSettingsController.ConsentPreferenceData" />
-    <!-- private attributes: -->
-    <aura:attribute name="todayDate" type="Date" access="private" />
-    <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
-    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private" />
-    <aura:attribute name="dataStamp" type="String" />
-    <aura:attribute name="isDisclaimer" type="Boolean" />
-    <aura:attribute name="sendForList" type="List" />
-    <aura:attribute name="sendFor" type="String" />
-    <aura:attribute name="isStorage" type="Boolean" default="false"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+.THIS .rr-form-element + .rr-form-element {
+    margin-top: 0;
+}
 
-    <aura:attribute name="mobile" type="Boolean" default="false"/>
-    <aura:attribute name="commPrefFlag" type="Boolean" default="true"/>
-    <aura:attribute name="isRTL" type="Boolean" default="false" />
-    <aura:attribute name="showPpPopup" type="Boolean" default="false" />
+.THIS .rr-form-element {
+    margin-bottom: 10px;
+}
 
-    <!-- handlers: -->
-    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+.THIS .ap-section-title {
+    text-align: left;
+    font-size: 20px;
+    line-height: 36px;
+}
+.THIS .ap-section-titleRTL {
+    text-align: right;
+    font-size: 20px;
+    line-height: 36px;
+}
 
-    <aura:handler
-        name="change"
-        value="{!v.participantInfo.Gender__c}"
-        action="{!c.doCheckFields}"
-    />
-    <aura:handler
-        name="change"
-        value="{!v.participantInfo.Mailing_State_Code__c}"
-        action="{!c.doCheckFields}"
-    />
-    <aura:handler
-        name="change"
-        value="{!v.participantInfo.Phone_Type__c}"
-        action="{!c.doCheckFields}"
-    />
-    <aura:handler
-        name="change"
-        value="{!v.participantInfo.Mailing_Country_Code__c}"
-        action="{!c.doCountryCodeChanged}"
-    />
+.THIS .ap-section + .ap-section {
+    margin-top: 20px;
+}
 
-    <!-- methods: -->
-    <aura:method name="doInit" action="{!c.doInit}" access="public" />
-    <aura:method name="checkFields" action="{!c.doCheckFields}" access="public" />
+.THIS .ap-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 80px;
+}
 
-    <!-- component body: -->
-    <lightning:layout>
-			<lightning:layoutItem size="12">
-                <c:privacyPolicyViewer
-                    isRtl="{!v.isRTL}"
-                    isModalOpen="{!v.showPpPopup}"
-                    onclosePpModal="{!c.closePpPopup}"
-                    commPref="{!v.commPrefFlag}"
-                />				
-			 </lightning:layoutItem>
-        </lightning:layout>
-    <div>
-        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
-        <!-- patient details: -->
-        <div class="ap-section">
-            <div class="{!if(v.isRTL, 'ap-section-titleRTL' , 'ap-section-title' )}">
-                {!$Label.c.PG_AP_H_Contact_Information}
-            </div>
-            <div class="slds-grid slds-gutters slds-wrap">
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.Send_info_for}
-                    </div>
-                    <c:rrSelect
-                        options="{!v.sendForList}"
-                        placeholder="{!$Label.c.PG_AC_Select}"
-                        value="{!v.sendFor}"
-                        useSentenceFont="false"
-                        required="true"
-                        onchange="{!c.changeFor}"
-                    />
-                </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_First_name}
-                    </div>
-                    <lightning:input
-                        type="text"
-                        value="{!v.participantInfo.First_Name__c}"
-                        required="true"
-                        onblur="{!c.doCheckFields}"
-                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
-                    />
-                </div>
-                <!--                <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3">-->
-                <!--                    <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>-->
-                <!--                    <lightning:input type="text" value="{!v.participantInfo.Middle_Name__c}"-->
-                <!--                                     onblur="{!c.doCheckFields}"/>-->
-                <!--                </div>-->
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_Last_name}
-                    </div>
-                    <lightning:input
-                        type="text"
-                        value="{!v.participantInfo.Last_Name__c}"
-                        required="true"
-                        onblur="{!c.doCheckFields}"
-                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
-                    />
-                </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_Date_of_Birth}
-                    </div>
-                    <lightning:input
-                        max="{!v.todayDate}"
-                        type="date"
-                        value="{!v.participantInfo.Date_of_Birth__c}"
-                        class="{!if(v.isRTL, 'rightAlign', '')}"
-                        onblur="{!c.doCheckfields}"
-                        required="true"
-                        onchange="{!c.doCheckFields}"
-                        dateStyle="medium"
-                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
-                    />
-                </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.cont_study_gender}
-                    </div>
-                    <c:rrSelect
-                        options="{!v.formData.genderLVList}"
-                        placeholder="{!$Label.c.PG_AC_Select}"
-                        value="{!v.participantInfo.Gender__c}"
-                        useSentenceFont="false"
-                    />
-                </div>
-            </div>
-        </div>
+.THIS .apollo-btn.custom-cancel {
+    background-color: #e8e8e8;
+}
 
-        <!-- contact information: -->
-        <div class="slds-grid slds-gutters slds-wrap">
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr
-                    >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                </div>
-                <lightning:input
-                    type="text"
-                    value="{!v.participantInfo.Phone__c}"
-                    required="true"
-                    onblur="{!c.doCheckFields}"
-                    aura:id="pField2"
-                />
-            </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">{!$Label.c.PG_AP_F_Phone_Type}</div>
-                <c:rrSelect
-                    options="{!v.formData.phoneTypeLVList}"
-                    placeholder="{!$Label.c.PG_AC_Select}"
-                    value="{!v.participantInfo.Phone_Type__c}"
-                />
-            </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr
-                    >{!$Label.c.PG_AS_F_Email_address}
-                </div>
-                <lightning:input
-                    aura:id="emailInput"
-                    type="email"
-                    value="{!v.participantInfo.Email__c}"
-                    required="true"
-                    onblur="{!c.doCheckFields}"
-                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
-                />
-            </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
-                </div>
-                <!--                <c:webSelect options="{!v.formData.countriesLVList}"-->
-                <!--                             placeholder="{!$Label.c.PG_AC_Select}"-->
-                <!--                             value="{!v.participantInfo.Mailing_Country_Code__c}"-->
-                <!--                             useSentenceFont="false"/>-->
-                <c:rrSelect
-                    options="{!v.formData.countriesLVList}"
-                    placeholder="{!$Label.c.PG_AC_Select}"
-                    required="true"
-                    value="{!v.participantInfo.Mailing_Country_Code__c}"
-                    useSentenceFont="false"
-                    onchange="{!c.doCheckFields}"
-                />
-            </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <aura:if
-                        isTrue="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}"
-                    >
-                        <abbr title="required" class="slds-required">*</abbr> </aura:if
-                    >{!$Label.c.PE_State}
-                </div>
-                <c:rrSelect
-                    options="{!v.statesLVList}"
-                    placeholder="{!$Label.c.PG_AC_Select}"
-                    disabled="{!or(empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c != 'US')}"
-                    required="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}"
-                    value="{!v.participantInfo.Mailing_State_Code__c}"
-                    setValueAsSelected="true"
-                    useSentenceFont="false"
-                    onchange="{!c.doCheckFields}"
-                    aura:id="pField3"
-                />
-            </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
-                <lightning:input
-                    type="text"
-                    value="{!v.participantInfo.Mailing_Zip_Postal_Code__c}"
-                    onblur="{!c.doCheckFields}"
-                />
-            </div>
-        </div>
-        
-        <div class="disclaimer-box">
-            <aura:if isTrue="{!NOT(v.isStorage)}">
-            <ui:inputCheckbox
-                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                value="{!v.contactInfo.IQVIA_Contact_info_storage_consent__c}"  change="{!c.onClickDisclaimerchange}"
-            />
-            </aura:if>
-            <div class="{!if(v.isRTL , 'disclaimerRTL' , 'disclaimer')}" style="max-width: 750px">
-                <!-- {!$Label.c.TS_Disclaimer}&nbsp;
-                <lightning:formattedUrl
-                    label="{!$Label.c.Footer_Link_Terms_Of_Use}"
-                    value="/terms-and-conditions?ret"
-                />,
-                <lightning:formattedUrl
-                    label="{!$Label.c.Footer_Link_Privacy_Policy}"
-                    value="/privacy-policy?ret"
-                />
-                {!$Label.c.TS_Disclaimer1} -->
-                {!$Label.c.PP_Communication_Pref_Outreach_consentA}&nbsp;
-                <span
-                    class="blue-highlight-text-color"
-                    onclick="{!c.OpenPPPopup}"
-                    >
-                    {!$Label.c.PP_Communication_Pref_Outreach_consentB}
-                    </span
-                >
-                {!$Label.c.PP_Communication_Pref_Outreach_consentC}
-            </div>
-        </div>
+.THIS .rr-form-element .slds-form-element__label {
+    display: none;
+}
 
-        <aura:if isTrue="{!v.mobile}">
-            <!-- Mobile UI -->
-            <div class="slds-grid mt-10">
+.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select {
+    margin-top: 0;
+}
 
-                <div class="slds-col slds-size--2-of-11 mr-10">
-                    <div class="al-consents-align">
-                         <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}" 
-                            label="Phone" variant="label-hidden" name="phone"  
-                            value="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
-                            checked="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}" 
-                         />
-    
-                    </div>
-                    <div class="al-consents-align consent-label"> {!$Label.c.PP_Communication_Pref_Phone}</div>                
-                </div>
-    
-                <div class="slds-col slds-size--2-of-11 mr-10">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="Email" variant="label-hidden" name="email"  
-                            value="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
-                            checked="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_Email}</div>   
-                </div>
-    
-                <div class="slds-col slds-size--3-of-11 mr-10">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="SMS" variant="label-hidden" name="sms"  
-                            value="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
-                            checked="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_SMS}</div>   
-                </div>
-    
-                <div class="slds-col slds-size--4-of-11 mr-10">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="DMAIL" variant="label-hidden" name="dmail"  
-                            value="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
-                            checked="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_Dmail}</div>
-                </div>
-    
-            </div>
-            <aura:set attribute="else">
-              <!-- Desktop UI -->
-              <div class="slds-grid mt-10">
+.THIS .label {
+    text-align: initial;
+}
 
-                <div class="slds-col slds-size--2-of-12">
-                    <div class="al-consents-align">
-                         <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}" 
-                            label="Phone" variant="label-hidden" name="phone"  
-                            value="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
-                            checked="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}" 
-                         />
-    
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_Phone}</div>                
-                </div>
-    
-                <div class="slds-col slds-size--2-of-12">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="Email" variant="label-hidden" name="email"  
-                            value="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
-                            checked="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_Email}</div>   
-                </div>
-    
-                <div class="slds-col slds-size--2-of-12">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="SMS" variant="label-hidden" name="sms"  
-                            value="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
-                            checked="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_SMS}</div>   
-                </div>
-    
-                <div class="slds-col slds-size--2-of-12">
-                    <div class="al-consents-align">
-    
-                        <lightning:input type="checkbox" 
-                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                            label="DMAIL" variant="label-hidden" name="dmail"  
-                            value="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
-                            checked="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
-                        />
-                    </div>
-                    <div class="al-consents-align consent-label">{!$Label.c.PP_Communication_Pref_Dmail}</div>
-                </div>
-    
-            </div>
-            </aura:set>
-          </aura:if> 
-       
-    </div>
-   
-</aura:component>
+.THIS .checkBox-desc {
+    height: 16px;
+    width: 16px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.THIS .checkBox-descRTL {
+    margin-top: 5px;
+    height: 16px;
+    width: 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    background-color: #ffffff;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.THIS .disclaimerRTL {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    line-height: 20px;
+    /* @noflip */
+    text-align: right;
+    margin: 0 8px 0 0;
+}
+.THIS .disclaimer {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    line-height: 20px;
+}
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign .slds-input {
+    padding-right: 2px;
+}
+.THIS .rightAlign .slds-datepicker .slds-day {
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+.THIS .rightAlign .slds-input__icon_right {
+    /* @noflip */
+    margin-right: 12.2rem;
+}
+.THIS .disclaimer-box {
+    display: flex;
+    margin-top: 30px;
+}
+
+.THIS .btn-send {
+    display: block;
+    margin-top: 30px;
+}
+
+.THIS .mt-10 {
+    margin-top: 10px;
+}
+
+.THIS .al-consents-align {
+    float: left;
+    white-space: normal;
+    box-sizing: border-box;
+}
+
+.THIS .consent-label {
+    color: #444;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 17px;
+    display: block;
+    margin-bottom: 8px;
+    margin-left: -2px;
+}
+
+.THIS .mr-10 {
+    margin-right: 10px;
+}
+
+.THIS .blue-highlight-text-color {
+    color: #0f6efd;
+}
+
+.THIS .blue-highlight-text-color:hover {
+    cursor: pointer;
+}
