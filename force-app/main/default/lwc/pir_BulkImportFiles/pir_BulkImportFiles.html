@@ -290,9 +290,9 @@
                 </div>
                </template>             
         </div><!-- slds-grid slds-wrap slds-gutters table with data  -->  
-     </div><!-- bulkImport -->
+      </div><!-- bulkImport -->
     <template if:true={importParticipant}> 
     
-    <c-pir_import-participant onclose={handleImportParticipant} is-bulk-import-history-page={isBulkImportHistoryPage} navigate-from-component="BulkimportHistryPage"> </c-pir_import-participant>
+    <c-pir_import-participant onclose={handleImportParticipant} is-bulk-import-history-page={isBulkImportHistoryPage} navigate-from-component={navigateValue}> </c-pir_import-participant>
      </template>
 </template>

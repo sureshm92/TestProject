@@ -150,13 +150,29 @@ export default class Pir_BulkImportFiles extends LightningElement {
           this.setParametersBasedOnUrl();
        }
     }
+    navigateValue='';
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
-       this.isBulkImportHistoryPage=this.urlStateParameters.navigateFromComponent == 'BulkimportHistryPage' ? true : false;
+       if(this.urlStateParameters.navigateFromComponent=='BulkimportHistryPage' ||
+       this.urlStateParameters.navigateFromComponent=='MyStudiesBulk' ){
+        this.isBulkImportHistoryPage=true;
+       }
+       else{
+           this.isBulkImportHistoryPage=false;
+       }
+       
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
-     
+
+       if(this.urlStateParameters.navigateFromComponent=='MyStudiesBulk' || this.urlStateParameters.navigateFromComponent=='MyStudies' ||this.urlmyStudies)
+        {
+            this.navigateValue="MyStudiesBulk";
+        }
+        else
+        {
+            this.navigateValue="BulkimportHistryPage";
+        }
        if(this.urlmyStudies){
             this.myStudiesPg = true;
             this.selectedStudy = this.urltrialId; 
@@ -346,8 +362,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 this.inProgressData=true;
                 if(this.inProgressOldDataid==null || this.inProgressOldDataid==undefined||this.inProgressOldDataid.length==0){
                     for(var key in conts){
-                        this.inProgressOldDataid.push(conts[key].Id); 
-
+                        this.inProgressOldDataid.push(conts[key].Id);
+						 
                     }
 
                 }
@@ -368,8 +384,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
             }     
             else{
                 this.inProgressData=false;
-                
-            }
+
+                }
             
             if(result.length==0 && this.inProgressOldDataid.length!=0){
                 this.successBoolean=true;

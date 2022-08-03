@@ -53,14 +53,22 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           this.setParametersBasedOnUrl();
        }
     }
+    navigatingFromStudy=false;
     setParametersBasedOnUrl() {
        this.urlmyStudies = this.urlStateParameters.myStudies || null;
        this.urlmyParticipants = this.urlStateParameters.myParticipants || null;
        this.calledfrombulkimporthistry=this.urlStateParameters.navigateFromComponent  == 'BulkimportHistryPage' ? true : false;;
        this.urltrialId = this.urlStateParameters.trialId || null;
        this.urlsiteId = this.urlStateParameters.ssId || null;
-     
-       if(this.urlmyStudies || this.urlStateParameters.navigateFromComponent == 'MyStudies'){
+      if(this.urlmyStudies || this.urlStateParameters.navigateFromComponent=='MyStudies' || this.urlStateParameters.navigateFromComponent=='MyStudiesBulk'){
+        this.navigatingFromStudy=true;
+      }
+      else{
+        this.navigatingFromStudy=false;
+      }
+
+      
+       if(this.urlmyStudies ){
             this.myStudiesPg = true;
             this.selectedStudy = this.urltrialId; 
        }else{
@@ -145,9 +153,9 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.selectedStudySiteChild=this.selectedStudy;
                         this.selectedStudyChild=this.selectedSite;
                         this.stopSpinnerChild=false;
-                       
-                        
-                    } 
+                      
+                      
+                      } 
                     else{
                         
                         this.selectedStudy = this.studylist[0].value; 
@@ -260,8 +268,6 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.studySiteList = options;
        
         this.selectedSite= this.studySiteList[0].value;
-        
-        //this.selectedSite = '';
         this.studysiteaccess = false;
         this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
         var getStudySiteList=[];
@@ -299,7 +305,6 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           ) {
             this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
           }
-        //this.template.querySelector("c-pir_-bulk-import-files").getStudySite=this.selectedSite;
         this.template.querySelector("c-pir_-bulk-import-files").pageNumber =1;
         this.isResetPagination=true;
         this.template.querySelector("c-pir_-bulk-import-files").stopSpinner=false;
@@ -341,7 +346,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
           this.template.querySelector("c-pir_-bulk-import-files").fetchData();
         }
         this.initialLoad = false;
-    }    
+    }
     changePage(event) {
       let dir = event.detail;
       if (dir == "next") { 
@@ -356,7 +361,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     handleUpdate=false;
     handletotalrecord(event){
       this.totalRecord=event.detail;
-
+      
       this.handleUpdate=true;
       this.handleresetpageonupdate();
       }
@@ -378,7 +383,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         this.template.querySelector("c-pir_participant-pagination").goToStart();
       }
       this.isResetPagination = false;  
-    }    
+    }
   
     
 }
