@@ -258,14 +258,14 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     changeImgSrc() {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
-            this.template.querySelector('img').src = this.eyeIcon;
+            this.template.querySelector('.eye-icon img').src = this.eyeIcon;
             this.tooltipMsg = this.label.showEyeTooltip;
             this.addIconMargin = this.isRTL
                 ? 'padding-top: 9px; margin-right: -2.2em;'
                 : 'padding-top: 9px; margin-left: -2.2em;';
             this.passwordInputType = 'text';
         } else {
-            this.template.querySelector('img').src = this.eyeHidden;
+            this.template.querySelector('.eye-icon img').src = this.eyeHidden;
             this.tooltipMsg = this.label.hideEyeTooltip;
             this.addIconMargin = this.isRTL ? 'margin-right: -2.2em;' : 'margin-left: -2.2em;';
             this.passwordInputType = 'password';
