@@ -90,7 +90,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </Template>
-                <Template if:true={hideConsentsForDelegateView}>
+                <Template if:true={showStaticMessageForDelSelfView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
                             <div>{label.PP_Communication_Pref_Blank_Del}</div>
@@ -536,7 +536,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </Template>
-                <Template if:true={hideConsentsForDelegateView}>
+                <Template if:true={showStaticMessageForDelSelfView}>
                     <lightning-layout class="po-mr-15">
                         <lightning-layout-item size="12" class="po-no-communication-del">
                             <div>{label.PP_Communication_Pref_Blank_Del}</div>

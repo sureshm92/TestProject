@@ -1,4 +1,4 @@
-public class TelevisitTriggerHandler {
+public without sharing class TelevisitTriggerHandler {
     public class NotifyAttendees extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             List<Id> televisitRecordIdsSet = new List<Id>();
@@ -24,6 +24,50 @@ public class TelevisitTriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             checkForTelevisitEventCreation(newList,oldMap);
         }
+    }
+    public class TelevisitRescheduleTrigger extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            checkForTelevisitreschedulenotify((List<Televisit__c>) newList, (Map<Id, Televisit__c>) oldMap);
+        }
+    } 
+    
+    @TestVisible
+    public static void checkForTelevisitreschedulenotify(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
+        List<Id> televisitRecordIdsSet = new List<Id>();
+        for (Televisit__c televisitRecord : televisits) {
+            if(televisitRecord.Visit_Date_Time__c != oldMap.get(televisitRecord.id).Visit_Date_Time__c){
+                Televisit__c teleVisObj = (Televisit__c) televisitRecord;
+                televisitRecordIdsSet.add(teleVisObj.Id);
+            }
+            
+        }
+        List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
+                                                    where Televisit__r.Status__c = 'Scheduled' AND Televisit__c IN:televisitRecordIdsSet AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
+        try{
+            List<Notification__c> notifications = new List<Notification__c>();
+            for(Televisit_Attendee__c attendee:listAttendee){
+                Notification__c notification = new Notification__c();
+                notification.Recipient__c = attendee.Contact__c;
+                notification.WhatId__c = attendee.Id;
+                if(attendee.Televisit__c != null && attendee.Televisit__r.Participant_Enrollment__c != null && 
+                   attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__c != null){
+                    if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Resche_Janssen';
+                    }else{
+                        notification.Notification_Type__c = 'Message_to_PI_Televisit_Reschedule';
+                    }
+
+                }
+                notifications.add(notification);
+            }
+            if(!notifications.isEmpty()){
+                insert notifications;
+            }
+
+        }catch(exception ex){
+            system.debug('++++++++++++++++'+ex.getMessage());
+        }
+
     }
 
     @TestVisible
