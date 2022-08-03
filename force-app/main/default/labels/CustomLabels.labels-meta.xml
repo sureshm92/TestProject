@@ -18862,6 +18862,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Phone number must be numeric.</value>
     </labels>
     <labels>
+        <fullName>PP_Phonecheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phonecheckbox</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
         <fullName>PP_Preferred_Lang</fullName>
         <language>en_US</language>
         <protected>true</protected>
