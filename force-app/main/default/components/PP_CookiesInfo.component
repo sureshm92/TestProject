@@ -124,7 +124,6 @@
             document.body.removeEventListener('click', closeCookiesInfo, false);
             return false;
         }
-
     </script>
 
 </apex:component>

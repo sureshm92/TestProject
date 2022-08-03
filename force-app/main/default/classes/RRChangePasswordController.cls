@@ -182,9 +182,6 @@ public without sharing class RRChangePasswordController {
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
 
-        //public String maskUserName {get;set;}
-        //public String maskLastName {get;set;}
-        //public String maskDaytimephone {get;set;}
         maskUserName = userVal.Username.substring(0,3)+'************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
@@ -292,7 +289,6 @@ public without sharing class RRChangePasswordController {
         isSaveButtonDisabled = false;
         maskLastName = participant.Last_Name__c.substring(0,1)+'************';
         maskDaytimephone = '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length());
-
 
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
@@ -408,12 +404,9 @@ public without sharing class RRChangePasswordController {
             update cont;
 
             update participant;
-            //            if(translation.Language__c != null) {
-            //                userVal.LanguageLocaleKey = translation.Language__c;
-            
+        
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
-            //            }
             for (ApexPages.Message m : ApexPages.getMessages()) {
                 if (m.getDetail().contains(System.Label.Pswd_ValidationMsg5)) {
                     m = new ApexPages.Message(
