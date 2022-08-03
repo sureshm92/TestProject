@@ -167,11 +167,11 @@ public without sharing class TaskTriggerHandler {
             partContactsIds.add(usersByIds.get(usId).ContactId);
 
         List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Participant__r.Contact__c
+            SELECT Contact__c, Status__c,Participant__r.Contact__c
             FROM Patient_Delegate__c
             WHERE
                 Participant__r.Contact__c IN :partContactsIds
-                AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
+                AND Status__c = 'Active'
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
