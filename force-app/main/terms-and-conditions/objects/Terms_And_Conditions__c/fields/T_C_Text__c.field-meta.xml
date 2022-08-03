@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>T_C_Text__c</fullName>
     <externalId>false</externalId>
-    <label>T&amp;C Text</label>
+    <label>Terms or Policies Text</label>
     <length>65536</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
