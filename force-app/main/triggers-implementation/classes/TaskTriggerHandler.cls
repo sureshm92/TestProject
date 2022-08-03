@@ -171,7 +171,7 @@ public without sharing class TaskTriggerHandler {
             FROM Patient_Delegate__c
             WHERE
                 Participant__r.Contact__c IN :partContactsIds
-                AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
+                AND Status__c = 'Active'
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
