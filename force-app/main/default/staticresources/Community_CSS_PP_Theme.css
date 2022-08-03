@@ -1,4 +1,4 @@
-/* Community_CSS_Default_Theme */
+/* Community_CSS_PP_Theme */
 
 .slds-spinner_brand.slds-spinner:before,
 .slds-spinner_brand.slds-spinner:after,
@@ -37,4 +37,7 @@
 .mobile-menu-background{
     background: linear-gradient(to bottom, #00839A 0%, #005587 100%);
 	border-bottom-right-radius: 20px;
+}
+.font-thickness {
+    font-weight: 500;
 }

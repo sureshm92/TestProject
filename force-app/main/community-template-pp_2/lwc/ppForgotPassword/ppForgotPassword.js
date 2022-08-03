@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import { loadScript } from 'lightning/platformResourceLoader';
+import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
 import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPasswordCommunity';
 import ppEnterAssociatedEmail from '@salesforce/label/c.PP_Enter_Associated_Email';
@@ -10,6 +10,7 @@ import emailSent from '@salesforce/label/c.PP_Email_Sent';
 import backToLogin from '@salesforce/label/c.PP_BTN_Back_To_Log_in';
 import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
 import communityResource from '@salesforce/resourceUrl/rr_community_js';
+import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
 import footer1 from '@salesforce/label/c.PP_Forgot_Password_Footer1';
 import footer2 from '@salesforce/label/c.PP_Forgot_Password_Footer2';
@@ -23,6 +24,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
     @track checkEmailUrl = './CheckPasswordResetEmail';
     @track emailMessage;
     @track errorMessage;
+    @track showError = false;
     labels = {
         ppEnterAssociatedEmail,
         forgotLabel,
@@ -37,6 +39,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         unableToLogin6,
         backButton
     };
+    @track btnClassName = 'slds-button btn-sendEmail';
 
     connectedCallback() {
         Promise.all([loadScript(this, communityResource)])
@@ -55,7 +58,23 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         }
     }
 
-    get rtlStyleClass() {}
+    renderedCallback() {
+        Promise.all([loadStyle(this, communityPPTheme)])
+            .then(() => {
+                console.log('Files loaded');
+            })
+            .catch((error) => {
+                console.log(error.body.message);
+            });
+    }
+    get inputClass() {
+        return this.showError
+            ? 'slds-input input-field-container-error'
+            : 'slds-input input-field-container';
+    }
+    get btnClass() {
+        return this.btnClassName;
+    }
 
     handleForgotPassword() {
         let spinner = this.template.querySelector('c-web-spinner');
@@ -86,6 +105,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                     }
                     this.errorMessage = returnValue['invalidEmail'];
                     this.showError = true;
+                    this.btnClassName = 'slds-button btn-sendEmail btn-disable';
                 }
                 spinner.hide();
             })
@@ -95,6 +115,11 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
             });
     }
     onKeyUp(event) {
+        if (event.target.value !== '') {
+            this.usrnameval = event.target.value;
+        }
+        this.btnClassName = 'slds-button btn-sendEmail';
+        this.showError = false;
         //checks for "enter" key
         if (event.which === 13) {
             this.handleForgotPassword();

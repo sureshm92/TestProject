@@ -3,7 +3,7 @@
  */
 
 public without sharing class RRChangePasswordController {
-    public static final String ERROR_SUFFIX = ': '+System.Label.RH_ProfileInfoErrorMsz;
+    public static final String ERROR_SUFFIX = ': ' + System.Label.RH_ProfileInfoErrorMsz;
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
     public static final String AGE_OF_MAJORITY_ALL_COUNTRIES = 'Age_for_All_Countries';
@@ -337,7 +337,7 @@ public without sharing class RRChangePasswordController {
 
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
-            
+
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             //            }
@@ -359,7 +359,9 @@ public without sharing class RRChangePasswordController {
                     );
                     failingPageResponse = m.getDetail();
                 } else {
-                    if (
+                    if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal) {
+                        failingPageResponse = System.Label.PP_CannotReuseOldPwd;
+                    } else if (
                         m.getDetail().contains(System.Label.PP_CantReuseOldPwd) &&
                         !Site.getPathPrefix().startsWith('/gsk')
                     ) {
@@ -369,7 +371,6 @@ public without sharing class RRChangePasswordController {
                     }
                 }
             }
-            
 
             if (tcId != null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
@@ -463,36 +464,49 @@ public without sharing class RRChangePasswordController {
             ApexPages.getMessages().clear(); // Messages can't be cleared this way! Redirect page.
             Map<String, String> countryCodeByNameMap = new Map<String, String>();
             Map<String, String> stateCodeByNameMap = new Map<String, String>();
-            Map<String,Map<String, String>> countryCodeByStateCodeByNameMap = new Map<String,Map<String, String>>();
+            Map<String, Map<String, String>> countryCodeByStateCodeByNameMap = new Map<String, Map<String, String>>();
             List<RH_State_Code_By_Country_Name__mdt> stateCodeByCountryList = [
                 SELECT
                     RH_Country_Name__r.Country_Name__c,
                     RH_Country_Name__r.Country_Code__c,
-                	RH_Country_Name__r.IsVisible__c,
+                    RH_Country_Name__r.IsVisible__c,
                     State_Code__c,
                     State_Name__c,
-                	IsVisible__c
+                    IsVisible__c
                 FROM RH_State_Code_By_Country_Name__mdt
             ];
             for (RH_State_Code_By_Country_Name__mdt objMetadata : stateCodeByCountryList) {
-                if (!String.isBlank(objMetadata.RH_Country_Name__r.Country_Code__c) 
-                    && objMetadata.IsVisible__c == true && objMetadata.RH_Country_Name__r.IsVisible__c == true) {
+                if (
+                    !String.isBlank(objMetadata.RH_Country_Name__r.Country_Code__c) &&
+                    objMetadata.IsVisible__c == true &&
+                    objMetadata.RH_Country_Name__r.IsVisible__c == true
+                ) {
                     countryCodeByNameMap.put(
                         objMetadata.RH_Country_Name__r.Country_Code__c,
                         objMetadata.RH_Country_Name__r.Country_Name__c
                     );
-                    if (!String.isBlank(objMetadata.State_Code__c)) {                    
-                        if(countryCodeByStateCodeByNameMap.containsKey(objMetadata.RH_Country_Name__r.Country_Code__c)){
-                                countryCodeByStateCodeByNameMap.get(objMetadata.RH_Country_Name__r.Country_Code__c)
-                                    .put(objMetadata.State_Code__c, objMetadata.State_Name__c);
-                            
-                        }else{
-                            Map<String,String> stateCodeAndNameTemp = new Map<String,String>();
-                            stateCodeAndNameTemp.put(objMetadata.State_Code__c, objMetadata.State_Name__c);
+                    if (!String.isBlank(objMetadata.State_Code__c)) {
+                        if (
+                            countryCodeByStateCodeByNameMap.containsKey(
+                                objMetadata.RH_Country_Name__r.Country_Code__c
+                            )
+                        ) {
+                            countryCodeByStateCodeByNameMap.get(
+                                    objMetadata.RH_Country_Name__r.Country_Code__c
+                                )
+                                .put(objMetadata.State_Code__c, objMetadata.State_Name__c);
+                        } else {
+                            Map<String, String> stateCodeAndNameTemp = new Map<String, String>();
+                            stateCodeAndNameTemp.put(
+                                objMetadata.State_Code__c,
+                                objMetadata.State_Name__c
+                            );
                             countryCodeByStateCodeByNameMap.put(
-                                objMetadata.RH_Country_Name__r.Country_Code__c,stateCodeAndNameTemp);
-                        }  
-                    }          
+                                objMetadata.RH_Country_Name__r.Country_Code__c,
+                                stateCodeAndNameTemp
+                            );
+                        }
+                    }
                 }
                 if (!String.isBlank(objMetadata.State_Code__c)) {
                     stateCodeByNameMap.put(objMetadata.State_Code__c, objMetadata.State_Name__c);
@@ -514,7 +528,8 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByNameMap.get(participant.Mailing_Country_Code__c));
                 participant.Mailing_State__c = (noState
                     ? null
-                    : countryCodeByStateCodeByNameMap.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c));
+                    : countryCodeByStateCodeByNameMap.get(participant.Mailing_Country_Code__c)
+                          .get(participant.Mailing_State_Code__c));
                 if (isDelegate) {
                     participant.Birth_Year__c = birthYear;
                 }
@@ -529,7 +544,10 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.First_Name__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_First_Name + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.RH_RP_First_Name + ERROR_SUFFIX
+                    )
                 );
             }
             if (
@@ -537,7 +555,10 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.Last_Name__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Last_Name + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.RH_RP_Last_Name + ERROR_SUFFIX
+                    )
                 );
             }
 
@@ -555,7 +576,8 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByNameMap.get(contact.MailingCountryCode));
                 contact.MailingState = (noState
                     ? null
-                    : countryCodeByStateCodeByNameMap.get(contact.MailingCountryCode).get(contact.MailingStateCode));
+                    : countryCodeByStateCodeByNameMap.get(contact.MailingCountryCode)
+                          .get(contact.MailingStateCode));
 
                 if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                     Account newClinic = new Account(
@@ -587,12 +609,19 @@ public without sharing class RRChangePasswordController {
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :contact.Id
                     ];
-                    List<RP_Delegate_Relationship__c> delgateRelationship = [SELECT id,Delegate__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :contact.Id];
-                    
+                    List<RP_Delegate_Relationship__c> delgateRelationship = [
+                        SELECT id, Delegate__c, Referring_Provider__c
+                        FROM RP_Delegate_Relationship__c
+                        WHERE Delegate__c = :contact.Id
+                    ];
+
                     if (loginUserPEs.isEmpty() && contact.UserCommunityIsDelegate__c) {
                         contact.Current_Participant_Enrollment__c = null;
-                        if(delgateRelationship != null){
-                            contact.userCommunityDelegateId__c = (delgateRelationship[0].Delegate__c != contact.Id) ? null : delgateRelationship[0].Referring_Provider__c;
+                        if (delgateRelationship != null) {
+                            contact.userCommunityDelegateId__c = (delgateRelationship[0]
+                                    .Delegate__c != contact.Id)
+                                ? null
+                                : delgateRelationship[0].Referring_Provider__c;
                         }
                         contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                             ? CommunityService.IQVIA_NETWORK_NAME
@@ -607,12 +636,18 @@ public without sharing class RRChangePasswordController {
             }
             if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_Address_Line + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.PG_AS_F_Institute_Address_Line + ERROR_SUFFIX
+                    )
                 );
             }
             if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_City + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.PG_AS_F_Institute_City + ERROR_SUFFIX
+                    )
                 );
             }
             if (
@@ -620,7 +655,10 @@ public without sharing class RRChangePasswordController {
                 (isParticipant && String.isBlank(participant.Mailing_Country_Code__c))
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Country + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.RH_RP_Country + ERROR_SUFFIX
+                    )
                 );
             }
             if (
@@ -629,7 +667,10 @@ public without sharing class RRChangePasswordController {
                 states.size() > 0
             ) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_State + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.RH_RP_State + ERROR_SUFFIX
+                    )
                 );
             }
             if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
@@ -642,12 +683,18 @@ public without sharing class RRChangePasswordController {
             }
             if (!notEnrollNow && String.isBlank(contact.Phone)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.RH_RP_Delegate_Phone_Number + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.RH_RP_Delegate_Phone_Number + ERROR_SUFFIX
+                    )
                 );
             }
             if (!notEnrollNow && String.isBlank(account.Name)) {
                 ApexPages.addMessage(
-                    new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.PG_AS_F_Institute_Name + ERROR_SUFFIX)
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.PG_AS_F_Institute_Name + ERROR_SUFFIX
+                    )
                 );
             }
             try {
@@ -893,8 +940,7 @@ public without sharing class RRChangePasswordController {
         String rtl_language = System.Label.RTL_Languages;
         if (rtl_language.contains(contact.Language__c)) {
             isRTL = true;
-        }
-        else{
+        } else {
             isRTL = false;
         }
         if (isRTL) {
@@ -906,8 +952,7 @@ public without sharing class RRChangePasswordController {
                 '/s/cookie-policy',
                 '/s/cookie-policy?lanCode=' + contact.Language__c
             );
-        }
-        else{
+        } else {
             tcText = tcText.replaceAll(
                 '/s/privacy-policy?lanCode=' + contact.Language__c,
                 '/s/privacy-policy'

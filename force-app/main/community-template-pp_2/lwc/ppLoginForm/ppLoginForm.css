@@ -26,6 +26,17 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
     margin-bottom: 28px;
 }
+
+.input-field-container-error {
+    border-color: #e20000;
+    box-sizing: border-box;
+    height: 32px;
+    width: 318px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin-bottom: 28px;
+}
 .btn-login {
     width: 318px;
     color: #ffffff;
@@ -147,8 +158,4 @@
     text-align: center;
     margin-top: 1.5rem;
     cursor: default;
-}
-.font-thickness {
-    font-weight: 600;
-    opacity: 0.8;
 }
