@@ -673,5 +673,12 @@
     },
     validateDOB: function (component, event, helper){
         helper.validateDOB(component, event, helper);
-    }
+    },
+    refreshPartDobInput: function (component, event, helper) {
+        component.set('v.valueDD', '--');
+        component.set('v.valueMM', '--');
+        component.set('v.valueYYYY', '----');
+        component.set('v.ageOpt', null);
+        component.set('v.valueAge', null);
+    },
 });

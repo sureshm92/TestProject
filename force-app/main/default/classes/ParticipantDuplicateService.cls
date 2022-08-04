@@ -691,7 +691,11 @@ public without sharing class ParticipantDuplicateService {
             List<Participant__c> pList = new List<Participant__c>();  
             if(mm!='--'){
                 if(dd!='--'){
-                    pList.addAll(dobPartMap.get(yyyy).get(mm).get(dd)); 
+                    if(dobPartMap.get(yyyy).containsKey(mm)){
+                        if(dobPartMap.get(yyyy).get(mm).containsKey(dd)){
+                            pList.addAll(dobPartMap.get(yyyy).get(mm).get(dd)); 
+                        }
+                    }                    
                 }
                 else{
                     for(List<Participant__c> pls: dobPartMap.get(yyyy).get(mm).values()){
@@ -706,7 +710,8 @@ public without sharing class ParticipantDuplicateService {
                     }
                 }
             }
-            return pList;
+            if(pList.size()>0)
+                return pList;
         }
         return null;                                                     
     }

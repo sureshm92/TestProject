@@ -112,6 +112,7 @@
             helper.initData(component);
             helper.setDelegate(component);
             component.find('editForm').refreshEmailInput();
+            component.find('editForm').refreshPartDobInput();
         });
     },
 
