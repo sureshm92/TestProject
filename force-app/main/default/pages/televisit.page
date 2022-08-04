@@ -2056,6 +2056,10 @@
                 left: 0;
                 right: auto;
                 height: auto;
+                max-width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             
             .share-container {
@@ -2465,7 +2469,7 @@
                 <div id="call-container" class="slds-grid slds-wrap">
                     <div class="slds-col">
                         <div
-                            class="in-call-header slds-grid slds-grid_align-spread heading-container slds-has-flexi-truncate"
+                            class="in-call-header slds-grid slds-align_absolute-center heading-container slds-has-flexi-truncate"
                         >
                             <div class="slds-col">
                                 <h1

@@ -827,9 +827,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             participantContact.Participant_Opt_In_Status_SMS__c = true;
                         }
                     }
-                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
-                        participantContact.IQVIA_Contact_info_storage_consent__c = true;
-                    }
 
                     Participant__c participant = new Participant__c(
                         First_Name__c = FirstName,
@@ -1328,9 +1325,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for(String conId : duplicateContactIds){
                 Contact con = new Contact();
                 con.Id = conId;
-                if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
-                    con.IQVIA_Contact_info_storage_consent__c = true;
-                }
                 if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
                     con.IQVIA_Direct_Mail_Consent__c = outreachDirectMail;
                     con.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;
