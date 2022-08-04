@@ -25,10 +25,16 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     lockedOutUsrName;
     showPopup = false;
     @track userNam;
+    @track inputError = false;
+    btnclassName = 'slds-input input-field-container';
 
+    passwordInputType = 'password';
+    isEyeHidden = true;
+    
     eyeHidden = PP_Desktoplogos + '/eye-hidden.svg';
     wave = PP_Desktoplogos + '/wave_desktop.png';
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
+    eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
 
     label = {
         unableToLogin,
@@ -43,10 +49,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
-    connectedCallback() {
-        console.log(this.isLockOut);
-    }
-
+    
     renderedCallback() {
         Promise.all([loadStyle(this, communityPPTheme)])
             .then(() => {
@@ -104,7 +107,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
                     this.error = error;
                 });
         }
@@ -114,13 +116,14 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
+        this.btnclassName = 'slds-input input-field-container';
     }
 
     handlepasswordChange(event) {
-        console.log(event.target.value);
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="password"]').value = event.target.value;
         }
+        this.btnclassName = 'slds-input input-field-container';
     }
 
     handleUnlock(event) {
@@ -150,7 +153,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         } else {
             password.setCustomValidity(this.label.enterPasswordMsg);
         }
-        console.log('User Name : ' + userName.value + '\n Password : ' + password.value);
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
             (validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
@@ -158,10 +160,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             },
             true
         );
-        console.log('Test allValid : ' + allValid);
         if (allValid) {
-            console.log('Inside allValid');
-            console.log(decodeURIComponent(this.currentPageReference.state.startURL));
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner.show();
             communityLogin({
@@ -170,7 +169,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 startUrl: decodeURIComponent(this.currentPageReference.state.startURL)
             })
                 .then((result) => {
-                    console.log('Result : ' + result);
                     //Key: startUrl, lockoutError, wrongPasswordError, exception
                     this.spinner.hide();
                     if (result.startUrl) {
@@ -185,11 +183,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     } else if (result.wrongPasswordError) {
                         //handle wrong password error
                         this.inError = true;
+                        this.inputError = true;
                         this.errorMsg = result.wrongPasswordError;
+                        this.btnclassName = 'slds-input input-field-container-error';
                     } else if (result.exception) {
                         //handle system exception
                         this.inError = true;
                         this.errorMsg = result.exception;
+                        this.inputError = true;
+                        this.btnclassName = 'slds-input input-field-container-error';
                     } else {
                         //handle unknown error
                         this.inError = true;
@@ -197,7 +199,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     }
                 })
                 .catch((error) => {
-                    console.log(JSON.stringify(error));
                     this.error = error;
                     this.spinner.hide();
                 });
@@ -223,7 +224,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
                     this.error = error;
                 });
         } else {
@@ -251,5 +251,25 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         } else {
             this.showPopup = showHideModal;
         }
+    }
+    get className() {
+        return this.btnclassName;
+    }
+    changeImgSrc() {
+        let isEyeHidden = this.isEyeHidden;
+        if (isEyeHidden) {
+            this.template.querySelector('.eye-icon img').src = this.eyeIcon;
+            this.tooltipMsg = this.label.showEyeTooltip;
+            this.addIconMargin = this.isRTL
+                ? 'padding-top: 9px; margin-right: -2.2em;'
+                : 'padding-top: 9px; margin-left: -2.2em;';
+            this.passwordInputType = 'text';
+        } else {
+            this.template.querySelector('.eye-icon img').src = this.eyeHidden;
+            this.tooltipMsg = this.label.hideEyeTooltip;
+            this.addIconMargin = this.isRTL ? 'margin-right: -2.2em;' : 'margin-left: -2.2em;';
+            this.passwordInputType = 'password';
+        }
+        this.isEyeHidden = !isEyeHidden;
     }
 }
