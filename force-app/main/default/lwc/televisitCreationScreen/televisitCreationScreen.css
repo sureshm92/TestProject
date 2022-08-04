@@ -282,7 +282,7 @@ textdecoration {
 }
 
 /* iphones */
-@media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
+/* @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
     only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2),
@@ -295,7 +295,7 @@ textdecoration {
     .hideDesktopView {
         display: block;
     }
-}
+} */
 
 @media all and (max-width: 767px) {
     .televisit {
