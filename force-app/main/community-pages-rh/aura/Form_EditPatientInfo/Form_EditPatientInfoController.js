@@ -575,6 +575,12 @@
                  }
                  
              }
+             //check if age fields filled
+             if(!component.get('v.showDay')){
+                if(!component.get('v.valueAge')){
+                    isValid = false;
+                }
+            }
              component.set('v.isValid', isValid);
              console.log('isValid5' + isValid);
              
