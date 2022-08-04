@@ -388,23 +388,17 @@ public without sharing class RRChangePasswordController {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
-
             cont.Id = contact.Id;
             cont.Is_First_Logon__c = false;
-            cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
-                ? CommunityService.IQVIA_NETWORK_NAME
-                : Site.getMasterLabel();
+            cont.Landing_Community__c = Site.getMasterLabel();
             if (isParticipant) {
                 cont.MailingCountrycode = contact.MailingCountrycode;
                 cont.MailingStatecode = contact.MailingStatecode;
                 cont.MailingCountryCode = participant.Mailing_Country_Code__c;
                 cont.MailingStateCode = participant.Mailing_State_Code__c;
             }
-
             update cont;
-
             update participant;
-        
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             for (ApexPages.Message m : ApexPages.getMessages()) {
@@ -426,8 +420,7 @@ public without sharing class RRChangePasswordController {
                     failingPageResponse = m.getDetail();
                 } else {
                     if (
-                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) &&
-                        !Site.getPathPrefix().startsWith('/gsk')
+                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) 
                     ) {
                         failingPageResponse = System.Label.PP_CantReuseOldPwd;
                     } else {
