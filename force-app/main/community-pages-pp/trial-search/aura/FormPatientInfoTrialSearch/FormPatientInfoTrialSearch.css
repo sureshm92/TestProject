@@ -139,3 +139,9 @@
 .THIS .blue-highlight-text-color:hover {
     cursor: pointer;
 }
+
+.THIS .slds-modal__container {
+    max-width: 60rem !important;
+    width: 90% !important;
+    height: 100%;
+}
