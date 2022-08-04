@@ -106,6 +106,7 @@
     <!--RH-5960 -->
     <aura:method name="refreshStateInput" action="{!c.doRefreshStateInput}" access="public" />
     <aura:method name="refreshDOBInput" action="{!c.doRefreshDOBInput}" access="public" />
+    <aura:method name="refreshPartDobInput" action="{!c.refreshPartDobInput}" access="public" />
     
     <c:RRSpinner aura:id="spinner" size="medium"  fixed="true" />
     

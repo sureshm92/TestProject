@@ -575,6 +575,12 @@
                  }
                  
              }
+             //check if age fields filled
+             if(!component.get('v.showDay')){
+                if(!component.get('v.valueAge')){
+                    isValid = false;
+                }
+            }
              component.set('v.isValid', isValid);
              console.log('isValid5' + isValid);
              
@@ -673,5 +679,12 @@
     },
     validateDOB: function (component, event, helper){
         helper.validateDOB(component, event, helper);
-    }
+    },
+    refreshPartDobInput: function (component, event, helper) {
+        component.set('v.valueDD', '--');
+        component.set('v.valueMM', '--');
+        component.set('v.valueYYYY', '----');
+        component.set('v.ageOpt', null);
+        component.set('v.valueAge', null);
+    },
 });
