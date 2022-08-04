@@ -19043,13 +19043,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
-        <fullName>PP_Remove_Photo</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP_Remove_Photo</shortDescription>
-        <value>Remove Photo</value>
-    </labels>
-    <labels>
         <fullName>PP_RequestSubmitted</fullName>
         <language>en_US</language>
         <protected>true</protected>
