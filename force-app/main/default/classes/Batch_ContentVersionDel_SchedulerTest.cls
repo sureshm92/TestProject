@@ -38,8 +38,8 @@ public with sharing class Batch_ContentVersionDel_SchedulerTest {
             IsMajorVersion = true
         );
         contentVersionList.add(contentVersion2);
-        
-        insert contentVersionList;    
+        insert contentVersionList;
+            
         List<ContentDocument> documents = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument];
 
         List<ContentDocumentLink> contentDocList = new List<ContentDocumentLink>();
