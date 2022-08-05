@@ -121,7 +121,8 @@ public without sharing class TaskTriggerHandler {
                 WhatId,
                 InitialTaskNotification__c,
                 WhoId,
-                Start_Date__c
+                Start_Date__c,
+                Owner_Contact__c
             FROM Task
             WHERE Id IN :tasks
         ];
