@@ -241,14 +241,20 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.delegates[event.detail.indexvalue].isCont = event.detail.iscont;
         this.delegates[event.detail.indexvalue].delegcont = event.detail.delegcont;
         
-        let validationListDelegate = [];
+        let validationListDelegate = []; 
         const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //logic to enable Next button based on continue / do not continue
         for(let i = 0; i < this.delegates.length; i++) {
-            if(this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0 &&
-               this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0
-            ){
+            let iscont = this.delegates[i].isCont;
+            let isPhoneEmpty = (this.delegates[i].Phone__c != null && this.delegates[i].Phone__c != '' && this.delegates[i].Phone__c.trim() && this.delegates[i].Phone__c.length !=0);
+            let isEmailEmpty = (this.delegates[i].Email__c != null && this.delegates[i].Email__c != '' && this.delegates[i].Email__c.trim() && this.delegates[i].Email__c.length !=0);
+            if (
+                (iscont == "true" && isPhoneEmpty && isEmailEmpty)
+                || (iscont == "false" && isEmailEmpty)
+            ) {
                 validationListDelegate.push(true);
-            }else{
+            }
+            else{
                 validationListDelegate.push(false);
             }
 
