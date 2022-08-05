@@ -427,6 +427,14 @@
             opacity: 0.4;
         }
 
+        .changepwdbtn {
+            color: #ffffff;
+            border-radius: 16px;
+            background-color: #0768fd !important;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
         .slds-scope .slds-button {
             color: #ffffff;
             border-radius: 16px;
@@ -1699,7 +1707,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         <div class="cp-save-btn-container">
                             <!--<button class="slds-button slds-button_brand changepwdbtn" action="{!checkPasswords}">Save Continue</button> -->
                             <apex:commandButton action="{!ppChangePassword}" value="{!$Label.PP_SaveContinue}" styleClass="slds-button slds-button_brand changepwdbtn"
-                                id="saveButton" />
+                                disabled="true" id="saveButton" />
                         </div>
                         <c:PP_CookiesInfo isRTL="{!isRTL} " />
                     </apex:form>
