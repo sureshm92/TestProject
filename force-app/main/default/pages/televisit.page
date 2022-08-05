@@ -1462,9 +1462,8 @@
             .first-attendee-text {
                 width: 262px;
                 color: #999999;
-                font-weight: 600;
-                font-size: 24px;
-                font-weight: 600;
+                font-weight: 600 !important;
+                font-size: 24px !important;
                 letter-spacing: 0;
                 line-height: 37px;
             }
@@ -1678,7 +1677,7 @@
             @media screen and (max-width: 576px) {
                 .people-icon-wrapper {
                     display: inline-block;
-                    padding: 6px;
+                    padding: 7px 0 0 18px;
                 }
                 .televisitBanner {
                     margin-top: 100px;
@@ -1702,6 +1701,9 @@
                 }
                 .session-name-m-top {
                     margin-top: 0.625rem;
+                }
+                .heading-container {
+                    padding: 8px 8px 14px 8px !important;
                 }
 
             }
@@ -1736,11 +1738,6 @@
                 display: inline-block;
                 width: 50px;
                 text-align: center;
-            }
-
-            .icon-people {
-                height: 16px;
-                width: 16px;
             }
 
             .icon-settings {
@@ -1885,14 +1882,6 @@
                 font-weight: 800 !important;
             }
 
-            .slds-text-visit-preview {
-                color: #000000;
-                font-size: 20px;
-                font-weight: 600;
-                letter-spacing: 0;
-                line-height: 32px;
-            }
-
             .welcome-fields {
                 flex-direction: column;
             }
@@ -1900,6 +1889,14 @@
             .welcome-fields>.slds-col {
                 padding-top: 1em;
                 padding-bottom: 1em;
+            }
+
+            .slds-text-visit-preview {
+                color: #000000;
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: 0;
+                line-height: 32px;
             }
 
             @media screen and (min-width: 48em) {
@@ -2142,11 +2139,10 @@
             }
 
             .back-button {
-                height: 40px;
                 color: #0768fd !important;
                 font-weight: 500 !important;
-                font-size: 18px !important;
                 letter-spacing: 0;
+                font-size: 18px !important;
                 line-height: 24px !important;
                 text-align: center;
                 border-radius: 14px !important;
@@ -2273,12 +2269,14 @@
                                                             </div>
                                                             <div class="slds-col slds-size_1-of-6"></div>
                                                         </div>
-                                                        <div id="back-button" class="slds-p-top_small slds-p-bottom_xx-small">
-                                                            <div class="slds-col slds-size_8-of-8 slds-align_absolute-center slds-text-align_center slds-scope-bck-btn">
+                                                        <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
+                                                            <div class="slds-col slds-size_3-of-8"></div>
+                                                            <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center slds-scope-bck-btn">
                                                                 <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button" onclick="confirmCancel();">
                                                                     {!$Label.Back}
                                                                 </button>
                                                             </div>
+                                                            <div class="slds-col slds-size_3-of-8"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2399,7 +2397,7 @@
                                 <!--OMSF-5607-->
                                 <div class="people-icon-wrapper">
                                     <button id="people-button-in-call" class="people-button slds-button slds-button--icon" onclick="showparticipantListMobile();">
-                                        <span class="icon-people">
+                                        <span>
                                             <svg>
                                                 <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#groups')}"></use>
                                             </svg>
