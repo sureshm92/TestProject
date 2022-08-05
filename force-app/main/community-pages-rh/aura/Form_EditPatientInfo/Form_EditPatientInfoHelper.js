@@ -189,9 +189,10 @@
         
     },
     setAge: function (component, event, helper){
-            var opt = [];
-            var ageStart = parseInt(component.get("v.ageStart"));
-            var ageEnd = parseInt(component.get("v.ageEnd"));
+        var opt = [];
+        var ageStart = parseInt(component.get("v.ageStart"));
+        var ageEnd = parseInt(component.get("v.ageEnd"));
+        component.set("v.valueAge",null);
 
         for(var i = ageStart ; i<= ageEnd ;i++){
             opt.push({label: i.toString(), value: i.toString() });
