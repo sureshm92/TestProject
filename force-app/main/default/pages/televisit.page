@@ -2263,11 +2263,11 @@
                                                             <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
                                                         </div>
                                                         <div id="permission-error" class="slds-align_absolute-center permission-error-message slds-p-top_small slds-hide">
-                                                            <div class="slds-col slds-size_1-of-6"></div>
-                                                            <div class="slds-col slds-size_4-of-6 slds-align_absolute-center slds-text-align_center">
+                                                            <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_6-of-6 slds-medium-size_4-of-6 slds-align_absolute-center slds-text-align_center">
                                                                 {!$Label.You_must_grant_microphone_permission_to_join_televisit}
                                                             </div>
-                                                            <div class="slds-col slds-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
                                                         </div>
                                                         <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
                                                             <div class="slds-col slds-size_3-of-8"></div>
