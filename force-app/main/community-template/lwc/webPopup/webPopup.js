@@ -30,12 +30,13 @@ export default class WebPopup extends LightningElement {
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
-        console.log('inside show');
         this.showModal = true;
     }
 
     @api hide() {
         this.showModal = false;
+        const closeEvent = new CustomEvent('closemodal');
+        this.dispatchEvent(closeEvent);
     }
 
     @api cancel() {

@@ -10,6 +10,7 @@ import EMAIL from '@salesforce/label/c.Email';
 import PHONE from '@salesforce/label/c.Phone';
 import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 
+
 import fetchStudySite from '@salesforce/apex/ConsentManagerController.fetchStudySite'; 
 
 const consentModel = {};
@@ -140,7 +141,7 @@ export default class ConsentManager extends LightningElement {
             }
         this.updateStudyConsentChecks();
         this.updateOutreachConsentChecks();
-    }
+        }
     }
     }
 

@@ -1,0 +1,22 @@
+.allowBtn {
+    color: white;
+    padding: 8px 12px;
+    background-color: #0768fd;
+    border: none;
+    border-radius: 4px;
+    margin: 0 10px;
+    font-size: 16px;
+}
+.doNotAllowBtn{
+    font-size: 16px;
+    --slds-c-button-neutral-color-border: transparent;
+    --slds-c-button-neutral-color-border-hover: transparent;
+}
+
+.televisitVisitPreviewOnDonotAllowPopup {
+    width: 420px !important;
+    text-align: center;
+}
+.slds-text-color_weak {
+    color: gray;
+}
