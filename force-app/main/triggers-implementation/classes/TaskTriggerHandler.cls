@@ -124,7 +124,7 @@ public without sharing class TaskTriggerHandler {
                 Start_Date__c,
                 Owner_Contact__c
             FROM Task
-            WHERE Id IN :tasks
+            WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
         /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
@@ -178,7 +178,7 @@ public without sharing class TaskTriggerHandler {
             partContactsIds.add(usersByIds.get(usId).ContactId);
         }
         //Adding contacts without user to same list
-        partContactsIds.addAll(contactWithoutUser);
+        //partContactsIds.addAll(contactWithoutUser);
 
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Contact__c, Status__c, Participant__r.Contact__c
