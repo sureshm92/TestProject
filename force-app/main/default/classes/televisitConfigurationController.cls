@@ -284,10 +284,17 @@ public without sharing class  televisitConfigurationController {
         Study_Site__c ss = new Study_Site__c();
         ss.Id = studysiteId;
         if(remindername == 'FirstReminder'){
-            ss.First_Reminder__c = integer.valueof(selValue);
-            
+            if(string.isBlank(selValue)){
+                ss.First_Reminder__c = null;
+            }else{
+                ss.First_Reminder__c = integer.valueof(selValue);
+            }
         }else{
-            ss.Second_Reminder__c = integer.valueof(selValue);
+            if(string.isBlank(selValue)){
+                ss.Second_Reminder__c = null;
+            }else{
+                ss.Second_Reminder__c = integer.valueof(selValue);
+            }
             
         }
         

@@ -336,7 +336,6 @@ public without sharing class UploadParticipantsDelegateHelper {
             cc.LastName = contactToPart.get(c).Name;
             }
             if(iqviaOutReachSet != null && iqviaOutReachSet.contains(c)){
-                cc.IQVIA_Contact_info_storage_consent__c = (outreachEmail || outreachPhone || outreachSMS || outreachDirectMail);
                 cc.Participant_Opt_In_Status_Emails__c = outreachEmail;
                 cc.Participant_Opt_In_Status_SMS__c = outreachSMS;
                 cc.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;
@@ -351,7 +350,6 @@ public without sharing class UploadParticipantsDelegateHelper {
         for(Id consent:iqviaOutReachSet){
             Contact cc = new Contact();
             cc.Id = consent;
-            cc.IQVIA_Contact_info_storage_consent__c = (outreachEmail || outreachPhone || outreachSMS || outreachDirectMail);
             cc.Participant_Opt_In_Status_Emails__c = outreachEmail;
             cc.Participant_Opt_In_Status_SMS__c = outreachSMS;
             cc.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;

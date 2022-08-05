@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ReEngage_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngage_Dashboard</shortDescription>
+        <value>Re-engaged?</value>
+    </labels>
+    <labels>
         <fullName>ReEngaged</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -97,22 +104,22 @@ Duration: ##VisitDuration</value>
         <shortDescription>Televisit Reschedule Email Body</shortDescription>
         <value>Your ##VisitName televisit is rescheduled
 
-Televisit revised Date/Time : ##VisitTime
-Duration:  ##VisitDuration</value>
+            &lt;b&gt;Televisit revised Date/Time: &lt;/b&gt; ##VisitTime
+            &lt;b&gt;Duration:&lt;/b&gt;  ##VisitDuration</value>
     </labels>
     <labels>
         <fullName>Televisit_Reschedule_Email_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reschedule Email Header</shortDescription>
-        <value>Televisit Rescheduled</value>
+        <value>Televisit was rescheduled</value>
     </labels>
     <labels>
         <fullName>Televisit_Reschedule_Email_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit Reschedule Email Subject</shortDescription>
-        <value>Televisit Rescheduled</value>
+        <value>Televisit was rescheduled</value>
     </labels>
     <labels>
         <fullName>Televisit_Meet_Sub1</fullName>
@@ -10293,7 +10300,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ListView_GroupStatuses</shortDescription>
-        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted,Participant No Show,Successfully re-engaged</value>
     </labels>
     <labels>
         <fullName>ListView_New_Status</fullName>

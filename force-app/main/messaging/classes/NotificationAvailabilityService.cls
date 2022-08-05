@@ -178,6 +178,7 @@ public without sharing class NotificationAvailabilityService {
                         Task_Type__c,
                         Ecoa_Task_Configuration_del__c,
                         Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                        Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
                         Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c,
                         Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c
