@@ -15000,6 +15000,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>After several failed login attempts you are locked out of your account. Please wait 15 minutes before trying to log back in.</value>
     </labels>
     <labels>
+        <fullName>PP_LoginInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LoginInfo</shortDescription>
+        <value>Log In Information</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18040,6 +18047,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Review and Confirm</value>
     </labels>
     <labels>
+        <fullName>PP_SMSTexMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SMSTexMessage</shortDescription>
+        <value>SMS/Text Message</value>
+    </labels>
+    <labels>
+        <fullName>PP_SaveContinue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SaveContinue</shortDescription>
+        <value>Save &amp; Continue</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18065,6 +18086,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_ActiveDelegateError</shortDescription>
         <value>Delegate already exists.</value>
+    </labels>
+    <labels>
+        <fullName>PP_AddPhoto</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddPhoto</shortDescription>
+        <value>Add photo</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>
@@ -18137,6 +18165,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Changes are successfully saved.</value>
     </labels>
     <labels>
+        <fullName>PP_Cookiesnote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Cookiesnote</shortDescription>
+        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18144,11 +18179,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Conditions of Interest</value>
     </labels>
     <labels>
+        <fullName>PP_ConsentRequired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ConsentRequired</shortDescription>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ContactInfo_Change</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ContactInfo_Change</shortDescription>
+        <value>You will be able to change your Contact Information from your Account Settings at all times.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ContactInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ContactInformation</shortDescription>
+        <value>Contact Information</value>
+    </labels>
+    <labels>
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Country</shortDescription>
+        <value>Country</value>
     </labels>
     <labels>
         <fullName>PP_CreateTicketFor</fullName>
@@ -18230,6 +18293,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>No Date Entered</value>
     </labels>
     <labels>
+        <fullName>PP_Daytime_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Daytime_Phone</shortDescription>
+        <value>Daytime Phone</value>
+    </labels>
+    <labels>
         <fullName>PP_DelegateAlreadyExists</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18256,6 +18326,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Details</shortDescription>
         <value>Details</value>
+    </labels>
+    <labels>
+        <fullName>PP_DirectMailCheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DirectMailCheckbox</shortDescription>
+        <value>Direct Mail</value>
     </labels>
     <labels>
         <fullName>PP_DueDateandTime</fullName>
@@ -18307,6 +18384,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Edit Visit Reminder</shortDescription>
         <value>Edit Visit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_EmailCheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailCheckbox</shortDescription>
+        <value>Email</value>
     </labels>
     <labels>
         <fullName>PP_EmailMatch</fullName>
@@ -18363,6 +18447,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_FirstName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_FirstName</shortDescription>
+        <value>First Name</value>
     </labels>
     <labels>
         <fullName>PP_ForgotPwd</fullName>
@@ -18491,11 +18582,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
+        <fullName>PP_LanguageOptions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LanguageOptions</shortDescription>
+        <value>Language Options</value>
+    </labels>
+    <labels>
+        <fullName>PP_LanguageOptions_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LanguageOptions_Info</shortDescription>
+        <value>Content will be displayed in your preferred language wherever possible. Alternate languages will be used when content is not available in your preferred language.</value>
+    </labels>
+    <labels>
         <fullName>PP_Language_and_Location</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
         <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_LastName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LastName</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_Locale_DateFmt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Locale_DateFmt</shortDescription>
+        <value>Locale for date format</value>
     </labels>
     <labels>
         <fullName>PP_Login_Wrong_Password_Error_Message</fullName>
@@ -18582,6 +18701,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Must Include Atleast</value>
     </labels>
     <labels>
+        <fullName>PP_NewPassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPassword</shortDescription>
+        <value>New Password</value>
+    </labels>
+    <labels>
         <fullName>PP_MustIncludeAtleast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18666,11 +18792,53 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Passwords are not matching</value>
     </labels>
     <labels>
+        <fullName>PP_PhotoAdd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PhotoAdd</shortDescription>
+        <value>Photo addedd successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProfileInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProfileInformation</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_PhotoRemove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PhotoRemove</shortDescription>
+        <value>Photo removed successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PlatformPrivacyPolicyNote</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA&#39;s Privacy Policy, using the telephone number(s) and/or email you have provided, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PPLite_PasswordsMismatch</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PPLite_PasswordsMismatch</shortDescription>
         <value>Passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordMustInclude</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordMustInclude</shortDescription>
+        <value>Your password must include at least:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordRequirement</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordRequirement</shortDescription>
+        <value>Password Requirements</value>
     </labels>
     <labels>
         <fullName>PP_Paste_URL</fullName>
@@ -18692,6 +18860,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Phone_Numeric</shortDescription>
         <value>Phone number must be numeric.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Phonecheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phonecheckbox</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Lang</shortDescription>
+        <value>Preferred Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Timezone</shortDescription>
+        <value>Preferred Timezone</value>
     </labels>
     <labels>
         <fullName>PP_Prefix</fullName>
@@ -18736,6 +18925,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Prof.</value>
     </labels>
     <labels>
+        <fullName>PP_Privacypolicy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Privacypolicy</shortDescription>
+        <value>Powered by IQVIA © 2022. All rights reserved.</value>
+    </labels>
+    <labels>
         <fullName>PP_Profile_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18755,6 +18951,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ReenterPwd</shortDescription>
         <value>Re-Enter password here...</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reenterpassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Reenterpassword</shortDescription>
+        <value>Re-enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using</fullName>
@@ -18868,6 +19071,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Scheduled</value>
     </labels>
     <labels>
+        <fullName>PP_Secondary_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Secondary_Lang</shortDescription>
+        <value>Secondary Language</value>
+    </labels>
+    <labels>
         <fullName>PP_SelectUsername</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18903,6 +19113,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Special characters(s)</value>
     </labels>
     <labels>
+        <fullName>PP_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_State</shortDescription>
+        <value>State</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_StudyPrivacyPolicyNote</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our Terms of Use and acknowledge our Privacy Policy, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Submit_Button</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18932,6 +19156,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
+        <fullName>PP_Third_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Third_Lang</shortDescription>
+        <value>Third Language</value>
+    </labels>
+    <labels>
         <fullName>PP_Ticket_Success_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18944,6 +19175,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
         <value>No Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>PP_TimeZone_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_TimeZone_Location</shortDescription>
+        <value>Time Zone and Location</value>
     </labels>
     <labels>
         <fullName>PP_To</fullName>
@@ -19057,6 +19295,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_UserAndEmail</shortDescription>
         <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Username</shortDescription>
+        <value>Username</value>
     </labels>
     <labels>
         <fullName>PP_UsernameAndEmail</fullName>
@@ -19186,6 +19431,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
         <value>Request to Update YOB and Match UserName</value>
+    </labels>
+    <labels>
+        <fullName>PP_Zippostalcode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Zippostalcode</shortDescription>
+        <value>ZIP/Postal Code</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
