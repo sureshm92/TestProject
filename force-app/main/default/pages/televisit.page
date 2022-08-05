@@ -1462,9 +1462,8 @@
             .first-attendee-text {
                 width: 262px;
                 color: #999999;
-                font-weight: 600;
-                font-size: 24px;
-                font-weight: 600;
+                font-weight: 600 !important;
+                font-size: 24px !important;
                 letter-spacing: 0;
                 line-height: 37px;
             }
@@ -1678,7 +1677,7 @@
             @media screen and (max-width: 576px) {
                 .people-icon-wrapper {
                     display: inline-block;
-                    padding: 6px;
+                    padding: 7px 0 0 18px;
                 }
                 .televisitBanner {
                     margin-top: 100px;
@@ -1701,7 +1700,10 @@
                     display: none;
                 }
                 .session-name-m-top {
-                    margin-top: 7px;
+                    margin-top: 0.625rem;
+                }
+                .heading-container {
+                    padding: 8px 8px 14px 8px !important;
                 }
 
             }
@@ -1736,11 +1738,6 @@
                 display: inline-block;
                 width: 50px;
                 text-align: center;
-            }
-
-            .icon-people {
-                height: 16px;
-                width: 16px;
             }
 
             .icon-settings {
@@ -1885,14 +1882,6 @@
                 font-weight: 800 !important;
             }
 
-            .slds-text-visit-preview {
-                color: #000000;
-                font-size: 20px;
-                font-weight: 600;
-                letter-spacing: 0;
-                line-height: 32px;
-            }
-
             .welcome-fields {
                 flex-direction: column;
             }
@@ -1900,6 +1889,14 @@
             .welcome-fields>.slds-col {
                 padding-top: 1em;
                 padding-bottom: 1em;
+            }
+
+            .slds-text-visit-preview {
+                color: #000000;
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: 0;
+                line-height: 32px;
             }
 
             @media screen and (min-width: 48em) {
@@ -2142,11 +2139,10 @@
             }
 
             .back-button {
-                height: 40px;
                 color: #0768fd !important;
                 font-weight: 500 !important;
-                font-size: 18px !important;
                 letter-spacing: 0;
+                font-size: 18px !important;
                 line-height: 24px !important;
                 text-align: center;
                 border-radius: 14px !important;
@@ -2267,18 +2263,20 @@
                                                             <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
                                                         </div>
                                                         <div id="permission-error" class="slds-align_absolute-center permission-error-message slds-p-top_small slds-hide">
-                                                            <div class="slds-col slds-size_1-of-6"></div>
-                                                            <div class="slds-col slds-size_4-of-6 slds-align_absolute-center slds-text-align_center">
+                                                            <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_6-of-6 slds-medium-size_4-of-6 slds-align_absolute-center slds-text-align_center">
                                                                 {!$Label.You_must_grant_microphone_permission_to_join_televisit}
                                                             </div>
-                                                            <div class="slds-col slds-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_0-of-6 slds-medium-size_1-of-6"></div>
                                                         </div>
-                                                        <div id="back-button" class="slds-p-top_small slds-p-bottom_xx-small">
-                                                            <div class="slds-col slds-size_8-of-8 slds-align_absolute-center slds-text-align_center slds-scope-bck-btn">
+                                                        <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
+                                                            <div class="slds-col slds-size_3-of-8"></div>
+                                                            <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center slds-scope-bck-btn">
                                                                 <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button" onclick="confirmCancel();">
                                                                     {!$Label.Back}
                                                                 </button>
                                                             </div>
+                                                            <div class="slds-col slds-size_3-of-8"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2399,25 +2397,9 @@
                                 <!--OMSF-5607-->
                                 <div class="people-icon-wrapper">
                                     <button id="people-button-in-call" class="people-button slds-button slds-button--icon" onclick="showparticipantListMobile();">
-                                        <span class="icon-people">
-                                            <svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <title>multiple-neutral-1[460]</title>
-                                                <g id="Televisits" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <g id="Televisit-(mobile)" transform="translate(-378.000000, -102.000000)">
-                                                        <g id="multiple-neutral-1[460]" transform="translate(378.000000, 102.000000)">
-                                                            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
-                                                            <g id="Group-2" transform="translate(3.000000, 5.000000)" fill="#444444" fill-rule="nonzero">
-                                                                <path d="M10.3125,3.69444444 C10.3126019,4.44789424 10.1422909,5.19086544 9.81525,5.86366667 C9.74359095,6.01478446 9.77386486,6.19656248 9.89025,6.314 C10.5487406,6.99911187 11.4422353,7.38563263 12.375,7.38888889 C14.3425144,7.38888889 15.9374999,5.73482975 15.9374999,3.69444444 C15.9374999,1.65405914 14.3425144,0 12.375,0 C11.4409347,0.00222738099 10.5459096,0.388826736 9.8865,1.07488889 C9.77011486,1.19232641 9.73984095,1.37410442 9.8115,1.52522222 C10.1398398,2.19769415 10.3114391,2.94068192 10.3125,3.69444444 Z"
-                                                                    id="Path"></path>
-                                                                <path d="M12.375,7.77777778 C11.7686386,7.77798908 11.1664087,7.8812462 10.59225,8.08344444 C10.4698553,8.12581381 10.3770625,8.23046364 10.3465924,8.36049192 C10.3161223,8.4905202 10.3522553,8.62766113 10.44225,8.72355556 C11.6802401,10.0264362 12.3744549,11.7819728 12.375,13.6111111 C12.375,13.8258885 12.5428932,14 12.75,14 L17.625,14 C17.8321068,14 18,13.8258885 18,13.6111111 C17.996693,10.3908717 15.4802309,7.78120722 12.375,7.77777778 Z"
-                                                                    id="Path"></path>
-                                                                <ellipse id="Oval" cx="5.625" cy="3.69444444" rx="3.5625" ry="3.69444444"></ellipse>
-                                                                <path d="M11.25,13.6111111 C11.25,10.3894501 8.73160172,7.77777778 5.625,7.77777778 C2.51839828,7.77777778 0,10.3894501 0,13.6111111 C0,13.8258885 0.167893219,14 0.375,14 L10.875,14 C11.0821068,14 11.25,13.8258885 11.25,13.6111111 Z"
-                                                                    id="Path"></path>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
+                                        <span>
+                                            <svg>
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#groups')}"></use>
                                             </svg>
                                         </span>
                                     </button>
