@@ -1,4 +1,4 @@
-<aura:component description="FormPatientInfoTrialSearch">
+<aura:component description="FormPatientInfoTrialSearch" controller="AccountSettingsController">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -13,8 +13,8 @@
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false" />
     <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public" />
     <aura:attribute name="ctp" type="Object" />
-    <aura:attribute name="isRTL" type="Boolean" />
-
+    <aura:attribute name="contactInfo" type="Contact" />
+    <aura:attribute name="preferenceData" type="AccountSettingsController.ConsentPreferenceData" />
     <!-- private attributes: -->
     <aura:attribute name="todayDate" type="Date" access="private" />
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
@@ -23,6 +23,13 @@
     <aura:attribute name="isDisclaimer" type="Boolean" />
     <aura:attribute name="sendForList" type="List" />
     <aura:attribute name="sendFor" type="String" />
+    <aura:attribute name="isStorage" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+
+    <aura:attribute name="mobile" type="Boolean" default="false" />
+    <aura:attribute name="commPrefFlag" type="Boolean" default="true" />
+    <aura:attribute name="isRTL" type="Boolean" default="false" />
+    <aura:attribute name="showPpPopup" type="Boolean" default="false" />
 
     <!-- handlers: -->
     <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
@@ -53,7 +60,18 @@
     <aura:method name="checkFields" action="{!c.doCheckFields}" access="public" />
 
     <!-- component body: -->
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+            <c:privacyPolicyViewer
+                isRtl="{!v.isRTL}"
+                isModalOpen="{!v.showPpPopup}"
+                onclosePpModal="{!c.closePpPopup}"
+                commPref="{!v.commPrefFlag}"
+            />
+        </lightning:layoutItem>
+    </lightning:layout>
     <div>
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
         <!-- patient details: -->
         <div class="ap-section">
             <div class="{!if(v.isRTL, 'ap-section-titleRTL' , 'ap-section-title' )}">
@@ -220,13 +238,17 @@
                 />
             </div>
         </div>
+
         <div class="disclaimer-box">
-            <ui:inputCheckbox
-                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
-                value="{!v.isDisclaimer}"
-            />
+            <aura:if isTrue="{!NOT(v.isStorage)}">
+                <ui:inputCheckbox
+                    class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                    value="{!v.contactInfo.IQVIA_Contact_info_storage_consent__c}"
+                    change="{!c.onClickDisclaimerchange}"
+                />
+            </aura:if>
             <div class="{!if(v.isRTL , 'disclaimerRTL' , 'disclaimer')}" style="max-width: 750px">
-                {!$Label.c.TS_Disclaimer}&nbsp;
+                <!-- {!$Label.c.TS_Disclaimer}&nbsp;
                 <lightning:formattedUrl
                     label="{!$Label.c.Footer_Link_Terms_Of_Use}"
                     value="/terms-and-conditions?ret"
@@ -235,8 +257,158 @@
                     label="{!$Label.c.Footer_Link_Privacy_Policy}"
                     value="/privacy-policy?ret"
                 />
-                {!$Label.c.TS_Disclaimer1}
+                {!$Label.c.TS_Disclaimer1} -->
+                {!$Label.c.PP_Communication_Pref_Outreach_consentA}&nbsp;
+                <span class="blue-highlight-text-color" onclick="{!c.OpenPPPopup}">
+                    {!$Label.c.PP_Communication_Pref_Outreach_consentB}
+                </span>
+                {!$Label.c.PP_Communication_Pref_Outreach_consentC}
             </div>
         </div>
+
+        <aura:if isTrue="{!v.mobile}">
+            <!-- Mobile UI -->
+            <div class="slds-grid mt-10">
+                <div class="slds-col slds-size--2-of-11 mr-10">
+                    <div class="al-consents-align">
+                        <lightning:input
+                            type="checkbox"
+                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                            label="Phone"
+                            variant="label-hidden"
+                            name="phone"
+                            value="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
+                            checked="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
+                        />
+                    </div>
+                    <div class="al-consents-align consent-label">
+                        {!$Label.c.PP_Communication_Pref_Phone}
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size--2-of-11 mr-10">
+                    <div class="al-consents-align">
+                        <lightning:input
+                            type="checkbox"
+                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                            label="Email"
+                            variant="label-hidden"
+                            name="email"
+                            value="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
+                            checked="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
+                        />
+                    </div>
+                    <div class="al-consents-align consent-label">
+                        {!$Label.c.PP_Communication_Pref_Email}
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size--3-of-11 mr-10">
+                    <div class="al-consents-align">
+                        <lightning:input
+                            type="checkbox"
+                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                            label="SMS"
+                            variant="label-hidden"
+                            name="sms"
+                            value="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
+                            checked="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
+                        />
+                    </div>
+                    <div class="al-consents-align consent-label">
+                        {!$Label.c.PP_Communication_Pref_SMS}
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size--4-of-11 mr-10">
+                    <div class="al-consents-align">
+                        <lightning:input
+                            type="checkbox"
+                            class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                            label="DMAIL"
+                            variant="label-hidden"
+                            name="dmail"
+                            value="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
+                            checked="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
+                        />
+                    </div>
+                    <div class="al-consents-align consent-label">
+                        {!$Label.c.PP_Communication_Pref_Dmail}
+                    </div>
+                </div>
+            </div>
+            <aura:set attribute="else">
+                <!-- Desktop UI -->
+                <div class="slds-grid mt-10">
+                    <div class="slds-col slds-size--2-of-12">
+                        <div class="al-consents-align">
+                            <lightning:input
+                                type="checkbox"
+                                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                                label="Phone"
+                                variant="label-hidden"
+                                name="phone"
+                                value="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
+                                checked="{!v.contactInfo.Participant_Phone_Opt_In_Permit_Phone__c}"
+                            />
+                        </div>
+                        <div class="al-consents-align consent-label">
+                            {!$Label.c.PP_Communication_Pref_Phone}
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size--2-of-12">
+                        <div class="al-consents-align">
+                            <lightning:input
+                                type="checkbox"
+                                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                                label="Email"
+                                variant="label-hidden"
+                                name="email"
+                                value="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
+                                checked="{!v.contactInfo.Participant_Opt_In_Status_Emails__c}"
+                            />
+                        </div>
+                        <div class="al-consents-align consent-label">
+                            {!$Label.c.PP_Communication_Pref_Email}
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size--2-of-12">
+                        <div class="al-consents-align">
+                            <lightning:input
+                                type="checkbox"
+                                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                                label="SMS"
+                                variant="label-hidden"
+                                name="sms"
+                                value="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
+                                checked="{!v.contactInfo.Participant_Opt_In_Status_SMS__c}"
+                            />
+                        </div>
+                        <div class="al-consents-align consent-label">
+                            {!$Label.c.PP_Communication_Pref_SMS}
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size--2-of-12">
+                        <div class="al-consents-align">
+                            <lightning:input
+                                type="checkbox"
+                                class="{!if(v.isRTL , 'checkBox-descRTL' , 'checkBox-desc')}"
+                                label="DMAIL"
+                                variant="label-hidden"
+                                name="dmail"
+                                value="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
+                                checked="{!v.contactInfo.IQVIA_Direct_Mail_Consent__c}"
+                            />
+                        </div>
+                        <div class="al-consents-align consent-label">
+                            {!$Label.c.PP_Communication_Pref_Dmail}
+                        </div>
+                    </div>
+                </div>
+            </aura:set>
+        </aura:if>
     </div>
 </aura:component>
