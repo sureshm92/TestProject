@@ -124,7 +124,7 @@ public without sharing class TaskTriggerHandler {
                 Start_Date__c,
                 Owner_Contact__c
             FROM Task
-            WHERE Id IN :tasks
+            WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
         /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
