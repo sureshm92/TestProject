@@ -800,10 +800,10 @@ public without sharing class CommunityModeService {
         return resMap;
     }
 
-    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
+ private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
-        
+        Map<Id, Id>permissionSetOfUserMapId = new Map<Id,Id>();
         List<Site_Staff__c> siteStaffs = [
             SELECT Id, Study_Site__c, is_Invited__c
             FROM Site_Staff__c
@@ -815,13 +815,20 @@ public without sharing class CommunityModeService {
         List<Study_Site__c> studySites = new List<Study_Site__c> ();
         
         studySites = [
-            SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+            SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c,Override_PI_Referral_Status__c
             FROM Study_Site__c
             WHERE Principal_Investigator__c = :contactId OR Id IN :ssDelegateIds
-        ]; 
+        ];
+        List<String>LstOfPermissionSet = new List<String>();
+       
+       List<PermissionSetAssignment>permissionSetLST = [SELECT Id, PermissionSetId, PermissionSet.Name,AssigneeId,Assignee.contactId FROM PermissionSetAssignment WHERE Assignee.contactId = :contactId OR Assignee.contactId IN :ssDelegateIds];
+        if(!studySites.isEmpty() && !permissionSetLST.isEmpty()){
+            for(PermissionSetAssignment per : permissionSetLST){
+                LstOfPermissionSet.add(per.PermissionSet.Name);
+            }   
                 for (Study_Site__c ss : studySites) {
                     if (
-                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)
+                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c) && LstOfPermissionSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME)
                     )  {
                         if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
                             ssByCommunity.put(
@@ -831,15 +838,19 @@ public without sharing class CommunityModeService {
                         }
                         ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
                     } else {
-                        if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
+                        if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT) && LstOfPermissionSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) { //&& ss.Override_PI_Referral_Status__c == 'Invitation Sent'
                             ssByCommunity.put(
                                 CommunityTemplateService.TEMPLATE_DEFAULT,
                                 new List<Study_Site__c>()
                             );
                         }
+                        if(LstOfPermissionSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)){
                             ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
+                        }
                     }
                 }
+            //}
+        }
         return ssByCommunity;
     }
 
