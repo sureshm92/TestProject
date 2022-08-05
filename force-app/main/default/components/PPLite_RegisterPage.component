@@ -259,11 +259,6 @@
             margin-right: 238px !important;
         }
 
-        @media all and (max-width: 768px) {
-            .brow-mob-button-eye {
-                margin-right: 300px !important;
-            }
-        }
 
         .checksizelofi1 {
             width: 16px;
@@ -401,17 +396,29 @@
             /* margin-right: 17px; */
         }
 
-        .footerdown {
-            height: 14px;
-            width: 245px;
+        .slds-scope .slds-form-element__icon,
+        .slds-scope .tooltip .slds-button {
+            padding: 0;
+        }
+
+        .slds-scope .tooltip .slds-button__icon {
+            width: 1rem;
+            height: 1rem;
+            fill: #000;
+        }
+
+        .slds-scope .slds-col footer.footerdown {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background: #f2f2f2;
+            height: 60px;
+            width: 100%;
             color: #999999;
             font-family: "Proxima Nova";
             font-size: 12px;
             letter-spacing: 0;
             line-height: 14px;
-            text-align: right;
-            float: right;
-            height: 32px;
             padding-right: 25px;
         }
 
@@ -421,19 +428,54 @@
         }
 
         .slds-scope .slds-button {
-            width: 136px;
             color: #ffffff;
             border-radius: 16px;
             background-color: #0768fd;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
         }
 
         .slds-scope .slds-button[disabled],
         .slds-scope .slds-button:disabled {
             opacity: 0.4 !important;
-            width: 136px;
-            color: #ffffff;
-            border-radius: 16px;
-            background-color: #0768fd;
+        }
+
+        .slds-form-element__icon.tooltip:hover button.slds-button_icon::before {
+            content: attr(help-text);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 18px;
+            position: absolute;
+            z-index: 999;
+            text-align: left;
+            left: 50%;
+            bottom: 9999px;
+            background: #042459;
+            color: #e0e0e0;
+            min-height: 32px;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        .slds-form-element__icon.tooltip:hover button.slds-button_icon::before {
+            opacity: 1;
+            bottom: 24px;
+            left: -120px;
+        }
+
+
+        @media all and (max-width: 768px) {
+            .brow-mob-button-eye {
+                margin-right: 300px !important;
+            }
+        }
+
+        .checkboxcss {
+            width: 1rem;
+            height: 1rem;
+            vertical-align: middle;
 
         }
     </style>
@@ -1423,14 +1465,30 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             <div class="ap-section-title" style="font-size:20px;">{!$Label.PP_LanguageOptions}
                             </div>
                         </div>
-                        <div style="width: 798px; margin-bottom: .5rem" class="MediumBText">
+                        <div style="max-width: 798px; margin-bottom: .5rem" class="MediumBText">
                             {!$Label.PP_LanguageOptions_Info}
                         </div>
                         <div class=" slds-grid slds-wrap slds-gutters ">
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ">
                                 <label>{!$Label.PP_Preferred_Lang}
                                     <span title="required" class="slds-required">*</span>
+                                    <span class="slds-form-element__icon tooltip">
+                                        <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                                            help-text="{!$Label.PG_AS_F_Preferred_Language_Help_Text}" style="
+                                        background-color: transparent;
+                                    ">
+                                            <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
+                                                <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                                    </svg>
+                                                </svg>
+                                            </lightning-primitive-icon>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                    </span>
                                 </label>
+
                                 <!-- <input class="slds-input " type="text " value="Useremail@gmail.com" disabled="true " style="border-radius: 16px;"></input> -->
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container preferLang" value="{!userVal.contact.Language__c}">
@@ -1439,7 +1497,24 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 </div>
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ">
-                                <label>{!$Label.PP_Secondary_Lang}</label>
+                                <label>
+                                    {!$Label.PP_Secondary_Lang}
+                                    <span class="slds-form-element__icon tooltip">
+                                        <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                                            help-text="{!$Label.PG_AS_F_2nd_Choice_Language_Help_Text}" style="
+                                        background-color: transparent;
+                                    ">
+                                            <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
+                                                <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                                    </svg>
+                                                </svg>
+                                            </lightning-primitive-icon>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                    </span>
+                                </label>
 
                                 <!-- <input class="slds-input " type="text " value="Useremail@gmail.com" disabled="true " style="border-radius: 16px;"></input> -->
                                 <div class="selectInput">
@@ -1449,7 +1524,25 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 </div>
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ">
-                                <label>{!$Label.PP_Third_Lang}</label>
+                                <label>
+                                    {!$Label.PP_Third_Lang}
+                                    <span class="slds-form-element__icon tooltip">
+                                        <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                                            help-text="{!$Label.PG_AS_F_3rd_Choice_Language_Help_Text}" style="
+                                            background-color: transparent;
+                                        ">
+                                            <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
+                                                <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                                    </svg>
+                                                </svg>
+                                            </lightning-primitive-icon>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                    </span>
+                                </label>
+
                                 <!-- <input class="slds-input " type="text " value="Useremail@gmail.com" disabled="true " style="border-radius: 16px;"></input> -->
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container" value="{!userVal.Contact.Third_Choice_Language__c}">
@@ -1485,101 +1578,116 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             </div>
                         </div>
                         <!---Timezone sec End -->
-                        <div class="timeZoneText">
-                            {!$Label.PP_StudyPrivacyPolicyNote}
-                            <div class=" slds-grid slds-wrap slds-gutters ">
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-81" value="checkbox-unique-id-81" checked="" />
+                        <apex:outputPanel id="thePanel1">
+                            <div class="timeZoneText">
+                                {!$Label.PP_StudyPrivacyPolicyNote}
+                                <div class=" slds-grid slds-wrap slds-gutters ">
+
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <!--     <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-81" value="checkbox-unique-id-81" checked="" checked="{!per.Permit_Voice_Text_contact_for_this_study__c}"/> -->
+                                            <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss" />
+
                                             <label class="slds-checkbox__label" for="checkbox-unique-id-81">
                                                 <span class="slds-checkbox_faux"></span>
                                                 <span class="slds-form-element__label">{!$Label.PP_Phonecheckbox}</span>
                                             </label>
+                                            <!--</div> -->
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-82" value="checkbox-unique-id-82" checked="" />
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <apex:inputCheckbox value="{!per.Permit_Mail_Email_contact_for_this_study__c }" styleClass="checkboxcss" />
+                                            <!-- <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-82" value="checkbox-unique-id-82" checked="" /> -->
                                             <label class="slds-checkbox__label" for="checkbox-unique-id-82">
                                                 <span class="slds-checkbox_faux"></span>
                                                 <span class="slds-form-element__label">{!$Label.PP_EmailCheckbox}</span>
                                             </label>
+                                            <!--</div>-->
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-83" value="checkbox-unique-id-83" checked="" />
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <apex:inputCheckbox value="{!per.Permit_SMS_Text_for_this_study__c}" styleClass="checkboxcss" />
+                                            <!-- <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-83" value="checkbox-unique-id-83" checked="" />  -->
                                             <label class="slds-checkbox__label" for="checkbox-unique-id-83">
                                                 <span class="slds-checkbox_faux"></span>
                                                 <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
                                             </label>
+                                            <!-- </div> -->
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-84" value="checkbox-unique-id-84" checked="" />
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <apex:inputCheckbox value="{!per.Study_Direct_Mail_Consent__c}" styleClass="checkboxcss" />
+                                            <!-- <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-84" value="checkbox-unique-id-84" checked="" /> -->
                                             <label class="slds-checkbox__label" for="checkbox-unique-id-84">
                                                 <span class="slds-checkbox_faux"></span>
                                                 <span class="slds-form-element__label">{!$Label.PP_DirectMailCheckbox}</span>
                                             </label>
+                                            <!-- </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </apex:outputPanel>
                         <!-- platform level -->
                         <div class="timeZoneText">
                             {!$Label.PP_PlatformPrivacyPolicyNote}
                             <div class=" slds-grid slds-wrap slds-gutters ">
                                 <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-85" value="checkbox-unique-id-85" checked="" />
-                                            <label class="slds-checkbox__label" for="checkbox-unique-id-85">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label">{!$Label.PP_Phonecheckbox}</span>
-                                            </label>
-                                        </div>
+                                        <apex:inputCheckbox value="{!contact.Participant_Phone_Opt_In_Permit_Phone__c}" styleClass="checkboxcss" />
+
+                                        <!-- <div class="slds-checkbox">
+                                            <input type="checkbox" name="options" id="checkbox-unique-id-85" value="checkbox-unique-id-85" checked="" />  -->
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-85">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.PP_Phonecheckbox}</span>
+                                        </label>
+                                        <!-- </div>-->
                                     </div>
                                 </div>
                                 <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-86" value="checkbox-unique-id-86" checked="" />
-                                            <label class="slds-checkbox__label" for="checkbox-unique-id-86">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label">{!$Label.PP_EmailCheckbox}</span>
-                                            </label>
-                                        </div>
+
+                                        <apex:inputCheckbox value="{!contact.Participant_Opt_In_Status_Emails__c}" styleClass="checkboxcss" />
+
+                                        <!--<div class="slds-checkbox">
+                                        <input type="checkbox" name="options" id="checkbox-unique-id-86" value="checkbox-unique-id-86" checked="" /> -->
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-86">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.PP_EmailCheckbox}</span>
+                                        </label>
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-87" value="checkbox-unique-id-87" checked="" />
-                                            <label class="slds-checkbox__label" for="checkbox-unique-id-87">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
-                                            </label>
-                                        </div>
+                                        <apex:inputCheckbox value="{!contact.Participant_Opt_In_Status_SMS__c}" styleClass="checkboxcss" />
+                                        <!--<div class="slds-checkbox">
+                                        <input type="checkbox" name="options" id="checkbox-unique-id-87" value="checkbox-unique-id-87" checked="" /> -->
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-87">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
+                                        </label>
+                                        <!--  </div> -->
                                     </div>
                                 </div>
                                 <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-88" value="checkbox-unique-id-88" checked="" />
-                                            <label class="slds-checkbox__label" for="checkbox-unique-id-88">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label">{!$Label.PP_DirectMailCheckbox}</span>
-                                            </label>
-                                        </div>
+                                        <apex:inputCheckbox value="{!contact.IQVIA_Direct_Mail_Consent__c}" styleClass="checkboxcss" />
+                                        <!--<div class="slds-checkbox">
+                                        <input type="checkbox" name="options" id="checkbox-unique-id-88" value="checkbox-unique-id-88" checked="" /> -->
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-88">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.PP_DirectMailCheckbox}</span>
+                                        </label>
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>
