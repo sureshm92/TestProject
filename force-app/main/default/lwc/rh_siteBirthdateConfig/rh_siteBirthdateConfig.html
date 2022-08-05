@@ -23,15 +23,27 @@
               </th>
               <th class="" scope="col">
                 <div class="slds-truncate cursor-default checkbox-header" title="DD-MM-YYYY">DD-MM-YYYY</div>
-                <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="DD-MM-YYYY" onclick={handleSelectAll}>{label.selectAll}</div>
+                <div class="slds-truncate cursor-default checkbox-header" title="Select All"  >
+                  <a  class="select-all" data-label="DD-MM-YYYY" onclick={handleSelectAll} >
+                    {label.selectAll}
+                  </a>
+                </div>
               </th>
               <th class="" scope="col">
                 <div class="slds-truncate cursor-default checkbox-header" title="MM-YYYY">MM-YYYY</div>
-                <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="MM-YYYY" onclick={handleSelectAll}>{label.selectAll}</div>
+                <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="MM-YYYY" >
+                  <a  class="select-all" data-label="MM-YYYY" onclick={handleSelectAll} >
+                    {label.selectAll}
+                  </a>
+                </div>
               </th>
               <th class="" scope="col">
                 <div class="slds-truncate cursor-default checkbox-header" title="YYYY">YYYY</div>
-                <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="YYYY" onclick={handleSelectAll}>{label.selectAll}</div>
+                <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="YYYY">
+                  <a  class="select-all" data-label="YYYY" onclick={handleSelectAll} >
+                    {label.selectAll}
+                  </a>
+                </div>
               </th>
             </tr>
           </thead>
