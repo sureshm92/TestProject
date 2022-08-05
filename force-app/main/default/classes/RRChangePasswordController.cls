@@ -78,6 +78,10 @@ public without sharing class RRChangePasswordController {
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
 
+    public String maskUserName {get;set;}
+    public String maskLastName {get;set;}
+    public String maskDaytimephone {get;set;}
+
     public Boolean mainPortal {
         get {
             return !Site.getPathPrefix().startsWith('/gsk');
@@ -178,6 +182,7 @@ public without sharing class RRChangePasswordController {
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
 
+        maskUserName = userVal.Username.substring(0,3)+'************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
 
@@ -282,6 +287,9 @@ public without sharing class RRChangePasswordController {
         isDelegate = contact.UserCommunityIsDelegate__c;
         showErrorMessage = false;
         isSaveButtonDisabled = false;
+        maskLastName = participant.Last_Name__c.substring(0,1)+'************';
+        maskDaytimephone = '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length());
+
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
             state = participant.Mailing_State_Code__c;
@@ -368,6 +376,58 @@ public without sharing class RRChangePasswordController {
                 insert tca;
             }
 
+            return pr;
+        } catch (Exception e) {
+            isProfileView = true;
+            return null;
+        }
+    }
+
+    public PageReference ppChangePassword()
+    {
+        try {
+            PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
+            contact cont = new contact();
+            cont.Id = contact.Id;
+            cont.Is_First_Logon__c = false;
+            cont.Landing_Community__c = Site.getMasterLabel();
+            if (isParticipant) {
+                cont.MailingCountrycode = contact.MailingCountrycode;
+                cont.MailingStatecode = contact.MailingStatecode;
+                cont.MailingCountryCode = participant.Mailing_Country_Code__c;
+                cont.MailingStateCode = participant.Mailing_State_Code__c;
+            }
+            update cont;
+            update participant;
+            userVal.IsCommunityUserRegistered__c = true;
+            update userVal;
+            for (ApexPages.Message m : ApexPages.getMessages()) {
+                if (m.getDetail().contains(System.Label.Pswd_ValidationMsg5)) {
+                    m = new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.Pswd_ValidationMsg6
+                    );
+                    failingPageResponse = m.getDetail();
+                } else if (
+                    m.getDetail().contains(System.Label.Pswd_Val_strng1) ||
+                    m.getDetail().contains(System.Label.Pswd_Val_strng2) ||
+                    m.getDetail().contains(System.Label.Pswd_ValidationMsg4)
+                ) {
+                    m = new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.Pswd_ValidationMsg3
+                    );
+                    failingPageResponse = m.getDetail();
+                } else {
+                    if (
+                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) 
+                    ) {
+                        failingPageResponse = System.Label.PP_CantReuseOldPwd;
+                    } else {
+                        failingPageResponse = null;
+                    }
+                }
+            }
             return pr;
         } catch (Exception e) {
             isProfileView = true;

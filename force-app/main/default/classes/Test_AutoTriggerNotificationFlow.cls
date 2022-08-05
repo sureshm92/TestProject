@@ -11,6 +11,7 @@ public class Test_AutoTriggerNotificationFlow {
         Notification__c notObj = new Notification__c();
         notObj.Recipient__c = td.pe.Participant_Contact__c;
         notObj.Status__c = 'In Progress';
+        notObj.WhatId__c=td.piContact.Id;
         // notObj.Target_Type__c='Push';
         notObj.Notification_Type__c = 'Message_To_PI_Contact_Participant_Type';
         insert notObj;
