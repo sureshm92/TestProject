@@ -335,7 +335,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if(String.isNotBlank(YearofBirth) && String.isNotBlank(MonthofBirth) && String.isNotBlank(strDate)){
                  DateofBirthError = YearofBirth.length() != 4 ? 'yearError' : MonthofBirth.length() > 2 ? 'MonthError' : strDate.length() > 2 ? 'DateError' : 'NoError'   ;
                     if(DateofBirthError == 'NoError')
-                    {
+                    {   
+                        //in csv format, 0 is not considered before any number so making the month and date as two digit (RH-8056)
+                        MonthofBirth = MonthofBirth.length() == 2 ? MonthofBirth : '0' + MonthofBirth;
+                        strDate = strDate.length() == 2 ? strDate : '0' + strDate;
                         DateOfBirth = YearofBirth + '-' + MonthofBirth + '-' + strDate;    
                     }
                 }
