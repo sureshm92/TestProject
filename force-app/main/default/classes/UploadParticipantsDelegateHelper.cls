@@ -210,12 +210,16 @@ public without sharing class UploadParticipantsDelegateHelper {
         Map<String,Patient_Delegate__c> dupDelPatientCurrentNonPrimaryDelegates = new Map<String,Patient_Delegate__c>();
         if (!duplicateDelegateMainParticipantMap.isEmpty()) {
             for (Patient_Delegate__c patientDel : [
-                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id
+                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id, Participant__r.Email__c
                 FROM Patient_Delegate__c
                 WHERE
                     Participant__c IN :duplicateDelegateMainParticipantMap.values()
                     //AND Contact__r.Id IN :duplicateDelegateMainParticipantMap.keySet()
             ]) {
+                if( patientDel.Primary_Delegate__c && (patientDel.Participant__r.Email__c == null || string.isBlank(patientDel.Participant__r.Email__c)) &&
+                    studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    iqviaOutReachSet.add(patientDel.Contact__r.Id);
+                    }
                 if(duplicateDelegateMainParticipantMap.keySet().contains(patientDel.Contact__r.Id)){
                     dupDelegateMainParticipantMap.put(
                         patientDel.Contact__r.Id,
