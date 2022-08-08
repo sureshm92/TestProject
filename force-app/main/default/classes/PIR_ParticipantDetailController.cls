@@ -347,8 +347,6 @@ public without sharing class PIR_ParticipantDetailController {
                 IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                 IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                 IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
-                IQVIA_Contact_info_storage_consent__c = (perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c || perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c
-                || perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c || perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c),
         Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c);
     conlist.add(con);
     if(
@@ -363,11 +361,7 @@ public without sharing class PIR_ParticipantDetailController {
                         IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                         IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                         IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                        IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
-                        IQVIA_Contact_info_storage_consent__c = (perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c 
-                        || perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c
-                        || perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c 
-                        || perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c));
+                        IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c);
                     if((delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate') && isDelUpdated ){
                         delegateContact.id = contactId;
                     }else{

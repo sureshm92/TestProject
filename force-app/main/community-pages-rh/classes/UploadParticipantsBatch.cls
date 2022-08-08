@@ -335,7 +335,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if(String.isNotBlank(YearofBirth) && String.isNotBlank(MonthofBirth) && String.isNotBlank(strDate)){
                  DateofBirthError = YearofBirth.length() != 4 ? 'yearError' : MonthofBirth.length() > 2 ? 'MonthError' : strDate.length() > 2 ? 'DateError' : 'NoError'   ;
                     if(DateofBirthError == 'NoError')
-                    {
+                    {   
+                        //in csv format, 0 is not considered before any number so making the month and date as two digit (RH-8056)
+                        MonthofBirth = MonthofBirth.length() == 2 ? MonthofBirth : '0' + MonthofBirth;
+                        strDate = strDate.length() == 2 ? strDate : '0' + strDate;
                         DateOfBirth = YearofBirth + '-' + MonthofBirth + '-' + strDate;    
                     }
                 }
@@ -826,9 +829,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         if(this.outreachSMS){
                             participantContact.Participant_Opt_In_Status_SMS__c = true;
                         }
-                    }
-                    if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
-                        participantContact.IQVIA_Contact_info_storage_consent__c = true;
                     }
 
                     Participant__c participant = new Participant__c(
@@ -1328,9 +1328,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for(String conId : duplicateContactIds){
                 Contact con = new Contact();
                 con.Id = conId;
-                if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && (this.outreachEmail || this.outreachPhone || this.outreachSMS || this.outreachDirectMail)){
-                    con.IQVIA_Contact_info_storage_consent__c = true;
-                }
                 if(studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
                     con.IQVIA_Direct_Mail_Consent__c = outreachDirectMail;
                     con.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;

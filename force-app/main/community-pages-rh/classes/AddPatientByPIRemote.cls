@@ -191,8 +191,6 @@ public without sharing class AddPatientByPIRemote {
                         contactConsentJSON,
                         Contact.class
                     );
-                    participantCon.IQVIA_Contact_info_storage_consent__c = (contactConsent.Participant_Opt_In_Status_Emails__c || contactConsent.Participant_Opt_In_Status_SMS__c
-                    || contactConsent.Participant_Phone_Opt_In_Permit_Phone__c || contactConsent.IQVIA_Direct_Mail_Consent__c);
                     participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
                     participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
                     participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
@@ -534,8 +532,7 @@ public without sharing class AddPatientByPIRemote {
                     con.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
                     con.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
                     con.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
-                    con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_Emails__c || con.Participant_Opt_In_Status_SMS__c
-                    || con.Participant_Phone_Opt_In_Permit_Phone__c || con.IQVIA_Direct_Mail_Consent__c);
+                    
                     TriggerHandlerExecutor.bypassHandler(
                         ContactTriggerHandler.CreateUserForDelegateContactHandler.class
                     );

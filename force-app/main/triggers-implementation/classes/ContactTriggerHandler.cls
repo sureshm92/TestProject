@@ -797,6 +797,11 @@ public without sharing class ContactTriggerHandler {
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Contact> newList) {
         for (Contact con : newList) {
+            if(!con.IQVIA_Contact_info_storage_consent__c){
+                con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
+                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+            }
             con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c
                 ? Datetime.now()
                 : null);
@@ -829,6 +834,13 @@ public without sharing class ContactTriggerHandler {
     private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap) {
         for (Contact con : newList) {
             contact oldContact = oldMap.get(con.Id);
+
+            if(!oldContact.IQVIA_Contact_info_storage_consent__c){
+                con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
+                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+            }
+
             if (
                 con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c
             ) {
