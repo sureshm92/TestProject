@@ -1,0 +1,26 @@
+<template>
+    <template if:true={userMode}>
+        <lightning-button
+            class="apollo-btn primary mt-button hideMobile"
+            onclick={inviteTeamMembers}
+        >
+            {Label.c.pgPstLDelegates_Add}
+        </lightning-button>
+    </template>
+    <template if:true={userMode}>
+        <lightning-button
+            class="apollo-btn primary mt-button showMobile buttonMargin"
+            onclick={inviteTeamMembers}
+        >
+            {label.pgPstLDelegates_Add}
+        </lightning-button>
+    </template>
+    <template if:true={userMode}>
+        <!--- <c-ppPatientDelegateItem
+            contact={delegate.delegateContact}
+            isactive={delegate.isActive}
+            parentcomponent={}
+        ></c-ppPatientDelegateItem>-->
+    </template>
+    <c-pp-remove-delegate-modal></c-pp-remove-delegate-modal>
+</template>
