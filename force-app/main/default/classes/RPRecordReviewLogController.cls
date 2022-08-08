@@ -213,7 +213,9 @@ public without sharing class RPRecordReviewLogController {
                    peEnrollment.Participant_Alt_Phone_Type__c = peRecord.Participant_Alt_Phone_Type__c;
                }
             //Added by Raviteja Starts
+            if(peRecord.Permit_Mail_Email_contact_for_this_study__c){
             peEnrollment.Permit_IQVIA_to_contact_about_study__c = peRecord.Permit_Mail_Email_contact_for_this_study__c;
+            }
             peEnrollment.Permit_SMS_Text_for_this_study__c = peRecord.Permit_SMS_Text_for_this_study__c;
             peEnrollment.Permit_Voice_Text_contact_for_this_study__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
             peEnrollment.Study_Artificial_Voice_Consent__c = peRecord.Permit_Voice_Text_contact_for_this_study__c;
