@@ -87,22 +87,20 @@
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small visit-date">
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Visit Date</label>
-                                    <lightning-input variant="label-hidden"  min={today} class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
+                                    <lightning-input variant="label-hidden"  min={today} message-when-range-underflow="Enter Today or Future Date" class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
                                     <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small start-time">
-                                    
                                     <!--05:00:00.000Z-->
+                                        <!--max="23:45:00.000Z"-->
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Start Time</label>
-                                    <!--max="23:45:00.000Z"-->
                                         <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
                                             variant="label-hidden"
                                             value={startTime}
                                             label="Start Time"
-                                            title="Start Time" min={defaultTime}  placeholder="Select Time">
+                                                title="Start Time" min={defaultTime}  message-when-range-underflow="Enter Current or Future Time" placeholder="Select Time">
                                         </lightning-input>
-                                
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small">
                                     <abbr class="slds-required">*</abbr>
