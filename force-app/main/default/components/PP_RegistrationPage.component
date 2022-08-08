@@ -1490,9 +1490,10 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     ">
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
                                                 <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                    <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
                                                         <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                    </svg>
+                                                    </svg>-->
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.pp_community_icons}/icons.svg#info"></use>
                                                 </svg>
                                             </lightning-primitive-icon>
                                             <span class="slds-assistive-text"></span>
@@ -1517,9 +1518,10 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     ">
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
                                                 <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                    <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
                                                         <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                    </svg>
+                                                    </svg> -->
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.pp_community_icons}/icons.svg#info"></use>
                                                 </svg>
                                             </lightning-primitive-icon>
                                             <span class="slds-assistive-text"></span>
@@ -1544,9 +1546,10 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         ">
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
                                                 <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
+                                                    <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info">
                                                         <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                    </svg>
+                                                    </svg>-->
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.pp_community_icons}/icons.svg#info"></use>
                                                 </svg>
                                             </lightning-primitive-icon>
                                             <span class="slds-assistive-text"></span>
