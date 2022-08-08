@@ -690,20 +690,41 @@ public without sharing class ParticipantDuplicateService {
             if(!String.isBlank(participant.Birth_Day__c)) dd = participant.Birth_Day__c; 
             List<Participant__c> pList = new List<Participant__c>();  
             if(mm!='--'){
-                if(dd!='--'){
+                if(dd!='--'){                    
                     if(dobPartMap.get(yyyy).containsKey(mm)){
+                        // all part with new part full DOB
                         if(dobPartMap.get(yyyy).get(mm).containsKey(dd)){
                             pList.addAll(dobPartMap.get(yyyy).get(mm).get(dd)); 
                         }
-                    }                    
+                        //all part with new part month and year but empty day 
+                        if(dobPartMap.get(yyyy).get(mm).containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get(mm).get('--'));  
+                        }                        
+                    }   
+                    //all part with new part year but empty day and month
+                    if(dobPartMap.get(yyyy).containsKey('--')){
+                        if(dobPartMap.get(yyyy).get('--').containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
+                        }
+                    }         
                 }
                 else{
-                    for(List<Participant__c> pls: dobPartMap.get(yyyy).get(mm).values()){
-                        pList.addAll(pls);                    
+                    //all part with new part month and year and all days 
+                    if(dobPartMap.get(yyyy).containsKey(mm)){
+                        for(List<Participant__c> pls: dobPartMap.get(yyyy).get(mm).values()){
+                            pList.addAll(pls);                    
+                        }
                     }
+                    //all part with new part year but empty day and month
+                    if(dobPartMap.get(yyyy).containsKey('--')){
+                        if(dobPartMap.get(yyyy).get('--').containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
+                        }
+                    }                       
                 }          
             }
             else{
+                //all part with new part year but all day and all months
                 for(Map<String,List<Participant__c>> day : dobPartMap.get(yyyy).values()){
                     for(List<Participant__c> partList : day.values()){
                         pList.addAll(partList);
