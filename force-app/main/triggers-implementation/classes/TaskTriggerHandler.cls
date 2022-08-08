@@ -124,7 +124,7 @@ public without sharing class TaskTriggerHandler {
                 Start_Date__c,
                 Owner_Contact__c
             FROM Task
-            WHERE Id IN :tasks AND Owner_Contact__c = NULL
+            WHERE Id IN :tasks
         ];
         /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
@@ -202,7 +202,10 @@ public without sharing class TaskTriggerHandler {
                         whatId = task.Survey_Invitation__c;
                     }
                     if (card.Immediate_Notification_Type__c != null) {
-                        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                        if (
+                            task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                            !tasksWithoutUser.contains(task.Id)
+                        ) {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
@@ -239,7 +242,10 @@ public without sharing class TaskTriggerHandler {
             if (
                 task.InitialTaskNotification__c && task.Task_Type__c == TaskService.TASK_TYPE_ECOA
             ) {
-                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                if (
+                    task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                    !tasksWithoutUser.contains(task.Id)
+                ) {
                     notifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
