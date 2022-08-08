@@ -1,0 +1,23 @@
+<template>
+    <div class="rr-white-panel mti-container">
+        <div class="mti-name">{contactname}</div>
+        <div class="mti-email">{contact.Email}</div>
+        <div class="mti-button-container">
+            <template if:true={mobile}>
+                <lightning-button class="apollo-btn tertiary" title={title} onclick={handleClick}>
+                    {title}
+                </lightning-button>
+                <template if:false={mobile}>
+                    <lightning-button
+                        class="apollo-btn tertiary"
+                        style="margin-right: 600px"
+                        title={title}
+                        onclick={handleClick}
+                    >
+                        {title}
+                    </lightning-button>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>
