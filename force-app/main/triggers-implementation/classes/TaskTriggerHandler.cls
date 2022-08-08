@@ -178,7 +178,7 @@ public without sharing class TaskTriggerHandler {
             partContactsIds.add(usersByIds.get(usId).ContactId);
         }
         //Adding contacts without user to same list
-        //partContactsIds.addAll(contactWithoutUser);
+        partContactsIds.addAll(contactWithoutUser);
 
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Contact__c, Status__c, Participant__r.Contact__c
