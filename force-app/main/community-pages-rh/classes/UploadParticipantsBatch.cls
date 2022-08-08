@@ -1790,7 +1790,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             else if( fileName.contains('.xls'))errFileName  = fileName.split('.xls')[0]+'_errors.csv';
         Id conDocId = null;
         if(errorRecordCount != 0){
-            Id networkId = [SELECT Id FROM Network LIMIT 1].Id;
+            NetworkMember getnetwork=[select id, NetworkId, Network.id, Network.Name 
+            from NetworkMember where MemberId =:UserInfo.getUserId() LIMIT 1 ];
+            Id networkId=getnetwork.NetworkId;
             ContentVersion cv = new ContentVersion();
 		    cv.Title = errFileName;
 		    cv.PathOnClient = '/'+errFileName;
@@ -1819,7 +1821,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
         bulkHistory1.Accepted_Records__c = String.valueOf(totalRecordCount - errorRecordCount);
         if(conDocId != null){
-            bulkHistory1.Download_URL__c = '/sfc/servlet.shepherd/document/download/'+ conDocId;
+            bulkHistory1.Download_URL__c = '../sfc/servlet.shepherd/document/download/'+ conDocId;
         }
         update bulkHistory1;
 
