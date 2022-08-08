@@ -180,7 +180,7 @@
         for(var i = parseInt(new Date().getFullYear()) ; i>=1900 ;i--){
             opt.push({label: i.toString(), value: i.toString() });
         }        
-        helper.setAge(component,event,helper);
+        //helper.setAge(component,event,helper);
         component.set("v.optionsYYYY",opt);
         var format = component.get("v.dobConfig");
         component.set("v.showDay",format.includes('DD'));
