@@ -417,6 +417,10 @@ public without sharing class RRChangePasswordController {
                 cont.MailingStatecode = contact.MailingStatecode;
                 cont.MailingCountryCode = participant.Mailing_Country_Code__c;
                 cont.MailingStateCode = participant.Mailing_State_Code__c;
+                cont.Participant_Phone_Opt_In_Permit_Phone__c = contact.Participant_Phone_Opt_In_Permit_Phone__c;
+                cont.Participant_Opt_In_Status_Emails__c = contact.Participant_Opt_In_Status_Emails__c;
+                cont.Participant_Opt_In_Status_SMS__c = contact.Participant_Opt_In_Status_SMS__c;
+                cont.IQVIA_Direct_Mail_Consent__c = contact.IQVIA_Direct_Mail_Consent__c;
             }
             update cont;
             update participant;

@@ -489,6 +489,9 @@
     </style>
 
     <script>
+        window.onload = function () {
+            disableSaveBtn();
+        }
 
         var pwdMatchLabel = '{!JSENCODE($Label.PP_PasswordsMatch)}';
         var pwdMisMatchLabel = '{!JSENCODE($Label.PPLite_PasswordsMismatch)}';
@@ -1707,7 +1710,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         <div class="cp-save-btn-container">
                             <!--<button class="slds-button slds-button_brand changepwdbtn" action="{!checkPasswords}">Save Continue</button> -->
                             <apex:commandButton action="{!ppChangePassword}" value="{!$Label.PP_SaveContinue}" styleClass="slds-button slds-button_brand changepwdbtn"
-                                disabled="true" id="saveButton" />
+                                id="saveButton" />
                         </div>
                         <c:PP_CookiesInfo isRTL="{!isRTL} " />
                     </apex:form>
@@ -1717,7 +1720,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
     </div>
     <div class="slds-col ">
         <footer class="slds-align_absolute-right footerdown " style=" ">
-            <span>{!$Label.PP_Privacypolicy}</span>
+            <span>{!$Label.PP_Privacypolicy} </span>
         </footer>
     </div>
 </apex:component>
