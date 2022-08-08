@@ -311,15 +311,28 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 }
             }
             if(fieldName === 'Start Time'){
-                this.startTime = val;
                 this.startTimeChanged = true;
+                this.startTime = val;         
+                this.errorTime = false;
+
+                if(val < this.defaultTime){
+                    this.errorTime = true;
+                    dom.setCustomValidity('Enter Current or Future Time');
+                }
+                else {
+                    this.errorTime = false;
+                }
             }
             if(fieldName === 'Duration'){
                 this.duration = val;
             }   
-            if(!val.replace(/\s/g, '')){
+            if(val == null){
                 dom.setCustomValidity('Please Enter the ' +fieldName);
-            }else{
+            }
+            else if(!val.replace(/\s/g, '')){
+                dom.setCustomValidity('Please Enter the ' +fieldName);
+            }
+            else if(!this.errorTime ){
                 dom.setCustomValidity('');
             }
             dom.reportValidity();
@@ -340,6 +353,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.duplicateSelectedTelevisitAttendeesList = [];
     }
 
+    errorTime = false;
+
     checkAllFieldsArePopulated(){
         var title = this.template.querySelector('[data-id="Title"]').value.replace(/\s/g, '');
         var visitDate = this.template.querySelector('[data-id="Visit Date"]').value;
@@ -349,7 +364,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         visitDate !== null && visitDate !== undefined && visitDate !== '' && 
         this.startTime !== null && this.startTime !== undefined && this.startTime !== '' && 
         duration !== null && duration !== undefined && duration !== '' && visitDate >= this.today && 
-        this.siteStaffAdded){
+        this.siteStaffAdded && !this.errorTime){
             this.disableSaveButton = false;
         }else{
             this.disableSaveButton = true;
@@ -424,6 +439,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback(){
+
         this.displayTelevisitRecords = true;        
         this.fetchTelevisitRecord();
 

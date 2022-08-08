@@ -702,10 +702,10 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
         this.newstatus = event.detail.value;
       
     }
-    get checknewStatus(){
-        if(this.newstatus == 'Enrollment Success' 
-            || this.newstatus == 'Randomization Success'
-            || this.newstatus == 'Screening Passed'){
+    get checknewStatus(){ 
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'
+            || this.newstatus == 'Screening Passed' || this.newstatus == 'Withdrew Consent After Screening'
+            || this.newstatus == 'Enrollment Failed' || this.newstatus == 'Randomization Failed'){
             return true;
         }else{
             return false;
@@ -721,7 +721,8 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
 
     get checkScreeningPassedStatus(){
-        if(this.newstatus == 'Screening Passed'){
+        if(this.newstatus == 'Screening Passed' || this.newstatus == 'Withdrew Consent After Screening'
+            || this.newstatus == 'Enrollment Failed'|| this.newstatus == 'Randomization Failed'){
             return true;
         }else{
             return false;
