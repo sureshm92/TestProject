@@ -206,24 +206,30 @@ public without sharing class UploadParticipantsDelegateHelper {
 
         Map<String, String> dupDelMainParticipantMap = new Map<String, String>();
         Map<String, String> dupDelegateMainParticipantMap = new Map<String, String>();
+        Map<String,Patient_Delegate__c> dupDelOtherPatientPrimaryDelegates = new Map<String,Patient_Delegate__c>();
+        Map<String,Patient_Delegate__c> dupDelPatientCurrentNonPrimaryDelegates = new Map<String,Patient_Delegate__c>();
         if (!duplicateDelegateMainParticipantMap.isEmpty()) {
             for (Patient_Delegate__c patientDel : [
-                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id,Participant__r.Email__c
+                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id
                 FROM Patient_Delegate__c
                 WHERE
                     Participant__c IN :duplicateDelegateMainParticipantMap.values()
-                    AND Contact__r.Id IN :duplicateDelegateMainParticipantMap.keySet()
+                    //AND Contact__r.Id IN :duplicateDelegateMainParticipantMap.keySet()
             ]) {
-                dupDelegateMainParticipantMap.put(
-                    patientDel.Contact__r.Id,
-                    patientDel.Participant__r.Id
-                );
-                if( patientDel.Primary_Delegate__c && (patientDel.Participant__r.Email__c == null || string.isBlank(patientDel.Participant__r.Email__c)) &&
-                    studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                    iqviaOutReachSet.add(patientDel.Contact__r.Id);
+                if(duplicateDelegateMainParticipantMap.keySet().contains(patientDel.Contact__r.Id)){
+                    dupDelegateMainParticipantMap.put(
+                        patientDel.Contact__r.Id,
+                        patientDel.Participant__r.Id
+                    );
+                    if(!patientDel.Primary_Delegate__c){
+                        dupDelPatientCurrentNonPrimaryDelegates.put(patientDel.Contact__r.Id,patientDel);
+                    }
+                }else if (patientDel.Primary_Delegate__c){
+                    dupDelOtherPatientPrimaryDelegates.put(patientDel.Participant__r.Id, patientDel);
                 }
-            }
 
+            }
+            List<Patient_Delegate__c> updatePDs = new List<Patient_Delegate__c>();
             for (String cntId : duplicateDelegateMainParticipantMap.keySet()) {
                 if (
                     duplicateDelegateMainParticipantMap.get(cntId) != null &&
@@ -235,6 +241,41 @@ public without sharing class UploadParticipantsDelegateHelper {
                         cntId,
                         duplicateDelegateMainParticipantMap.get(cntId)
                     );
+                }else if(duplicateDelegateMainParticipantMap.get(cntId) != null &&
+                    dupDelegateMainParticipantMap.keySet().contains(cntId)){
+                    if(!dupDelPatientCurrentNonPrimaryDelegates.isEmpty() && dupDelPatientCurrentNonPrimaryDelegates.containsKey(cntId)){
+                        Patient_Delegate__c currentPd =  dupDelPatientCurrentNonPrimaryDelegates.get(cntId);
+                        currentPd.Primary_Delegate__c = true;
+                        updatePDs.add(currentPd);
+                        if(!dupDelOtherPatientPrimaryDelegates.isEmpty() && dupDelOtherPatientPrimaryDelegates.containsKey(dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c)){
+                            Patient_Delegate__c oldPd = dupDelOtherPatientPrimaryDelegates.get(dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c);
+                            oldPd.Primary_Delegate__c = false;
+                            updatePDs.add(oldPd);
+                        }
+                    }
+                }
+            }
+            if(updatePDs.isEmpty()){
+                Database.SaveResult[] perDupPD = Database.update(updatePDs, false);
+                for (Integer k = 0; k < perDupPD.size(); k++) {
+                    if (!perDupPD[k].isSuccess()) {
+                        errorwrap.errorRecordCount++;
+                        mapParticipant.remove(countIndexParticipant);
+                        Database.Error error = perDupPD[k].getErrors().get(0);
+                        errorwrap.listOfFailedRecordsWithMsg.add(
+                            '' +
+                            countIndexParticipant +
+                            ', ERROR on patient delegate record update: ' +
+                            error.getFields() +
+                            ' ' +
+                            error.getMessage()
+                        );
+                        if(!test.isRunningTest()){
+                        errorwrap.listOfFailedRecords.add(
+                            getCleanMessage(csvLines, countIndexParticipant)
+                        );
+                        }
+                    }
                 }
             }
         }
