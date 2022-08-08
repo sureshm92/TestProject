@@ -2141,6 +2141,7 @@ public without sharing class PIR_HomepageController {
               oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED ||
               oParticipantStatus == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED ||
               oParticipantStatus == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+              oParticipantStatus == PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED ||
               oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_REACH) && 
               pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_FAILED
           ) {
