@@ -702,7 +702,7 @@ public without sharing class ParticipantDuplicateService {
                         }                        
                     }   
                     //all part with new part year but empty day and month
-                    if(dobPartMap.get(yyyy).containsKey('--'){
+                    if(dobPartMap.get(yyyy).containsKey('--')){
                         if(dobPartMap.get(yyyy).get('--').containsKey('--')){
                             pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
                         }
@@ -716,7 +716,7 @@ public without sharing class ParticipantDuplicateService {
                         }
                     }
                     //all part with new part year but empty day and month
-                    if(dobPartMap.get(yyyy).containsKey('--'){
+                    if(dobPartMap.get(yyyy).containsKey('--')){
                         if(dobPartMap.get(yyyy).get('--').containsKey('--')){
                             pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
                         }
