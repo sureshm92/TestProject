@@ -188,6 +188,8 @@ public without sharing class ManualTaskFilter {
         List<Patient_Delegate__c> StudyDelegateLST = new List<Patient_Delegate__c>();
         Map<Id, List<Id>> studyDelegateParticipantIds = new Map<Id, List<Id>>();
         Map<Id,List<Id>> studyDelContactPerIds = new Map<Id,List<Id>>();
+        Map<Id,List<Id>> studyDelegateContactsIds = new Map<Id,List<Id>>();
+
         Map<Id,List<Id>> studyParticipantPErIds = new Map<Id,List<Id>>();
         Map<Id, List<Id>> studyDelegateOwnerMap = new Map<Id, List<Id>>();
         sObjectsByContact = getContactsWithPE();
@@ -229,14 +231,12 @@ public without sharing class ManualTaskFilter {
                         sObjectsByContact.get(participantwithContact.get(parId))
                     );
                     delconIds.addAll(studyDelegateContactsIds.get(parId));
+                    for(Id delcon : delconIds){
+                        studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
+                    }
+                    system.debug('studyDelContactPerIds:::'+studyDelContactPerIds);
                 }
             }
-            if(delconIds != null && delconIds!= ''){
-                for(Id delcon : delconIds){
-                    studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
-                }
-            system.debug('studyDelContactPerIds:::'+studyDelContactPerIds);
-           }
         }
         if(peIdsByContact != null || studyDelContactPerIds != null){
             studyDelegateOwnerMap.putAll(peIdsByContact);
