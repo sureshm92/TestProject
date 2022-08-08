@@ -187,7 +187,9 @@ public without sharing class PreferenceManagementController {
             cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
             cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
             cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
-            cont.IQVIA_Contact_info_storage_consent__c = contactStorageOptIn;
+            if(contactStorageOptIn!=null){
+                cont.IQVIA_Contact_info_storage_consent__c=contactStorageOptIn;
+            }
             //IF SMS opt out, revert the welcome message flag at contact.
             if (!cont.Participant_Opt_In_Status_SMS__c) {
                 cont.Welcome_Message_Sent__c = false;

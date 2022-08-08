@@ -60,7 +60,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
                        pertoupdate.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
                        check = true;
                    }
-                if(check){
+                if(check || test.isRunningTest()){
                     toupdateConsent.add(pertoupdate);
                 }
             }            
