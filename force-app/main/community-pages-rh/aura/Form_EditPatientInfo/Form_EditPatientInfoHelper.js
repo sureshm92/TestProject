@@ -317,6 +317,7 @@
         else if(agemin!=agemax && age==agemin){
             helper.validateDOB(component, event, helper);
         }
+        $A.enqueueAction(component.get('c.doCheckFields'));
     },
     validateDOB: function (component, event, helper){
         var format = component.get("v.dobConfig");
