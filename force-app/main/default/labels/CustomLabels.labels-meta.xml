@@ -26613,4 +26613,44 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Last Updated On</shortDescription>
         <value>Last Updated on:</value>
     </labels>
+    <labels>
+        <fullName>Communication_Preferences</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Communication Preferences</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Access</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Medical Record Access</shortDescription>
+        <value>Medical Record Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_COMMUNICATION_PREFERENCE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
+        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UPDATE_EMAIL_WARNING</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
+        <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DOB_ERROR</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DOB_ERROR</shortDescription>
+        <value>Date must be ##TODAY or earlier</value>
+    </labels>
 </CustomLabels>

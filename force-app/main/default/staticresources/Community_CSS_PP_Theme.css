@@ -1,3 +1,10 @@
+@media (max-width: 500px) {
+    .rr-width-limiter.side-padding {
+        padding: 0px !important;
+        background-color: #F6F7FB;
+    }
+}
+
 /* Community_CSS_PP_Theme */
 
 .slds-spinner_brand.slds-spinner:before,
@@ -23,6 +30,23 @@
     margin: 50px auto auto;
 }
 
+.profile-info-input .slds-input{
+    height: 2rem !important;
+    box-sizing: border-box !important;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+}
+
+.profile-info-error-input .slds-input{
+    border: 1px solid rgba(226, 0, 0, 1) !important;
+}
+
+.round-combobox .slds-dropdown_fluid{
+    min-width: 10rem !important;
+}
+
+
 .cp-login-title{
     font-size: 60px;
     font-weight: 500;
@@ -40,4 +64,11 @@
 }
 .font-thickness {
     font-weight: 500;
+}
+
+@media (max-width: 500px){
+    .rr-width-limiter .side-padding {
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+    }
 }
