@@ -45,6 +45,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isAdult { get; set; }
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
+    public Participant_Enrollment__c per {get;set;}
 
     public Translation__c translation { get; set; }
     public String browserLanguage { get; set; }
@@ -163,6 +164,10 @@ public without sharing class RRChangePasswordController {
                 Contact.MailingStateCode,
                 Contact.MailingStreet,
                 Contact.Is_First_Logon__c,
+                Contact.Participant_Opt_In_Status_Emails__c,
+                Contact.Participant_Opt_In_Status_SMS__c ,
+                Contact.Participant_Phone_Opt_In_Permit_Phone__c ,
+                Contact.IQVIA_Direct_Mail_Consent__c, 
                 Contact.Language__c,
                 Contact.Second_Choice_Language__c,
                 Contact.Third_Choice_Language__c,
@@ -293,6 +298,22 @@ public without sharing class RRChangePasswordController {
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
             state = participant.Mailing_State_Code__c;
+
+            /* Communitcation preference*/
+            if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
+            
+                List<Participant_Enrollment__c> loginUserPEs = [
+                    SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c 
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
+                ];
+                if(loginUserPEs.size()>0)
+                {
+                    per= loginUserPEs[0];
+                }
+                
+            }
+            /** Communication preference */
         }
         if (contact.UserCommunityIsDelegate__c && isParticipant) {
             Integer currentYear = Date.Today().Year();
@@ -396,9 +417,14 @@ public without sharing class RRChangePasswordController {
                 cont.MailingStatecode = contact.MailingStatecode;
                 cont.MailingCountryCode = participant.Mailing_Country_Code__c;
                 cont.MailingStateCode = participant.Mailing_State_Code__c;
+                cont.Participant_Phone_Opt_In_Permit_Phone__c = contact.Participant_Phone_Opt_In_Permit_Phone__c;
+                cont.Participant_Opt_In_Status_Emails__c = contact.Participant_Opt_In_Status_Emails__c;
+                cont.Participant_Opt_In_Status_SMS__c = contact.Participant_Opt_In_Status_SMS__c;
+                cont.IQVIA_Direct_Mail_Consent__c = contact.IQVIA_Direct_Mail_Consent__c;
             }
             update cont;
             update participant;
+            update per;
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             for (ApexPages.Message m : ApexPages.getMessages()) {
@@ -844,6 +870,7 @@ public without sharing class RRChangePasswordController {
         resetPassLogo = currentTemplate.properties.get(
             CommunityTemplateService.PROPERTY_RESET_PASS_LOGO
         );
+       
     }
 
     public void updateBrowserLanguageAction() {
