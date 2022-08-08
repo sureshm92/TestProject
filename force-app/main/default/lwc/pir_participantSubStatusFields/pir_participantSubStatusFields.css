@@ -663,6 +663,15 @@
         height: 24px;
         padding: 0px;
     }
+    .addtv_checkbox{
+        margin-left: -20px;
+    }
+}
+
+@media all and (max-width: 920px){
+    .addtv_checkbox{
+        margin-left: -5px;
+    }
 }
 .slds-form-element__label {
     max-width: 100%;
