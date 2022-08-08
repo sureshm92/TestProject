@@ -51,7 +51,6 @@
             window.open(urlEpr);
         }
     },
-
     onClickSend: function (component, event, helper) {
         var form = component.find('contactForm');
         form.checkFields();
@@ -85,34 +84,35 @@
                 {
                     contactInfo: JSON.stringify(conObj)
                 },
-                function () {},
-                null,
-                function () {}
-            );
-            communityService.executeAction(
-                component,
-                'createCaseToStudy',
-                {
-                    participant: participantInfo,
-                    ctp: ctp,
-                    isDelegate: communityService.isDelegate()
-                },
                 function () {
-                    if (participantInfo.Id) component.set('v.participant', participantInfo);
-                    communityService.showSuccessToast(
-                        'success',
-                        String.format(
-                            $A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'),
-                            ctp.Study_Code_Name__c
-                        ),
-                        500
+                    communityService.executeAction(
+                        component,
+                        'createCaseToStudy',
+                        {
+                            participant: participantInfo,
+                            ctp: ctp,
+                            isDelegate: communityService.isDelegate()
+                        },
+                        function () {
+                            if (participantInfo.Id) component.set('v.participant', participantInfo);
+                            communityService.showSuccessToast(
+                                'success',
+                                String.format(
+                                    $A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'),
+                                    ctp.Study_Code_Name__c
+                                ),
+                                500
+                            );
+                        },
+                        null,
+                        function () {
+                            component.find('mainSpinner').hide();
+                            //$A.get('e.force:refreshView').fire();
+                        }
                     );
                 },
                 null,
-                function () {
-                    component.find('mainSpinner').hide();
-                    $A.get('e.force:refreshView').fire();
-                }
+                function () {}
             );
         }
     }
