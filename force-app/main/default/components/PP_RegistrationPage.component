@@ -1187,10 +1187,8 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 </tr>
                                 <tr>
                                     <td class="tdclas" style="padding-top: 0;">
-                                        <!-- <apex:outputPanel rendered="{!hasProfilePic}"> -->
                                         <span onclick="{!if(hasProfilePic,'throwToastMesg();deleteAF();','')}" class="remove-photo" style="{!if(isRTL == true, 'display: contents;', '')}  {!if(hasProfilePic,'','opacity:0.4')} ">
                                             {!$Label.PP_Remove_Photo} </span>
-                                        <!-- </apex:outputPanel> -->
                                     </td>
                                 </tr>
                             </table>
@@ -1260,7 +1258,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 <label>{!$Label.PP_Reenterpassword}
                                     <span title="required" class="slds-required">*</span>
                                 </label>
-                                <!--<input class="slds-input " type="text " value="Enter new password " style="border-radius: 16px;"></input>  -->
                                 <div class="password-input">
 
                                     <apex:outputPanel id="showinput">
@@ -1536,13 +1533,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host=" ">
                                                 <svg lightning-primitiveIcon_primitiveIcon="" focusable="false
                             " data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                    <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
-                            " id="info ">
-                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9
-                            12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3
-                            0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3
-                            0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z "></path>
-                                                    </svg>-->
                                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.pp_community_icons}/icons.svg#info"></use>
                                                 </svg>
                                             </lightning-primitive-icon>
@@ -1550,9 +1540,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         </button>
                                     </span>
                                 </label>
-
-                                <!-- <input class="slds-input " type="text " value="Useremail@gmail.com " disabled="true
-                            " style="border-radius: 16px;"></input> -->
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container preferLang" value="{!userVal.contact.Language__c}">
                                         <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
@@ -1569,13 +1556,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host=" ">
                                                 <svg lightning-primitiveIcon_primitiveIcon=" " focusable="false
                             " data-key="info " aria-hidden="true " class="slds-button__icon ">
-                                                    <!--<svg xmlns="http://www.w3.org/2000/svg " viewBox="0 0 24 24
-                            " id="info ">
-                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9
-                            12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3
-                            0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3
-                            0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z "></path>
-                                                    </svg> -->
                                                     <use xmlns:xlink="http://www.w3.org/1999/xlink " xlink:href="{!$Resource.pp_community_icons}/icons.svg#info "></use>
                                                 </svg>
                                             </lightning-primitive-icon>
@@ -1584,8 +1564,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     </span>
                                 </label>
 
-                                <!-- <input class="slds-input " type="text " value="Useremail@gmail.com " disabled="true
-                            " style="border-radius: 16px; "></input> -->
+
                                 <div class="selectInput ">
                                     <apex:inputField styleClass="slds-input container" value="{!userVal.contact.Second_Choice_Language__c}">
                                         <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
@@ -1602,13 +1581,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                             <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host=" ">
                                                 <svg lightning-primitiveIcon_primitiveIcon=" " focusable="false
                             " data-key="info " aria-hidden="true " class="slds-button__icon ">
-                                                    <!--<svg xmlns="http://www.w3.org/2000/svg " viewBox="0 0 24 24
-                            " id="info ">
-                                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9
-                            12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3
-                            0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3
-                            0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z "></path>
-                                                    </svg>-->
                                                     <use xmlns:xlink="http://www.w3.org/1999/xlink " xlink:href="{!$Resource.pp_community_icons}/icons.svg#info"></use>
                                                 </svg>
                                             </lightning-primitive-icon>
@@ -1616,9 +1588,6 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         </button>
                                     </span>
                                 </label>
-
-                                <!-- <input class="slds-input " type="text " value="Useremail@gmail.com " disabled="true
-                            " style="border-radius: 16px; "></input> -->
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container" value="{!userVal.Contact.Third_Choice_Language__c}">
                                         <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
@@ -1637,8 +1606,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 <label>{!$Label.PP_Preferred_Timezone}
                                     <span title="required" class="slds-required">*</span>
                                 </label>
-                                <!--<input class="slds-input " type="text " value="Useremail@gmail.com " disabled="true
-                            " style="border-radius: 16px; "></input> -->
+
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container" value="{!userVal.TimeZoneSidKey}" />
                                 </div>
@@ -1647,8 +1615,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 <label>{!$Label.PP_Locale_DateFmt}
                                     <span title="required" class="slds-required">*</span>
                                 </label>
-                                <!--<input class="slds-input " type="text " value="Useremail@gmail.com " disabled="true
-                            " style="border-radius: 16px; "></input> -->
+
                                 <div class="selectInput ">
                                     <apex:inputField styleClass="slds-input container" value="{!userVal.LocaleSidKey}" />
                                 </div>
@@ -1662,55 +1629,45 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 
                                     <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
-                                            <!--     <div class="slds-checkbox ">
-                                                <input type="checkbox " name="options " id="checkbox-unique-id-81
-                            " value="checkbox-unique-id-81 " checked=" " checked="{!per.Permit_Voice_Text_contact_for_this_study__c} "/> -->
+
                                             <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss " />
 
                                             <label class="slds-checkbox__label " for="checkbox-unique-id-81 ">
                                                 <span class="slds-checkbox_faux "></span>
                                                 <span class="slds-form-element__label ">{!$Label.PP_Phonecheckbox}</span>
                                             </label>
-                                            <!--</div> -->
                                         </div>
                                     </div>
                                     <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Permit_Mail_Email_contact_for_this_study__c}" styleClass="checkboxcss " />
-                                            <!-- <div class="slds-checkbox ">
-                                                <input type="checkbox " name="options " id="checkbox-unique-id-82
-                            " value="checkbox-unique-id-82 " checked=" " /> -->
+
                                             <label class="slds-checkbox__label " for="checkbox-unique-id-82 ">
                                                 <span class="slds-checkbox_faux "></span>
                                                 <span class="slds-form-element__label ">{!$Label.PP_EmailCheckbox}</span>
                                             </label>
-                                            <!--</div>-->
                                         </div>
                                     </div>
                                     <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Permit_SMS_Text_for_this_study__c}" styleClass="checkboxcss" />
-                                            <!-- <div class="slds-checkbox ">
-                                                <input type="checkbox " name="options " id="checkbox-unique-id-83
-                            " value="checkbox-unique-id-83 " checked=" " />  -->
+
                                             <label class="slds-checkbox__label " for="checkbox-unique-id-83">
                                                 <span class="slds-checkbox_faux"></span>
                                                 <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
                                             </label>
-                                            <!-- </div> -->
+
                                         </div>
                                     </div>
                                     <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Study_Direct_Mail_Consent__c}" styleClass="checkboxcss " />
-                                            <!-- <div class="slds-checkbox ">
-                                                <input type="checkbox " name="options " id="checkbox-unique-id-84
-                            " value="checkbox-unique-id-84 " checked=" " /> -->
+
                                             <label class="slds-checkbox__label " for="checkbox-unique-id-84 ">
                                                 <span class="slds-checkbox_faux "></span>
                                                 <span class="slds-form-element__label ">{!$Label.PP_DirectMailCheckbox}</span>
                                             </label>
-                                            <!-- </div> -->
+
                                         </div>
                                     </div>
                                 </div>
