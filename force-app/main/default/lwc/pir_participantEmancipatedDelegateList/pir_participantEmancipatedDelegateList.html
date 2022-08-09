@@ -27,8 +27,14 @@
                 <!-- <lightning-input type="text"  data-value="TelephoneNumber" onchange={checkFields} title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}  label={utilLabels.PG_Ref_L_Primary_daytime_telephone_number} value={phoneNumber} required=""></lightning-input> -->
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="text-input-id-68"  title={utilLabels.PG_Ref_L_Primary_daytime_telephone_number}>
-                        <abbr class="slds-required" title="required">*</abbr>{utilLabels.PG_Ref_L_Primary_daytime_telephone_number}
-                    </label>
+                        <!--Changes made for adding alternate option for do not continue -->
+                        <template if:true={isrequired}> 
+                            <abbr class="slds-required" title="required">*</abbr>{utilLabels.PG_Ref_L_Primary_daytime_telephone_number}
+                            </template>
+                            <template if:false={isrequired}>
+                                <abbr class="slds-required" title="required"></abbr></template
+                                >{utilLabels.PG_Ref_L_Primary_daytime_telephone_number}
+                            </label>
                      <div class="slds-form-element__control input-margin">
                           <lightning-input type="text" variant="label-hidden" required=""
                           value={phoneNumber}   onchange={checkFields} 
@@ -38,17 +44,31 @@
                 </div>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
-                <lightning-combobox
-                    name="Phone Type"
-                    label={utilLabels.PG_AS_F_Phone_Type}
-                    title={utilLabels.PG_AS_F_Phone_Type}
-                    value={phoneTypeValue}
-                    placeholder="--"
-                    options={phoneTypes}
-                    data-value="TelephoneType" 
-                    onchange={checkFields} 
-                    required=""
-                    ></lightning-combobox>
+               <!--Changes made for adding alternate option for do not continue   -->
+                <template if:true={isrequired}> 
+                    <lightning-combobox
+                        name="Phone Type"
+                        label={utilLabels.PG_AS_F_Phone_Type}
+                        title={utilLabels.PG_AS_F_Phone_Type}
+                        value={phoneTypeValue}
+                        placeholder="--"
+                        options={phoneTypes}
+                        data-value="TelephoneType" 
+                        onchange={checkFields} 
+                        required="*"
+                        ></lightning-combobox>
+                    </template>
+                    <template if:false={isrequired}>
+                        <lightning-combobox
+                        name="Phone Type"
+                        label={utilLabels.PG_AS_F_Phone_Type}
+                        title={utilLabels.PG_AS_F_Phone_Type}
+                        placeholder="--"
+                        options={phoneTypes}
+                        data-value="TelephoneType" 
+                        onchange={checkFields} 
+                        ></lightning-combobox>
+                    </template>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_x-small">
                 <lightning-input type="email" data-value="email" onchange={checkFields} title={utilLabels.PG_AS_F_Email_address}  label={utilLabels.PG_AS_F_Email_address} value={email} required=""></lightning-input>
