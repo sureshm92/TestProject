@@ -6,8 +6,8 @@
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:Page_AccountSettings",
-      "id" : "0575ee71-cb38-4a1a-8f79-dbdb88caecd5",
+      "componentName" : "c:ppPageAccountSettings",
+      "id" : "7d909474-2d92-4191-8593-4aedc20cd77d",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
