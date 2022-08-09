@@ -260,27 +260,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                 }
             }
             if(updatePDs.isEmpty()){
-                Database.SaveResult[] perDupPD = Database.update(updatePDs, false);
-                for (Integer k = 0; k < perDupPD.size(); k++) {
-                    if (!perDupPD[k].isSuccess()) {
-                        errorwrap.errorRecordCount++;
-                        mapParticipant.remove(countIndexParticipant);
-                        Database.Error error = perDupPD[k].getErrors().get(0);
-                        errorwrap.listOfFailedRecordsWithMsg.add(
-                            '' +
-                            countIndexParticipant +
-                            ', ERROR on patient delegate record update: ' +
-                            error.getFields() +
-                            ' ' +
-                            error.getMessage()
-                        );
-                        if(!test.isRunningTest()){
-                        errorwrap.listOfFailedRecords.add(
-                            getCleanMessage(csvLines, countIndexParticipant)
-                        );
-                        }
-                    }
-                }
+                Database.update(updatePDs, false);
             }
         }
 
