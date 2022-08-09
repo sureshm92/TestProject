@@ -22310,7 +22310,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Remember My Username</shortDescription>
-        <value>Remember My Username</value>
+        <value>Remember my username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
