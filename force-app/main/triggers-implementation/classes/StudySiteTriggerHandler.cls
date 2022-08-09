@@ -14,13 +14,12 @@ public without sharing class StudySiteTriggerHandler {
 
     public class CreatePIOrSendNotificationHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            system.debug('newList in class---->' + newList);
             createPIUserOrSendNotification(newList, null);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            system.debug('newList in class---->' + newList);
             createPIUserOrSendNotification(newList, (Map<Id, Study_Site__c>) oldMap);
+			assignCommunityPermissions(newList);
         }
     }
 
@@ -85,7 +84,6 @@ public without sharing class StudySiteTriggerHandler {
         List<Study_Site__c> newList,
         Map<Id, Study_Site__c> oldMap
     ) {
-        system.debug('newList in method 2---->' + newList);
         List<ID> participantids = new List<ID>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
@@ -225,7 +223,6 @@ public without sharing class StudySiteTriggerHandler {
         List<Study_Site__c> newList,
         Map<Id, Study_Site__c> oldMap
     ) {
-        system.debug('newList in method 1---->' + newList);
         Set<Id> piContactIds = new Set<Id>();
         for (Study_Site__c ss : newList)
             if (ss.Principal_Investigator__c != null)
@@ -237,15 +234,15 @@ public without sharing class StudySiteTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         Set<Id> ssIDs = new Set<Id>();
         Set<Id> pisWithUser = new Set<Id>();
-        Map<Id, Study_Site__c> welcomesmsIDS = new Map<Id, Study_Site__c>(); //Added by Anitha
+        Map<Id,Study_Site__c> welcomesmsIDS = new Map<Id,Study_Site__c>();//Added by Anitha
         for (Study_Site__c ss : newList) {
             if (
                 ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT &&
                 ss.Principal_Investigator__c != null &&
                 (oldMap == null ||
-                (oldMap != null &&
-                ss.Override_PI_Referral_Status__c !=
-                oldMap.get(ss.Id).Override_PI_Referral_Status__c))
+                 (oldMap != null &&
+                  ss.Override_PI_Referral_Status__c !=
+                  oldMap.get(ss.Id).Override_PI_Referral_Status__c))
             ) {
                 if (!contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c))
                     contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
@@ -256,40 +253,50 @@ public without sharing class StudySiteTriggerHandler {
             }
             //Added by AnithaStart:::
         }
-        notifications.addAll(
-            createWelcomeMsgNotification(newList, (Map<Id, Study_Site__c>) oldMap)
-        );
-        system.debug('notifications:::' + notifications);
+       notifications.addAll(createWelcomeMsgNotification(newList, (Map<Id, Study_Site__c>) oldMap));
+        
+        set<Id>permissionSetOfUserMapId = new set<Id>();
+        Map<Id,Id>LstPIIds = new Map<Id,Id>();
+        set<Id>LstIdForJanssen = new set<Id>();
+        set<Id>LstIdForIqvia = new set<Id>();
+        Map<Id,List<String>>mapForCommunityPermAssign = new Map<Id,List<String>>();
+       
+        List<PermissionSetAssignment>permissionSetLST = [SELECT Id, PermissionSetId, PermissionSet.Name,AssigneeId,Assignee.contactId FROM PermissionSetAssignment WHERE Assignee.contactId IN :pisWithUser];
+         List<String> defaultJanssenGSKLst = new List<String>();
+        if(!permissionSetLST.isEmpty()){
+            for(PermissionSetAssignment per : permissionSetLST){
+                if(per.PermissionSet.Name == CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME){
+                    defaultJanssenGSKLst.add('Janssen');
+                    mapForCommunityPermAssign.put(per.Assignee.contactId,defaultJanssenGSKLst);
+                }else if(per.PermissionSet.Name == CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME){
+                    defaultJanssenGSKLst.add('Default');
+                    mapForCommunityPermAssign.put(per.Assignee.contactId,defaultJanssenGSKLst);
+                }else if(per.PermissionSet.Name == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME){
+                    defaultJanssenGSKLst.add('GSK');
+                   mapForCommunityPermAssign.put(per.Assignee.contactId,defaultJanssenGSKLst);    
+                }
+            }  
+        }
         //Added by AnithaEnd:::
-        if (!ssIDs.isEmpty()) {
+        if (!ssIDs.isEmpty() && mapForCommunityPermAssign.KeySet() != null) {
             Map<Id, Map<String, List<Id>>> piCommunitySS = new Map<Id, Map<String, List<Id>>>();
+             Map<Id, Id> mapOfCommunity = new Map<Id, Id>();
+            
             for (Study_Site__c notificationSS : [
                 SELECT
-                    Id,
-                    Principal_Investigator__c,
-                    Clinical_Trial_Profile__c,
-                    Clinical_Trial_Profile__r.CommunityTemplate__c
+                Id,
+                Principal_Investigator__c,
+                Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Study_Site__c
-                WHERE Principal_Investigator__c IN :pisWithUser
+                WHERE Principal_Investigator__c IN :mapForCommunityPermAssign.KeySet()
             ]) {
-                if (!piCommunitySS.containsKey(notificationSS.Principal_Investigator__c)) {
-                    piCommunitySS.put(
-                        notificationSS.Principal_Investigator__c,
-                        new Map<String, List<Id>>{
-                            CommunityTemplateService.TEMPLATE_DEFAULT => new List<Id>(),
-                            CommunityTemplateService.TEMPLATE_JANSSEN => new List<Id>(),
-                            CommunityTemplateService.TEMPLATE_GSK => new List<Id>()
-                        }
-                    );
+                if(mapForCommunityPermAssign.get(notificationSS.Principal_Investigator__c).contains(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c) && ssIDs.contains(notificationSS.Id)){
+                    mapOfCommunity.put(notificationSS.Principal_Investigator__c,notificationSS.Id);
+                  }
                 }
-                piCommunitySS.get(notificationSS.Principal_Investigator__c)
-                    .get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c)
-                    .add(notificationSS.Id);
-            }
-            for (Id piId : piCommunitySS.keySet()) {
-                for (String community : piCommunitySS.get(piId).keySet()) {
-                    for (Id ss : piCommunitySS.get(piId).get(community)) {
-                        if (ssIDs.contains(ss)) {
+            for (Id piId : mapOfCommunity.keySet()) {
+                    for (Id ss : mapOfCommunity.values()) {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = piId,
@@ -297,17 +304,15 @@ public without sharing class StudySiteTriggerHandler {
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
                                 )
                             );
-                        }
                     }
-                }
             }
         }
         if (contactIdsForCreateUsers.size() > 0)
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createPortalUsers(contactIdsForCreateUsers);
-        //insert notifications;
+            .createPortalUsers(contactIdsForCreateUsers);
         if (!notifications.isEmpty())
-            insert notifications;
+                insert notifications;
+            
     }
 
     @TestVisible
@@ -612,7 +617,7 @@ public without sharing class StudySiteTriggerHandler {
 
         Map<Id, Study_Site__c> ssByIds = new Map<Id, Study_Site__c>(
             [
-                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
+                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c,Override_PI_Referral_Status__c
                 FROM Study_Site__c
                 WHERE Id IN :newList
             ]
@@ -623,12 +628,14 @@ public without sharing class StudySiteTriggerHandler {
                 permNamesByPiIds.put(ss.Principal_Investigator__c, new Set<String>());
             }
             String commTemplate = ssByIds.get(ss.Id).Clinical_Trial_Profile__r.CommunityTemplate__c;
-            if (commTemplate.equals(CommunityTemplateService.TEMPLATE_JANSSEN)) {
+            if (commTemplate.equals(CommunityTemplateService.TEMPLATE_JANSSEN) && ss.Override_PI_Referral_Status__c == 'Invitation Sent') {
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
             } else {
+				if(ss.Override_PI_Referral_Status__c == 'Invitation Sent'){
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
+				}
           }
         }
 
