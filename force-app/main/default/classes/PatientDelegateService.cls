@@ -692,6 +692,23 @@ public without sharing class PatientDelegateService {
         return resList == null ? new List<Id>() : resList;
     }
 
+    //Get PER record for Delegate for Alumni Participant.
+    public static List<Id> getAvailablePEIdsForDelContact(Id contactId) {
+        List<Id> resList = getAvailablePEIdsListByDelContactIdMap(new List<Id>{ contactId })
+            .get(contactId);
+        return resList == null ? new List<Id>() : resList;
+    }
+
+    //Get PER record for Delegate for Alumni Participant.
+    public static Map<Id, List<Id>> getAvailablePEIdsListByDelContactIdMap(List<Id> contactIds) {
+        return getPEIdsListByContactIdMap(
+            contactIds,
+            ' Participant_Status__c IN ' +
+            DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI),
+            true
+        );
+    }
+
     public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(
         List<Id> contactIds,
         List<String> excludedPEStatuses
