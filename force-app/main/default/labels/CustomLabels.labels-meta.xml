@@ -25805,6 +25805,20 @@ communications using the toggles below.</value>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
+     <labels>
+        <fullName>PP_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Self</shortDescription>
+        <value>Self</value>
+    </labels>
+      <labels>
+        <fullName>PP_Program</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Program</shortDescription>
+        <value>Program</value>
+    </labels>
     <labels>
         <fullName>PP_Forgot_Password_Footer1</fullName>
         <language>en_US</language>
