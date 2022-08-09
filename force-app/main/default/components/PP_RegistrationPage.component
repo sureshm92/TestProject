@@ -1627,7 +1627,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 {!$Label.PP_StudyPrivacyPolicyNote}
                                 <div class=" slds-grid slds-wrap slds-gutters ">
 
-                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
 
                                             <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss " />
@@ -1638,7 +1638,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Permit_Mail_Email_contact_for_this_study__c}" styleClass="checkboxcss " />
 
@@ -1648,7 +1648,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Permit_SMS_Text_for_this_study__c}" styleClass="checkboxcss" />
 
@@ -1659,7 +1659,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                         <div class="slds-form-element__control ">
                                             <apex:inputCheckbox value="{!per.Study_Direct_Mail_Consent__c}" styleClass="checkboxcss " />
 
@@ -1677,7 +1677,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         <div class="timeZoneText ">
                             {!$Label.PP_PlatformPrivacyPolicyNote}
                             <div class=" slds-grid slds-wrap slds-gutters ">
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
                                         <apex:inputCheckbox value="{!contact.Participant_Phone_Opt_In_Permit_Phone__c}" styleClass="checkboxcss " />
                                         <label class="slds-checkbox__label " for="checkbox-unique-id-85 ">
@@ -1687,7 +1687,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         <!-- </div>-->
                                     </div>
                                 </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
 
                                         <apex:inputCheckbox value="{!contact.Participant_Opt_In_Status_Emails__c}" styleClass="checkboxcss " />
@@ -1698,7 +1698,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         <!--</div>-->
                                     </div>
                                 </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
                                         <apex:inputCheckbox value="{!contact.Participant_Opt_In_Status_SMS__c}" styleClass="checkboxcss " />
 
@@ -1709,7 +1709,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         <!--  </div> -->
                                     </div>
                                 </div>
-                                <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
                                         <apex:inputCheckbox value="{!contact.IQVIA_Direct_Mail_Consent__c}" styleClass="checkboxcss " />
                                         <!--<div class="slds-checkbox ">
