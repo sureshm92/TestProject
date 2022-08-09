@@ -292,9 +292,10 @@ public without sharing class RRChangePasswordController {
         isDelegate = contact.UserCommunityIsDelegate__c;
         showErrorMessage = false;
         isSaveButtonDisabled = false;
+        if(participant!=null){
         maskLastName = participant.Last_Name__c.substring(0,1)+'************';
-        maskDaytimephone = '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length());
-
+        maskDaytimephone =participant.Phone__c!=null? '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length()):'';
+    }
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
             state = participant.Mailing_State_Code__c;
@@ -311,7 +312,10 @@ public without sharing class RRChangePasswordController {
                 {
                     per= loginUserPEs[0];
                 }
-                
+
+                if (contact.UserCommunityIsDelegate__c ) {
+                   //Delegate Logic shoule be here
+                }
             }
             /** Communication preference */
         }
