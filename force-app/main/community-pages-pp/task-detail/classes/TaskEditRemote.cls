@@ -121,7 +121,13 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
-            taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            // create task for minor participants as well
+            if (ParticipantContext.getCurrentUserId() != null) {
+                taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            } else {
+                taskToUpsert.Owner_Contact__c = ParticipantContext.getCurrentContactId();
+            }
+            //taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
             if (String.isEmpty(taskToUpsert.Originator__c))
                 taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate()
