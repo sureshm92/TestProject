@@ -1,0 +1,33 @@
+<template>
+    <div class={comboboxClass}>
+        <template if:false={labelHidden}>
+            <div class={labelClass}>{label}</div>
+        </template>
+
+        <div
+            id="dropdown"
+            class={dropdownClass}
+            onclick={toggleElement}
+            onfocusout={removeElementFocus}
+            tabindex="0"
+        >
+            <span class="dropdown-span slds-truncate">{currentHeaderLabel}</span>
+            <ul class="dropdown-menu" data-id="dropdown-menu">
+                <template for:each={options} for:item="option">
+                    <li
+                        key={option.value}
+                        class="dropdown-li"
+                        value={option.value}
+                        data-value={option.value}
+                        data-label={option.label}
+                        onclick={handleOptionSelect}
+                    >
+                        <lightning-formatted-rich-text
+                            value={option.label}
+                        ></lightning-formatted-rich-text>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </div>
+</template>

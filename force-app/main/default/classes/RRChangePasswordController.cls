@@ -45,6 +45,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isAdult { get; set; }
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
+    public Participant_Enrollment__c per {get;set;}
 
     public Translation__c translation { get; set; }
     public String browserLanguage { get; set; }
@@ -77,6 +78,10 @@ public without sharing class RRChangePasswordController {
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
+
+    public String maskUserName {get;set;}
+    public String maskLastName {get;set;}
+    public String maskDaytimephone {get;set;}
 
     public Boolean mainPortal {
         get {
@@ -159,6 +164,10 @@ public without sharing class RRChangePasswordController {
                 Contact.MailingStateCode,
                 Contact.MailingStreet,
                 Contact.Is_First_Logon__c,
+                Contact.Participant_Opt_In_Status_Emails__c,
+                Contact.Participant_Opt_In_Status_SMS__c ,
+                Contact.Participant_Phone_Opt_In_Permit_Phone__c ,
+                Contact.IQVIA_Direct_Mail_Consent__c, 
                 Contact.Language__c,
                 Contact.Second_Choice_Language__c,
                 Contact.Third_Choice_Language__c,
@@ -178,6 +187,7 @@ public without sharing class RRChangePasswordController {
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
 
+        maskUserName = userVal.Username.substring(0,3)+'************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
 
@@ -282,9 +292,28 @@ public without sharing class RRChangePasswordController {
         isDelegate = contact.UserCommunityIsDelegate__c;
         showErrorMessage = false;
         isSaveButtonDisabled = false;
+        maskLastName = participant.Last_Name__c.substring(0,1)+'************';
+        maskDaytimephone = '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length());
+
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
             state = participant.Mailing_State_Code__c;
+
+            /* Communitcation preference*/
+            if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
+            
+                List<Participant_Enrollment__c> loginUserPEs = [
+                    SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c 
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
+                ];
+                if(loginUserPEs.size()>0)
+                {
+                    per= loginUserPEs[0];
+                }
+                
+            }
+            /** Communication preference */
         }
         if (contact.UserCommunityIsDelegate__c && isParticipant) {
             Integer currentYear = Date.Today().Year();
@@ -368,6 +397,63 @@ public without sharing class RRChangePasswordController {
                 insert tca;
             }
 
+            return pr;
+        } catch (Exception e) {
+            isProfileView = true;
+            return null;
+        }
+    }
+
+    public PageReference ppChangePassword()
+    {
+        try {
+            PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
+            contact cont = new contact();
+            cont.Id = contact.Id;
+            cont.Is_First_Logon__c = false;
+            cont.Landing_Community__c = Site.getMasterLabel();
+            if (isParticipant) {
+                cont.MailingCountrycode = contact.MailingCountrycode;
+                cont.MailingStatecode = contact.MailingStatecode;
+                cont.MailingCountryCode = participant.Mailing_Country_Code__c;
+                cont.MailingStateCode = participant.Mailing_State_Code__c;
+                cont.Participant_Phone_Opt_In_Permit_Phone__c = contact.Participant_Phone_Opt_In_Permit_Phone__c;
+                cont.Participant_Opt_In_Status_Emails__c = contact.Participant_Opt_In_Status_Emails__c;
+                cont.Participant_Opt_In_Status_SMS__c = contact.Participant_Opt_In_Status_SMS__c;
+                cont.IQVIA_Direct_Mail_Consent__c = contact.IQVIA_Direct_Mail_Consent__c;
+            }
+            update cont;
+            update participant;
+            update per;
+            userVal.IsCommunityUserRegistered__c = true;
+            update userVal;
+            for (ApexPages.Message m : ApexPages.getMessages()) {
+                if (m.getDetail().contains(System.Label.Pswd_ValidationMsg5)) {
+                    m = new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.Pswd_ValidationMsg6
+                    );
+                    failingPageResponse = m.getDetail();
+                } else if (
+                    m.getDetail().contains(System.Label.Pswd_Val_strng1) ||
+                    m.getDetail().contains(System.Label.Pswd_Val_strng2) ||
+                    m.getDetail().contains(System.Label.Pswd_ValidationMsg4)
+                ) {
+                    m = new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        System.Label.Pswd_ValidationMsg3
+                    );
+                    failingPageResponse = m.getDetail();
+                } else {
+                    if (
+                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) 
+                    ) {
+                        failingPageResponse = System.Label.PP_CantReuseOldPwd;
+                    } else {
+                        failingPageResponse = null;
+                    }
+                }
+            }
             return pr;
         } catch (Exception e) {
             isProfileView = true;
@@ -784,6 +870,7 @@ public without sharing class RRChangePasswordController {
         resetPassLogo = currentTemplate.properties.get(
             CommunityTemplateService.PROPERTY_RESET_PASS_LOGO
         );
+       
     }
 
     public void updateBrowserLanguageAction() {
