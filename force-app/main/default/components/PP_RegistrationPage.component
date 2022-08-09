@@ -78,9 +78,9 @@
             padding-left: 0.75rem;
         }
 
-        .rr-form-element {
-            margin-top: 10px!important;
-            margin-bottom: 10px!important;
+        .slds-grid .rr-form-element {
+            margin-top: 10px;
+            margin-bottom: 10px;
             max-width: 328px;
         }
 
@@ -472,13 +472,51 @@
             bottom: 24px;
             left: -120px;
         }
+        
+        .certifyCheck {
+        	margin-top: 1.5rem;
+        }
 
 
         @media all and (max-width: 768px) {
             .brow-mob-button-eye {
                 margin-right: 300px !important;
             }
+        
+        	.slds-scope .slds-medium-size_1-of-4 {
+                width: 30%;
+            }
+        	
+            .slds-scope .slds-medium-size_1-of-5 {
+        		width: 25%;
+        	}
         }
+        
+         @media all and (max-width: 486px) {
+            .slds-scope .slds-medium-size_1-of-4 {
+        		width: 100%;
+        		margin-top: .25rem;
+        		margin-bottom: 1.5rem;
+        	}
+        
+        	.slds-scope .slds-medium-size_1-of-5 {
+        		width: 45%;
+        		margin-bottom: .5rem;
+        	}
+        
+        	.slds-scope .slds-button.changepwdbtn {
+        		width: 100%;
+        	}
+        
+        	.certifyCheck {
+                margin-top: 0;
+            }
+        
+        	.timeZoneText {
+        		margin-top: .75rem;
+        	}
+        }
+
 
         .checkboxcss {
             width: 1rem;
@@ -1443,7 +1481,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     <span title="required" class="slds-required">*</span>
                                 </label>
                                 <!--<input class="slds-input " type="text " value="{!participant.Mailing_Country_Code__c}" disabled="true " style="border-radius: 16px;"></input> -->
-                                <apex:actionRegion>
+                                <apex:actionRegion >
                                     <apex:selectList id="countryIdParticiapnt" styleClass="slds-input container" disabled="true" size="1" value="{!participant.Mailing_Country_Code__c}">
                                         <apex:selectOption itemLabel="--None--" itemValue="" />
                                         <apex:selectOptions value="{!countries}" />
@@ -1457,7 +1495,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     <span title="required" class="slds-required">*</span>
                                 </label>
                                 <!-- <input class="slds-input " type="text " value="Useremail@gmail.com" disabled="true " style="border-radius: 16px;"></input> -->
-                                <apex:actionRegion>
+                                <apex:actionRegion >
                                     <apex:selectList id="stateIdParticiapnt" styleClass="slds-input container" disabled="true" size="1" value="{!participant.Mailing_State_Code__c}">
                                         <apex:selectOption itemLabel="--None--" itemValue="" />
                                         <apex:selectOptions value="{!states}" />
@@ -1478,7 +1516,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             <div class=" slds-grid slds-wrap slds-gutters ">
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ">
                                     <label>{!$Label.PE_Year_Of_Birth}</label>
-                                    <apex:actionRegion>
+                                    <apex:actionRegion >
                                         <apex:selectList id="yearofbirth" styleClass="selectInput slds-input container" size="1" value="{!participant.Birth_Year__c}">
                                             <apex:selectOption itemLabel="{!$Label.None}" itemValue=" " />
                                             <apex:selectOptions value="{!years}" />
@@ -1493,11 +1531,11 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     </apex:outputPanel>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-4 " style="max-width:920px; ">
-                                    <div class="slds-form-element " style="margin-top: 30px; ">
+                                    <div class="slds-form-element certifyCheck">
                                         <div class="slds-form-element__control " style="display: flex; ">
-                                            <apex:actionRegion>
+                                            <apex:actionRegion >
                                                 <!-- <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss" /> -->
-                                                <apex:actionRegion>
+                                                <apex:actionRegion >
                                                     <apex:inputCheckbox value="{!isAttested}" id="attestation" disabled="{!isDisabled}" styleClass="checkboxcss">
                                                         <apex:actionSupport event="onclick" reRender="saveButton" action="{!validateSaveButton}" />
                                                     </apex:inputCheckbox>
@@ -1725,7 +1763,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             </div>
                         </div>
                         <!-- platform level -->
-                        <div style="margin-top: 36px; " class="timeZoneText ">
+                        <div class="timeZoneText ">
                             {!$Label.PP_ConsentRequired}
                         </div>
                         <div class="cp-save-btn-container ">
