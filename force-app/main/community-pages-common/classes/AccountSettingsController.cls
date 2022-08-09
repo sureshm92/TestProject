@@ -87,24 +87,7 @@ public without sharing class AccountSettingsController {
                         participantState.participant.Contact__c
                     );
 
-                    List<Participant_Enrollment__c> availablePEs = [
-                        SELECT
-                            Id,
-                            Participant__c,
-                            Participant__r.Contact__c,
-                            Participant__r.Adult__c,
-                            Participant__r.Email__c,
-                            Study_Site__r.SMS_Are_Available__c,
-                            Permit_Mail_Email_contact_for_this_study__c,
-                            Permit_SMS_Text_for_this_study__c,
-                            Permit_Voice_Text_contact_for_this_study__c,
-                            Study_Direct_Mail_Consent__c,
-                            Clinical_Trial_Profile__r.IQVIA_Outreach__c,
-                            Clinical_Trial_Profile__c,
-                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id = :peIds
-                    ];
+                    List<Participant_Enrollment__c> availablePEs = getPERRecords(peIds);
 
                     if (availablePEs != null)
                         participantEnrollments.addAll(availablePEs);
@@ -114,6 +97,22 @@ public without sharing class AccountSettingsController {
 
                     if (pastEnrollments != null)
                         participantEnrollments.addAll(pastEnrollments);
+
+                    //For Delegate of Alumni Participant, get the PER Record for Delegate Self View.
+                    if (
+                        (participantEnrollments == null || participantEnrollments.isEmpty()) &&
+                        participantState.value == ParticipantService.ParticipantStates.ALUMNI &&
+                        participantState.hasPatientDelegates &&
+                        !participantState.isDelegate
+                    ) {
+                        peIds = PatientDelegateService.getAvailablePEIdsForDelContact(
+                            participantState.participant.Contact__c
+                        );
+
+                        List<Participant_Enrollment__c> availablePEsForDel = getPERRecords(peIds);
+                        if (availablePEsForDel != null)
+                            participantEnrollments.addAll(availablePEsForDel);
+                    }
 
                     if (participantEnrollments != null) {
                         //Prepare Communication Preference data.
@@ -1092,5 +1091,31 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         } else {
             return false;
         }
+    }
+    /**
+     * @description: This Method return the Participant Enrollment record from contact Id.
+     * @author: Krishna Mahto
+     * @param: peIds
+     * @return:
+     **/
+    public static list<Participant_Enrollment__c> getPERRecords(List<Id> peIds) {
+        return [
+            SELECT
+                Id,
+                Participant__c,
+                Participant__r.Contact__c,
+                Participant__r.Adult__c,
+                Participant__r.Email__c,
+                Study_Site__r.SMS_Are_Available__c,
+                Permit_Mail_Email_contact_for_this_study__c,
+                Permit_SMS_Text_for_this_study__c,
+                Permit_Voice_Text_contact_for_this_study__c,
+                Study_Direct_Mail_Consent__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :peIds
+        ];
     }
 }
