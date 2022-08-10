@@ -315,6 +315,20 @@ public without sharing class RRChangePasswordController {
 
                 if (contact.UserCommunityIsDelegate__c ) {
                    //Delegate Logic shoule be here
+                   List<Patient_Delegate__c> delegatesPDList = [Select Id,Participant__r.Name,Participant__r.Contact__c  from Patient_Delegate__c where Contact__c = :contact.Id ];
+                   if(delegatesPDList.size()>0)
+                   {
+                    List<Participant_Enrollment__c> delegateContactUserPEs = [
+                        SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c 
+                        FROM Participant_Enrollment__c
+                        WHERE Participant_Contact__c = :delegatesPDList[0].Participant__r.Contact__c AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
+                    ];
+                    if(delegateContactUserPEs.size()>0)
+                    {
+                        per= delegateContactUserPEs[0];
+                    }
+                   }
+
                 }
             }
             /** Communication preference */
@@ -425,6 +439,21 @@ public without sharing class RRChangePasswordController {
                 cont.Participant_Opt_In_Status_Emails__c = contact.Participant_Opt_In_Status_Emails__c;
                 cont.Participant_Opt_In_Status_SMS__c = contact.Participant_Opt_In_Status_SMS__c;
                 cont.IQVIA_Direct_Mail_Consent__c = contact.IQVIA_Direct_Mail_Consent__c;
+
+            }
+            if (isParticipant && ApexPages.getMessages().isEmpty()) {
+                if (isDelegate && !isAttestationUpdated) {
+                    participant.Attestation__c = true;
+                    participant.Attestation_TimeStamp__c = ParticipantService.getFormattedTimeImpl(
+                        userVal
+                    );
+                    participant.Attested_By__c = contact.id;
+                    isAttestationUpdated = true;
+                }
+                if (isDelegate) {
+                    participant.Attestation__c = true;
+                }
+               // update participant;
             }
             update cont;
             update participant;

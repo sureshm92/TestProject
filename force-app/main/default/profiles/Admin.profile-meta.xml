@@ -6931,6 +6931,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.ZIP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
