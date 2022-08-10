@@ -75,11 +75,11 @@ window.communityService = (function () {
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 //console.log('isMobileApp: '+isMobileApp);
                 component.init();
-                /*if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions' && service.getPageName() !== 'privacy-policy') {
+                if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions' && service.getPageName() !== 'privacy-policy' && service.getCommunityName() !=='IQVIA Patient Portal')  {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
-                } else {*/
+                } else {
                     $A.get('e.c:EventCommunityInitialized').fire();
-                //}
+                }
             })
         },
 
