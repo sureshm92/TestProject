@@ -261,4 +261,6 @@
   .lightning-primitive-icon {
     order: 2 !important;
   }
-  
+  .pointer{
+    cursor: pointer;
+  }
