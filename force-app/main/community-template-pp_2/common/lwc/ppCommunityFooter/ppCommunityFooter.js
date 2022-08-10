@@ -51,16 +51,6 @@ export default class PpCommunityFooter extends LightningElement {
         }
 
         let sponsor = communityService.getCurrentSponsorName();
-
-        //let isGsk = communityService.getCommunityURLPathPrefix().includes("/gsk");
-        /*if (communityService.getCurrentCommunityName() == 'GSK Community') {
-            this.isGsk = true;
-        } else if (
-            communityService.getCurrentCommunityName() == 'Janssen Community' ||
-            communityService.getCommunityName().includes('Janssen')
-        ) {
-            this.communityType = 'Janssen';
-        }*/
         let currentPage = communityService.getPageName();
         let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
         const pagesWithSharedPrivacyPolicy = communityService.getPagesWithSharedPrivacyPolicy();
@@ -83,7 +73,6 @@ export default class PpCommunityFooter extends LightningElement {
         getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
-                //console.log(JSON.parse(result));
                 this.initialized = true;
                 if (ps.ctp != null) {
                     if (ps.ctp.Terms_And_Conditions_ID__c != null) {
@@ -93,7 +82,6 @@ export default class PpCommunityFooter extends LightningElement {
                             ps.ctp.Id +
                             '&ret=' +
                             communityService.createRetString();
-
                         this.tcLink = tclink;
                     } else {
                         this.tcLink =
@@ -127,16 +115,15 @@ export default class PpCommunityFooter extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
-        if (this.spinner) {
-            this.spinner.hide();
-        }
-
         this.privacyLabel = this.sponser
             ? this.sponser + ' ' + this.labels.PRIVACY_POLICY
             : this.labels.PRIVACY_POLICY;
         this.termsOfUseLabel = this.sponsor
             ? this.sponser + ' ' + this.labels.TERMS_OF_USE
             : this.labels.TERMS_OF_USE;
+        if (this.spinner) {
+            this.spinner.hide();
+        }
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
