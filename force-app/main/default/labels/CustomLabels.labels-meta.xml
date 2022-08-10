@@ -20356,9 +20356,9 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Attest_Message</shortDescription>
-        <value>I Certify that I am over the legal age of majority in my state/Country</value>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Email_Error</fullName>
         <language>en_US</language>
         <protected>true</protected>
