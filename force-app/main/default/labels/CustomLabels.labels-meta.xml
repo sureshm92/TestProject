@@ -14978,7 +14978,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Lockout</shortDescription>
         <value>Locked out</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_BTN_Back_To_Log_in</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18033,6 +18033,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
+        <value>Learn more</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn about your program</value>
+    </labels>
+    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18059,6 +18073,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_SaveContinue</shortDescription>
         <value>Save &amp; Continue</value>
+    </labels>
+    <labels>
+        <fullName>PP_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Overview</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Objective</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Objective</shortDescription>
+        <value>Objective</value>
+    </labels>
+    <labels>
+        <fullName>PP_Program_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Program_Overview</shortDescription>
+        <value>Program Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participation_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participation_Criteria</shortDescription>
+        <value>Participation Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Eligible_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
+        <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Inclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Inclusion_Criteria</shortDescription>
+        <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Exclusion_Criteria</shortDescription>
+        <value>Exclusion Criteria</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -18248,7 +18311,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
-        <value>Password does not meet criteria</value>
+        <value>Password does not fit criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -18413,7 +18476,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Email Sent</shortDescription>
         <value>Email sent!</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Email_Sent_To_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18434,7 +18497,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Enter Associated Email</shortDescription>
         <value>Enter the email associated with your account.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18694,6 +18757,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Phone number must be numeric.</value>
     </labels>
     <labels>
+        <fullName>PP_MinorMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MinorMessage</shortDescription>
+        <value>Access denied for minors</value>
+    </labels>
+    <labels>
         <fullName>PP_MustInclude</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18796,7 +18866,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoAdd</shortDescription>
-        <value>Photo addedd successfully</value>
+        <value>Photo uploaded successfully!</value>
     </labels>
     <labels>
         <fullName>PP_ProfileInformation</fullName>
@@ -18810,7 +18880,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoRemove</shortDescription>
-        <value>Photo removed successfully</value>
+        <value>Photo removed successfully!</value>
     </labels>
     <labels>
         <fullName>PP_PlatformPrivacyPolicyNote</fullName>
@@ -20280,6 +20350,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Pswd_ValidationMsg7</shortDescription>
         <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>PP_Attest_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Attest_Message</shortDescription>
+        <value>I Certify that I am over the legal age of majority in my state/Country</value>
     </labels>
      <labels>
         <fullName>PP_Email_Error</fullName>
@@ -22233,7 +22310,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Remember My Username</shortDescription>
-        <value>Remember My Username</value>
+        <value>Remember my username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
@@ -26647,5 +26724,101 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>registerpage platform privacy note2</shortDescription>
         <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preferences</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Communication Preferences</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Access</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Medical Record Access</shortDescription>
+        <value>Medical Record Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_COMMUNICATION_PREFERENCE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
+        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UPDATE_EMAIL_WARNING</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
+        <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DOB_ERROR</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DOB_ERROR</shortDescription>
+        <value>Date must be ##TODAY or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Name</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Name</shortDescription>
+        <value>Preferred Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_USE_AS_DAYTIME_PHONE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USE_AS_DAYTIME_PHONE</shortDescription>
+        <value>Use as Daytime Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DATA_UPDATE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DATA_UPDATE</shortDescription>
+        <value>Your data was updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_UPLOADED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_UPLOADED</shortDescription>
+        <value>Photo uploaded successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_REMOVED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_REMOVED</shortDescription>
+        <value>Photo removed successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_REQUIRED_FIELD</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_REQUIRED_FIELD</shortDescription>
+        <value>Required field</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_INVALID_PHONE_FORMAT</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
+        <value>Enter a valid phone format</value>
     </labels>
 </CustomLabels>
