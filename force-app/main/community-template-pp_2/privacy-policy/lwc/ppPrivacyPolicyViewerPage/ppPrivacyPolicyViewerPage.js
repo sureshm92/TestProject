@@ -61,7 +61,6 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     setParametersBasedOnUrl() {
         this.ctpId = this.urlStateParameters.id || null;
-        console.log('this.ctpId is', +this.ctpId);
     }
 
     loadPrivacyPolicy() {
