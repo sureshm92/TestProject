@@ -1,8 +1,17 @@
 import { LightningElement, api } from 'lwc';
 import DEVICE from '@salesforce/client/formFactor';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
+// importing Custom Label
+import PPLEARNMOREMBLELabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Mobile';
+import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Desktop';
+
 
 export default class ProgramOverview extends LightningElement {
+    label = {
+        PPLEARNMOREMBLELabel,
+        PPLEARNMOREDESKTOPLabel
+    };
+    
     @api clinicalrecord;
     shortOverview;
 
@@ -11,6 +20,9 @@ export default class ProgramOverview extends LightningElement {
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
+    }
+    get borderPOHome(){
+        return this.isRTL ? 'borderLeft' : 'borderRight';
     }
      
     connectedCallback(){
