@@ -23,7 +23,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item size="3" class="slds-align_absolute-center">
                             <div class="po-more">
-                                <span class="po-more-text" onclick={handleclick}>Learn more</span>
+                                <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREDESKTOPLabel}</span>
                                 <lightning-button-icon
                                     icon-name="utility:chevronright"
                                     variant="bare"
@@ -44,30 +44,28 @@
                         multiple-rows="true"
                         vertical-align="center"
                         horizontal-align="center"
-                        class="po-custom-card"
+                        class="po-custom-card-mobile"
                     >
-                        <lightning-layout-item size="4">
+                        <lightning-layout-item size="5" class={borderPOHome}>
                             <template if:true={clinicalrecord.Profile_Picture__c}>
                                 <div class="po-center">
-                                    <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
+                                    <img src={clinicalrecord.Profile_Picture__c} class="po-logo-mobile" />
                                 </div>
                             </template>
-                        </lightning-layout-item>
-                        
-                        <lightning-layout-item size="1" class="border-right">
-                        </lightning-layout-item>
+                        </lightning-layout-item>   
 
                         <lightning-layout-item size="7" class="slds-align_absolute-center">
                             <div class="po-more">
-                                <span class="po-more-text" onclick={handleclick}>Learn about your program</span>
+                                <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
                                 <lightning-button-icon
-                                    icon-name="utility:chevronright"
-                                    variant="bare"
-                                    size="large"
-                                    onclick={handleclick}
-                                ></lightning-button-icon>
+                                icon-name="utility:chevronright"
+                                variant="bare"
+                                size="large"
+                                onclick={handleclick}
+                            ></lightning-button-icon>
                             </div>
                         </lightning-layout-item>
+
                     </lightning-layout>
                 </div>
             </template>
