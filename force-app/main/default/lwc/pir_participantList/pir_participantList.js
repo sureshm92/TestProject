@@ -688,6 +688,15 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     @api newstatus;
     handleChangeOfStatus(event) {
+        this.selectedCheckboxes=[];
+        const selectedEventnew = new CustomEvent("countvaluecheckbox", {
+            detail: this.selectedCheckboxes.length
+          });
+          this.dispatchEvent(selectedEventnew); 
+
+        this.fetchList();
+        const gotofirstEvent = new CustomEvent("gotofirst");
+        this.dispatchEvent(gotofirstEvent); 
         this.enableStatus=false;
         let study = this.filterWrapper.studyList.toString();
         let status = this.filterWrapper.status.toString();
