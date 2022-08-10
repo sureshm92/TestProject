@@ -119,7 +119,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 }
                                 else{
                                     ctpaccordionDatalist.push({
-                                        id: 0,
+                                        id: 1,
                                         label: this.label.PPEXCLUSIONCRITERIA,
                                         body: ''
                                     });
