@@ -53,6 +53,10 @@
             margin: 19px;
         }
 
+        .contentMargin {
+            margin: 1.5rem;
+        }
+
         html {
             background-color: #f8f9fb !important;
 
@@ -78,9 +82,9 @@
             padding-left: 0.75rem;
         }
 
-        .rr-form-element {
-            margin-top: 10px!important;
-            margin-bottom: 10px!important;
+        .slds-grid .rr-form-element {
+            margin-top: 10px;
+            margin-bottom: 10px;
             max-width: 328px;
         }
 
@@ -473,12 +477,64 @@
             left: -120px;
         }
 
+        .certifyCheck {
+            margin-top: 2rem;
+        }
+
 
         @media all and (max-width: 768px) {
             .brow-mob-button-eye {
                 margin-right: 300px !important;
             }
+
+            .slds-scope .slds-medium-size_1-of-4 {
+                width: 30%;
+            }
+
+            .slds-scope .slds-medium-size_1-of-5 {
+                width: 25%;
+            }
         }
+
+        @media all and (max-width: 486px) {
+
+            .contentMargin {
+                margin: 1rem;
+            }
+
+            .slds-scope .slds-gutters {
+                margin: 0;
+            }
+
+            .slds-scope .slds-gutters .slds-col.slds-medium-size_1-of-4 {
+                width: 100%;
+                margin-top: .75rem;
+                margin-bottom: .75rem;
+                padding: 0;
+            }
+
+            .slds-scope .slds-medium-size_1-of-5 {
+                width: 50%;
+                margin-bottom: .5rem;
+            }
+
+            .slds-scope .slds-button.changepwdbtn {
+                width: 100%;
+            }
+
+            .certifyCheck {
+                margin-top: 0;
+            }
+
+            .timeZoneText {
+                margin-top: .75rem;
+            }
+
+            .timeZoneText>.slds-gutters {
+                margin-top: .5rem;
+            }
+        }
+
 
         .checkboxcss {
             width: 1rem;
@@ -1069,7 +1125,8 @@
             var passWordsMatch = document.querySelector(".newpasswordtxt").value == document.querySelector(".verifypwdtxt").value;
             if (document.querySelector(".newpasswordtxt").value && document.querySelector(".verifypwdtxt").value && passWordsMatch == true && passWordCriteriaMet == true) {
                 var btn = document.querySelector(".changepwdbtn");
-                btn.disabled = false;
+                var savButtonDisabled = '{!isSaveButtonDisabled}';
+                btn.disabled = false || savButtonDisabled;
             }
             else {
                 var btn = document.querySelector(".changepwdbtn");
@@ -1157,7 +1214,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
             </div>
             <!--end-->
             <div class="rr-white-panel">
-                <div style="margin: 20px;">
+                <div class="contentMargin">
                     <div class="slds-grid slds-wrap">
                         <div class="debug" style="display:none;">
                             template name: {!templateName} community name: {!currentCommunityName} site name: {!siteName}
@@ -1224,7 +1281,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                                 />
                                             </apex:outputPanel>
                                         </span>
-                                        <apex:actionFunction action="{!toggleNewPassword}" name="toggleNew" reRender="showinputpwd,icons,hidden-eye,visible-eye,newpwd,new-password">
+                                        <apex:actionFunction action="{!toggleNewPassword}" name="toggleNew" reRender="showinputpwd,icons,hidden-eye,visible-eye,newpwd,new-password,saveButton">
                                         </apex:actionFunction>
                                         <apex:outputPanel id="icons">
                                             <span id="eye-hidden-icon" class="{!if(isRTL == true,'checkmarklofi eye-icon-mask-rtl','checkmarklofi eye-icon-mask eye-icon-pos')}"
@@ -1270,7 +1327,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 
                                         </apex:inputSecret>
                                     </apex:outputPanel>
-                                    <apex:actionFunction action="{!togglePassword}" name="toggleRenteredPassword" reRender="showinput,pwd-eye,pwd-eye-hidden,showinputtext,icons-new,verifypwd,verify-pwd">
+                                    <apex:actionFunction action="{!togglePassword}" name="toggleRenteredPassword" reRender="showinput,pwd-eye,pwd-eye-hidden,showinputtext,icons-new,verifypwd,verify-pwd,saveButton">
                                     </apex:actionFunction>
                                     <apex:outputPanel id="icons-new">
 
@@ -1477,7 +1534,9 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         <apex:outputPanel rendered="{!isDelegate}">
                             <div class=" slds-grid slds-wrap slds-gutters ">
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ">
-                                    <label>{!$Label.PE_Year_Of_Birth}</label>
+                                    <label>{!$Label.PE_Year_Of_Birth}
+                                        <span title="required" class="slds-required">*</span>
+                                    </label>
                                     <apex:actionRegion>
                                         <apex:selectList id="yearofbirth" styleClass="selectInput slds-input container" size="1" value="{!participant.Birth_Year__c}">
                                             <apex:selectOption itemLabel="{!$Label.None}" itemValue=" " />
@@ -1493,7 +1552,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     </apex:outputPanel>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-4 " style="max-width:920px; ">
-                                    <div class="slds-form-element " style="margin-top: 30px; ">
+                                    <div class="slds-form-element certifyCheck">
                                         <div class="slds-form-element__control " style="display: flex; ">
                                             <apex:actionRegion>
                                                 <!-- <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss" /> -->
@@ -1725,7 +1784,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             </div>
                         </div>
                         <!-- platform level -->
-                        <div style="margin-top: 36px; " class="timeZoneText ">
+                        <div class="timeZoneText ">
                             {!$Label.PP_ConsentRequired}
                         </div>
                         <div class="cp-save-btn-container ">
