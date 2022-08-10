@@ -317,6 +317,16 @@
         else if(agemin!=agemax && age==agemin){
             helper.validateDOB(component, event, helper);
         }
+        else if(agemin==agemax && age==0){
+            var format = component.get("v.dobConfig");
+            if(format == 'YYYY'){
+                part.Date_of_Birth__c = component.get('v.valueYYYY')+'-01-01';
+            } 
+            else if(format == 'MM-YYYY'){
+                part.Date_of_Birth__c = component.get('v.valueYYYY')+'-'+component.get('v.valueMM')+'-01';   
+            }            
+            helper.doCheckDateOfBith(component, event, helper); 
+        }
         $A.enqueueAction(component.get('c.doCheckFields'));
     },
     validateDOB: function (component, event, helper){
