@@ -3,6 +3,10 @@
         padding: 0px !important;
         background-color: #F6F7FB;
     }
+
+    .toastContainer > .forceToastMessage {
+        width: 95% !important;
+    }
 }
 
 /* Community_CSS_PP_Theme */
@@ -71,4 +75,45 @@
         padding-left: 0rem !important;
         padding-right: 0rem !important;
     }
+}
+
+/**Toast Container CSS*/
+.toastContainer > .slds-theme--success {
+    border-radius: 8px;
+    background-color: #009D3F;
+    
+}
+
+.toastContainer > .forceToastMessage {
+    width: 40%;
+    max-width: 1424px;
+    min-height: 40px;
+    min-width: 40%;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
+}
+
+.toastContainer .toastTitle, .toastContainer .toastIcon {
+    display: contents;
+}
+
+.toastContainer .toastClose {
+    top: auto;
+}
+
+.toastContainer .toastClose lightning-primitive-icon {
+    color: #ffffff!important;
+}
+
+.toastContainer .toastTitle, .toastContainer .toastIcon .slds-icon_small {
+    height: 1rem !important;
+    width: 1rem !important;
+}
+
+.toastContainer .forceToastMessage .toastClose .slds-button__icon--large{
+    height: 1rem !important;
+    width: 1rem !important;
 }
