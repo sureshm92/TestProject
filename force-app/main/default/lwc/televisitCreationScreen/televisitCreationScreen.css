@@ -313,7 +313,7 @@ textdecoration {
         flex-direction: column-reverse;
         width: 100%;
     }
-    .televisit_acion_btn button {
+    .televisit_acion_btn button, .cancel_tv_actionBtn button{
         margin: 8px 0;
         padding: 8px 0;
     }
@@ -332,6 +332,11 @@ textdecoration {
     .save-btn {
         float: left;
         margin-left: -35px;
+    }
+    .cancel_tv_actionBtn{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 }
 
