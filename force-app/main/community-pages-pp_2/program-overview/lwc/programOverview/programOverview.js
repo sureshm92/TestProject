@@ -21,6 +21,9 @@ export default class ProgramOverview extends LightningElement {
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
+    get borderPOHome(){
+        return this.isRTL ? 'borderLeft' : 'borderRight';
+    }
      
     connectedCallback(){
 

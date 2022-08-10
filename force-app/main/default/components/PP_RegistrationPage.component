@@ -97,7 +97,7 @@
             font-weight: 700;
             letter-spacing: 0;
             line-height: 24px;
-            margin-bottom: .75rem;
+            margin-bottom: .25rem;
         }
 
         .slds-scope td.tdclas {
@@ -505,6 +505,10 @@
             .slds-scope .slds-gutters {
                 margin: 0;
             }
+        
+        	.ap-section-title {
+        		margin-bottom: .75rem;
+        	}
 
             .slds-scope .slds-gutters .slds-col.slds-medium-size_1-of-4 {
                 width: 100%;
@@ -1505,7 +1509,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     <span title="required" class="slds-required">*</span>
                                 </label>
                                 <!--<input class="slds-input " type="text " value="{!participant.Mailing_Country_Code__c}" disabled="true " style="border-radius: 16px;"></input> -->
-                                <apex:actionRegion>
+                                <apex:actionRegion >
                                     <apex:selectList id="countryIdParticiapnt" styleClass="slds-input container" disabled="true" size="1" value="{!participant.Mailing_Country_Code__c}">
                                         <apex:selectOption itemLabel="--None--" itemValue="" />
                                         <apex:selectOptions value="{!countries}" />
@@ -1519,7 +1523,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     <span title="required" class="slds-required">*</span>
                                 </label>
                                 <!-- <input class="slds-input " type="text " value="Useremail@gmail.com" disabled="true " style="border-radius: 16px;"></input> -->
-                                <apex:actionRegion>
+                                <apex:actionRegion >
                                     <apex:selectList id="stateIdParticiapnt" styleClass="slds-input container" disabled="true" size="1" value="{!participant.Mailing_State_Code__c}">
                                         <apex:selectOption itemLabel="--None--" itemValue="" />
                                         <apex:selectOptions value="{!states}" />
@@ -1542,14 +1546,16 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                     <label>{!$Label.PE_Year_Of_Birth}
                                         <span title="required" class="slds-required">*</span>
                                     </label>
-                                    <apex:actionRegion>
-                                        <apex:selectList id="yearofbirth" styleClass="selectInput slds-input container" size="1" value="{!participant.Birth_Year__c}">
-                                            <apex:selectOption itemLabel="{!$Label.None}" itemValue=" " />
-                                            <apex:selectOptions value="{!years}" />
-                                            <apex:actionSupport event="onchange" action="{!validateAgeOfMajority}" reRender="minorErrorMessageParent,attestation,saveButton"
-                                            />
-                                        </apex:selectList>
-                                    </apex:actionRegion>
+                                     <div class="selectInput">
+                                        <apex:actionRegion >
+                                            <apex:selectList id="yearofbirth" styleClass="slds-input container" size="1" value="{!participant.Birth_Year__c}">
+                                                <apex:selectOption itemLabel="{!$Label.None}" itemValue=" " />
+                                                <apex:selectOptions value="{!years}" />
+                                                <apex:actionSupport event="onchange" action="{!validateAgeOfMajority}" reRender="minorErrorMessageParent,attestation,saveButton"
+                                                />
+                                            </apex:selectList>
+                                        </apex:actionRegion>
+                                    </div>
                                     <apex:outputPanel id="minorErrorMessageParent">
                                         <apex:outputPanel id="minorErrorMessage" rendered="{!showErrorMessage}">
                                             <apex:outputText value="{!$Label.PP_MinorMessage}" styleClass="minorErrorText" />
@@ -1559,9 +1565,9 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-4 " style="max-width:920px; ">
                                     <div class="slds-form-element certifyCheck">
                                         <div class="slds-form-element__control " style="display: flex; ">
-                                            <apex:actionRegion>
+                                            <apex:actionRegion >
                                                 <!-- <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss" /> -->
-                                                <apex:actionRegion>
+                                                <apex:actionRegion >
                                                     <apex:inputCheckbox value="{!isAttested}" id="attestation" disabled="{!isDisabled}" styleClass="checkboxcss">
                                                         <apex:actionSupport event="onclick" reRender="saveButton" action="{!validateSaveButton}" />
                                                     </apex:inputCheckbox>
