@@ -10,7 +10,10 @@ public without sharing class AccountSettingsController {
             loggedInUserMode = userMode;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -45,7 +48,8 @@ public without sharing class AccountSettingsController {
                             Phone_Type__c,
                             Alternative_Phone_Number__c,
                             Alternative_Phone_Type__c,
-                            Birth_Year__c
+                            Birth_Year__c,
+                            Use_as_Daytime_Phone__c
                         FROM Participant__c
                         WHERE Contact__c = :initData.myContact.Id
                     ][0];
@@ -128,12 +132,12 @@ public without sharing class AccountSettingsController {
                 List<User> delUsers = [
                     SELECT Id, Email, Name, Username, FullPhotoUrl
                     FROM User
-                    WHERE ContactId = :initData.myContact.Id 
+                    WHERE ContactId = :initData.myContact.Id
                 ];
-                if(delUsers !=null && !delUsers.isEmpty()){
+                if (delUsers != null && !delUsers.isEmpty()) {
                     initData.delegateUserName = delUsers[0];
                 }
-                if(initData.delegateUserName!=null){
+                if (initData.delegateUserName != null) {
                     initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains(
                         'profilephoto/005/F'
                     );
@@ -210,12 +214,15 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeEmail(String newEmail,String userMode) {
+    public static void changeEmail(String newEmail, String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -275,7 +282,10 @@ public without sharing class AccountSettingsController {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -291,12 +301,15 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void changeOptInSMS(Boolean participantOptInStatusSMS,String userMode) {
+    public static void changeOptInSMS(Boolean participantOptInStatusSMS, String userMode) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             loggedInUserMode = userMode;
-            if (loggedInUserMode != USER_MODE_HCP && initData.myContact.userCommunityDelegateId__c != null) {
+            if (
+                loggedInUserMode != USER_MODE_HCP &&
+                initData.myContact.userCommunityDelegateId__c != null
+            ) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
                 );
@@ -333,6 +346,7 @@ public without sharing class AccountSettingsController {
                 Date_of_Birth__c,
                 Nickname__c,
                 Suffix__c,
+                Use_as_Daytime_Phone__c,
                 Phone_Type__c,
                 Alternative_Phone_Number__c,
                 Alternative_Phone_Type__c
@@ -612,6 +626,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public String mobilePhone;
         @AuraEnabled
+        public Boolean useAsDaytimePhone;
+        @AuraEnabled
         public String fax;
         @AuraEnabled
         public Boolean optInEmail;
@@ -676,6 +692,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                             participant.Phone_Type__c != 'Mobile'
                             ? ''
                             : contact.MobilePhone;
+
+            useAsDaytimePhone = participant.Use_as_Daytime_Phone__c;
 
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
@@ -780,6 +798,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             personParticipant.Salutation__c = prefix;
             personParticipant.Nickname__c = nickname;
             personParticipant.Phone_Type__c = phoneType;
+            personParticipant.Use_as_Daytime_Phone__c = useAsDaytimePhone;
 
             return personParticipant;
         }

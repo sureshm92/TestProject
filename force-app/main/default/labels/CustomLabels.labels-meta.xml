@@ -26730,4 +26730,60 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_DOB_ERROR</shortDescription>
         <value>Date must be ##TODAY or earlier</value>
     </labels>
+    <labels>
+        <fullName>PP_Preferred_Name</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Name</shortDescription>
+        <value>Preferred Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_USE_AS_DAYTIME_PHONE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USE_AS_DAYTIME_PHONE</shortDescription>
+        <value>Use as Daytime Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DATA_UPDATE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DATA_UPDATE</shortDescription>
+        <value>Your data was updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_UPLOADED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_UPLOADED</shortDescription>
+        <value>Photo uploaded successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_REMOVED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_REMOVED</shortDescription>
+        <value>Photo removed successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_REQUIRED_FIELD</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_REQUIRED_FIELD</shortDescription>
+        <value>Required field</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_INVALID_PHONE_FORMAT</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
+        <value>Enter a valid phone format</value>
+    </labels>
 </CustomLabels>
