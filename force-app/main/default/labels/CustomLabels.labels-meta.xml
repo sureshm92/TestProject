@@ -14978,7 +14978,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Lockout</shortDescription>
         <value>Locked out</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_BTN_Back_To_Log_in</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18033,6 +18033,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
+        <value>Learn more</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn about your program</value>
+    </labels>
+    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18059,6 +18073,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_SaveContinue</shortDescription>
         <value>Save &amp; Continue</value>
+    </labels>
+    <labels>
+        <fullName>PP_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Overview</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Objective</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Objective</shortDescription>
+        <value>Objective</value>
+    </labels>
+    <labels>
+        <fullName>PP_Program_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Program_Overview</shortDescription>
+        <value>Program Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participation_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participation_Criteria</shortDescription>
+        <value>Participation Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Eligible_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
+        <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Inclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Inclusion_Criteria</shortDescription>
+        <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Exclusion_Criteria</shortDescription>
+        <value>Exclusion Criteria</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -18413,7 +18476,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Email Sent</shortDescription>
         <value>Email sent!</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Email_Sent_To_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18434,7 +18497,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Enter Associated Email</shortDescription>
         <value>Enter the email associated with your account.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22247,7 +22310,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Remember My Username</shortDescription>
-        <value>Remember My Username</value>
+        <value>Remember my username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
