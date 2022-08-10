@@ -4,6 +4,10 @@
     letter-spacing: 0;
     line-height: 48px;
 }
+.back-to-manage-delegate {
+    font-size: 16px;
+    font-weight: 500;
+}
 .btn-add-new-delegate {
     width: 360px;
     color: #ffffff;
@@ -57,7 +61,12 @@
     border-right: 1px solid #d9d9d9;
 }
 @media screen and (max-width: 768px) {
-    .slds-border_right {
+    .slds-vertical-border {
         border-right: none;
+    }
+    .btn-add-new-delegate,
+    .rectangle,
+    .there-are-no-delegat {
+        width: 350px;
     }
 }
