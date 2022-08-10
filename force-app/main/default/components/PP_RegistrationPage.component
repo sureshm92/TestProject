@@ -1,4 +1,4 @@
-<apex:component controller="RRChangePasswordController" allowDML="true">
+<apex:component controller="RRChangePasswordController" allowDML="true" language="{!userVal.Contact.Language__c}">
     <style>
         .main-header-brand {
             background: linear-gradient(to bottom, #00839A 0%, #005587 100%);
@@ -606,18 +606,7 @@
         }
 
     </script>
-    <script>
-        DEFAULT_VALUE = 'en';
-        PREFERRED_LANGUAGE = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
-        var browserLanguage = JSON.stringify([PREFERRED_LANGUAGE]);
-        if (navigator.languages) browserLanguage = JSON.stringify(navigator.languages);
-        $(document).ready(function () {
-            $('.langInput').val(browserLanguage);
-            updateLanguage();
-        })
 
-
-    </script>
     <script>
 
         document.addEventListener("click", x => 0)
@@ -1252,7 +1241,23 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         </apex:form>
                     </div>
                     <apex:form id="main_form">
-                        <apex:inputText value="{!browserLanguage}" styleClass="langInput" style="display:none" />
+                        <!-- update language function: -->
+                        <apex:actionFunction action="{!translateFieldsAction}" name="translateFields" />
+                        <apex:actionFunction action="{!updateBrowserLanguageAction}" name="updateLanguage" onComplete="translateFields();" />
+                        <!-- update language function: -->
+                        <apex:outputPanel rendered="{!contact.Is_First_Logon__c && browserLanguage == null}">
+                            <apex:inputText value="{!browserLanguage}" styleClass="langInput" style="display:none" />
+                            <script>
+                                DEFAULT_VALUE = 'en';
+                                PREFERRED_LANGUAGE = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
+                                var browserLanguage = JSON.stringify([PREFERRED_LANGUAGE]);
+                                if (navigator.languages) browserLanguage = JSON.stringify(navigator.languages);
+                                $(document).ready(function () {
+                                    $('.langInput').val(browserLanguage);
+                                    updateLanguage();
+                                })
+                            </script>
+                        </apex:outputPanel>
                         <div class="slds-grid slds-wrap" style="margin-top:22px;">
                             <div class="ap-section-title" style="font-size:20px;">{!$Label.PP_LoginInfo}</div>
                         </div>
@@ -1362,7 +1367,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                         </div>
                         <div class="slds-p-bottom_x-large eightCharacters" style="color: black">
                             <div class="MediumBText">{!$Label.PP_PasswordMustInclude}</div>
-                            <table id="tablePwdStatus" cellpadding="2" cellspacing="1" border="0">
+                            <table id="tablePwdStatus" cellpadding="2" cellspacing="1" border="0" style="{!if(isRTL == true, 'width: auto', '')}">
                                 <tbody class="eightCharacters">
                                     <tr class="slds-p-left_medium slds-p-bottom_x-large eightCharacters">
                                         <td width="1rem">
@@ -1601,7 +1606,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                 </label>
                                 <div class="selectInput">
                                     <apex:inputField styleClass="slds-input container preferLang" value="{!userVal.contact.Language__c}">
-                                        <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
+                                        <apex:actionSupport event="onchange" action="{!updateLanguageAction}" rerender="regispanel" />
                                     </apex:inputField>
                                 </div>
                             </div>

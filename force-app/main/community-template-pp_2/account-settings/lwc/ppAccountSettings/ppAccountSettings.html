@@ -1,6 +1,6 @@
 <template>
     <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={bodyContainerClass}>
             <!--Desktop Navigation Menu-->
@@ -11,76 +11,19 @@
                         <nav class="slds-nav-vertical" aria-label="Header List">
                             <div class="slds-nav-vertical__section">
                                 <ul aria-describedby="entity-header">
-                                    <li
-                                        class="slds-nav-vertical__item slds-is-active"
-                                        data-header="profileInformation"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.PROFILE_INFO}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="passwordchange"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.PASSWORD_MANAGEMENT}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="communicationPreferences"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.COMMUNICATION_PREF}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="langloc"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.LANG_LOCATION}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="changePref"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.CUSTOMIZE_EXP}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="cookiesSettings"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.COOKIE_SETTINGS}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
-                                    <li
-                                        class="slds-nav-vertical__item"
-                                        data-header="medRecAccess"
-                                        onclick={navigateToSelectedComponent}
-                                    >
-                                        <lightning-formatted-rich-text
-                                            class="slds-nav-vertical__action"
-                                            value={labels.MEDICAL_RECORD_ACCESS}
-                                        ></lightning-formatted-rich-text>
-                                    </li>
+                                    <template for:each={navHeadersList} for:item="navHeader">
+                                        <li
+                                            key={navHeader.value}
+                                            class="slds-nav-vertical__item"
+                                            data-header={navHeader.value}
+                                            onclick={navigateToSelectedComponent}
+                                        >
+                                            <lightning-formatted-rich-text
+                                                class="slds-nav-vertical__action"
+                                                value={navHeader.label}
+                                            ></lightning-formatted-rich-text>
+                                        </li>
+                                    </template>
                                 </ul>
                             </div>
                         </nav>
@@ -136,13 +79,13 @@
                 <div class={navComponentContainerClass}>
                     <div class={navComponentClass}>
                         <template if:true={showProfileInformation}>
-                            <!-- <c-pp-account-settings-edit-profile
+                            <c-pp-account-settings-edit-profile
                                 user-mode={userMode}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
                                 is-delegate={isDelegate}
                                 onshownavmenubar={showNavigationMenu}
-                            ></c-pp-account-settings-edit-profile> -->
+                            ></c-pp-account-settings-edit-profile>
                         </template>
                         <template if:true={showPasswordManagement}>
                             <!--Password Management Component-->

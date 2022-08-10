@@ -22,7 +22,7 @@ export default class PpAccountSettings extends LightningElement {
     @track personWrapper;
     @track contactSectionData;
     @track contact;
-    componentId = 0;
+    componentId = 'asHome';
     userType = '';
     currentEmail = '';
     optInEmail = false;
@@ -62,6 +62,12 @@ export default class PpAccountSettings extends LightningElement {
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+    }
+
+    renderedCallback() {
+        if (!this.isMobile) {
+            this.handleActiveNavigationClass(this.componentId);
+        }
     }
 
     /**CSS Related Getters START */
@@ -122,31 +128,31 @@ export default class PpAccountSettings extends LightningElement {
 
     /**Active Header Getters START */
     get showProfileInformation() {
-        return this.componentId === 1 ? true : false;
+        return this.componentId === 'profileInformation' ? true : false;
     }
 
     get showPasswordManagement() {
-        return this.componentId === 2 ? true : false;
+        return this.componentId === 'passwordchange' ? true : false;
     }
 
     get showCommunicationPreference() {
-        return this.componentId === 3 ? true : false;
+        return this.componentId === 'communication-preferences' ? true : false;
     }
 
     get showLanguageAndLocation() {
-        return this.componentId === 4 ? true : false;
+        return this.componentId === 'langloc' ? true : false;
     }
 
     get showCustomizeExperience() {
-        return this.componentId === 5 ? true : false;
+        return this.componentId === 'changePref' ? true : false;
     }
 
     get showCookieSettings() {
-        return this.componentId === 6 ? true : false;
+        return this.componentId === 'cookiesSettings' ? true : false;
     }
 
     get showMedicalRecordAccess() {
-        return this.componentId === 7 ? true : false;
+        return this.componentId === 'medRecAccess' ? true : false;
     }
 
     initializeData() {
@@ -181,31 +187,32 @@ export default class PpAccountSettings extends LightningElement {
 
     setComponentId(queryString) {
         if (queryString.includes('profileInformation')) {
-            this.componentId = 1;
+            this.componentId = 'profileInformation';
             window.history.replaceState(null, null, '?profileInformation');
         } else if (queryString.includes('passwordchange')) {
-            this.componentId = 2;
+            this.componentId = 'passwordchange';
             window.history.replaceState(null, null, '?passwordchange');
-        } else if (queryString.includes('communicationPreferences')) {
-            this.componentId = 3;
-            window.history.replaceState(null, null, '?communicationPreferences');
+        } else if (queryString.includes('communication-preferences')) {
+            this.componentId = 'communication-preferences';
+            window.history.replaceState(null, null, '?communication-preferences');
         } else if (queryString.includes('langloc')) {
-            this.componentId = 4;
+            this.componentId = 'langloc';
             window.history.replaceState(null, null, '?langloc');
         } else if (queryString.includes('changePref')) {
-            this.componentId = 5;
+            this.componentId = 'changePref';
             window.history.replaceState(null, null, '?changePref');
         } else if (queryString.includes('cookiesSettings')) {
-            this.componentId = 6;
+            this.componentId = 'cookiesSettings';
             window.history.replaceState(null, null, '?cookiesSettings');
         } else if (queryString.includes('medRecAccess')) {
-            this.componentId = 7;
+            this.componentId = 'medRecAccess';
             window.history.replaceState(null, null, '?medRecAccess');
         } else {
             if (!this.isMobile) {
-                this.componentId = 1;
+                this.componentId = 'profileInformation';
                 window.history.replaceState(null, null, '?profileInformation');
             } else if (this.isMobile) {
+                this.componentId = 'asHome';
                 this.showMobileNavComponent = true;
             } else {
                 console.error('We were on a Break!');
@@ -220,7 +227,7 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     showNavigationMenu(event) {
-        this.componentId = 0;
+        this.componentId = 'asHome';
         this.showMobileNavComponent = true;
         window.history.replaceState(null, null, '?asHome');
     }
