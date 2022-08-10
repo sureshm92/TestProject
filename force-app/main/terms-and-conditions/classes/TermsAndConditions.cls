@@ -152,8 +152,6 @@ global without sharing class TermsAndConditions {
     }
 
     public static Terms_And_Conditions__c getOrgDefaultPrivacyTC(Boolean useDefaultCommunity) {
-        System.debug('useDefaultCommunity: '+useDefaultCommunity);
-        System.debug('PRIVACY_POLICY: '+PRIVACY_POLICY);
         String query = getTCQuery(null, null, PRIVACY_POLICY, useDefaultCommunity);
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {
@@ -174,7 +172,6 @@ global without sharing class TermsAndConditions {
         if(!String.isBlank(ctId) || ctId != null){
             ppTcId = [SELECT Id, Privacy_Policy_Id__c FROM Clinical_Trial_Profile__c WHERE Id=: ctId LIMIT 1].Privacy_Policy_Id__c;
         }
-        System.debug('ppTcId is :' +ppTcId);
         if(ppTcId != null){
             query = getTCQuery(ppTcId, null, PRIVACY_POLICY, useDefaultCommunity);
         }else{
@@ -182,7 +179,6 @@ global without sharing class TermsAndConditions {
         }
         
         Terms_And_Conditions__c[] tcList = Database.query(query);
-        System.debug('tcList size:' +tcList.size());
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
             if (tc.Terms_And_Conditions__r.size() > 0){

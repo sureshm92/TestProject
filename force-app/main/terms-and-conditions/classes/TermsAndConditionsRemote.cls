@@ -87,7 +87,6 @@ public without sharing class TermsAndConditionsRemote {
 
     @AuraEnabled
     public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
-        System.debug('useDefaultCommunity: ' + useDefaultCommunity);
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
