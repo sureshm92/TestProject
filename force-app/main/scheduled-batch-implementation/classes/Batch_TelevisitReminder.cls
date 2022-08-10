@@ -70,16 +70,19 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notification.Recipient__c = attendee.Contact__c;
             notification.WhatId__c = attendee.Id;
             if(
-                secondremindermap.keyset().contains(attendee.Televisit__c)
+                secondremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_Second_Reminder_Sent__c && 
+                (attendee.Attendee_Type__c == 'PI' || attendee.Attendee_Type__c == 'Site Staff')
             ){
                 if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_Jan';
                 }else{
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two';
                 }
-
-                
-            }else{
+            }
+            if(
+                firstremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_First_Reminder_Sent__c &&
+                (attendee.Attendee_Type__c == 'PI' || attendee.Attendee_Type__c == 'Site Staff')
+            ){
                 if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_Janssen';
                 }else{
@@ -101,8 +104,9 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     attendee.Is_Second_Reminder_Sent__c = true;
                 }
             }
-
-            notifications.add(notification);
+            if(!String.isEmpty(notification.Notification_Type__c)){
+                notifications.add(notification);
+            }
         }
         if (attendeeDayTelevisitMap != null || !attendeeDayTelevisitMap.isEmpty()) {
             notifications.addAll(
