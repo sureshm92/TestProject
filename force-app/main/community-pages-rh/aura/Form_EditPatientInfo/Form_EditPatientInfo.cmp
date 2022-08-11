@@ -85,6 +85,8 @@
     <aura:attribute name="showDay" type="Boolean" />
     <aura:attribute name="showMonth" type="Boolean" />
     <aura:attribute name="futureDate" type="Boolean" />
+    <aura:attribute name="futureDateDDErr" type="String" />
+    <aura:attribute name="futureDateMMErr" type="String" />
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.needsGuardian}" action="{!c.doClearValidity}" />
@@ -277,10 +279,8 @@
                                 required="true"
                                 useSentenceFont="false"
                                 onchange="{!c.MMChange}"
+                                errorMessage="{!v.futureDateMMErr}"
                                 />
-                                <aura:if isTrue="{!v.futureDate}">
-                                    <div class="slds-form-element__help dob-error" >Value must be today or earlier</div>
-                                </aura:if>
                             </div>
                         </aura:if>
                         <aura:if isTrue="{!v.showDay}">                
@@ -300,6 +300,7 @@
                                 required="true"
                                 useSentenceFont="false"
                                 onchange="{!c.DDChange}"
+                                errorMessage="{!v.futureDateDDErr}"
                                 />
                             </div>
                         </aura:if>
