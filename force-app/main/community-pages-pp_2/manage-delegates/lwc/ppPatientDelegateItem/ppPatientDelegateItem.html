@@ -1,23 +1,26 @@
 <template>
-    <div class="rr-white-panel mti-container">
-        <div class="mti-name">{contactname}</div>
-        <div class="mti-email">{contact.Email}</div>
-        <div class="mti-button-container">
-            <template if:true={mobile}>
-                <lightning-button class="apollo-btn tertiary" title={title} onclick={handleClick}>
-                    {title}
-                </lightning-button>
-                <template if:false={mobile}>
-                    <lightning-button
-                        class="apollo-btn tertiary"
-                        style="margin-right: 600px"
-                        title={title}
-                        onclick={handleClick}
-                    >
-                        {title}
-                    </lightning-button>
+    <div class="patient-delegate-item-rectangle slds-p-around_large slds-m-bottom_medium">
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col slds-size_1-of-5 slds-medium-size_2-of-12 slds-m-top_small">
+                <c-web-icon icon-size="medium" icon-name={delegate}></c-web-icon>
+                <!-- <c-web-icon icon-size="medium" icon-name={switcherDelegate}></c-web-icon> -->
+            </div>
+            <div class="slds-col slds-size_4-of-5 slds-medium-size_8-of-12">
+                <span class="dlegate-name">John Jameson</span><br />
+                <span class="dlegate-email">john.jameson@gmail.com</span>
+            </div>
+            <div class="slds-col slds-medium-size_2-of-12 slds-m-top_small btn-deactivate-mob">
+                <button
+                    class="slds-button slds-button_neutral btn-deactivate label-deactivate"
+                    onclick={handleRemoveDelegates}
+                >
+                    Deactivate
+                </button>
+                <template if:true={showpopup}>
+                    <c-pp-remove-delegate-modal onmodalclose={handleModalClose}>
+                    </c-pp-remove-delegate-modal>
                 </template>
-            </template>
+            </div>
         </div>
     </div>
 </template>
