@@ -1784,6 +1784,11 @@ public without sharing class PIR_StatusDetailController {
       if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
           perRecord.Initial_Visit_Televisit_Created__c = true;
       }
+      if(perRecord.Initial_visit_scheduled_date__c != null){
+        perRecord.High_Priority__c = true;
+      }else{
+        perRecord.High_Priority__c = false;
+      }
       update perRecord;
       if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){
         TriggerHandlerExecutor.bypassHandler(
