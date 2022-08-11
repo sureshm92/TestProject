@@ -29,7 +29,7 @@ import LAST_NAME from '@salesforce/label/c.PP_LastName';
 import SUFFIX from '@salesforce/label/c.PG_AS_F_Suffix';
 import PREFERRED_NAME from '@salesforce/label/c.PP_Preferred_Name';
 import GENDER from '@salesforce/label/c.cont_study_gender';
-import DOB from '@salesforce/label/c.AccountSetting_Date_Of_Birth';
+import DOB from '@salesforce/label/c.PG_AS_F_Date_of_Birth';
 import MOBILE_PHONE from '@salesforce/label/c.Mob_Phone_Field';
 import USE_AS_DAYTIME_PHONE from '@salesforce/label/c.PP_USE_AS_DAYTIME_PHONE';
 import DAYTIME_PHONE from '@salesforce/label/c.PP_Daytime_Phone';
@@ -40,7 +40,7 @@ import EMAIL_PREF from '@salesforce/label/c.PP_EMAIL_COMMUNICATION_PREFERENCE';
 import COMM_PREF from '@salesforce/label/c.Communication_Preferences';
 import WARNING from '@salesforce/label/c.PP_Warning';
 import EMAIL_WARNING_MESSAGE from '@salesforce/label/c.PP_UPDATE_EMAIL_WARNING';
-import EMAIL_ADDRESS from '@salesforce/label/c.PG_AS_F_Email_address';
+import EMAIL_ADDRESS from '@salesforce/label/c.CPD_Email_address_label';
 import HELP from '@salesforce/label/c.PG_HLP_H_Help';
 import PAGE from '@salesforce/label/c.PP_Page';
 import EMAIL_PATTERN from '@salesforce/label/c.RH_Email_Validation_Pattern';
@@ -65,7 +65,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     minorUserName = '';
     hasProfilePic = false;
     isInitialized = false;
-    isDelegate = false;
+    @api isDelegate = false;
     contactChanged = false;
     optInEmail = false;
     optInSMS = false;
@@ -670,7 +670,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 mobilePhoneField.reportValidity();
             } else if (!mobilePhone && this.isMobilePhoneRequired) {
                 this.showErrorInput('mobile-phone-input');
-                mobilePhoneField.setCustomValidity(this.requiredFieldError);
+                mobilePhoneField.setCustomValidity(this.mobilePhoneFieldError);
                 mobilePhoneField.reportValidity();
                 this.isMobilePhoneInvalid = true;
                 this.hasFieldError.isMPHasError = true;
@@ -682,7 +682,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         this.isUseAsDaytimePhoneChecked = !this.isUseAsDaytimePhoneChecked;
         this.personWrapper.useAsDaytimePhone = this.isUseAsDaytimePhoneChecked;
         this.hasFieldError.isFieldChanged = true;
-        if (this.personWrapper.useAsDaytimePhone) {
+        if (this.personWrapper.useAsDaytimePhone && this.personWrapper.mobilePhone) {
             this.personWrapper.homePhone = this.personWrapper.mobilePhone;
             this.personWrapper.phoneType = 'Mobile';
             let daytimePhoneField = this.template.querySelector(`[data-id="daytime-phone-input"]`);
@@ -690,6 +690,15 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             daytimePhoneField.setCustomValidity('');
             daytimePhoneField.reportValidity();
             this.hasFieldError.isDPHasError = false;
+        } else if (this.personWrapper.useAsDaytimePhone && !this.personWrapper.mobilePhone) {
+            this.personWrapper.homePhone = this.personWrapper.mobilePhone;
+            this.personWrapper.phoneType = 'Mobile';
+            let mobilePhoneField = this.template.querySelector(`[data-id="mobile-phone-input"]`);
+            this.showErrorInput('mobile-phone-input');
+            mobilePhoneField.setCustomValidity(this.mobilePhoneFieldError);
+            mobilePhoneField.reportValidity();
+            this.isMobilePhoneInvalid = true;
+            this.hasFieldError.isMPHasError = true;
         }
     }
 
@@ -713,9 +722,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 daytimePhoneField.reportValidity();
             } else {
                 this.showErrorInput('daytime-phone-input');
-                daytimePhoneField.setCustomValidity(this.requiredFieldError);
+                daytimePhoneField.setCustomValidity(this.daytimePhoneFieldError);
                 daytimePhoneField.reportValidity();
-                this.hasFieldError.isDPHasError = false;
+                this.hasFieldError.isDPHasError = true;
             }
         }
     }
