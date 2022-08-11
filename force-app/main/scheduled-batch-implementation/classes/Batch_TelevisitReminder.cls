@@ -91,14 +91,14 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             }
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
                 if (
-                    firstremindermap.keyset().contains(attendee.Televisit__c)
+                    firstremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_First_Reminder_Sent__c
                 ) {
                     attendee.Is_First_Reminder_Sent__c = true;
 
                     attendeeDayTelevisitMap.put(attendee.Contact__c, attendee.Id);
                 }
                 if (
-                    secondremindermap.keyset().contains(attendee.Televisit__c)
+                    secondremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_Second_Reminder_Sent__c
                 ) {
                     attendeeHourTelevisitMap.put(attendee.Contact__c, attendee.Id);
                     attendee.Is_Second_Reminder_Sent__c = true;

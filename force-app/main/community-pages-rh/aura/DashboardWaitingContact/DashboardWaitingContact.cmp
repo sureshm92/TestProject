@@ -85,7 +85,7 @@
                     <tbody>
                         <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
                             <tr class="slds-hint-parent">
-                                <td>
+                                <td class="desktop-display">
                                     <aura:if isTrue="{!v.isPhone}">
                                         {!$Label.c.ReEngage_Dashboard}&nbsp;
                                         <aura:if isTrue="{!item.isReEngagePar}">
@@ -125,6 +125,27 @@
                                         </aura:if>
                                     </div>
                                 </th>
+                                <td class="mobile-display">
+                                    <aura:if isTrue="{!v.isPhone}">
+                                        {!$Label.c.ReEngage_Dashboard}&nbsp;
+                                        <aura:if isTrue="{!item.isReEngagePar}">
+                                            {!$Label.c.BTN_Yes}
+                                            <aura:set attribute="else">
+                                                {!$Label.c.BTN_No}
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else">
+                                            <div class="slds-truncate slds-text-align_center">
+                                                <aura:if isTrue="{!item.isReEngagePar}">
+                                                    <lightning:input type="checkbox" name="reegnage" checked="true" disabled="true"/>
+                                                    <aura:set attribute="else">
+                                                        <lightning:input type="checkbox" name="noshow" checked="false" disabled="true"/>
+                                                    </aura:set>
+                                                </aura:if>                                            
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
                                 <td>
                                     <div class="slds-truncate">{!item.source}</div>
                                 </td>

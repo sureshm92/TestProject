@@ -17,7 +17,8 @@ public without sharing class ManualTaskFilter {
         = 'SELECT Participant_Contact__c, Participant__c FROM Participant_Enrollment__c WHERE Participant__r.Contact__c != NULL ';
     
     public static final String SEPARATOR = '\',\'';
-    Public Static Map<id,String> IdTypeOfContactMap = new map<id,String>();
+    public static Map<id,String> IdTypeOfContactMap = new map<id,String>();
+    public static Map<Id,Id> participantwithContact  = new Map<Id,Id>();
     @AuraEnabled
     public List<String> statuses = new List<String>();
     @AuraEnabled
@@ -32,8 +33,6 @@ public without sharing class ManualTaskFilter {
     public List<LookupSearchResult> sites = new List<LookupSearchResult>();
     @AuraEnabled
     public Boolean isPlatformLevel = false;
-    @AuraEnabled
-    public Map<Id,Id>participantwithContact  = new Map<Id,Id>();
 
 
     public Map<Id, List<Participant_Enrollment__c>> getContactsWithPE() {
