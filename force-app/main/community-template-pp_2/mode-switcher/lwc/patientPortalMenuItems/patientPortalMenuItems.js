@@ -32,6 +32,7 @@ export default class PatientPortalMenuItems extends LightningElement {
     contactName;
 
     connectedCallback() {
+        console.log('????????????? data' + JSON.stringify(this.allModes));
         this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
         if (this.allModes.ppModeItems.length == 1) {
             this.isSingleCommMode = true;
@@ -43,7 +44,7 @@ export default class PatientPortalMenuItems extends LightningElement {
             let commModes = this.allModes.ppModeItems;
             for (let i = 0; i < commModes.length; i++) {
                 mode = this.prepareRecords(commModes[i].subItems);
-                if (mode.title == self) {
+                if (mode.isSelected) {
                     this.commModeList.unshift(mode);
                 } else {
                     this.commModeList.push(mode);
@@ -57,6 +58,7 @@ export default class PatientPortalMenuItems extends LightningElement {
         let mode;
         let title;
         let isDelegate;
+        let isSelected;
         title = allSubModes[0].title == this.contactName ? self : allSubModes[0].title;
         isDelegate = allSubModes[0].isDelegate;
         pickListValues = this.preparePickListOptions(allSubModes);
@@ -69,11 +71,13 @@ export default class PatientPortalMenuItems extends LightningElement {
             };
             this.pickListOptions = pickListValues;
             this.setCurrentMode = false;
+            isSelected = true;
         }
         mode = {
             title: title,
             isDelegate: isDelegate,
-            programList: pickListValues
+            programList: pickListValues,
+            isSelected: isSelected
         };
         return mode;
     }
@@ -92,7 +96,8 @@ export default class PatientPortalMenuItems extends LightningElement {
                 label: studyName,
                 value: peId,
                 comboBoxLabel: comboBoxHeader,
-                subItemValue: allSubModes[i]
+                subItemValue: allSubModes[i],
+                isSelected: allSubModes[i].isSelected
             };
             pickListOptions.push(pickList);
             if (allSubModes[i].isSelected == true) {

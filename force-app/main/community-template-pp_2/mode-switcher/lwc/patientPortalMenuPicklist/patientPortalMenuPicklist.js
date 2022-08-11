@@ -9,7 +9,7 @@ export default class PatientPortalMenuPicklist extends LightningElement {
     selectedItemValue;
 
     handlePicklistSelection(event) {
-        let currentValue = event.detail.value;
+        let currentValue = event.currentTarget.dataset.id;
         let currentSubItem;
         if (currentValue) {
             currentSubItem = this.pickListOptions.filter(function (item) {

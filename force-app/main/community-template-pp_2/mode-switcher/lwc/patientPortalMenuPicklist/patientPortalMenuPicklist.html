@@ -1,6 +1,5 @@
 <template>
     <label class="slds-form-element__label" for="">{header}</label>
-    {disablePicklist}
     <template if:true={disablePicklist}>
         <div class="dropdown" onclick={toggleElement} onfocusout={removeElementFocus} tabindex="0">
             <span class="dropdown-span">{placeHolder}</span>
@@ -8,7 +7,7 @@
                 <template for:each={optionsList} for:item="listViewItem">
                     <li
                         key={listViewItem.value}
-                        value={listViewItem.value}
+                        data-id={listViewItem.value}
                         onclick={handlePicklistSelection}
                     >
                         <lightning-formatted-rich-text
@@ -26,7 +25,7 @@
                 <template for:each={optionsList} for:item="listViewItem">
                     <li
                         key={listViewItem.value}
-                        value={listViewItem.value}
+                        data-id={listViewItem.value}
                         onclick={handlePicklistSelection}
                     >
                         <lightning-formatted-rich-text
