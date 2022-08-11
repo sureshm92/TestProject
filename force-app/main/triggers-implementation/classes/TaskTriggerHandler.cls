@@ -204,6 +204,7 @@ public without sharing class TaskTriggerHandler {
                     if (card.Immediate_Notification_Type__c != null) {
                         if (
                             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                            usersByIds.containskey(task.OwnerId) &&
                             !tasksWithoutUser.contains(task.Id)
                         ) {
                             notifications.add(
@@ -216,6 +217,7 @@ public without sharing class TaskTriggerHandler {
                         }
                         if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                             if (
+                                usersByIds.containskey(task.OwnerId) &&
                                 !delegatesCntByPartCnt.containsKey(
                                     usersByIds.get(task.OwnerId).ContactId
                                 )
