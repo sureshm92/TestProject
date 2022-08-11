@@ -6,8 +6,29 @@ import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import desktopTemplate from './desktopTemplate.html';
 import mobileTemplate from './mobileTemplate.html';
 import DEVICE from '@salesforce/client/formFactor';
+// importing Custom Label
+import PPOVERVIEW from '@salesforce/label/c.PP_Overview';
+import PPOBJECTIVE from '@salesforce/label/c.PP_Objective';
+import PPPROGRAMOVERVIEW from '@salesforce/label/c.PP_Program_Overview';
+import PPPARTICIPATIONCRITERIA from '@salesforce/label/c.PP_Participation_Criteria';
+import PPELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Eligible_Criteria';
+import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
+import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
+
+
+
 
 export default class ProgramOverviewDetails extends LightningElement {
+    label = {
+        PPOVERVIEW,
+        PPOBJECTIVE,
+        PPPROGRAMOVERVIEW,
+        PPPARTICIPATIONCRITERIA,
+        PPELIGIBLECRITERIA,
+        PPINCLUSIONCRITERIA,
+        PPEXCLUSIONCRITERIA
+    };
+    
     programname;
     participantState;
     clinicaltrailrecrd;
@@ -78,15 +99,29 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 if (this.clinicaltrailrecrd.Override_Inclusion_Criteria__c) {
                                     ctpaccordionDatalist.push({
                                         id: 0,
-                                        label: 'Inclusion Criteria',
+                                        label: this.label.PPINCLUSIONCRITERIA,
                                         body: this.clinicaltrailrecrd.Override_Inclusion_Criteria__c
+                                    });
+                                }
+                                else{
+                                    ctpaccordionDatalist.push({
+                                        id: 0,
+                                        label: this.label.PPINCLUSIONCRITERIA,
+                                        body: ''
                                     });
                                 }
                                 if (this.clinicaltrailrecrd.Override_Exclusion_Criteria__c) {
                                     ctpaccordionDatalist.push({
                                         id: 1,
-                                        label: 'Exclusion Criteria',
+                                        label: this.label.PPEXCLUSIONCRITERIA,
                                         body: this.clinicaltrailrecrd.Override_Exclusion_Criteria__c
+                                    });
+                                }
+                                else{
+                                    ctpaccordionDatalist.push({
+                                        id: 1,
+                                        label: this.label.PPEXCLUSIONCRITERIA,
+                                        body: ''
                                     });
                                 }
                                 this.ctpAccordionData = ctpaccordionDatalist;

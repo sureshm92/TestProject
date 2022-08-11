@@ -61,7 +61,8 @@
 .THIS .footer {
     position: absolute;
     bottom: 1.5rem;
-    left: 1.5rem;
+    left: 0;
+    right: 0;
 }
 .THIS .body-content {
     width: 20rem;
@@ -87,9 +88,6 @@
         right: 0px;
         border-radius: 0px;
     }
-    /* .THIS .footer {
-        top: 128px;
-    } */
 }
 /* Tablet media query start here */
 @media (min-width: 760px) and (max-width: 1024px) {
