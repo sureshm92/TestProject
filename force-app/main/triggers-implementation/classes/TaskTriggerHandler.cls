@@ -223,19 +223,20 @@ public without sharing class TaskTriggerHandler {
                                 )
                             )
                                 continue;
-
-                            for (
-                                Id delContactId : delegatesCntByPartCnt.get(
-                                    usersByIds.get(task.OwnerId).ContactId
-                                )
-                            ) {
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = delContactId,
-                                        WhatId__c = whatId,
-                                        Notification_Type__c = card.Immediate_Notification_Type__c
+                            if (usersByIds.containskey(task.OwnerId)) {
+                                for (
+                                    Id delContactId : delegatesCntByPartCnt.get(
+                                        usersByIds.get(task.OwnerId).ContactId
                                     )
-                                );
+                                ) {
+                                    notifications.add(
+                                        new Notification__c(
+                                            Recipient__c = delContactId,
+                                            WhatId__c = whatId,
+                                            Notification_Type__c = card.Immediate_Notification_Type__c
+                                        )
+                                    );
+                                }
                             }
                         }
                     }
@@ -260,7 +261,9 @@ public without sharing class TaskTriggerHandler {
                     );
                 }
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                        ? delegatesByPAContact.get(task.WhoId)
+                        : null;
                     if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             notifications.add(
@@ -296,7 +299,9 @@ public without sharing class TaskTriggerHandler {
                     );
                 }
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                        ? delegatesByPAContact.get(task.WhoId)
+                        : null;
                     if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             notifications.add(
