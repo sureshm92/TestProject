@@ -1686,60 +1686,68 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             </div>
                         </div>
                         <!---Timezone sec End -->
-                        <apex:outputPanel id="thePanel1">
-                            <div class="timeZoneText">
-                                {!$Label.PP_StudyPrivacyPolicyNote}
+                        <div class="timeZoneText">
+                            {!$Label.PP_StudyPrivacyPolicyNote1}
+                            <apex:outputLink value="{!tcLink}" target="_blank"  onclick="window.open(this.href,'newwindow','width=1000,height=800')">
+                            {!$Label.Footer_Link_Terms_Of_Use} </apex:outputLink> {!$Label.PP_StudyPrivacyPolicyNote2}
+                            <apex:outputLink
+                                value="{!studyPrivacyPolicyUrl}" target="_blank"> {!$Label.Footer_Link_Privacy_Policy}
+
+                                </apex:outputLink> {!$Label.PP_StudyPrivacyPolicyNote3}
                                 <div class=" slds-grid slds-wrap slds-gutters ">
-
-                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
-                                        <div class="slds-form-element__control ">
-
-                                            <apex:inputCheckbox value="{!per.Permit_Voice_Text_contact_for_this_study__c}" styleClass="checkboxcss " />
-
-                                            <label class="slds-checkbox__label " for="checkbox-unique-id-81 ">
-                                                <span class="slds-checkbox_faux "></span>
-                                                <span class="slds-form-element__label ">{!$Label.PP_Phonecheckbox}</span>
-                                            </label>
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-81" value="checkbox-unique-id-81" checked="" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-81">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label">{!$Label.PP_Phonecheckbox}</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
-                                        <div class="slds-form-element__control ">
-                                            <apex:inputCheckbox value="{!per.Permit_Mail_Email_contact_for_this_study__c}" styleClass="checkboxcss " />
-
-                                            <label class="slds-checkbox__label " for="checkbox-unique-id-82 ">
-                                                <span class="slds-checkbox_faux "></span>
-                                                <span class="slds-form-element__label ">{!$Label.PP_EmailCheckbox}</span>
-                                            </label>
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-82" value="checkbox-unique-id-82" checked="" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-82">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label">{!$Label.PP_EmailCheckbox}</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
-                                        <div class="slds-form-element__control ">
-                                            <apex:inputCheckbox value="{!per.Permit_SMS_Text_for_this_study__c}" styleClass="checkboxcss" />
-
-                                            <label class="slds-checkbox__label " for="checkbox-unique-id-83">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
-                                            </label>
-
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-83" value="checkbox-unique-id-83" checked="" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-83">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label">{!$Label.PP_SMSTexMessage}</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
-                                        <div class="slds-form-element__control ">
-                                            <apex:inputCheckbox value="{!per.Study_Direct_Mail_Consent__c}" styleClass="checkboxcss " />
-
-                                            <label class="slds-checkbox__label " for="checkbox-unique-id-84 ">
-                                                <span class="slds-checkbox_faux "></span>
-                                                <span class="slds-form-element__label ">{!$Label.PP_DirectMailCheckbox}</span>
-                                            </label>
-
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5 ">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-84" value="checkbox-unique-id-84" checked="" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-84">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label">{!$Label.PP_DirectMailCheckbox}</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </apex:outputPanel>
+                        </div>
                         <!-- platform level -->
-                        <div class="timeZoneText ">
-                            {!$Label.PP_PlatformPrivacyPolicyNote}
+                        <div class="timeZoneText">
+                            {!$Label.PP_PlatformPrivacyPolicyNote1}
+                            <apex:outputLink value="{!platformPrivacyPolicyUrl}"
+                                target="_blank"> {!$Label.Footer_Link_Privacy_Policy}
+
+                            </apex:outputLink> {!$Label.PP_PlatformPrivacyPolicyNote2}
                             <div class=" slds-grid slds-wrap slds-gutters ">
                                 <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
@@ -1797,7 +1805,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             <apex:commandButton action="{!ppChangePassword}" value="{!$Label.PP_SaveContinue}" styleClass="slds-button slds-button_brand changepwdbtn "
                                 disabled="{!isSaveButtonDisabled}" id="saveButton" />
                         </div>
-                        <c:PP_CookiesInfo isRTL="{!isRTL} " />
+                        <!--<c:PP_CookiesInfo isRTL="{!isRTL} " />-->
                     </apex:form>
                 </div>
             </div>
