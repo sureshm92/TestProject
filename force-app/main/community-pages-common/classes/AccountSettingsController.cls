@@ -693,7 +693,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                             ? ''
                             : contact.MobilePhone;
 
-            useAsDaytimePhone = participant.Use_as_Daytime_Phone__c;
+            useAsDaytimePhone = isParticipant ? participant.Use_as_Daytime_Phone__c : false;
 
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
