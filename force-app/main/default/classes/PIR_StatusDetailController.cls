@@ -390,6 +390,7 @@ public without sharing class PIR_StatusDetailController {
   @AuraEnabled
   public static List<ReceivedHistoryWrap> getRecievedHistory(Id pe) {
     try {
+      String title = '';
       List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
       List<ReceivedHistoryWrap> wrapperList = new List<ReceivedHistoryWrap>();
       pehistory = [
@@ -399,6 +400,7 @@ public without sharing class PIR_StatusDetailController {
           Status__c,
           CreatedBy.Name,
           Additional_Notes__c, 
+          Notes__c,
           CreatedBy.IsPortalEnabled,
           Status_Order__c,
           CreatedBy.contact.userCommunityMode__c
@@ -408,7 +410,11 @@ public without sharing class PIR_StatusDetailController {
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
             ReceivedHistoryWrap wrap = new ReceivedHistoryWrap();
-            wrap.historyTitle = System.Label.PWS_Received_History_Title;
+            title=System.Label.PWS_Received_History_Title;
+            if (pesh.Notes__c != null) {
+              title = title + ', ' + pesh.Notes__c;
+            }
+            wrap.historyTitle = title;
             wrap.detailDate = getUTCDateTime(pesh.Date__c);
             wrap.createdBy = PIR_StatusDetailController.getMasked(
               pesh.CreatedBy.IsPortalEnabled,
