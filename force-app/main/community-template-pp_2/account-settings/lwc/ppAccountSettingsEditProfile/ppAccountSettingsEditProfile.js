@@ -65,7 +65,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     minorUserName = '';
     hasProfilePic = false;
     isInitialized = false;
-    isDelegate = false;
+    @api isDelegate = false;
     contactChanged = false;
     optInEmail = false;
     optInSMS = false;
