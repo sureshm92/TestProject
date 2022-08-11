@@ -335,6 +335,8 @@
         var dobDate;
         var today = new Date();
         component.set("v.futureDate",false);
+        component.set("v.futureDateDDErr",null);
+        component.set("v.futureDateMMErr",null);
         if(format == 'DD-MM-YYYY'){
             part.Date_of_Birth__c = component.get('v.valueYYYY')+'-'+component.get('v.valueMM')+'-'+component.get('v.valueDD');            
         }
@@ -352,12 +354,18 @@
                 today = today.setHours(0,0,0,0);        
                 if(today<dobDate){
                     component.set("v.futureDate",true);
+                    if(new Date().getMonth()<new Date(part.Date_of_Birth__c).getMonth()){
+                        component.set("v.futureDateMMErr","Value must be current month or earlier");
+                    }
+                    component.set("v.futureDateDDErr","Value must be current date or earlier ");
+                    
                 }
             }
             else if(format == 'MM-YYYY'){
                 dobDate = new Date(part.Date_of_Birth__c);
                 if(dobDate.getFullYear()==today.getFullYear() && today.getMonth()<dobDate.getMonth()){
                     component.set("v.futureDate",true);
+                    component.set("v.futureDateMMErr","Value must be current month or earlier");
                 }
             }
         }
