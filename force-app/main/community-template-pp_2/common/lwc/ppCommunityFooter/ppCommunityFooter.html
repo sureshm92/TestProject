@@ -1,0 +1,31 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <div class={footerClass}>
+        <div class="cf-margin-cutter">
+            <div class="cf-links">
+                <!-- About IQVIA-->
+                <div class="cf-link">
+                    <c-pp-footer-link label={labels.ABOUT_IQVIA} link="https://www.iqvia.com/">
+                    </c-pp-footer-link>
+                </div>
+                <!-- Privacy Policy-->
+                <div class="cf-link">
+                    <template if:true={initialized}>
+                        <c-pp-footer-link label={privacyLabel} link={privacyLink}>
+                        </c-pp-footer-link>
+                    </template>
+                </div>
+                <!-- Terms Of Use-->
+                <div class="cf-link">
+                    <template if:true={initialized}>
+                        <c-pp-footer-link label={termsOfUseLabel} link={tcLink}>
+                        </c-pp-footer-link>
+                    </template>
+                </div>
+            </div>
+            <!-- Copyright message -->
+            <div class="cf-copyright">{labels.COPYRIGHT}</div>
+        </div>
+    </div>
+</template>

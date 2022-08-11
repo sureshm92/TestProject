@@ -1,0 +1,49 @@
+/**
+ * Created by Chetna Chauhan
+ */
+
+.rrc-footer {
+    margin: 25px 0;
+    overflow: hidden;
+}
+
+.rtl {
+    /* @noflip */
+    direction: rtl;
+}
+
+.cf-margin-cutter {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+.cf-copyright {
+    display: inline-block;
+    white-space: nowrap;
+    color: #6b6b6b;
+    font-size: 0.8rem;
+}
+
+.cf-links {
+    margin: -5px -10px;
+}
+
+.cf-link {
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+.cf-copyright,
+.cf-links {
+    padding: 10px;
+}
+
+@media all and (max-width: 500px) {
+    .cf-links {
+        margin: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
