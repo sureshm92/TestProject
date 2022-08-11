@@ -1,0 +1,24 @@
+<template>
+    <c-web-modal header-text="Deactivate Delegate" size="small">
+        <div slot="body">
+            You are about to deactivate John Jameson from your account. Are you sure you would like
+            to continue?
+        </div>
+        <div slot="footer">
+            <lightning-button
+                variant="brand"
+                label="Brand"
+                title="Confirm"
+                onclick={doDecactivateDelegate}
+                class="slds-m-left_x-small"
+            ></lightning-button>
+            <lightning-button
+                variant="bare"
+                label="Cencel"
+                title="Confirm"
+                onclick={doCancel}
+                class="slds-m-left_x-small"
+            ></lightning-button>
+        </div>
+    </c-web-modal>
+</template>
