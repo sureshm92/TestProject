@@ -162,6 +162,14 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 ) {
                     this.studyError = this.checkSMSCheckedOrNot();
                 }
+                // If Seconary delegate switch to Participant Account setting, dont show the Error message in any case.
+                if (
+                    !this.isPrimaryDelegate &&
+                    !this.isDelegateSelfView &&
+                    !this.isParticipantLoggedIn
+                ) {
+                    this.studyError = false;
+                }
             })
             .catch((error) => {
                 communityService.showToast('error', 'error', 'Failed To read the Data...', 100);

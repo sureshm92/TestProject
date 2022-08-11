@@ -18239,14 +18239,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
-        <value>The study level consents are present under Patient Communication preferences tab. Please check Patient Communication preferences tab for study level consents.</value>
+        <value>Click on the “profile” icon on the top right of the page and switch to Participant’s view to check the study level consents within the Participant’s Account Settings.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
-        <value>Secondary delegate do not have permission to edit communication preferences.</value>
+        <value>Below are the consent status and communication preferences for the participant. As a delegate you do not have access to edit these preferences.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Pref</fullName>
