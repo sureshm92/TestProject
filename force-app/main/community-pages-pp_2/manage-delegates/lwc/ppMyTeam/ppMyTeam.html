@@ -36,10 +36,9 @@
                 >
             </div>
             <template if:true={showppNewTeamMember}>
-                <div
-                    class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12"
-                >
-                    <c-pp-new-team-member></c-pp-new-team-member>
+                <div class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12">
+                    <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
+                    <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
                 </div>
             </template>
             <template if:false={showppNewTeamMember}>
@@ -55,7 +54,8 @@
         </div>
         <template if:true={showppNewTeamMember}>
             <div class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12">
-                <c-pp-new-team-member></c-pp-new-team-member>
+                <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
+                <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
             </div>
         </template>
         <template if:false={showppNewTeamMember}>
@@ -69,5 +69,4 @@
             </div>
         </template>
     </div>
-    <c-pp-remove-delegate-modal></c-pp-remove-delegate-modal>
 </template>
