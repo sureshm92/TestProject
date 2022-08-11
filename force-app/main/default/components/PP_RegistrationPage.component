@@ -1157,7 +1157,8 @@
             if (country) $("[id$='PP_RRChangePassword:main_form:countryIdParticiapnt']").val(country);
             if (state) $("[id$='PP_RRChangePassword:main_form:stateIdParticiapnt']").val(state);
             var yearofBirth = '{!birthYear}';
-            if (yearofBirth) $("[id$='PP_RRChangePassword:main_form:yearofbirth']").val(yearofBirth);
+            var d = document.getElementById("{!$Component.main_form.yearofbirth}");
+            if (yearofBirth) d.value = yearofBirth;
         });
         function throwToastMesg() {
             //  alert('hiii');
