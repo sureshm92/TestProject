@@ -223,7 +223,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
          {
 		    if(pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true){
                  if( pe.Succesfully_Re_Engaged__c==true && 
-                 (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed')
+                 (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed' || pe.Participant_Status__c=='Eligibility Failed')
                 && pe.Initial_visit_scheduled_time__c!=null && pe.Initial_visit_scheduled_date__c!=null)
                 {
                     pe.Succesfully_Re_Engaged__c=false;
@@ -231,7 +231,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
             else{
                 if( pe.Succesfully_Re_Engaged__c==true 
-               && (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed') )
+               && (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed' || pe.Participant_Status__c=='Eligibility Failed') )
                 {
                      pe.Succesfully_Re_Engaged__c=false;
                 }

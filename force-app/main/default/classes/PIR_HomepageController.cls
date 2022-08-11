@@ -266,6 +266,7 @@ public without sharing class PIR_HomepageController {
         'Source_Type__c,' +
         'Study_Hub_Log__c,' +
         'Screening_ID__c,' +
+        'IVRS_IWRS__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
         '(' +
         '  SELECT Id, Date__c, Non_Enrollment_Reason__c ' +
@@ -1169,7 +1170,7 @@ public without sharing class PIR_HomepageController {
       wrap.permitInfo = lst.Permit_IQVIA_to_contact_about_study__c;
       wrap.screeningId = lst.Screening_ID__c;
       wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
-        ? lst.Screening_ID__c != null : true;
+        ? lst.IVRS_IWRS__c != null : true;
       wrap.allowFinalSuccessStatus = lst.Screening_ID__c != null 
         ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
         : false;
@@ -2140,6 +2141,7 @@ public without sharing class PIR_HomepageController {
               oParticipantStatus == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED ||
               oParticipantStatus == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED ||
               oParticipantStatus == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+              oParticipantStatus == PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED ||
               oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_REACH) && 
               pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_FAILED
           ) {
