@@ -74,7 +74,11 @@
                     option.hidden = 'true';
                     option.disabled = 'true';
                     var select = document.getElementById('extendcallminutes');
+                    var existingOption = document.getElementById('optionExtendCall');
+                    if(existingOption!=null && existingOption.text != 'Extend Call')
                     select.appendChild(option);
+                    else
+                    	existingOption.selected = 'true';
                 }
 
                 var bc = new BroadcastChannel('{!sessionId}');

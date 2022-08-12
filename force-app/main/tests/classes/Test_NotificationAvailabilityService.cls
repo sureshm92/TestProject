@@ -70,6 +70,7 @@ private class Test_NotificationAvailabilityService {
     @isTest
     static void testTaskObject() {
         TestData td = new TestData();
+        Test.startTest();
         Datetime dateNow = Datetime.now();
         List<Id> recipientIds = new List<Id>{ td.participant.Contact__c };
         Task task = new Task();
@@ -85,7 +86,6 @@ private class Test_NotificationAvailabilityService {
         contact.Participant_Opt_In_Status_Emails__c = true;
         update contact;
 
-        Test.startTest();
         NotificationAvailabilityService service = new NotificationAvailabilityService(
             recipientIds,
             whatIds

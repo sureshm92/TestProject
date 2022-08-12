@@ -390,6 +390,7 @@ public without sharing class PIR_StatusDetailController {
   @AuraEnabled
   public static List<ReceivedHistoryWrap> getRecievedHistory(Id pe) {
     try {
+      String title = '';
       List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
       List<ReceivedHistoryWrap> wrapperList = new List<ReceivedHistoryWrap>();
       pehistory = [
@@ -399,6 +400,7 @@ public without sharing class PIR_StatusDetailController {
           Status__c,
           CreatedBy.Name,
           Additional_Notes__c, 
+          Notes__c,
           CreatedBy.IsPortalEnabled,
           Status_Order__c,
           CreatedBy.contact.userCommunityMode__c
@@ -408,7 +410,11 @@ public without sharing class PIR_StatusDetailController {
       ];
       for (Participant_Enrollment_Status_History__c pesh : pehistory) {
             ReceivedHistoryWrap wrap = new ReceivedHistoryWrap();
-            wrap.historyTitle = System.Label.PWS_Received_History_Title;
+            title=System.Label.PWS_Received_History_Title;
+            if (pesh.Notes__c != null) {
+              title = title + ', ' + pesh.Notes__c;
+            }
+            wrap.historyTitle = title;
             wrap.detailDate = getUTCDateTime(pesh.Date__c);
             wrap.createdBy = PIR_StatusDetailController.getMasked(
               pesh.CreatedBy.IsPortalEnabled,
@@ -1777,6 +1783,11 @@ public without sharing class PIR_StatusDetailController {
       }
       if(perRecord.Add_televisit_for_Initial_Visit__c && !perRecord.Initial_Visit_Televisit_Created__c){
           perRecord.Initial_Visit_Televisit_Created__c = true;
+      }
+      if(perRecord.Initial_visit_scheduled_date__c != null){
+        perRecord.High_Priority__c = true;
+      }else{
+        perRecord.High_Priority__c = false;
       }
       update perRecord;
       if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){

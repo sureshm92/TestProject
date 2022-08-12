@@ -2963,6 +2963,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+		<editable>false</editable>
+		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Publications__c</field>
         <readable>true</readable>
@@ -3523,9 +3528,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_Emails__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5299,6 +5304,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Voice_Text_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Study_Direct_Mail_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Subject_GUID__c </field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6546,6 +6571,11 @@
         <editable>false</editable>
         <field>Participant__c.Suffix__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Use_as_Daytime_Phone__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

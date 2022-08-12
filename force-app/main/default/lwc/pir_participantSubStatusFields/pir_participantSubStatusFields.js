@@ -1699,6 +1699,7 @@ changeInputValue(event) {
       if(this.participantrecord.Participant_Status__c != "Ready to Screen"){
         delete this.participantrecord.Participant_Status__c;
       }
+      delete this.participantrecord.Non_Enrollment_Reason__c;
     }
      if (
        this.selectedOutcome == "Successfully_Contacted" ||

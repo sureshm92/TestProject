@@ -143,6 +143,16 @@ public without sharing class TelevisitTriggerHandler {
                         teleAttendee.Is_Second_Reminder_Sent__c = false;
                         taList.add(teleAttendee);
                     }
+                        if (
+                            teleAttendee.Attendee_Type__c == 'Site Staff' ||
+                            teleAttendee.Attendee_Type__c == 'PI'
+                        ) {
+                            teleAttendee.Is_First_Reminder_Sent__c = false;
+                            teleAttendee.Is_Second_Reminder_Sent__c = false;
+                            taList.add(teleAttendee);
+                        }
+                    
+                        
                 }
             }
         }
