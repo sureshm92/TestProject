@@ -11,7 +11,15 @@
             onfocusout={removeElementFocus}
             tabindex="0"
         >
-            <span class="dropdown-span slds-truncate">{currentHeaderLabel}</span>
+            <template if:true={selectedValue}>
+                <span class="dropdown-span slds-truncate">{currentHeaderLabel}</span>
+            </template>
+            <template if:false={selectedValue}>
+                <span class="dropdown-span slds-truncate placeholder-label"
+                    >{currentHeaderLabel}</span
+                >
+            </template>
+
             <ul class="dropdown-menu" data-id="dropdown-menu">
                 <template for:each={options} for:item="option">
                     <li

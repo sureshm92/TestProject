@@ -668,7 +668,10 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                     this.hasFieldError.isMPHasError = true;
                 }
                 mobilePhoneField.reportValidity();
-            } else if (!mobilePhone && this.isMobilePhoneRequired) {
+            } else if (
+                (!mobilePhone && this.isMobilePhoneRequired) ||
+                this.isUseAsDaytimePhoneChecked
+            ) {
                 this.showErrorInput('mobile-phone-input');
                 mobilePhoneField.setCustomValidity(this.mobilePhoneFieldError);
                 mobilePhoneField.reportValidity();
