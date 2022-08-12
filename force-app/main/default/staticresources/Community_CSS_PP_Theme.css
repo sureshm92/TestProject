@@ -102,6 +102,7 @@
 
 .toastContainer .toastClose {
     top: auto;
+    border-color: transparent;
 }
 
 .toastContainer .toastClose lightning-primitive-icon {

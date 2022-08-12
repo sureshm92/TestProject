@@ -46,6 +46,9 @@ public without sharing class RRChangePasswordController {
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
     public Participant_Enrollment__c per {get;set;}
+    public String tcLink { get; set; }
+    public String studyPrivacyPolicyUrl { get; set; }
+    public String platformPrivacyPolicyUrl { get; set; }
 
     public Translation__c translation { get; set; }
     public String browserLanguage { get; set; }
@@ -79,9 +82,9 @@ public without sharing class RRChangePasswordController {
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
 
-    public String maskUserName {get;set;}
-    public String maskLastName {get;set;}
-    public String maskDaytimephone {get;set;}
+    public String maskUserName { get; set; }
+    public String maskLastName { get; set; }
+    public String maskDaytimephone { get; set; }
 
     public Boolean mainPortal {
         get {
@@ -187,7 +190,7 @@ public without sharing class RRChangePasswordController {
         contact = userVal.Contact;
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
 
-        maskUserName = userVal.Username.substring(0,3)+'************';
+        maskUserName = userVal.Username.substring(0, 3) + '************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
 
@@ -275,9 +278,11 @@ public without sharing class RRChangePasswordController {
                     Mailing_Country_Code__c,
                     Mailing_State_Code__c,
                     Birth_Year__c
+
                 FROM Participant__c
                 WHERE Contact__c = :contact.Id
             ];
+            
             updateTranslations();
         }
         countries = new List<SelectOption>();
@@ -294,7 +299,7 @@ public without sharing class RRChangePasswordController {
         isSaveButtonDisabled = false;
         if(participant!=null){
         maskLastName = participant.Last_Name__c.substring(0,1)+'************';
-        maskDaytimephone =participant.Phone__c!=null? '************'+participant.Phone__c.substring(participant.Phone__c.length()-3,participant.Phone__c.length()):'';
+        maskDaytimephone =participant.Phone__c!=null? '************'+participant.Phone__c.substring(participant.Phone__c.length()-4,participant.Phone__c.length()):'';
     }
         if (isParticipant) {
             country = participant.Mailing_Country_Code__c;
@@ -352,6 +357,31 @@ public without sharing class RRChangePasswordController {
             updateStatesAction();
         }
         onLoad = false;
+        Participant_Enrollment__c  pe=[select id,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c from Participant_Enrollment__c where Participant__r.Contact__c=:contact.Id LIMIT 1];
+        Id ctpId;
+
+        ctpId = pe?.Clinical_Trial_Profile__c;
+
+        if (
+            (ctpId != null) &&
+            (pe.Clinical_Trial_Profile__r
+                ?.Terms_And_Conditions_ID__c != null)
+        ) {
+            tcLink = '/s/terms-and-conditions?id=' + ctpId;
+        } else {
+            tcLink = '/s/terms-and-conditions/';
+        }
+        platformPrivacyPolicyUrl = '/s/privacy-policy';
+
+        if (
+            ctpId != null &&
+            (pe.Clinical_Trial_Profile__r
+                ?.Privacy_Policy_Id__c != null)
+        ) {
+            studyPrivacyPolicyUrl = '/s/privacy-policy?id=' + ctpId;
+        } else {
+            studyPrivacyPolicyUrl = '/s/privacy-policy';
+        }
     }
 
     public PageReference changePassword() {
@@ -422,8 +452,7 @@ public without sharing class RRChangePasswordController {
         }
     }
 
-    public PageReference ppChangePassword()
-    {
+    public PageReference ppChangePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
@@ -478,9 +507,7 @@ public without sharing class RRChangePasswordController {
                     );
                     failingPageResponse = m.getDetail();
                 } else {
-                    if (
-                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) 
-                    ) {
+                    if (m.getDetail().contains(System.Label.PP_CantReuseOldPwd)) {
                         failingPageResponse = System.Label.PP_CantReuseOldPwd;
                     } else {
                         failingPageResponse = null;
