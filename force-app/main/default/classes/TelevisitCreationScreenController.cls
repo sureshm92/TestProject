@@ -444,4 +444,25 @@ Public without sharing Class TelevisitCreationScreenController {
             insert lsttelevisitAttendees;
         }
     }
+    @AuraEnabled
+    public static participantEnrollment fetchParticipantDetails(String perId){
+        participantEnrollment participantData = new participantEnrollment();
+        if(!String.isBlank(perId)){
+            Participant_Enrollment__c per = [select Id,Participant_Contact__c,Permit_Mail_Email_contact_for_this_study__c  from Participant_Enrollment__c where Id  =:perId];
+            participantData.isEmailPermitted = per.Permit_Mail_Email_contact_for_this_study__c;
+            if(!String.isBlank(per.Participant_Contact__c)){
+                List<user> usr = [select Id,IsCommunityUserRegistered__c from User where contactId=:per.Participant_Contact__c limit 1];
+                if(usr.size()>0)
+                    participantData.isPPUserActivated =  usr[0].IsCommunityUserRegistered__c;
+            }
+        }
+        return participantData;
+    }
+
+    public class participantEnrollment{
+        @AuraEnabled
+        public boolean isPPUserActivated{get;set;}
+        @AuraEnabled
+        public boolean isEmailPermitted{get;set;}
+    }
 }
