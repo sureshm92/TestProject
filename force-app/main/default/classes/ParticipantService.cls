@@ -57,6 +57,8 @@ public without sharing class ParticipantService {
         public List<Televisit_Record_Vendor__c> teleVendors;
         @AuraEnabled
         public Boolean isTeleVendorEnabled;
+        @AuraEnabled
+        public String loggedInUserName;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -72,6 +74,7 @@ public without sharing class ParticipantService {
             isTravelSupportEnabled = false;
             showTravelCardInPreEnrollment = false;
             showNonInitialVisits = false;
+            loggedInUserName = '';
         }
     }
 
@@ -202,6 +205,7 @@ public without sharing class ParticipantService {
         }
         participantState.welcomeMessage = getWelcomeMessage();
         participantState.communityName = UserContext.getCurrentCommunityName();
+        participantState.loggedInUserName=getLoggedInUserName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -317,6 +321,25 @@ public without sharing class ParticipantService {
         return ctp.Shareback_Settings_On_Country_Level__c &&
             (String.isBlank(ctp.Shareback_Settings_Countries__c) ||
             ctp.Shareback_Settings_Countries__c.containsIgnoreCase(countryCode));
+    }
+
+    @TestVisible
+    private String getLoggedInUserName(){
+        String userName;
+        List<Participant__c> participants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+        }
+        if (participants.size() == 0) {
+            userName = (String) CommunityService.getUserContact().get('Name');
+        } else {
+            userName = participants[0].Full_Name__c;
+        }
+        return userName;
     }
 
     @TestVisible

@@ -4,9 +4,10 @@
 
 <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
     <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="communityName" type="String" />
     <input type="hidden" id="userMode" name="userMode" value="{!v.userMode}" />
     <!-- component body: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
         aura:id="navMenu"
@@ -24,12 +25,31 @@
                         data-page-name="{!item.page}"
                         onclick="{!c.onClick}"
                     >
-                        {!item.label}
+                        <aura:if
+                            isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
+                        >
+                            <aura:if isTrue="{!item.label == 'Home'}">
+                                <c:RRIcon
+                                    iconName="icon-home-pplite-new"
+                                    color="white"
+                                    class="navigation-icon icon-height"
+                                />
+                                <aura:set attribute="else"> {!item.label} </aura:set>
+                            </aura:if>
+                            <aura:set attribute="else"> {!item.label} </aura:set>
+                        </aura:if>
                         <aura:if isTrue="{!equals(item.page, 'messages')}">
                             <c:navMessageCounter isOnPage="{!item.page == v.currentPage}" />
                         </aura:if>
                     </li>
                 </aura:set>
+            </aura:if>
+            <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                <aura:if
+                    isTrue="{!and(v.communityName == 'IQVIA Patient Portal',v.userMode == 'Participant')}"
+                >
+                    <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                </aura:if>
             </aura:if>
         </aura:iteration>
     </ul>

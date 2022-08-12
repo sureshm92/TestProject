@@ -357,6 +357,15 @@ global without sharing class RRLoginRemote {
                     if (attempts > 5) {
                         attempts = math.mod(attempts, 5);
                     }
+                    if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal) {
+                        returnMap.put(
+                            'wrongPasswordError',
+                            Label.PP_Login_Wrong_Password_Error_Message.replace(
+                                '##AttemptsLeft',
+                                String.valueOf(5 - attempts)
+                            )
+                        );
+                    } else {
                     String forgotPasswordLink =
                         '<a class="no-float" href="' +
                         getForgotPasswordUrl() +
@@ -373,6 +382,7 @@ global without sharing class RRLoginRemote {
                     );
                 }
             }
+        }
             returnMap.put('exception', ex.getMessage());
             return returnMap;
         }

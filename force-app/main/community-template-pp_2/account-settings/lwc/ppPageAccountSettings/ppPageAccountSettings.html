@@ -1,0 +1,18 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class="as-page-container">
+            <div class="as-page-body">
+                <!--PP Account Settings Component-->
+                <c-pp-account-settings
+                    user-mode={userMode}
+                    is-r-t-l={isRTL}
+                    is-delegate={isDelegate}
+                    is-mobile={isMobile}
+                ></c-pp-account-settings>
+            </div>
+        </div>
+    </template>
+    <c-builder-stub></c-builder-stub>
+</template>
