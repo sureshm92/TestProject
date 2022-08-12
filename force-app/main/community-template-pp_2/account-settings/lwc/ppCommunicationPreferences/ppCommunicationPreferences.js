@@ -508,7 +508,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             .then((result) => {
                 this.spinner = false;
                 communityService.showToast(
-                    // 'success',
+                    'success',
                     'success',
                     this.label.PP_Profile_Update_Success,
                     100
