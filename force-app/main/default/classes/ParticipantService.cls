@@ -35,6 +35,8 @@ public without sharing class ParticipantService {
         @AuraEnabled
         public Boolean showVisits;
         @AuraEnabled
+        public Boolean showTeleVisits;
+        @AuraEnabled
         public Boolean showResults;
         @AuraEnabled
         public Boolean isPremium;
@@ -51,6 +53,12 @@ public without sharing class ParticipantService {
         public Boolean showTravelCardInPreEnrollment;
         @AuraEnabled
         public Boolean showNonInitialVisits;
+        @AuraEnabled
+        public List<Televisit_Record_Vendor__c> teleVendors;
+        @AuraEnabled
+        public Boolean isTeleVendorEnabled;
+        @AuraEnabled
+        public String loggedInUserName;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -58,13 +66,15 @@ public without sharing class ParticipantService {
             isPremium = false;
             showTerms = false;
             showVisits = false;
+            showTeleVisits = false;
             showVisitsInPreTrial = false;
             showResults = false;
             communityName = '';
             isVisitPathEnabled = false;
             isTravelSupportEnabled = false;
             showTravelCardInPreEnrollment = false;
-            showNonInitialVisits=false;
+            showNonInitialVisits = false;
+            loggedInUserName = '';
         }
     }
 
@@ -117,6 +127,14 @@ public without sharing class ParticipantService {
                 participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
                     participantState.pe.Study_Site__c
                 );
+                participantState.teleVendors = televisitConfigurationController.getVendors(
+                    participantState.pe.Study_Site__c
+                );
+                participantState.isTeleVendorEnabled =
+                    (participantState.teleVendors.size() > 0) &
+                    PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(
+                        participantState.pe.Participant_Status__c
+                    );
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 participantState.isVisitPathEnabled = participantState.ctp.Visit_Schedule_Is_Available__c;
                 participantState.isTravelSupportEnabled = participantState.ctp.Travel_Vendor_Is_Available__c;
@@ -130,17 +148,19 @@ public without sharing class ParticipantService {
                 ) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
+                    participantState.showTeleVisits = showTeleVisits();
                     /**PEH-525 START*/
                     participantState.showVisitsInPreTrial = participantState.showVisits;
                     /**PEH-525 END*/
                     participantState.showResults = showResults();
-                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
+                    participantState.showNonInitialVisits = showNonInitialVisitsNew();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                     /**PEH-525 START*/
                     participantState.showVisits = showVisits();
+                    participantState.showTeleVisits = showTeleVisits();
                     participantState.showVisitsInPreTrial = showVisits();
-                    participantState.showNonInitialVisits=showNonInitialVisitsNew();
+                    participantState.showNonInitialVisits = showNonInitialVisitsNew();
                     /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
                     Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
@@ -185,6 +205,7 @@ public without sharing class ParticipantService {
         }
         participantState.welcomeMessage = getWelcomeMessage();
         participantState.communityName = UserContext.getCurrentCommunityName();
+        participantState.loggedInUserName=getLoggedInUserName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -216,7 +237,8 @@ public without sharing class ParticipantService {
                     Contact__r.Current_Participant_Enrollment__c,
                     Contact__r.Visit_Results_OptIn__c,
                     Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Marketing_Flag__c
+                    Marketing_Flag__c,
+                    Adult__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
             ];
@@ -245,15 +267,49 @@ public without sharing class ParticipantService {
         }
         return false;
     }
-	@TestVisible
+
+    @TestVisible
+    private Boolean showTeleVisits() {
+        ///**ParticipantState ps = getParticipantState();
+        if (participantState.pe != null) {
+            List<Televisit__c> tvList = [
+                SELECT
+                    Id,
+                    Name,
+                    Title__c,
+                    Duration__c,
+                    Start_Time__c,
+                    Visit_Date__c,
+                    Visit_Date_Time__c,
+                    Status__c,
+                    (
+                        SELECT Id, Firstname__c, Lastname__c, Attendee_Type__c
+                        FROM Televisit_Attendee__r
+                    )
+                FROM Televisit__c
+                WHERE
+                    Id IN (
+                        SELECT Televisit__c
+                        FROM Televisit_Attendee__c
+                        WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
+                    )
+                    AND Participant_Enrollment__c =: participantState.pe.Id
+            ];
+            return (!tvList.isEmpty());
+        }
+        return false;
+    }
+    @TestVisible
     private Boolean showNonInitialVisitsNew() {
         if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
                 SELECT Id
                 FROM Patient_Visit__c
-                WHERE Participant_Enrollment__c = :participantState.pe.Id and Is_Pre_Enrollment_Patient_Visit__c=false
+                WHERE
+                    Participant_Enrollment__c = :participantState.pe.Id
+                    AND Is_Pre_Enrollment_Patient_Visit__c = FALSE
             ];
-            
+
             return (!patientVisit.isEmpty());
         }
         return false;
@@ -265,6 +321,25 @@ public without sharing class ParticipantService {
         return ctp.Shareback_Settings_On_Country_Level__c &&
             (String.isBlank(ctp.Shareback_Settings_Countries__c) ||
             ctp.Shareback_Settings_Countries__c.containsIgnoreCase(countryCode));
+    }
+
+    @TestVisible
+    private String getLoggedInUserName(){
+        String userName;
+        List<Participant__c> participants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+        }
+        if (participants.size() == 0) {
+            userName = (String) CommunityService.getUserContact().get('Name');
+        } else {
+            userName = participants[0].Full_Name__c;
+        }
+        return userName;
     }
 
     @TestVisible

@@ -95,6 +95,7 @@
             component.get('v.iqviaOutreachEmail'),
             component.get('v.iqviaOutreachPhone'),
             component.get('v.iqviaOutreachSMS'),
+            component.get('v.iqviaOutreachDirectMail'),
             component.get('v.visitPlanId'),
             helper
         );
@@ -171,6 +172,7 @@
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
     },
+    //changes related to RH-6742
     handleConsentChange: function (component,event){
             component.set('v.isEmail', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
             component.set('v.doContact', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
@@ -182,6 +184,7 @@
             component.set('v.iqviaOutreachEmail',event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
             component.set('v.iqviaOutreachSMS',event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
             component.set('v.iqviaOutreachPhone',event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c);
+            component.set('v.iqviaOutreachDirectMail',event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c);
     
     },
     

@@ -86,9 +86,12 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 participantState.showVisits && participantState.ctp.Visits_are_Available__c;
             if (
                 participantState.isPremium &&
-                (participantState.showVisits ||
+                (shoVi ||
                 (participantState.ctp.Received_Until_Consent_Is_Available__c ||
-                participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c))
+                participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c ||
+                (participantState.ctp.Televisit_Vendor_is_Available__c &&
+                participantState.showTeleVisits &&
+                participantState.isTeleVendorEnabled)))
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
@@ -125,12 +128,20 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             Boolean shoVi =
                 participantState.showVisits && participantState.ctp.Visits_are_Available__c;
             Boolean visitAvailable = showVisit && shoVi;
+
+            tabs.add(
+                new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
+            );
+            
             /**PEH-525*/
             if (
                 participantState.isPremium &&
                 (participantState.showTravelCardInPreEnrollment ||
                 participantState.ctp.Travel_Vendor_Is_Available__c ||
-                visitAvailable)
+                visitAvailable ||
+                (participantState.ctp.Televisit_Vendor_is_Available__c &&
+                participantState.showTeleVisits &&
+                participantState.isTeleVendorEnabled)) //Condition for Televisits
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
@@ -141,10 +152,6 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     )
                 );
             }
-
-            tabs.add(
-                new TrialDetail.StudyTab('tab-tasks', 'task', Label.PG_SW_Tab_Tasks, backHomeAction)
-            );
 
             if (
                 participantState.ctp.Study_Documents_Are_Available__c ||

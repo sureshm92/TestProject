@@ -10,6 +10,7 @@ import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
+import { NavigationMixin } from 'lightning/navigation';
 import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
 import Send_to_DCT from '@salesforce/label/c.Send_to_DCT';
 import Invite_to_Patient_Portal from '@salesforce/label/c.Invite_to_Patient_Portal';
@@ -46,8 +47,10 @@ import High_Priority from '@salesforce/label/c.High_Priority';
 import High_Risk from '@salesforce/label/c.High_Risk';
 import RH_InvalidAction from '@salesforce/label/c.RH_InvalidAction';
 import RH_ChangeStatusErrorMsg from '@salesforce/label/c.RH_ChangeStatusErrorMsg';
+import pir_Bulk_Import_History from '@salesforce/label/c.pir_Bulk_Import_History';
+import PIR_Import_Participants from '@salesforce/label/c.PIR_Import_Participants';
 
-export default class Pir_participantList extends LightningElement {    
+export default class Pir_participantList extends NavigationMixin(LightningElement) {
     filterIcon = pirResources+'/pirResources/icons/filter.svg';
     editIcon = pirResources+'/pirResources/icons/pencil.svg';
     currentPageReference = null; 
@@ -70,7 +73,8 @@ export default class Pir_participantList extends LightningElement {
     @api showStatus=false;
     showStatusPopup=false;
     selectedStatusList;
-    selectedStatusValue = 'Received';isPPFiltered = false;isDCTFiltered = false;
+    selectedStatusValue = 'All Active Statuses';
+    isPPFiltered = false;isDCTFiltered = false;
     statusChangeList;statusSelected='';
     sortInitialVisit = false;
     disabledFilter = false;
@@ -131,13 +135,15 @@ export default class Pir_participantList extends LightningElement {
         pir_Please_wait_as_your_page_loads,
         Action_Required,
         High_Priority,
-        High_Risk
+        High_Risk,
+        pir_Bulk_Import_History,
+        PIR_Import_Participants
     }; 
     @api dropDownLabel=this.label.RPR_Actions;
     @api isCheckboxhidden=false;
     activeCheckboxesCount=0;
 
-    @wire(CurrentPageReference)
+    @wire(CurrentPageReference) 
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
           this.urlStateParameters = currentPageReference.state;
@@ -248,6 +254,25 @@ export default class Pir_participantList extends LightningElement {
         });
         this.filterWrapper.siteList = [];
         this.filterWrapper.studyList = [];
+        this.filterWrapper = {
+            activeInactive: "Active",
+            studyList: [],
+            siteList: [],
+            status: [],
+            source: [],
+            ageTo: "0",
+            ageFrom: "150",
+            ethnicityList: [],
+            sex: "",
+            highRisk: false,
+            highPriority: false,
+            comorbidities: false,
+            initialVisit: "All",
+            initialVisitStartDate: "",
+            initialVisitEndDate: "",
+            presetId: "",
+            presetName:""
+          };
         this.filterWrapper.siteList.push(this.urlSiteId);
         this.filterWrapper.studyList.push(this.urlStudyId);
        }
@@ -663,6 +688,15 @@ export default class Pir_participantList extends LightningElement {
     }
     @api newstatus;
     handleChangeOfStatus(event) {
+        this.selectedCheckboxes=[];
+        const selectedEventnew = new CustomEvent("countvaluecheckbox", {
+            detail: this.selectedCheckboxes.length
+          });
+          this.dispatchEvent(selectedEventnew); 
+
+        this.fetchList();
+        const gotofirstEvent = new CustomEvent("gotofirst");
+        this.dispatchEvent(gotofirstEvent); 
         this.enableStatus=false;
         let study = this.filterWrapper.studyList.toString();
         let status = this.filterWrapper.status.toString();
@@ -677,8 +711,27 @@ export default class Pir_participantList extends LightningElement {
         this.newstatus = event.detail.value;
       
     }
-    get checknewStatus(){
+    get checknewStatus(){ 
+        if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'
+            || this.newstatus == 'Screening Passed' || this.newstatus == 'Withdrew Consent After Screening'
+            || this.newstatus == 'Enrollment Failed' || this.newstatus == 'Randomization Failed'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get checkFinalSuccessStatus(){
         if(this.newstatus == 'Enrollment Success' || this.newstatus == 'Randomization Success'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get checkScreeningPassedStatus(){
+        if(this.newstatus == 'Screening Passed' || this.newstatus == 'Withdrew Consent After Screening'
+            || this.newstatus == 'Enrollment Failed'|| this.newstatus == 'Randomization Failed'){
             return true;
         }else{
             return false;
@@ -691,7 +744,7 @@ export default class Pir_participantList extends LightningElement {
         this.dropDownLabel=selectedVal;
 
         if(this.dropDownLabel=='Change Status'){
-            if(this.filterWrapper.status != undefined && this.filterWrapper.status.length > 1){
+            if(this.filterWrapper.status == undefined ||  this.filterWrapper.status.length != 1){
                 this.showStatusPopup=true;
             }
             else{
@@ -795,6 +848,21 @@ export default class Pir_participantList extends LightningElement {
             detail: this.dropDownLabel
           });
           this.dispatchEvent(selectedEventnew);
+    }
+    handleImport(event){
+        var selectedVal=event.target.dataset.id;
+        var dropDownLabel=selectedVal;
+        if(dropDownLabel=='Bulk Import History'){
+            this.isCheckboxhidden=false;
+        }
+        if(dropDownLabel=='Import Participants'){
+            this.isCheckboxhidden=false;
+      }
+      const selectedEventnew = new CustomEvent("droplabel", {
+        detail: dropDownLabel
+      });
+      this.dispatchEvent(selectedEventnew);
+
     }
     handleCloseAllStatus(){
         this.showStatusPopup=false;
@@ -1369,7 +1437,8 @@ export default class Pir_participantList extends LightningElement {
         if(total <= 40){
             for(i=0; i<checkboxes.length; i++) {
                 if(this.checknewStatus){
-                    if(this.participantList[i].screeningId){
+                    if((this.checkFinalSuccessStatus && this.participantList[i].allowFinalSuccessStatus)
+                        || (this.checkScreeningPassedStatus && this.participantList[i].allowScreeningPassed)){
                         checkboxes[i].checked = event.target.checked;
                         if(checkboxes[i].checked==true){
                             if(!this.selectedCheckboxes.includes(this.participantList[i].id))

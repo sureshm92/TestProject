@@ -332,7 +332,7 @@
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        window.open('account-settings', '_blank');
+        window.open('account-settings?communication-preferences', '_blank');
         window.focus();
         helper.hideModal(component);
     },

@@ -1,14 +1,14 @@
-.col-padding{
+.col-padding {
     padding: 0px 15px 0px 0px;
 }
-.vertical-scroll{
+.vertical-scroll {
     height: 48vh;
     overflow: auto;
     padding: 0px 5px 0px 0px;
     overflow-x: hidden;
     margin-top: 10px;
 }
- .step-btn{
+ .step-btn {
     width: 100%;
     min-height: 60px;
     justify-content: flex-start;
@@ -21,77 +21,75 @@
     font-size: 14px;
     margin-bottom: 3px;
 }
-.checkbox_alignment{
-    margin: 0.5rem 0px 0px 0px;
+.checkbox_alignment {
+    margin: 0.3rem 0px 0px 0px;
 }
-.textoverlap
-{
+.textoverlap {
     width: 12rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
 }
-.sitepreferences{
+.sitepreferences {
     font-size: 14px;
     font-family: 'Proxima Nova';
     font-weight: 550;
     color: #000000;
 }
-.history-item-title{
+.history-item-title {
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
 }
-.history-item-detail{
+.history-item-detail {
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 16px;
 }
- .slds-button+.slds-button {
+ .slds-button + .slds-button {
     margin-left: 0;
 }
-.vertical-scroll-accord{
+.vertical-scroll-accord {
     height: 20vh;
     overflow: auto;
     padding: 0px 5px 0px 0px;
     overflow-x: hidden;
     margin-top: 10px;
 }
- .status-img{
+ .status-img {
     min-width: 18px;
     min-height: 18px;
     border-radius: 50%;
     line-height: 1;
     margin-right: 20px;
 }
-.step-info{
+.step-info {
     text-align: left;
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
     min-width: 0;
 }
- .step-title{
+ .step-title {
     color: #000000;
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
 }
-.statusdetail .step-status{
+.statusdetail .step-status {
     color: #595959;
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
 }
-.step-card-title{
+.step-card-title {
     color: #000000;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
 }
-.text-wrap-btn{
+.text-wrap-btn {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -100,11 +98,11 @@
  .step-form {
     width: 100%;  
 }
-.step-form-bottom{
+.step-form-bottom {
     margin-bottom: 15px;
 }
-.slds-accordion__summary{
-    background: #F6F7FB;
+.slds-accordion__summary {
+    background: #f6f7fb;
     margin-top: 10px;
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #d9d9d9;
@@ -112,7 +110,7 @@
 .slds-button:focus {
     text-decoration: none;
 }
-.slds-accordion__summary-content{
+.slds-accordion__summary-content {
     color: #444444;
     font-size: 16px;
     line-height: 26px;
@@ -123,18 +121,18 @@
 ::-webkit-scrollbar-thumb {
     background: #999999; 
     border-radius: 4px;
-    cursor:pointer;
+    cursor: pointer;
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #858383;
 }
-.hideDesktopView{
+.hideDesktopView {
     display: none;
 }
-.pgHeadMob{
+.pgHeadMob {
     margin-bottom: 10px;
     font-size: 16px;
-    color: #0768FD;
+    color: #0768fd;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -142,12 +140,22 @@
 .slds-p-left--xx-small {
     padding: 0;
 }
-.backArrow{
+.backArrow {
     width: 16px;
     margin-right: 6px;
 }
-.sitepre_Checkbox{
-    padding-left: 11px;
+.sitepre_Checkbox {
+    padding-left: 12px;
+}
+.marginchecboxleft{
+    margin-left: -3px;
+}
+.slds-marginleft{
+    margin-left: -20px;
+    
+}
+.slds-margintop{
+    margin-top: 2px;
 }
 .label2 {
     color: #444444;
@@ -156,8 +164,7 @@
     margin-bottom: 7px;
 }
 /*  Tooltip for Text length overflow -added by Enugothula Srinath */
-.tooltip span
-{
+.tooltip span {
     text-decoration: none;
   /*  transform: translate(-50%, -100%) scale(.5); */
     position: absolute;
@@ -165,30 +172,28 @@
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: .850rem;
+    font-size: 0.85rem;
     font-weight: 400;
     text-align: left;
   /*  box-shadow: 0 0 4px 2px rgba(0,0,0,.2); */
     width: max-content;
     max-width: 100%;
-    top:0;
+    top: 0;
     left: 30%;
     margin-top: -10px;
     visibility: hidden;
     opacity: 0;
 }
- .tooltip:hover{
+ .tooltip:hover {
     position: relative;
 }
-.tooltip:hover span
-{
+.tooltip:hover span {
     opacity: 1;
     visibility: visible;
     transform: translate(-31%, -100%) scale(1);
     animation: pulse 1s;
 }
-.tooltip:hover span::after
-{
+.tooltip:hover span::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -208,25 +213,20 @@
     display: inline-block;
     cursor: pointer;
     /* white-space: nowrap; */
-
 }
-.textoverlap
-{
+.textoverlap {
     width: 12rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: unset;
-
 }
-.textoverlap1
-{
+.textoverlap1 {
     width: 18rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.tooltip1 span
-{
+.tooltip1 span {
     color: #000;
     text-decoration: none;
  /*   transform: translate(-50%, -100%) scale(.5); */
@@ -235,30 +235,28 @@
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: .800rem;
+    font-size: 0.8rem;
     font-weight: 400;
     text-align: left;
  /*   box-shadow: 0 0 4px 2px rgba(0,0,0,.2); */
     width: max-content;
     max-width: 100%;
-    top:0;
-    left:45%;
+    top: 0;
+    left: 45%;
     margin-top: -10px;
     visibility: hidden;
     opacity: 0;
 }
-.tooltip1:hover{
+.tooltip1:hover {
     position: relative;
 }
-.tooltip1:hover span
-{
+.tooltip1:hover span {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -100%) scale(1);
     animation: pulse 1s;
 }
-.tooltip1:hover span::after
-{
+.tooltip1:hover span::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -280,39 +278,64 @@
 }
 /* --------END--------------- */
 
-
 @media (max-device-width: 767px) {
-  .col-padding{
+  .col-padding {
         padding: 0px 0px 0px 0px;
     }
- .vertical-scroll{
+ .vertical-scroll {
         height: auto;
         overflow: auto;
         padding: 0px 0px 0px 0px;
         overflow-x: hidden;
     }
-    .hideDesktop{
+    .hideDesktop {
         display: unset;
     }
-    .hideMobile{
+    .hideMobile {
         display: none;
+    }
+    .slds-marginleft{
+        margin-left: -6px;
     }
     .showDesktop{
         display: none;
     }
-    .hideDesktopView{
+    .hideDesktopView {
         display: block;
     }
-    .checkbox_alignment{
-        margin: 1rem 0px 0px 3rem;
+    .checkbox_alignment {
+        margin-top: 4px;
     }
-    .sitepre_Checkbox{
+    .sitepre_Checkbox {
         padding-left: 13px;
     }
-    .sitepreferences{
-       width:85%;
+    .sitepreferences {
+       width: 85%;
     }
-   
+    .p-r0{
+        padding-right: 0;
+    }
+    .p-l0{
+        padding-left: 0;
+    }
+    .mobile-width{
+        float: none !important;
+    }
+    .mobile-width .save-btn, .mobile-width .discard-btn{
+        width: 100%;
+    }
+    .mobile-width .discard-btn{
+        margin-top: 20px;
+    }
+    .mobile-alignment-label {
+        position: absolute;
+        left: 25px;
+        padding-top: 1px;
+        font-size: 13px;
+    }
+}
+.mobile-alignment-label {
+    margin-top: 4px;
 }
 /**
  * Created by Andrii Kryvolap.
@@ -386,9 +409,10 @@
     border-radius: 50%;
     position: absolute;
     top: -15px;
-   /* @noflip */ left: 100%;
+   /* @noflip */ 
+   left: 100%;
     line-height: 1;
-    margin-left:40px;
+    margin-left: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -419,7 +443,8 @@
     width: 24px;
     height: 24px;
     top: -15px;
-    /* @noflip */ left: 100%;
+    /* @noflip */ 
+    left: 100%;
 }
 
 .vpi-state.current .state-ico-wrapper .rr-icon-default {
@@ -491,7 +516,7 @@
     height: 32px;
     width: 644px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
@@ -499,19 +524,19 @@
 }
 .bar {    
     height: 4px;
-    background: linear-gradient(270deg,#0076ae,#250056);
+    background: linear-gradient(270deg, #0076ae, #250056);
     position: relative;
 }
-.button-section-center{
+.button-section-center {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-.model-small{
+.model-small {
     min-width: 0;
 }
-.fovCancel{
+.fovCancel {
     line-height: 1.6;
     max-height: 60vh;
     color: #444;
@@ -520,18 +545,17 @@
     font-weight: 400;
     overflow-x: hidden;
 }
-.bg-white{
+.bg-white {
     background-color: #ffffff;
     border-bottom: 1px solid #ffffff;
     border-top: 1px solid #ffffff;
 }
-.bg-white .active-accordion{
+.bg-white .active-accordion {
     color: #000000;
     font-weight: 600;
 }
 /*  Tooltip for Text length overflow  */
-.tooltip span
-{
+.tooltip span {
     text-decoration: none;
   /*  transform: translate(-50%, -100%) scale(.5); */
     position: absolute;
@@ -539,30 +563,28 @@
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: .850rem;
+    font-size: 0.85rem;
     font-weight: 400;
     text-align: left;
   /*  box-shadow: 0 0 4px 2px rgba(0,0,0,.2); */
     width: max-content;
     max-width: 100%;
-    top:0;
+    top: 0;
     left: 30%;
     margin-top: -10px;
     visibility: hidden;
     opacity: 0;
 }
- .tooltip:hover{
+ .tooltip:hover {
     position: relative;
 }
-.tooltip:hover span
-{
+.tooltip:hover span {
     opacity: 1;
     visibility: visible;
     transform: translate(-31%, -100%) scale(1);
     animation: pulse 1s;
 }
-.tooltip:hover span::after
-{
+.tooltip:hover span::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -582,15 +604,12 @@
     /* display: inline-block; */
     cursor: pointer;
     /* white-space: nowrap; */
-
 }
-.textoverlap
-{
+.textoverlap {
     width: 12rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: unset;
-
 }
 /* --------END--------------- */
 @media not print {
@@ -610,6 +629,18 @@
 
 .THIS .vpi-path-panel .path-section {
     padding: 0 0 10px;
+}
+
+.btn-height {
+    height: 36px;
+}
+.save-btn {
+    float: right;
+    margin-left: 15px;
+}
+.discard-btn {
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
 }
 
 @media all and (min-width: 1024px) {
@@ -632,6 +663,15 @@
         height: 24px;
         padding: 0px;
     }
+    .addtv_checkbox{
+        margin-left: -20px;
+    }
+}
+
+@media all and (max-width: 920px){
+    .addtv_checkbox{
+        margin-left: -5px;
+    }
 }
 .slds-form-element__label {
     max-width: 100%;
@@ -639,8 +679,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.input-margin{
-    margin-top:-5px;
+.input-margin {
+    margin-top: -5px;
 }
 /* rtl start */
 

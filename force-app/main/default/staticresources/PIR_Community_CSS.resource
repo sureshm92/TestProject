@@ -40,9 +40,54 @@
 .dropdown-fonts .slds-listbox__option .slds-media__body {
     font-size: 12px;
 }
+.addInfoCssDiv .slds-textarea{
+height: 70px;
+}
+.dropdown-fonts_bulk .slds-listbox__option .slds-media__body {
+    font-size: 14px;
+}
+.pir-parent .bulkimportTab .slds-tabs_default__item{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* only for ios app start+ */
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+    .addInfoCssDiv .slds-textarea{
+     font-weight: 800;
+     color:black;
+    }
+
+    .iosopacitycss .slds-input{
+    font-weight: 800;
+     color:black;
+    }
+
+}}
+/* only for ios end */
+
+.pir-parent .bulkimportTab .slds-tabs_default__content{
+    padding-bottom: 0;
+}
+.importInputPopup .slds-required{
+    float: right;
+}
+.importInputPopup .slds-form-element__label{
+    font-size: 14px !important;
+}
+.filter-area .slds-listbox__option .slds-media__body {
+    font-size: 12px;
+}
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;
     } 
+    .addInfoCssDiv .slds-textarea{
+        height: 67px;
+    }
+    .dropdown_truncate .slds-truncate {
+        width:12rem;
+    }
    
 }

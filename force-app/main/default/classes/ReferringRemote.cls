@@ -129,9 +129,9 @@ public without sharing class ReferringRemote {
             .getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
         /*}catch (Exception e){
-            System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }*/
+System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
+throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+}*/
     }
 
     @AuraEnabled
@@ -356,7 +356,7 @@ public without sharing class ReferringRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-            if(delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null){
+            if (delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null) {
                 participantDelegate.Id = delegateDuplicateInfo.participantId;
                 try {
                     upsert participantDelegate;
@@ -368,8 +368,11 @@ public without sharing class ReferringRemote {
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
-            if(enrollment.Pre_screening_Status__c=='Pass' || enrollment.Pre_screening_Status__c == 'Fail'){
-                enrollment.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+            if (
+                enrollment.Pre_screening_Status__c == 'Pass' ||
+                enrollment.Pre_screening_Status__c == 'Fail'
+            ) {
+                enrollment.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
                 enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
             }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
@@ -383,37 +386,59 @@ public without sharing class ReferringRemote {
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
+            enrollment.Study_Artificial_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Assisted_Dialing_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Pre_recorded_Voice_Consent__c = enrollment.Permit_Voice_Text_contact_for_this_study__c;
+            enrollment.Study_Direct_Mail_Consent__c = enrollment.Permit_Mail_Email_contact_for_this_study__c;
+            //IQVIA Outreach Consent
+            enrollment.IQVIA_Contact_info_storage_consent__c = (enrollment.Participant_Phone_Opt_In_Permit_Phone__c || enrollment.Participant_Opt_In_Status_Emails__c
+                                                                || enrollment.Participant_Opt_In_Status_SMS__c || enrollment.IQVIA_Direct_Mail_Consent__c);
+            enrollment.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            enrollment.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+            
+            //setConsentChange(enrollment);
             if (
                 enrollment.Pre_screening_Status__c ==
                 ParticipantEnrollmentService.PES_STATUS_PENDING
             ) {
                 enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
             }
-        List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
-        HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
-        HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
-        HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
-        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
-            .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId, HCPE_FIELDS);
-        Boolean filterCriteria =
-        hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Virtual'&& hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Hybrid' &&
-        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c != null &&
-        !hcpEnrollment.Study_Site__r.Suppress_Participant_Emails__c &&
-        !hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
-        enrollment.HCP__c = hcpEnrollment.Id;
-        enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
-        enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
-        enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
-        enrollment.Show_Referring_Provider__c = true;
-        enrollment.Non_Referral_Reason__c='';
-        //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
-        if(filterCriteria && participant.Adult__c && String.isNotBlank(participant.Email__c))//adult added for RH-5266
-        {
-            enrollment.Invited_To_PP_Date__c = DateTime.now();
-        }
-        system.debug('');
-        String language = UserInfo.getLanguage();
+            List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
+            HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
+            HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
+            HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
+            HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c');
+            HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
+                .getHCPEnrollmentByIdImpl(
+                    hcpeId,
+                    CommunityService.USER_MODE_HCP,
+                    delegateId,
+                    HCPE_FIELDS
+                );
+            Boolean filterCriteria =
+                hcpEnrollment.Study_Site__r.Study_Site_Type__c != 'Virtual' &&
+                hcpEnrollment.Study_Site__r.Study_Site_Type__c != 'Hybrid' &&
+                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c != null &&
+                !hcpEnrollment.Study_Site__r.Suppress_Participant_Emails__c &&
+                !hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+            enrollment.HCP__c = hcpEnrollment.Id;
+            enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+            enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            enrollment.Show_Referring_Provider__c = true;
+            enrollment.Non_Referral_Reason__c = '';
+            //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
+            if (
+                filterCriteria &&
+                participant.Adult__c &&
+                String.isNotBlank(participant.Email__c) //adult added for RH-5266
+            ) {
+                enrollment.Invited_To_PP_Date__c = DateTime.now();
+            }
+            system.debug('');
+            String language = UserInfo.getLanguage();
             List<Study_Site__c> sSite = new List<Study_Site__c>();
             if (enrollment.Study_Site__c != null) {
                 sSite = [
@@ -424,7 +449,7 @@ public without sharing class ReferringRemote {
             }
             if (sSite[0].Site__c != null) {
                 participant.Site__c = sSite[0].Site__c;
-                participant.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
+                participant.Alternative_Phone_Number__c = enrollment.Participant_Alternative_Phone__c;
                 participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
@@ -457,14 +482,19 @@ public without sharing class ReferringRemote {
                         participantCon.Phone = participant.Phone__c;
                     }
                     //Added by Raviteja
-                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    if(enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c ||
+                    (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c)){
                         participantCon.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
-                       participantCon.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
-                       participantCon.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-
+                        participantCon.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                        participantCon.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
+                        participantCon.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        participantCon.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                        
                     }
-                      //End                         
-                    
+                    //End
+
                     update participantCon;
                 }
             }
@@ -491,12 +521,12 @@ public without sharing class ReferringRemote {
                     newContact.LastName = participantDelegate.Last_Name__c;
                     newContact.Email = participantDelegate.Email__c;
                     /*newContact.AccountId = [
-                            SELECT Id
-                            FROM Account
-                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                            LIMIT 1
-                            FOR UPDATE
-                    ].Id;*/
+SELECT Id
+FROM Account
+WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+LIMIT 1
+FOR UPDATE
+].Id;*/
                     newContact.AccountId = participantDelegate.Site__c;
                     newContact.Language__c = UserInfo.getLanguage();
                     newContact.Second_Choice_Language__c = '';
@@ -560,10 +590,10 @@ public without sharing class ReferringRemote {
                     insert participantDelegate;
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
-
+                List<Patient_Delegate__c> checkPDel;
                 if (participantId != null && newContact.Id != null) {
-                    List<Patient_Delegate__c> checkPDel = [
-                        SELECT Id
+                    checkPDel = [
+                        SELECT Id,Primary_Delegate__c,Participant__r.Email__c
                         FROM Patient_Delegate__c
                         WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                     ];
@@ -583,10 +613,10 @@ public without sharing class ReferringRemote {
                         ptDelegateRef.Primary_Delegate__c = true;
                         ptDelegateRef.Status__c = 'Disconnected';
                         /*  if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null){
-                            ptDelegateRef.Attestation__c = true;
-                            ptDelegateRef.Attestation_TimeStamp__c = Date.today();
-                            ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
-                        }   */
+ptDelegateRef.Attestation__c = true;
+ptDelegateRef.Attestation_TimeStamp__c = Date.today();
+ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+}   */
                         String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                             .templateName;
                         if (
@@ -596,7 +626,8 @@ public without sharing class ReferringRemote {
                             (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c ||
                             particpantEnrollList[0]
                                 .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
-                            communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
+                            (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT ||
+                            communityTemplateName == CommunityTemplateService.TEMPLATE_PP)
                         ) {
                             TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
@@ -605,12 +636,46 @@ public without sharing class ReferringRemote {
 
                         insert ptDelegateRef;
                     }
-                }
+                }                
+                if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
+                   && ((checkPDel.isEmpty() && (participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == '')) || 
+                   (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c && checkPDel[0].Participant__r.Email__c == null) )
+                   ){
+                           contact con = new contact();
+                           con.id = newContact.Id;
+                           con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
+                           con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
+                           con.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                           con.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                           con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
+                           con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
+                           con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
+                           
+                            TriggerHandlerExecutor.bypassHandler(
+                                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                            );
+                            TriggerHandlerExecutor.bypassHandler(
+                                ContactTriggerHandler.createNotificationsHandler.class
+                            );
+                            
+                            TriggerHandlerExecutor.bypassHandler(
+                                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                            );
+                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+                            TriggerHandlerExecutor.bypassHandler(
+                                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                            );
 
+                           update con;
+                   }
                 //}
                 if (createDelegateuser) {
-                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },
-                    TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                    createParticipantUsers(
+                        new Map<Id, Id>{ newContact.Id => null },
+                        TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
                     );
                 }
             } else if (
@@ -638,23 +703,20 @@ public without sharing class ReferringRemote {
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
-            }
-
-            //REF-3566
-            else if(participantDelegate == null){
+            } else if (participantDelegate == null) {
+                //REF-3566
                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
-                For(Patient_Delegate__c pd:[SELECT Id,
-                                            Primary_Delegate__c
-                                            FROM Patient_Delegate__c
-                                            WHERE Participant__c =: participantId 
-                                           ]) {
-                                               if(pd.Primary_Delegate__c == True){
-                                                   pd.Primary_Delegate__c = False;
-                                                   pdList.add(pd);
-                                               }
-                                           }
+                for (Patient_Delegate__c pd : [
+                    SELECT Id, Primary_Delegate__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c = :participantId
+                ]) {
+                    if (pd.Primary_Delegate__c == true) {
+                        pd.Primary_Delegate__c = false;
+                        pdList.add(pd);
+                    }
+                }
                 update pdList;
-                
             }
 
             System.debug('contentDocId--' + contentDocId);
@@ -676,10 +738,10 @@ public without sharing class ReferringRemote {
                 ];
                 //objConVersion.Form_Type__c=ParticipantEnrollmentService.CONTENTVERSION_AUTHORIZATION;
                 /*if(particpantEnrollList.size() > 0){
-                            objConVersion.Study_Protocol_Id__c= particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c;
-                        }
-                        System.debug('objConVersion-'+objConVersion);
-                        update objConVersion;*/
+objConVersion.Study_Protocol_Id__c= particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c;
+}
+System.debug('objConVersion-'+objConVersion);
+update objConVersion;*/
                 ContentDocumentLink objConDocLink = new ContentDocumentLink(
                     ContentDocumentId = contentDocId,
                     LinkedEntityId = particpantEnrollList[0].Id,
@@ -694,17 +756,21 @@ public without sharing class ReferringRemote {
     }
 
     @Future
-    public static void createParticipantUsers(Map<Id, Id> usersToCreate,
-                                              Map<Id,String> invitationsVisibleTemp
-                                             ) {
+    public static void createParticipantUsers(
+        Map<Id, Id> usersToCreate,
+        Map<Id, String> invitationsVisibleTemp
+    ) {
         if (usersToCreate != null && !usersToCreate.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsers(usersToCreate);
-                //Recalling createSurveyTasks method to create survey task for Patient Delegates
-                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
-                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
-                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
-                }
+        //Recalling createSurveyTasks method to create survey task for Patient Delegates
+        TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
+        if (
+            TaskService.invitationsVisibleTemp != null &&
+            !TaskService.invitationsVisibleTemp.isEmpty()
+        ) {
+            TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp, true);
+        }
     }
 
     @AuraEnabled
@@ -721,8 +787,8 @@ public without sharing class ReferringRemote {
             if (reason == ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING) {
                 pe.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
             }
-            if(pe.Pre_screening_Status__c=='Pass' || pe.Pre_screening_Status__c == 'Fail'){
-                pe.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+            if (pe.Pre_screening_Status__c == 'Pass' || pe.Pre_screening_Status__c == 'Fail') {
+                pe.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
                 pe.Pre_Screener_Completed_Date__c = Datetime.now();
             }
             upsert pe;
@@ -732,12 +798,12 @@ public without sharing class ReferringRemote {
     }
 
     /*private static String getCityString(Account acc){
-        List<String> addressList = new List<String>();
-        if(acc.BillingCity != null) addressList.add(acc.BillingCity);
-        if(acc.BillingState != null) addressList.add(acc.BillingState);
-        if(acc.BillingPostalCode != null) addressList.add(acc.BillingPostalCode);
-        return String.join(addressList, ', ');
-    }*/
+List<String> addressList = new List<String>();
+if(acc.BillingCity != null) addressList.add(acc.BillingCity);
+if(acc.BillingState != null) addressList.add(acc.BillingState);
+if(acc.BillingPostalCode != null) addressList.add(acc.BillingPostalCode);
+return String.join(addressList, ', ');
+}*/
 
     public static final Map<String, List<String>> STATES_MAP = FieldDescribeUtil.getDependentOptionsImpl(
         User.CountryCode,
@@ -754,8 +820,8 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveUpdatedPER(String peID){
-        try{
+    public static void saveUpdatedPER(String peID) {
+        try {
             Participant_Enrollment__c per = new Participant_Enrollment__c(
                 Id = peId,
                 Contacted__c = true,
@@ -763,11 +829,11 @@ public without sharing class ReferringRemote {
                 Consulted__c = true,
                 Consulted_Date__c = System.today(),
                 Have_you_Documented_the_Discussion__c = true,
-                Discussion_Documented_Date__c = System.today());
+                Discussion_Documented_Date__c = System.today()
+            );
             update per;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
-        
     }
 }

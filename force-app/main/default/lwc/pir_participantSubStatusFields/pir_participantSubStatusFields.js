@@ -7,6 +7,7 @@ import getEligibilityHistory from "@salesforce/apex/PIR_StatusDetailController.g
 import getScreeningHistory from "@salesforce/apex/PIR_StatusDetailController.getScreeningHistory";
 import getEnrollmentHistory from "@salesforce/apex/PIR_StatusDetailController.getEnrollmentHistory";
 import doSaveStatusDetails from "@salesforce/apex/PIR_StatusDetailController.doSaveStatusDetails";
+import isSuccessfullyReEngaged from "@salesforce/apex/PIR_StatusDetailController.isSuccessfullyReEngaged";
 import FD_PE_Field_Initial_Visit_Attended_Validation from '@salesforce/label/c.FD_PE_Field_Initial_Visit_Attended_Validation';
 import FG_PE_Inf_Consent_Validation from '@salesforce/label/c.FG_PE_Inf_Consent_Validation';
 import PWS_Withdrew_Conscent_Disclaimer from '@salesforce/label/c.PWS_Withdrew_Conscent_Disclaimer';
@@ -18,9 +19,15 @@ import PIR_Initial_Visit_Validation from '@salesforce/label/c.PIR_Initial_Visit_
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save';  
 import BTN_Yes from '@salesforce/label/c.BTN_Yes';
 import BTN_No from '@salesforce/label/c.BTN_No';
+import RH_TV_InitialVisitPopUpMessage from '@salesforce/label/c.RH_TV_InitialVisitPopUpMessage';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
-
+import getTelevisitVisibility from "@salesforce/apex/TelevisitCreationScreenController.televisistPrerequisiteCheck";
+import PIR_Reason_Required from '@salesforce/label/c.PIR_Reason_Required';
+import Gender_Female from '@salesforce/label/c.Gender_Female';
+import Gender_Male from '@salesforce/label/c.Gender_Male';
+import PE_Sex_At_Birth from '@salesforce/label/c.PIR_Gender';
 import { label } from "c/pir_label";
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 export default class Pir_participantSubStatusFields extends LightningElement {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -44,6 +51,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   selectedreason = "";
   selectedreasonIV = "";
   revisitDateReq=false;
+  isScreeningReq=false;
+  isWithdrew=false;
   @api initialvisitsctime = "";
   @api isfinalconsentrequired = false;
   @api isvprequired = false;
@@ -55,6 +64,14 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   @api currentuserdate = "";  
   @api latestStatusGrp=''; 
   @api isrtl = false;
+  @api addTelevisitForInitialVisit = false;
+  @track disableTelevisitCheckbox = true;
+  @track disableTelevisitCheckbox2 = true;
+  @track disableInitialVisitCheckbox = true;
+  @track televisitInitialVisitCheckboxStatus = 'Disabled';
+  @track isTelevisitModalOpen = false;
+  @track proceedSaveRecord = false;
+  @api getreengaged=false;
   maindivcls;
   label = {
     FD_PE_Field_Initial_Visit_Attended_Validation,
@@ -68,7 +85,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     BTN_No,
     BTN_Yes,
     PWS_Contact_Outcome_Placeholder,
-    PG_RP_L_Not_selected
+    PG_RP_L_Not_selected,
+    RH_TV_InitialVisitPopUpMessage,
+    PIR_Reason_Required,
+    PE_Sex_At_Birth
  };
  connectedCallback() {
   if(this.isrtl) {
@@ -76,8 +96,9 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }else{
     this.maindivcls = 'ltr';
   }
-}
-  changeInputValue(event) {
+} 
+@api noShow = false;
+changeInputValue(event) {
     let datavalue = event.target.dataset.value;
 
     if (event.target.dataset.value === "sitePreference") {
@@ -124,7 +145,18 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.additionalNoteIV = event.target.value;
       this.customButtonValidation();
     } else if (event.target.dataset.value === "screeningID") {
-      this.participantrecord.IVRS_IWRS__c = event.target.value;
+      this.participantrecord.IVRS_IWRS__c = event.target.value.trim();
+      if(this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c){
+        if(!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c==''){
+          this.isScreeningReq=true;
+          this.customButtonValidation();
+        }else{
+          this.customButtonValidation();
+        }
+      }
+    } else if(event.target.dataset.value === 'SexatBirth'){
+      this.participantRec.Gender__c=event.target.value;
+      this.customButtonValidation();
     } else if (event.target.dataset.value === "RevisitDate") {
       this.participantrecord.Revisit_Date__c = event.target.value;
       this.reVisitDt = event.target.value;
@@ -149,6 +181,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       }
     } else if (event.target.dataset.value === "InitialVisitAttended") {
       if (event.target.value == "Yes") {
+        this.noShow = false;  this.additionalNote="";
         this.participantrecord.Initial_visit_occurred_flag__c = true;
         this.initialvisitattended = "Yes";
         this.customFieldValidation(datavalue);
@@ -171,6 +204,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           this.participantrecord.isBulkUpdate__c=false;
         }
       } else {
+        this.additionalNote="";
         this.participantrecord.Initial_visit_occurred_flag__c = false;
         this.initialvisitattended = "No";
         this.customFieldValidation(datavalue);
@@ -204,9 +238,21 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.customFieldValidation("VisitPlan");
     } else if (event.target.dataset.value === "PartcipantNoShow") {
       this.participantrecord.ParticipantNoShow__c = event.target.checked;
-      
+      if(event.target.checked){
+        this.noShow = true; this.additionalNote="";
+        this.participantrecord.Non_Enrollment_Reason__c='';
+        this.participantrecord.Participant_Status__c = "Participant No Show";
+        this.statusChanged = true;
+      }else{
+        this.noShow = false;
+        this.additionalNote="";
+        delete this.participantrecord.Participant_Status__c; 
+        this.statusChanged = false;
+      }
     }
     this.isdataChanged();
+  this.validateTelevisitVisibility();
+  this.validateTelevisitVisibility2();
   }
 
   customFieldValidation(dataValue) {
@@ -253,7 +299,19 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       element.reportValidity();
     }
   }
-
+  @track initialVisitTelevisitVisible = false;
+  get isTelevisitEnabled(){
+    getTelevisitVisibility({ParticipantEnrollmentId : this.peid})
+      .then((result) => {
+        this.initialVisitTelevisitVisible = result;
+      })
+      .catch((error) => {
+          console.log(error);
+          return false;
+      });
+      return true;
+  }
+  
   get isReceived() {
     if (this.currentitems.index == 0) {
       return true;
@@ -275,6 +333,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.currentitems.index == 2 &&
       this.groupname != "PWS_Eligibility_Card_Name"
     ) {
+      this.validateTelevisitVisibility2();
       return true;
     } else {
       return false;
@@ -331,6 +390,13 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       return this.pe_record.Informed_Consent__c;
     }
   }
+  get isTokanizationSupportReq(){
+    if (this.pe_record.Clinical_Trial_Profile__r.Tokenization_Support__c){
+      return true;
+    }else{
+      return false;
+    }
+  }
   get isconsentSignedPlaceholder() {
     if (this.pe_record.Participant_Status__c == "Withdrew Consent") {
       return " ";
@@ -340,9 +406,28 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       return " ";
     }
   }
+  get reasonLabel(){
+    if(this.selectedOutcome == "Pre_review_Failed" ||
+    this.selectedOutcome == "Screening_Failed" ||
+    this.selectedOutcome == "Unable_to_Screen" ||
+    this.selectedOutcome == "Withdrew_Consent" ||
+    this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
+    this.selectedOutcome == "Declined_Final_Consent" ||
+    this.selectedOutcome == "Eligibility_Failed" ||
+    this.selectedOutcome == "Enrollment_Failed" ||
+    this.selectedOutcome == "Randomization_Failed" ||
+    this.selectedOutcome == "Contacted_Not_Suitable"
+    ){
+          return this.label.PIR_Reason_Required;
+    }else{
+          return this.utilLabels.PG_ACPE_L_Reason;
+    }
+  }
+  
   reasoneoptions = [];
   outcomeoptions = [];
   participantrecord;
+  participantRec;
   additionalNote = "";
   @api runinwashout = "";
   statusChanged = false;
@@ -366,6 +451,10 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     this.notesNeeded = [];
     this.statusChanged = false;
     this.participantrecord = JSON.parse(JSON.stringify(this.pe_record));
+    this.participantRec={
+      Id:this.participantrecord.Participant__c,
+      Gender__c:this.participantrecord.Participant__r.Gender__c
+    };
     this.consentSigned = this.pe_record.Informed_Consent__c;
     this.reVisitDt = this.participantrecord.Revisit_Date__c;
 
@@ -554,7 +643,8 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   }
   get signedReasonPlaceHolder() {
     if (this.selectedOutcomeIV == "Declined_Consent") {
-      return this.label.PG_AC_Select;
+      //return this.label.PG_AC_Select;
+      return " ";
     } else if (this.selectedOutcomeIV == "Withdrew_Consent") {
       if (this.selectedreasonIV == null || this.selectedreasonIV == "") {
         return " ";
@@ -765,8 +855,11 @@ export default class Pir_participantSubStatusFields extends LightningElement {
           this.selectedreason = "";
           this.participantrecord.Non_Enrollment_Reason__c = "";
         }else{
-          this.selectedreason = this.reasoneoptions[0].value;
-          this.participantrecord.Non_Enrollment_Reason__c = this.reasoneoptions[0].value;
+          //Reason fix
+          //this.selectedreason = this.reasoneoptions[0].value;
+          //this.participantrecord.Non_Enrollment_Reason__c = this.reasoneoptions[0].value;
+          this.selectedreason = "";
+          this.participantrecord.Non_Enrollment_Reason__c = '';
         }
       }
     } else {
@@ -780,10 +873,23 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       this.customFieldValidation("Consent Signed");
       this.customButtonValidation();
     }
+    if (this.participantrecord.Clinical_Trial_Profile__r.Tokenization_Support__c) {
+      if (this.selectedOutcome === "Screening_Passed") {
+        this.isScreeningReq=true;
+        this.customButtonValidation();
+      }else if(this.selectedOutcome === "Randomization_Success" || this.selectedOutcome === "PE_STATUS_ENROLLMENT_SUCCESS"){
+        this.customButtonValidation();
+      }else{
+        this.isScreeningReq=false;
+        this.customButtonValidation();
+      }
+    }
     if(this.selectedOutcome == "Unable_to_Reach"){
       this.customButtonValidation();
     }
     this.isdataChanged();
+    this.validateTelevisitVisibility();
+    this.validateTelevisitVisibility2();
   }
   outcomeHandleChangeIV(event) {
     let datavalue = event.target.dataset.value;
@@ -876,7 +982,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
   get notesLabel() {
     if(this.selectedOutcome == "Contacted_Not_Suitable" &&  this.selectedreason == ""){
           this.customButtonValidation(); 
-          return this.utilLabels.PG_ACPE_L_Notes_Required;
+          return this.utilLabels.PG_ACPE_L_Notes_Optional;
     }else if(this.selectedOutcome == "Unable_to_Reach" &&  this.selectedreason == ""){
       this.customButtonValidation(); 
       return this.utilLabels.PG_ACPE_L_Notes_Required;
@@ -954,6 +1060,7 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if (
       this.pe_record.Participant_Status__c == "Withdrew Consent" ||
       this.pe_record.Participant_Status__c == "Successfully Contacted" ||
+      this.pe_record.Participant_Status__c == "Successfully re-engaged" ||
       this.pe_record.Participant_Status__c == "Ready to Screen" ||
       this.pe_record.Participant_Status__c == "Declined Consent"
     ) {
@@ -1114,8 +1221,36 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       validationList.push(btnValidationSuccess);
     }
 
+    //8.
+    if(this.selectedOutcome == "Pre_review_Failed" ||
+    this.selectedOutcome == "Screening_Failed" ||
+    this.selectedOutcome == "Unable_to_Screen" ||
+    this.selectedOutcome == "Withdrew_Consent" ||
+    this.selectedOutcome == "Withdrew_Consent_After_Screening" ||
+    this.selectedOutcome == "Declined_Final_Consent" ||
+    this.selectedOutcome == "Eligibility_Failed" ||
+    this.selectedOutcome == "Enrollment_Failed" ||
+    this.selectedOutcome == "Randomization_Failed" ||
+    this.selectedOutcome == "Contacted_Not_Suitable"
+    ){
+           if(this.selectedreason == ""){
+            btnValidationSuccess = false;
+            validationList.push(btnValidationSuccess);
+           }
+    }
+    //9.
+    if(this.isScreeningReq && (!this.participantrecord.IVRS_IWRS__c || this.participantrecord.IVRS_IWRS__c=='')){
+      btnValidationSuccess = false;
+      validationList.push(btnValidationSuccess);
+    }else if(this.isSexatBirthReq && (!this.participantRec.Gender__c || this.participantrecord.Gender__c=='')){
+      btnValidationSuccess = false;
+      validationList.push(btnValidationSuccess);
+    }else{
+      btnValidationSuccess = true;
+      validationList.push(btnValidationSuccess);
+    }
     if (validationList.includes(false)) {
-      const validatesavebtn = new CustomEvent("validatesavebutton", {
+      const validatesavebtn = new CustomEvent("validatesavebutton", { 
         detail: true
       });
       this.dispatchEvent(validatesavebtn);
@@ -1131,6 +1266,13 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     return [
       { label: this.label.BTN_No, value: "No" },
       { label: this.label.BTN_Yes, value: "Yes" }
+    ];
+  }
+  get sexAssignedBirth() {
+    return [      
+        { label: Gender_Male, value: 'Male' },
+        { label: Gender_Female, value: 'Female' },
+       
     ];
   }
   get initialVisitAttended() {
@@ -1415,7 +1557,18 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       return false;
     }
   }
-
+  get isSexatBirthReq(){
+    if (
+      this.selectedOutcome == "Randomization_Success" ||
+      this.selectedOutcome == "PE_STATUS_ENROLLMENT_SUCCESS"
+    ) {
+      return true;
+    } else if( this.selectedOutcome == "" && (this.pe_record.Participant_Status__c == 'Enrollment Success' || this.pe_record.Participant_Status__c == 'Randomization Success')) {
+      return true;
+    }else{
+      return false;
+    }
+  } 
   get makerequiredrandomizationid() {
     if (
       this.selectedOutcome == "Randomization_Success" ||
@@ -1521,8 +1674,13 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       }
 
   }
-
+  isReEngaged=false;
   getSaved() {
+	  if(this.addTelevisitForInitialVisit && !this.proceedSaveRecord){
+      this.handleTelevisitOpenModal();
+      return;
+    }
+    // if(this.additionalNote != null && this.additionalNote !=''){
     if (this.statusChanged) {
       if ((this.additionalNote != "") & (this.additionalNote != null)) {
         this.participantrecord.Last_Status_Changed_Notes__c = this.additionalNote;
@@ -1541,22 +1699,20 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       if(this.participantrecord.Participant_Status__c != "Ready to Screen"){
         delete this.participantrecord.Participant_Status__c;
       }
+      delete this.participantrecord.Non_Enrollment_Reason__c;
     }
-    if (
-      this.selectedOutcome == "Successfully_Contacted" ||
-      this.selectedOutcome == "Pre_review_Passed"
-    ) {
-      this.participantrecord.ParticipantNoShow__c = false;
-    } else if (
-      this.pe_record.ParticipantNoShow__c ==
-      this.participantrecord.ParticipantNoShow__c
-    ) {
-      delete this.participantrecord.ParticipantNoShow__c;
-    }
-    if(this.participantrecord.ParticipantNoShow__c){ 
-      this.participantrecord.Participant_Status__c = 'Unable to Reach';
-      this.participantrecord.Non_Enrollment_Reason__c='Didnt Show For Initial Visit'; 
-    }
+     if (
+       this.selectedOutcome == "Successfully_Contacted" ||
+       this.selectedOutcome == "Pre_review_Passed"
+     ) {
+       this.participantrecord.ParticipantNoShow__c = false;
+     } else if (
+       this.pe_record.ParticipantNoShow__c ==
+       this.participantrecord.ParticipantNoShow__c
+     ) {
+       delete this.participantrecord.ParticipantNoShow__c;
+   }
+   
     if (this.participantrecord.Participant_Status__c == "Ready to Screen") {
       if (
         this.participantrecord.Informed_Consent__c &&
@@ -1573,10 +1729,28 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     if (this.participantrecord.Participant_Status__c == "Declined Final Consent") {
           this.participantrecord.Final_consent__c = false;
     }
-
+    
+    if(this.participantrecord.Participant_Status__c == "Withdrew Consent" && this.participantrecord.Initial_visit_occurred_flag__c==true){
+      this.participantrecord.Informed_Consent__c=false;
+    }
    
+    if(this.participantrecord.Clinical_Trial_Profile__r.Initial_Visit_Required__c){
+      if( this.participantrecord.Succesfully_Re_Engaged__c==true  &&
+     ( (this.participantrecord.Participant_Status__c == "Successfully Contacted" ||
+       this.pe_record.Participant_Status__c=="Successfully Contacted") 
+      || 
+      (this.participantrecord.Participant_Status__c=='Eligibility Passed' || 
+      this.pe_record.Participant_Status__c=='Eligibility Passed'))
+      &&
+      this.participantrecord.Initial_visit_scheduled_date__c!=null &&
+      this.participantrecord.Initial_visit_scheduled_time__c!=null
+     ){
+      this.participantrecord.Succesfully_Re_Engaged__c = false;
+      }
+    }
+    
     let outcome = this.selectedOutcome;
-
+    
     let occuredDt = this.participantrecord.Initial_visit_occurred_date__c;
     //let tdyDt = this.todaydate();
     let tdyDt = this.currentuserdate;
@@ -1592,12 +1766,19 @@ export default class Pir_participantSubStatusFields extends LightningElement {
       }
       const selectedEvent = new CustomEvent("recordsave", {});
       this.dispatchEvent(selectedEvent);
-      doSaveStatusDetails({ perRecord: this.participantrecord, visitPlan : visitPln })
+      
+      if(this.participantrecord.ParticipantNoShow__c  && this.participantrecord.Participant_Status__c != 'Participant No Show'){
+        this.participantrecord.Participant_Status__c = 'Participant No Show';
+        delete this.participantrecord.Non_Enrollment_Reason__c;
+      }
+      
+      doSaveStatusDetails({ perRecord: this.participantrecord,perRec:this.participantRec, visitPlan : visitPln })
         .then((result) => {
           this.showSuccessToast(this.label.RH_RP_Record_Saved_Successfully);
           const selectedEvent = new CustomEvent("saved", {});
           this.dispatchEvent(selectedEvent);
-          if (outcome == "Eligibility_Passed") {
+          if (outcome == "Eligibility_Passed"|| this.participantrecord.Participant_Status__c == "Ready to Screen" ||
+          this.participantrecord.Participant_Status__c == "Participant No Show") {
             const selectEventHeader = new CustomEvent(
               "callparticipantstatusdetail",
               {}
@@ -1642,4 +1823,107 @@ export default class Pir_participantSubStatusFields extends LightningElement {
     });
     this.dispatchEvent(evt);
   }
+  handleTelevisitCheckboxChange(event){
+    this.addTelevisitForInitialVisit = event.target.checked;
+    if(event.target.name === 'televisitCheckbox')
+      this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+    if(event.target.name === 'televisitCheckbox2')
+      this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox2"]').checked;
+  }
+  validateTelevisitVisibility(){
+    var initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
+    var initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+    var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+    //initialVisitTimeValue = this.getTwentyFourHourTime(initialVisitTimeValue);
+    currentTime = this.getTwentyFourHourTime(currentTime);
+    var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
+    //!this.template.querySelector('[data-value="televisitCheckbox"]').checked
+    if(oldValue){
+      this.disableTelevisitCheckbox = true;
+    }else if(this.selectedOutcome === 'Successfully_Contacted' && 
+      initialVisitDateValue != null && 
+      initialVisitDateValue != undefined && 
+      initialVisitDateValue != '' &&
+      initialVisitTimeValue != null && 
+      initialVisitTimeValue != undefined && 
+      initialVisitTimeValue != ''){
+        if(today < initialVisitDateValue){
+          this.disableTelevisitCheckbox = false;
+        }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
+          this.disableTelevisitCheckbox = false;
+        }else{
+          if(this.checkContactStatus){
+            this.template.querySelector('[data-value="televisitCheckbox"]').checked = false;
+            this.participantrecord.Add_televisit_for_Initial_Visit__c = this.template.querySelector('[data-value="televisitCheckbox"]').checked;
+            this.addTelevisitForInitialVisit = false;
+          }
+          this.disableTelevisitCheckbox = true;
+        }
+
+        
+    }else{
+      //if(this.checkContactStatus){
+        if(this.template.querySelector('[data-value="televisitCheckbox"]') !== null){
+          this.template.querySelector('[data-value="televisitCheckbox"]').checked = oldValue;
+          this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
+          this.addTelevisitForInitialVisit = oldValue;
+        }
+      //}      
+      this.disableTelevisitCheckbox = true;
+    }
+  }
+  validateTelevisitVisibility2(){
+    var initialVisitDateValue;
+    var initialVisitTimeValue;
+    if(this.template.querySelector('[data-value="InitialVisitDate"]') !== null){
+      initialVisitDateValue = this.template.querySelector('[data-value="InitialVisitDate"]').value;
+    }
+    if(this.template.querySelector('[data-value="InitialVisitTime"]') !== null){
+      initialVisitTimeValue = this.template.querySelector('[data-value="InitialVisitTime"]').value;
+    }
+    var today = new Date().toLocaleString('sv-SE', { timeZone: TIME_ZONE }).slice(0,10);
+    var currentTime = new Date().toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
+    currentTime = this.getTwentyFourHourTime(currentTime);
+      
+    var oldValue = this.pe_record.Add_televisit_for_Initial_Visit__c;
+    if(oldValue){
+      this.disableTelevisitCheckbox2 = true;
+    }else if(today < initialVisitDateValue){
+      this.disableTelevisitCheckbox2 = false;
+    }else if(today == initialVisitDateValue && currentTime <=initialVisitTimeValue ){
+      this.disableTelevisitCheckbox2 = false;
+    }else{
+      if(this.template.querySelector('[data-value="televisitCheckbox2"]')!== null){
+        this.template.querySelector('[data-value="televisitCheckbox2"]').checked = oldValue;
+        this.participantrecord.Add_televisit_for_Initial_Visit__c = oldValue;
+        this.addTelevisitForInitialVisit = oldValue;
+      }
+      this.disableTelevisitCheckbox2 = true;
+    }
+
+}
+
+  handleTelevisitCloseModal(){
+    this.isTelevisitModalOpen = false;
+    this.proceedSaveRecord = false;
+    this.disableInitialVisitCheckbox = false;
+  }
+  proceedTelevisitSave(){
+    this.isTelevisitModalOpen = false;
+    this.proceedSaveRecord = true;
+    this.getSaved();
+  }
+  handleTelevisitOpenModal(){
+    this.isTelevisitModalOpen = true;
+  }
+  getTwentyFourHourTime(amPmString) { 
+    var d = new Date("1/1/2013 " + amPmString); 
+    let h = d.getHours();
+    let m = d.getMinutes();
+    h = h < 10 ? '0' + h : h;
+    m = m < 10 ? '0' + m : m;
+    return h + ':' + m + ':00.000'; 
+  }
+
 }

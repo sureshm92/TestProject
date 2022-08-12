@@ -3,6 +3,14 @@
         var source = event.getSource().get('v.name');
         console.log('Source: ' + source);
         var appEvent = $A.get('e.c:TaskToggleEvent');
+        if (source === 'studyWorkspaceToggle') {
+            let stworkValue = component.find('stworkspaceToggle').get('v.checked');
+            component.find('prToggle').set('v.checked', !stworkValue);
+        }
+        if (source === 'programToggle') {
+            let prValue = component.find('prToggle').get('v.checked');
+            component.find('stworkspaceToggle').set('v.checked', !prValue);
+        }
         if (source === 'visitScheduleToggle') {
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);
@@ -11,10 +19,16 @@
             let stValue = component.find('stToggle').get('v.checked');
             component.find('vsToggle').set('v.checked', !stValue);
         }
-       if (source === 'medicalVendorToggle') {
+        if (source === 'medicalVendorToggle') {
             let stValue = component.find('mdToggle').get('v.checked');
             component.find('mdToggle').set('v.checked', stValue);
         }
+        //Teleevisit Starts
+        if (source === 'TelevisitToggle') {
+            let stValue = component.find('teleToggle').get('v.checked');
+            component.find('teleToggle').set('v.checked', stValue);
+        }
+        //Ends
         if(source === 'saveDelayDays'){
             component.set('v.delay_days', component.get("v.ctp.Delayed_No_Of_Days__c"));
         }
@@ -52,13 +66,21 @@
                 },
                 function () {
                     component.find('spinner').hide();
+                    
+                    if(source === 'TelevisitToggle'){
+                        const lmsTest = {
+                            recordId: "TestRecord",
+                            name: "Burlington Textiles of America"
+                          };
+                        component.find("sampleMessageChannel").publish(lmsTest);
+                    }
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
-        	);
+            );
         }
         else{
             component.find('spinner').hide();
-          //  communityService.showToast('Error', 'error', 'The incentive program already exists');
+            //  communityService.showToast('Error', 'error', 'The incentive program already exists');
         }
         if (source === 'tasksToggle') {
             $A.get('e.force:refreshView').fire();

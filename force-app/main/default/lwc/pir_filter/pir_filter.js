@@ -34,6 +34,7 @@ import ReceivedStatus from "@salesforce/label/c.PWS_Received_Name";
 import PreReviewPassedStatus from "@salesforce/label/c.Pre_review_Passed";
 import ContactAttemptedStatus from "@salesforce/label/c.Contact_Attempted";
 import SuccessfullyContacted from "@salesforce/label/c.Successfully_Contacted";
+import Successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged';
 import ScreeningInProgress from "@salesforce/label/c.Screening_In_Progress";
 import InWashOutPeriod from "@salesforce/label/c.In_Wash_Out_Period";
 import ScreeningPassed from "@salesforce/label/c.Screening_Passed";
@@ -67,6 +68,7 @@ import pir_mm_dd_yyyy from "@salesforce/label/c.pir_mm_dd_yyyy";
 import PP_To from "@salesforce/label/c.PP_To";
 import PP_Scheduled from "@salesforce/label/c.PP_Scheduled";
 import PIR_Not_Scheduled from "@salesforce/label/c.PIR_Not_Scheduled";
+import Participant_No_Show from "@salesforce/label/c.Participant_No_Show";
 
 export default class Filtertest extends LightningElement {
   @api maindivcls;
@@ -105,6 +107,7 @@ export default class Filtertest extends LightningElement {
     PreReviewPassedStatus,
     ContactAttemptedStatus,
     SuccessfullyContacted,
+    Successfully_Re_Engaged,
     ScreeningInProgress,
     InWashOutPeriod,
     ScreeningPassed,
@@ -133,7 +136,8 @@ export default class Filtertest extends LightningElement {
     pir_mm_dd_yyyy,
     PP_To,
     PP_Scheduled,
-    PIR_Not_Scheduled
+    PIR_Not_Scheduled,
+    Participant_No_Show
   };
   @api
   filterClass = 'filter-area';
@@ -150,7 +154,7 @@ export default class Filtertest extends LightningElement {
   selectedSite;
   statusoptions;
   defaultStatus;
-  selectedActiveInactive = 'Active';
+  selectedActiveInactive = "Active";
   defaultSource = "All Sources";
   defaultSex = "All";
   defaultHighRisk = false;
@@ -199,11 +203,19 @@ export default class Filtertest extends LightningElement {
     
     if(!this.filterFetched){
       this.filterFetched= true;
-      var scList = [
-        "Referring Provider",
-        "Principal Investigator",
-        "Digital Recruitment"
-      ];
+      let scList;
+      if(this.sponser==='janssen'){
+        scList = [
+          "Principal Investigator",
+          "Digital Recruitment"
+        ];
+      }else{
+        scList = [
+          "Referring Provider",
+          "Principal Investigator",
+          "Digital Recruitment"
+        ];
+      }
       this.filterWrapper.source = scList;
       getStudyStudySite()
         .then((result) => {
@@ -244,22 +256,46 @@ export default class Filtertest extends LightningElement {
             if (this.urlsiteid != null) {
               this.defaultSite = this.urlsiteid;
             } else {
-              this.defaultSite = options1[1].value;
+              this.defaultSite = options1[0].value;
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
-            this.filterWrapper.siteList.push(this.defaultSite);
+            //for Study site
+            if (this.selectedSite != null && this.selectedSite == "All Study Site") {
+              for (var i = 1; i < this.studySiteList.length; i++) {
+                this.filterWrapper.siteList.push(this.studySiteList[i].value);
+              }
+            } else if (
+              this.selectedSite != null &&
+              this.selectedSite != "All Study Site"
+            ) {
+              this.filterWrapper.siteList.push(this.selectedSite);
+            }
           }
           this.createStatusOption();
           this.defaultStatus = this.selectedstatusvalue;
           this.selectedStatus = this.selectedstatusvalue;
+          if (this.selectedstatusvalue == "All Active Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else if (this.selectedstatusvalue == "All Inactive Statuses") {
+            this.filterWrapper.status = [];
+            for (var i = 1; i < this.statusoptions.length; i++) {
+              this.filterWrapper.status.push(this.statusoptions[i].value);
+            }
+          } else {
+            this.filterWrapper.status = [];
+            this.filterWrapper.status.push(this.selectedstatusvalue);
+          }
+          
           this.loaded = !this.loaded;
           const loadComplete = new CustomEvent("loadcomplete", {
             detail: true
           });
           this.dispatchEvent(loadComplete);
-          this.filterWrapper.status = [];
-          this.filterWrapper.status.push('Received');
+          
           if(!(Object.keys(value).length === 0)){
             this.presetWrapperSet(presetSellection);
           }
@@ -280,7 +316,7 @@ export default class Filtertest extends LightningElement {
   presetWrapperSet(presetSellection){
     this.selectedActiveInactive = presetSellection.activeInactive;
 
-    if(presetSellection.source.length == 1){
+    if(presetSellection.source && presetSellection.source.length == 1){
       this.defaultSource = presetSellection.source[0];
     }else{
       this.defaultSource = 'All Sources';
@@ -732,13 +768,20 @@ export default class Filtertest extends LightningElement {
   }
 
   get sourceoptions() {
-    
-    return [
-      { label: this.label.AllSources, value: "All Sources" },
-      { label: this.label.ReferringProvider, value: "Referring Provider" },
+    if(this.sponser=='Janssen' ){
+      return [
+        { label: this.label.AllSources, value: "All Sources" },
       { label: this.label.PricipalInvestigator, value: "Principal Investigator" },
       { label: this.label.DigitalRecruitment, value: "Digital Recruitment" }
     ];
+    }else{
+      return [
+        { label: this.label.AllSources, value: "All Sources" },
+        { label: this.label.ReferringProvider, value: "Referring Provider" },
+        { label: this.label.PricipalInvestigator, value: "Principal Investigator" },
+        { label: this.label.DigitalRecruitment, value: "Digital Recruitment" }
+      ];
+    }
   }
 
   get sexatbirthoptions() {
@@ -854,13 +897,13 @@ export default class Filtertest extends LightningElement {
       }
 
     this.studySiteList = options;
-    this.defaultSite = this.studySiteList[1].value;
+    this.defaultSite = this.studySiteList[0].value;
     this.selectedSite = this.defaultSite;
 
     this.createStatusOption();
 
-    this.defaultStatus = this.statusoptions[1].value;
-    this.selectedStatus = this.statusoptions[1].value;
+    this.defaultStatus = this.statusoptions[0].value;
+    this.selectedStatus = this.statusoptions[0].value;
     this.defaultSource = this.sourceoptions[0].value;
     this.ageStartValue = 0;
     this.ageEndValue = 150;
@@ -881,7 +924,7 @@ export default class Filtertest extends LightningElement {
     this.filterWrapper.siteList.push(this.defaultSite);
     this.filterWrapper.status = [];
     this.filterWrapper.status.push(this.defaultStatus);
-    this.filterWrapper.source = ["Referring Provider", "Principal Investigator", "Digital Recruitment"];
+    this.filterWrapper.source = this.sponser=='janssen' ? ["Principal Investigator", "Digital Recruitment"] : ["Referring Provider", "Principal Investigator", "Digital Recruitment"];
     this.filterWrapper.ageTo = this.ageStartValue;
     this.filterWrapper.ageFrom = this.ageEndValue;
     this.filterWrapper.ethnicityList = [];
@@ -950,10 +993,12 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.SentToDCT, value: "Sent to DCT" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
@@ -965,10 +1010,12 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" },
             { label: this.label.RandomizationSuccess, value: "Randomization Success" }
           ];
@@ -983,11 +1030,13 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.SentToDCT, value: "Sent to DCT" },
             { label:this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
@@ -998,11 +1047,13 @@ export default class Filtertest extends LightningElement {
             { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
             { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
             { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+            { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
             { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
             {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
             { label: this.label.ScreeningPassed, value: "Screening Passed" },
             { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
             { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
+            { label: this.label.Participant_No_Show, value: "Participant No Show" },
             { label: this.label.ReadytoScreen, value: "Ready to Screen" }
           ];
             if(this.defaultStatus == 'Sent to DCT'){
@@ -1048,14 +1099,16 @@ export default class Filtertest extends LightningElement {
       if(this.selectedActiveInactive == 'Active'){
         this.statusoptions = [
           { label: this.label.AllStatuses, value: "All Active Statuses" },
-          { label: this.label.ReceivedStatus, value: "Received" },
+          { label: this.label.ReceivedStatus, value: "Received" }, 
           { label: this.label.PreReviewPassedStatus, value: "Pre-review Passed" },
           { label: this.label.ContactAttemptedStatus, value: "Contact Attempted" },
           { label: this.label.SuccessfullyContacted, value: "Successfully Contacted" },
+          { label: this.label.Successfully_Re_Engaged , value: "Successfully re-engaged" },
           { label: this.label.ScreeningInProgress, value: "Screening In Progress" },
           {label: this.label.InWashOutPeriod, value: "Screening In Progress - Wash Out Period" },
           { label: this.label.ScreeningPassed, value: "Screening Passed" },
           { label: this.label.EnrollmentSuccess, value: "Enrollment Success" },
+          { label: this.label.Participant_No_Show, value: "Participant No Show" },
           { label: this.label.EligibilityPassed, value: "Eligibility Passed" },
           { label: this.label.SentToDCT, value: "Sent to DCT" },
           { label: this.label.ReadytoScreen, value: "Ready to Screen" },

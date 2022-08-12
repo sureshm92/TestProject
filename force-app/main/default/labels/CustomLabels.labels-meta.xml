@@ -1,6 +1,336 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ReEngage_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngage_Dashboard</shortDescription>
+        <value>Re-engaged?</value>
+    </labels>
+    <labels>
+        <fullName>ReEngaged</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngaged</shortDescription>
+        <value>Re-engaged</value>
+    </labels>
+    <labels>
+        <fullName>Add_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Televisit Vendor</shortDescription>
+        <value>Add Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>permissionIssue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>permissionIssue</shortDescription>
+        <value>You don&apos;t have any study sites to display or Missing televisit permission.</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Signature</shortDescription>
+        <value>Thank you.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Greeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Greeting</shortDescription>
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Header</shortDescription>
+        <value>Televisit canceled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Header</shortDescription>
+        <value>New Televisit</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Cancel_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Cancel Email Body</shortDescription>
+        <value>This is an email to inform you that the following televisit was &lt;b&gt;canceled.&lt;/b&gt;
+
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime
+Duration: ##VisitDuration</value>
+    </labels>
+
+    <labels>
+        <fullName>Televisit_Cancel_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Cancel Email Subject</shortDescription>
+        <value>Televisit was canceled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Body</shortDescription>
+        <value>This is an email to inform you about an upcoming televisit for the ##StudyCodeName.
+
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime 
+Duration: ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Creation_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Creation Email Subject</shortDescription>
+        <value>New Televisit scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Body</shortDescription>
+        <value>Your ##VisitName televisit is rescheduled
+
+            &lt;b&gt;Televisit revised Date/Time: &lt;/b&gt; ##VisitTime
+            &lt;b&gt;Duration:&lt;/b&gt;  ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Header</shortDescription>
+        <value>Televisit was rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Subject</shortDescription>
+        <value>Televisit was rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Meet_Sub1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub1</shortDescription>
+        <value>with</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Meet_Sub2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Meet_Sub2</shortDescription>
+        <value>will take up at</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Upcoming_Meet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Upcoming_Meet</shortDescription>
+        <value>##NoOfTV Upcoming or Active Televisits</value>
+    </labels>
+    <labels>
+        <fullName>PI_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime.</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Meet_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT Televisit Meet Info</shortDescription>
+        <value>##TVName with ##PIName will take place at ##StartTime to ##EndTime</value>
+    </labels>
+    <labels>
+        <fullName>PT_Session_Ended</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Session_Ended</shortDescription>
+        <value>This Televisit has ended. Contact your Study Center for further support.</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Left</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Left</shortDescription>
+        <value>Seems like you left your Televisit. Would you like to return?</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Rejoin</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Rejoin</shortDescription>
+        <value>Yes, take me back</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Close</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PT_Televisit_Close</shortDescription>
+        <value>Close Televisit</value>
+    </labels>
+    <labels>
+        <fullName>First_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>First_Attendee</shortDescription>
+        <value>  Looks like you're the first one here.</value>
+    </labels>
+    <labels>
+        <fullName>Session_Settings</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Session Settings</shortDescription>
+        <value>Session Settings</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Body</shortDescription>
+        <value>This is an email to remind you about an upcoming televisit for the ##StudyCodeName.
+
+Televisit title: ##VisitName
+Televisit Date/Time: ##VisitTime 
+Duration: ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Reminder Email Subject</shortDescription>
+        <value>Televisit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reminder_Two_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reminder Two Email Body</shortDescription>
+        <value>Dear ##ContTitle ##PISSName1 ##ContMN ##PISSName2 ##ContSuffix,
+
+This is an email to remind you of your upcoming televisit  ##VisitName with ##firstname  ##LastName.
+
+Televisit Date/Time : ##VisitTime
+Duration: ##VisitDuration
+
+Thank you for participating in the IQVIA Referral Hub.
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Banner_Display_Offset_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner Display (minutes)</shortDescription>
+        <value>Banner Display (minutes)</value>
+    </labels>
+    <labels>
+        <fullName>Banner_dispose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Banner dispose</shortDescription>
+        <value>Banner dispose</value>
+    </labels>
+    <labels>
+        <fullName>Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Description</shortDescription>
+        <value>Description</value>
+    </labels>
+    <labels>
+        <fullName>Select_Televisit_Vendor</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Televisit Vendor</shortDescription>
+        <value>Select Televisit Vendor</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Record_Vendor_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Record Vendor Name</shortDescription>
+        <value>Televisit Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>offset_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>offset time</shortDescription>
+        <value>offset time(minutes)</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Remove_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Body</shortDescription>
+        <value>This email is to inform you that you were removed from the list of attendees for a televisit for the ##StudyCodeName. You will not be able to join this televisit.
+
+Televisit title: ##VisitName
+
+Televisit Date/Time: ##VisitDttime
+
+Duration: ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Remove_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Header</shortDescription>
+        <value>You were removed from a televisit</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Remove_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit Remove Email Subject</shortDescription>
+        <value>You were removed from a televisit</value>
+    </labels>
+    <labels>
+        <fullName>Participant_No_Show</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant No Show</shortDescription>
+        <value>Participant No Show</value>
+    </labels>
+    <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
+    </labels>
+    <labels>
         <fullName>PIR_Discard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -127,6 +457,27 @@
         <value>Start date cannot be in the past</value>
     </labels>
     <labels>
+        <fullName>SS_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_Email</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_SMS</shortDescription>
+        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -250,7 +601,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Dont_show_me_again_on_landing</shortDescription>
-        <value>Don't show me again on landing</value>
+        <value>Don&apos;t show me again on landing</value>
     </labels>
     <labels>
         <fullName>BulkImport_Ok</fullName>
@@ -2241,15 +2592,15 @@
         <protected>true</protected>
         <shortDescription>CC_Welcome Call Complete</shortDescription>
         <value>Welcome Call Complete</value>
-    </labels>	
+    </labels>
     <labels>
         <fullName>CC_First_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_First Referral Call Complete</shortDescription>
         <value>First Referral Call Complete</value>
-     </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Aged_Referral_Call_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2269,8 +2620,8 @@
         <protected>true</protected>
         <shortDescription>CC_No Answer</shortDescription>
         <value>No Answer</value>
-    </labels>	
-     <labels>
+    </labels>
+    <labels>
         <fullName>CC_Follow_up_needed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4298,6 +4649,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Pending approval/activation</value>
     </labels>
     <labels>
+        <fullName>RH_Direct_Mail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Direct_Mail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4925,7 +5283,6 @@ By using our website, you are accepting our use of cookies.</value>
         <value>This is an email to remind you of your upcoming  task ##SurveyName.
 Due Date and Time: ##expirationDate</value>
     </labels>
-
     <labels>
         <fullName>Email_Action_Register</fullName>
         <language>en_US</language>
@@ -5434,7 +5791,9 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body Participant Import Completed</shortDescription>
         <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
-            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
+            If there were any records that were not able to be imported, corrections may be made in the file available on Bulk Import History Page and re-imported .
+
+			Your user name is ##userName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient0</fullName>
@@ -5881,6 +6240,172 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
 &lt;span style=&quot;color:black;&quot;&gt;##TaskName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span  style=&quot;color:black;&quot;&gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Cancelled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Del Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of ##ParticipantFirstName ##ParticipantLastName&apos;s upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If  ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Del_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Del Signature</shortDescription>
+        <value>We appreciate your patient&apos;s participation!
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Day Signature</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Cancelled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit  with ##PIFullName, scheduled for ##VisitDttime is now canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Rescheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName&#39;s ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Del Scheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your patient ##ParticipantFirstName ##ParticipantLastName has been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration &lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Del Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of ##ParticipantFirstName ##ParticipantLastName&apos;s upcoming televisit for the clinical research study: ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If ##ParticipantFirstName ##ParticipantLastName is unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Del_Signature</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Del Signature</shortDescription>
+        <value>We appreciate your patient&apos;s participation!
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit for ##StudyCodeName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Hour_Signature</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Hour Signature</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Rescheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Televisit Scheduled</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt;  ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
@@ -6419,6 +6944,80 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>This is a task reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Cancelled</shortDescription>
+        <value>This is to notify you of a canceled televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Day Del  Reminder</shortDescription>
+        <value>This is a reminder of your patient&apos;s upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Day Reminder</shortDescription>
+        <value>This is a reminder of your upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Cancelled</shortDescription>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Rescheduled</shortDescription>
+        <value>This is to notify you that your patient&#39;s ##VisitName televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Del Scheduled</shortDescription>
+        <value>This is a televisit invitation for your patient</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Hour Del Reminder</shortDescription>
+        <value>This is a reminder of your patient&apos;s upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Hour Reminder</shortDescription>
+        <value>This is a reminder of your upcoming televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Rescheduled</shortDescription>
+        <value>This is to notify you of a rescheduled televisit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Televisit Scheduled</shortDescription>
+        <value>This is a televisit invitation</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6857,6 +7456,29 @@ Sincerely,
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Televisit_Del_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Televisit Del PT</shortDescription>
+        <value>We appreciate your patient&#39;s participation!
+
+Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Televisit_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Televisit PT</shortDescription>
+        <value>We appreciate your participation!
+
+
+Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7243,6 +7865,94 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
         <value>Reminder: Your patient has a task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Cancelled</shortDescription>
+        <value>televisit has been canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Day_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Day Del Reminder</shortDescription>
+        <value>Your patient has a televisit tomorrow</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Day_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Day Reminder</shortDescription>
+        <value>You have a televisit tomorrow</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Cancelled_P1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Cancelled P1</shortDescription>
+        <value>Your patient&#39;s</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Cancelled_P2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Cancelled P2</shortDescription>
+        <value>televisit is canceled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Rescheduled_P1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Rescheduled P1</shortDescription>
+        <value>Your patient&#39;s</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Rescheduled_P2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Rescheduled P2</shortDescription>
+        <value>televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Del_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Del Scheduled</shortDescription>
+        <value>Your patient is invited for a televisit!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Hour_Del_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Hour Del Reminder</shortDescription>
+        <value>Your patient has a televisit in an hour</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Hour_Reminder</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Hour Reminder</shortDescription>
+        <value>You have a televisit in an hour</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Rescheduled</shortDescription>
+        <value>televisit has been rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Televisit Scheduled</shortDescription>
+        <value>You are invited for a televisit!</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Delegate</fullName>
@@ -8850,6 +9560,13 @@ The expected format is REF##### to REF########</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Tele_Visit_Details_Tab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Tele Visit Details Tab</shortDescription>
+        <value>Televisits</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Travel_Support_Action_Col</fullName>
         <categories>Home Page</categories>
         <language>en_US</language>
@@ -9009,6 +9726,20 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA intervention required</value>
     </labels>
     <labels>
+        <fullName>IQ_RH_ROW_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_ROW_Consent</shortDescription>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>IQ_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA, who may contact them at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to send you updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
         <fullName>IQVIA_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9041,7 +9772,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
-        <value>	Initial Visit Scheduled Date &amp; Time</value>
+        <value>Initial Visit Scheduled Date &amp; Time</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
@@ -9569,7 +10300,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ListView_GroupStatuses</shortDescription>
-        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted,Participant No Show,Successfully re-engaged</value>
     </labels>
     <labels>
         <fullName>ListView_New_Status</fullName>
@@ -10608,6 +11339,13 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>No_Active_Programs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Active Programs</shortDescription>
+        <value>No Active Programs</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11467,6 +12205,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
+        <fullName>Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update my communication preferences</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>Originator</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11552,6 +12306,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Delete_Preset_Popup_1</shortDescription>
         <value>Are you sure you want to delete</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Delete_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Attachment</shortDescription>
+        <value>Delete Attachment</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Attachment_Delete_Preset_Popup_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Delete_Preset_Popup_2</shortDescription>
+        <value>Are you sure you want to delete the attachment</value>
     </labels>
     <labels>
         <fullName>PIR_Delete_Preset_Popup_2</fullName>
@@ -11810,7 +12578,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>pir_presetUniqueName</shortDescription>
-        <value>preset already exists. Please enter a different preset name to continue with the action.	</value>
+        <value>preset already exists. Please enter a different preset name to continue with the action.</value>
     </labels>
     <labels>
         <fullName>pir_updatePreset</fullName>
@@ -11832,6 +12600,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Visit Out Of Window</shortDescription>
         <value>Visit Out Of Window</value>
+    </labels>
+    <labels>
+        <fullName>PIR_AdditionalInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_AdditionalInformation</shortDescription>
+        <value>Additional Information</value>
     </labels>
     <labels>
         <fullName>PIR_addParticipantFillMandatory</fullName>
@@ -11979,6 +12754,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
     </labels>
     <labels>
         <fullName>Send_to_DCT</fullName>
@@ -12141,6 +12930,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>PE_MedicalRecordUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Upload Medical Record</shortDescription>
+        <value>Upload Medical Record</value>
     </labels>
     <labels>
         <fullName>PE_Participant_Phone</fullName>
@@ -13005,6 +13801,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New Password</value>
     </labels>
     <labels>
+        <fullName>PP_New_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP New password</shortDescription>
+        <value>New password</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Nickname</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13073,6 +13876,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Re-enter new password</shortDescription>
+        <value>Re-enter new password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Screening_Subject_ID</fullName>
@@ -13150,6 +13960,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS H Change Password</shortDescription>
         <value>Change Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Password</shortDescription>
+        <value>Change password</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Contact_Information</fullName>
@@ -14281,11 +15098,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Locked Out!</value>
     </labels>
     <labels>
+        <fullName>PP_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Lockout</shortDescription>
+        <value>Locked out</value>
+    </labels>
+    <labels>
+        <fullName>PP_BTN_Back_To_Log_in</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP BTN Back to Log in</shortDescription>
+        <value>Back to Log in</value>
+    </labels>
+    <labels>
         <fullName>PG_Lockout_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Lockout Error Message</shortDescription>
         <value>You have been locked out of your account because of several failed login attempts. Please wait for 15 minutes before trying to log back in again.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Lockout_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Lockout Error Message</shortDescription>
+        <value>After several failed login attempts you are locked out of your account. Please wait 15 minutes before trying to log back in.</value>
+    </labels>
+    <labels>
+        <fullName>PP_LoginInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LoginInfo</shortDescription>
+        <value>Log In Information</value>
     </labels>
     <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
@@ -16062,14 +16907,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+        <value>By checking these boxes, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, using the telephone number(s) and/or email they have provided, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA, who may contact them at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to send them updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
@@ -16083,14 +16928,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_By</shortDescription>
-        <value>You confirm that the patient and/or patient's legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
+        <value>You confirm that the participant and/or participant's legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian consents to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, to schedule study appointments and keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
@@ -16118,7 +16963,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US</shortDescription>
-        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/Text for these purposes.</value>
+        <value>Your participant or participant's legal guardian also consents to be contacted by SMS/Text for these purposes.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
@@ -16139,14 +16984,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email they have provided to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_Study_Outreach_By</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_Study_Outreach_By</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+        <value>By checking these boxes, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -16230,9 +17075,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_StudySite_Consent_Mandatory</shortDescription>
-        <value>Please, confirm that your patient and/or patient's legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
+        <value>Please, confirm that your patient and/or patient&apos;s legal guardian consents to be contacted about study-related information on Participant Details screen.</value>
     </labels>
-     
     <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
         <language>en_US</language>
@@ -17315,6 +18159,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
+        <value>Learn more</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn about your program</value>
+    </labels>
+    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17327,6 +18185,69 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_Review and Confirm</shortDescription>
         <value>Review and Confirm</value>
+    </labels>
+    <labels>
+        <fullName>PP_SMSTexMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SMSTexMessage</shortDescription>
+        <value>SMS/Text Message</value>
+    </labels>
+    <labels>
+        <fullName>PP_SaveContinue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SaveContinue</shortDescription>
+        <value>Save &amp; Continue</value>
+    </labels>
+    <labels>
+        <fullName>PP_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Overview</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Objective</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Objective</shortDescription>
+        <value>Objective</value>
+    </labels>
+    <labels>
+        <fullName>PP_Program_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Program_Overview</shortDescription>
+        <value>Program Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participation_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participation_Criteria</shortDescription>
+        <value>Participation Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Eligible_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
+        <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Inclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Inclusion_Criteria</shortDescription>
+        <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Exclusion_Criteria</shortDescription>
+        <value>Exclusion Criteria</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -17356,6 +18277,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate already exists.</value>
     </labels>
     <labels>
+        <fullName>PP_AddPhoto</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddPhoto</shortDescription>
+        <value>Add photo</value>
+    </labels>
+    <labels>
         <fullName>PP_AddProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17368,6 +18296,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_CantReuseOldPwd</shortDescription>
         <value>You cannot reuse this old password.</value>
+    </labels>
+    <labels>
+        <fullName>PP_CannotReuseOldPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CannotReuseOldPwd</shortDescription>
+        <value>You can not reuse your old password</value>
     </labels>
     <labels>
         <fullName>PP_ChangeUsrname_DntTranslate</fullName>
@@ -17419,6 +18354,181 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Changes are successfully saved.</value>
     </labels>
     <labels>
+        <fullName>PP_Cookiesnote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Cookiesnote</shortDescription>
+        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+        </labels>
+        <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentA</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentB</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentC</shortDescription>
+        <value>, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_Gen_Comm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_Gen_Comm</shortDescription>
+        <value>General Communication</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
+        <value>Click on the “profile” icon on the top right of the page and switch to Participant’s view to check the study level consents within the Participant’s Account Settings.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
+        <value>Below are the consent status and communication preferences for the participant. As a delegate you do not have access to edit these preferences.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_All</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Dmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Dmail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consent</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_SMS</shortDescription>
+        <value>SMS/Text</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study_consent</shortDescription>
+        <value>I consent to the processing of my personal data by a study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_savechanges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_savechanges</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Del_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
+        <value>Delegate&apos;s mobile phone updated succesfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Par_Mobile_Upd_Success</shortDescription>
+        <value>Mobile phone updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required</shortDescription>
+        <value>Mobile phone is required to receive SMS/Text communication. Provided information will be updated in your</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required_Del</shortDescription>
+        <value>Participant delegate&apos;s mobile phone is required to receive SMS/Text communication. Provided information will be updated in the delegate&apos;s</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Study_Static_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Study_Static_Message</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Profile Information</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17426,11 +18536,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Conditions of Interest</value>
     </labels>
     <labels>
+        <fullName>PP_ConsentRequired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ConsentRequired</shortDescription>
+        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ContactInfo_Change</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ContactInfo_Change</shortDescription>
+        <value>You will be able to change your Contact Information from your Account Settings at all times.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ContactInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ContactInformation</shortDescription>
+        <value>Contact Information</value>
+    </labels>
+    <labels>
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Country</shortDescription>
+        <value>Country</value>
     </labels>
     <labels>
         <fullName>PP_CreateTicketFor</fullName>
@@ -17461,6 +18599,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_CriteriaNotMet</shortDescription>
         <value>Password is not meeting criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordCriteriaNotMet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
+        <value>Password does not fit criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -17505,6 +18650,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>No Date Entered</value>
     </labels>
     <labels>
+        <fullName>PP_Daytime_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Daytime_Phone</shortDescription>
+        <value>Daytime Phone</value>
+    </labels>
+    <labels>
         <fullName>PP_DelegateAlreadyExists</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17531,6 +18683,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Details</shortDescription>
         <value>Details</value>
+    </labels>
+    <labels>
+        <fullName>PP_DirectMailCheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DirectMailCheckbox</shortDescription>
+        <value>Direct Mail</value>
     </labels>
     <labels>
         <fullName>PP_DueDateandTime</fullName>
@@ -17584,6 +18743,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Visit Reminder</value>
     </labels>
     <labels>
+        <fullName>PP_EmailCheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailCheckbox</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
         <fullName>PP_EmailMatch</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17598,11 +18764,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
     </labels>
     <labels>
+        <fullName>PP_Email_Sent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent</shortDescription>
+        <value>Email sent!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Email_Sent_To_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Sent To User</shortDescription>
+        <value>If there is an account linked to this email, we&apos;ll send instructions to recover your password.</value>
+    </labels>
+    <labels>
         <fullName>PP_Emergency</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Emergency</shortDescription>
         <value>If you have a medical emergency, please contact your local emergency services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Enter_Associated_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Enter Associated Email</shortDescription>
+        <value>Enter the email associated with your account.</value>
     </labels>
     <labels>
         <fullName>PP_EnterNewPassword</fullName>
@@ -17617,6 +18804,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_FirstName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_FirstName</shortDescription>
+        <value>First Name</value>
     </labels>
     <labels>
         <fullName>PP_ForgotPwd</fullName>
@@ -17710,6 +18904,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>And include any 3 below</value>
     </labels>
     <labels>
+        <fullName>PP_IncludeAnythreeofbelow</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_IncludeAnythree of below</shortDescription>
+        <value>And include any 3 of the following:</value>
+    </labels>
+    <labels>
         <fullName>PP_InvalidUsername</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17738,11 +18939,53 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
+        <fullName>PP_LanguageOptions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LanguageOptions</shortDescription>
+        <value>Language Options</value>
+    </labels>
+    <labels>
+        <fullName>PP_LanguageOptions_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LanguageOptions_Info</shortDescription>
+        <value>Content will be displayed in your preferred language wherever possible. Alternate languages will be used when content is not available in your preferred language.</value>
+    </labels>
+    <labels>
         <fullName>PP_Language_and_Location</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
         <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_LastName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_LastName</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_Locale_DateFmt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Locale_DateFmt</shortDescription>
+        <value>Locale for date format</value>
+    </labels>
+    <labels>
+        <fullName>PP_Login_Wrong_Password_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Login Wrong Password Error Message</shortDescription>
+        <value>Incorrect username/password.&lt;br /&gt;After ##AttemptsLeft failed attempts you will be locked out for 15 minutes. Check your Caps Lock key.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ManageDelegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ManageDelegates</shortDescription>
+        <value>Manage Delegates</value>
     </labels>
     <labels>
         <fullName>PP_MatchMyEmailAddress</fullName>
@@ -17808,11 +19051,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Phone number must be numeric.</value>
     </labels>
     <labels>
+        <fullName>PP_MinorMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MinorMessage</shortDescription>
+        <value>Access denied for minors</value>
+    </labels>
+    <labels>
         <fullName>PP_MustInclude</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_MustInclude</shortDescription>
         <value>Must Include Atleast</value>
+    </labels>
+    <labels>
+        <fullName>PP_NewPassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPassword</shortDescription>
+        <value>New Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_MustIncludeAtleast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MustInclude Atleast</shortDescription>
+        <value>Your password must include at least:</value>
     </labels>
     <labels>
         <fullName>PP_NewPwdPlaceHolder</fullName>
@@ -17892,6 +19156,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Passwords are not matching</value>
     </labels>
     <labels>
+        <fullName>PP_PhotoAdd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PhotoAdd</shortDescription>
+        <value>Photo uploaded successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProfileInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProfileInformation</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_PhotoRemove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PhotoRemove</shortDescription>
+        <value>Photo removed successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PlatformPrivacyPolicyNote</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA&#39;s Privacy Policy, using the telephone number(s) and/or email you have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PPLite_PasswordsMismatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PPLite_PasswordsMismatch</shortDescription>
+        <value>Passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordMustInclude</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordMustInclude</shortDescription>
+        <value>Your password must include at least:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordRequirement</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordRequirement</shortDescription>
+        <value>Password Requirements</value>
+    </labels>
+    <labels>
         <fullName>PP_Paste_URL</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17911,6 +19224,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Phone_Numeric</shortDescription>
         <value>Phone number must be numeric.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Phonecheckbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phonecheckbox</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Lang</shortDescription>
+        <value>Preferred Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Timezone</shortDescription>
+        <value>Preferred Timezone</value>
     </labels>
     <labels>
         <fullName>PP_Prefix</fullName>
@@ -17955,6 +19289,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Prof.</value>
     </labels>
     <labels>
+        <fullName>PP_Privacypolicy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Privacypolicy</shortDescription>
+        <value>Powered by IQVIA © 2022. All rights reserved.</value>
+    </labels>
+    <labels>
         <fullName>PP_Profile_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17974,6 +19315,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_ReenterPwd</shortDescription>
         <value>Re-Enter password here...</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reenterpassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Reenterpassword</shortDescription>
+        <value>Re-enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using</fullName>
@@ -18087,6 +19435,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Scheduled</value>
     </labels>
     <labels>
+        <fullName>PP_Secondary_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Secondary_Lang</shortDescription>
+        <value>Secondary Language</value>
+    </labels>
+    <labels>
         <fullName>PP_SelectUsername</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18122,6 +19477,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Special characters(s)</value>
     </labels>
     <labels>
+        <fullName>PP_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_State</shortDescription>
+        <value>State</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_StudyPrivacyPolicyNote</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our Terms of Use and acknowledge our Privacy Policy, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Submit_Button</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18151,6 +19520,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
+        <fullName>PP_Third_Lang</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Third_Lang</shortDescription>
+        <value>Third Language</value>
+    </labels>
+    <labels>
         <fullName>PP_Ticket_Success_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18163,6 +19539,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
         <value>No Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>PP_TimeZone_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_TimeZone_Location</shortDescription>
+        <value>Time Zone and Location</value>
     </labels>
     <labels>
         <fullName>PP_To</fullName>
@@ -18197,8 +19580,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Toggle_Information</shortDescription>
-        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
-communications using the toggles below.</value>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional communications by setting your preferences in </value>
     </labels>
     <labels>
         <fullName>PP_Travel_Booking</fullName>
@@ -18276,6 +19658,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_UserAndEmail</shortDescription>
         <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Username</shortDescription>
+        <value>Username</value>
     </labels>
     <labels>
         <fullName>PP_UsernameAndEmail</fullName>
@@ -18369,6 +19758,13 @@ communications using the toggles below.</value>
         <value>Warning:</value>
     </labels>
     <labels>
+        <fullName>PP_Welcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Welcome</shortDescription>
+        <value>Welcome</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18405,6 +19801,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
         <value>Request to Update YOB and Match UserName</value>
+    </labels>
+    <labels>
+        <fullName>PP_Zippostalcode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Zippostalcode</shortDescription>
+        <value>ZIP/Postal Code</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -18475,6 +19878,34 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
         <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Day_Del_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Televisit Day Del Reminder SMS</shortDescription>
+        <value>##ShortCommunityName: ##ParticipantFirstName ##ParticipantLastName has a ##StudyCodeName Study televisit on ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Day_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Televisit Day Reminder SMS</shortDescription>
+        <value>##ShortCommunityName: You have a ##StudyCodeName televisit on ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Hour_Del_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Televisit Hour Del Reminder SMS</shortDescription>
+        <value>##ShortCommunityName: ##ParticipantFirstName ##ParticipantLastName has a ##StudyCodeName Study televisit today at ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>PT_Televisit_Hour_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Televisit Hour Reminder SMS</shortDescription>
+        <value>##ShortCommunityName: You have a ##StudyCodeName televisit today at ##VisitTime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
@@ -18855,6 +20286,13 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Paticipant_s_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Paticipant's Delegate</shortDescription>
+        <value>Paticipant's Delegate</value>
+    </labels>
+    <labels>
         <fullName>Participant_quick_reference</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19214,6 +20652,20 @@ communications using the toggles below.</value>
         <value>The password you entered is too easy to guess. Enter a different one</value>
     </labels>
     <labels>
+        <fullName>PP_Attest_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Attest_Message</shortDescription>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
+    </labels>
+    <labels>
+        <fullName>PP_Email_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Email Error</shortDescription>
+        <value>Enter a valid email format</value>
+    </labels>
+    <labels>
         <fullName>Pswd_ValidationMsg8</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19345,6 +20797,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Apply Filters</shortDescription>
         <value>Apply Filters</value>
+    </labels>
+    <labels>
+        <fullName>RH_Arm_Cohert_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Arm_Cohert_Import</shortDescription>
+        <value>Arm/Cohort:</value>
     </labels>
     <labels>
         <fullName>RH_Business_Address</fullName>
@@ -19684,7 +21143,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SFMCHCP_RecordNotFound</shortDescription>
-        <value>The information you provided does not match an account we have. Please try again. </value>
+        <value>The information you provided does not match an account we have. Please try again.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
@@ -19719,21 +21178,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordAuthorized</shortDescription>
-        <value>Authorization Requested on:  </value>
+        <value>Authorization Requested on:</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRecordProvider</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecordProvider</shortDescription>
-        <value>Medical Records Providers  </value>
+        <value>Medical Records Providers</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrieve_EmailError</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry </value>
+        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrive_Succces</fullName>
@@ -19948,6 +21407,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_WaitTime_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_WaitTime_Import</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -20829,7 +22295,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>This patient auth status should be 'Yes'.</value>
+        <value>This patient auth status should be &apos;Yes&apos;.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>
@@ -21161,6 +22627,13 @@ communications using the toggles below.</value>
         <value>YOB</value>
     </labels>
     <labels>
+        <fullName>Remember_My_Username</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remember My Username</shortDescription>
+        <value>Remember my username</value>
+    </labels>
+    <labels>
         <fullName>Remind_Me</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21361,7 +22834,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RRH_RegistratinSuccess</shortDescription>
-        <value>Registration was successful – please log in </value>
+        <value>Registration was successful – please log in</value>
     </labels>
     <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
@@ -21794,6 +23267,38 @@ communications using the toggles below.</value>
         <value>Pending Your Action</value>
     </labels>
     <labels>
+        <fullName>SMS_Body_Removed_as_Televisit_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Removed_as_Televisit_Attendee</shortDescription>
+        <value>##ShortCommunityName: You have been removed from ##StudyCodeName call on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>SMS_Body_Televisit_Attendee</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Televisit_Attendee</shortDescription>
+        <value>##ShortCommunityName: You have been invited to a ##StudyCodeName televisit on ##VisitDttime. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>SMS_Body_Televisit_Cancelled</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Televisit_Cancelled</shortDescription>
+        <value>##ShortCommunityName: Your ##StudyCodeName televisit on ##VisitDttime has been canceled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
+        <fullName>SMS_Body_Televisit_Rescheduled</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SMS_Body_Televisit_Rescheduled</shortDescription>
+        <value>##ShortCommunityName: Your ##StudyCodeName televisit on ##VisitDttime has been rescheduled. Log in for details ##CommunityURL. Text STOP to end alerts</value>
+    </labels>
+    <labels>
         <fullName>SMS_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22106,7 +23611,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Level Welcome Msg Body to Del</shortDescription>
-        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
+        <value>##ShortCommunityName: Your Patient ##PatientFullName have opted in or been opted in to receive messages for the ##StudyCodeName Study. Msg freq varies. Message and data rates may apply. Reply STOP to stop or HELP for help.</value>
     </labels>
     <labels>
         <fullName>Study_Level_Welcome_Msg_Body_to_PT</fullName>
@@ -24145,6 +25650,13 @@ communications using the toggles below.</value>
         <value>View Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Viewing_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as</shortDescription>
+        <value>Viewing as</value>
+    </labels>
+    <labels>
         <fullName>Viewing_as_Investigative_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -24691,6 +26203,41 @@ communications using the toggles below.</value>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
+     <labels>
+        <fullName>PP_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Self</shortDescription>
+        <value>Self</value>
+    </labels>
+      <labels>
+        <fullName>PP_Program</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Program</shortDescription>
+        <value>Program</value>
+    </labels>
+    <labels>
+        <fullName>PP_Forgot_Password_Footer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer1</shortDescription>
+        <value>In need of extra assistance? Send us an email at</value>
+    </labels>
+    <labels>
+        <fullName>PP_Forgot_Password_Footer2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Forgot Password Footer2</shortDescription>
+        <value>for help.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Logout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Logout</shortDescription>
+        <value>Logout</value>
+    </labels>
     <labels>
         <fullName>RH_RP_Comments</fullName>
         <language>en_US</language>
@@ -24874,6 +26421,34 @@ communications using the toggles below.</value>
         <value>has been created.</value>
     </labels>
     <labels>
+        <fullName>pir_Bulk_Import_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_ Bulk Import History</shortDescription>
+        <value>Bulk Import History</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Import_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Import_Participants</shortDescription>
+        <value>Import Participants</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Study_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Site_Name</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Name</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
         <fullName>PIR_Preset_Delete_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24900,5 +26475,902 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>PIR_Save_Preset</shortDescription>
         <value>Save Preset</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Removed as Televisit Attendee</shortDescription>
+        <value>Your attendance for the ##VisitName televisit with ##PIFullName is no longer required.
+
+Please contact the Study Team for further updates or please login for additional details.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Removed_as_Televisit_Attendee</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Removed as Televisit Attendee</shortDescription>
+        <value>This is to notify you that your attendance for the ##VisitName televisit is no longer required</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Removed_as_Televisit_Attendee</fullName>
+        <categories>Email Subject</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Removed as Televisit Attendee</shortDescription>
+        <value>televisit attendance is no longer required</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Canceled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Canceled</shortDescription>
+        <value>Canceled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Past</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Past</shortDescription>
+        <value>Past</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Upcoming</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Televisit_Upcoming</shortDescription>
+        <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Attendees</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Attendees</shortDescription>
+        <value>Attendees</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Duration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Duration</shortDescription>
+        <value>Duration</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Time</shortDescription>
+        <value>Time</value>
+    </labels>
+    <labels>
+        <fullName>TV_TH_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_TH_Title</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Apply</fullName>
+        <categories>OMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>Certify_Identity</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Certify Identity</shortDescription>
+        <value>I am the intended attendee who was invited to join the meeting.</value>
+    </labels>
+    <labels>
+        <fullName>Certify_Identity_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Certify Identity Error</shortDescription>
+        <value>Please agree to this statement in order to join the call.</value>
+    </labels>
+    <labels>
+        <fullName>CloseTab</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close Tab</shortDescription>
+        <value>Session Closed. Close this tab to exit.</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_AudioSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Audio Source</shortDescription>
+        <value>Microphone</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Header</shortDescription>
+        <value>Device Settings</value>
+    </labels>
+    <labels>
+        <fullName>DeviceSettings_VideoSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Device Settings Video Source</shortDescription>
+        <value>Video</value>
+    </labels>
+    <labels>
+        <fullName>Audio_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Audio Hover Message On</shortDescription>
+        <value>Audio is On</value>
+    </labels>
+    <labels>
+        <fullName>Audio_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Audio Hover Message Off</shortDescription>
+        <value>Audio is Off</value>
+    </labels>
+    <labels>
+        <fullName>Video_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Video Hover Message On</shortDescription>
+        <value>Video is On</value>
+    </labels>
+    <labels>
+        <fullName>Video_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Video Hover Message Off</shortDescription>
+        <value>Video is Off</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share</shortDescription>
+        <value>Screen Share</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share_Hover_Message_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share Hover Message On</shortDescription>
+        <value>Screen Share is On</value>
+    </labels>
+    <labels>
+        <fullName>Screen_Share_Hover_Message_Off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screen Share Hover Message Off</shortDescription>
+        <value>Screen Share is Off</value>
+    </labels>
+    <labels>
+        <fullName>Email_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Validation Error</shortDescription>
+        <value>Please enter your email address.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Validation_Failure_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Validation Failure Error</shortDescription>
+        <value>This email does not match with the invited attendee. Please re-enter your email or contact the meeting organizer.</value>
+    </labels>
+    <labels>
+        <fullName>EndCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>End the call.</shortDescription>
+        <value>End Call</value>
+    </labels>
+    <labels>
+        <fullName>Error_Publish</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Publish</shortDescription>
+        <value>Publish error</value>
+    </labels>
+    <labels>
+        <fullName>Error_RetrieveAudioVideoSources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Retrieve Audio Video Sources</shortDescription>
+        <value>Error retrieving audio and video sources:</value>
+    </labels>
+    <labels>
+        <fullName>Error_ScreenShareNotSupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Screen Share Not Supported</shortDescription>
+        <value>Screen sharing not supported</value>
+    </labels>
+    <labels>
+        <fullName>Error_ScreenSharePublish</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Screen Share Publish</shortDescription>
+        <value>Error publishing screenshare</value>
+    </labels>
+    <labels>
+        <fullName>Error_UpdateAudioSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Update Audio Source</shortDescription>
+        <value>Error updating audio source:</value>
+    </labels>
+    <labels>
+        <fullName>First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>First_Name_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Name Validation Error</shortDescription>
+        <value>Please enter your first name.</value>
+    </labels>
+    <labels>
+        <fullName>Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>Last_Name_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Name Validation Error</shortDescription>
+        <value>Please enter your last name.</value>
+    </labels>
+    <labels>
+        <fullName>Participants</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participants label</shortDescription>
+        <value>Attendees</value>
+    </labels>
+    <labels>
+        <fullName>ScreenSharePublisherUsernameText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Text displaying screen-share publisher username text.</shortDescription>
+        <value>Viewing {0}&apos;&apos;s screen</value>
+    </labels>
+    <labels>
+        <fullName>Session_Unavailable_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Session Unavailable Header</shortDescription>
+        <value>Oops! Looks like this call is unavailable.</value>
+    </labels>
+    <labels>
+        <fullName>Session_Unavailable_Sub_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Session Unavailable Sub Header</shortDescription>
+        <value>This call has either not started, has ended or was canceled. If you have any further questions, please contact the meeting organizer.</value>
+    </labels>
+    <labels>
+        <fullName>Non_Attendee_Message</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Non Attendee Message</shortDescription>
+        <value>You are not a designated Attendee for this Televisit. A Study Center member must add you as an Attendee.</value>
+    </labels>
+
+    <labels>
+        <fullName>StartCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StartCall</shortDescription>
+        <value>Start Call</value>
+    </labels>
+    <labels>
+        <fullName>StopCall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StopCall</shortDescription>
+        <value>Stop Call</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Header</shortDescription>
+        <value>You are about to join a televisit.</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Join</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Join</shortDescription>
+        <value>Join</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Microphone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Microphone</shortDescription>
+        <value>Microphone</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Subheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Subheader</shortDescription>
+        <value>Welcome to {0}</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeModal_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome Modal Video</shortDescription>
+        <value>Video</value>
+    </labels>
+    <labels>
+        <fullName>RH_TelevisitWindowBannerStartTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitWindowBannerStartTime</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>RH_TelevisitExtendMeetingOptions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TelevisitExtendMeetingOptions</shortDescription>
+        <value>10,30</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CancelMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CancelMessage</shortDescription>
+        <value>Are you sure you want to cancel a Televisit?</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_InitialVisitPopUpMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_InitialVisitPopUpMessage</shortDescription>
+        <value>Are you sure you want to add a Televisit? Upon saving, the Televisit will be visible in Referral Hub in 5 minutes.</value>
+    </labels>
+    <labels>
+        <fullName>RH_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_To</shortDescription>
+        <value>to</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CancelTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CancelTelevisit</shortDescription>
+        <value>Cancel Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_CreateTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_CreateTelevisit</shortDescription>
+        <value>Create Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Discard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Discard</shortDescription>
+        <value>Discard</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_EditTelevisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_EditTelevisit</shortDescription>
+        <value>Edit Televisit</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_NoRecordsFoundMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_NoRecordsFoundMessage</shortDescription>
+        <value>Oh no, there are no items to display.</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_SiteStaffRequiredErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_SiteStaffRequiredErrorMessage</shortDescription>
+        <value>At least one site staff member is required to attend. Add Attendees above.</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_View</shortDescription>
+        <value>View:</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_TabTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_TabTitle</shortDescription>
+        <value>Televisits</value>
+    </labels>
+    <labels>
+        <fullName>RH_TV_InitialVisitDefaultDuration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_TV_InitialVisitDefaultDuration</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
+        <fullName>Join_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Join Visit</shortDescription>
+        <value>Join Visit</value>
+    </labels>
+    <labels>
+        <fullName>TV_Camera_Off</fullName>
+        <categories>Televisits</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TV_Camera_Off</shortDescription>
+        <value>Your camera is turned off</value>
+    </labels>
+    <labels>
+        <fullName>You_can_also_adjust_these_options_during_the_visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You can also adjust these options during the visit</shortDescription>
+        <value>You can also adjust these options during the visit.</value>
+    </labels>
+    <labels>
+        <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You must grant microphone permission to join televisit</shortDescription>
+        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
+    </labels>
+    <labels>
+        <fullName>Back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Permissions</shortDescription>
+        <value>Permissions</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Patient_Portal_would_like_to_access_the_microphone_and_camera</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
+        <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_allow</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Don't allow</shortDescription>
+        <value>Don't allow</value>
+    </labels>
+    <labels>
+        <fullName>Allow_access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Allow access</shortDescription>
+        <value>Allow access</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Preview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Preview</shortDescription>
+        <value>Visit Preview</value>
+    </labels>
+    <labels>
+        <fullName>Chapter</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chapter</shortDescription>
+        <value>Chapter</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP_as_PDF</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download PP as PDF</shortDescription>
+        <value>Download Privacy Policy as PDF</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_On</fullName>
+        <categories>PrivacyPolicy</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated On</shortDescription>
+        <value>Last Updated on:</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preferences</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Communication Preferences</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Access</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Medical Record Access</shortDescription>
+        <value>Medical Record Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_COMMUNICATION_PREFERENCE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
+        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UPDATE_EMAIL_WARNING</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
+        <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DOB_ERROR</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DOB_ERROR</shortDescription>
+        <value>Date must be ##TODAY or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Name</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Name</shortDescription>
+        <value>Preferred Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_USE_AS_DAYTIME_PHONE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USE_AS_DAYTIME_PHONE</shortDescription>
+        <value>Use as Daytime Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DATA_UPDATE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DATA_UPDATE</shortDescription>
+        <value>Your data was updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_UPLOADED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_UPLOADED</shortDescription>
+        <value>Photo uploaded successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_REMOVED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_REMOVED</shortDescription>
+        <value>Photo removed successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_REQUIRED_FIELD</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_REQUIRED_FIELD</shortDescription>
+        <value>Required field</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_INVALID_PHONE_FORMAT</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
+        <value>Enter a valid phone format</value>
+        </labels>
+        <labels>
+        <fullName>PortalUserProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalUserProfile</shortDescription>
+        <value>IQVIA Customer Community Plus Login User</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_HeaderFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_HeaderFailed</shortDescription>
+        <value>File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImportFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportFiles</shortDescription>
+        <value>Bulk Import Files</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImport_InvalidFileFormat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImport_InvalidFileFormat</shortDescription>
+        <value>Invalid file format. Allowable file formats are .xlsx or .csv only.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_EmptyFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_EmptyFile</shortDescription>
+        <value>File is empty. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImportInst</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportInst</shortDescription>
+        <value>Instructions for Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_MaxiumRecord</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_MaxiumRecord</shortDescription>
+        <value>File contains more than 45,000 records; you may split the file. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ChoosePP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ChoosePP</shortDescription>
+        <value>Choose to Invite to Patient Portal if applicable.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImport</shortDescription>
+        <value>Click on &lt;b&gt; Import Participants. &lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImportButton</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImportButton</shortDescription>
+        <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_DownloadIcon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DownloadIcon</shortDescription>
+        <value>Click the download icon under the Actions column of the applicable row in the Bulk Import Files list</value>
+    </labels>
+    <labels>
+        <fullName>RH_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_File</shortDescription>
+        <value>Drag-and-drop or browse to locate and &lt;b&gt;upload&lt;/b&gt; the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImport</shortDescription>
+        <value>File Import</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImportProgress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImportProgress</shortDescription>
+        <value>File Import in Progress</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileTemplate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileTemplate</shortDescription>
+        <value>Click the &lt;b&gt; File Template &lt;/b&gt; download button near the top right of the table to access file with the acceptable import format.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportInformation</shortDescription>
+        <value>Enter available information for the participants into the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportNoRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportNoRecords</shortDescription>
+        <value>Imported files with participants will be shown here. &lt;br&gt; Click on Import Participants to upload a file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportSuccess</shortDescription>
+        <value>Participant record import completed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InformationSharing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InformationSharing</shortDescription>
+        <value>Attest to information sharing and contact consent for the participants and/or their legal guardians included in the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InputChanges</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InputChanges</shortDescription>
+        <value>Input applicable changes directly into the file to correct the indicated errors and save the file (do NOT change the file name)</value>
+    </labels>
+    <labels>
+        <fullName>RH_RejectedRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RejectedRecords</shortDescription>
+        <value>Any rejected records will require correction and re-upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_RepeatSteps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RepeatSteps</shortDescription>
+        <value>Repeat steps 3-8 above.</value>
+    </labels>
+    <labels>
+        <fullName>RH_SelectStudy_SIte</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_SelectStudy_SIte</shortDescription>
+        <value>Select the &lt;b&gt;Study Name and Study Site.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ShowLanding</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ShowLanding</shortDescription>
+        <value>Don&apos;t show me again on landing</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadFile_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadFile_Import</shortDescription>
+        <value>Upload File</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadResult</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadResult</shortDescription>
+        <value>The results of your upload will appear at the top of the table with the total records, accepted records, and rejected records displayed.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Upload_import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Upload_import</shortDescription>
+        <value>Upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_ValidationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ValidationError</shortDescription>
+        <value>Check the &lt;b&gt;Validation Errors&lt;/b&gt; column in the file for the rejection reason</value>
+    </labels>
+    <labels>
+        <fullName>RH_AllRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_AllRecords</shortDescription>
+        <value>All accepted records can now be found in your &lt;b&gt;My Participants&lt;/b&gt; list.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Re_Engaged</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Successfully Re-Engaged</shortDescription>
+        <value>Successfully Re-Engaged</value>
     </labels>
 </CustomLabels>

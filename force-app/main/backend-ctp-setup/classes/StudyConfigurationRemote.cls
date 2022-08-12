@@ -22,6 +22,7 @@ public with sharing class StudyConfigurationRemote {
                 SELECT
                     Id,
                     Visit_Schedule_Is_Available__c,
+                    Is_Program__c,
                     Study_Documents_Are_Available__c,
                     Video_And_Articles_Are_Available__c,
                     Tasks_Are_Available__c,
@@ -37,6 +38,7 @@ public with sharing class StudyConfigurationRemote {
                     Study_GUID__c,
                     Study_Version_GUID__c,
                     Visits_are_Available__c,
+                    Televisit_Vendor_is_Available__c, //Televisit
                     IQVIA_Outreach__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id = :ctpId

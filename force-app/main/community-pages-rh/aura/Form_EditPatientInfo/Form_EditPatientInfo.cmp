@@ -228,7 +228,7 @@
                             <abbr title="required" class="slds-required">*</abbr
                                 >{!$Label.c.PG_AS_F_Date_of_Birth}
                         </div>
-                        <div class="{!v.isRTL? 'rightAlign':''}">
+                        <div class="{!v.isRTL? 'rightAlign dob-mobile-size':'dob-mobile-size'}" > 
                             <lightning:input
                                              max="{!v.todayDate}"
                                              min="1900-01-01"

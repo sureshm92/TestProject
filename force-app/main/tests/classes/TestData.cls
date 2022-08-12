@@ -806,4 +806,34 @@ public class TestData {
         sip.Study_Site__c = studySite.Id;
         insert sip;
     }
+
+    public static void createTelevisits() {
+        List<Televisit__c> tVisits = new List<Televisit__c>{
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 0',
+                Visit_Date__c = Date.newInstance(2022, 4, 29),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            ),
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 1',
+                Visit_Date__c = Date.newInstance(2022, 5, 10),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            ),
+            new Televisit__c(
+                Duration__c = '30 minutes',
+                Title__c = 'Visit 2',
+                Visit_Date__c = Date.newInstance(2022, 5, 17),
+                Start_Time__c = Time.newInstance(8, 0, 0, 0)
+                //Visit_Date_Time__c  = ''
+            )
+        };
+        insert tVisits;
+    }
+
+    public static void addAttendees(Id tvId, List<Id> contactIds) {
+    }
 }
