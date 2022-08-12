@@ -1,6 +1,30 @@
 <template>
     <br/>
-    <div class="slds-grid slds-wrap">
+    <div class="slds-grid slds-wrap space_between">
+        <lightning-layout class="slds-grid slds-wrap">
+            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
+                <div if:false={isPPUserActivated} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element ">
+                    <div class="slds-notify_alert notify-box notify-box-outline" role="alert">                             
+                        <span class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
+                        <img class="notify-img" src={notification}/>
+                        </span>
+                        <h2>{label.RH_UserRegistration_Warning}</h2>                          
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_medium">
+                
+                <div if:false={isEmailPermitted} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
+                    <div class="slds-notify_alert notify-box alert-box-outline" role="alert">                             
+                          <span class="slds-icon_container slds-icon-utility-error slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
+                          <img class="alert-img" src={alert}/>
+                          </span>
+                          <h2>{label.RH_UserEmailPermissionAlert}</h2>                          
+                    </div>
+              </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
         <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-order_2 slds-medium-order_1 slds-large-order_1">
             <lightning-layout class="slds-grid slds-wrap">
                 <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_2-of-8 slds-large-size_1-of-8 slds-p-bottom_medium">

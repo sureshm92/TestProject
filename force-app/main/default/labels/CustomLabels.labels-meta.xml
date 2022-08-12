@@ -27346,6 +27346,20 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Upload</value>
     </labels>
     <labels>
+        <fullName>RH_UserEmailPermissionAlert</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UserEmailPermissionAlert</shortDescription>
+        <value>Study related email notifications are off for the Participant or Participant(s) primary delegate. Please update their communication preferences under the Information Sharing section in the Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_UserRegistration_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UserRegistration_Warning</shortDescription>
+        <value>Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
+    </labels>
+    <labels>
         <fullName>RH_ValidationError</fullName>
         <language>en_US</language>
         <protected>false</protected>
