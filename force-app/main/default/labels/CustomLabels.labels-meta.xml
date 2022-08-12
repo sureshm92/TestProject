@@ -27141,6 +27141,8 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
         <value>Enter a valid phone format</value>
+        </labels>
+        <labels>
         <fullName>PortalUserProfile</fullName>
         <language>en_US</language>
         <protected>false</protected>
