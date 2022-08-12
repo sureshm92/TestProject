@@ -18359,6 +18359,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Cookiesnote</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+        </labels>
+        <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27139,6 +27141,8 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
         <value>Enter a valid phone format</value>
+        </labels>
+        <labels>
         <fullName>PortalUserProfile</fullName>
         <language>en_US</language>
         <protected>false</protected>
