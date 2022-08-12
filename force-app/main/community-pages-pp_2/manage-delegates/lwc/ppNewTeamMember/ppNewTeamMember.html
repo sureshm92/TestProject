@@ -1,0 +1,56 @@
+<template>
+    <div class="profile-information-rectangle slds-p-around_medium slds-m-bottom_small">
+        <div class="profile-information slds-m-bottom_medium">Profile Information</div>
+
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7">
+                <label class="slds-form-element__label" for="userName"
+                    >Email Address<abbr class="slds-required" title="required">* </abbr></label
+                >
+                <div class="slds-form-element__control">
+                    <input
+                        type="text"
+                        class="slds-input input-field-container"
+                        data-id="Email"
+                        onclick={handleClick}
+                    />
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
+                <label class="slds-form-element__label" for="userName"
+                    >First Name<abbr class="slds-required" title="required">* </abbr></label
+                >
+                <div class="slds-form-element__control1">
+                    <input
+                        type="text"
+                        class="slds-input input-field-container"
+                        data-id="firstName"
+                        onclick={handleClick}
+                    />
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
+                <label class="slds-form-element__label" for="userName"
+                    >Last Name <abbr class="slds-required" title="required">* </abbr></label
+                >
+                <div class="slds-form-element__control">
+                    <input
+                        type="text"
+                        class="slds-input input-field-container"
+                        data-id="lastName"
+                        onclick={handleClick}
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="checkbox-container">
+            <lightning-input
+                class="taps"
+                type="checkbox"
+                label="I attest to this delegate being of legal age in their locale."
+                onchange={clickhandle}
+            ></lightning-input>
+        </div>
+        <button class="slds-button btn-save" onclick={handleSave}>Save</button>
+    </div>
+</template>

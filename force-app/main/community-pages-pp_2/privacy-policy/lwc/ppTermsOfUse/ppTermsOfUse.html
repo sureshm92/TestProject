@@ -1,0 +1,108 @@
+<template>
+    <template if:false={isMobile}>
+        <div class="rr-body-content">
+            <!-- Loading Spinner-->
+            <c-web-spinner class="main-spinner"></c-web-spinner>
+            <!--Header-->
+            <div class={titleContentClass}>
+                <div class={headerDesktopClass}>{labels.TU_HEADER}</div>
+                <div class={lastUpdatedDesktopClass}>{labels.LAST_UPDATED} {lastUpdated}</div>
+            </div>
+            <!--Body-->
+            <div class="slds-grid slds-grid body-content">
+                <div
+                    class="slds-col slds-size_3-of-12 slds-p-left_large slds-p-right_large header-bar slds-p-left_large slds-p-bottom_large"
+                >
+                    <div class={headerScrollerClass}>
+                        <div class="header-list">
+                            <nav class="slds-nav-vertical" aria-label="Header List">
+                                <div class="slds-nav-vertical__section">
+                                    <ul aria-describedby="entity-header">
+                                        <template for:each={options} for:item="option">
+                                            <li
+                                                key={option.value}
+                                                class="slds-nav-vertical__item"
+                                                data-header={option.value}
+                                                data-label={option.label}
+                                                onclick={navigateToSelectedHeader}
+                                            >
+                                                <lightning-formatted-rich-text
+                                                    class="slds-nav-vertical__action"
+                                                    value={option.label}
+                                                ></lightning-formatted-rich-text>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="slds-col slds-size_1-of-12 slds-align_absolute-center full-height slds-p-bottom_large divider"
+                >
+                    <div class="slds-border_right full-height"></div>
+                </div>
+                <div
+                    class="slds-col slds-size_8-of-12 tc-content slds-p-left_large slds-p-right_large slds-p-bottom_large"
+                >
+                    <div class={richContentClass} data-id="tcRichTextD" id="tcRichTextD">
+                        <!--Rich Text of TU-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={isMobile}>
+        <div class="rr-body-content">
+            <!-- Loading Spinner-->
+            <c-web-spinner class="main-spinner"></c-web-spinner>
+            <!-- Header label-->
+            <div
+                class="header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium"
+            >
+                <div class="slds-col slds-size_1-of-1">
+                    <div class={privacyHeader}>{labels.TU_HEADER}</div>
+                </div>
+                <div class={lastUpdatedDateClass}>
+                    <div class="sub-header">{labels.LAST_UPDATED} {lastUpdated}</div>
+                </div>
+            </div>
+            <!-- Mobile Dropdown-->
+            <div class={comboboxClass}>
+                <div class={chapterClass}>{labels.CHAPTER}</div>
+                <div
+                    id="dropdown"
+                    class={dropdownClass}
+                    onclick={toggleElement}
+                    onfocusout={removeElementFocus}
+                    tabindex="0"
+                >
+                    <span class="dropdown-span">{currentHeaderLabel}</span>
+                    <ul class="dropdown-menu" data-id="dropdown-menu">
+                        <template for:each={options} for:item="option">
+                            <li
+                                key={option.value}
+                                class="dropdown-li"
+                                value={option.value}
+                                data-header={option.value}
+                                data-label={option.label}
+                                onclick={navigateToSelectedHeader}
+                            >
+                                <lightning-formatted-rich-text
+                                    value={option.label}
+                                ></lightning-formatted-rich-text>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+            <!-- Privacy Policy Body Content-->
+            <div class="tc-body-content slds-m-left_medium slds-m-right_medium">
+                <div class={tcContainerClass} data-id="tcRichText" id="tcRichText">
+                    <!--Rich text displayed here-->
+                </div>
+            </div>
+        </div>
+    </template>
+</template>
