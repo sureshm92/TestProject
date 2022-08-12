@@ -89,9 +89,23 @@
                         </template>
                         <template if:true={showPasswordManagement}>
                             <!--Password Management Component-->
+                            <!-- <c-pp-change-password
+                                user-mode={userMode}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                is-delegate={isDelegate}
+                            ></c-pp-change-password> -->
                         </template>
                         <template if:true={showCommunicationPreference}>
                             <!--Communication Preferences Component-->
+                            <c-pp-communication-preferences
+                                is-delegate={isDelegate}  
+                                participant-state={participantState} 
+                                is-desktop={isDesktopFlag}
+                                consent-preference-data={consentPreferenceData}
+                                user-mode={userMode}
+                            >                                    
+                            </c-pp-communication-preferences>
                         </template>
                         <template if:true={showLanguageAndLocation}>
                             <!--Language and Location Component-->
