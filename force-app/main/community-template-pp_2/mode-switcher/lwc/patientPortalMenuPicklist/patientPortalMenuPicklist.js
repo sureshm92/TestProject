@@ -9,7 +9,7 @@ export default class PatientPortalMenuPicklist extends LightningElement {
     selectedItemValue;
 
     handlePicklistSelection(event) {
-        let currentValue = event.detail.value;
+        let currentValue = event.currentTarget.dataset.id;
         let currentSubItem;
         if (currentValue) {
             currentSubItem = this.pickListOptions.filter(function (item) {
@@ -36,9 +36,7 @@ export default class PatientPortalMenuPicklist extends LightningElement {
         return this.comboBoxHeader;
     }
     toggleElement() {
-        console.log('inside toggle list');
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
-        console.log('inside toggle list------' + ddMenu);
         ddMenu.classList.toggle('active');
     }
     removeElementFocus(event) {

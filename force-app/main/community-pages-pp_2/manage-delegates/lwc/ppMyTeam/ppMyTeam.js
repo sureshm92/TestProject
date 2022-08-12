@@ -6,13 +6,6 @@ export default class PpMyTeam extends LightningElement {
     label = {
         pgPstLDelegates_Add
     };
-    // doInit(event) {
-    //     getInitData({
-    //         userMode: userMode,
-    //         parentId: selectedParent ? selectedParent : communityService.getDelegateId()
-    //     });
-    // }
-
     inviteTeamMembers(event) {
         this.showppNewTeamMember = true;
     }

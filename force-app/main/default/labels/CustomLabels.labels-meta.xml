@@ -19465,6 +19465,13 @@ communications using the toggles below.</value>
         <value>Warning:</value>
     </labels>
     <labels>
+        <fullName>PP_Welcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Welcome</shortDescription>
+        <value>Welcome</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20356,9 +20363,9 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Attest_Message</shortDescription>
-        <value>I Certify that I am over the legal age of majority in my state/Country</value>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Email_Error</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -25881,6 +25888,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
+    </labels>
+     <labels>
+        <fullName>PP_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Self</shortDescription>
+        <value>Self</value>
+    </labels>
+      <labels>
+        <fullName>PP_Program</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Program</shortDescription>
+        <value>Program</value>
     </labels>
     <labels>
         <fullName>PP_Forgot_Password_Footer1</fullName>

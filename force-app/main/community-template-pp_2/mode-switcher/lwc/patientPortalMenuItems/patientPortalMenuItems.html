@@ -1,7 +1,7 @@
 <template>
     <div class="slds-grid slds-grid_vertical pat-menu-items">
         <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
-            <span if:true={hasSingleCommMode}>
+            <template if:true={hasSingleCommMode}>
                 <c-patient-portal-menu-picklist
                     place-holder={placeHolder}
                     pick-list-options={pickListOptions}
@@ -10,13 +10,15 @@
                     combo-box-header={comboBoxHeader}
                 >
                 </c-patient-portal-menu-picklist>
-            </span>
-            <span if:false={hasSingleCommMode}>
+            </template>
+        </div>
+        <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
+            <template if:false={hasSingleCommMode}>
                 <lightning-button
                     variant="base"
                     label={label.viewingAs}
                     title={label.viewingAs}
-                    onclick={handleClick}
+                    onchange={handleClick}
                     class="slds-m-left_x-small"
                 >
                 </lightning-button>
@@ -27,41 +29,36 @@
                     class="my-icon"
                     onclick={handleClick}
                 ></lightning-icon>
-            </span>
-        </div>
+                <br />
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+                    <template if:true={showAllModes}>
+                        <c-patient-portal-menu-list
+                            comm-modes={commModeList}
+                            onchangemode={handleChangeMode}
+                        >
+                        </c-patient-portal-menu-list>
+                    </template>
 
-        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
-            <span if:true={showAllModes}>
-                <c-patient-portal-menu-list
-                    comm-modes={commModeList}
-                    onchangemode={handleChangeMode}
-                >
-                </c-patient-portal-menu-list>
-            </span>
-            <span if:false={showAllModes}>
-                <div class="self curr-mode-title">{currentMode.title}</div>
-                <div
-                    if:true={currentMode.isDelegate}
-                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-vertical_x-small curr-mode-delg-title"
-                >
-                    <div class="slds-grid title-delg-grid">
-                        <div class="slds-col slds-size_10-of-12 slds-p-around_small">
-                            <p class="participant-label">{label.partipantsDelegate}</p>
-                            <p class="participant-title">{currentMode.title}</p>
+                    <template if:false={showAllModes}>
+                        <div
+                            if:false={currentMode.isDelegate}
+                            class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-vertical_x-small curr-mode-delg-title"
+                        >
+                            <div class="self curr-mode-title">{currentMode.title}</div>
                         </div>
-                        <div class="slds-col slds-size_2-of-12 slds-m-top_medium">
-                            <lightning-icon
-                                icon-name="utility:user_role"
-                                size="x-small"
-                                aria-hidden="true"
-                                alternative-text="user"
-                                class="my-icon"
-                            >
-                            </lightning-icon>
-                        </div>
-                    </div>
+
+                        <template if:true={currentMode.isDelegate}>
+                            {currentMode.title}
+                            <br />
+                            {label.partipantsDelegate}
+                            <div onclick={handleNavigation} data-id={currentMode.title}>
+                                <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
+                            </div>
+                        </template>
+                        <br />
+                    </template>
                 </div>
-            </span>
+            </template>
         </div>
     </div>
     <div class="slds-grid">

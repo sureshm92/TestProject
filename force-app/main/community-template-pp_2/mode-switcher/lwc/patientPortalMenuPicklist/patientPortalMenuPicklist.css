@@ -48,10 +48,9 @@
 }
 
 .dropdown-menu:before {
-    content: 'Select one...';
     position: absolute;
     left: 1rem;
-    top: 1rem;
+    top: 0rem;
     color: #999;
 }
 
@@ -62,7 +61,7 @@
 }
 
 .dropdown-menu li:first-child {
-    padding-top: 1rem;
+    padding-top: 0rem;
 }
 
 .dropdown-menu li:last-child {
