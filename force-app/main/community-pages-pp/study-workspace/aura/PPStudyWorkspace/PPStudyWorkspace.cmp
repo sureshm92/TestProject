@@ -92,7 +92,7 @@
                             </c:RRNavigationPath>
                             <div class="rr-width-limiter">
                                 <aura:if
-                                    isTrue="{!equals(v.studyDetail.communityName, 'IQVIA Referral Hub')}"
+                                    isTrue="{!OR(equals(v.studyDetail.communityName, 'IQVIA Referral Hub'),equals(v.studyDetail.communityName, 'IQVIA Patient Portal'))}"
                                 >
                                     <img
                                         class="contrast-logo"

@@ -3,7 +3,7 @@
  */
 
 public without sharing class HomePageParticipantRemote {
-    @AuraEnabled
+    @AuraEnabled(cacheable=false)
     public static String getInitData() {
         try {
             List<User> users = [
@@ -27,5 +27,14 @@ public without sharing class HomePageParticipantRemote {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+    @AuraEnabled
+    public static Boolean getIsRTL() {
+        try {
+            return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
 }
