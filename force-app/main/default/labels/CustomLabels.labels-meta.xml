@@ -26589,6 +26589,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Day of Birth</value>
     </labels>
     <labels>
+        <fullName>RH_Dob_Format_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_Dob_Format_Search</shortDescription>
+        <value>	Select DOB Format</value>
+    </labels>
+    <labels>
         <fullName>RH_DownloadIcon</fullName>
         <language>en_US</language>
         <protected>false</protected>
