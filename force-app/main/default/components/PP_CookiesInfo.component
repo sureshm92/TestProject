@@ -1,0 +1,134 @@
+<!--
+ - Created by Sandeep Kiran
+ -->
+
+<apex:component id="CookiesInfo">
+    <apex:attribute name="isRTL" description="" type="Boolean" />
+    <style>
+        .ci-hidden {
+            display: none;
+        }
+
+        .brow-mob-rtl div svg {
+            margin: 1rem 75rem 0 0;
+        }
+
+        .pp-ci-bottom-aria {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3000;
+            margin-bottom: 63px;
+        }
+
+        .ci-panel {
+            height: unset;
+            position: relative;
+            max-width: 1366px;
+            max-width: 1246px;
+            padding: 20px;
+            opacity: 0.85;
+            border-radius: 8px 8px 0 0;
+            background-color: #000000;
+            box-shadow: -2px 8px 10px 0 rgb(0 0 0 / 15%);
+            margin-bottom: 32px;
+        }
+
+        .ci-content-container {
+            max-width: 75%;
+            color: #FFFFFF;
+            font-family: "Proxima Nova";
+            font-size: 14px;
+            letter-spacing: 0;
+            line-height: 17px;
+        }
+
+        .ci-button {
+            position: absolute;
+            right: 225px;
+            top: 40%;
+        }
+
+        .slds-scope .ci-button .slds-button {
+            padding: 0 2.5rem;
+            color: #ffffff;
+            border-radius: 16px;
+            background-color: #0768fd;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .ci-icon {
+            position: absolute;
+            right: 31px;
+            top: 40%;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .brow-mob-rtl div svg {
+                margin: -1.5rem 20rem 0 0;
+            }
+            .brow-mob-rtl {
+                height: 200px;
+            }
+
+            .ci-content-container {
+                max-width: 55%;
+            }
+        }
+    </style>
+
+    <div class="pp-ci-bottom-aria ci-hidden + {!if(isRTL == true, 'brow-mob-rtl', '')}" style="display: none;">
+        <div class="ci-panel">
+            <span class="ci-content-container">{!$Label.PP_Cookiesnote}
+            </span>
+            <div class="ci-button">
+                <button class="slds-button slds-button_brand changepwdbtn" onclick="return closeCookiesInfo()">Dismiss</button>
+            </div>
+            <div class="ci-icon" onclick="return closeCookiesInfo()">
+                <svg aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-close" style="fill: white;"></use>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var isIE = navigator.appName === 'Microsoft Internet Explorer' ||
+            !!(navigator.userAgent.match(/Trident/) ||
+                navigator.userAgent.match(/rv:11/)) ||
+            (typeof $.browser !== "undefined" && $.browser.msie === 1);
+        var paramId = 'RRCookies';
+        if (!isIE) paramId = 'LSKey[c]' + paramId;
+        var rrCookies = communityService.getCookie(paramId);
+        if (!rrCookies) {
+            var contentSpan = $('.ci-content-container');
+            var infoText = contentSpan.text();
+            var linkCookies = '{!$Label.Link_Cookies}';
+            var urlCookies = '{!$Label.URL_Cookies}';
+            var linkPP = '{!$Label.Footer_Link_Privacy_Policy}';
+            var linkIAB = '{!$Label.Link_Interactive_Advertising_Bureau}';
+            var urlIAB = '{!$Label.URL_Interactive_Advertising_Bureau}';
+            infoText = infoText.replace('##cookiesURL', '<a class="ci-link" href="/s/cookie-policy">' + linkCookies + '</a>');
+            infoText = infoText.replace('##privacyPolicyURL', '<a class="ci-link" href="/s/privacy-policy">' + linkPP + '</a>');
+            infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB + '">' + linkIAB + '</a>');
+            contentSpan.html(infoText);
+            $('.ci-hidden').removeClass('ci-hidden');
+            document.body.addEventListener('click', closeCookiesInfo, false);
+            //  setTimeout(closeCookiesInfo, 10000);
+        }
+
+        function closeCookiesInfo() {
+            communityService.setCookie(paramId, 'agreed');
+            $('.pp-ci-bottom-aria').addClass('ci-hidden');
+            $('.terms-and-conditions').removeClass('cookie-policy-padding');
+            $('.rr-bottom-bar-area').removeClass('cookie-bottom');
+            document.body.removeEventListener('click', closeCookiesInfo, false);
+            return false;
+        }
+    </script>
+
+</apex:component>

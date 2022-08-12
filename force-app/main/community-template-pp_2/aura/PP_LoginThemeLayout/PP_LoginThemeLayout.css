@@ -1,0 +1,133 @@
+.THIS.body {
+    font-family: 'Proxima Nova';
+}
+.THIS.body-image {
+    background: linear-gradient(268.65deg, #005587 0%, #0e548a 34.43%, #cd48b3 100%);
+    overflow: hidden;
+}
+.THIS.body-content .body-img {
+    height: 947px;
+    width: 100%;
+    opacity: 0.8;
+    transform: scaleX(1.21);
+}
+.THIS .login-card {
+    position: absolute;
+    top: 76px;
+    right: 48px;
+    height: 795px;
+    width: 414px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
+}
+.THIS .wave {
+    position: relative;
+    top: -1px;
+}
+.THIS .wave img {
+    position: absolute;
+}
+.THIS .login-form-layout {
+    width: 318px;
+    margin-top: 100px;
+}
+.THIS .iqvia-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    line-height: 38px;
+}
+.THIS .patient-portal-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 38px;
+    margin-left: 8px;
+}
+
+.THIS .footer-label {
+    color: #9a9a9a;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    margin-top: 8px;
+    padding: 3px 0;
+    display: inline-block;
+}
+.THIS .footer {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+}
+.THIS .body-content {
+    width: 20rem;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+.THIS .slds-col--padded {
+    padding: 0;
+}
+@media (max-width: 500px) {
+    .THIS .body-img {
+        display: none;
+    }
+    .THIS .login-form-layout {
+        margin-top: 215px;
+    }
+    .THIS .login-card {
+        top: 0px;
+        width: 100%;
+        height: 900px;
+        right: 0px;
+        border-radius: 0px;
+    }
+}
+/* Tablet media query start here */
+@media (min-width: 760px) and (max-width: 1024px) {
+    .THIS.body-content .body-img {
+        transform: matrix(2.07, 0, 0, 1.1, 125, 0);
+    }
+}
+/* Tablet media query end here */
+@media (min-width: 501px) and (max-width: 759px) {
+    .THIS .login-form-layout {
+        margin-top: 231px;
+    }
+    .THIS .body-img {
+        display: none;
+    }
+    .THIS .wave img {
+        transform: scaleX(1.1);
+    }
+    .THIS .login-card {
+        top: 0;
+        right: 0;
+        width: 100%;
+        border-radius: 0;
+        height: 930px;
+    }
+    .THIS .footer {
+        position: relative;
+        top: 190px;
+    }
+    .THIS .footer-logo {
+        flex: 1;
+        text-align: left;
+        margin-left: 32px;
+    }
+    .THIS .footer-label {
+        margin-top: 0;
+        padding: 0;
+        margin-right: 28px;
+    }
+    .THIS .footer-powered {
+        text-align: right;
+    }
+}

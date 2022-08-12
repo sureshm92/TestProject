@@ -1,6 +1,6 @@
 global without sharing class LightningForgotPasswordController {
     public LightningForgotPasswordController() {
-    } 
+    }
 
     @AuraEnabled
     public static String forgotPassword(String username, String checkEmailUrl) {
@@ -60,36 +60,37 @@ global without sharing class LightningForgotPasswordController {
                             lockoutTime = loginAttempt.LoginTime;
                         }
                     }
-                   if(Site.getPathPrefix().startsWith('/gsk')){
-                      return Label.PG_Login_Lockout_Error_Message.replace(
-                        '##LockoutEndTime',
-                        lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
-                    );  
-                    }else{
-                       String timeDifference =  String.valueof(
+                    if (Site.getPathPrefix().startsWith('/gsk')) {
+                        return Label.PG_Login_Lockout_Error_Message.replace(
+                            '##LockoutEndTime',
+                            lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
+                        );
+                    } else {
+                        String timeDifference = String.valueof(
                             lockOutTime.addMinutes(15).getTime() - System.now().getTime()
                         );
-                        returnMap.put('timeDifference',timeDifference);
+                        returnMap.put('timeDifference', timeDifference);
                         return JSON.serialize(returnMap);
-                        
                     }
-                    
                 }
             }
             Site.forgotPassword(username);
             ApexPages.PageReference checkEmailRef = new PageReference(checkEmailUrl);
             if (!Site.isValidUsername(username)) {
-                returnMap.put('invalidEmail',Label.PP_InvalidUsername);
-                return JSON.serialize(returnMap);
+                if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal) {
+                    returnMap.put('invalidEmail', Label.PP_Email_Error);
+                    return JSON.serialize(returnMap);
+                } else {
+                    returnMap.put('invalidEmail', Label.PP_InvalidUsername);
+                    return JSON.serialize(returnMap);
+                }
             }
-            if(Site.getPathPrefix().startsWith('/gsk')){
+            if (Site.getPathPrefix().startsWith('/gsk')) {
                 aura.redirect(checkEmailRef);
                 return null;
-            }else
-            {
+            } else {
                 return checkEmailUrl;
             }
-            
         } catch (Exception ex) {
             return ex.getMessage();
         }
