@@ -111,10 +111,12 @@
                         <template if:true={showLanguageAndLocation}>
                             <!--Language and Location Component-->
                             <c-pp-language-switcher
-                                user-mode={userMode}
+                                person-wrapper={personWrapper}
+                                contact-section-data={contactSectionData}
+                                is-delegate={isDelegate}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
-                                is-delegate={isDelegate}
+                                user-mode={userMode}
                                 onshownavmenubar={showNavigationMenu}
                             ></c-pp-language-switcher>
                         </template>

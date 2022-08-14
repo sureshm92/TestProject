@@ -20,14 +20,35 @@ import PG_AS_F_Zip_Postal_Code from '@salesforce/label/c.PG_AS_F_Zip_Postal_Code
 import getInitData from '@salesforce/apex/PP_LanguageSwitcherRemote.getInitData';
 
 export default class PpLanguageSwitcher extends LightningElement {
-    isInitialized = true;
-
+    
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
     @api isDelegate = false;
+    @api personWrapper;
+    @api contactSectionData;
+
+    countriesLVList;
+    statesByCountryMap;
+    personSnapshot;
+    isStateChanged
 
     spinner;
+
+    languages;
+    optionalLanguages;
+    locales;
+    timezones;
+
+    isInitialized = false;
+    languageKey;
+    previousValue;
+    secondLangKey;
+    thirdLangKey;
+    localeKey
+    timezoneKey;
+    prevTimeZoneKey;
+    prevLocaleKey;    
 
     label = {
         PG_Login_H_Language_Options,
@@ -62,6 +83,7 @@ export default class PpLanguageSwitcher extends LightningElement {
                 .then(() => {  
                     this.spinner = this.template.querySelector('c-web-spinner');
                     this.spinner ? this.spinner.show() : "";
+                    this.initializeData();
                 })
                 .catch((error) => {
                     console.log(error.body.message);
@@ -71,15 +93,69 @@ export default class PpLanguageSwitcher extends LightningElement {
             communityService.showToast('error', 'error', error.message, 100);
         });
 
+       
+    }
+
+    initializeData(){
         getInitData()
         .then((returnValue) => {
             this.isInitialized = true;
             let initData = JSON.parse(returnValue);
+
+            let sectionData = JSON.parse(JSON.stringify(this.contactSectionData));
+
+            this.countriesLVList = sectionData.countriesLVList;
+            this.statesByCountryMap = sectionData.statesByCountryMap;
+          
+            this.setPersonSnapshot();
+            this.personWrapper = JSON.parse(JSON.stringify(this.personWrapper));
+
+            this.previousCC = this.personWrapper.mailingCC;
+            this.statesLVList = sectionData.statesByCountryMap[this.personWrapper.mailingCC];
+
+            this.languages = initData.languages;
+            this.optionalLanguages = initData.optionalLanguages;
+            this.locales = initData.locales;
+            this.timezones = initData.timezones;
+
+            // Remove null key for optionalLanguages : TEMP FIX - need fix from backend: Second Language
+            initData.optionalLanguages[0].value = 'none';
+
+
+            this.languageKey = initData.languageKey;
+            this.previousValue = initData.languageKey;
+            this.secondLangKey = initData.secondLangKey;
+            this.thirdLangKey = initData.thirdLangKey;
+            this.localeKey = initData.localeKey;
+            this.timezoneKey = initData.timezoneKey;
+            this.prevTimeZoneKey = initData.timezoneKey;
+            this.prevLocaleKey = initData.localeKey; 
+
+            // Change null key for optionalLanguages currentSelectedOption: TEMP FIX - need fix from backend: Second Language and third language
+            if(initData.secondLangKey == null){this.secondLangKey = 'none';}
+            if(initData.thirdLangKey == null){this.thirdLangKey = 'none';}
+            
             this.spinner.hide();
+            
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('error', 'error', 'Failed To read the hjhhk...', 100);
             this.spinner.hide();
         });
+    }
+
+    setPersonSnapshot() {
+        let personWrapper = JSON.parse(JSON.stringify(this.personWrapper));
+        if (!personWrapper.mailingCC) personWrapper.mailingCC = '';
+        if (!personWrapper.mailingSC) personWrapper.mailingSC = '';
+        if (!personWrapper.mailingCountry) personWrapper.mailingCountry = '';
+        if (!personWrapper.mailingStreet) personWrapper.mailingStreet = '';
+        if (!personWrapper.mailingCity) personWrapper.mailingCity = '';
+        if (!personWrapper.mailingState) personWrapper.mailingState = '';
+        if (!personWrapper.zip) personWrapper.zip = '';
+
+
+        this.personSnapshot = JSON.stringify(personWrapper);
+        this.isStateChanged = false;
     }
 }
