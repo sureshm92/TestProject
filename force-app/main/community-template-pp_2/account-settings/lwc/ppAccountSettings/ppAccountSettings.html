@@ -89,12 +89,13 @@
                         </template>
                         <template if:true={showPasswordManagement}>
                             <!--Password Management Component-->
-                            <!-- <c-pp-change-password
+                            <c-pp-change-password
                                 user-mode={userMode}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
                                 is-delegate={isDelegate}
-                            ></c-pp-change-password> -->
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-change-password>
                         </template>
                         <template if:true={showCommunicationPreference}>
                             <!--Communication Preferences Component-->
@@ -109,6 +110,7 @@
                         </template>
                         <template if:true={showLanguageAndLocation}>
                             <!--Language and Location Component-->
+                            <c-pp-language-switcher></c-pp-language-switcher>
                         </template>
                         <template if:true={showCustomizeExperience}>
                             <!--Customize Experience Component-->
