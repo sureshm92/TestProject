@@ -112,7 +112,6 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters For Icon color Change
     get toggleCurrentPasswordMaskIcon(){
-        //return this.showCurrentPassword ? 'icon-eye-blue' : 'icon-eye-gray';
         return this.showCurrentPassword ? '#297DFD' : '#999999';
     }
 
@@ -126,22 +125,19 @@ export default class PpChangePassword extends LightningElement {
 
     // getRTL
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';
-        //return this.rtl ? 'cardRTL' : '';
+        return this.isRTL ? 'cardRTL' : '';     
     }
+
     get iconEye(){
-        return this.isRTL ? 'icon-eye-rtl' : 'icon-eye';
-        //return this.rtl ? 'icon-eye-rtl' : 'icon-eye';
+        return this.isRTL ? 'icon-eye-rtl' : 'icon-eye';       
     }
 
     get iconEyeMobile(){
         return this.isRTL ? 'icon-eye-mobile-rtl' : 'icon-eye-mobile';
-        //return this.rtl ? 'icon-eye-rtl' : 'icon-eye';
     }
 
     get reNewMargin(){
         return this.isRTL ? 'slds-form-element margin-lr-15Plus' : 'slds-form-element margin-lr-15';
-        //return this.rtl ? 'slds-form-element margin-lr-15Plus' : 'slds-form-element margin-lr-15';
     }
 
     // Icons 
@@ -167,8 +163,6 @@ export default class PpChangePassword extends LightningElement {
         
     }
     connectedCallback(){
-        // this.spinner = this.template.querySelector('.main-spinner');
-        // this.spinner.show();
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             Promise.all([loadStyle(this, communityPPTheme)])
@@ -181,7 +175,7 @@ export default class PpChangePassword extends LightningElement {
                 });
         })
         .catch((error) => {
-            this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+            communityService.showToast('error', 'error', error.message, 100);
         });
 
         communityService.getCurrentCommunityMode().currentDelegateId ? this.isDelegate = true : this.isDelegate = false;
