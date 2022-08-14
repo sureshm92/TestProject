@@ -1,5 +1,450 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
 
-    <h1>Language and Location</h1>
+    <template if:true={isInitialized}>      
+        <div class={headerPanelClass}>
+             <!-- DESKTOP VIEW -->
+            <template if:false={isMobile}>  
+                <div class={cardRTL}>
+                    <div class="as-title mb-15">Language and Location</div>
+                    <div class="as-title-small mb-5">{label.PG_Login_H_Language_Options}</div>
+                    <!-- Language Options Form Elements -->
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-10">
+                            <label class="slds-form-element__label field-title" for="language-desc">
+                                {label.PG_Login_H_Language_Description}
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="preferred-language"
+                                >
+                                {label.PG_AS_F_Preferred_Language}</label>
+                                <span class="cp-red">*</span>
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_Preferred_Language_Help_Text}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="pref-language"
+                                        label="Preferred Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select Preferred Language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>                        
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="second-language"
+                                >
+                                Second Language</label>                              
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_2nd_Choice_Language_Help_Text}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="second-language"
+                                        label="Second Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select second language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class={reNewMargin}>
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="third-language"
+                                >
+                                Third Language</label>                              
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_3rd_Choice_Language}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="third-language"
+                                        label="Third Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select third language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>  
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12">
+                            <div class="as-title-small mb-5">Time Zone and Location</div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="pref-time-zone"
+                                >
+                                Preferred Time Zone</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="pref-time-zone"
+                                        label="Preferred Time Zone"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select preferred time zone"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="7"></lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="locale-date-format"
+                                >
+                                {label.PG_AS_F_Locale_For_Date_Format}</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="locale-date-format"
+                                        label="Locale For Date Format"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select locale for date format"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12">
+                            <div class="as-title-small mb-5">{label.PG_Login_H_Residence_Region}</div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="country"
+                                >
+                                {label.PE_Country}</label>
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="country"
+                                        label="Country"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select country"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item> 
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-20">
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="state"
+                                >
+                                {label.PE_State}</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="state"
+                                        label="State"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="state"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class={reNewMargin}>
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="zip-postal-code"
+                                >
+                                {label.PG_AS_F_Zip_Postal_Code}</label>  
+                                <span class="cp-red"></span>                            
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="zip-postal-code"
+                                        label="Zip Postal Code"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select zip postal code"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>  
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-10">
+                        <lightning-layout-item size="12">
+                            <button
+                            class="slds-button saveButton slds-button_brand apollo-btn primary" 
+                            data-id="updateBtn" 
+                            disabled            
+                            >
+                            Save
+                        </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+
+             <!-- MOBILE VIEW -->
+             <template if:true={isMobile}>  
+                <div class={cardRTL}>
+                    <div class="as-title mb-15">Language and Location</div>
+                    <div class="as-title-small mb-5">{label.PG_Login_H_Language_Options}</div>
+                    <!-- Language Options Form Elements -->
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-10">
+                            <label class="slds-form-element__label field-title" for="language-desc">
+                                {label.PG_Login_H_Language_Description}
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="preferred-language"
+                                >
+                                {label.PG_AS_F_Preferred_Language}</label>
+                                <span class="cp-red">*</span>
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_Preferred_Language_Help_Text}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="pref-language"
+                                        label="Preferred Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select Preferred Language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>  
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="second-language"
+                                >
+                                Second Language</label>                              
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_2nd_Choice_Language_Help_Text}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="second-language"
+                                        label="Second Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select second language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="third-language"
+                                >
+                                Third Language</label>                              
+                                <span>
+                                    <lightning-helptext content={label.PG_AS_F_3rd_Choice_Language}>
+                                    </lightning-helptext>
+                                </span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="third-language"
+                                        label="Third Language"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select third language"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>                        
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="as-title-small mb-5">Time Zone and Location</div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="pref-time-zone"
+                                >
+                                Preferred Time Zone</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="pref-time-zone"
+                                        label="Preferred Time Zone"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select preferred time zone"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="locale-date-format"
+                                >
+                                {label.PG_AS_F_Locale_For_Date_Format}</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="locale-date-format"
+                                        label="Locale For Date Format"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select locale for date format"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="as-title-small mb-5">{label.PG_Login_H_Residence_Region}</div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="country"
+                                >
+                                {label.PE_Country}</label>
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="country"
+                                        label="Country"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select country"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item> 
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="state"
+                                >
+                                {label.PE_State}</label>                              
+                                <span class="cp-red">*</span>
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="state"
+                                        label="State"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="state"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="mb-10">
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="zip-postal-code"
+                                >
+                                {label.PG_AS_F_Zip_Postal_Code}</label>  
+                                <span class="cp-red"></span>                            
+                                <div class="slds-form-element__control slds-p-top_xx-small">   
+                                    <lightning-combobox
+                                        name="zip-postal-code"
+                                        label="Zip Postal Code"
+                                        variant="label-hidden"
+                                        value=""
+                                        class="ppCombobox"
+                                        placeholder="Select zip postal code"
+                                        options="">
+                                    </lightning-combobox>      
+                                </div>  
+                            </div>
+                        </lightning-layout-item>  
+                    </lightning-layout>
+
+                    <lightning-layout multiple-rows="true" class="mb-10">
+                        <lightning-layout-item size="12">
+                            <button
+                            class="slds-button saveButton slds-button_brand apollo-btn primary" 
+                            data-id="updateBtn" 
+                            disabled            
+                            >
+                            Save
+                        </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </template>
 </template>

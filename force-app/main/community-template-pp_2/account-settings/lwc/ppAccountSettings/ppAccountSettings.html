@@ -110,7 +110,13 @@
                         </template>
                         <template if:true={showLanguageAndLocation}>
                             <!--Language and Location Component-->
-                            <c-pp-language-switcher></c-pp-language-switcher>
+                            <c-pp-language-switcher
+                                user-mode={userMode}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                is-delegate={isDelegate}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-language-switcher>
                         </template>
                         <template if:true={showCustomizeExperience}>
                             <!--Customize Experience Component-->
