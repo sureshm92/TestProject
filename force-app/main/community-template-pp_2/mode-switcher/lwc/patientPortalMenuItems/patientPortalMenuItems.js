@@ -33,7 +33,6 @@ export default class PatientPortalMenuItems extends LightningElement {
     contactName;
 
     connectedCallback() {
-        console.log('????????????? data' + JSON.stringify(this.allModes));
         this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
         if (this.allModes.ppModeItems.length == 1) {
             this.isSingleCommMode = true;
