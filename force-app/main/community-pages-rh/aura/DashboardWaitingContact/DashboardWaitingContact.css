@@ -99,6 +99,10 @@
 }
 
 @media all and (max-width: 768px) {
+    .THIS .mobile-padding-left
+    {
+        padding-left: 0;
+    }
     .THIS {
         margin-top: 1rem;
     }
@@ -115,7 +119,7 @@
 
     .THIS .slds-table {
         background: #fff;
-    }
+    }    
 }
 
 @media all and (max-width: 500px) {
@@ -185,4 +189,19 @@
     width: 55px;
     vertical-align: middle;
     white-space: nowrap;
+}
+
+.THIS .desktop-display{
+    display: block;
+}
+.THIS .mobile-display {
+    display: none;
+}
+@media (max-device-width: 767px) {
+    .THIS .desktop-display{
+        display: none;
+    }
+    .THIS .mobile-display {
+        display: block;
+    }
 }

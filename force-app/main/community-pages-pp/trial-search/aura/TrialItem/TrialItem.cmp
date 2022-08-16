@@ -19,18 +19,29 @@
         name="participantInfo"
         type="Participant__c"
         default="{'sobjectType':'Participant__c',
-    'First_Name__c':'',
-    'Last_Name__c':'',
-    'Date_of_Birth__c':'',
-    'Gender__c':'',
-    'Phone__c':'',
-    'Phone_Type__c':'',
-    'Email__c':'',
-    'Mailing_Country_Code__c':'',
-    'Mailing_State_Code__c':'',
-    'Mailing_Zip_Postal_Code__c':'',
-    }"
+ 'First_Name__c':'',
+ 'Last_Name__c':'',
+ 'Date_of_Birth__c':'',
+ 'Gender__c':'',
+ 'Phone__c':'',
+ 'Phone_Type__c':'',
+ 'Email__c':'',
+ 'Mailing_Country_Code__c':'',
+ 'Mailing_State_Code__c':'',
+ 'Mailing_Zip_Postal_Code__c':'',
+ }"
     />
+    <aura:attribute
+        name="ContactInfo"
+        type="Contact"
+        default="{'sobjectType':'Contact',
+  'IQVIA_Contact_info_storage_consent__c':'',
+  'Participant_Phone_Opt_In_Permit_Phone__c':'',
+  'Participant_Opt_In_Status_Emails__c':'' ,
+  'Participant_Opt_In_Status_SMS__c':'',
+  }"
+    />
+    <aura:attribute name="preferenceData" type="AccountSettingsController.ConsentPreferenceData" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
@@ -93,6 +104,8 @@
                     ctp="{!v.trialTDO.ctp}"
                     isDisclaimer="{!v.isDisclaimer}"
                     isValid="{!v.isValid}"
+                    contactInfo="{!v.ContactInfo}"
+                    preferenceData="{!v.preferenceData}"
                 />
                 <!--                <c:formPatientInfoTrialSearchComp aura:id="contactForm"-->
                 <!--                                                      participant="{!v.participant}"-->

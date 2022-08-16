@@ -1,0 +1,115 @@
+.pir-bulkImport .importTab{
+    padding: 10px 15px 0 15px;
+    border: 1px solid #E9E9E9;
+    box-shadow: 0 1px 2px silver;
+    border-radius: 4px;
+    background:white;
+    margin-bottom: 40px;
+}
+
+.pir-bulkImport .breadcrumbfont{
+    color: #444444;
+    font-weight: 600;
+    font-size: 12px;
+}
+.pir-bulkImport .breadcrumbHead{
+    display: flex;
+    align-items: center;
+}
+.pir-bulkImport .lightning-home{
+    opacity: 0.7;
+}
+.pir-bulkImport .lightning-icon{
+    opacity: 0.7;
+    zoom: 0.6;
+}
+.pir-bulkImport .custom-label{
+    font-weight: 600;
+}
+
+/** --- Pagination Code --- **/
+.bulkImport .pg{
+    min-height: 51px;
+    color: #444444; 
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 24px;    
+    background: #F6F7FB;
+    border-color: transparent;
+}
+.bulkImport .pagination-widthD{
+    width: 103%;
+    margin-left: -16px;
+    margin-top: 5px;
+}
+.bulkImport .pg input{
+  color:#000000;
+  box-sizing: border-box;
+  height: 32px;
+  width: 65px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+  text-align: center;
+}
+.pg input:focus-visible {
+  outline: none;
+}
+.pg .slds-icon_container{
+  cursor: pointer;
+}
+.pg .disabled .slds-icon_container{
+  cursor: unset;
+}
+.bulkImport .totalpages{
+  color: #0768FD;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bulkImport .disabled{
+  opacity: .5;
+}
+.bulkImport .rightShift{
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+@media all and (max-width: 63.9375em) {
+    
+  .rightShift{
+    justify-content: center;
+    display: unset;
+  }
+  .pg{
+    text-align: center;
+    padding: 0px 0px;
+    background: #F6F7FB;
+  }
+}
+/** --- Pagination Code End --- **/
+
+.pir-bulkImport .custom-input{
+    margin-top: -15px;
+}
+@media (max-device-width: 767px) {
+    .pir-bulkImport .importTab{
+        padding: 10px 15px 40px 15px;
+        margin-bottom: 20px;
+    }
+    .bulkImport .pagination-widthD{
+      width: 100%;
+      margin-left: unset;
+      margin-top: unset;
+  }
+}
