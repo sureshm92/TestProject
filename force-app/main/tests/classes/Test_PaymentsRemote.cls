@@ -35,7 +35,6 @@ public class Test_PaymentsRemote {
     @IsTest
     public static void testfourhundred() {
         PaymentsRemote.InitData initData;
-
         Test.startTest();
         ParticipantService.setMock(new ParticipantServiceMock());
         GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
