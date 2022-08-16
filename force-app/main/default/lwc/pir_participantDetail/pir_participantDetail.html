@@ -257,8 +257,8 @@
                   </div>  
                   <div class="slds-grid slds-wrap slds-gutters">       
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
-                              <div class="slds-form-element">
-                                    <label class="slds-form-element__label iosopacitycss" >
+                              <div class="slds-form-element iosopacitycss">
+                                    <label class="slds-form-element__label" >
                                           {Source_ID}
                                           <lightning-helptext class="info-icon" content={PG_AS_F_Source_ID_Help_Text}></lightning-helptext>  
                                     </label>
@@ -279,11 +279,22 @@
                         </div> 
                         <div if:true={showVisitPlan} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">                     
                               <!--<lightning-input type="text" disabled label={FD_PE_Field_Arm_Cohort}  data-lvl="1" name="sceenid" value={pd.pe.Visit_Plan__r.Name}></lightning-input>-->
-                              <lightning-combobox name="VisitPlan" data-value="VisitPlan"
+                            <!--  <lightning-combobox name="VisitPlan" data-value="VisitPlan"
                                 label={FD_PE_Field_Arm_Cohort} title={FD_PE_Field_Arm_Cohort}
                                 value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
-                               ></lightning-combobox>  
-                        </div> 
+                               ></lightning-combobox>   -->
+                               <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="">
+                                          {FD_PE_Field_Arm_Cohort}
+                                    </label>
+                                    <div class="slds-form-element__control input-margin-top">
+                                          <lightning-combobox name="VisitPlan" data-value="VisitPlan"
+                                          label={FD_PE_Field_Arm_Cohort} variant="label-hidden" title={FD_PE_Field_Arm_Cohort}
+                                          value={selectedPlan} options={visitplanoptions} onchange={changeInputValue}  disabled={isvisitplanreadonly}
+                                         ></lightning-combobox>
+                                     </div>
+                                 </div>
+                        </div>                
                   </div>
                   <div if:true={pd.pe.Additional_Information__c} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_12-of-12 outcome-form-element slds-m-bottom_medium">
                         <div class="slds-form-element addInfoCssDiv">
@@ -332,6 +343,16 @@
                                                 onchange={handleCheckboxChange}></lightning-input>
                                           <span><label class="label_spacing consent_label" for="studySMSConsent">{SMS_TEXT}</label></span>
                         </div>
+                        <div class="label_align">
+                              <lightning-input 
+                                                      type="checkbox" 
+                                                      data-id="studyDirectEmailConsent" 
+                                                      varient="label-hidden" 
+                                                      name="studyDirectEmailConsent" 
+                                                      checked={pd.pe.Study_Direct_Mail_Consent__c} 
+                                                      onchange={handleCheckboxChange}></lightning-input>
+                                                <span><label class="label_spacing consent_label" for="studySMSConsent">{DIRECT_MAIL}</label></span>
+                              </div>
                         </br> </br>
                         <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}> 
                               <div>
@@ -367,10 +388,17 @@
                                                       onchange={handleCheckboxChange}></lightning-input>
                                                 <span><label class="label_spacing consent_label" for="outreachEmailConsent">{SMS_TEXT}</label></span>
                               </div>
+                              <div class="label_align">
+                                    <lightning-input 
+                                                            type="checkbox" 
+                                                            data-id="outreachDirectMailConsent" 
+                                                            name="outreachDirectMailConsent" 
+                                                            checked={pd.pe.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c} 
+                                                            onchange={handleCheckboxChange}></lightning-input>
+                                                      <span><label class="label_spacing consent_label" for="outreachEmailConsent">{DIRECT_MAIL}</label></span>
+                                    </div>
                         </template>
                   </lightning-layout>
-                  <!--consenting section ends here-->
-            <!--c-consent-manager  onconsentchange={handleConsentUpdate} participant-enrollment={pd.pe} participant-country={pd.pe.Participant__r.Mailing_Country_Code__c} call-source="editParticipant"></c-consent-manager-->
             
             
             </div>

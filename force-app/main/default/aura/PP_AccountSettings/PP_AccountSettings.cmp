@@ -10,6 +10,9 @@
     <aura:attribute name="isDelegate" type="Boolean" />
     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false" />
     <aura:attribute name="isRTLLanguage" type="Boolean" default="false" />
+    <aura:attribute name="participantState" type="String" />
+    <aura:attribute name="isDesktop" type="Boolean" default="true" />
+    <aura:attribute name="consentPreferenceData" type="Object"/>    
 
     <aura:attribute name="contactSectionData" type="Object" />
     <aura:attribute name="personWrapper" type="Object" />
@@ -67,38 +70,55 @@
                                 >
                             </li>
                             <li
-                                id="2"
-                                aura:id="2"
-                                class="{!(v.compId == '2') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                            id="2"
+                            aura:id="2"
+                            class="{!(v.compId == '2') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                        >
+                            <a
+                                class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                data-menu-item-id="2"
+                                onclick="{!c.selectPassword}"
+                                >{!$Label.c.PP_Password_Management}</a
                             >
-                                <a
-                                    class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
-                                    data-menu-item-id="2"
-                                    onclick="{!c.selectPassword}"
-                                    >{!$Label.c.PP_Password_Management}</a
-                                >
-                            </li>
+                        </li>
+                            <!-- Communication Preferences_Start -->
+                            <aura:if isTrue="{!(v.userMode == 'Participant')}">
+                                
                             <li
-                                id="3"
-                                aura:id="3"
-                                class="{!(v.compId == '3') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                            id="3"
+                            aura:id="3"
+                            class="{!(v.compId == '3') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                        >
+                            <a
+                                class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                data-menu-item-id="3"
+                                onclick="{!c.selectPassword}"
+                                >{!$Label.c.PP_Communication_Pref}</a
+                            >
+                        </li>
+                                </aura:if>
+                            <!-- Communication Preferences_Ends-->                          
+                            <li
+                                id="4"
+                                aura:id="4"
+                                class="{!(v.compId == '4') ? 'navItem mouse-hover group-6' : 'navItem' }"
                             >
                                 <a
                                     class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
-                                    data-menu-item-id="3"
+                                    data-menu-item-id="4"
                                     onclick="{!c.selectLanguage}"
                                     >{!$Label.c.PP_Language_and_Location}</a
                                 >
                             </li>
                             <aura:if isTrue="{!(v.userMode == 'HCP' || v.userTypeHCP_PI)}">
                                 <li
-                                    id="6"
-                                    aura:id="6"
-                                    class="{!(v.compId == '6') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                                    id="7"
+                                    aura:id="7"
+                                    class="{!(v.compId == '7') ? 'navItem mouse-hover group-6' : 'navItem' }"
                                 >
                                     <a
                                         class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
-                                        data-menu-item-id="6"
+                                        data-menu-item-id="7"
                                         onclick="{!c.selectLanguage}"
                                         >{!$Label.c.RH_Notification}</a
                                     >
@@ -108,20 +128,6 @@
                                 isTrue="{!(v.userMode == 'HCP' || v.userMode == 'Participant' || v.userTypeHCP_PI)}"
                             >
                                 <li
-                                    id="4"
-                                    aura:id="4"
-                                    class="{!(v.compId == '4') ? 'navItem mouse-hover group-6' : 'navItem' }"
-                                >
-                                    <a
-                                        class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
-                                        data-menu-item-id="4"
-                                        onclick="{!c.selectCoi}"
-                                        >{!$Label.c.PP_Customize_Experience}</a
-                                    >
-                                </li>
-                            </aura:if>
-                            <aura:if isTrue="{!!v.isDelegate}">
-                                <li
                                     id="5"
                                     aura:id="5"
                                     class="{!(v.compId == '5') ? 'navItem mouse-hover group-6' : 'navItem' }"
@@ -129,6 +135,20 @@
                                     <a
                                         class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
                                         data-menu-item-id="5"
+                                        onclick="{!c.selectCoi}"
+                                        >{!$Label.c.PP_Customize_Experience}</a
+                                    >
+                                </li>
+                            </aura:if>
+                            <aura:if isTrue="{!!v.isDelegate}">
+                                <li
+                                    id="6"
+                                    aura:id="6"
+                                    class="{!(v.compId == '6') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                                >
+                                    <a
+                                        class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                        data-menu-item-id="6"
                                         onclick="{!c.selectCookie}"
                                         >{!$Label.c.PP_Cookie_Settings}</a
                                     >
@@ -144,10 +164,15 @@
                             isRTL="{!v.isRTLLanguage}"
                         ></c:AccountSettings_EditProfile>
                     </aura:if>
+                    <!-- Communication Preferences_Start -->
+                    <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
+                        <c:communicationPreferences isDelegate="{!v.isDelegate}"  participantState="{!v.participantState}" isDesktop="{!v.isDesktop}" consentPreferenceData="{!v.consentPreferenceData}" userMode="{!v.userMode}"/>
+                    </aura:if>
+                    <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">
                         <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
                     </aura:if>
-                    <aura:if isTrue="{!(v.compId == '3')}">
+                    <aura:if isTrue="{!(v.compId == '4')}">
                         <c:PP_LanguageSwitcher
                             personWrapper="{!v.personWrapper}"
                             contactSectionData="{!v.contactSectionData}"
@@ -156,16 +181,16 @@
                             userMode="{!v.userMode}"
                         />
                     </aura:if>
-                    <aura:if isTrue="{!(v.compId == '4')}">
+                    <aura:if isTrue="{!(v.compId == '5')}">
                         <c:CustomizeExperience
                             userMode="{!v.userMode}"
                             isRTL="{!v.isRTLLanguage}"
                         />
                     </aura:if>
-                    <aura:if isTrue="{!(v.compId == '6')}">
+                    <aura:if isTrue="{!(v.compId == '7')}">
                         <c:RH_NotificationPreference getuserMode="{!v.userMode}"/>
                     </aura:if>
-                    <aura:if isTrue="{!(v.compId == '5')}">
+                    <aura:if isTrue="{!(v.compId == '6')}">
                         <c:CookieSettings userMode="{!v.userMode}" />
                     </aura:if>
                 </div>

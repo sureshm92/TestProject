@@ -17,7 +17,8 @@ public without sharing class ManualTaskFilter {
         = 'SELECT Participant_Contact__c, Participant__c FROM Participant_Enrollment__c WHERE Participant__r.Contact__c != NULL ';
     
     public static final String SEPARATOR = '\',\'';
-    Public Static Map<id,String> IdTypeOfContactMap = new map<id,String>();
+    public static Map<id,String> IdTypeOfContactMap = new map<id,String>();
+    public static Map<Id,Id> participantwithContact  = new Map<Id,Id>();
     @AuraEnabled
     public List<String> statuses = new List<String>();
     @AuraEnabled
@@ -32,6 +33,7 @@ public without sharing class ManualTaskFilter {
     public List<LookupSearchResult> sites = new List<LookupSearchResult>();
     @AuraEnabled
     public Boolean isPlatformLevel = false;
+
 
     public Map<Id, List<Participant_Enrollment__c>> getContactsWithPE() {
         List<String> searchStatuses = new List<String>();
@@ -65,7 +67,7 @@ public without sharing class ManualTaskFilter {
             ) {
                 continue;
             }
-
+            participantwithContact.put(pe.Participant__c, pe.Participant__r.Contact__c);
             if (!peByContactIds.containsKey(pe.Participant__r.Contact__c)) {
                 peByContactIds.put(
                     pe.Participant__r.Contact__c,
@@ -184,6 +186,10 @@ public without sharing class ManualTaskFilter {
         set<id>extractDelegateId = new set<id>();
         List<Patient_Delegate__c> StudyDelegateLST = new List<Patient_Delegate__c>();
         Map<Id, List<Id>> studyDelegateParticipantIds = new Map<Id, List<Id>>();
+        Map<Id,List<Id>> studyDelContactPerIds = new Map<Id,List<Id>>();
+        Map<Id,List<Id>> studyDelegateContactsIds = new Map<Id,List<Id>>();
+
+        Map<Id,List<Id>> studyParticipantPErIds = new Map<Id,List<Id>>();
         Map<Id, List<Id>> studyDelegateOwnerMap = new Map<Id, List<Id>>();
         sObjectsByContact = getContactsWithPE();
         Map<Id, List<Id>> peIdsByContact = new Map<Id, List<Id>>();
@@ -204,6 +210,10 @@ public without sharing class ManualTaskFilter {
         if(!StudyDelegateLST.isEmpty()){
             for(Patient_Delegate__c pd: StudyDelegateLST){
                 studyDelegateParticipantIds.put(pd.Contact__c,new List<Id>{ pd.Participant__c });
+                if (!studyDelegateContactsIds.containsKey(pd.Participant__c ))
+                    studyDelegateContactsIds.put(pd.Participant__c, new List<Id>());
+                studyDelegateContactsIds.get(pd.Participant__c).add(pd.Contact__c);
+                
                 if(IdTypeOfContactMap.containsKey(pd.Contact__c) && IdTypeOfContactMap.get(pd.Contact__c)=='Participant'){
                     String TypeOfContact = IdTypeOfContactMap.get(pd.Contact__c) +';Delegate';
                     IdTypeOfContactMap.put(pd.Contact__c,TypeOfContact); //KK //Participant;Delegate
@@ -212,10 +222,24 @@ public without sharing class ManualTaskFilter {
                 } 
             }
         }
-        
-        if(peIdsByContact != null || studyDelegateParticipantIds != null){
+        set<Id> delconIds = new Set<Id>();
+        if(!studyDelegateContactsIds.isEmpty()){
+            for(Id parId : studyDelegateContactsIds.keySet()){
+                if(participantwithContact.containskey(parId)){
+                    Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
+                        sObjectsByContact.get(participantwithContact.get(parId))
+                    );
+                    delconIds.addAll(studyDelegateContactsIds.get(parId));
+                    for(Id delcon : delconIds){
+                        studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
+                    }
+                    system.debug('studyDelContactPerIds:::'+studyDelContactPerIds);
+                }
+            }
+        }
+        if(peIdsByContact != null || studyDelContactPerIds != null){
             studyDelegateOwnerMap.putAll(peIdsByContact);
-            studyDelegateOwnerMap.putAll(studyDelegateParticipantIds);
+            studyDelegateOwnerMap.putAll(studyDelContactPerIds);
         }
         
         if(visibility == 'Owner'){
@@ -223,7 +247,7 @@ public without sharing class ManualTaskFilter {
         }else if(visibility == 'Owner;Delegates'){
             return studyDelegateOwnerMap; 
         }else if(visibility == 'Delegates'){
-            return studyDelegateParticipantIds; 
+            return studyDelContactPerIds; 
         }else{
             return null;
         }

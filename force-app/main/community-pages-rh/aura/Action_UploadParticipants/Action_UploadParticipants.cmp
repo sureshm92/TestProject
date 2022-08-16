@@ -36,6 +36,7 @@
     <aura:attribute name="iqviaOutreachEmail" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachPhone" type="Boolean" default="false" /><!--added as part of RH-6742-->
     <aura:attribute name="iqviaOutreachSMS" type="Boolean" default="false" /><!--added as part of RH-6742-->
+    <aura:attribute name="iqviaOutreachDirectMail" type="Boolean" default="false" />
     <aura:attribute name="reload" type="Boolean" />
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -125,8 +126,8 @@
                     </div>
                 </div>
                 <div class="slds-grid slds-wrap">
-                    <div class="ap-section custom-width">
-                        <div class="slds-size_1-of-1 slds-p-horizontal_x-medium slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                    <div class="ap-section">
+                        <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                             <div
                                  class="slds-m-around--small"
                                  data-gtm="pnl_UploadNewParticipants_status"
@@ -150,7 +151,7 @@
                             </div>
                         </div>
                         <aura:if isTrue="{!v.visitPlanAvailable}">
-                            <div class="slds-size_1-of-1 slds-p-horizontal_x-medium slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                            <div class="slds-size_1-of-1 slds-p-horizontal_x-medium ">
                                 <div
                                      class="slds-m-around--small"
                                      data-gtm="pnl_UploadNewParticipants_status"
@@ -252,8 +253,8 @@
                 <div class="slds-float_right">
                     <div class="slds-col slds-size--1-of-1">
                         <button
-                        class="apollo-btn tertiary slds-button__icon_right"
-                        data-gtm="btn_UploadNewParticipants_cancel"
+                            class="apollo-btn tertiary slds-button__icon_right"
+                            data-gtm="btn_UploadNewParticipants_cancel"
                             onclick="{!c.doCancel}"
                         >
                             {!$Label.c.BTN_Cancel}

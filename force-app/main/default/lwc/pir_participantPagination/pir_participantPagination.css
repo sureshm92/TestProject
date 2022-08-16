@@ -7,6 +7,11 @@
     background: #F6F7FB;
     border-color: #E9E9E9;
 }
+.pg-bulkimport{
+    min-height: 51px;
+    border-color:transparent;
+}
+
 .pg input{
   color:#000000;
   box-sizing: border-box;
@@ -17,6 +22,9 @@
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
   text-align: center;
+}
+.pg-bulkimport input{
+  width: 60px;
 }
 .pg input:focus-visible {
   outline: none;
@@ -61,4 +69,8 @@ input[type=number] {
     padding: 10px 0px;
     background: #F6F7FB;
   }
+  .pg-bulkimport input{
+    width: 45px;
+  }
+
 }

@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reasons_List__c</field>
-        <value xsi:type="xsd:string">PIR_PI_Decision*;PIR_Visit_Out_Of_Window;PWS_Picklist_Value_Other*</value>
+        <value xsi:type="xsd:string">; ;PIR_PI_Decision*;PIR_Visit_Out_Of_Window;PWS_Picklist_Value_Other*</value>
     </values>
     <values>
         <field>Status_Name__c</field>
