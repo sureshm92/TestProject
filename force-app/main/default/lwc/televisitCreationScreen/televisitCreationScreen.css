@@ -284,6 +284,17 @@ textdecoration {
     width: 38px !important;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 920px){
+    .notify-img{
+        width: 16px !important;
+    }
+    
+    .alert-img{
+        width: 55px !important;
+    }
+}
+
+
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .visit-date,
     .start-time {
@@ -371,6 +382,13 @@ textdecoration {
         flex-direction: column;
         width: 100%;
     }
+    .notify-img{
+        width: 28px !important;
+    }
+    
+    .alert-img{
+        width: 100px !important;
+    }
 }
 
 @media all and (max-width: 540px) {
@@ -412,5 +430,12 @@ textdecoration {
 @media all and (max-width: 281px) {
     .tv_edit {
         padding-left: 15px;
+    }
+    .notify-img{
+        width: 55px !important;
+    }
+    
+    .alert-img{
+        width: 175px !important;
     }
 }
