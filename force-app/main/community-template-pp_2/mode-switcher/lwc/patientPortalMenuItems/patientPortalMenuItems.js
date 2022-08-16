@@ -22,6 +22,7 @@ export default class PatientPortalMenuItems extends LightningElement {
     currentMode;
     setCurrentMode;
     placeHolder;
+    isToggle = false;
     showAllModes = false;
     label = {
         viewingAs,
@@ -186,11 +187,8 @@ export default class PatientPortalMenuItems extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
     handleClick() {
-        if (this.showAllModes == true) {
-            this.showAllModes = false;
-        } else if (this.showAllModes == false) {
-            this.showAllModes = true;
-        }
+        this.isToggle = !this.isToggle;
+        this.showAllModes = !this.showAllModes;
     }
     get svgClass() {
         return '';
