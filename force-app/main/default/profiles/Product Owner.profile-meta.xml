@@ -2317,6 +2317,11 @@
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.Notes__c</field>

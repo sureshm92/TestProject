@@ -86,6 +86,19 @@ public without sharing class TermsAndConditionsRemote {
     }
 
     @AuraEnabled
+    public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
+        try {
+            TCData tcData = new TCData();
+            if (code == 'PrivacyPolicy') {
+                tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+            }
+            return JSON.serialize(tcData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
     public static void acceptTC(Id tcId) {
         try {
             TermsAndConditions.acceptTC(tcId);

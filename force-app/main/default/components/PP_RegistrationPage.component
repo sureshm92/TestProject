@@ -1697,9 +1697,14 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             </div>
                         </div>
                         <!---Timezone sec End -->
-                        <apex:outputPanel id="thePanel1">
-                            <div class="timeZoneText">
-                                {!$Label.PP_StudyPrivacyPolicyNote}
+                        <div class="timeZoneText">
+                            {!$Label.PP_StudyPrivacyPolicyNote1}
+                            <apex:outputLink value="{!tcLink}" target="_blank"  onclick="window.open(this.href,'newwindow','width=1000,height=800')">
+                            {!$Label.Footer_Link_Terms_Of_Use} </apex:outputLink> {!$Label.PP_StudyPrivacyPolicyNote2}
+                            <apex:outputLink
+                                value="{!studyPrivacyPolicyUrl}" target="_blank"> {!$Label.Footer_Link_Privacy_Policy}
+
+                                </apex:outputLink> {!$Label.PP_StudyPrivacyPolicyNote3}
                                 <div class=" slds-grid slds-wrap slds-gutters ">
 
                                     <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
@@ -1746,11 +1751,14 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </apex:outputPanel>
+                        </div>
                         <!-- platform level -->
-                        <div class="timeZoneText ">
-                            {!$Label.PP_PlatformPrivacyPolicyNote}
+                        <div class="timeZoneText">
+                            {!$Label.PP_PlatformPrivacyPolicyNote1}
+                            <apex:outputLink value="{!platformPrivacyPolicyUrl}"
+                                target="_blank"> {!$Label.Footer_Link_Privacy_Policy}
+
+                            </apex:outputLink> {!$Label.PP_PlatformPrivacyPolicyNote2}
                             <div class=" slds-grid slds-wrap slds-gutters ">
                                 <div class="slds-form-element slds-col slds-size_1-of-2 slds-medium-size_1-of-5 ">
                                     <div class="slds-form-element__control ">
@@ -1808,7 +1816,7 @@ box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
                             <apex:commandButton action="{!ppChangePassword}" value="{!$Label.PP_SaveContinue}" styleClass="slds-button slds-button_brand changepwdbtn "
                                 disabled="{!isSaveButtonDisabled}" id="saveButton" />
                         </div>
-                        <c:PP_CookiesInfo isRTL="{!isRTL} " />
+                        <!--<c:PP_CookiesInfo isRTL="{!isRTL} " />-->
                     </apex:form>
                 </div>
             </div>

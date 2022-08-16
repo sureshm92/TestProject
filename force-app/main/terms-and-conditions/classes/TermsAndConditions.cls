@@ -152,9 +152,32 @@ global without sharing class TermsAndConditions {
     }
 
     public static Terms_And_Conditions__c getOrgDefaultPrivacyTC(Boolean useDefaultCommunity) {
-        System.debug('useDefaultCommunity: '+useDefaultCommunity);
-        System.debug('PRIVACY_POLICY: '+PRIVACY_POLICY);
         String query = getTCQuery(null, null, PRIVACY_POLICY, useDefaultCommunity);
+        Terms_And_Conditions__c[] tcList = Database.query(query);
+        if (tcList.size() > 0) {
+            Terms_And_Conditions__c tc = tcList[0];
+            if (tc.Terms_And_Conditions__r.size() > 0){
+                tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
+                tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
+                tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
+            }
+            return tc;
+        }
+        return null;
+    }
+
+    public static Terms_And_Conditions__c getOrgDefaultPPTC(Boolean useDefaultCommunity, String ctId) {
+        Id ppTcId;
+        String query;
+        if(!String.isBlank(ctId) || ctId != null){
+            ppTcId = [SELECT Id, Privacy_Policy_Id__c FROM Clinical_Trial_Profile__c WHERE Id=: ctId LIMIT 1].Privacy_Policy_Id__c;
+        }
+        if(ppTcId != null){
+            query = getTCQuery(ppTcId, null, PRIVACY_POLICY, useDefaultCommunity);
+        }else{
+            query = getTCQuery(null, null, PRIVACY_POLICY, useDefaultCommunity);
+        }
+        
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
