@@ -69,6 +69,29 @@ public without sharing class ContactTriggerHandler {
         }
     }
 
+    public class UpdateConsentTimeStamps extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            updateConsentTimeStamps((List<Contact>) newList);
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateConsentTimeStamps((List<Contact>) newList, (Map<Id, Contact>) oldMap);
+        }
+    }
+    //updateParticipantConsent
+    public class ParticipantConsentUpdate extends TriggerHandler {
+        Boolean isPortalUser = ParticipantEnrollmentTriggerHandler.checkCurrentusrProfile();
+        public override void beforeInsert(List<SObject> newList) {
+            if (isPortalUser) {
+                updateParticipantConsent((List<Contact>) newList, null);
+            }
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if (isPortalUser) {
+                updateParticipantConsent((List<Contact>) newList, (Map<Id, Contact>) oldMap);
+            }
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -768,5 +791,136 @@ public without sharing class ContactTriggerHandler {
             }
         }
         insert taskForUpdatePhoneNumber;
+    }
+
+    @TestVisible
+    //This method check what consents where given and stamps the current time
+    private static void updateConsentTimeStamps(List<Contact> newList) {
+        for (Contact con : newList) {
+            if(!con.IQVIA_Contact_info_storage_consent__c){
+                con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
+                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+            }
+            con.IQVIA_SMS_Consent_Time__c = (con.Participant_Opt_In_Status_SMS__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (con.IQVIA_Pre_recorded_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_PI_Storage_Consent_Time__c = (con.IQVIA_Contact_info_storage_consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Phone_Consent_Time__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Email_Consent_Time__c = (con.Participant_Opt_In_Status_Emails__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Direct_Mail_Consent_Time__c = (con.IQVIA_Direct_Mail_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Assisted_Dialing_Consent_Time__c = (con.IQVIA_Assisted_Dialing_Consent__c
+                ? Datetime.now()
+                : null);
+            con.IQVIA_Artificial_Voice_Consent_Time__c = (con.IQVIA_Artificial_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+        }
+    }
+
+    @TestVisible
+    //This method check what consents where given and stamps the current time
+    private static void updateConsentTimeStamps(List<Contact> newList, Map<Id, Contact> oldMap) {
+        for (Contact con : newList) {
+            contact oldContact = oldMap.get(con.Id);
+
+            if(!oldContact.IQVIA_Contact_info_storage_consent__c){
+                con.IQVIA_Contact_info_storage_consent__c = (con.Participant_Opt_In_Status_SMS__c || con.IQVIA_Pre_recorded_Voice_Consent__c ||
+                con.Participant_Phone_Opt_In_Permit_Phone__c || con.Participant_Opt_In_Status_Emails__c || con.IQVIA_Direct_Mail_Consent__c ||
+                con.IQVIA_Assisted_Dialing_Consent__c || con.IQVIA_Artificial_Voice_Consent__c );
+            }
+
+            if (
+                con.Participant_Opt_In_Status_SMS__c != oldContact.Participant_Opt_In_Status_SMS__c
+            ) {
+                con.IQVIA_SMS_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.IQVIA_Pre_recorded_Voice_Consent__c !=
+                oldContact.IQVIA_Pre_recorded_Voice_Consent__c
+            ) {
+                con.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.IQVIA_Contact_info_storage_consent__c !=
+                oldContact.IQVIA_Contact_info_storage_consent__c
+            ) {
+                con.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                oldContact.Participant_Phone_Opt_In_Permit_Phone__c
+            ) {
+                con.IQVIA_Phone_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.Participant_Opt_In_Status_Emails__c !=
+                oldContact.Participant_Opt_In_Status_Emails__c
+            ) {
+                con.IQVIA_Email_Consent_Time__c = Datetime.now();
+            }
+            if (con.IQVIA_Direct_Mail_Consent__c != oldContact.IQVIA_Direct_Mail_Consent__c) {
+                con.IQVIA_Direct_Mail_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.IQVIA_Assisted_Dialing_Consent__c !=
+                oldContact.IQVIA_Assisted_Dialing_Consent__c
+            ) {
+                con.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
+            }
+            if (
+                con.IQVIA_Artificial_Voice_Consent__c !=
+                oldContact.IQVIA_Artificial_Voice_Consent__c
+            ) {
+                con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+            }
+        }
+    }
+
+    @TestVisible
+    private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
+        for (Contact con : newList) {
+            if (oldMap == null) {
+                con.IQVIA_Assisted_Dialing_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+                con.IQVIA_Artificial_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+                con.IQVIA_Pre_recorded_Voice_Consent__c = (con.Participant_Phone_Opt_In_Permit_Phone__c
+                    ? true
+                    : false);
+            } else {
+                contact oldContact = oldMap.get(con.Id);
+                if (
+                    con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                    oldContact.Participant_Phone_Opt_In_Permit_Phone__c &&
+                    con.Participant_Phone_Opt_In_Permit_Phone__c
+                ) {
+                    con.IQVIA_Assisted_Dialing_Consent__c = true;
+                    con.IQVIA_Artificial_Voice_Consent__c = true;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = true;
+                } else if (
+                    con.Participant_Phone_Opt_In_Permit_Phone__c !=
+                    oldContact.Participant_Phone_Opt_In_Permit_Phone__c &&
+                    !con.Participant_Phone_Opt_In_Permit_Phone__c
+                ) {
+                    con.IQVIA_Assisted_Dialing_Consent__c = false;
+                    con.IQVIA_Artificial_Voice_Consent__c = false;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = false;
+                }
+            }
+        }
     }
 }

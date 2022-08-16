@@ -1,0 +1,259 @@
+public without sharing class PreferenceManagementController {
+    /**
+     * @description: This Method will save the Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @param: outReachData
+     * @param: requestFrom
+     * @return:
+     **/
+    @AuraEnabled
+    public static void saveConsent(
+        String studyDataJSON,
+        String outReachDataJSON,
+        String requestFrom
+    ) {
+        System.debug('***Study Data: ' + studyDataJSON);
+        System.debug('****Outreach Data: ' + outReachDataJSON);
+        //Update Study Consent.
+        if (requestFrom == 'PER') {
+            saveStudyConsent(studyDataJSON);
+        }
+        //Update IQVIA Outreach Consent.
+        if (requestFrom == 'IQVIA_OUTREACH') {
+            saveIQVIAOutreachConsent(outReachDataJSON);
+        }
+    }
+
+    /**
+     * @description: This Method will save the Study Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: studyDataJSON
+     * @return:
+     **/
+    public static void saveStudyConsent(String studyDataJSON) {
+        try {
+            ConsentPreferenceDataWrapper consentData = (ConsentPreferenceDataWrapper) JSON.deserialize(
+                studyDataJSON,
+                ConsentPreferenceDataWrapper.class
+            );
+            Participant_Enrollment__c per = consentData.convertToPER();
+            system.debug('per: ' + per);
+            if (per != null) {
+                update per;
+            }
+            //SMS Opt out for Patient Delegate.
+            if (!per.Permit_SMS_Text_for_this_study__c) {
+                processSMSOptOutForDelegate(consentData.perId, consentData.ParticipantContId);
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    /**
+     * @description: This Method will save the IQVIA Outreach Consent data checked/uncheck by participant/Patient delegate.
+     * @author: Krishna Mahto
+     * @param: outReachDataJSON
+     * @return:
+     **/
+    public static void saveIQVIAOutreachConsent(String outReachDataJSON) {
+        try {
+            ConsentPreferenceContactDataWrapper consentContactData = (ConsentPreferenceContactDataWrapper) JSON.deserialize(
+                outReachDataJSON,
+                ConsentPreferenceContactDataWrapper.class
+            );
+            Contact cont = consentContactData.convertToCont();
+            system.debug('****cont: ' + cont);
+            if (cont != null) {
+                update cont;
+            }
+            //Update consent at Primady Delegate contact also when Participant consents got updated by Participant or Primary Delegate under participant account setting.
+            if (
+                consentContactData.participantLoogedIn ||
+                (!consentContactData.participantLoogedIn && !consentContactData.isDelegateSelfView)
+            ) {
+                //If Participant is Minor or Adult without email.
+                if (
+                    !consentContactData.isAdultParticipant ||
+                    (consentContactData.isAdultParticipant &&
+                    !consentContactData.isEmailAvailabelForParticipant)
+                ) {
+                    updatePrimaryDelegateCommConsent(cont);
+                }
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    /**
+     * @description: This Method will save the phone number at Participant record.
+     * @author: Krishna Mahto
+     * @param: parId
+     * @param: mobilePhone
+     * @return:
+     **/
+    @AuraEnabled
+    public static void updateParticipantMobileNumber(
+        String parId,
+        String contId,
+        String mobilePhone
+    ) {
+        try {
+            Participant__c participant = new Participant__c();
+            participant.Id = parId;
+            participant.Alternative_Phone_Number__c = mobilePhone;
+            participant.Alternative_Phone_Type__c = 'Mobile';
+
+            update participant;
+
+            Contact cont = new Contact();
+            cont.Id = contId;
+            cont.MobilePhone = mobilePhone;
+
+            update cont;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static Boolean getIsRTL() {
+        try {
+            return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    public class ConsentPreferenceDataWrapper {
+        @AuraEnabled
+        public String perId;
+        @AuraEnabled
+        public String ParticipantContId;
+        @AuraEnabled
+        public Boolean participantOptInEmail;
+        @AuraEnabled
+        public Boolean participantOptInSMSText;
+        @AuraEnabled
+        public Boolean participantOptInPhone;
+        @AuraEnabled
+        public Boolean participantOptInDirectEmail;
+
+        public Participant_Enrollment__c convertToPER() {
+            Participant_Enrollment__c per = new Participant_Enrollment__c();
+            per.Id = perId;
+            per.Permit_Mail_Email_contact_for_this_study__c = participantOptInEmail;
+            per.Permit_SMS_Text_for_this_study__c = participantOptInSMSText;
+            per.Permit_Voice_Text_contact_for_this_study__c = participantOptInPhone;
+            per.Study_Direct_Mail_Consent__c = participantOptInDirectEmail;
+
+            //IF SMS opt out, revert the welcome message flag at PER.
+            if (!per.Permit_SMS_Text_for_this_study__c) {
+                per.Welcome_Message_Sent__c = false;
+                per.Welcome_Message_Delivered__c = false;
+            }
+            return per;
+        }
+    }
+    public class ConsentPreferenceContactDataWrapper {
+        @AuraEnabled
+        public String contactId;
+        @AuraEnabled
+        public Boolean contactOptInEmail;
+        @AuraEnabled
+        public Boolean contactOptInSMSText;
+        @AuraEnabled
+        public Boolean contactOptInPhone;
+        @AuraEnabled
+        public Boolean contactOptInDirectEmail;
+        @AuraEnabled
+        public Boolean participantLoogedIn;
+        @AuraEnabled
+        public Boolean isAdultParticipant;
+        @AuraEnabled
+        public Boolean isEmailAvailabelForParticipant;
+        @AuraEnabled
+        public Boolean isDelegateSelfView;
+        @AuraEnabled
+        public Boolean contactStorageOptIn;
+
+        public Contact convertToCont() {
+            Contact cont = new Contact();
+            cont.Id = contactId;
+            cont.Participant_Opt_In_Status_Emails__c = contactOptInEmail;
+            cont.Participant_Opt_In_Status_SMS__c = contactOptInSMSText;
+            cont.Participant_Phone_Opt_In_Permit_Phone__c = contactOptInPhone;
+            cont.IQVIA_Direct_Mail_Consent__c = contactOptInDirectEmail;
+            if(contactStorageOptIn!=null){
+                cont.IQVIA_Contact_info_storage_consent__c=contactStorageOptIn;
+            }
+            //IF SMS opt out, revert the welcome message flag at contact.
+            if (!cont.Participant_Opt_In_Status_SMS__c) {
+                cont.Welcome_Message_Sent__c = false;
+                cont.Welcome_Message_Delivered__c = false;
+            }
+            return cont;
+        }
+    }
+
+    /**
+     * @description: This Method will set the consent Preference data to the static variables.
+     * @author: Krishna Mahto
+     * @param: perList
+     * @return:
+     **/
+    public static Void processSMSOptOutForDelegate(Id perId, Id ParticipantContId) {
+        Set<Id> delContactIdSet = new Set<Id>();
+        List<Id> perIdList = new List<Id>{ perId };
+        //Get Patient Delegate for the logged in Participant.
+        List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(ParticipantContId);
+        for (Patient_Delegate__c pd : pdLest) {
+            delContactIdSet.Add(pd.Contact__c);
+        }
+
+        //Get list of ParticipantEnrollmentPatientDelJunction records
+        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+            perIdList,
+            delContactIdSet
+        );
+        for (ParticipantEnrollmentPatientDelJunction__c pdJunObj : perDelJunctionRecList) {
+            pdJunObj.Welcome_Message_Sent__c = false;
+            pdJunObj.Welcome_Message_Delivered__c = false;
+        }
+
+        if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+            update perDelJunctionRecList;
+        }
+    }
+
+    /**
+     * @description: This Method will update the Participant Contact Communication consent to Primary Delegate contact.
+     * @author: Krishna Mahto
+     * @param: parContact
+     * @return:
+     **/
+    public static Void updatePrimaryDelegateCommConsent(Contact parContact) {
+        //Get Patient Delegate for the logged in Participant.
+        List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(parContact.Id);
+        List<Contact> primaryDelContToUpd = new List<Contact>();
+        for (Patient_Delegate__c pd : pdLest) {
+            //If Primary Delegate
+            if (pd.Primary_Delegate__c) {
+                Contact cont = new Contact();
+                cont.Id = pd.Contact__c;
+                cont.Participant_Opt_In_Status_Emails__c = parContact.Participant_Opt_In_Status_Emails__c;
+                cont.Participant_Opt_In_Status_SMS__c = parContact.Participant_Opt_In_Status_SMS__c;
+                cont.Participant_Phone_Opt_In_Permit_Phone__c = parContact.Participant_Phone_Opt_In_Permit_Phone__c;
+                cont.IQVIA_Direct_Mail_Consent__c = parContact.IQVIA_Direct_Mail_Consent__c;
+                primaryDelContToUpd.Add(cont);
+                break;
+            }
+        }
+        if (primaryDelContToUpd != null && !primaryDelContToUpd.isEmpty()) {
+            update primaryDelContToUpd;
+        }
+    }
+}

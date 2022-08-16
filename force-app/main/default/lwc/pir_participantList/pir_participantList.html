@@ -105,7 +105,15 @@
                                         <li class="slds-dropdown__item" role="presentation" data-id='Add New Participant'>
                                             <a href="#" role="menuitem" data-id='Add New Participant' onmousedown={handlenewOnSelect}> <span class="slds-truncate" title={label.RH_PP_Add_New_Participant} data-id='Add New Participant'>{label.RH_PP_Add_New_Participant}</span> </a>
                                         </li>
-                                    </template>
+                                    </template> 
+                                    <template if:true={showAddParticipant}>   
+                                        <li class="slds-dropdown__item" role="presentation" data-id='Import Participants'>
+                                            <a href="#" role="menuitem" data-id='Import Participants' onmousedown={handleImport}> <span class="slds-truncate" title={label.PIR_Import_Participants} data-id='Import Participants'>{label.PIR_Import_Participants}</span> </a>
+                                        </li>
+                                        <li class="slds-dropdown__item" role="presentation" data-id='Bulk Import History'>
+                                            <a href="#" role="menuitem" data-id='Bulk Import History' onmousedown={handleImport}> <span class="slds-truncate" title={label.pir_Bulk_Import_History} data-id='Bulk Import History'>{label.pir_Bulk_Import_History}</span> </a>
+                                        </li>
+                                    </template> 
                                 </ul>
                             </div>
                     </div>
@@ -177,12 +185,22 @@
                         <div class="card-content checkboxdisplay">  
                             <template if:false={enableStatus}>
                                <template if:true={checknewStatus}>
-                                     <template if:true={p.screeningId}>
-                                        <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
-                                     </template>
-                                     <template if:false={p.screeningId}>
-                                        <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
-                                     </template>
+                                    <template if:true={checkFinalSuccessStatus}>
+                                        <template if:true={p.allowFinalSuccessStatus}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                        </template>
+                                        <template if:false={p.allowFinalSuccessStatus}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                        </template>
+                                    </template>
+                                    <template if:true={checkScreeningPassedStatus}>
+                                        <template if:true={p.allowScreeningPassed}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange}></lightning-input>
+                                        </template>
+                                        <template if:false={p.allowScreeningPassed}>
+                                            <lightning-input type="checkbox" data-id="checkbox" checked={p.check} data-value={p.id}  onchange={handleCheckChange} disabled=true></lightning-input>
+                                        </template>
+                                    </template>
                                </template>
                                <template if:false={checknewStatus}>
                                     <template if:true={dctCheck}>

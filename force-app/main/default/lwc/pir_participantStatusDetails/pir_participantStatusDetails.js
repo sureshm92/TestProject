@@ -5,6 +5,7 @@ import getStatusDetail from '@salesforce/apex/PIR_StatusDetailController.getStat
 import getPERdetails from '@salesforce/apex/PIR_StatusDetailController.getPERdetails';
 import getoutcomeToReasonMap from '@salesforce/apex/PIR_StatusDetailController.getoutcomeToReasonMap';
 import getBubbleStatus from '@salesforce/apex/PIR_StatusDetailController.getBubbleStatus';
+import isSuccessfullyReEngaged from "@salesforce/apex/PIR_StatusDetailController.isSuccessfullyReEngaged";
 import PWS_Received_Name from '@salesforce/label/c.PWS_Received_Name';
 import BTN_Back from '@salesforce/label/c.BTN_Back';
 export default class Pir_participantStatusDetails extends LightningElement {
@@ -13,6 +14,7 @@ export default class Pir_participantStatusDetails extends LightningElement {
     @api showBubbleMap = false;@api bubbleMapDetails;@api reason='';@api isInitialVisitRequired = false; @api isInitialVisitsPresent = false;
     @api per;@api initialVisitScheduledTime='';@api isFinalConsentRequired = false;@api isVisitPlanRequired = false;@api selectedPlan = '';
     @api saveSpinner = false; @api userDate;@api contSuccessReason ='';@api latestStatusGrp='';
+    @api getisreengaged=false;
     count = 0;
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     minusIcon = pirResources+'/pirResources/icons/status-negative.svg';
@@ -206,7 +208,14 @@ export default class Pir_participantStatusDetails extends LightningElement {
                 console.log(error.stack);
                 //this.showErrorToast(JSON.stringify(error.body.message));
             });
-        }  
+            isSuccessfullyReEngaged({ pe: this.selectedPE_ID })
+                .then((result) => {
+                this.getisreengaged= result;
+                })
+                .catch((error) => {
+                    console.log('isSuccessfullyReEngaged',error);
+                });
+                    }  
     }
     
     @api

@@ -65,4 +65,12 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
           });  
           this.dispatchEvent(selectedEvent);
      }
-}
+      //Changes made for for adding alternate option for do not continue  
+     get isrequired() {
+        if (this.continuedelegate ==='false') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      }

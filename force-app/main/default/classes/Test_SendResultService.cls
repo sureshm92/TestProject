@@ -37,6 +37,7 @@ public class Test_SendResultService {
         insert newList;
     }
     static testMethod void Action_SendResult_Test_1() {
+        Test.startTest();
         List<Notification__c> notification = [
             SELECT Id, WhatId__c, Notification_Type__c
             FROM Notification__c
@@ -56,6 +57,7 @@ public class Test_SendResultService {
         );
         
         insert sr;
+         Test.stopTest();
     }
     static testMethod void Action_SendResult_Test_2() {
         List<Notification__c> notification = [
