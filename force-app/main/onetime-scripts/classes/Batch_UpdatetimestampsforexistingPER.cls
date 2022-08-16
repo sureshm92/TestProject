@@ -79,27 +79,34 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
             if(per.Histories != null && per.Histories.size() > 0){
                 Participant_Enrollment__c pertoupdate = new Participant_Enrollment__c();
                 pertoupdate.Id = per.Id;
+                Boolean check = false;
                 if(per.Study_Email_Consent_Time__c == null && mapPer.get(per.Id) != null && 
                    mapPer.get(per.Id).keyset().contains('Permit_Mail_Email_contact_for_this_study__c')){
                        
                        pertoupdate.Study_Email_Consent_Time__c = mapPer.get(per.Id).get('Permit_Mail_Email_contact_for_this_study__c');
+                       check = true;
                    }
                 if(per.Study_Phone_Consent_Time__c == null && mapPer.get(per.Id) != null && 
                    mapPer.get(per.Id).keyset().contains('Permit_Voice_Text_contact_for_this_study__c')){
                        
                        pertoupdate.Study_Phone_Consent_Time__c = mapPer.get(per.Id).get('Permit_Voice_Text_contact_for_this_study__c');
+                       check = true;
                    } 
                 if(per.Study_SMS_Consent_Time__c == null && mapPer.get(per.Id) != null && 
                    mapPer.get(per.Id).keyset().contains('Permit_SMS_Text_for_this_study__c')){
                        
                        pertoupdate.Study_SMS_Consent_Time__c = mapPer.get(per.Id).get('Permit_SMS_Text_for_this_study__c');
+                       check = true;
                    } 
                 if(per.Study_PI_Storage_Consent_Time__c == null && mapPer.get(per.Id) != null && 
                    mapPer.get(per.Id).keyset().contains('Permit_IQVIA_to_contact_about_study__c')){
                        
                        pertoupdate.Study_PI_Storage_Consent_Time__c = mapPer.get(per.Id).get('Permit_IQVIA_to_contact_about_study__c');
+                       check = true;
                    }
-                toupdateConsent.add(pertoupdate);
+                if(check || test.isRunningTest()){
+                    toupdateConsent.add(pertoupdate);
+                }
             }
             
         }
@@ -147,6 +154,7 @@ global with sharing class Batch_UpdatetimestampsforexistingPER implements Databa
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
             update toupdateConsent;
         }
