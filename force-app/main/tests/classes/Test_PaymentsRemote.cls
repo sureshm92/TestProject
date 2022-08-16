@@ -38,7 +38,9 @@ public class Test_PaymentsRemote {
 
         Test.startTest();
         ParticipantService.setMock(new ParticipantServiceMock());
-        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock(400));
+        GetCardDetailsHttpCalloutMock httpcall = new GetCardDetailsHttpCalloutMock();
+        httpcall.rescode = 400;
+        Test.setMock(HttpCalloutMock.class, httpcall);
         initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
         IntegrationLog__c integrationLog = [Select Id, Error_Message__c, Response_Body__c From   IntegrationLog__c];
