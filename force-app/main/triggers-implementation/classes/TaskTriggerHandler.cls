@@ -26,9 +26,9 @@ public without sharing class TaskTriggerHandler {
     @TestVisible
     private static void checkTaskFields(List<Task> newList) {
         Map<String, Task_Catalog__mdt> cardsMap;
-        if(!Test.isRunningTest()){
+        if (!Test.isRunningTest()) {
             cardsMap = getCardsMap(newList);
-        }else{
+        } else {
             cardsMap = getCardsMapForTestClass();
         }
         //Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(newList);
@@ -108,6 +108,9 @@ public without sharing class TaskTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
+        Set<Id> contactWithoutUser = new Set<Id>();
+        // set to hold all tasks whose onwers are minor participants
+        Set<Id> tasksWithoutUser = new Set<Id>();
         List<Task> tasksWithOwner = [
             SELECT
                 OwnerId,
@@ -118,12 +121,20 @@ public without sharing class TaskTriggerHandler {
                 WhatId,
                 InitialTaskNotification__c,
                 WhoId,
-                Start_Date__c
+                Start_Date__c,
+                Owner_Contact__c
             FROM Task
-            WHERE Id IN :tasks AND Owner_Contact__c = NULL
+            WHERE Id IN :tasks
         ];
+        /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
-            ownerIds.add(t.OwnerId);
+            if (t.Owner_Contact__c == null) {
+                ownerIds.add(t.OwnerId);
+            } else {
+                /*Changed for minor participants to send notifications to delegates as well */
+                contactWithoutUser.add(t.Owner_Contact__c);
+                tasksWithoutUser.add(t.Id);
+            }
             allContactsIds.add(t.WhoId);
         }
         Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
@@ -163,15 +174,16 @@ public without sharing class TaskTriggerHandler {
         );
 
         List<Id> partContactsIds = new List<Id>();
-        for (Id usId : usersByIds.keySet())
+        for (Id usId : usersByIds.keySet()) {
             partContactsIds.add(usersByIds.get(usId).ContactId);
+        }
+        //Adding contacts without user to same list
+        partContactsIds.addAll(contactWithoutUser);
 
         List<Patient_Delegate__c> patientDelegates = [
-            SELECT Contact__c, Participant__r.Contact__c
+            SELECT Contact__c, Status__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
-            WHERE
-                Participant__r.Contact__c IN :partContactsIds
-                AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
+            WHERE Participant__r.Contact__c IN :partContactsIds AND Status__c = 'Active'
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
@@ -190,7 +202,11 @@ public without sharing class TaskTriggerHandler {
                         whatId = task.Survey_Invitation__c;
                     }
                     if (card.Immediate_Notification_Type__c != null) {
-                        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                        if (
+                            task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                            usersByIds.containskey(task.OwnerId) &&
+                            !tasksWithoutUser.contains(task.Id)
+                        ) {
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
@@ -201,34 +217,38 @@ public without sharing class TaskTriggerHandler {
                         }
                         if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                             if (
+                                usersByIds.containskey(task.OwnerId) &&
                                 !delegatesCntByPartCnt.containsKey(
                                     usersByIds.get(task.OwnerId).ContactId
                                 )
                             )
                                 continue;
-
-                            for (
-                                Id delContactId : delegatesCntByPartCnt.get(
-                                    usersByIds.get(task.OwnerId).ContactId
-                                )
-                            ) {
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = delContactId,
-                                        WhatId__c = whatId,
-                                        Notification_Type__c = card.Immediate_Notification_Type__c
+                            if (usersByIds.containskey(task.OwnerId)) {
+                                for (
+                                    Id delContactId : delegatesCntByPartCnt.get(
+                                        usersByIds.get(task.OwnerId).ContactId
                                     )
-                                );
+                                ) {
+                                    notifications.add(
+                                        new Notification__c(
+                                            Recipient__c = delContactId,
+                                            WhatId__c = whatId,
+                                            Notification_Type__c = card.Immediate_Notification_Type__c
+                                        )
+                                    );
+                                }
                             }
                         }
                     }
                 }
             }
             if (
-                task.InitialTaskNotification__c &&
-                task.Task_Type__c == TaskService.TASK_TYPE_ECOA
+                task.InitialTaskNotification__c && task.Task_Type__c == TaskService.TASK_TYPE_ECOA
             ) {
-                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                if (
+                    task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                    !tasksWithoutUser.contains(task.Id)
+                ) {
                     notifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
@@ -241,7 +261,9 @@ public without sharing class TaskTriggerHandler {
                     );
                 }
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                        ? delegatesByPAContact.get(task.WhoId)
+                        : null;
                     if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             notifications.add(
@@ -262,7 +284,10 @@ public without sharing class TaskTriggerHandler {
                 task.InitialTaskNotification__c &&
                 task.Task_Type__c == TaskService.TASK_TYPE_NOT_SELECTED
             ) {
-                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                if (
+                    task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                    !tasksWithoutUser.contains(task.Id) //added check to prevent notifications from being created for minors
+                ) {
                     notifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
@@ -274,7 +299,9 @@ public without sharing class TaskTriggerHandler {
                     );
                 }
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                        ? delegatesByPAContact.get(task.WhoId)
+                        : null;
                     if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             notifications.add(
@@ -416,84 +443,182 @@ public without sharing class TaskTriggerHandler {
             cardsMap.put(card.DeveloperName, card);
         return cardsMap;
     }
-    
+
     @TestVisible
     private static Map<String, Task_Catalog__mdt> getCardsMapForTestClass() {
         Map<String, Task_Catalog__mdt> cardsMap = new Map<String, Task_Catalog__mdt>();
-        
+
         Task_Catalog__mdt taskCatalog = new Task_Catalog__mdt();
-        Map<String,Object> fields = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog));
-        fields.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Complete_Baseline_Survey');
-        fields.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Complete_Baseline_Survey');
+        Map<String, Object> fields = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog)
+        );
+        fields.put(
+            Task_Catalog__mdt.DeveloperName.getDescribe().getName(),
+            'Complete_Baseline_Survey'
+        );
+        fields.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Complete_Baseline_Survey'
+        );
         fields.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), '');
         fields.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'baseline-survey?');
         fields.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), '');
-        fields.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), 'Patient_Complete_Baseline_Survey');
+        fields.put(
+            Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(),
+            'Patient_Complete_Baseline_Survey'
+        );
         fields.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(), '');
-        taskCatalog = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields), Task_Catalog__mdt.class);
+        taskCatalog = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog.DeveloperName, taskCatalog);
-        
+
         Task_Catalog__mdt taskCatalog2 = new Task_Catalog__mdt();
-        Map<String,Object> fields2 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog2));
+        Map<String, Object> fields2 = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog2)
+        );
         fields2.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Complete_Survey');
-        fields2.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Complete_Survey');
-        fields2.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), 'SurveyInvitation');
+        fields2.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Complete_Survey'
+        );
+        fields2.put(
+            Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(),
+            'SurveyInvitation'
+        );
         fields2.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'survey?inv=##invId');
-        fields2.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), 'SurveyName = Survey__r.NameinvId= Id');
-        fields2.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), 'Patient_Complete_Baseline_Survey');
-        fields2.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(), 'Message_to_PT_Complete_BL_Survey_Type');
-        taskCatalog2 = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields2), Task_Catalog__mdt.class);
+        fields2.put(
+            Task_Catalog__mdt.Parameters__c.getDescribe().getName(),
+            'SurveyName = Survey__r.NameinvId= Id'
+        );
+        fields2.put(
+            Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(),
+            'Patient_Complete_Baseline_Survey'
+        );
+        fields2.put(
+            Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(),
+            'Message_to_PT_Complete_BL_Survey_Type'
+        );
+        taskCatalog2 = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields2),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog2.DeveloperName, taskCatalog2);
-        
+
         Task_Catalog__mdt taskCatalog3 = new Task_Catalog__mdt();
-        Map<String,Object> fields3 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog3));
-        fields3.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Complete_Your_Profile');
-        fields3.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Complete_Your_Profile');
-        fields3.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), 'Participant__c');
+        Map<String, Object> fields3 = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog3)
+        );
+        fields3.put(
+            Task_Catalog__mdt.DeveloperName.getDescribe().getName(),
+            'Complete_Your_Profile'
+        );
+        fields3.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Complete_Your_Profile'
+        );
+        fields3.put(
+            Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(),
+            'Participant__c'
+        );
         fields3.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'account-settings');
         fields3.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), '');
         fields3.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), '');
         fields3.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(), '');
-        taskCatalog3 = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields3), Task_Catalog__mdt.class);
+        taskCatalog3 = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields3),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog3.DeveloperName, taskCatalog3);
-        
+
         Task_Catalog__mdt taskCatalog4 = new Task_Catalog__mdt();
-        Map<String,Object> fields4 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog4));
-        fields4.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Update_Your_Phone_Number');
-        fields4.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Update_Your_Phone_Number');
-        fields4.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), 'Participant__c');
+        Map<String, Object> fields4 = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog4)
+        );
+        fields4.put(
+            Task_Catalog__mdt.DeveloperName.getDescribe().getName(),
+            'Update_Your_Phone_Number'
+        );
+        fields4.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Update_Your_Phone_Number'
+        );
+        fields4.put(
+            Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(),
+            'Participant__c'
+        );
         fields4.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'account-settings');
         fields4.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), '');
-        fields4.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), 'Email_To_PT_For_Invalid_Number');
-        fields4.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(),'Message_To_PT_For_Invalid_Number'
+        fields4.put(
+            Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(),
+            'Email_To_PT_For_Invalid_Number'
         );
-        taskCatalog4 = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields4), Task_Catalog__mdt.class);
+        fields4.put(
+            Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(),
+            'Message_To_PT_For_Invalid_Number'
+        );
+        taskCatalog4 = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields4),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog4.DeveloperName, taskCatalog4);
-        
+
         Task_Catalog__mdt taskCatalog5 = new Task_Catalog__mdt();
-        Map<String,Object> fields5 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog5));
+        Map<String, Object> fields5 = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog5)
+        );
         fields5.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Select_COI');
-        fields5.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Select_COI');
-        fields5.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), 'Participant_Enrollment__c');
-        fields5.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'account-settings?changePref#autocomplete=true');
+        fields5.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Select_COI'
+        );
+        fields5.put(
+            Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(),
+            'Participant_Enrollment__c'
+        );
+        fields5.put(
+            Task_Catalog__mdt.Action_Link__c.getDescribe().getName(),
+            'account-settings?changePref#autocomplete=true'
+        );
         fields5.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), '');
         fields5.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), '');
         fields5.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(), '');
-        taskCatalog5 = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields5), Task_Catalog__mdt.class);
+        taskCatalog5 = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields5),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog5.DeveloperName, taskCatalog5);
-        
+
         Task_Catalog__mdt taskCatalog6 = new Task_Catalog__mdt();
-        Map<String,Object> fields6 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serializePretty(taskCatalog6));
-        fields6.put(Task_Catalog__mdt.DeveloperName.getDescribe().getName(), 'Complete_Baseline_Survey_Invalid');
-        fields6.put(Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(), 'Task_Subject_Complete_Baseline_Survey');
+        Map<String, Object> fields6 = (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serializePretty(taskCatalog6)
+        );
+        fields6.put(
+            Task_Catalog__mdt.DeveloperName.getDescribe().getName(),
+            'Complete_Baseline_Survey_Invalid'
+        );
+        fields6.put(
+            Task_Catalog__mdt.Subject_Label__c.getDescribe().getName(),
+            'Task_Subject_Complete_Baseline_Survey'
+        );
         fields6.put(Task_Catalog__mdt.Source_Object_Type__c.getDescribe().getName(), '');
         fields6.put(Task_Catalog__mdt.Action_Link__c.getDescribe().getName(), 'baseline-survey?');
-        fields6.put(Task_Catalog__mdt.Parameters__c.getDescribe().getName(), 'SurveyName = Survey__r.NameinvId= Id');
-        fields6.put(Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(), 'Patient_Complete_Baseline_Survey');
+        fields6.put(
+            Task_Catalog__mdt.Parameters__c.getDescribe().getName(),
+            'SurveyName = Survey__r.NameinvId= Id'
+        );
+        fields6.put(
+            Task_Catalog__mdt.Immediate_Email_Template__c.getDescribe().getName(),
+            'Patient_Complete_Baseline_Survey'
+        );
         fields6.put(Task_Catalog__mdt.Immediate_Notification_Type__c.getDescribe().getName(), '');
-        taskCatalog6 = (Task_Catalog__mdt)JSON.deserialize(JSON.serialize(fields6), Task_Catalog__mdt.class);
+        taskCatalog6 = (Task_Catalog__mdt) JSON.deserialize(
+            JSON.serialize(fields6),
+            Task_Catalog__mdt.class
+        );
         cardsMap.put(taskCatalog6.DeveloperName, taskCatalog6);
-        
+
         return cardsMap;
     }
 }

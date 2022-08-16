@@ -222,7 +222,7 @@ public without sharing class ParticipantWorkflowService {
                 CreatedBy.IsPortalEnabled,
                 CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c = :pe.Id and Backward_Bulk_Update__c=false
+            WHERE ParticipantEnrollment__c = :pe.Id and Backward_Bulk_Update__c=false and Disabled_PESH__c=false    
             ORDER BY Date__c DESC
         ];
         Map<String, List<Participant_Enrollment_Status_History__c>> stepsAndPesh = new Map<String, List<Participant_Enrollment_Status_History__c>>();
@@ -417,12 +417,17 @@ public without sharing class ParticipantWorkflowService {
         List<Participant_Workflow_Step__mdt> workflowSteps,
         Clinical_Trial_Profile__c ctp
     ) {
+        String UserMode = UserContext.getCurrentUserMode().userMode;
         Set<String> stepNames = new Set<String>();
         for (Participant_Workflow_Step__mdt step : workflowSteps) {
             stepNames.add(step.DeveloperName);
         }
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> result = new Map<String, Map<String, Participant_Workflow_Outcome__mdt>>();
-        for (Participant_Workflow_Outcome__mdt outcome : [
+        
+
+        List<Participant_Workflow_Outcome__mdt> participantOutcomeList = new List<Participant_Workflow_Outcome__mdt>();
+        if(UserMode == 'HCP'){
+        participantOutcomeList = [
             SELECT
                 Id,
                 Status_Name__c,
@@ -439,7 +444,31 @@ public without sharing class ParticipantWorkflowService {
             FROM Participant_Workflow_Outcome__mdt
             WHERE Step__c IN :stepNames
             ORDER BY Order__c ASC
-        ]) {
+        ]; 
+        }
+        else{
+           participantOutcomeList = [
+            SELECT
+                Id,
+                Status_Name__c,
+                Step__c,
+                Reasons_List__c,
+                State__c,
+                Order__c,
+                Show_Only_If_Selected__c,
+                Readonly_if_Current__c,
+                Disclaimer_if_Current__c,
+                Condition_for_Auto_Update__c,
+                Suppress_Multiple__c,
+                Condition__c
+            FROM Participant_Workflow_Outcome__mdt
+            WHERE Step__c IN :stepNames 
+            AND Status_Name__c != 'Participant No Show'
+            ORDER BY Order__c ASC
+        ];
+        }
+        
+        for(Participant_Workflow_Outcome__mdt outcome : participantOutcomeList){
             if (!result.containsKey(outcome.Status_Name__c)) {
                 result.put(
                     outcome.Status_Name__c,
@@ -905,8 +934,8 @@ public without sharing class ParticipantWorkflowService {
                       ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR
                       ? pesh.ParticipantEnrollment__r.Source_Type__c
                       : piContactNames!=null && piContactNames.containsKey(pesh.ParticipantEnrollment__r.PI_Contact__c)
-                   		? piContactNames.get(pesh.ParticipantEnrollment__r.PI_Contact__c)
-                   		: pesh.ParticipantEnrollment__r.PI_Contact__r.Name)
+                        ? piContactNames.get(pesh.ParticipantEnrollment__r.PI_Contact__c)
+                        : pesh.ParticipantEnrollment__r.PI_Contact__r.Name)
                 : pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail =
                 ' ' +
@@ -1704,12 +1733,12 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Source__c,
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
-            	ParticipantEnrollment__r.PI_Contact__c,
+                ParticipantEnrollment__r.PI_Contact__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
                 CreatedBy.IsPortalEnabled,
                 CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c IN :peIds and Backward_Bulk_Update__c=false
+            WHERE ParticipantEnrollment__c IN :peIds and Backward_Bulk_Update__c=false and Disabled_PESH__c=false   
             ORDER BY Date__c DESC
         ]) {
             piContacts.add(pesh.ParticipantEnrollment__r.PI_Contact__c);
@@ -1770,7 +1799,7 @@ public without sharing class ParticipantWorkflowService {
         }
         return piContactNames;
     }
-	
+    
     public static Map<Id,String> getPIContactNames(Set<Id> piContactIds){
         Map<Id,String> piContactNames = new Map<Id,String>();
         for(Participant__c partPIContact : [SELECT Id,Contact__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN : piContactIds]){
@@ -1836,6 +1865,10 @@ public without sharing class ParticipantWorkflowService {
                 Participant_Enrollment__c.Participant_Status__c,
                 pesh.Status__c
             );
+            if(String.valueOf(pesh.Status__c)=='Successfully re-engaged'){
+                 result.title =TranslateHelper.getLabelValue(Label.Successfully_Re_Engaged);
+            }
+           
             if(pesh.Status__c == 'Eligibility Passed' && pe.Clinical_Trial_Profile__r.Promote_To_SH__c ==true){
                 result.title = TranslateHelper.getLabelValue(Label.Sent_to_Study_Hub);
             }

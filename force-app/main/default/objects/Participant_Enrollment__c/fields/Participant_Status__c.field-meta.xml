@@ -173,6 +173,16 @@
                 <default>false</default>
                 <label>Pre-review Failed</label>
             </value>
+            <value>
+                <fullName>Successfully re-engaged</fullName>
+                <default>false</default>
+                <label>Successfully Re-Engaged</label>
+            </value>
+            <value>
+                <fullName>Participant No Show</fullName>
+                <default>false</default>
+                <label>Participant No Show</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

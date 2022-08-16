@@ -3,7 +3,7 @@
     <fullName>Participant_Opt_In_Status_SMS__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Opt In SMS/text</label>
+    <label>IQVIA SMS Consent</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

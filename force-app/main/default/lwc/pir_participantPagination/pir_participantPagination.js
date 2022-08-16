@@ -16,14 +16,21 @@ export default class Pir_participantPagination extends LightningElement {
     };
     startRecord = 0;
     endRecord = 0;
-    totalPages= 0;
+    totalPages= 0; 
     pageNumber = 0;
+    @api isTable;
     @api totalRecords = 0;//push from parent
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
     isRendered = false;
     @api isRTLPg;
     @api maindivcls;
+    connectedCallback(){
+        if(this.isTable==true){
+            this.calculate();
+        }
+    }
+    
     renderedCallback(){
         if(!this.isRendered){            
             this.isRendered = true;
@@ -32,8 +39,20 @@ export default class Pir_participantPagination extends LightningElement {
                 this.calculate();
             }            
         }
+        if(this.isTable==true){
+            this.template.querySelectorAll(".page").forEach(function (L) {
+                L.classList.add("pg-bulkimport");
+            });
+          
+            
+        }
+        
         
     }
+
+    @api updateInprogress(){
+        this.calculate();    
+        }
     
     calculate(){
         if(this.totalRecords>45000){  // limit the pagination to 4500 page or 45000 records as same limit is set in the PIR_HomepageController
