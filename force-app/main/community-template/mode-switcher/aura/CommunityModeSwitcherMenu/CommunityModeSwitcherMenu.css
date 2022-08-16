@@ -19,16 +19,12 @@
     font-size: 16px;
 }
 .THIS .pp-logout {
-    height: 24px;
-    width: 265px;
     color: #e20000;
     font-family: 'Proxima Nova';
-    font-size: 14px;
+    font-size: 0.9rem;
     font-weight: 600;
-    letter-spacing: 0;
-    line-height: 24px;
-    text-align: center;
-    margin-bottom: 0.5em;
+    padding: 0.5rem 0 0.5rem 0;
+    cursor: pointer;
 }
 .THIS .divider-line {
     border-bottom: 1px solid #d9d9d9;
@@ -37,15 +33,6 @@
 }
 .THIS.menu-block li.body {
     width: 344px;
-}
-
-.THIS .switcher-logout-txt {
-    color: #e20000;
-    font-family: 'Proxima Nova';
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.5rem 0 0.5rem 0;
-    cursor: pointer;
 }
 
 /*-----------------------------------------------------------------------*/
