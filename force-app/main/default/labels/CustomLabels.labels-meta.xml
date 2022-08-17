@@ -18696,7 +18696,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
-        <value>Password does not fit criteria</value>
+        <value>Password does not meet criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -20377,11 +20377,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New visit data is available</value>
     </labels>
     <labels>
-        <fullName>Paticipant_s_Delegate</fullName>
+        <fullName>Participant_s_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Paticipant's Delegate</shortDescription>
-        <value>Paticipant's Delegate</value>
+        <shortDescription>Participant's Delegate</shortDescription>
+        <value>Participant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -27448,7 +27448,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_UserRegistration_Warning</shortDescription>
-        <value>Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
+        <value>Participant or Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
     </labels>
     <labels>
         <fullName>RH_ValidationError</fullName>
