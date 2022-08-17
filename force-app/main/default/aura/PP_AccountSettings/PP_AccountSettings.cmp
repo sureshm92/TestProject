@@ -159,10 +159,10 @@
                 </div>
                 <div class="{!v.isRTLLanguage?'NavComponentRTL':'NavComponent'}">
                     <aura:if isTrue="{!(v.compId == '1')}">
-                        <c:ppAccountSettingsEditProfile
+                        <c:AccountSettings_EditProfile
                             userMode="{!v.userMode}"
                             isRTL="{!v.isRTLLanguage}"
-                        ></c:ppAccountSettingsEditProfile>
+                        ></c:AccountSettings_EditProfile>
                     </aura:if>
                     <!-- Communication Preferences_Start -->
                     <aura:if isTrue="{!and((v.compId == '3'),(v.userMode == 'Participant'))}">
@@ -170,10 +170,10 @@
                     </aura:if>
                     <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">
-                        <c:ppChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
+                        <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '4')}">
-                        <c:ppLanguageSwitcher
+                        <c:PP_LanguageSwitcher
                             personWrapper="{!v.personWrapper}"
                             contactSectionData="{!v.contactSectionData}"
                             onEdit="{!c.onEditPerson}"
