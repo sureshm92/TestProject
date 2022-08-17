@@ -9,7 +9,7 @@ import PG_Login_H_Language_Description from '@salesforce/label/c.PG_Login_H_Lang
 import PG_AS_F_Preferred_Language from '@salesforce/label/c.PG_AS_F_Preferred_Language';
 import PP_AS_F_Preferred_Language_Help_Text from '@salesforce/label/c.PP_AS_F_Preferred_Language_Help_Text';
 import PP_AS_F_2nd_Choice_Language_Help_Text from '@salesforce/label/c.PP_AS_F_2nd_Choice_Language_Help_Text';
-import PP_AS_F_3rd_Choice_Language from '@salesforce/label/c.PP_AS_F_3rd_Choice_Language';
+import PP_AS_F_3rd_Choice_Language_Help_Text from '@salesforce/label/c.PP_AS_F_3rd_Choice_Language_Help_Text';
 import PG_AS_F_Locale_For_Date_Format from '@salesforce/label/c.PG_AS_F_Locale_For_Date_Format';
 import PG_Login_H_Residence_Region from '@salesforce/label/c.PG_Login_H_Residence_Region';
 import PE_Country from '@salesforce/label/c.PE_Country';
@@ -80,7 +80,7 @@ export default class PpLanguageSwitcher extends LightningElement {
         PP_AS_F_Preferred_Language_Help_Text,
         BTN_Save,
         PP_AS_F_2nd_Choice_Language_Help_Text,
-        PP_AS_F_3rd_Choice_Language,
+        PP_AS_F_3rd_Choice_Language_Help_Text,
         PG_AS_F_Locale_For_Date_Format,
         PG_Login_H_Residence_Region,
         PE_Country,
