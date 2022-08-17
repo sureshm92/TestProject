@@ -422,7 +422,7 @@ public without sharing class RRChangePasswordController {
         }
     }
 
-    public void ppChangePassword()
+    public PageReference ppChangePassword()
     {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
