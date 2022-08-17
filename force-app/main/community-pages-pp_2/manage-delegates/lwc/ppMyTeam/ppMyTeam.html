@@ -1,25 +1,72 @@
 <template>
-    <template if:true={userMode}>
-        <lightning-button
-            class="apollo-btn primary mt-button hideMobile"
-            onclick={inviteTeamMembers}
+    <template if:true={showppNewTeamMember}>
+        <div class="back-to-manage-delegate slds-m-bottom_medium">
+            <lightning-icon icon-name="utility:chevronleft" size="xx-small"> </lightning-icon
+            ><span>Back to Manage Delegates</span>
+        </div>
+    </template>
+    <template if:false={showppNewTeamMember}>
+        <div class="manage-delegate slds-m-bottom_medium">Manage Delegates</div>
+    </template>
+    <div class="slds-grid slds-wrap">
+        <div
+            class="slds-col slds-grid slds-wrap slds-size_1-of-1 slds-medium-size_4-of-12 slds-vertical-border"
         >
-            {Label.c.pgPstLDelegates_Add}
-        </lightning-button>
-    </template>
-    <template if:true={userMode}>
-        <lightning-button
-            class="apollo-btn primary mt-button showMobile buttonMargin"
-            onclick={inviteTeamMembers}
-        >
-            {label.pgPstLDelegates_Add}
-        </lightning-button>
-    </template>
-    <template if:true={userMode}>
-        <!--- <c-ppPatientDelegateItem
-            contact={delegate.delegateContact}
-            isactive={delegate.isActive}
-            parentcomponent={}
-        ></c-ppPatientDelegateItem>-->
-    </template>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                <button
+                    class="slds-button btn-add-new-delegate slds-m-bottom_medium"
+                    onclick={inviteTeamMembers}
+                >
+                    Add New Delegate
+                </button>
+            </div>
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 rectangle slds-order_2 slds-medium-order_1"
+            >
+                <span class="list-heading-text">What can your delegate see or do?</span>
+                <ul class="slds-list_dotted slds-m-vertical_medium">
+                    <li class="myteam-list-txt">Complete tasks on your behalf</li>
+                    <li class="myteam-list-txt">Receive emails about your program status</li>
+                    <li class="myteam-list-txt">See your lab results</li>
+                    <li class="myteam-list-txt">See your vitals</li>
+                    <li class="myteam-list-txt">See your measurements</li>
+                </ul>
+                <span class="myteam-asteric-txt"
+                    >*all features may not be available for each program</span
+                >
+            </div>
+            <template if:true={showppNewTeamMember}>
+                <div class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12">
+                    <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
+                    <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
+                </div>
+            </template>
+            <template if:false={showppNewTeamMember}>
+                <div
+                    class="slds-col slds-hide_medium slds-size_1-of-1 slds-m-top_small slds-m-bottom_large slds-medium-size_8-of-12 slds-align_absolute-center slds-order_1 slds-medium-order_2"
+                >
+                    <span class="there-are-no-delegat"
+                        >There are no delegates registered at the moment. Click on Add New Delegate
+                        to allow access to your information.</span
+                    >
+                </div>
+            </template>
+        </div>
+        <template if:true={showppNewTeamMember}>
+            <div class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12">
+                <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
+                <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
+            </div>
+        </template>
+        <template if:false={showppNewTeamMember}>
+            <div
+                class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12 slds-align_absolute-center"
+            >
+                <span class="there-are-no-delegat"
+                    >There are no delegates registered at the moment. Click on Add New Delegate to
+                    allow access to your information.</span
+                >
+            </div>
+        </template>
+    </div>
 </template>

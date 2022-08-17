@@ -1,0 +1,29 @@
+.po-container {
+  border: 1px solid #d8dde6;
+  margin: 10px 0 20px 0;
+}
+.page-section {
+  border: solid 1px #ccc;
+  padding: 1rem;
+}
+.page-header,
+.page-footer {
+  height: 50px;
+}
+.page-main {
+  background: #f8f8f8;
+}
+.page-left,
+.page-right {
+  background: #f0efef;
+}
+.po-fontsize {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 38px;
+}
+.margin-top-bottom-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

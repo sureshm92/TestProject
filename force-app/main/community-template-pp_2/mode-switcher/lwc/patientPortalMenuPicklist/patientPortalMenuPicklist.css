@@ -32,7 +32,7 @@
     max-height: 80px !important;
     overflow-y: auto;
     margin: 0;
-    padding: 2rem 0 0.5rem;
+    padding: 1rem 0 0.5rem;
     position: absolute;
     z-index: 1;
     top: 1.5rem;
@@ -48,10 +48,9 @@
 }
 
 .dropdown-menu:before {
-    content: 'Select one...';
     position: absolute;
     left: 1rem;
-    top: 1rem;
+    top: 0rem;
     color: #999;
 }
 
@@ -62,7 +61,7 @@
 }
 
 .dropdown-menu li:first-child {
-    padding-top: 1rem;
+    padding-top: 0rem;
 }
 
 .dropdown-menu li:last-child {
@@ -88,4 +87,10 @@
     display: block;
     word-wrap: break-word;
     white-space: normal;
+}
+.disabled {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    pointer-events: none;
 }

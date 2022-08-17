@@ -1,5 +1,30 @@
 public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbstract {
+    Map<Id,Televisit__c> firstremindermap = new Map<Id,Televisit__c>();
+    Map<Id,Televisit__c> secondremindermap = new Map<Id,Televisit__c>();
     public Database.QueryLocator start(Database.BatchableContext param1) {
+        Set<Id> televisitidset = new Set<Id>();
+        List<Televisit__c> televisitlist = [Select id,Visit_Date_Time__c,Participant_Enrollment__r.Study_Site__r.First_Reminder__c,Participant_Enrollment__r.Study_Site__r.Second_Reminder__c
+        from Televisit__c where Status__c = 'Scheduled'
+        AND (Participant_Enrollment__r.Study_Site__r.First_Reminder__c != null OR Participant_Enrollment__r.Study_Site__r.Second_Reminder__c != null)
+        AND ((Visit_Date_Time__c >=: Datetime.now().addMinutes(-3) AND Visit_Date_Time__c <=: Datetime.now().addMinutes(3))
+        OR Visit_Date_Time__c >=: Datetime.now().addMinutes(57) )
+        ];
+        for(Televisit__c tv:televisitlist){
+            if(tv.Visit_Date_Time__c >= system.now().addHours(integer.valueof(tv.Participant_Enrollment__r.Study_Site__r.First_Reminder__c)).addMinutes(-3) &&
+               tv.Visit_Date_Time__c <= system.now().addHours(integer.valueof(tv.Participant_Enrollment__r.Study_Site__r.First_Reminder__c)).addMinutes(3)){
+
+                firstremindermap.put(tv.id,tv);
+                televisitidset.add(tv.id);
+            }
+
+            if(tv.Visit_Date_Time__c >= system.now().addHours(integer.valueof(tv.Participant_Enrollment__r.Study_Site__r.Second_Reminder__c)).addMinutes(-3) &&
+               tv.Visit_Date_Time__c <= system.now().addHours(integer.valueof(tv.Participant_Enrollment__r.Study_Site__r.Second_Reminder__c)).addMinutes(3)){
+
+                secondremindermap.put(tv.id,tv);
+                televisitidset.add(tv.id);
+            }
+
+        }
         return Database.getQueryLocator(
             [
                 SELECT
@@ -18,32 +43,12 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
                     Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Televisit_Attendee__c
                 WHERE
-                    ((Attendee_Type__c = 'PI'
-                    OR Attendee_Type__c = 'Site Staff')
-                    AND Televisit__r.Status__c = 'Scheduled'
-                    AND Is_Second_Reminder_Sent__c = FALSE
-                    AND ((Is_First_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now().addDays(1)
-                    AND Televisit__r.Visit_Date_Time__c <= :Datetime.now().addDays(1).addMinutes(2))
-                    OR (Televisit__r.Visit_Date_Time__c >= :Datetime.now().addHours(1)
-                    AND Televisit__r.Visit_Date_Time__c <= :Datetime.now()
-                        .addHours(1)
-                        .addMinutes(2))))
-                    OR ((Attendee_Type__c = 'Participant Delegate'
-                    OR Attendee_Type__c = 'Participant')
-                    AND Televisit__r.Status__c = 'Scheduled'
-                    AND ((Is_First_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c <= :Datetime.now().addDays(1).addMinutes(4)
-                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now()
-                        .addDays(1)
-                        .addMinutes(-4))
-                    OR (Is_Second_Reminder_Sent__c = FALSE
-                    AND Televisit__r.Visit_Date_Time__c >= :Datetime.now()
-                        .addHours(1)
-                        .addMinutes(-4)
-                    AND Televisit__r.Visit_Date_Time__c <= :Datetime.now()
-                        .addHours(1)
-                        .addMinutes(4))))
+                    (Attendee_Type__c = 'PI'
+                    OR Attendee_Type__c = 'Site Staff' 
+                    OR Attendee_Type__c = 'Participant Delegate'
+                    OR Attendee_Type__c = 'Participant') 
+                    AND (Is_Second_Reminder_Sent__c = false or Is_First_Reminder_Sent__c = false)
+                    AND Televisit__c IN:televisitidset
             ]
         );
     }
@@ -65,17 +70,19 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             notification.Recipient__c = attendee.Contact__c;
             notification.WhatId__c = attendee.Id;
             if(
-                attendee.Televisit__r.Visit_Date_Time__c >= Datetime.now().addHours(1) &&
-                attendee.Televisit__r.Visit_Date_Time__c <= Datetime.now().addHours(1).addMinutes(2)
+                secondremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_Second_Reminder_Sent__c && 
+                (attendee.Attendee_Type__c == 'PI' || attendee.Attendee_Type__c == 'Site Staff')
             ){
                 if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two_Jan';
                 }else{
                     notification.Notification_Type__c = 'Message_to_PI_Televisit_Reminder_Two';
                 }
-
-                
-            }else{
+            }
+            if(
+                firstremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_First_Reminder_Sent__c &&
+                (attendee.Attendee_Type__c == 'PI' || attendee.Attendee_Type__c == 'Site Staff')
+            ){
                 if(attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
                     notification.Notification_Type__c = 'Message_To_PI_Televisit_Reminder_Janssen';
                 }else{
@@ -84,22 +91,22 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
             }
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
                 if (
-                    attendee.Televisit__r.Visit_Date_Time__c.dateGmt() ==
-                    Datetime.now().addDays(1).dateGmt()
+                    firstremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_First_Reminder_Sent__c
                 ) {
                     attendee.Is_First_Reminder_Sent__c = true;
 
                     attendeeDayTelevisitMap.put(attendee.Contact__c, attendee.Id);
                 }
                 if (
-                    attendee.Televisit__r.Visit_Date_Time__c.dateGmt() == Datetime.now().dateGmt()
+                    secondremindermap.keyset().contains(attendee.Televisit__c) && !attendee.Is_Second_Reminder_Sent__c
                 ) {
                     attendeeHourTelevisitMap.put(attendee.Contact__c, attendee.Id);
                     attendee.Is_Second_Reminder_Sent__c = true;
                 }
             }
-
-            notifications.add(notification);
+            if(!String.isEmpty(notification.Notification_Type__c)){
+                notifications.add(notification);
+            }
         }
         if (attendeeDayTelevisitMap != null || !attendeeDayTelevisitMap.isEmpty()) {
             notifications.addAll(
@@ -128,11 +135,13 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
         for (Televisit_Attendee__c t : attendeeList) {
             if (t.Attendee_Type__c == 'PI' || t.Attendee_Type__c == 'Site Staff') {
                 if (
-                    t.Televisit__r.Visit_Date_Time__c >= Datetime.now().addHours(1) &&
-                    t.Televisit__r.Visit_Date_Time__c <= Datetime.now().addHours(1).addMinutes(2)
+                    secondremindermap.keyset().contains(t.Televisit__c)
                 ) {
                     t.Is_Second_Reminder_Sent__c = true;
-                } else {
+                } 
+                if(
+                    firstremindermap.keyset().contains(t.Televisit__c)
+                ) {
                     t.Is_First_Reminder_Sent__c = true;
                 }
             }

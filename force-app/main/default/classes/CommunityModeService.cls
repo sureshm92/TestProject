@@ -145,7 +145,6 @@ public without sharing class CommunityModeService {
     }
 
     public static List<CommunityModes.PPCommunityModeItem> getParticipantModeItems(Id contactId) {
-        
         List<CommunityModes.PPCommunityModeItem> modes = new List<CommunityModes.PPCommunityModeItem>();
         List<Participant__c> userParticipants = [
             SELECT Id, First_Name__c, Last_Name__c, Contact__c, Contact__r.Landing_Community__c
@@ -159,7 +158,7 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             contactId
         );
-        if (delegatedParticipantIds == null){
+        if (delegatedParticipantIds == null) {
             delegatedParticipantIds = new List<Id>();
         }
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>(
@@ -358,7 +357,11 @@ public without sharing class CommunityModeService {
         } else if (rhModes.isEmpty()) {
             return CommunityModes.MODE_TYPE_PP_ONLY;
         } else if (ppModes.isEmpty()) {
-            if (rhModes.size() == 1 && rhModes[0].subItems.size() < 2 && rhModes[0].itemType == USER_MODE_PI) {
+            if (
+                rhModes.size() == 1 &&
+                rhModes[0].subItems.size() < 2 &&
+                rhModes[0].itemType == USER_MODE_PI
+            ) {
                 return CommunityModes.MODE_TYPE_RH_SINGLE_VIEW;
             }
             return CommunityModes.MODE_TYPE_RH_ONLY;
@@ -524,9 +527,9 @@ public without sharing class CommunityModeService {
 
     private static List<CommunityMode> getParticipantModes() {
         List<CommunityMode> modes = new List<CommunityMode>();
-         List<Participant__c> userParticipants = new  List<Participant__c> ();
-        if(String.isNotBlank(CommunityService.getInstance().getCurrentContactId())){
-              userParticipants = [
+        List<Participant__c> userParticipants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            userParticipants = [
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c, Contact__r.Landing_Community__c
                 FROM Participant__c
                 WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
@@ -539,12 +542,12 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             UserContext.getUserContactId()
         );
-        if (delegatedParticipantIds == null){
+        if (delegatedParticipantIds == null) {
             delegatedParticipantIds = new List<Id>();
         }
-        Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c> ();
-        if(!delegatedParticipantIds.isEmpty()){
-              participantsMap = new Map<Id, Participant__c>(
+        Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>();
+        if (!delegatedParticipantIds.isEmpty()) {
+            participantsMap = new Map<Id, Participant__c>(
                 [
                     SELECT Id, First_Name__c, Last_Name__c, Contact__c
                     FROM Participant__c
@@ -715,15 +718,18 @@ public without sharing class CommunityModeService {
         String filter
     ) {
         String baseFilter =
-            ' ((' + DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds) + 
+            ' ((' +
+            DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds) +
             ' AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true' +
-             		' AND Study_Site__r.Study_Site_Type__c != \'Virtual\' AND Study_Site__r.Study_Site_Type__c != \'Hybrid\')'; 
+            ' AND Study_Site__r.Study_Site_Type__c != \'Virtual\' AND Study_Site__r.Study_Site_Type__c != \'Hybrid\')';
         if (userParticipant != null)
-            baseFilter += ' OR (' + DatabaseService.fieldEqual('Participant__c', userParticipant.Id) +
-            ' AND Invited_To_PP_Date__c !=null ) ';
+            baseFilter +=
+                ' OR (' +
+                DatabaseService.fieldEqual('Participant__c', userParticipant.Id) +
+                ' AND Invited_To_PP_Date__c !=null ) ';
         baseFilter += ') ';
-       
-        if (filter != null){
+
+        if (filter != null) {
             baseFilter += ' AND ' + filter;
         }
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
@@ -807,46 +813,84 @@ public without sharing class CommunityModeService {
         return resMap;
     }
 
-    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
+ private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
-        
+        Map<Id, Id> permissionSetOfUserMapId = new Map<Id, Id>();
         List<Site_Staff__c> siteStaffs = [
             SELECT Id, Study_Site__c, is_Invited__c
             FROM Site_Staff__c
             WHERE Site_Contact__c = :contactId AND is_Invited__c = TRUE
         ];
-        
+
         for (Site_Staff__c staff : siteStaffs)
             ssDelegateIds.add(staff.Study_Site__c);
-        List<Study_Site__c> studySites = new List<Study_Site__c> ();
-        
+        List<Study_Site__c> studySites = new List<Study_Site__c>();
+
         studySites = [
-            SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+            SELECT
+                Id,
+                Principal_Investigator__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Override_PI_Referral_Status__c
             FROM Study_Site__c
             WHERE Principal_Investigator__c = :contactId OR Id IN :ssDelegateIds
-        ]; 
-                for (Study_Site__c ss : studySites) {
+        ];
+        List<String> LstOfPermissionSet = new List<String>();
+
+        List<PermissionSetAssignment> permissionSetLST = [
+            SELECT Id, PermissionSetId, PermissionSet.Name, AssigneeId, Assignee.contactId
+            FROM PermissionSetAssignment
+            WHERE Assignee.contactId = :contactId OR Assignee.contactId IN :ssDelegateIds
+        ];
+        if (!studySites.isEmpty() && !permissionSetLST.isEmpty()) {
+            for (PermissionSetAssignment per : permissionSetLST) {
+                LstOfPermissionSet.add(per.PermissionSet.Name);
+            }
+            for (Study_Site__c ss : studySites) {
+                if (
+                    rhSponsorsByCommunity.containsKey(
+                        ss.Clinical_Trial_Profile__r.CommunityTemplate__c
+                    ) &&
+                    LstOfPermissionSet.contains(
+                        CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME
+                    )
+                ) {
                     if (
-                        rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)
-                    )  {
-                        if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                            ssByCommunity.put(
-                                ss.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                                new List<Study_Site__c>()
-                            );
-                        }
-                        ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
-                    } else {
-                        if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                            ssByCommunity.put(
-                                CommunityTemplateService.TEMPLATE_DEFAULT,
-                                new List<Study_Site__c>()
-                            );
-                        }
-                            ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
+                        !ssByCommunity.containsKey(
+                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        )
+                    ) {
+                        ssByCommunity.put(
+                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            new List<Study_Site__c>()
+                        );
+                    }
+                    ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
+                } else {
+                    if (
+                        !ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT) &&
+                        LstOfPermissionSet.contains(
+                            CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                        )
+                    ) {
+                        //&& ss.Override_PI_Referral_Status__c == 'Invitation Sent'
+                        ssByCommunity.put(
+                            CommunityTemplateService.TEMPLATE_DEFAULT,
+                            new List<Study_Site__c>()
+                        );
+                    }
+                    if (
+                        LstOfPermissionSet.contains(
+                            CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                        )
+                    ) {
+                        ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
                     }
                 }
+            }
+            //}
+        }
         return ssByCommunity;
     }
 

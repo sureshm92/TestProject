@@ -37,6 +37,8 @@ public without sharing class DashboardRemoteNew {
     public static final String STATUS_DECLINED_CONSENT = 'Declined Consent';
     public static final String STATUS_WITHDREW_CONSENT = 'Withdrew Consent';
     public static final String STATUS_WITHDREW_CONSENT_AFTER_SCREENING = 'Withdrew Consent After Screening';
+    public static final String STATUS_PARTICIPANT_NO_SHOW = 'Participant No Show';
+    public static final String STATUS_RE_ENGAGED = 'Successfully re-engaged';
 
     class PIData {
         List<LabelValueItem> delegatePIsPicklist = new List<LabelValueItem>();
@@ -109,7 +111,9 @@ public without sharing class DashboardRemoteNew {
         public Boolean isAbleToEdit;
         @AuraEnabled
         public String StudySiteName;
-
+        @AuraEnabled
+        public Boolean isReEngagePar;
+            
         public WaitingContactItem(
             String Id,
             String strPerName,
@@ -119,7 +123,8 @@ public without sharing class DashboardRemoteNew {
             String studyId,
             Integer daysAdded,
             Boolean isAbleToEdit,
-            String StudySiteName
+            String StudySiteName,
+            Boolean isReEngagePar
         ) {
             this.Id = Id;
             this.strPerName = strPerName;
@@ -130,6 +135,7 @@ public without sharing class DashboardRemoteNew {
             this.daysAdded = daysAdded;
             this.isAbleToEdit = isAbleToEdit;
             this.StudySiteName = StudySiteName;
+            this.isReEngagePar = isReEngagePar;
         }
 
         public Integer compareTo(Object compareTo) {
@@ -569,11 +575,15 @@ public without sharing class DashboardRemoteNew {
                     Participant__r.Last_Name__c,
                 	Study_Site__r.Name,
                     Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Study_Site__r.Clinical_Trial_Profile__c
+                    Study_Site__r.Clinical_Trial_Profile__c,
+                    Participant_Status__c,
+                    Succesfully_Re_Engaged__c
                 FROM Participant_Enrollment__c
                 WHERE
                     (Participant_Status__c = :PEStatusState.PE_STATUS_CONTACT_ATTEMPTED
-                    OR Participant_Status__c = :PEStatusState.PE_STATUS_RECEIVED)
+                    OR Participant_Status__c = :PEStatusState.PE_STATUS_RECEIVED
+                    OR Participant_Status__c = :STATUS_PARTICIPANT_NO_SHOW
+                    OR Participant_Status__c = :STATUS_RE_ENGAGED)
                     AND Study_Site__c != NULL
                     AND study_Site__r.Clinical_Trial_Profile__c = :ctpId
                     AND Study_Site__r.Principal_Investigator__c = :piId
@@ -597,6 +607,8 @@ public without sharing class DashboardRemoteNew {
             }
 
             for (Participant_Enrollment__c pe : contactAtemptedList) {
+                Boolean isReEngagePar = false;      
+                isReEngagePar = pe.Succesfully_Re_Engaged__c;
                 if (avaliableSS.isEmpty()) {
                     Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
                     resList.add(
@@ -614,7 +626,8 @@ public without sharing class DashboardRemoteNew {
                             pe.Study_Site__r.Clinical_Trial_Profile__c,
                             daysAdded,
                             true,
-                            pe.Study_Site__r.Name
+                            pe.Study_Site__r.Name,
+                            isReEngagePar
                         )
                     );
                 } else {
@@ -635,7 +648,8 @@ public without sharing class DashboardRemoteNew {
                                 pe.Study_Site__r.Clinical_Trial_Profile__c,
                                 daysAdded,
                                 true,
-                                 pe.Study_Site__r.Name
+                                pe.Study_Site__r.Name,
+                                isReEngagePar
                             )
                         );
                     } else {
@@ -655,7 +669,8 @@ public without sharing class DashboardRemoteNew {
                                 pe.Study_Site__r.Clinical_Trial_Profile__c,
                                 daysAdded,
                                 false,
-                                 pe.Study_Site__r.Name
+                                pe.Study_Site__r.Name,
+                                isReEngagePar
                             )
                         );
                     }

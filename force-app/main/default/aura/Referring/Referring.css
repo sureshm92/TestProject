@@ -231,6 +231,53 @@
     padding: 0 5px;
 }
 
+.THIS .mrr-alert {
+    text-align: center;
+    padding-top: 150px;
+    min-height: 500px;
+}
+
+.THIS .mrr-alert .main-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 48px;
+}
+
+.THIS .mrr-alert.fail .main-title {
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .main-title,
+.THIS .green-text {
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .apollo-btn.tertiary,
+.THIS .mrr-alert.fail .apollo-btn.tertiary {
+    background: none;
+    color: #297dfd;
+}
+
+.THIS .mrr-alert .rr-icon-default {
+    width: 64px;
+    height: 64px;
+    display: block;
+    margin: 5px auto;
+}
+
+.THIS .mrr-alert.fail .rr-icon-default {
+    fill: #e20000;
+}
+
+.THIS .mrr-alert.pass .rr-icon-default {
+    fill: #00c221;
+}
+
+.THIS .mrr-alert button {
+    display: block;
+    margin: 20px auto;
+}
+
 .THIS .pe-button:first-child {
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;

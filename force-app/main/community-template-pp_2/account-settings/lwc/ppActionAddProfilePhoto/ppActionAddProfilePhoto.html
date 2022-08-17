@@ -1,0 +1,52 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={bodyContainerClass}>
+            <div class={avatarIconClass}>
+                <template if:true={hasProfilePic}>
+                    <lightning-avatar
+                        src={pictureSrc}
+                        variant="circle"
+                        size="medium"
+                        class="profile-pic"
+                        alternative-text="User Icon"
+                    >
+                    </lightning-avatar>
+                </template>
+                <template if:false={hasProfilePic}>
+                    <c-web-icon
+                        icon-height="20"
+                        icon-width="18"
+                        icon-name="single-neutral"
+                        icon-color="#444444"
+                        class="single-avatar"
+                    ></c-web-icon>
+                </template>
+            </div>
+            <div class={photoLabelClass}>
+                <p class={userNameClass}>{labels.USER_NAME}: {userName}</p>
+                <template if:false={isDelegate}>
+                    <label for="file-upload" class={fileUploadClass}>
+                        <span class="profile-label">{profileLabel}</span>
+                    </label>
+                    <span class="divider-vertical-standard-line"> | </span>
+                    <span class={removePhotoClass} onclick={removePhoto}
+                        >{labels.REMOVE_PHOTO}</span
+                    >
+                </template>
+                <div class="profile-btn-container">
+                    <div class="btn-upload-photo">
+                        <input
+                            id="file-upload"
+                            data-id="file-upload"
+                            type="file"
+                            onchange={onDrop}
+                            class="input-file"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

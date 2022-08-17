@@ -1,0 +1,449 @@
+.bulkImport .bulkImportFile{
+    font-size: 14px;
+    line-height: 13px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    line-height: 17px;
+    padding-top: 9px;
+}
+.bulkImport .btn-width_Instruction{
+    width: 35%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.bulkImport .btn-width_Template{
+    width: 29%;
+    padding-left: 0px;
+    padding-right: 0;
+}
+.bulkImport .btn-width_Participants{
+    width: 36%;
+    padding-left: 0;
+}
+.bulkImport .btn_height{
+    float: right;
+}
+.bulkImport .bulk-importButton{
+    background: #0768FD;
+    color: white !important;
+}
+.bulkImport .bulk-importButton:hover {
+    background-color: #1c577f;
+    border-color: #1c577f;
+}
+.bulkImport .table-width{
+    max-height: 529px;
+    overflow-y: hidden !important;
+}
+.bulkImport .table-width-nodata{
+    height: auto;
+}
+.bulkImport .table-border{
+    border: solid 1px #d4d4d4;
+}
+.bulkImport .table-header {
+    height: 30px;
+    width: 1174px;
+    background-color: #F8F9FB;
+}
+.table-width-D{
+    table-layout: fixed;
+    width: 100%;
+    white-space: nowrap;
+    }
+.bulkImport .table-header-label {
+    color: #7A7A7A;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+.bulkImport .table-data {
+    text-align: center;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+.bulkImport .table-row {
+    height: 49px;
+    width: 1173.6px;
+}
+.bulkImport .table-row:nth-child(even) {
+    background-color: #F8F9FB;
+}
+tbody:nth-child(even) {
+    background-color: #F8F9FB;
+}
+.bulkImport .table-text-left{
+    text-align: left;
+}
+.bulkImport .fName{
+    width:28%
+}
+.bulkImport .fRecord{
+    width:13%
+}
+.bulkImport .fAccepted{
+    width:10%
+}
+.bulkImport .fRejected{
+    width:18%
+}
+.bulkImport .fUploadedBy{
+    width:15%
+}
+.bulkImport .fUploadedOn{
+    width:10%
+}
+.bulkImport .noData{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+.color_error_bold{
+    font-weight: 600;
+}
+.bulkImport .d_none{
+    display: block;
+}
+.bulkImport .d_noneD{
+    display: none;
+}
+/** --- Pagination Code --- **/
+.bulkImport .pg{
+    min-height: 56px;
+    color: #444444;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 24px;    
+    background: #F6F7FB;
+    border-color: #E9E9E9;
+}
+.bulkImport .pagination-widthD{
+    width: 103%;
+    margin-left: -16px;
+}
+.bulkImport .pg input{
+  color:#000000;
+  box-sizing: border-box;
+  height: 32px;
+  width: 45px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+  text-align: center;
+}
+.pg input:focus-visible {
+  outline: none;
+}
+.pg .slds-icon_container{
+  cursor: pointer;
+}
+.pg .disabled .slds-icon_container{
+  cursor: unset;
+}
+.bulkImport .totalpages{
+  color: #0768FD;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bulkImport .disabled{
+  opacity: .5;
+}
+.bulkImport .rightShift{
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.processStatus{
+    background-color: #F2F2F2;
+    padding: 10px 10px 0px 10px;
+    border-radius: 6px;
+    margin-top: 6px;
+}
+.processStatus .fileName{
+    font-size: 12px;
+    margin-left: -60px;
+}
+.processStatus .fileProgress{
+    color: #444444;
+    font-size: 12px;
+    float: right;
+    font-weight: 700;
+}
+.hideDesktop{
+    display: none;
+}
+.processFileScroll{   
+    max-height: 33vh;
+    overflow-y: auto;
+    margin-top: -5px;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@media all and (max-width: 63.9375em) {
+    
+  .rightShift{
+    justify-content: center;
+    display: unset;
+  }
+  .pg{
+    text-align: center;
+    padding: 0px 0px;
+    background: #F6F7FB;
+  }
+}
+/** --- Pagination Code End --- **/
+.bulkImport .custom-input{
+    margin-top: -15px;
+}
+.bulkImport .custom-label{
+    font-weight: 600;
+}
+@media (max-device-width: 767px) {
+    .bulkImport .d_none{
+        display: none;
+    }
+    .bulkImport .d_noneD{
+        display: block;
+    }
+    .table-width-D{
+        table-layout: unset;
+        }
+    .bulkImport .btn-width_Instruction{
+        width:48%;
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .bulkImport .btn-width_Template{
+        width: 52%;
+        padding-right: var(--lwc-spacingSmall,0.75rem);
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .bulkImport .btn-width_Participants{
+        width: 100%;
+        padding-left: var(--lwc-spacingSmall,0.75rem);
+    }
+    .bulkImport .btn_height{
+        height: 32px;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    .bulkImport .table-width{
+        height: auto;
+        overflow: auto;
+        transform: translate3d(0, 0, 0);
+        border: solid 1px #F2F2F2;
+        position: relative;
+    }
+    .bulkImport .pagination-widthD{
+        width: auto;
+        margin-left: unset;
+    }
+    .bulkImport .table-width{
+        max-height: 550px;
+    }
+    .processFileScroll{   
+        max-height: 28vh;
+    }
+    .processStatus{
+        padding: 10px;
+    }
+    .processStatus .fileName{
+        margin-left: -18px;
+        overflow-wrap: break-word;
+    }
+    .processStatus .fileProgress{
+        float: left !important;
+        margin-left: -18px;
+    }
+    .mobile_viewMargin{
+        margin-top: -12px;
+    }
+    .slds-m-top_small_mobile{
+        margin-top: 6px;
+    }
+    .hideDesktop{
+        display: unset;
+    }
+    .showDesktop{
+        display: none;
+    }
+}
+
+/** pop Import code **/
+.pop-title {
+    color: #000000;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+    padding-left: 76px;
+}
+.text_center{
+    text-align: center;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.model-small{
+    width: 420px;
+    max-width: 52.0625rem;
+    min-width: 0;
+}
+.close-arrow-left{
+    margin-right:0;
+}
+.close-icon{
+    cursor: pointer;
+    padding-left: 32px;
+}
+.bulkImportScroll{
+    height: 23rem;
+    overflow-y: auto;
+}
+.importInfo ol {
+    list-style: decimal;
+}
+.importInfo ol > li > ol {
+    list-style: lower-alpha;
+    padding-left: 2rem;
+}
+.importInfo > .processTextBody > ol > li {
+    padding-bottom: 10px;
+    margin-left: 23px;
+}
+.listText{
+    font-size: 14px;
+    font-family: 'Proxima Nova';
+}
+.custom-position{
+    position: absolute;
+    margin-top: 11px;
+    left: 12px;
+}
+.btn-height{
+    height: 40px;
+}
+.import-btn{
+    float: right;
+}
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
+    float: right;
+    margin-right: 10px;
+    width: auto;
+}
+.container_popup{
+    z-index: 9999;
+}
+.containerbackdrop_popup{
+    z-index: 9998;
+}
+@media (max-device-width: 767px) {
+    .model-small{
+        width: auto;
+        min-width: auto;
+    }
+    .mobile-width{
+        width: 100%;
+    }
+    .close-icon{
+        padding-left: 30px;
+        margin-top: 5px;
+    }
+    .bulkImportScroll{
+        height: 26rem;
+    }
+    .custom-position{
+        position: relative;
+        margin-top: unset;
+        left: unset;
+    }
+    .btn-height{
+        width: 100%;
+    }
+    .pop-title {
+        padding-left: 0;
+    }
+    .text_center{
+        text-align: left;
+    }
+    .custom-position{
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .mob_padding{
+        padding-right: 0;
+        padding-left: 0;
+    }
+}  
+@media (min-width: 767px) {
+    .model-small{
+        width: 100%;
+    }
+}
+@media (min-width: 992px) {
+    .model-small{
+        width: 660px;
+    }
+} 
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+}
+/* Scrollbar Code End */
+/** RTL Code **/
+.rtlLangauge .close-arrow-left{
+    margin-right: calc(-1 * var(--lwc-spacingSmall,0.75rem));
+}
+.rtlLangauge .close-icon{
+    padding-left: 0;
+    padding-right: 21px;
+}
+.rtlLangauge .import-btn{
+    float: left;
+    margin-left: 0;
+}
+.rtlLangauge .p-left-icon{
+    padding-right: 6px;
+    cursor: pointer;
+}
+.rtlLangauge .downloadLabel{
+    text-align: left;
+}
+/** RTL code End **/
+ /** pop code End **/
+ 
+
+/** RTL Code **/
+
+/** RTL Code End **/

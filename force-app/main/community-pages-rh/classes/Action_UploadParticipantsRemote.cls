@@ -10,6 +10,8 @@ public without sharing class Action_UploadParticipantsRemote {
         'PARTICIPANT NICKNAME',
         'PARTICIPANT SEX',
         'PARTICIPANT DATE OF BIRTH',
+        'PARTICIPANT MONTH OF BIRTH',
+        'PARTICIPANT YEAR OF BIRTH',
         'PARTICIPANT EMAIL ADDRESS',
         'PARTICIPANT PHONE',
         'PARTICIPANT PHONE TYPE',
@@ -71,7 +73,7 @@ public without sharing class Action_UploadParticipantsRemote {
     }
     
     @AuraEnabled
-    public static void uploadParticipants(
+    public static String uploadParticipants(
         List<String> csvFileLines,
         String fileName,
         String studySiteId,
@@ -84,31 +86,37 @@ public without sharing class Action_UploadParticipantsRemote {
         Boolean outreachEmail,
         Boolean outreachPhone,
         Boolean outreachSMS,
+        Boolean outreachDirectMail,
         Id visitPlanId
     ) {
         try {
             Map<String, Integer> headerIndexes = new Map<String, Integer>();
             List<String> csvHeaderData = csvFileLines[0].toUpperCase().split(',');
+            list<String> lstHeader = csvFileLines[0].split(',');
+            String strHeader = '';
             Boolean headerFailed = (csvHeaderData.size() != MANDATORY_HEADER_COLUMNS.size() &&
             csvHeaderData.size() < MANDATORY_HEADER_COLUMNS.size());
             if (!headerFailed) {
                 for (Integer indx = 0; indx < csvHeaderData.size(); indx++) {
                     if (csvHeaderData[indx] != null && String.isNotBlank(csvHeaderData[indx])) {
                         String columnName = csvHeaderData[indx].trim();
-                        system.debug('Header: ' + columnName);
+                        
                         if (HEADER_COLUMNS.contains(columnName)) {
                             headerIndexes.put(columnName.toUpperCase(), indx);
-                        }
+                            strHeader += lstHeader[indx] + ',';
+                        } 
                     }
                 }
             }
-
+            strHeader = strHeader.removeEnd(',');
+            
             Integer totalRowCount = 0;
             Map<Integer, List<String>> finalCSVLines = new Map<Integer, List<String>>();
             if (csvFileLines.size() != 0 && !headerFailed) {
                 for (Integer rowIndex = 2; rowIndex < csvFileLines.size(); rowIndex++) {
                     // List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
                     List<String> line = convertPerLineToList(csvFileLines.get(rowIndex));
+                    List<String> FinalLine = line;
                     if (line == null || line.isEmpty() || line.size() == 1) {
                         continue;
                     }
@@ -117,20 +125,51 @@ public without sharing class Action_UploadParticipantsRemote {
                         for (
                             Integer index = line.size(); index < (HEADER_COLUMNS.size()); index++
                         ) {
-                            line.add('');
+                            FinalLine.add('');
                         }
                     }
+                    else  if(line.size() > HEADER_COLUMNS.size()) {
+                        
+                        for(Integer intIndexnew = line.size()-1; intIndexnew >= HEADER_COLUMNS.size(); intIndexnew--)
+                        {
+                            FinalLine.remove(intIndexnew);
+                        }
 
-                    finalCSVLines.put(totalRowCount, line);
+                    }
+                    finalCSVLines.put(totalRowCount, FinalLine);
                 }
             }
-			system.debug('>>finalCSVLines>>'+finalCSVLines);
-            system.debug('>>csvFileLines>>'+csvFileLines);
+           
+            
+            if(finalCSVLines.values().size() <1 ){
+                return 'FileEmpty';
+            }
+            else if(finalCSVLines.values().size() > 45005)
+            {
+                return  'MaxiumumSizeLimit';
+            }
+            else if(finalCSVLines.values().size() == 0 || headerFailed)
+            {
+                return 'FileFormatError';
+            }
+            else {
+            
+            //PI Bulk import history record creation
+            Bulk_Import_History__c bulkHistory = new Bulk_Import_History__c(); 
+            bulkHistory.File_Name__c = fileName;
+            bulkHistory.Import_Status__c = 'In Progress';
+            bulkHistory.Import_Type__c = 'PI Bulk Import';
+            bulkHistory.Initial_Total_Records__c = String.valueOf(totalRowCount);
+            bulkHistory.Study_Site__c = studySiteId;
+            bulkHistory.Uploaded_By__c = UserContext.getUserContactId();
+            
+            insert bulkHistory; 
             //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
            Database.executeBatch(
                 new UploadParticipantsBatch(
                     finalCSVLines.values(),
-                    csvFileLines.get(0),
+                    strHeader,//csvFileLines.get(0),
+                    csvFileLines.get(1),
                     studySiteId,
                     selectedStatus,
                     headerFailed,
@@ -143,10 +182,15 @@ public without sharing class Action_UploadParticipantsRemote {
                     outreachEmail,
                     outreachPhone,
                     outreachSMS,
-                    visitPlanId
+                    outreachDirectMail,
+                    visitPlanId,
+                    fileName,
+                    bulkHistory
                 ),
                 7
             );
+            return 'Success';
+          }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
