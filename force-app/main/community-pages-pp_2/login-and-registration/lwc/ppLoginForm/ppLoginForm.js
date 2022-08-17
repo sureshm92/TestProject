@@ -5,7 +5,6 @@ import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import PP_Desktoplogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
-import CapsLockIcon from '@salesforce/resourceUrl/CapsLockIcon';
 import userName from '@salesforce/label/c.PG_AS_F_Username';
 import password from '@salesforce/label/c.PG_Login_F_Password';
 import login from '@salesforce/label/c.BTN_Log_In';
@@ -36,8 +35,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     wave = PP_Desktoplogos + '/wave_desktop.png';
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
     eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
-    capslockicon = CapsLockIcon;
-
+    
     label = {
         unableToLogin,
         forgotPassword,
