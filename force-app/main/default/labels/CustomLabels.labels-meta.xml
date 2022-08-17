@@ -27357,7 +27357,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_UserRegistration_Warning</shortDescription>
-        <value>Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
+        <value>Participant or Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
     </labels>
     <labels>
         <fullName>RH_ValidationError</fullName>
