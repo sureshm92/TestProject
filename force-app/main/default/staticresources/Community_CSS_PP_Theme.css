@@ -23,7 +23,7 @@
 .slds-spinner--brand .slds-spinner__dot-b:before,
 .slds-spinner--brand .slds-spinner__dot-a:after,
 .slds-spinner--brand .slds-spinner__dot-b:after {
-    background-color: #182a75 !important;
+    background-color: linear-gradient(to bottom, #00839A 0%, #005587 100%);
 }
 
 .cp-content {
