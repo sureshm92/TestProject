@@ -170,10 +170,10 @@
                     </aura:if>
                     <!-- Communication Preferences_Ends -->
                     <aura:if isTrue="{!(v.compId == '2')}">
-                        <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
+                        <c:ppChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '4')}">
-                        <c:PP_LanguageSwitcher
+                        <c:ppLanguageSwitcher
                             personWrapper="{!v.personWrapper}"
                             contactSectionData="{!v.contactSectionData}"
                             onEdit="{!c.onEditPerson}"
