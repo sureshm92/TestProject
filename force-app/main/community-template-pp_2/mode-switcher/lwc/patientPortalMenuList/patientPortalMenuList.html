@@ -15,7 +15,7 @@
                 <template if:true={item.isDelegate}>
                     <div class="slds-grid delegate-item slds-p-around_x-small">
                         <div
-                            class="slds-col slds-size_10-of-12 participant-delegate-title"
+                            class="slds-col slds-size_10-of-12 participant-delegate-title1"
                             data-id={item.title}
                             data-value={item.programList}
                             onclick={handleListDisplay}
@@ -37,10 +37,7 @@
                                 onclick={handleNavigation}
                                 data-id={item.title}
                             >
-                                <c-web-icon
-                                    svg-class={svgClass}
-                                    icon-name={iconName}
-                                ></c-web-icon></div
+                                <span><img src={icon_url} /></span></div
                         ></template>
                     </div>
                 </template>
@@ -81,10 +78,7 @@
                                 onclick={handleNavigation}
                                 data-id={item.title}
                             >
-                                <c-web-icon
-                                    svg-class={svgClass}
-                                    icon-name={iconName}
-                                ></c-web-icon></div
+                                <span><img src={icon_url} /></span></div
                         ></template>
                     </div>
                 </template>
