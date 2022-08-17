@@ -8491,11 +8491,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Study_Closure__c.Clinical_Trial_Profile_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>SurveyInvitation.ExpireDateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
