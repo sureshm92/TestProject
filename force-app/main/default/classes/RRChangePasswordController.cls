@@ -309,7 +309,7 @@ public without sharing class RRChangePasswordController {
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
             
                 List<Participant_Enrollment__c> loginUserPEs = [
-                    SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c 
+                    SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                 ];
@@ -357,14 +357,13 @@ public without sharing class RRChangePasswordController {
             updateStatesAction();
         }
         onLoad = false;
-        Participant_Enrollment__c  pe=[select id,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c from Participant_Enrollment__c where Participant__r.Contact__c=:contact.Id LIMIT 1];
         Id ctpId;
 
-        ctpId = pe?.Clinical_Trial_Profile__c;
+        ctpId = per?.Clinical_Trial_Profile__c;
 
         if (
             (ctpId != null) &&
-            (pe.Clinical_Trial_Profile__r
+            (per.Clinical_Trial_Profile__r
                 ?.Terms_And_Conditions_ID__c != null)
         ) {
             tcLink = '/s/terms-and-conditions?id=' + ctpId;
@@ -375,7 +374,7 @@ public without sharing class RRChangePasswordController {
 
         if (
             ctpId != null &&
-            (pe.Clinical_Trial_Profile__r
+            (per.Clinical_Trial_Profile__r
                 ?.Privacy_Policy_Id__c != null)
         ) {
             studyPrivacyPolicyUrl = '/s/privacy-policy?id=' + ctpId;
