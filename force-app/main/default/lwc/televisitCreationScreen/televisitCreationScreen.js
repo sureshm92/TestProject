@@ -6,6 +6,7 @@ import fetchAttendees from "@salesforce/apex/TelevisitCreationScreenController.f
 import fetchSelectedAttendees from "@salesforce/apex/TelevisitCreationScreenController.fetchSelectedAttendees";
 import updateAttendees from "@salesforce/apex/TelevisitCreationScreenController.updateAttendees";
 import cancelTelevisit from "@salesforce/apex/TelevisitCreationScreenController.cancelTelevisit";
+import fetchParticipantDetails from "@salesforce/apex/TelevisitCreationScreenController.fetchParticipantDetails";
 import { NavigationMixin } from "lightning/navigation";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import pirResources from '@salesforce/resourceUrl/pirResources';
@@ -16,6 +17,9 @@ import RH_TV_CancelTelevisit from '@salesforce/label/c.RH_TV_CancelTelevisit';
 import RH_TV_CancelMessage from '@salesforce/label/c.RH_TV_CancelMessage';
 import RH_TV_NoRecordsFoundMessage from '@salesforce/label/c.RH_TV_NoRecordsFoundMessage';
 import RH_TV_SiteStaffRequiredErrorMessage from '@salesforce/label/c.RH_TV_SiteStaffRequiredErrorMessage';
+import RH_UserEmailPermissionAlert from '@salesforce/label/c.RH_UserEmailPermissionAlert';
+import RH_UserRegistration_Warning from '@salesforce/label/c.RH_UserRegistration_Warning';
+
 
 import RH_TV_Discard from '@salesforce/label/c.RH_TV_Discard';
 import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
@@ -48,6 +52,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.fetchTelevisitRecord();
     }
     backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
+    notification = pirResources+'/pirResources/icons/bell.svg';
+    alert = pirResources+'/pirResources/icons/status-alert.svg';
     value = 'Scheduled';
     duration;
     @track startTime;
@@ -81,6 +87,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     @track selectedAttendeesList = [];
     @track itemToRemove = {name:'',id:''};
     @track selectedItems;
+    isPPUserActivated = true;
+    isEmailPermitted = true;
     label = {
         RH_TV_View,
         RH_TV_CreateTelevisit,
@@ -94,6 +102,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         RH_TV_Close,
         RH_TV_Remove,
         RH_TV_Save,
+        RH_UserEmailPermissionAlert,
+        RH_UserRegistration_Warning
 
     }
 
@@ -439,8 +449,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback(){
-
         this.displayTelevisitRecords = true;        
+        this.checkForPPUser();      
         this.fetchTelevisitRecord();
 
         var rightNow = new Date();
@@ -556,6 +566,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.attendeesList = [];
         this.televisitAttendeesList = [];
         //this.fetchAttendees();
+        this.checkForPPUser();
         this.fetchTelevisitRecord();
     }
 
@@ -771,5 +782,16 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.televisitAttendeesList = this.televisitAttendeesListTemp;
         }  
         
+    }
+
+    checkForPPUser(){
+        fetchParticipantDetails({perId : this.peid.id })
+        .then((result) => {
+            this.isPPUserActivated = result.isPPUserActivated;
+            this.isEmailPermitted = result.isEmailPermitted;
+        })
+        .catch((error) => {
+            console.log('error on PP check'+JSON.stringify(error));
+        });
     }
 }

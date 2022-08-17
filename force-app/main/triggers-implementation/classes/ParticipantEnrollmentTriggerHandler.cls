@@ -1524,7 +1524,6 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         List<Participant_Enrollment__c> newList,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
-        Boolean isPortalUser = checkCurrentusrProfile();
         for (Participant_Enrollment__c peNew : newList) {
             if (oldMap == null) {
                 peNew.Study_Assisted_Dialing_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
