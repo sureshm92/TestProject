@@ -6,7 +6,7 @@
              <!-- DESKTOP VIEW -->
             <template if:false={isMobile}>  
                 <div class={cardRTL}>
-                    <div class="as-title mb-15">Language and Location</div>
+                    <div class="as-title mb-15">{label.PP_Language_and_Location} </div>
                     <div class="as-title-small mb-5">{label.PG_Login_H_Language_Options}</div>
                     <!-- Language Options Form Elements -->
                     <lightning-layout multiple-rows="true" class="mb-15">
@@ -24,7 +24,7 @@
                                 {label.PG_AS_F_Preferred_Language}</label>
                                 <span class="cp-red">*</span>
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_Preferred_Language_Help_Text}>
+                                    <lightning-helptext content={label.PP_AS_F_Preferred_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -50,9 +50,9 @@
                                     class="slds-form-element__label field-title"
                                     for="second-language"
                                 >
-                                Second Language</label>                              
+                                {label.PP_Second_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_2nd_Choice_Language_Help_Text}>
+                                    <lightning-helptext content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -64,6 +64,7 @@
                                         value={secondLangKey}
                                         class="ppCombobox"
                                         placeholder="Select second language"
+                                        onchange={doThirdLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -75,9 +76,9 @@
                                     class="slds-form-element__label field-title"
                                     for="third-language"
                                 >
-                                Third Language</label>                              
+                               {label.PP_Third_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_3rd_Choice_Language}>
+                                    <lightning-helptext content={label.PP_AS_F_3rd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -89,6 +90,7 @@
                                         value={thirdLangKey}
                                         class="ppCombobox"
                                         placeholder="Select third language"
+                                        onchange={doThirdLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -98,7 +100,7 @@
 
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12">
-                            <div class="as-title-small mb-5">Time Zone and Location</div>
+                            <div class="as-title-small mb-5">{label.PP_Time_Zone_and_Location}</div>
                         </lightning-layout-item>
                         <lightning-layout-item size="5" class="mb-10">
                             <div class="slds-form-element">
@@ -106,7 +108,7 @@
                                     class="slds-form-element__label field-title"
                                     for="pref-time-zone"
                                 >
-                                Preferred Time Zone</label>                              
+                               {label.PP_Preferred_Time_Zone}</label>                              
                                 <span class="cp-red">*</span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
@@ -117,6 +119,7 @@
                                         value={timezoneKey}
                                         class="ppCombobox"
                                         placeholder="Select preferred time zone"
+                                        onchange={doThirdLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -140,6 +143,7 @@
                                         value={localeKey}
                                         class="ppCombobox"
                                         placeholder="Select locale for date format"
+                                        onchange={doThirdLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -168,6 +172,7 @@
                                         value={personWrapper.mailingCC}
                                         class="ppCombobox"
                                         placeholder="Select country"
+                                        onchange={doThirdLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -192,7 +197,9 @@
                                         variant="label-hidden"
                                         value={personWrapper.mailingSC}
                                         class="ppCombobox"
-                                        placeholder="state"
+                                        placeholder={label.PG_AC_Select}
+                                        onchange={doStateChange}
+                                        data-id="lang-state-ele"
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -213,7 +220,8 @@
                                         label="Zip Postal Code"
                                         variant="label-hidden"
                                         class="profile-info-input"
-                                        value={personWrapper.zip}                              
+                                        value={personWrapper.zip} 
+                                        onchange={doZipChange}                                
                                     ></lightning-input>       
                                 </div>  
                             </div>
@@ -224,10 +232,11 @@
                         <lightning-layout-item size="12">
                             <button
                             class="slds-button saveButton slds-button_brand apollo-btn primary" 
-                            data-id="updateBtn" 
-                            disabled            
+                            data-id="saveBtn"                                   
+                            onclick={doChangeLanguage}
+                            disabled           
                             >
-                            Save
+                            {label.BTN_Save}
                         </button>
                         </lightning-layout-item>
                     </lightning-layout>
@@ -237,7 +246,7 @@
              <!-- MOBILE VIEW -->
              <template if:true={isMobile}>  
                 <div class={cardRTL}>
-                    <div class="as-title mb-15">Language and Location</div>
+                    <div class="as-title mb-15">{label.PP_Language_and_Location}</div>
                     <div class="as-title-small mb-5">{label.PG_Login_H_Language_Options}</div>
                     <!-- Language Options Form Elements -->
                     <lightning-layout multiple-rows="true" class="mb-15">
@@ -255,7 +264,7 @@
                                 {label.PG_AS_F_Preferred_Language}</label>
                                 <span class="cp-red">*</span>
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_Preferred_Language_Help_Text}>
+                                    <lightning-helptext content={label.PP_AS_F_Preferred_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -277,9 +286,9 @@
                                     class="slds-form-element__label field-title"
                                     for="second-language"
                                 >
-                                Second Language</label>                              
+                                {label.PP_Second_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_2nd_Choice_Language_Help_Text}>
+                                    <lightning-helptext content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -301,9 +310,9 @@
                                     class="slds-form-element__label field-title"
                                     for="third-language"
                                 >
-                                Third Language</label>                              
+                                {label.PP_Third_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PG_AS_F_3rd_Choice_Language}>
+                                    <lightning-helptext content={label.PP_AS_F_3rd_Choice_Language}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -323,7 +332,7 @@
 
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12" class="mb-10">
-                            <div class="as-title-small mb-5">Time Zone and Location</div>
+                            <div class="as-title-small mb-5">{label.PP_Time_Zone_and_Location}</div>
                         </lightning-layout-item>
                         <lightning-layout-item size="12" class="mb-10">
                             <div class="slds-form-element">
@@ -331,7 +340,7 @@
                                     class="slds-form-element__label field-title"
                                     for="pref-time-zone"
                                 >
-                                Preferred Time Zone</label>                              
+                                {label.PP_Preferred_Time_Zone}</label>                              
                                 <span class="cp-red">*</span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
@@ -444,7 +453,7 @@
                             data-id="updateBtn" 
                             disabled            
                             >
-                            Save
+                            {label.BTN_Save}
                         </button>
                         </lightning-layout-item>
                     </lightning-layout>

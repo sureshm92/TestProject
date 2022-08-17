@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-grid slds-grid_vertical pat-menu-items">
-        <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
+    <div class="slds-grid slds-grid_vertical slds-m-top_xxx-small">
+        <div class="slds-col slds-size_1-of-1">
             <template if:true={hasSingleCommMode}>
                 <c-patient-portal-menu-picklist
                     place-holder={placeHolder}
@@ -12,6 +12,8 @@
                 </c-patient-portal-menu-picklist>
             </template>
         </div>
+    </div>
+    <div class="slds-grid slds-grid_vertical pat-menu-items">
         <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
             <div class="slds-col slds-grid slds-grid_vertical">
                 <template if:false={hasSingleCommMode}>
@@ -83,10 +85,12 @@
                                     <div
                                         class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
                                     >
-                                        <c-web-icon
-                                            svg-class={svgClass}
-                                            icon-name={iconName}
-                                        ></c-web-icon>
+                                        <span
+                                            ><img
+                                                src={icon_url}
+                                                onclick={handleNavigation}
+                                                data-id={currentMode.title}
+                                        /></span>
                                     </div>
                                 </div>
                             </template>
@@ -97,11 +101,8 @@
             </div>
         </div>
     </div>
-    <div class="slds-grid">
-        <div
-            class="slds-col slds-size_1-of-1 slds-align_absolute-center"
-            if:false={hasSingleCommMode}
-        >
+    <div class="slds-grid slds-m-top_xx-small">
+        <div class="slds-col slds-size_1-of-1" if:false={hasSingleCommMode}>
             <c-patient-portal-menu-picklist
                 place-holder={placeHolder}
                 pick-list-options={pickListOptions}
