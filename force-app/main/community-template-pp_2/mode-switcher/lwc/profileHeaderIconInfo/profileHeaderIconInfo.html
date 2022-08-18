@@ -45,22 +45,24 @@
                 </div>
             </div>
         </div>
-        <div class={manageDelegatesClass}>
-            <div class="slds-grid list-item" onclick={doManageDelegates}>
-                <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
-                    <lightning-icon
-                        icon-name="utility:user"
-                        size="x-small"
-                        aria-hidden="true"
-                        alternative-text="user"
-                        class="icon-color"
-                    >
-                    </lightning-icon>
+        <template if:true={isDelegate}>
+            <div class={manageDelegatesClass}>
+                <div class="slds-grid list-item" onclick={doManageDelegates}>
+                    <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
+                        <lightning-icon
+                            icon-name="utility:user"
+                            size="x-small"
+                            aria-hidden="true"
+                            alternative-text="user"
+                            class="icon-color"
+                        >
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-col slds-size_9-of-12">
+                        <p class="setting-txt">{label.PP_ManageDelegates}</p>
+                    </div>
                 </div>
-                <div class="slds-col slds-size_9-of-12">
-                    <p class="setting-txt">{label.PP_ManageDelegates}</p>
-                </div>
-            </div>
-        </div>
+            </div></template
+        >
     </div>
 </template>

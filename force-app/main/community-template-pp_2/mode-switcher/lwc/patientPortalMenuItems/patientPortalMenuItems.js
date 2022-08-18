@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import partipantsDelegate from '@salesforce/label/c.Paticipant_s_Delegate';
+import partipantsDelegate from '@salesforce/label/c.Participant_s_Delegate';
 import noActiveStudies from '@salesforce/label/c.No_active_studies';
 import noActivePrograms from '@salesforce/label/c.No_Active_Programs';
 import viewingAs from '@salesforce/label/c.Viewing_as';
@@ -7,6 +7,7 @@ import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import self from '@salesforce/label/c.PP_Self';
 import study from '@salesforce/label/c.CC_Study';
 import program from '@salesforce/label/c.PP_Program';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PatientPortalMenuItems extends LightningElement {
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
@@ -31,6 +32,7 @@ export default class PatientPortalMenuItems extends LightningElement {
         noActivePrograms
     };
     contactName;
+    icon_url = pp_icons + '/participant_settings.svg';
 
     connectedCallback() {
         this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;

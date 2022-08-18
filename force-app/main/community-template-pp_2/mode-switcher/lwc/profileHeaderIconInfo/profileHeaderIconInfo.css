@@ -25,8 +25,11 @@
     line-height: 24px;
 }
 .header-setting-email {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 17px;
-    width: 230px;
+    width: 212px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -55,4 +58,9 @@
 .list-item:hover {
     cursor: pointer;
     background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+    /* .header-setting-email {
+        width: 215px;
+    } */
 }

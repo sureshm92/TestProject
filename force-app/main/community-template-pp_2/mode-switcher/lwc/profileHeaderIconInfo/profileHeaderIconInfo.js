@@ -12,6 +12,8 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     @api currentMode;
     @api hasProfilePic;
     @api isRTL;
+    @api communityModes;
+    fullName;
     reset = true;
     viewMode = '';
     label = {
@@ -57,11 +59,20 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         }
         return '';
     }
+
+    get isDelegate() {
+        if (this.currentMode.groupLabel == this.fullName) return true;
+        else return false;
+    }
     get manageDelSvgClass() {
         return '';
     }
 
     connectedCallback() {
+        console.log('/////////' + JSON.stringify(this.currentMode));
+        if (this.user) {
+            this.fullName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
+        }
         this.reset = true;
         let currentMode = this.currentMode;
         let mode = '';
@@ -88,13 +99,24 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         this.doCloseModal();
     }
     doNavigateToAccountSettings() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'account-settings'
+        let item;
+        let commModes = this.communityModes.ppModeItems;
+        for (let i = 0; i < commModes.length; i++) {
+            for (let j = 0; j < commModes[i].subItems.length; j++) {
+                if (this.fullName == commModes[i].subItems[j].title) {
+                    item = commModes[i].subItems[j];
+                    break;
+                }
+            }
+        }
+        const selectedEvent = new CustomEvent('itemselection', {
+            detail: {
+                itemValue: item,
+                navigateTo: 'account-settings'
             }
         });
-        this.doCloseModal();
+        this.dispatchEvent(selectedEvent);
+        //   this.doCloseModal();
     }
     doCloseModal() {
         const pageNavigation = new CustomEvent('pageNavigation');
