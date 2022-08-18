@@ -23,7 +23,7 @@
 .slds-spinner--brand .slds-spinner__dot-b:before,
 .slds-spinner--brand .slds-spinner__dot-a:after,
 .slds-spinner--brand .slds-spinner__dot-b:after {
-    background-color: linear-gradient(to bottom, #00839A 0%, #005587 100%);
+    background-color: #182a75 !important;
 }
 
 .cp-content {
@@ -49,7 +49,6 @@
 .round-combobox .slds-dropdown_fluid{
     min-width: 10rem !important;
 }
-
 
 .cp-login-title{
     font-size: 60px;
@@ -94,6 +93,15 @@
     line-height: 2rem;
     text-align: center;
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
+	justify-content: center;
+	margin-top: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content {
+	width: unset;
+	margin-left: .5rem;
 }
 
 .toastContainer .toastTitle, .toastContainer .toastIcon {
@@ -117,4 +125,11 @@
 .toastContainer .forceToastMessage .toastClose .slds-button__icon--large{
     height: 1rem !important;
     width: 1rem !important;
+}
+.masked .slds-input {
+    -webkit-text-security: disc;
+}
+
+.ppCombobox button{  
+    border-radius: 20px !important;
 }
