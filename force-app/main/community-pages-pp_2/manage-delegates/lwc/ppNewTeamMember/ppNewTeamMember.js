@@ -211,7 +211,6 @@ export default class PpNewTeamMember extends LightningElement {
         }
     }
     doSearchContact(){
-        this.isLoading = true;
         let delegate = this.delegate;
         if (delegate.delegateContact.Email != undefined && delegate.delegateContact.Email != '' && !communityService.isValidEmail(delegate.delegateContact.Email.trim())) {
             this.isCorrectEmail = false;
@@ -222,6 +221,7 @@ export default class PpNewTeamMember extends LightningElement {
 
         let oldFirstName = delegate.delegateContact.FirstName;
         let oldLastName = delegate.delegateContact.LastName;
+        this.isLoading = true;
         getContactData({ 
             userMode: this.userMode,
             contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
