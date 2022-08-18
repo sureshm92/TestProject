@@ -36,6 +36,7 @@
                                         value={languageKey}
                                         class="ppCombobox"
                                         placeholder="Select Preferred Language"
+                                        onchange={doPrefLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -64,7 +65,7 @@
                                         value={secondLangKey}
                                         class="ppCombobox"
                                         placeholder="Select second language"
-                                        onchange={doThirdLangChange}
+                                        onchange={doSecondLangChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -119,7 +120,7 @@
                                         value={timezoneKey}
                                         class="ppCombobox"
                                         placeholder="Select preferred time zone"
-                                        onchange={doThirdLangChange}
+                                        onchange={doPrefTimeZoneChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -143,7 +144,7 @@
                                         value={localeKey}
                                         class="ppCombobox"
                                         placeholder="Select locale for date format"
-                                        onchange={doThirdLangChange}
+                                        onchange={doLocaleChange}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -172,7 +173,7 @@
                                         value={personWrapper.mailingCC}
                                         class="ppCombobox"
                                         placeholder="Select country"
-                                        onchange={doThirdLangChange}
+                                        onchange={doCheckFieldsValidity}
                                     >
                                     </lightning-combobox>      
                                 </div>  
@@ -246,6 +247,34 @@
              <!-- MOBILE VIEW -->
              <template if:true={isMobile}>  
                 <div class={cardRTL}>
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <div class="back-button">
+                                <template if:false={isRTL}>
+                                    <c-web-icon
+                                        icon-size="medium"
+                                        icon-name={iconChevron}
+                                        icon-color="#297dfd"
+                                    >
+                                    </c-web-icon>
+                                </template>
+                                <span
+                                    class="slds-p-left_x-small slds-p-right_x-small"
+                                    onclick={showMenuBar}
+                                    data-header="lang-loc"
+                                    >{label.BACK}</span
+                                >
+                                <template if:true={isRTL}>
+                                    <c-web-icon
+                                        icon-size="medium"
+                                        icon-name={iconChevron}
+                                        icon-color="#297dfd"
+                                    >
+                                    </c-web-icon>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
                     <div class="as-title mb-15">{label.PP_Language_and_Location}</div>
                     <div class="as-title-small mb-5">{label.PG_Login_H_Language_Options}</div>
                     <!-- Language Options Form Elements -->
@@ -270,12 +299,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="pref-language"
+                                        options={languages}
                                         label="Preferred Language"
                                         variant="label-hidden"
-                                        value=""
+                                        value={languageKey}
                                         class="ppCombobox"
                                         placeholder="Select Preferred Language"
-                                        options="">
+                                        onchange={doPrefLangChange}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -294,12 +325,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="second-language"
+                                        options={optionalLanguages}
                                         label="Second Language"
                                         variant="label-hidden"
-                                        value=""
+                                        value={secondLangKey}
                                         class="ppCombobox"
                                         placeholder="Select second language"
-                                        options="">
+                                        onchange={doSecondLangChange}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -318,12 +351,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="third-language"
+                                        options={optionalLanguages}
                                         label="Third Language"
                                         variant="label-hidden"
-                                        value=""
+                                        value={thirdLangKey}
                                         class="ppCombobox"
                                         placeholder="Select third language"
-                                        options="">
+                                        onchange={doThirdLangChange}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -345,12 +380,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="pref-time-zone"
+                                        options={timezones}
                                         label="Preferred Time Zone"
                                         variant="label-hidden"
-                                        value=""
+                                        value={timezoneKey}
                                         class="ppCombobox"
                                         placeholder="Select preferred time zone"
-                                        options="">
+                                        onchange={doPrefTimeZoneChange}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -366,12 +403,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="locale-date-format"
+                                        options={locales}
                                         label="Locale For Date Format"
                                         variant="label-hidden"
-                                        value=""
+                                        value={localeKey}
                                         class="ppCombobox"
                                         placeholder="Select locale for date format"
-                                        options="">
+                                        onchange={doLocaleChange}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -393,12 +432,14 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="country"
+                                        options={countriesLVList}
                                         label="Country"
                                         variant="label-hidden"
-                                        value=""
+                                        value={personWrapper.mailingCC}
                                         class="ppCombobox"
                                         placeholder="Select country"
-                                        options="">
+                                        onchange={doCheckFieldsValidity}
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -414,12 +455,15 @@
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
                                     <lightning-combobox
                                         name="state"
+                                        options={statesLVList}
                                         label="State"
                                         variant="label-hidden"
-                                        value=""
+                                        value={personWrapper.mailingSC}
                                         class="ppCombobox"
-                                        placeholder="state"
-                                        options="">
+                                        placeholder="Select state"
+                                        onchange={doStateChange}
+                                        data-id="lang-state-ele"
+                                    >
                                     </lightning-combobox>      
                                 </div>  
                             </div>
@@ -439,7 +483,8 @@
                                         label="Zip Postal Code"
                                         variant="label-hidden"
                                         class="profile-info-input"
-                                        value=""                                 
+                                        value={personWrapper.zip} 
+                                        onchange={doZipChange}                                  
                                     ></lightning-input>  
                                 </div>  
                             </div>

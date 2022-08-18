@@ -201,7 +201,7 @@ export default class PpLanguageSwitcher extends LightningElement {
             let states = this.statesByCountryMap[this.personWrapper.mailingCC];
             this.statesLVList = states;
             this.previousCC = this.personWrapper.mailingCC;
-            this.personWrapper.mailingSC = 'none';
+            this.personWrapper.mailingSC = null;
         }
 
         this.isInputValid();
@@ -369,11 +369,25 @@ export default class PpLanguageSwitcher extends LightningElement {
             this.disableSaveButton();
         }else{ this.enableSaveButton();}
     }
+
     disableSaveButton(){
         this.saveButton != null ? this.saveButton.disabled = true : "";      
     }
 
     enableSaveButton(){
         this.saveButton != null ? this.saveButton.removeAttribute("disabled") : "";
+    }
+
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.isInitialized = false;
+        }
     }
 }
