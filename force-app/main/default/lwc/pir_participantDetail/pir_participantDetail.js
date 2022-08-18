@@ -1126,17 +1126,21 @@ export default class Pir_participantDetail extends LightningElement {
         let cMonth = todayDate.getMonth()+1;
         let cDay = todayDate.getDate();
         let cYear = parseInt(todayDate.getUTCFullYear());
-
+        let addedValues = '';
         if((this.studyDobFormat == 'YYYY' || (this.studyDobFormat == 'MM-YYYY' && this.valueMM != '--' && this.valueMM >= cMonth ) 
         || (this.studyDobFormat == 'DD-MM-YYYY' && this.valueMM != '--' && this.valueDD != '--' && (this.valueMM > cMonth || (this.valueMM == cMonth && this.valueDD > cDay)))) 
         && this.valueYYYY!='--' && this.valueYYYY!=cYear){
             opt.push({label: lowerAge, value: lowerAge });
+            addedValues += lowerAge+';';
         }
         if(this.studyDobFormat == 'YYYY' || (this.studyDobFormat == 'MM-YYYY' && this.valueMM != '--' && this.valueMM <= cMonth ) 
         || (this.studyDobFormat == 'DD-MM-YYYY' && this.valueMM != '--' && this.valueDD != '--' && (this.valueMM < cMonth || (this.valueMM == cMonth && this.valueDD <= cDay)))){
             opt.push({label: higherAge, value: higherAge });
+            addedValues += higherAge+';';
         }
-        
+        if(!addedValues.includes(this.participantSelectedAge+';') && this.participantSelectedAge!=null){
+            opt.push({label: this.participantSelectedAge, value: this.participantSelectedAge });
+        }
         return opt;
     }
     //dob changes
