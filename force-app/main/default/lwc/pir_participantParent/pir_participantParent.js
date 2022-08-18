@@ -433,6 +433,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if(!this.isDetailModalOpen){     
       this.isParticipantDetail = true;
       this.isMedicalTab = false;
+      this.callTelevisistMethod = false;
       if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
         this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
         this.selectedTab = "Participant Details";
