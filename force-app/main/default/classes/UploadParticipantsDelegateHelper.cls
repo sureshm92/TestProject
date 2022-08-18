@@ -312,7 +312,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                     }
                 }
             }
-            if (updatePDs.isEmpty()) {
+            if (!updatePDs.isEmpty()) {
                 Database.update(updatePDs, false);
             }
         }
