@@ -26,7 +26,7 @@ force-app/main/default/flows/customer_satisfaction.flow-meta.xml
 force-app/main/default/flows/Send_Email_to_the_delegate.flow-meta.xml
 force-app/main/default/flows/Create_Task_For_OutReach_User-3.flow-meta.xml
 force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
-force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
+#force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 force-app/main/default/workflows/Case.workflow-meta.xml
 
@@ -42,9 +42,9 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
-force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-force-app/main/default/profiles
-force-app/communities
-force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-force-app/main/onboarding-tour
-force-app/main/default/staticresources
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+#force-app/main/default/profiles
+#force-app/communities
+#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
+#force-app/main/onboarding-tour
+#force-app/main/default/staticresources
