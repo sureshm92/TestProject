@@ -18,6 +18,15 @@
     font-weight: 500;
     display: inline-block;
 }
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
 .rectangle {
     box-sizing: border-box;
     height: 276px;

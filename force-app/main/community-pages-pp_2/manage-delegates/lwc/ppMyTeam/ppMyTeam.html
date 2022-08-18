@@ -1,8 +1,14 @@
 <template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+          <lightning-spinner alternative-text="Loading" variant="brand" size="medium" class="spins"> </lightning-spinner>
+        </template>
+      </div>
+  
     <template if:true={showppNewTeamMember}>
         <div class="back-to-manage-delegate slds-m-bottom_medium">
             <lightning-icon icon-name="utility:chevronleft" size="xx-small"> </lightning-icon
-            ><span>Back to Manage Delegates</span>
+            ><span onclick={handleBackToDelegates}>Back to Manage Delegates</span>
         </div>
     </template>
     <template if:false={showppNewTeamMember}>
@@ -37,8 +43,15 @@
             </div>
             <template if:true={showppNewTeamMember}>
                 <div class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12">
-                    <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
-                    <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
+                    <template if:true={delegates}>
+                        <template for:each={delegates} for:item="delegate">
+                            <c-pp-patient-delegate-item key={delegate.Email} contact={delegate.delegateContact} usermode={usermode} selectedparent={piSelectedParent}
+                            is-active={delegate.isActive} onrerenderteampage ={handleInitData} ></c-pp-patient-delegate-item>
+
+                         </template>
+                        </template>
+
+                    <!--<c-pp-new-team-member></c-pp-new-team-member>-->
                 </div>
             </template>
             <template if:false={showppNewTeamMember}>
@@ -52,10 +65,10 @@
                 </div>
             </template>
         </div>
-        <template if:true={showppNewTeamMember}>
+       <template if:true={showppNewTeamMember}>
             <div class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12">
-                <!-- <c-pp-new-team-member></c-pp-new-team-member> -->
-                <c-pp-patient-delegate-item></c-pp-patient-delegate-item>
+                <c-pp-new-team-member selected-parent ={piSelectedParent}  onbacktodelegates={handleInitData}></c-pp-new-team-member> 
+                <!--<c-pp-patient-delegate-item></c-pp-patient-delegate-item>-->
             </div>
         </template>
         <template if:false={showppNewTeamMember}>
@@ -63,8 +76,20 @@
                 class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12 slds-align_absolute-center"
             >
                 <span class="there-are-no-delegat"
-                    >There are no delegates registered at the moment. Click on Add New Delegate to
-                    allow access to your information.</span
+                    >
+                    <template if:true={delegates}>
+                        <template for:each={delegates} for:item="delegate">
+                            <c-pp-patient-delegate-item key={delegate.Email} contact={delegate.delegateContact} usermode={usermode} selectedparent={piSelectedParent}
+                            is-active={delegate.isActive} onrerenderteampage ={handleInitData} ></c-pp-patient-delegate-item>
+
+                         </template>
+                        </template>
+                        <template if:false={delegates}>
+                            There are no delegates registered at the moment. Click on Add New Delegate to
+                            allow access to your information--- Anitha
+                            </template>
+
+                    </span
                 >
             </div>
         </template>

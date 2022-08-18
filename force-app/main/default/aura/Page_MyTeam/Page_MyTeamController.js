@@ -7,6 +7,7 @@
 
         if (!communityService.isDummy()) {
             component.set('v.isDelegate', communityService.isDelegate());
+            component.set('v.communityName', communityService.getCurrentCommunityName());
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.isInitialized', true);
         } else {
