@@ -14,7 +14,7 @@
                     >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required">* </abbr></label
                 >
                 <div class="slds-form-element__control">
-                   <lightning-input  onchange={handleDateChange} class="validate" type="email"  required 
+                   <lightning-input  onchange={handleDateChange} class="validate input-field-container" type="email"  required 
                     data-id="emailInput" variant="label-hidden"
                     label={label.PG_AS_F_Email_address}
                     value={delegate.delegateContact.Email}
@@ -28,7 +28,7 @@
                     >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required">* </abbr></label
                 >
                 <div class="slds-form-element__control1">
-                    <lightning-input  onchange={handleDateChange} class="validate" variant="label-hidden"
+                    <lightning-input  onchange={handleDateChange} class="validate input-field-container" variant="label-hidden"
                     data-id="firstNameInput"
                     label={label.PG_AS_F_First_name}
                     disabled={firstNameDisabledCheck}
@@ -42,7 +42,7 @@
                 >
                 <div class="slds-form-element__control">
                     <lightning-input
-                    data-id="lastNameInput"  onchange={handleDateChange} class="validate" variant="label-hidden"
+                    data-id="lastNameInput"  onchange={handleDateChange} class="validate input-field-container" variant="label-hidden"
                     label={label.PG_AS_F_Last_name}
                     disabled={lastNameDisabledCheck}
                     value={delegate.delegateContact.LastName}
