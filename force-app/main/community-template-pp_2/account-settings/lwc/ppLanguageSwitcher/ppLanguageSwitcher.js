@@ -127,7 +127,7 @@ export default class PpLanguageSwitcher extends LightningElement {
                 });
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', error.message, 100);
+            communityService.showToast('', 'error', error.message, 100);
         });
 
        
@@ -181,7 +181,7 @@ export default class PpLanguageSwitcher extends LightningElement {
             
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
             this.spinner.hide();
         });
     }
@@ -325,7 +325,7 @@ export default class PpLanguageSwitcher extends LightningElement {
         .then((returnValue) => {           
             this.spinner.hide();
             communityService.showToast(
-                'success',
+                '',
                 'success',
                 this.label.PP_Profile_Update_Success,
                 100
@@ -335,7 +335,7 @@ export default class PpLanguageSwitcher extends LightningElement {
             
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', 'Failed To save the Data...', 100);
+            communityService.showToast('', 'error', 'Failed To save the Data...', 100);
             this.spinner.hide();
         });
     }  
