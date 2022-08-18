@@ -13661,6 +13661,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>This will be used to display study information when your Preferred Language is not available.</value>
     </labels>
     <labels>
+        <fullName>PP_AS_F_2nd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F 2nd Choice Language Help Text</shortDescription>
+        <value>To be used when your Preferred Language is not available.</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_3rd_Choice_Language</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13673,6 +13680,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
         <value>This will be used to display study information when your other 2 choices are not available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_F_3rd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F 3rd Choice Language Help Text</shortDescription>
+        <value>To be used when your Preferred and Second Language are not available.</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Current_Password</fullName>
@@ -13864,6 +13878,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>This will be your default language to display study information whenever possible.</value>
     </labels>
     <labels>
+        <fullName>PP_AS_F_Preferred_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F Preferred Language Help Text</shortDescription>
+        <value>Default language to display study information.</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Preferred_Timezone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13939,6 +13960,76 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG_AS_F_Update_Password</shortDescription>
         <value>Update Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_Management</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password Management</shortDescription>
+        <value>Password Management</value>
+    </labels>
+    <labels>
+        <fullName>PP_Incorrect_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Incorrect password</shortDescription>
+        <value>Incorrect password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_does_not_fit_criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password does not fit criteria</shortDescription>
+        <value>Password does not fit criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_does_not_match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password does not match</shortDescription>
+        <value>Password does not match</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_Requirements</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password Requirements</shortDescription>
+        <value>Password Requirements</value>
+    </labels>
+    <labels>
+        <fullName>PP_Language_and_Location</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Language and Location</shortDescription>
+        <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_Second_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Second Language</shortDescription>
+        <value>Second Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Third_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Third Language</shortDescription>
+        <value>Third Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Time_Zone_and_Location</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Time Zone and Location</shortDescription>
+        <value>Time Zone and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Time_Zone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Preferred Time Zone</shortDescription>
+        <value>Preferred Time Zone</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Username</fullName>
@@ -18605,7 +18696,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
-        <value>Password does not fit criteria</value>
+        <value>Password does not meet criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -20286,11 +20377,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New visit data is available</value>
     </labels>
     <labels>
-        <fullName>Paticipant_s_Delegate</fullName>
+        <fullName>Participant_s_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Paticipant's Delegate</shortDescription>
-        <value>Paticipant's Delegate</value>
+        <shortDescription>Participant's Delegate</shortDescription>
+        <value>Participant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -24603,6 +24694,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your password has been changed successfully.</value>
     </labels>
     <labels>
+        <fullName>TST_password_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST password updated successfully</shortDescription>
+        <value>Password updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_current_password_is_invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your current password is invalid</shortDescription>
+        <value>Your current password is invalid</value>
+    </labels>
+    <labels>
         <fullName>TST_activated</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27378,7 +27483,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_UserRegistration_Warning</shortDescription>
-        <value>Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
+        <value>Participant or Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
     </labels>
     <labels>
         <fullName>RH_ValidationError</fullName>

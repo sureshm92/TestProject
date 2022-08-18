@@ -9,23 +9,23 @@
     </template>
 
     <c-web-spinner fixed="true"></c-web-spinner>
-   <lightning-layout>
-			<lightning-layout-item size="12">
-						<c-privacy-policy-viewer
-						is-rtl={isRTL}
-						is-modal-open={isPrivacyPolicy}
-						oncloseprivacypolicy={closePrivacyPolicy}
-						comm-pref={commPrefForPrivacyPolicy}
-				>
-				</c-privacy-policy-viewer>
-			 </lightning-layout-item>
+    <lightning-layout>
+        <lightning-layout-item size="12">
+            <c-privacy-policy-viewer
+                is-rtl={isRTL}
+                is-modal-open={isPrivacyPolicy}
+                oncloseprivacypolicy={closePrivacyPolicy}
+                comm-pref={commPrefForPrivacyPolicy}
+            >
+            </c-privacy-policy-viewer>
+        </lightning-layout-item>
     </lightning-layout>
 
     <template if:true={isDesktop}>
         <div class={cardRTL}>
             <div class="communication-pref">
                 <span class={communicationPrefHeader}>
-                    {label.PP_Communication_Pref}
+                    <span class="as-title">{label.PP_Communication_Pref}</span>
                 </span>
                 <template if:true={studyError}>
                     <lightning-layout
@@ -35,17 +35,16 @@
                     >
                         <lightning-layout-item size="7" class={phoneErrorBorder}>
                             <div class="sub-header po-error">
-                                <lightning-layout
-                                    multiple-rows="true"
-                                    vertical-align="center"
-                                >
+                                <lightning-layout multiple-rows="true" vertical-align="center">
                                     <lightning-layout-item size="1">
                                         <span>
                                             <img style={errorIconPosition} src={exclamation} />
                                         </span>
                                     </lightning-layout-item>
                                     <lightning-layout-item size="11" class="pad-top-10">
-                                        <span class="po-text-red">{label.PP_Communication_Pref_Warning} </span>
+                                        <span class="po-text-red"
+                                            >{label.PP_Communication_Pref_Warning}
+                                        </span>
                                         <span>{errorLabelText}</span>
                                         <span
                                             class="blue-highlight-text-color"
@@ -60,24 +59,31 @@
                             <div class="sub-header po-error">
                                 <div class={phoneErrorHeaderMarPad}>{label.Mob_Phone_Field}</div>
                                 <lightning-layout
-                                multiple-rows="true"
-                                class="po-error-container po-mr-10"
-                                 >
-                                 <lightning-layout-item size="8">
-                                    <lightning-input
-                                        type="tel"
-                                        label="Phone Input"
-                                        variant="label-hidden"
-                                        name="phone1"
-                                        value=""
-                                        class="po-bradius-20 userInputField"
-                                        onchange={isInputValid}
-                                     ></lightning-input>
-                                 </lightning-layout-item>
-            
-                                 <lightning-layout-item size="4">
-                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarin}>{label.BTN_Save}</button>
-                                </lightning-layout-item>
+                                    multiple-rows="true"
+                                    class="po-error-container po-mr-10"
+                                >
+                                    <lightning-layout-item size="8">
+                                        <lightning-input
+                                            type="tel"
+                                            label="Phone Input"
+                                            variant="label-hidden"
+                                            name="phone1"
+                                            value=""
+                                            class="po-bradius-20 userInputField"
+                                            onchange={isInputValid}
+                                        ></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4">
+                                        <button
+                                            disabled
+                                            title="Non-primary action"
+                                            onclick={savePhone}
+                                            class={phoneErrorBtnMarin}
+                                        >
+                                            {label.BTN_Save}
+                                        </button>
+                                    </lightning-layout-item>
                                 </lightning-layout>
                             </div>
                         </lightning-layout-item>
@@ -112,14 +118,21 @@
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
-                            <lightning-layout multiple-rows="true"  vertical-align="center" class="static-msg">
+                            <lightning-layout
+                                multiple-rows="true"
+                                vertical-align="center"
+                                class="static-msg"
+                            >
                                 <lightning-layout-item size="1" class="center-align">
-                                    <img style={errorIconPosition} src={exclamation_orange} class="pad-r-10 exclamation_orange"/>
-                                </lightning-layout-item>   
+                                    <img
+                                        style={errorIconPosition}
+                                        src={exclamation_orange}
+                                        class="pad-r-10 exclamation_orange"
+                                    />
+                                </lightning-layout-item>
                                 <lightning-layout-item size="11">
-                                    <span>{label.PP_Communication_Study_Static_Message}
-                                    </span>
-                                </lightning-layout-item>  
+                                    <span>{label.PP_Communication_Study_Static_Message} </span>
+                                </lightning-layout-item>
                             </lightning-layout>
                             <template
                                 for:each={consentPreferenceDataLocal.perList}
@@ -282,7 +295,7 @@
                                         </lightning-layout>
                                     </lightning-layout-item>
                                 </lightning-layout>
-                            </template>                         
+                            </template>
                         </div>
                     </div>
                 </Template>
@@ -315,7 +328,9 @@
                                     vertical-align="center"
                                 >
                                     <lightning-layout-item size="4" class="study-content">
-                                        <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                        <span class={getPad10}
+                                            >{label.PP_Communication_Pref_Outreach_Gen_Comm}</span
+                                        >
                                     </lightning-layout-item>
 
                                     <lightning-layout-item size="8" class="study-content">
@@ -467,10 +482,8 @@
 
     <template if:false={isDesktop}>
         <div class={cardRTL}>
-            <div class="communication-pref">              
-                <span class={communicationPrefHeader}>
-                    {label.PP_Communication_Pref}
-                </span>
+            <div class="communication-pref">
+                <span class={communicationPrefHeader}> {label.PP_Communication_Pref} </span>
                 <template if:true={studyError}>
                     <lightning-layout
                         multiple-rows="true"
@@ -479,51 +492,59 @@
                     >
                         <lightning-layout-item size="2">
                             <div class="sub-header po-error">
-                                <lightning-layout
-                                    multiple-rows="true"
-                                    vertical-align="center"
-                                >
+                                <lightning-layout multiple-rows="true" vertical-align="center">
                                     <lightning-layout-item size="12">
                                         <span>
                                             <img style={errorIconPosition} src={exclamation} />
                                         </span>
-                                    </lightning-layout-item>                                   
+                                    </lightning-layout-item>
                                 </lightning-layout>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="10" class={phoneErrorBorder}>
-                            <div class="sub-header overridePad">                               
+                            <div class="sub-header overridePad">
                                 <lightning-layout
-                                multiple-rows="true"
-                                class="po-error-container po-mr-10 align-left"
-                                 >
-                                 <lightning-layout-item size="12" class="pad-top-10">
-                                    <span class="po-text-red">{label.PP_Communication_Pref_Warning} </span>
-                                    <span>{errorLabelText}</span>
-                                    <span
-                                        class="blue-highlight-text-color"
-                                        onclick={redirectToProfileInfoTab}
-                                        >&nbsp;{label.PP_Profile_Information}</span
-                                    >.
-                                </lightning-layout-item>
-                                <lightning-layout-item size="12" class="pad-top-10">
-                                    <div class={phoneErrorHeaderMarPadMobile}>{label.Mob_Phone_Field}</div>
-                                </lightning-layout-item>
-                                 <lightning-layout-item size="7" class="pad-r-10">
-                                    <lightning-input
-                                        type="tel"
-                                        label="Phone Input"
-                                        variant="label-hidden"
-                                        name="phone1"
-                                        value=""
-                                        class="po-bradius-20 userInputField pad-b-10"
-                                        onchange={isInputValid}
-                                     ></lightning-input>
-                                 </lightning-layout-item>
-            
-                                 <lightning-layout-item size="5" class="pb-10">
-                                    <button disabled title="Non-primary action" onclick={savePhone} class={phoneErrorBtnMarinMobile}>{label.BTN_Save}</button>
-                                </lightning-layout-item>
+                                    multiple-rows="true"
+                                    class="po-error-container po-mr-10 align-left"
+                                >
+                                    <lightning-layout-item size="12" class="pad-top-10">
+                                        <span class="po-text-red"
+                                            >{label.PP_Communication_Pref_Warning}
+                                        </span>
+                                        <span>{errorLabelText}</span>
+                                        <span
+                                            class="blue-highlight-text-color"
+                                            onclick={redirectToProfileInfoTab}
+                                            >&nbsp;{label.PP_Profile_Information}</span
+                                        >.
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" class="pad-top-10">
+                                        <div class={phoneErrorHeaderMarPadMobile}>
+                                            {label.Mob_Phone_Field}
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="7" class="pad-r-10">
+                                        <lightning-input
+                                            type="tel"
+                                            label="Phone Input"
+                                            variant="label-hidden"
+                                            name="phone1"
+                                            value=""
+                                            class="po-bradius-20 userInputField pad-b-10"
+                                            onchange={isInputValid}
+                                        ></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="5" class="pb-10">
+                                        <button
+                                            disabled
+                                            title="Non-primary action"
+                                            onclick={savePhone}
+                                            class={phoneErrorBtnMarinMobile}
+                                        >
+                                            {label.BTN_Save}
+                                        </button>
+                                    </lightning-layout-item>
                                 </lightning-layout>
                             </div>
                         </lightning-layout-item>
@@ -558,13 +579,21 @@
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
-                            <lightning-layout multiple-rows="true"  vertical-align="center" class="static-msg">
+                            <lightning-layout
+                                multiple-rows="true"
+                                vertical-align="center"
+                                class="static-msg"
+                            >
                                 <lightning-layout-item size="1">
-                                    <img style={errorIconPosition} src={exclamation_orange} class="pad-r-10 exclamation_orange"/>                                  
+                                    <img
+                                        style={errorIconPosition}
+                                        src={exclamation_orange}
+                                        class="pad-r-10 exclamation_orange"
+                                    />
                                 </lightning-layout-item>
-                                <lightning-layout-item size="11">                                   
+                                <lightning-layout-item size="11">
                                     <span>{label.PP_Communication_Study_Static_Message}</span>
-                                </lightning-layout-item>   
+                                </lightning-layout-item>
                             </lightning-layout>
                             <template
                                 for:each={consentPreferenceDataLocal.perList}
@@ -586,7 +615,7 @@
                                                 >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                                             >
                                         </lightning-layout-item>
-                                    </lightning-layout>                                   
+                                    </lightning-layout>
                                     <div class="slds-grid study-card-mobile study-paramters">
                                         <div class="slds-col slds-size-custom_2-of-10">
                                             <div class="mb-child-div-10">
@@ -718,7 +747,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                     
                                 </div>
                             </template>
                         </div>
@@ -729,7 +757,7 @@
                     <div class="outreach-container outreach-container-mobile">
                         <div class="header">
                             <span class={getPad10}>{label.PP_Communication_Pref_Outreach}</span>
-                          
+
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item
                                     size="12"
@@ -762,7 +790,9 @@
                                             size="12"
                                             class="study-content study-content-mobile"
                                         >
-                                            <span class={getPad10}>{label.PP_Communication_Pref_Outreach_Gen_Comm}</span>
+                                            <span class={getPad10}
+                                                >{label.PP_Communication_Pref_Outreach_Gen_Comm}</span
+                                            >
                                         </lightning-layout-item>
                                     </lightning-layout>
 
@@ -826,7 +856,7 @@
                                                     </svg>
                                                 </div>
                                                 <div>{label.PP_Communication_Pref_SMS}</div>
-                                                <div class="ml-5" >
+                                                <div class="ml-5">
                                                     <lightning-input
                                                         type="checkbox"
                                                         label="SMS"

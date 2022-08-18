@@ -204,7 +204,9 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
                    
                 }
-                update participantCon;
+                  //update participantCon; converted to future method
+                  String objJSONStr = Json.serialize(participantCon);
+                  updateParticipantContact(objJSONStr);
             }
 
             if (
@@ -231,6 +233,15 @@ public without sharing class AddPatientByPIRemote {
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @Future
+    public static void updateParticipantContact(String objJson) {
+             Contact participantCont = (Contact) JSON.deserialize(
+            objJson,
+            Contact.class
+        );
+        update participantCont;
     }
 
     @Future

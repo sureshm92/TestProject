@@ -494,8 +494,10 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         
                     }
                     //End
-
-                    update participantCon;
+                     //update participantCon; updating on future method
+                    String objJSONStr = Json.serialize(participantCon);
+                    updateParticipantContact(objJSONStr);    
+                   
                 }
             }
 
@@ -650,26 +652,10 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                            con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
                            con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
                            con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
-                           
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
-                            );
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.createNotificationsHandler.class
-                            );
-                            
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-                            );
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
-                            );
 
-                           update con;
+                             //update con; moved to future method
+                             String objJSONStr = Json.serialize(con);
+                             updateParticipantContact(objJSONStr);
                    }
                 //}
                 if (createDelegateuser) {
@@ -716,7 +702,9 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         pdList.add(pd);
                     }
                 }
-                update pdList;
+               //update pdList; moved to future method
+               String objJSONStr = Json.serialize(pdList);
+               updatePatientDelegate(objJSONStr);
             }
 
             System.debug('contentDocId--' + contentDocId);
@@ -753,6 +741,41 @@ update objConVersion;*/
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @Future
+    public static void updateParticipantContact(String objJson){
+             Contact participantCont = (Contact) JSON.deserialize(
+            objJson,
+            Contact.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.createNotificationsHandler.class
+            );
+            
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+            );
+        update participantCont;
+    }
+    
+    @Future
+    public static void updatePatientDelegate(String objJson){
+             Patient_Delegate__c  patientDelegate = (Patient_Delegate__c) JSON.deserialize(
+            objJson,
+            Patient_Delegate__c.class
+        );
+        update patientDelegate;
     }
 
     @Future

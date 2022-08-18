@@ -5,7 +5,7 @@
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-
+    public static final List<User> isValidUsr = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
@@ -1092,7 +1092,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 perIdList.add(pe.Id);
             }
         }
-        List<User> inValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        List<User> inValidUserList = isValidUsr;
         List<Participant_Enrollment__c> perDetailedList = [
             SELECT
                 Id,
@@ -1164,7 +1164,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         }
         Datetime dt = datetime.now();
         List<Participant_Enrollment__c> perFinalList = new List<Participant_Enrollment__c>();
-        List<User> inValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        List<User> inValidUserList = isValidUsr;
         List<Participant_Enrollment__c> perList = [
             SELECT
                 Id,
@@ -1231,7 +1231,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     ) {
         List<User> ValidUserList = new List<User>();
         List<Participant_Enrollment__c> perDetailedList = new List<Participant_Enrollment__c>();
-        ValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        ValidUserList = isValidUsr;
         perDetailedList = [
             SELECT
                 Id,
@@ -1524,7 +1524,6 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         List<Participant_Enrollment__c> newList,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
-        Boolean isPortalUser = checkCurrentusrProfile();
         for (Participant_Enrollment__c peNew : newList) {
             if (oldMap == null) {
                 peNew.Study_Assisted_Dialing_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
@@ -1560,9 +1559,14 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
             }
         }
     }
+    public static List<Profile> currentUserProfile;
     public static boolean checkCurrentusrProfile() {
-        Id profileId = userinfo.getProfileId();
-        List<Profile> profiles = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
+        List<Profile> profiles;
+        if(currentUserProfile==null){
+            Id profileId = userinfo.getProfileId();
+            currentUserProfile = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
+        }
+        profiles = currentUserProfile;
         if (profiles != null && !profiles.isEmpty()) {
             String profileName = profiles[0].Name;
             if (profileName == System.Label.PortalUserProfile) {
