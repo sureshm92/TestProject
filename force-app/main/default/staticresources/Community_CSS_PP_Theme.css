@@ -130,3 +130,7 @@
 .ppCombobox button{  
     border-radius: 20px !important;
 }
+
+.anchor-container a{
+    text-decoration: none !important;
+}
