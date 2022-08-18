@@ -49,6 +49,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
 
     @api fetchTelevisitRecord3(){
         this.fetchTelevisitRecord();
+        this.isEmailPermitted = true;
+        this.checkForPPUser();
     }
     backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
     notification = pirResources+'/pirResources/icons/bell.svg';
