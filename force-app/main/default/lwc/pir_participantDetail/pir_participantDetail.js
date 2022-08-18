@@ -203,7 +203,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.valueYYYY = this.pd['pe']['Participant__r']['Birth_Year__c'];
                     this.YYYYChange();
                 }
-                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']).toString();
+                this.participantSelectedAge = (this.pd['pe']['Participant__r']['Age__c']!=undefined ? ((this.pd['pe']['Participant__r']['Age__c']).toString()) : null); 
                 this.handleDateChange();
 
                 if(this.pd['pe']['Permit_Mail_Email_contact_for_this_study__c']){
@@ -618,6 +618,7 @@ export default class Pir_participantDetail extends LightningElement {
         this.handleDateChange();
     }
     handleDateChange(){
+        //this.pd['pe']['Participant__r']['Date_of_Birth__c']=this.valueYYYY+'-'+this.valueMM+'-'+this.valueDD;////dob changes
         this.isAdultCal();  
         this.setReqEmail();      
         this.setReqPhone();      
@@ -1013,6 +1014,9 @@ export default class Pir_participantDetail extends LightningElement {
               err++;
           }
        },this);
+       if(this.participantSelectedAge == undefined){
+        err++;
+       }
        return err == 0;
     }
     isUpdated(){
@@ -1092,6 +1096,7 @@ export default class Pir_participantDetail extends LightningElement {
         }
         else if(upd){
             if(typeof(upd)!='boolean'){
+                upd = upd.toString();
                 return upd.trim() != '';
             }
             else{
@@ -1136,7 +1141,8 @@ export default class Pir_participantDetail extends LightningElement {
     }
     //dob changes
     participantAge(){
-            if(this.studyDobFormat  == 'DD-MM-YYYY' && this.valueYYYY!='--' && this.valueMM!='--' && this.valueDD!='----'){
+            if(this.studyDobFormat  == 'DD-MM-YYYY' && this.valueYYYY!='----' && this.valueMM!='--' && this.valueDD!='--'
+               && this.valueYYYY!=undefined && this.valueMM!=undefined && this.valueDD!=undefined){
                 var dob = new Date(this.valueYYYY+"-"+this.valueMM+"-"+this.valueDD);
                 //calculate month difference from current date in time
                 var month_diff = Date.now() - dob.getTime();
@@ -1147,7 +1153,7 @@ export default class Pir_participantDetail extends LightningElement {
                 //now calculate the age of the user
                 var age = Math.abs(year - 1970);
                 this.participantSelectedAge = age.toString();
-                this.pd['pe']['Participant__r']['Age__c'] = parseInt(age);
+                this.pd['pe']['Participant__r']['Age__c'] = age;
             }else
                 this.participantSelectedAge = null;
         return this.participantSelectedAge;
@@ -1156,7 +1162,7 @@ export default class Pir_participantDetail extends LightningElement {
     handleAgeChange(event) {
         let ageVal = event.detail.value ;
         this.participantSelectedAge = event.detail.value ;
-        this.pd['pe']['Participant__r']['Age__c']  = parseInt(ageVal);
+        this.pd['pe']['Participant__r']['Age__c']  = ageVal;
         this.handleDateChange(); 
     }
     //Labels
