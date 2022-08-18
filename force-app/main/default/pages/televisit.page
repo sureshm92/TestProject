@@ -1091,11 +1091,13 @@
                             callDisconnected = true;
                         }
                     }else if (currentTime > jsAutoDisconnectMeetingTime) {
+                        fetchUpdatedTelevisitDetails();
+                        if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;
                         }
-
+                        }
                     }
 
                 },

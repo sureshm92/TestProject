@@ -437,10 +437,8 @@
             pEnrollment.HCP__r.Study__c="";
         }
         spinner.show();
-        communityService.executeAction(
-            component,
-            'saveParticipant',
-            {
+        let action = component.get("c.saveParticipant");
+        action.setParams({
                 hcpeId: hcpeId,
                 pEnrollmentJSON: JSON.stringify(pEnrollment),
                 participantJSON: JSON.stringify(participant),
@@ -448,16 +446,18 @@
                 delegateId: communityService.getDelegateId(),
                 ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
                 contentDocId:contentDocId
-            },
-            function (returnValue) {
-                component.set('v.currentState', 'Refer Success');
-            },
-            null,
-            function () {
-                window.scrollTo(0, 0);
-                spinner.hide();
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+               component.set('v.currentState', 'Refer Success');
+               spinner.hide();
             }
-        );
+            else {
+                console.log(action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);
     },
     
     doFrameLoaded: function (component, event, helper) {

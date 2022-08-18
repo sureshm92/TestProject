@@ -267,6 +267,7 @@ public without sharing class PIR_HomepageController {
         'Study_Hub_Log__c,' +
         'Screening_ID__c,' +
         'IVRS_IWRS__c,' +
+        'Visit_Plan__c,' +
         'Study_Hub_Log__r.Response_Status_Code__c,' +
         '(' +
         '  SELECT Id, Date__c, Non_Enrollment_Reason__c ' +
@@ -593,7 +594,7 @@ public without sharing class PIR_HomepageController {
         for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
           perLimitList.add(perList[i]);
         }
-        listViewWrapper = createListViewWrapper(perLimitList);
+        listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
         //for pages more than 200 ends
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
@@ -620,7 +621,7 @@ public without sharing class PIR_HomepageController {
         }
 
         perList = Database.query(queryString);
-        listViewWrapper = createListViewWrapper(perList);
+        listViewWrapper = createListViewWrapper(perList, studyIdlist);
       }
       if (totalCountPP == 0) {
         listViewReturnWrapper.isEnablePP = false;
@@ -758,7 +759,7 @@ public without sharing class PIR_HomepageController {
     }
     List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
 
-    listViewWrapper = createListViewWrapper(perLimitList);
+    listViewWrapper = createListViewWrapper(perLimitList, new List<String>());
 
     ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
 
@@ -1096,9 +1097,16 @@ public without sharing class PIR_HomepageController {
   }
 
   private static List<ListViewWrapper> createListViewWrapper(
-    List<Participant_Enrollment__c> perList
+    List<Participant_Enrollment__c> perList, List<String> studyIdlist
   ) {
     List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
+    Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlanMap = new Map<Id, List<StudySiteVisitPlan__c>>();
+
+    if(studyIdlist != null && studyIdlist.size() == 1){
+      
+        ssVisitPlanMap = getStudySiteVisitPlansMap(getStudySiteForaStudy(studyIdlist));
+    }
+
     for (Participant_Enrollment__c lst : perList) {
       ListViewWrapper wrap = new ListViewWrapper();
       wrap.firstName = lst.Participant__r.First_Name__c;
@@ -1171,7 +1179,9 @@ public without sharing class PIR_HomepageController {
       wrap.screeningId = lst.Screening_ID__c;
       wrap.allowScreeningPassed = lst.Clinical_Trial_Profile__r.Tokenization_Support__c 
         ? lst.IVRS_IWRS__c != null : true;
-      wrap.allowFinalSuccessStatus = lst.Screening_ID__c != null 
+      wrap.allowFinalSuccessStatus = (lst.Screening_ID__c != null 
+          && (ssVisitPlanMap.containsKey(lst.Study_Site__c) ? 
+            (ssVisitPlanMap.get(lst.Study_Site__c).size() > 1 ? lst.Visit_Plan__c != null : true) :  true))
         ? (lst.Clinical_Trial_Profile__r.Tokenization_Support__c ?  lst.Participant__r.Gender__c != null : true) 
         : false;
 
@@ -2006,6 +2016,10 @@ public without sharing class PIR_HomepageController {
       List<Id> PeId = new List<Id>();
       List<Participant_Enrollment_Status_History__c> historiestoUpdate = new List<Participant_Enrollment_Status_History__c>();
       List<Participant_Enrollment_Status_History__c> peshUpdate = new List<Participant_Enrollment_Status_History__c>();
+      
+      Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlanMap = getStudySiteVisitPlansMap(
+        getStudySiteForaStudy(new List<String>{studyId})
+      );
 
       for (Participant_Enrollment__c pe : [
         SELECT
@@ -2026,7 +2040,8 @@ public without sharing class PIR_HomepageController {
           Initial_visit_occurred_date__c,
           Initial_visit_occurred_flag__c,
           isBulkUpdate__c,
-          ParticipantNoShow__c
+          ParticipantNoShow__c,
+          Visit_Plan__c
         FROM Participant_Enrollment__c
         WHERE Id IN :peIdList
       ]) {
@@ -2075,6 +2090,19 @@ public without sharing class PIR_HomepageController {
         if(oParticipantStatus == 'Participant No Show')
         {
            pe.ParticipantNoShow__c=false;
+        }
+        if(oParticipantStatus==PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED 
+          && pe.Participant_Status__c==PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+          {
+            pe.ParticipantNoShow__c=false;
+          }
+
+        if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+            || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
+          && ssVisitPlanMap.containsKey(pe.Study_Site__c) && pe.Visit_Plan__c == null
+          && ssVisitPlanMap.get(pe.Study_Site__c).size() == 1) {
+
+            pe.Visit_Plan__c = ssVisitPlanMap.get(pe.Study_Site__c)[0].Visit_Plan__c;
         }
 
         PEUpdateList.add(pe);
@@ -2501,4 +2529,27 @@ public without sharing class PIR_HomepageController {
    public static String getSite(Id siteId) {
      return [Select Id,Name from Study_Site__c where id=:siteId].Name;
    }
+
+    public static Map<Id, List<StudySiteVisitPlan__c>> getStudySiteVisitPlansMap(
+        List<Id> ssIds
+    ) {
+        List<StudySiteVisitPlan__c> studySiteVisitPlans = [
+            SELECT Id, Visit_Plan__c, Visit_Plan__r.Name, Study_Site__c
+            FROM StudySiteVisitPlan__c
+            WHERE Study_Site__c IN :ssIds
+        ];
+
+        Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansBySSId = new Map<Id, List<StudySiteVisitPlan__c>>();
+        for (StudySiteVisitPlan__c ssVP : studySiteVisitPlans) {
+            if (!ssVisitPlansBySSId.containsKey(ssVP.Study_Site__c)) {
+                ssVisitPlansBySSId.put(
+                    ssVP.Study_Site__c,
+                    new List<StudySiteVisitPlan__c>()
+                );
+            }
+            ssVisitPlansBySSId.get(ssVP.Study_Site__c).add(ssVP);
+        }
+
+        return ssVisitPlansBySSId;
+    }
 }

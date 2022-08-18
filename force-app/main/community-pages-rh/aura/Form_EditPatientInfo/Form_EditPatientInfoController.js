@@ -393,6 +393,18 @@
                  }
                  //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
                  if (needsGuardian || participantDelegate || participant.Phone__c) {
+                    let reqFieldsFilled;
+                    let allValid;
+                     if (component.find('emailInput').constructor === Array) {
+                      let fieldsGroup = 'emailInput';
+                       allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
+                      return validSoFar && inputCmp.get('v.validity').valid;
+                         }, true);
+                         reqFieldsFilled = false;
+                   }else if(component.find('emailInput').get('v.validity').valid){
+                        reqFieldsFilled = true;
+                       allValid = false;
+                   } 
                      isValid = false;
                      isValid =
                          isValid ||
@@ -407,7 +419,7 @@
                            participantDelegate ||
                            (emailParticipantRepeat &&
                             participant.Email__c &&
-                            component.find('emailInput').get('v.validity').valid)) &&
+                            (allValid || reqFieldsFilled))) &&
                           (!participantDelegate || (participantDelegate.phone__c && participantDelegate.Phone__c.trim())) &&
                           (!participantDelegate || (participantDelegate.First_Name__c && participantDelegate.First_Name__c.trim())) &&
                           (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
