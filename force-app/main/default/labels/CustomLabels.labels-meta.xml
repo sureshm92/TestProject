@@ -24687,6 +24687,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your password has been changed successfully.</value>
     </labels>
     <labels>
+        <fullName>TST_password_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST password updated successfully</shortDescription>
+        <value>Password updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_current_password_is_invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your current password is invalid</shortDescription>
+        <value>Your current password is invalid</value>
+    </labels>
+    <labels>
         <fullName>TST_activated</fullName>
         <language>en_US</language>
         <protected>false</protected>
