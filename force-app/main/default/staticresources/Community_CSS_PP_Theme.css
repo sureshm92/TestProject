@@ -50,6 +50,7 @@
     min-width: 10rem !important;
 }
 
+
 .cp-login-title{
     font-size: 60px;
     font-weight: 500;
@@ -90,22 +91,18 @@
     min-width: 40%;
     font-size: 1rem;
     font-weight: 600;
-    line-height: 2rem;
-    text-align: center;
+    line-height: 1.5rem;
+    text-align: initial !important;
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
-	justify-content: center;
-	margin-top: 1.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-}
-
-.toastContainer > .forceToastMessage .toastContent.slds-notify__content {
-	width: unset;
-	margin-left: .5rem;
 }
 
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
+}
+
+.toastMessage.forceActionsText {
+    font-family: "Proxima Nova"!important;
+    padding-left: 0.5rem;
 }
 
 .toastContainer .toastClose {
