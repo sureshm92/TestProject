@@ -192,9 +192,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.isDayMandate = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.ageInputDisabled = (this.studyDobFormat == 'DD-MM-YYYY');
                 
-                if(this.pd['pe']['Participant__r']['Birth_Day__c']){
-                    this.valueDD = this.pd['pe']['Participant__r']['Birth_Day__c'];
-                }
+                this.valueDD = (this.pd['pe']['Participant__r']['Birth_Day__c'] ? this.pd['pe']['Participant__r']['Birth_Day__c'] : null);
                 if(this.valueMM = this.pd['pe']['Participant__r']['Birth_Month__c']){
                     this.valueMM = this.pd['pe']['Participant__r']['Birth_Month__c'];
                     this.MMChange();
