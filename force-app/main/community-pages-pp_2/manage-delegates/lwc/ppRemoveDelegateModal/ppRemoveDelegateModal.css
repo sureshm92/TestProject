@@ -13,6 +13,15 @@
     font-size: 14px;
     font-weight: 500;
 }
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
 .btn-confirm {
     justify-content: center;
     width: 107px;

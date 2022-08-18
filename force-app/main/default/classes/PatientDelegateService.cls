@@ -531,6 +531,9 @@ public without sharing class PatientDelegateService {
         List<Id> partContactsIds,
         List<String> delegatedCntFields
     ) {
+        if(partContactsIds.isEmpty()){
+            return new Map<Id, List<Contact>>();
+        }
         List<String> pdFields = new List<String>();
         pdFields.add('Participant__r.Contact__c');
         for (String cntField : delegatedCntFields)
