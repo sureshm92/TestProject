@@ -1494,7 +1494,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             mapParticipantFovTime.get(i)
                         ) != null
                         ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0)
-                        : null
+                        : null,
+                    High_Priority__c = String.ValueOf(mapParticipantFov.get(i)) !=null ? true:false     
                 );
                 if (
                     createUsers == true &&
@@ -1665,7 +1666,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                   0,
                                   0
                               )
-                            : null
+                            : null,
+                        High_Priority__c = String.ValueOf(mapParticipantFov.get(totalrecorcountindx)) !=null ? true:false    
                     );
 
                     if (

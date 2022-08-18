@@ -18696,7 +18696,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PasswordCriteriaNotMet</shortDescription>
-        <value>Password does not fit criteria</value>
+        <value>Password does not meet criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -20377,11 +20377,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>New visit data is available</value>
     </labels>
     <labels>
-        <fullName>Paticipant_s_Delegate</fullName>
+        <fullName>Participant_s_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Paticipant's Delegate</shortDescription>
-        <value>Paticipant's Delegate</value>
+        <shortDescription>Participant's Delegate</shortDescription>
+        <value>Participant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -24685,6 +24685,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>TST Your password has been changed successfully.</shortDescription>
         <value>Your password has been changed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>TST_password_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST password updated successfully</shortDescription>
+        <value>Password updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_current_password_is_invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your current password is invalid</shortDescription>
+        <value>Your current password is invalid</value>
     </labels>
     <labels>
         <fullName>TST_activated</fullName>

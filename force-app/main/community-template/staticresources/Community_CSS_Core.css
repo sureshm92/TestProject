@@ -136,6 +136,9 @@ a:hover {
     margin: 10px 0!important;
     border-radius: 5px!important;
 }
+.btn-upload-photo  input[type="file" i]::-webkit-file-upload-button  {
+	cursor: pointer;
+}
 /*----------------------------------------------------- MRR ------------------------------------------------------------*/
 
 .mrr-items{
