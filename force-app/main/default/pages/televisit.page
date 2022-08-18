@@ -1436,7 +1436,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                width: 100px;
+                 width: 102px;
             }
 
             .cp-main-logo {
@@ -1725,7 +1725,7 @@
                     align-items: center;
                 }
                 button.extendCallListUpdatedClass{width : auto}
-                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 95px}
+                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 98px}
                 .extent_time{display: flex}
                 
             }

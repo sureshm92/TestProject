@@ -368,9 +368,10 @@ export default class PpChangePassword extends LightningElement {
             };          
         })
         .catch((error) => {
-            let errorMessage = error.body.message;
-            errorMessage ? this.incorrectOldPassword = true : this.incorrectOldPassword = false;           
-            communityService.showToast('', 'error', this.label.TST_Your_current_password_is_invalid, 100);       
+            let errorMessage = error.body.message.split('\n')[0];
+            (errorMessage == 'Error: Your old password is invalid.') ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
+
+            communityService.showToast('', 'error', errorMessage, 100);
             this.validateOldPassword();
             this.spinner.hide();
         });
