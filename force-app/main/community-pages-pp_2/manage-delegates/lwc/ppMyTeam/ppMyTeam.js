@@ -2,6 +2,11 @@ import { LightningElement,api,track } from 'lwc';
 import pgPstLDelegates_Add from '@salesforce/label/c.PG_PST_L_Delegates_Add';
 import PG_MT_BTN_Add_New_Team_Member from '@salesforce/label/c.PG_MT_BTN_Add_New_Team_Member';
 import PG_PST_L_Delegates_Click_Add_New from '@salesforce/label/c.PG_PST_L_Delegates_Click_Add_New';
+import Manage_Delegates from '@salesforce/label/c.Manage_Delegates';
+import Back_to_Manage_Delegates from '@salesforce/label/c.Back_to_Manage_Delegates';
+import Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
+
+
 import getInitData from '@salesforce/apex/MyTeamRemote.getInitData';
 
 export default class PpMyTeam extends LightningElement {
@@ -19,7 +24,10 @@ export default class PpMyTeam extends LightningElement {
     label = {
         pgPstLDelegates_Add,
         PG_PST_L_Delegates_Click_Add_New,
-        PG_MT_BTN_Add_New_Team_Member
+        PG_MT_BTN_Add_New_Team_Member,
+        Manage_Delegates,
+        Back_to_Manage_Delegates,
+        Add_New_Delegate
     };
 
     connectedCallback() {

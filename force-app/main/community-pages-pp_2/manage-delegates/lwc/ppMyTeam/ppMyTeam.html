@@ -8,11 +8,11 @@
     <template if:true={showppNewTeamMember}>
         <div class="back-to-manage-delegate slds-m-bottom_medium">
             <lightning-icon icon-name="utility:chevronleft" size="xx-small"> </lightning-icon
-            ><span onclick={handleBackToDelegates}>Back to Manage Delegates</span>
+            ><span onclick={handleBackToDelegates}>{label.Back_to_Manage_Delegates}</span>
         </div>
     </template>
     <template if:false={showppNewTeamMember}>
-        <div class="manage-delegate slds-m-bottom_medium">Manage Delegates</div>
+        <div class="manage-delegate slds-m-bottom_medium">{label.Manage_Delegates}</div>
     </template>
     <div class="slds-grid slds-wrap">
         <div
@@ -23,7 +23,7 @@
                     class="slds-button btn-add-new-delegate slds-m-bottom_medium"
                     onclick={inviteTeamMembers}
                 >
-                    Add New Delegate
+                   {label.Add_New_Delegate}
                 </button>
             </div>
             <div
