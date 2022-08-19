@@ -1,0 +1,73 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={headerPanelClass}>
+            <template if:false={isMobile}>
+                <div class={cardRTL}>
+                    <div class="as-title">{label.PP_Condition_of_Interest_title}</div>
+                </div>
+            </template>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label label font-thickness" for="description"
+                >{label.PP_Customize_Exp_Description}
+            </label>
+            <lightning-input
+                label=""
+                variant="label-hidden"
+                placeholder={label.PP_Customize_search_text}
+                onchange={bulkSearch}
+                type="search"
+                name="search"
+            ></lightning-input>
+        </div>
+
+        <template if:true={isInitialized}>
+            <div class="table-scroll" aura:id="scrolllist">
+                <div>
+                    <table
+                        aria-multiselectable="true"
+                        class="slds-table slds-table_header-hidden slds-table_edit"
+                        role="treegrid"
+                    >
+                        <tbody>
+                            <template for:each={displayedItems} for:item="coiWrapper">
+                                <tr key={coiWrapper.coi.Therapeutic_Area__r.Name}>
+                                    <td>
+                                        <div class="slds-checkbox">
+                                            <lightning-input
+                                                label=""
+                                                type="checkbox"
+                                                value={coiWrapper}
+                                            >
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+                                    <th>{coiWrapper.coi.Therapeutic_Area__r.Name}</th>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template for:each={conditionsOfInterestTemp} for:item="showCoi">
+            <div
+                key={showCoi.coi.Therapeutic_Area__r.Name}
+                class="slds-badge__icon slds-badge__icon_right slds-wrap"
+            >
+                <ul class="slds-list_horizontal">
+                    <li>
+                        <lightning-pill
+                            name={showCoi.coi.Therapeutic_Area__r.Name}
+                            label={showCoi.coi.Therapeutic_Area__r.Name}
+                            onremove={handleRemove}
+                        >
+                        </lightning-pill>
+                    </li>
+                </ul>
+            </div>
+        </template>
+    </template>
+</template>
