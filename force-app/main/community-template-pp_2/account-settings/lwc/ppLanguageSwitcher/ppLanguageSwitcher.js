@@ -190,18 +190,20 @@ export default class PpLanguageSwitcher extends LightningElement {
         this.statesLVList.length == 0 ? this.stateComboboxEle.disabled = true : this.stateComboboxEle.disabled = false;
     }
 
-    doCheckFieldsValidity(event){
-        //let personWrapper = component.get('v.personWrapper');
-       // component.set('v.isDisabled', false);      
+    doCheckFieldsValidity(event){      
         this.personWrapper.mailingCC = event.target.value;
         this.selectedCountry = this.personWrapper.mailingCC;
         this.selectedState = "";
-        if (this.personWrapper.mailingCC !== this.previousCC) {
-          //  let statesByCountryMap = component.get('v.statesByCountryMap');
+        if (this.personWrapper.mailingCC !== this.previousCC) {         
             let states = this.statesByCountryMap[this.personWrapper.mailingCC];
             this.statesLVList = states;
             this.previousCC = this.personWrapper.mailingCC;
-            this.personWrapper.mailingSC = null;
+            if(this.statesLVList.length == 0){
+                this.personWrapper.mailingSC = null
+            }else{
+                this.personWrapper.mailingSC = this.statesLVList[0].value; 
+                this.selectedState = this.statesLVList[0].value;
+            }
         }
 
         this.isInputValid();

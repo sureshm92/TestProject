@@ -317,13 +317,6 @@ Duration: ##VisitDuration</value>
         <value>Participant No Show</value>
     </labels>
     <labels>
-        <fullName>PIR_AdditionalInformation</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PIR_AdditionalInformation</shortDescription>
-        <value>Additional Information</value>
-    </labels>
-    <labels>
         <fullName>PIR_Reason_Required</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12756,13 +12749,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Sent to DCT Platform</value>
     </labels>
     <labels>
-        <fullName>RH_StudyName_Import</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_StudyName_Import</shortDescription>
-        <value>Study Name:</value>
-    </labels>
-    <labels>
         <fullName>RH_StudySite_Import</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13962,13 +13948,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Update Password</value>
     </labels>
     <labels>
-        <fullName>PP_Password_Management</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PP Password Management</shortDescription>
-        <value>Password Management</value>
-    </labels>
-    <labels>
         <fullName>PP_Incorrect_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13995,13 +13974,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP Password Requirements</shortDescription>
         <value>Password Requirements</value>
-    </labels>
-    <labels>
-        <fullName>PP_Language_and_Location</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PP Language and Location</shortDescription>
-        <value>Language and Location</value>
     </labels>
     <labels>
         <fullName>PP_Second_Language</fullName>
@@ -19387,13 +19359,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Powered by IQVIA © 2022. All rights reserved.</value>
     </labels>
     <labels>
-        <fullName>PP_Profile_Information</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Profile Information</shortDescription>
-        <value>Profile Information</value>
-    </labels>
-    <labels>
         <fullName>PP_Profile_Update_Success</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20410,6 +20375,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>Patient_Portal_Views</fullName>
@@ -27423,13 +27395,6 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Study Name:</value>
     </labels>
     <labels>
-        <fullName>RH_StudySite_Import</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_StudySite_Import</shortDescription>
-        <value>Study Site:</value>
-    </labels>
-    <labels>
         <fullName>RH_UploadFile_Import</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27484,5 +27449,26 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
+    </labels>
+    <labels>
+        <fullName>Back_to_Manage_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Manage Delegates</shortDescription>
+        <value>Back to Manage Delegates</value>
+    </labels>
+    <labels>
+        <fullName>Add_New_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add New Delegate</shortDescription>
+        <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Information</shortDescription>
+        <value>Profile Information</value>
     </labels>
 </CustomLabels>

@@ -1,4 +1,11 @@
 <template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+          <lightning-spinner alternative-text="Loading" variant="brand" size="medium" class="spins"> </lightning-spinner>
+        </template>
+      </div>
+  
+   <template if:true={showmodal}> 
     <section
     role="dialog"
     tabindex="-1"
@@ -10,7 +17,7 @@
         <div class="slds-grid unable-login-card-top"></div>
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
             <div class="slds-grid slds-grid_align-spread">
-                <div class="slds-col deactivate-delegate-title">Deactivate Delegates</div>
+                <div class="slds-col deactivate-delegate-title">{tittext}</div>
                 <div class="slds-col">
                     <lightning-icon
                         icon-name="utility:close"
@@ -23,22 +30,21 @@
                 </div>
             </div>
             <div class="slds-m-vertical_medium">
-                <p class="slds-m-vertical_small">
-                    You are about to deactivate John Jameson from your account. Are you sure you would like
-            to continue?
+                <p class="slds-m-vertical_small">{messtext}
                 </p>
             </div>
             
                 <div class="slds-grid slds-gutters slds-grid_align-end">
                     <div class="slds-col slds-p-top_xxxx-small">
-                        <button class="slds-button btn-cancel" onclick={closeModal}>Cancel</button>
+                        <button class="slds-button btn-cancel" onclick={closeModal}>{label.BTN_Cancel}</button>
                     </div>
                     <div class="slds-col">
-                        <button class="slds-button btn-confirm" onclick={closeModal}>Confirm</button>
+                        <button class="slds-button btn-confirm" onclick={confirmModal}>{label.BTN_Confirm}</button>
                     </div>
                 </div>
         </div>
     </div>
 </div>
 </section>
+</template>
 </template>
