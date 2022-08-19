@@ -100,12 +100,14 @@
                         <template if:true={showCommunicationPreference}>
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
-                                is-delegate={isDelegate}  
-                                participant-state={participantState} 
+                                is-delegate={isDelegate}
+                                participant-state={participantState}
                                 is-desktop={isDesktopFlag}
                                 consent-preference-data={consentPreferenceData}
                                 user-mode={userMode}
-                            >                                    
+                                onshownavmenubar={showNavigationMenu}
+                                is-r-t-l={isRTL}
+                            >
                             </c-pp-communication-preferences>
                         </template>
                         <template if:true={showLanguageAndLocation}>
