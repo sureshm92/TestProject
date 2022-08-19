@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
@@ -13,9 +13,9 @@ export default class PpCustomizeExperience extends LightningElement {
     @api isRTL = false;
     @api isMobile = false;
     @api isDelegate = false;
-    conditionOfInterestList = [];
-    conditionsOfInterestTemp = []; // list of selected values
-    displayedItems = [];
+    @track conditionOfInterestList = [];
+    @track conditionsOfInterestTemp = []; // list of selected values
+    @track displayedItems = [];
     spinner;
     isInitialized = false;
     label = {
@@ -54,7 +54,8 @@ export default class PpCustomizeExperience extends LightningElement {
                 console.log('success', returnValue);
                 this.isInitialized = true;
                 this.conditionOfInterestList = returnValue;
-                this.conditionsOfInterestTemp = this.conditionOfInterestList;
+                let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
+                this.conditionsOfInterestTemp = copy;
                 console.log(this.conditionsOfInterestTemp[0].coi.Id);
                 window.setTimeout(() => {
                     this.callhelper(coival);
@@ -134,18 +135,26 @@ export default class PpCustomizeExperience extends LightningElement {
     handleClearPill(removedPill) {
         let pills = this.conditionsOfInterestTemp;
         let selectedPills = [];
-        pills.forEach(function (currentVal, index, arr) {
+        /*pills.forEach(function (currentVal, index, arr) {
             alert(JSON.stringify(currentVal));
             if (removedPill == currentVal.coi.Therapeutic_Area__r.Name) {
-                alert('matched');
-                //selectedPills.push(currentVal);
-                arr.splice(index, 1);
+                alert('matched' + arr);
+                selectedPills.push(currentVal);
+                pills.splice(index, 1);
             }
-        });
+        });*/
+        for (var i = 0; i < pills.length; i++) {
+            if (removedPill === pills[i].coi.Therapeutic_Area__r.Name) {
+                selectedPills.push(pills[i]);
+                pills.splice(i, 1);
+                break;
+            }
+        }
+
         //alert(JSON.stringify(pills));
 
         this.conditionsOfInterestTemp = pills;
-        this.displayedItems = selectedPills;
+        this.displayedItems = pills;
         this.showmenu = false;
     }
 }

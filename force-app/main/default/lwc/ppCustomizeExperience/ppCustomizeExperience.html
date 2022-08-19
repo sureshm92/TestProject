@@ -24,15 +24,15 @@
 
         <template if:true={isInitialized}>
             <div class="table-scroll" aura:id="scrolllist">
-                <table
-                    aria-multiselectable="true"
-                    class="slds-table slds-table_header-hidden slds-table_edit"
-                    role="treegrid"
-                >
-                    <tbody>
-                        <template for:each={displayedItems} for:item="coiWrapper">
-                            <div key={coiWrapper.coi.Therapeutic_Area__r.Name}>
-                                <tr>
+                <div>
+                    <table
+                        aria-multiselectable="true"
+                        class="slds-table slds-table_header-hidden slds-table_edit"
+                        role="treegrid"
+                    >
+                        <tbody>
+                            <template for:each={displayedItems} for:item="coiWrapper">
+                                <tr key={coiWrapper.coi.Therapeutic_Area__r.Name}>
                                     <td>
                                         <div class="slds-checkbox">
                                             <lightning-input
@@ -45,10 +45,10 @@
                                     </td>
                                     <th>{coiWrapper.coi.Therapeutic_Area__r.Name}</th>
                                 </tr>
-                            </div>
-                        </template>
-                    </tbody>
-                </table>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </template>
 
