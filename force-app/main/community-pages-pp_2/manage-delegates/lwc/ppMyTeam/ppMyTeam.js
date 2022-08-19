@@ -2,7 +2,7 @@ import { LightningElement,api,track } from 'lwc';
 import pgPstLDelegates_Add from '@salesforce/label/c.PG_PST_L_Delegates_Add';
 import PG_MT_BTN_Add_New_Team_Member from '@salesforce/label/c.PG_MT_BTN_Add_New_Team_Member';
 import PG_PST_L_Delegates_Click_Add_New from '@salesforce/label/c.PG_PST_L_Delegates_Click_Add_New';
-import Manage_Delegates from '@salesforce/label/c.Manage_Delegates';
+import PP_ManageDelegates from '@salesforce/label/c.PP_ManageDelegates';
 import Back_to_Manage_Delegates from '@salesforce/label/c.Back_to_Manage_Delegates';
 import Add_New_Delegate from '@salesforce/label/c.Add_New_Delegate';
 
@@ -25,7 +25,7 @@ export default class PpMyTeam extends LightningElement {
         pgPstLDelegates_Add,
         PG_PST_L_Delegates_Click_Add_New,
         PG_MT_BTN_Add_New_Team_Member,
-        Manage_Delegates,
+        PP_ManageDelegates,
         Back_to_Manage_Delegates,
         Add_New_Delegate
     };
@@ -82,7 +82,7 @@ export default class PpMyTeam extends LightningElement {
 
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
             this.isLoading = false;
         });
     }

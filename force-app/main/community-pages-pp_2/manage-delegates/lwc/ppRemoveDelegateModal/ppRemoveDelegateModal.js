@@ -1,4 +1,6 @@
 import { LightningElement,api } from 'lwc';
+import BTN_Confirm from '@salesforce/label/c.BTN_Confirm';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 
 export default class PpRemoveDelegateModal extends LightningElement {
     @api callback;
@@ -8,6 +10,11 @@ export default class PpRemoveDelegateModal extends LightningElement {
     @api usermode;
     @api selectedparent;
     isLoading = false;
+
+    label = {
+        BTN_Confirm,
+        BTN_Cancel
+    }
 
     showmodal = false;
     connectedCallback() {

@@ -21,12 +21,13 @@ import PG_NTM_L_Permission_level_will_apply_to_all_studies from '@salesforce/lab
 import PP_DelegateAlreadyExists from '@salesforce/label/c.PP_DelegateAlreadyExists';
 import PP_ActiveDelegateError from '@salesforce/label/c.PP_ActiveDelegateError';
 import TST_You_have_successfully_created_permissions_for from '@salesforce/label/c.TST_You_have_successfully_created_permissions_for';
+import Profile_Information from '@salesforce/label/c.Profile_Information';
 
 import getContactData from '@salesforce/apex/MyTeamRemote.getContactData';
 import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
 import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
- 
+
 
 
 
@@ -72,7 +73,8 @@ export default class PpNewTeamMember extends LightningElement {
         PG_PST_L_Delegates_Back,
         PG_NTM_BTN_Back_to_My_Team,
         PG_NTM_L_Already_Exists,
-        TST_You_have_successfully_created_permissions_for
+        TST_You_have_successfully_created_permissions_for,
+        Profile_Information
     };
     backToDelegates(event){
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -170,7 +172,7 @@ export default class PpNewTeamMember extends LightningElement {
         })
         .catch((error) => {
             this.isLoading = false;
-            communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
             this.spinner = false;
         });
         if(this.selectedParent != undefined && this.selectedParent != null && this.selectedParent != ''){
@@ -200,7 +202,7 @@ export default class PpNewTeamMember extends LightningElement {
             .catch((error) => {
                 alert('error');
                 this.isLoading = false;
-                communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.spinner = false;
             });
         }
@@ -240,7 +242,7 @@ export default class PpNewTeamMember extends LightningElement {
                 contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId
             ) {
                 communityService.showToast(
-                    'error',
+                    '',
                     'error',
                     this.label.TST_You_cannot_add_yourself_as_a_delegate
                 );
@@ -315,13 +317,13 @@ export default class PpNewTeamMember extends LightningElement {
                     console.log('this.delegate.isActive' + this.delegate.isActive);
                     if (!this.delegate.isActive) {
                         communityService.showToast(
-                            'error',
+                            '',
                             'error',
                             this.label.PP_DelegateAlreadyExists 
                         );
                     } else {
                         communityService.showToast(
-                            'error',
+                            '',
                             'error',
                             this.label.PP_ActiveDelegateError 
                         );
@@ -336,7 +338,7 @@ export default class PpNewTeamMember extends LightningElement {
                      })
                     .then((result) => {
                         communityService.showToast(
-                            'Success',
+                            '',
                             'success',
                             this.label.TST_You_have_successfully_created_permissions_for 
                              +
@@ -364,7 +366,7 @@ export default class PpNewTeamMember extends LightningElement {
                
             })
             .catch((error) => {
-                communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                 this.spinner = false;
                 this.isLoading = false;
             });

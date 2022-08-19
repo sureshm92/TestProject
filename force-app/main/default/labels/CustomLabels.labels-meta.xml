@@ -27444,13 +27444,6 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Successfully Re-Engaged</value>
     </labels>
     <labels>
-        <fullName>Manage_Delegates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manage Delegates</shortDescription>
-        <value>Manage Delegates</value>
-    </labels>
-    <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27463,5 +27456,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Add New Delegate</shortDescription>
         <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Information</shortDescription>
+        <value>Profile Information</value>
     </labels>
 </CustomLabels>
