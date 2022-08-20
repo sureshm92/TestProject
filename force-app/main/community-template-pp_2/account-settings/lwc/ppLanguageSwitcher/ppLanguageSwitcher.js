@@ -23,6 +23,7 @@ import PP_Third_Language from '@salesforce/label/c.PP_Third_Language';
 import PP_Second_Language from '@salesforce/label/c.PP_Second_Language';
 import PP_Language_and_Location from '@salesforce/label/c.PP_Language_and_Location';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
+import BACK from '@salesforce/label/c.Back';
 
 
 import getInitData from '@salesforce/apex/PP_LanguageSwitcherRemote.getInitData';
@@ -91,7 +92,8 @@ export default class PpLanguageSwitcher extends LightningElement {
         PP_Second_Language,
         PP_Preferred_Time_Zone,
         PP_Time_Zone_and_Location,
-        PP_Profile_Update_Success
+        PP_Profile_Update_Success,
+        BACK
     }
 
     get headerPanelClass() {
@@ -104,6 +106,10 @@ export default class PpLanguageSwitcher extends LightningElement {
 
     get reNewMargin(){
         return this.isRTL ? 'slds-form-element margin-lr-15Plus' : 'slds-form-element margin-lr-15';
+    }
+
+    get iconChevron() {
+        return 'icon-chevron-left';
     }
 
     renderedCallback(){
