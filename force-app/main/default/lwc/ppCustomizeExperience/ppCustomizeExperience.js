@@ -1,38 +1,78 @@
 import { LightningElement, api, track } from 'lwc';
+
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
+
 import PP_Condition_of_Interest_title from '@salesforce/label/c.PP_Condition_of_Interest_title';
 import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_Description';
 import PP_Customize_search_text from '@salesforce/label/c.PP_Customize_search_text';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import BACK from '@salesforce/label/c.Back';
+
+import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
 import searchConditionOfInterest from '@salesforce/apex/SearchConditionsOfInterestRemote.searchConditionOfInterest';
+
 export default class PpCustomizeExperience extends LightningElement {
+
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
     @api isDelegate = false;
+
     @track conditionOfInterestList = [];
     @track conditionsOfInterestTemp = []; // list of selected values
     @track displayedItems = [];
+
     spinner;
     isInitialized = false;
+
     label = {
         PP_Condition_of_Interest_title,
         PP_Customize_Exp_Description,
-        PP_Customize_search_text
+        PP_Customize_search_text,
+        BTN_Save,
+        BACK
     };
+
     itemshow = false;
     showmenu = false;
     bypass;
+
     // Component padding
     get headerPanelClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
     }
+
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
+
+    get eyeIcon(){
+        return "icon-eye";
+    }
+
+    get iconEye(){
+        return "cursor";
+    }
+
+    get showSearchOutput(){
+        return (this.showmenu && this.itemshow) ? true : false;
+    }
+
+    get iconPosition(){
+        return this.isRTL ? 'badge-rtl' : 'badge';
+    }
+
+    get pillMargin(){
+        return this.isRTL ? 'pill-margin-rtl mb-15' : 'pill-margin mb-15';
+    }
+
+    get iconChevron() {
+        return 'icon-chevron-left';
+    }
+
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -68,6 +108,7 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.spinner.hide();
             });
     }
+
     bulkSearch(event) {
         let coival = event.detail.value;
         if (coival) {
@@ -127,7 +168,7 @@ export default class PpCustomizeExperience extends LightningElement {
 
     handleRemove(event) {
         event.preventDefault();
-        let removedPill = event.detail.name;
+        let removedPill = event.currentTarget.getAttribute("data-name");
         alert(removedPill);
         this.handleClearPill(removedPill);
     }
@@ -135,14 +176,6 @@ export default class PpCustomizeExperience extends LightningElement {
     handleClearPill(removedPill) {
         let pills = this.conditionsOfInterestTemp;
         let selectedPills = [];
-        /*pills.forEach(function (currentVal, index, arr) {
-            alert(JSON.stringify(currentVal));
-            if (removedPill == currentVal.coi.Therapeutic_Area__r.Name) {
-                alert('matched' + arr);
-                selectedPills.push(currentVal);
-                pills.splice(index, 1);
-            }
-        });*/
         for (var i = 0; i < pills.length; i++) {
             if (removedPill === pills[i].coi.Therapeutic_Area__r.Name) {
                 selectedPills.push(pills[i]);
@@ -150,11 +183,25 @@ export default class PpCustomizeExperience extends LightningElement {
                 break;
             }
         }
-
-        //alert(JSON.stringify(pills));
-
         this.conditionsOfInterestTemp = pills;
         this.displayedItems = pills;
         this.showmenu = false;
+    }
+
+    handleChange(){
+        alert("TODO: need to write the code");
+    }
+
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.isInitialized = false;
+        }
     }
 }
