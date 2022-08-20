@@ -2,72 +2,251 @@
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
         <div class={headerPanelClass}>
+            <!-- DESKTOP VIEW -->
             <template if:false={isMobile}>
                 <div class={cardRTL}>
-                    <div class="as-title">{label.PP_Condition_of_Interest_title}</div>
+                    <div class="as-title mb-15">Customize Experience</div>
+                    <div class="as-title-small mb-5">{label.PP_Condition_of_Interest_title}</div>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-15">
+                            <label class="slds-form-element__label field-title" for="customize-desc">
+                                {label.PP_Customize_Exp_Description}
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12">
+                            <label class="slds-form-element__label field-title" for="customize-condition">
+                                Conditions
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5">
+                            <div class="slds-form-element__control slds-p-top_xx-small">   
+                                <lightning-input
+                                    label="Customize Experience"
+                                    variant="label-hidden"
+                                    placeholder={label.PP_Customize_search_text}
+                                    onchange={bulkSearch}
+                                    type="search"
+                                    name="search"   
+                                    class="profile-info-input"                             
+                                ></lightning-input>       
+                            </div>  
+                        </lightning-layout-item> 
+                        <lightning-layout-item size="12">
+                            <label class="slds-form-element__label field-title" for="customize-condition">
+                                Select up to 5 conditions
+                            </label>
+                        </lightning-layout-item>                       
+                    </lightning-layout>
+                    <!-- Search Output -->
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12">
+                            <template if:true={isInitialized}>
+                                <div class="table-scroll" data-id="scrolllist" if:true={showSearchOutput}>
+                                    <template for:each={displayedItems} for:item="coiWrapper">
+                                        <div key={coiWrapper.coi.Therapeutic_Area__r.Name} class="searchOutputGrid mb-5">
+                                            <span>
+                                                <div class="slds-checkbox">
+                                                    <lightning-input
+                                                        label="Search Output"
+                                                        variant="label-hidden"
+                                                        type="checkbox"
+                                                        value={coiWrapper}
+                                                        onchange={handleChange}
+                                                    >
+                                                    </lightning-input>
+                                                </div>
+                                            </span>
+                                            <span class="mr-4">{coiWrapper.coi.Therapeutic_Area__r.Name}</span>
+                                        </div>
+                                    </template> 
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+
+                        <!-- Selected Pills -->
+                        <lightning-layout-item size="12" class={pillMargin}>
+                            <template for:each={conditionsOfInterestTemp} for:item="showCoi">
+                                <div
+                                    key={showCoi.coi.Therapeutic_Area__r.Name}
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                >
+                                    <!-- Custom Pill -->
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control slds-p-top_xx-small">
+                                            <div class="pill">
+                                                <button type="button" class="btn btn-primary">
+                                                    {showCoi.coi.Therapeutic_Area__r.Name} 
+                                                    <span class={iconPosition}>
+                                                        <span onclick={handleRemove} class={iconEye} data-name={showCoi.coi.Therapeutic_Area__r.Name}>
+                                                            <c-web-icon
+                                                                icon-size="medium-large"
+                                                                icon-name={eyeIcon}
+                                                                icon-color="#999999"
+                                                            >
+                                                            </c-web-icon>
+                                                        </span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Custom Pill -->
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- Save selected pills -->
+                    <lightning-layout multiple-rows="true" class="mb-10">
+                        <lightning-layout-item size="12">
+                            <button
+                            class="slds-button saveButton slds-button_brand apollo-btn primary" 
+                            data-id="saveBtn"       
+                            >
+                            {label.BTN_Save}
+                        </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
                 </div>
             </template>
-        </div>
-        <div class="slds-form-element">
-            <label class="slds-form-element__label label font-thickness" for="description"
-                >{label.PP_Customize_Exp_Description}
-            </label>
-            <lightning-input
-                label=""
-                variant="label-hidden"
-                placeholder={label.PP_Customize_search_text}
-                onchange={bulkSearch}
-                type="search"
-                name="search"
-            ></lightning-input>
-        </div>
 
-        <template if:true={isInitialized}>
-            <div class="table-scroll" aura:id="scrolllist">
-                <div>
-                    <table
-                        aria-multiselectable="true"
-                        class="slds-table slds-table_header-hidden slds-table_edit"
-                        role="treegrid"
-                    >
-                        <tbody>
-                            <template for:each={displayedItems} for:item="coiWrapper">
-                                <tr key={coiWrapper.coi.Therapeutic_Area__r.Name}>
-                                    <td>
-                                        <div class="slds-checkbox">
-                                            <lightning-input
-                                                label=""
-                                                type="checkbox"
-                                                value={coiWrapper}
-                                            >
-                                            </lightning-input>
+            <!-- MOBILE VIEW -->
+            <template if:true={isMobile}>
+                <div class={cardRTL}>
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <div class="back-button">
+                                <template if:false={isRTL}>
+                                    <c-web-icon
+                                        icon-size="medium"
+                                        icon-name={iconChevron}
+                                        icon-color="#297dfd"
+                                    >
+                                    </c-web-icon>
+                                </template>
+                                <span
+                                    class="slds-p-left_x-small slds-p-right_x-small"
+                                    onclick={showMenuBar}
+                                    data-header="customize-experience"
+                                    >{label.BACK}</span
+                                >
+                                <template if:true={isRTL}>
+                                    <c-web-icon
+                                        icon-size="medium"
+                                        icon-name={iconChevron}
+                                        icon-color="#297dfd"
+                                    >
+                                    </c-web-icon>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <div class="as-title mb-15">Customize Experience</div>
+                    <div class="as-title-small mb-5">{label.PP_Condition_of_Interest_title}</div>
+
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12" class="mb-15">
+                            <label class="slds-form-element__label field-title" for="customize-desc">
+                                {label.PP_Customize_Exp_Description}
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12">
+                            <label class="slds-form-element__label field-title" for="customize-condition">
+                                Conditions
+                            </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12">
+                            <div class="slds-form-element__control slds-p-top_xx-small">   
+                                <lightning-input
+                                    label="Customize Experience"
+                                    variant="label-hidden"
+                                    placeholder={label.PP_Customize_search_text}
+                                    onchange={bulkSearch}
+                                    type="search"
+                                    name="search"   
+                                    class="profile-info-input"                             
+                                ></lightning-input>       
+                            </div>  
+                        </lightning-layout-item> 
+                        <lightning-layout-item size="12">
+                            <label class="slds-form-element__label field-title" for="customize-condition">
+                                Select up to 5 conditions
+                            </label>
+                        </lightning-layout-item>                       
+                    </lightning-layout>
+                    <!-- Search Output -->
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <lightning-layout-item size="12">
+                            <template if:true={isInitialized}>
+                                <div class="table-scroll" data-id="scrolllist" if:true={showSearchOutput}>
+                                    <template for:each={displayedItems} for:item="coiWrapper">
+                                        <div key={coiWrapper.coi.Therapeutic_Area__r.Name} class="searchOutputGrid mb-5">
+                                            <span>
+                                                <div class="slds-checkbox">
+                                                    <lightning-input
+                                                        label="Search Output"
+                                                        variant="label-hidden"
+                                                        type="checkbox"
+                                                        value={coiWrapper}
+                                                        onchange={handleChange}
+                                                    >
+                                                    </lightning-input>
+                                                </div>
+                                            </span>
+                                            <span class="mr-4">{coiWrapper.coi.Therapeutic_Area__r.Name}</span>
                                         </div>
-                                    </td>
-                                    <th>{coiWrapper.coi.Therapeutic_Area__r.Name}</th>
-                                </tr>
+                                    </template> 
+                                </div>
                             </template>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </template>
+                        </lightning-layout-item>
 
-        <template for:each={conditionsOfInterestTemp} for:item="showCoi">
-            <div
-                key={showCoi.coi.Therapeutic_Area__r.Name}
-                class="slds-badge__icon slds-badge__icon_right slds-wrap"
-            >
-                <ul class="slds-list_horizontal">
-                    <li>
-                        <lightning-pill
-                            name={showCoi.coi.Therapeutic_Area__r.Name}
-                            label={showCoi.coi.Therapeutic_Area__r.Name}
-                            onremove={handleRemove}
-                        >
-                        </lightning-pill>
-                    </li>
-                </ul>
-            </div>
-        </template>
+                        <!-- Selected Pills -->
+                        <lightning-layout-item size="12" class={pillMargin}>
+                            <template for:each={conditionsOfInterestTemp} for:item="showCoi">
+                                <div
+                                    key={showCoi.coi.Therapeutic_Area__r.Name}
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                >
+                                    <!-- Custom Pill -->
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control slds-p-top_xx-small">
+                                            <div class="pill">
+                                                <button type="button" class="btn btn-primary">
+                                                    {showCoi.coi.Therapeutic_Area__r.Name} 
+                                                    <span class={iconPosition}>
+                                                        <span onclick={handleRemove} class={iconEye} data-name={showCoi.coi.Therapeutic_Area__r.Name}>
+                                                            <c-web-icon
+                                                                icon-size="medium-large"
+                                                                icon-name={eyeIcon}
+                                                                icon-color="#999999"
+                                                            >
+                                                            </c-web-icon>
+                                                        </span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Custom Pill -->
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- Save selected pills -->
+                    <lightning-layout multiple-rows="true" class="mb-10">
+                        <lightning-layout-item size="12">
+                            <button
+                            class="slds-button saveButtonMobile slds-button_brand apollo-btn primary" 
+                            data-id="saveBtn"       
+                            >
+                            {label.BTN_Save}
+                        </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>       
     </template>
 </template>

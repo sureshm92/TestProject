@@ -9,6 +9,7 @@
     letter-spacing: 0;
     line-height: 2rem;
     margin-bottom: 8px;
+    margin-left: -3px;
 }
 
 .as-title {
@@ -38,12 +39,23 @@
     padding: 1rem;
 }
 
+.mb-5 {
+    margin-bottom: 5px;
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 .mb-15 {
     margin-bottom: 15px;
 }
 
 .mb-20 {
     margin-bottom: 20px;
+}
+
+.mr-4{
+    margin-right: 10px;
 }
 
 .margin-lr-15 {
@@ -195,4 +207,73 @@
     height: 35px;
     width: 35px;
     display: inline-block;
+}
+
+.searchOutputGrid{
+    background-color: #f4f8fb;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.pill .btn{
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    padding-left: 10px;
+    cursor: default;
+}
+
+.pill .btn-primary {
+    font-size: 14px;
+    color: #000;
+    border-color: #ededed;
+}
+.pill .btn .badge {
+    position: relative;
+    top: 6px;
+    right: -8px;
+}
+
+.pill .btn .badge-rtl {
+    position: relative;
+    top: 6px;
+    right: 4px;
+}
+
+.pill-margin{
+    margin-left: -4px;
+}
+
+.pill-margin-rtl{
+    margin-left: 4px;
+}
+
+.saveButton {
+    height: 40px;
+    width: 150px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.saveButtonMobile {
+    height: 40px;
+    width: 100%;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 20px;
 }
