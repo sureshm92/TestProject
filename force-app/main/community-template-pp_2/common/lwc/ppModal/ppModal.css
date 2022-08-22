@@ -31,10 +31,12 @@
     border-bottom-right-radius: 1rem;
     background-color: #ffffff;
     padding-bottom: 1.5rem;
+    margin-top: -0.75rem;
+    border-top: none;
 }
 
 @media screen and (max-width: 768px) {
     .web-modal-window .slds-modal__container {
-        min-width: 20rem;
+        min-width: 80%;
     }
 }
