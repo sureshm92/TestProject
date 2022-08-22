@@ -35,6 +35,9 @@ label{
 .checkbox_size{
     max-width: 7px;
 }
+.bulkimportMarginConsent{
+    margin-bottom: 17px;
+}
 
 .importParticipantClass {
     padding-left: 15px;
@@ -53,5 +56,26 @@ label{
     .p-left_mobile{
         padding-left: 2px;
     }
+
+    .importtMbl_phonecss {
+        width: 38%;
+        padding-left: unset;
+
+    }
+
+    .importtMbl_Emailcss {
+        width: 50%;
+    }
     
+    .importtMbl_SMScss {
+        width: 39.7%;
+        margin-left: -16px;
+
+    }
+
+    .importtMbl_DMailcss {
+        width: 50%;
+        margin-left: 25px;
+
+    }
 }
