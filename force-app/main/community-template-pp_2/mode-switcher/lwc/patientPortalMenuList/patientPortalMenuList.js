@@ -39,7 +39,6 @@ export default class PatientPortalMenuList extends LightningElement {
             });
         }
         let subItem = selectedItem[0].programList[0].subItemValue;
-        console.log('????????????subItem' + JSON.stringify(subItem));
         const selectedEvent = new CustomEvent('itemselection', {
             detail: {
                 itemValue: subItem,
