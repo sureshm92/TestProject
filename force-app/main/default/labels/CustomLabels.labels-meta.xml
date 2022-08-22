@@ -13884,6 +13884,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
     </labels>
+     <labels>
+        <fullName>PP_AS_F_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS  F Re-enter new password</shortDescription>
+        <value>Re-enter New Password</value>
+    </labels>
     <labels>
         <fullName>PP_Re_enter_new_password</fullName>
         <language>en_US</language>
