@@ -306,6 +306,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         return this.isRTL ? 'sub-header mr-10' : 'sub-header';
     }
 
+    get iconChevron() {
+        return 'icon-chevron-left';
+    }
+
     renderedCallback() {}
 
     selectAllOptions(event) {

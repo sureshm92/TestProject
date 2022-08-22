@@ -2,7 +2,7 @@ import { LightningElement, track,api } from 'lwc';
 import changeDelegateStatus from '@salesforce/apex/PatientDelegateRemote.changeDelegateStatus';
 import btnMainActivate from '@salesforce/label/c.BTN_Main_Activate';
 import btnDectivate from '@salesforce/label/c.BTN_Deactivate';
-import patientDelegateDeactivateMess from '@salesforce/label/c.Patient_Delegate_Deactivate_Mess';
+import PP_Patient_Delegate_Deactivate_Mess from '@salesforce/label/c.PP_Patient_Delegate_Deactivate_Mess';
 import pgPstLDelegatesRemoveDelegate from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Delegate';
 export default class PpPatientDelegateItem extends LightningElement {
     showpopup = false;
@@ -18,14 +18,14 @@ export default class PpPatientDelegateItem extends LightningElement {
     label = {
             btnMainActivate,
              btnDectivate,
-             patientDelegateDeactivateMess,
+             PP_Patient_Delegate_Deactivate_Mess,
              pgPstLDelegatesRemoveDelegate
          };
     handleClick(event) {
         let isActive = !this.isActive;
          if (!isActive) {
              let contact = this.contact;
-             this.messText = this.label.patientDelegateDeactivateMess.replace(
+             this.messText = this.label.PP_Patient_Delegate_Deactivate_Mess.replace(
                 '##Name',
                 contact.FirstName + ' ' + contact.LastName
             );

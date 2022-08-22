@@ -20377,6 +20377,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
+        <fullName>PP_Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>Patient_Portal_Views</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27449,5 +27456,26 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
+    </labels>
+    <labels>
+        <fullName>Back_to_Manage_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Manage Delegates</shortDescription>
+        <value>Back to Manage Delegates</value>
+    </labels>
+    <labels>
+        <fullName>Add_New_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add New Delegate</shortDescription>
+        <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Information</shortDescription>
+        <value>Profile Information</value>
     </labels>
 </CustomLabels>
