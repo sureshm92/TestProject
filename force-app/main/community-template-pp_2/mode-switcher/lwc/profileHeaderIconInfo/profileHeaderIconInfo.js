@@ -119,7 +119,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         //   this.doCloseModal();
     }
     doCloseModal() {
-        const pageNavigation = new CustomEvent('pageNavigation');
+        const pageNavigation = new CustomEvent('pagenavigation');
         this.dispatchEvent(pageNavigation);
     }
 }

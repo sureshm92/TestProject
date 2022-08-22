@@ -12,6 +12,8 @@
                           communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
                                                                                          'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
@@ -24,6 +26,8 @@
                           communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
                                                                                          'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
+             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                              buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 

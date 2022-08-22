@@ -105,6 +105,8 @@
 
 .THIS .NavComponent {
     border-left: 1px solid #e9e9e9;
+    width: 100%;
+    margin-right: 20px;
 }
 
 .THIS .navBar ul li a {
@@ -133,8 +135,9 @@
 
     .THIS .navBar {
         position: relative;
-        height: 38px;
+        height: 50px;
         margin-top: 0;
+         border-bottom: 1px solid #c9c9c9;
     }
 
     .THIS .navBar ul {
@@ -222,7 +225,8 @@
     }
 
     .THIS .NavContainer {
-        min-height: auto;
+        min-height: 100vh;
+        
     }
 
     .THIS .navBar ul {

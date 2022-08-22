@@ -13,6 +13,7 @@ public without sharing class PIR_ParticipantDetailController {
           Permit_Mail_Email_contact_for_this_study__c,
           Permit_SMS_Text_for_this_study__c,
           Permit_Voice_Text_contact_for_this_study__c,
+          Study_Direct_Mail_Consent__c,
           Additional_Information__c,
           Referral_Source__c,
           Patient_ID__c,
@@ -48,6 +49,7 @@ public without sharing class PIR_ParticipantDetailController {
           Participant_Contact__c,
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
           Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
           Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
         FROM Participant_Enrollment__c
         WHERE id = :PEid
@@ -229,6 +231,10 @@ public without sharing class PIR_ParticipantDetailController {
         perToUpdate.Permit_Mail_Email_contact_for_this_study__c = perRecord.Permit_Mail_Email_contact_for_this_study__c;
         perToUpdate.Permit_SMS_Text_for_this_study__c = perRecord.Permit_SMS_Text_for_this_study__c;
         perToUpdate.Permit_Voice_Text_contact_for_this_study__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Artificial_Voice_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Assisted_Dialing_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Pre_recorded_Voice_Consent__c = perRecord.Permit_Voice_Text_contact_for_this_study__c;
+                perToUpdate.Study_Direct_Mail_Consent__c = perRecord.Study_Direct_Mail_Consent__c;
         perToUpdate.MRN_Id__c = perRecord.MRN_Id__c;
         if(visitPlan != null && visitPlan != '' && visitPlan != 'null' && !String.isBlank(visitPlan)){
            perToUpdate.Visit_Plan__c = visitPlan;
@@ -254,6 +260,7 @@ public without sharing class PIR_ParticipantDetailController {
         update piToUpdate;
       }
       //delegate operation
+      Id contactId ;
       if (isDelUpdated) {
 
         if(delegateCriteria == 'insertDelegate'){
@@ -268,6 +275,10 @@ public without sharing class PIR_ParticipantDetailController {
             Participant__c = perRecord.Participant__c,
             Contact__c = parti[0].Contact__c
           );
+          if(pdToupdateAfterInsert.Participant__c == null && perRecord.Participant__r.Id != null){
+                pdToupdateAfterInsert.Participant__c = perRecord.Participant__r.Id;
+          }
+          contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
@@ -281,6 +292,7 @@ public without sharing class PIR_ParticipantDetailController {
             Participant__c = perRecord.Participant__c,
             Contact__c = peDeligate.Participant_Delegate__r.Contact__c
           );
+          contactId = peDeligate.Participant_Delegate__r.Contact__c;
           insert pdToupdateAfterInsertDuplicate;
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
@@ -297,29 +309,64 @@ public without sharing class PIR_ParticipantDetailController {
         }
       }
 
+      List<Patient_Delegate__c> patientDelegate;
+      if(peDeligate != null && peDeligate.id != null){
+            patientDelegate = [Select id ,Primary_Delegate__c,Contact__c,Participant__r.Email__c from Patient_Delegate__c where Id =:peDeligate.id ];
+      }
       if(isOutreachUpdated == null){
         isOutreachUpdated = false;
       }
       
       if(isOutreachUpdated){
         TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+          ContactTriggerHandler.createNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
           ContactTriggerHandler.CreateUserForDelegateContactHandler.class
         );
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
         TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.PopulateOverrideFields.class
+          ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
         );
-        TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.CreateUserForCCContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.UpdateParticipantDetailsHandler.class
-        );
+        List<Contact> conlist = new List<Contact>();
         contact con = new Contact(Id = perRecord.Participant_Contact__r.Id,
         Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
         Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
         Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c);
-        update con;
-      }
+    conlist.add(con);
+    if(
+        ( isDelUpdated && contactId != null && (delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate' ) && 
+        (perRecord.Participant__r.Email__c == null || string.isEmpty(perRecord.Participant__r.Email__c))) || 
+        (patientDelegate != null && !patientDelegate.isEmpty() && patientDelegate[0].Primary_Delegate__c && 
+         patientDelegate[0].Contact__c != null && patientDelegate[0].Participant__r.Email__c == null )){
+            contact delegateContact = new Contact(
+                        Participant_Opt_In_Status_Emails__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c = perRecord.Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                        Participant_Phone_Opt_In_Permit_Phone__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                        IQVIA_Artificial_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                        IQVIA_Assisted_Dialing_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                        IQVIA_Pre_recorded_Voice_Consent__c = perRecord.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                        IQVIA_Direct_Mail_Consent__c = perRecord.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c);
+                    if((delegateCriteria == 'updateDeligate' || delegateCriteria == 'insertDelegate') && isDelUpdated ){
+                        delegateContact.id = contactId;
+                    }else{
+                        delegateContact.id = patientDelegate[0].Contact__c;
+                    }
+                    conlist.add(delegateContact);
+                }
+            
+            update conlist;
+        }
     } catch (Exception e) {
       bol = false;
       System.debug('e.getMessage(): ' + e.getMessage());

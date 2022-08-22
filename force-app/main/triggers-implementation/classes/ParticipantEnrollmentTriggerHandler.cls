@@ -5,7 +5,7 @@
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-
+    public static final List<User> isValidUsr = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
@@ -180,6 +180,36 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 (List<Participant_Enrollment__c>) newList,
                 (Map<Id, Participant_Enrollment__c>) oldMap
             );
+        }
+    }
+
+    public class StudyConsentTimestamps extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            updateStudyConsentTimestamps((List<Participant_Enrollment__c>) newList);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateStudyConsentTimestamps(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+    }
+
+    public class UpdatePatientConsent extends TriggerHandler {
+        Boolean isPortalUser = checkCurrentusrProfile();
+        public override void beforeInsert(List<SObject> newList) {
+            if (isPortalUser) {
+                patientConsentUpdate((List<Participant_Enrollment__c>) newList, null);
+            }
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if (isPortalUser) {
+                patientConsentUpdate(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
 
@@ -1062,7 +1092,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 perIdList.add(pe.Id);
             }
         }
-        List<User> inValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        List<User> inValidUserList = isValidUsr;
         List<Participant_Enrollment__c> perDetailedList = [
             SELECT
                 Id,
@@ -1134,7 +1164,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
         }
         Datetime dt = datetime.now();
         List<Participant_Enrollment__c> perFinalList = new List<Participant_Enrollment__c>();
-        List<User> inValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        List<User> inValidUserList = isValidUsr;
         List<Participant_Enrollment__c> perList = [
             SELECT
                 Id,
@@ -1201,7 +1231,7 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
     ) {
         List<User> ValidUserList = new List<User>();
         List<Participant_Enrollment__c> perDetailedList = new List<Participant_Enrollment__c>();
-        ValidUserList = [SELECT Id FROM User WHERE Profile.Name = 'API Only'];
+        ValidUserList = isValidUsr;
         perDetailedList = [
             SELECT
                 Id,
@@ -1254,7 +1284,8 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
                 per.Initial_visit_occurred_flag__c !=
                 oldMap.get(per.Id).Initial_visit_occurred_flag__c) &&
                 ((per.Initial_visit_scheduled_date__c == null &&
-                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true)
+                per.Initial_visit_occurred_flag__c == false) || per.ParticipantNoShow__c == true
+				|| per.Initial_visit_occurred_flag__c == false)
             ) {
                 if (per.Status_Order__c > 3) {
                     per.Participant_Status__c = 'Successfully Contacted';
@@ -1403,6 +1434,148 @@ system.debug('delegatewelcomemsg:::'+delegatewelcomemsg);
             } catch (Exception e) {
                 System.debug('Error--->' + e.getmessage());
             }
+        }
+    }
+
+    @TestVisible
+    private static void updateStudyConsentTimestamps(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        for (Participant_Enrollment__c peNew : newList) {
+            Participant_Enrollment__c peOld = oldMap.get(peNew.Id);
+            if (
+                peNew.Study_Artificial_Voice_Consent__c != peOld.Study_Artificial_Voice_Consent__c
+            ) {
+                peNew.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Study_Assisted_Dialing_Consent__c != peOld.Study_Assisted_Dialing_Consent__c
+            ) {
+                peNew.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
+            }
+            if (peNew.Study_Direct_Mail_Consent__c != peOld.Study_Direct_Mail_Consent__c) {
+                peNew.Study_Direct_Mail_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Permit_Mail_Email_contact_for_this_study__c !=
+                peOld.Permit_Mail_Email_contact_for_this_study__c
+            ) {
+                peNew.Study_Email_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Permit_Voice_Text_contact_for_this_study__c !=
+                peOld.Permit_Voice_Text_contact_for_this_study__c
+            ) {
+                peNew.Study_Phone_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Permit_IQVIA_to_contact_about_study__c !=
+                peOld.Permit_IQVIA_to_contact_about_study__c
+            ) {
+                peNew.Study_PI_Storage_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Study_Pre_recorded_Voice_Consent__c !=
+                peOld.Study_Pre_recorded_Voice_Consent__c
+            ) {
+                peNew.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+            }
+            if (
+                peNew.Permit_SMS_Text_for_this_study__c != peOld.Permit_SMS_Text_for_this_study__c
+            ) {
+                peNew.Study_SMS_Consent_Time__c = Datetime.now();
+            }
+        }
+    }
+
+    @TestVisible
+    private static void updateStudyConsentTimestamps(List<Participant_Enrollment__c> newList) {
+        for (Participant_Enrollment__c peNew : newList) {
+            peNew.Study_Artificial_Voice_Consent_Time__c = (peNew.Study_Artificial_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Assisted_Dialing_Consent_Time__c = (peNew.Study_Assisted_Dialing_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Direct_Mail_Consent_Time__c = (peNew.Study_Direct_Mail_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Email_Consent_Time__c = (peNew.Permit_Mail_Email_contact_for_this_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Phone_Consent_Time__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_PI_Storage_Consent_Time__c = (peNew.Permit_IQVIA_to_contact_about_study__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_Pre_recorded_Calls_Consent_Time__c = (peNew.Study_Pre_recorded_Voice_Consent__c
+                ? Datetime.now()
+                : null);
+            peNew.Study_SMS_Consent_Time__c = (peNew.Permit_SMS_Text_for_this_study__c
+                ? Datetime.now()
+                : null);
+        }
+    }
+
+    @TestVisible
+    private static void patientConsentUpdate(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        for (Participant_Enrollment__c peNew : newList) {
+            if (oldMap == null) {
+                peNew.Study_Assisted_Dialing_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+                peNew.Study_Artificial_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+                peNew.Study_Pre_recorded_Voice_Consent__c = (peNew.Permit_Voice_Text_contact_for_this_study__c
+                    ? true
+                    : false);
+            } else {
+                Participant_Enrollment__c peOld = oldMap.get(peNew.Id);
+                if (
+                    peNew.Permit_Voice_Text_contact_for_this_study__c !=
+                    peOld.Permit_Voice_Text_contact_for_this_study__c &&
+                    peNew.Permit_Voice_Text_contact_for_this_study__c
+                ) {
+                    // check 3 checkboxes
+                    peNew.Study_Assisted_Dialing_Consent__c = true;
+                    peNew.Study_Artificial_Voice_Consent__c = true;
+                    peNew.Study_Pre_recorded_Voice_Consent__c = true;
+                } else if (
+                    peNew.Permit_Voice_Text_contact_for_this_study__c !=
+                    peOld.Permit_Voice_Text_contact_for_this_study__c &&
+                    !peNew.Permit_Voice_Text_contact_for_this_study__c
+                ) {
+                    // uncheck 3 checkboxes
+                    peNew.Study_Assisted_Dialing_Consent__c = false;
+                    peNew.Study_Artificial_Voice_Consent__c = false;
+                    peNew.Study_Pre_recorded_Voice_Consent__c = false;
+                }
+            }
+        }
+    }
+    public static List<Profile> currentUserProfile;
+    public static boolean checkCurrentusrProfile() {
+        List<Profile> profiles;
+        if(currentUserProfile==null){
+            Id profileId = userinfo.getProfileId();
+            currentUserProfile = [SELECT Id, Name FROM Profile WHERE Id = :profileId];
+        }
+        profiles = currentUserProfile;
+        if (profiles != null && !profiles.isEmpty()) {
+            String profileName = profiles[0].Name;
+            if (profileName == System.Label.PortalUserProfile) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
         }
     }
 }

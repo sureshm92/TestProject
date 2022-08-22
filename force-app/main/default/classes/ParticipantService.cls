@@ -1,4 +1,9 @@
 public without sharing class ParticipantService {
+    public static final List<Age_of_Majority__mdt> Age_Of_Majorities = [
+        SELECT Country_Code__c, State_Code__c, Age__c
+        FROM Age_of_Majority__mdt
+        ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
+    ];
     public class ParticipantServiceException extends Exception {
     }
 
@@ -237,7 +242,8 @@ public without sharing class ParticipantService {
                     Contact__r.Current_Participant_Enrollment__c,
                     Contact__r.Visit_Results_OptIn__c,
                     Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Marketing_Flag__c
+                    Marketing_Flag__c,
+                    Adult__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
             ];
@@ -537,11 +543,7 @@ public without sharing class ParticipantService {
     public static List<Participant__c> checkParticipantsAgeOfMajority(
         List<Participant__c> participants
     ) {
-        List<Age_of_Majority__mdt> ageOfMajorities = [
-            SELECT Country_Code__c, State_Code__c, Age__c
-            FROM Age_of_Majority__mdt
-            ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
-        ];
+        List<Age_of_Majority__mdt> ageOfMajorities = Age_Of_Majorities;
 
         for (Participant__c prt : participants) {
             if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c))

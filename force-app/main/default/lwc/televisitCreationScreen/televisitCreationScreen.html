@@ -1,6 +1,30 @@
 <template>
     <br/>
-    <div class="slds-grid slds-wrap">
+    <div class="slds-grid slds-wrap space_between">
+        <lightning-layout class="slds-grid slds-wrap slds-container_fluid">
+            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
+                <div if:false={isPPUserActivated} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element ">
+                    <div class="slds-notify_alert notify-box notify-box-outline" role="alert">                             
+                        <span class="slds-icon_container slds-icon-utility-warning slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
+                        <img class="notify-img" src={notification}/>
+                        </span>
+                        <h2>{label.RH_UserRegistration_Warning}</h2>                          
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_medium">
+                
+                <div if:false={isEmailPermitted} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 outcome-form-element slds-m-bottom_medium">
+                    <div class="slds-notify_alert notify-box alert-box-outline" role="alert">                             
+                          <span class="slds-icon_container slds-icon-utility-error slds-m-left_x-small slds-m-right_small" title="Description of icon when needed">
+                          <img class="alert-img" src={alert}/>
+                          </span>
+                          <h2>{label.RH_UserEmailPermissionAlert}</h2>                          
+                    </div>
+              </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
         <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-order_2 slds-medium-order_1 slds-large-order_1">
             <lightning-layout class="slds-grid slds-wrap">
                 <lightning-layout-item class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_2-of-8 slds-large-size_1-of-8 slds-p-bottom_medium">
@@ -18,14 +42,14 @@
             </lightning-layout>
         </div>
 
-        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 hideDesktopView">
+        <!-- <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 hideDesktopView">
             <div onclick={goBackHandler} class="pgHeadMob">
                 <img class="backArrow" src={backArrow}/>                  
                     Back
             </div>
-        </div>
+        </div> -->
 
-        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-order_1 slds-medium-order_2 slds-large-order_2">
+        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-order_1 slds-medium-order_2 slds-large-order_2">
             <lightning-button 
                 variant="brand-outline"
                 label={label.RH_TV_CreateTelevisit}
@@ -87,22 +111,39 @@
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small visit-date">
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Visit Date</label>
-                                    <lightning-input variant="label-hidden"  min={today} class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
+                                    <lightning-input variant="label-hidden"  min={today} message-when-range-underflow="Enter Today or Future Date" class="inputFields slds-p-vertical_x-small visit_date" name="Visit Date" data-id="Visit Date" title="Visit Date" value={visitDate} onchange={handleChangeValidation} type="date" placeholder="mm/dd/yyyy" label="Visit Date"></lightning-input>
                                     <!--<input onchange={handleChangeValidation} class="slds-input inputFields" type="date" data-id="Visit Date" name="Visit Date" value={visitDate} min={today} max="2122-01-02" placeholder="mm/dd/yyyy">-->
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small start-time">
                                     
                                     <!--05:00:00.000Z-->
+                                    
+                                        <!--max="23:45:00.000Z"-->
+                                        
+                                        <template if:false={isMobileDevice}>
                                     <abbr class="slds-required">*</abbr>
                                     <label class="inputFields">Start Time</label>
-                                    <!--max="23:45:00.000Z"-->
                                         <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
                                             variant="label-hidden"
                                             value={startTime}
                                             label="Start Time"
-                                            title="Start Time" min={defaultTime}  placeholder="Select Time">
+                                                title="Start Time" min={defaultTime}  placeholder="Select Time"
+                                                >
                                         </lightning-input>
-                                
+                                        </template>
+
+
+                                        <template if:true={isMobileDevice}>
+                                            <div>
+                                                <abbr class="slds-required">*</abbr>
+                                                <label class="inputFields">Start Time</label>
+                                            </div>
+                                            <div>
+                                                <input type="time" style="width:100%;padding:8px;border-radius:3px;border: 1px solid #d9d9d9;background-color:white;" class=".slds-input"  name="Start Time"  data-id="Start Time"  data-value="Start Time" onchange={handleChangeValidation}
+                                                value={startTime}
+                                                title="Start Time" min={defaultTime} placeholder="Select Time" step="60" />
+                                            </div>
+                                        </template>
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small">
                                     <abbr class="slds-required">*</abbr>
@@ -352,7 +393,7 @@
                        <p class="sub-text"></p>
                        <div class="slds-grid slds-wrap slds-m-top_large">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                            <div class="slds-float_right mobile-width">                  
+                            <div class="slds-float_right mobile-width cancel_tv_actionBtn">                  
                                 <button title="" class="slds-button apollo-btn primary btn-height save-btn" data-id={cancelTelevisitRecordId}  onclick={cancelTelevisit}> {label.RH_TV_Confirm} </button>
                                 <button class="slds-button apollo-btn secondary btn-height discard-btn"  onclick={handleCloseModal}> {label.RH_TV_Discard} </button>
                             </div>    

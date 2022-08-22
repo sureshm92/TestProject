@@ -91,13 +91,18 @@
     min-width: 40%;
     font-size: 1rem;
     font-weight: 600;
-    line-height: 2rem;
-    text-align: center;
+    line-height: 1.5rem;
+    text-align: initial !important;
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
+}
+
+.toastMessage.forceActionsText {
+    font-family: "Proxima Nova"!important;
+    padding-left: 0.5rem;
 }
 
 .toastContainer .toastClose {
@@ -117,4 +122,15 @@
 .toastContainer .forceToastMessage .toastClose .slds-button__icon--large{
     height: 1rem !important;
     width: 1rem !important;
+}
+.masked .slds-input {
+    -webkit-text-security: disc;
+}
+
+.ppCombobox button{  
+    border-radius: 20px !important;
+}
+
+.anchor-container a{
+    text-decoration: none !important;
 }

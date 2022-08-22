@@ -583,6 +583,7 @@ public with sharing class Action_SendSMS implements Action {
                 WHERE Id IN :ownerIdList
             ]
         );
+        system.debug('notificationsList:::' + notificationsList);
 
         Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
             [
@@ -815,7 +816,7 @@ public with sharing class Action_SendSMS implements Action {
                         if (objType == 'Televisit_Attendee__c') {
                             Televisit_Attendee__c tva = televisitAttendeeIdMap.get(whatId);
                             if (tva != null)
-                            tvOBJ = tva.Televisit__r;
+                                tvOBJ = tva.Televisit__r;
                         }
                         if (tvOBJ != null) {
                             pinPoint = tvOBJ.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c;

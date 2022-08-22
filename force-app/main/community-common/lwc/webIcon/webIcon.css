@@ -17,6 +17,16 @@
     width: 20px;
 }
 
+.rr-icon_medium-large {
+    height: 25px;
+    width: 25px;
+}
+
+.rr-icon_large{
+    height: 35px;
+    width: 35px;
+}
+
 .rr-icon_big {
     height: 60px;
     width: 60px;

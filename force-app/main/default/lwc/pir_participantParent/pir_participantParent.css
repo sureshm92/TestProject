@@ -43,6 +43,10 @@
    font-size: 16px;
    font-weight: 600;
 }
+.progressBar {
+    width: 95%;
+    display: inline-block;
+}
 .title {
     color: #000000;
     font-family: "Proxima Nova";
@@ -146,8 +150,8 @@
         margin-top: 5px;
     }
     .model-small{
-        width: auto;
-        min-width: auto;
+        width: 340px;
+        min-width: 340px;
     }
     .mobile-width{
         width: 100%;

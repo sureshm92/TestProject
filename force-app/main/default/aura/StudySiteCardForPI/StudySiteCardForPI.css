@@ -195,6 +195,10 @@
     width: 14px;
 }
 
+.THIS .bulk-import-btn{
+    padding-right:15px;
+}
+
 @media all and (max-width: 1000px) {
     .THIS {
         height: auto;
@@ -307,7 +311,10 @@
     .THIS .card-header {
         padding-bottom: 60px;
     }
-
+    .THIS .bulk-import-btn{
+       padding-bottom:15px;
+       padding-right:0px;
+    }
     .THIS .clinic-type {
         padding-left: 0px;
         padding-bottom: 0px;
@@ -398,4 +405,13 @@
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) {
         padding-right: 0;
     }
+    
 }
+@media (max-device-width: 767px) {
+    .THIS .slds-top-margin-mobiles{
+        margin-top: 0 !important;
+    }
+    .THIS .slds-top-margin-mobile{
+        margin-top: 20px;
+    }
+ }

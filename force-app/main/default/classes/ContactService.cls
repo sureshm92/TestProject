@@ -347,6 +347,8 @@ public without sharing class ContactService {
                 Third_Choice_Language__c,
                 Participant_Opt_In_Status_Emails__c,
                 Participant_Opt_In_Status_SMS__c,
+                Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Direct_Mail_Consent__c,
                 Visit_Results_OptIn__c,
                 Visited_Communities__c,
                 Email,

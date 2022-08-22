@@ -3,13 +3,11 @@
  */
 
 public without sharing class TaskEditRemote {
-    
-    
     public Boolean isDelegate;
-    
-     @AuraEnabled
-    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
-        return CommunityService.getMaxLength(so,fieldNames);
+
+    @AuraEnabled
+    public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
+        return CommunityService.getMaxLength(so, fieldNames);
     }
 
     public class TaskEditDataWrapper {
@@ -76,8 +74,10 @@ public without sharing class TaskEditRemote {
                 status == ParticipantService.ParticipantStates.PARTICIPANT;
 
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
-            emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
-            smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
+            //emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            emailOptIn = emailPreferencesIsOn;
+            //smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
+            smsOptIn = smsPreferenceIsOn;
             createdByAdmin = false;
 
             task = new Task(Task_Type__c = 'Not Selected');
@@ -121,7 +121,13 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
-            taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            // create task for minor participants as well
+            if (ParticipantContext.getCurrentUserId() != null) {
+                taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            } else {
+                taskToUpsert.Owner_Contact__c = ParticipantContext.getCurrentContactId();
+            }
+            //taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
             if (String.isEmpty(taskToUpsert.Originator__c))
                 taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate()
@@ -203,13 +209,12 @@ public without sharing class TaskEditRemote {
     public static Boolean getisTravelSupportEnabled() {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            if(state.value == ParticipantService.ParticipantStates.REFERRAL){
-                return (state.ctp.Received_Until_Consent_Is_Available__c || state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
-            }
-            else{
+            if (state.value == ParticipantService.ParticipantStates.REFERRAL) {
+                return (state.ctp.Received_Until_Consent_Is_Available__c ||
+                state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
+            } else {
                 return state.isTravelSupportEnabled;
             }
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -313,7 +318,6 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
                 taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
                 taskToUpsert.Is_Reminder_Sent__c = false;
-
             }
             if (taskToUpsert.Id != null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId) {
                 update taskToUpsert;
@@ -354,11 +358,84 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c;
+        /*return (ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c ||
+         ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c);*/
+        Boolean EmailOptinPlatformlevel = ParticipantContext.getCurrentContact()
+            .Participant_Opt_In_Status_Emails__c;
+        if (EmailOptinPlatformlevel) {
+            return EmailOptinPlatformlevel;
+        }
+        Boolean EmailOptinStudyLevel = false;
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+            .getState();
+        List<Id> peIds = new List<Id>();
+        peIds = PatientDelegateService.getAvailablePEIDsForAllContacts(
+            participantState.participant.Contact__c
+        );
+        List<Participant_Enrollment__c> availablePEs = [
+            SELECT
+                Id,
+                Participant__c,
+                Participant__r.Contact__c,
+                Participant__r.Adult__c,
+                Participant__r.Email__c,
+                Study_Site__r.SMS_Are_Available__c,
+                Permit_Mail_Email_contact_for_this_study__c,
+                Permit_SMS_Text_for_this_study__c,
+                Permit_Voice_Text_contact_for_this_study__c,
+                Study_Direct_Mail_Consent__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :peIds
+        ];
+        if (availablePEs != null) {
+            EmailOptinStudyLevel = availablePEs[0].Permit_Mail_Email_contact_for_this_study__c;
+        }
+        return EmailOptinStudyLevel;
     }
 
     private static Boolean checkSMSPreferencesIsOn() {
-        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
+        //return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
+        Boolean SMSOptinPlatformlevel = ParticipantContext.getCurrentContact()
+            .Participant_Opt_In_Status_SMS__c;
+        if (SMSOptinPlatformlevel) {
+            return SMSOptinPlatformlevel;
+        }
+        Boolean SMSOptinStudyLevel = false;
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+            .getState();
+        List<Id> peIds = new List<Id>();
+        peIds = PatientDelegateService.getAvailablePEIdsForContact(
+            participantState.participant.Contact__c
+        );
+        List<Participant_Enrollment__c> availablePEs = [
+            SELECT
+                Id,
+                Participant__c,
+                Participant__r.Contact__c,
+                Participant__r.Adult__c,
+                Participant__r.Email__c,
+                Study_Site__r.SMS_Are_Available__c,
+                Permit_Mail_Email_contact_for_this_study__c,
+                Permit_SMS_Text_for_this_study__c,
+                Permit_Voice_Text_contact_for_this_study__c,
+                Study_Direct_Mail_Consent__c,
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :peIds
+        ];
+        if (availablePEs != null) {
+            for (Participant_Enrollment__c peRec : availablePEs) {
+                if (peRec.Permit_SMS_Text_for_this_study__c) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static String checkEmailPermissions(
@@ -366,16 +443,15 @@ public without sharing class TaskEditRemote {
         List<Contact> delegates
     ) {
         String errorMessage = '';
-
-        if (
-            !emailEnabledForAllRelatedContacts(
-                ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c,
-                delegates
-            )
-        ) {
+        /*Boolean emailEnabled = (ParticipantContext.getCurrentContact()
+                .Participant_Opt_In_Status_Emails__c ||
+            ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c)
+            ? true
+            : false;*/
+        /* if (!emailEnabledForAllRelatedContacts(emailEnabled, delegates)) {
             errorMessage = Label.Task_Reminders_Missing;
-        }
-        if (!emailEnabledForCurrentContact()) {
+        }*/
+        if (!emailPreferencesIsOn) {
             errorMessage = Label.EmailPreferencesIsOff;
         }
         return errorMessage;
@@ -387,10 +463,10 @@ public without sharing class TaskEditRemote {
     ) {
         if (!emailPreferencesIsOn)
             return false;
-        for (Contact delegate : delegates) {
+        /*for (Contact delegate : delegates) {
             if (!delegate.Participant_Opt_In_Status_Emails__c)
                 return false;
-        }
+        }*/
         return true;
     }
     private static Boolean emailEnabledForOneRelatedContact(

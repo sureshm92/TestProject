@@ -16,6 +16,7 @@
         iqviaOutreachEmail,
         iqviaOutreachPhone,
         iqviaOutreachSMS,
+        iqviaOutreachDirectMail,
         visitPlanId,
         helper
     ) {
@@ -36,6 +37,7 @@
                 outreachEmail : iqviaOutreachEmail,
                 outreachPhone : iqviaOutreachPhone,
                 outreachSMS : iqviaOutreachSMS,
+                outreachDirectMail : iqviaOutreachDirectMail,
                 visitPlanId: visitPlanId==''?undefined:visitPlanId
             },
             function (returnValue) {

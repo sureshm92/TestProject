@@ -26,7 +26,8 @@ private class Test_NotificationAvailabilityService {
             whatIds[0],
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         Test.stopTest();
 
@@ -51,13 +52,15 @@ private class Test_NotificationAvailabilityService {
             whatIds[0],
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         Boolean resultNull = service.isAvailable(
             null,
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         Test.stopTest();
 
@@ -67,6 +70,7 @@ private class Test_NotificationAvailabilityService {
     @isTest
     static void testTaskObject() {
         TestData td = new TestData();
+        Test.startTest();
         Datetime dateNow = Datetime.now();
         List<Id> recipientIds = new List<Id>{ td.participant.Contact__c };
         Task task = new Task();
@@ -82,7 +86,6 @@ private class Test_NotificationAvailabilityService {
         contact.Participant_Opt_In_Status_Emails__c = true;
         update contact;
 
-        Test.startTest();
         NotificationAvailabilityService service = new NotificationAvailabilityService(
             recipientIds,
             whatIds
@@ -91,7 +94,8 @@ private class Test_NotificationAvailabilityService {
             whatIds[0],
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         Test.stopTest();
 
@@ -122,7 +126,8 @@ private class Test_NotificationAvailabilityService {
             whatIds[0],
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         Test.stopTest();
 
@@ -153,21 +158,24 @@ private class Test_NotificationAvailabilityService {
             whatIds[0],
             'Participant',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[0]
+            recipientIds[0],
+            null
         );
         //For HCP
         Boolean resultHCP = service.isAvailable(
             whatIds[0],
             'HCP',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[1]
+            recipientIds[1],
+            null
         );
         //For PI
         Boolean resultPI = service.isAvailable(
             whatIds[0],
             'PI',
             NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-            recipientIds[2]
+            recipientIds[2],
+            null
         );
         Test.stopTest();
 

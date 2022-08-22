@@ -111,6 +111,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 '0, VALIDATION ERROR: File is empty. Please correct the problem and try again.'
             );
             valid = false;
+           
         }
         if (totalRowCount > 45005) {
             listOfFailedRecordsWithMsg.add(
@@ -324,6 +325,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Sex = headerIndexes.get('PARTICIPANT SEX') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT SEX')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT SEX')].trim()
+                    : null; 
+                YearofBirth =  headerIndexes.get('PARTICIPANT YEAR OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')].trim()
                     : null;
                 YearofBirth = headerIndexes.get('PARTICIPANT YEAR OF BIRTH') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT YEAR OF BIRTH')] != null
@@ -1489,7 +1494,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             mapParticipantFovTime.get(i)
                         ) != null
                         ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0)
-                        : null
+                        : null,
+                    High_Priority__c = String.ValueOf(mapParticipantFov.get(i)) !=null ? true:false     
                 );
                 if (
                     createUsers == true &&
@@ -1660,7 +1666,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                   0,
                                   0
                               )
-                            : null
+                            : null,
+                        High_Priority__c = String.ValueOf(mapParticipantFov.get(totalrecorcountindx)) !=null ? true:false    
                     );
 
                     if (

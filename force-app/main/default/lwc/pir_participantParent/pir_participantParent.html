@@ -213,7 +213,7 @@
                          </div>
                       </div>
                    </div>
-                   <slot name="body">
+                   <slot name="medical_unsavePopup">
                       <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                       <div class="slds-grid slds-wrap slds-m-top_large">
                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
@@ -254,7 +254,7 @@
                         </div>
                      </div>
                   </div>
-                  <slot name="body">
+                  <slot name="savediscardPopup">
                      <p class="sub-text"> {label.PIR_Unsaved_Changes}</p>
                      <div class="slds-grid slds-wrap slds-m-top_large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
@@ -305,8 +305,8 @@
                            <span class="slds-assistive-text">Close</span>
                         </div>
                      </div>
-                  </div>
-                  <slot name="body">   
+                  </div> 
+                  <slot name="studySitediv">   
                      <div class="slds-grid slds-wrap slds-gutters ">
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                               <div class="participant-text">
@@ -380,64 +380,70 @@
                      </div>
                   </div>
                </div>
-                        <slot name="body">   
-                           <div class="slds-grid slds-wrap slds-gutters">
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
-                                    <div class="status-text">
-                                       {label.ListView_Current_Status}
-                                    </div>
-                                    <div class="status-result">
-                                       {oParticipantStatus}
-                                    </div>
-                              </div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
-                                    <div class="status-text">
-                                       {label.ListView_New_Status}
-                                    </div>
-                                    <div class="status-result">
-                                      {newStatusSelected}
-                                    </div>
-                              </div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small">
-                                    <lightning-combobox
-                                       name="reason"
-                                       title={label.PG_ACPE_L_Reason}
-                                       label={reasonLabel}
-                                       value={selectedreason}
-                                       placeholder=" "
-                                       options={reasoneoptions}
-                                       onchange={handleReasonChange}
-                                       disabled={isReasonEmpty}
-                                       ></lightning-combobox>
-                              </div>
-                              <template if:true={consentSigned}>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small"></div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
-                                 <lightning-combobox
-                                    name="ConsentSigned"
-                                    label={label.FD_PE_Field_Informed_Consent_Signed}
-                                    value=""
-                                    placeholder=""
-                                    options={consentSignedOptions}
-                                    onchange={changeInputValue}
-                                    data-value="consentSigned"
-                                    ></lightning-combobox>
-                              </div>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
-                                 <lightning-input type="date" name="input1" data-value="signedDate" class="inputfieldStatus" onchange={changeInputValue} label={label.FD_PE_Field_Informed_Consent_Signed_Date} required={consentValue}></lightning-input>
-                              </div>
-                           </template>
-                              <template if:true={finalConsent}>
-                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small" style="padding-top: 10px;">
-                                    <lightning-input type="checkbox" data-value="FinalConsent" required={finalConsentRequired} checked={finalConsentvalue}
-                                        onchange={changeInputValue} label={label.FD_PE_Field_Final_Consent} title={label.FD_PE_Field_Final_Consent} name="input1"></lightning-input>
-                                 </div>
-                              </template>
-                              <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12 ">
-                                    <lightning-textarea name="additionalNotes"  title={notesLabel} onchange={changeInputValue}
-                                    data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>   
-                              </div>
+               <slot name="statusPopup">   
+                  <div class="slds-grid slds-wrap slds-gutters">
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                           <div class="status-text">
+                              {label.ListView_Current_Status}
                            </div>
+                           <div class="status-result">
+                              {oParticipantStatus}
+                           </div>
+                     </div>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_x-small">
+                           <div class="status-text">
+                              {label.ListView_New_Status}
+                           </div>
+                           <div class="status-result">
+                             {newStatusSelected}
+                           </div>
+                     </div>
+                     <div class={reasonClass}>
+                           <lightning-combobox
+                              name="reason"
+                              title={label.PG_ACPE_L_Reason}
+                              label={reasonLabel}
+                              value={selectedreason}
+                              placeholder=" "
+                              options={reasoneoptions}
+                              onchange={handleReasonChange}
+                              disabled={isReasonEmpty}
+                              ></lightning-combobox>
+                     </div>
+                     <template if:true={checkStatusReEngaged}>
+                        <div class="slds-col slds-size_2-of-5 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_large slds-m-bottom_xx-small">
+                            <lightning-input type="checkbox" data-value="reengaged" disabled=true checked=true
+                               label={label.successfully_Re_Engaged} name="re-Engaged"></lightning-input>
+                         </div>
+                      </template>
+                     <template if:true={consentSigned}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small"></div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
+                           <lightning-combobox
+                              name="ConsentSigned"
+                              label={label.FD_PE_Field_Informed_Consent_Signed}
+                              value=""
+                              placeholder=""
+                              options={consentSignedOptions}
+                              onchange={changeInputValue}
+                              data-value="consentSigned"
+                              ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 outcome-form-element slds-m-bottom_small">
+                           <lightning-input type="date" name="input1" data-value="signedDate" class="inputfieldStatus" onchange={changeInputValue} label={label.FD_PE_Field_Informed_Consent_Signed_Date} required={consentValue}></lightning-input>
+                        </div>
+                     </template>
+                     <template if:true={finalConsent}>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_xx-small" style="padding-top: 10px;">
+                           <lightning-input type="checkbox" data-value="FinalConsent" required={finalConsentRequired} checked={finalConsentvalue}
+                               onchange={changeInputValue} label={label.FD_PE_Field_Final_Consent} title={label.FD_PE_Field_Final_Consent} name="input1"></lightning-input>
+                        </div>
+                     </template>
+                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12 ">
+                        <lightning-textarea name="additionalNotes"  title={notesLabel} onchange={changeInputValue}
+                        data-value="additionalNotes" value={additionalNote} label={notesLabel}></lightning-textarea>
+                     </div>
+                  </div>
                   <div class="slds-grid slds-wrap slds-m-top_large">
                      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                      <div class="slds-float_right mobile-width">                  
@@ -454,5 +460,8 @@
 </section>
 <div class="slds-backdrop slds-backdrop_open"></div>
 </template>
+<template if:true={importParticipant}> 
+   <c-pir_import-participant onclose={handleImportParticipant} > </c-pir_import-participant>
+</template> 
 </div>
 </template>

@@ -100,7 +100,7 @@
                         component.set('v.currentState', 'Select Source');
                     }
                     if (!initData.trial.Link_to_Pre_screening__c) {
-                        if(!component.get('v.patientVeiwRedirection')){
+                        if(!component.get('v.patientVeiwRedirection') && communityService.getUrlParameter('navigatetodiscussion')!== 'true'){
                             component.set('v.currentState', 'Search PE');
                           }
                         component.set('v.steps', [
@@ -411,6 +411,18 @@
             }
         );
     },
+   
+    doReferPatient: function (component) {
+        communityService.navigateToPage(
+            'referring?id=' +
+                component.get('v.trialId') +
+                '&peid=' +
+                component.get('v.searchResult').pe.Id  
+                +
+                '&navigatetodiscussion=true'  
+        );
+    }, 
+   
     doSaveParticipant: function (component) {
         let participant = component.get('v.participant');
         console.log('part-->'+JSON.stringify(participant));
@@ -425,10 +437,8 @@
             pEnrollment.HCP__r.Study__c="";
         }
         spinner.show();
-        communityService.executeAction(
-            component,
-            'saveParticipant',
-            {
+        let action = component.get("c.saveParticipant");
+        action.setParams({
                 hcpeId: hcpeId,
                 pEnrollmentJSON: JSON.stringify(pEnrollment),
                 participantJSON: JSON.stringify(participant),
@@ -436,16 +446,18 @@
                 delegateId: communityService.getDelegateId(),
                 ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
                 contentDocId:contentDocId
-            },
-            function (returnValue) {
-                component.set('v.currentState', 'Refer Success');
-            },
-            null,
-            function () {
-                window.scrollTo(0, 0);
-                spinner.hide();
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+               component.set('v.currentState', 'Refer Success');
+               spinner.hide();
             }
-        );
+            else {
+                console.log(action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);
     },
     
     doFrameLoaded: function (component, event, helper) {
@@ -536,11 +548,22 @@
                 component.set('v.pEnrollment.Participant_Opt_In_Status_Emails__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
                 component.set('v.pEnrollment.Participant_Opt_In_Status_SMS__c', event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
                 component.set('v.pEnrollment.Participant_Phone_Opt_In_Permit_Phone__c', event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c); 
+                component.set('v.pEnrollment.IQVIA_Direct_Mail_Consent__c', event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c); 
                 component.set('v.pEnrollment.Permit_SMS_Text_for_this_study__c', event.getParam('consentMap').pe.Permit_SMS_Text_for_this_study__c);
                 component.set('v.pEnrollment.Permit_Voice_Text_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Voice_Text_contact_for_this_study__c);
                 component.set('v.pEnrollment.Permit_Mail_Email_contact_for_this_study__c', event.getParam('consentMap').pe.Permit_Mail_Email_contact_for_this_study__c);
                 helper.checkFields(component, event, helper);
 
         }                                      
+    },
+    doStartMRR: function (component) {
+        communityService.navigateToPage('medical-record-review?id=' + component.get('v.trialId'));
+    },
+    doClearForm: function (component) {
+        component.set('v.searchResult', undefined);
+        component.set('v.searchData', {
+            participantId: ''
+        });
+        component.set('v.mrrResult', 'Pending');
     }
 });

@@ -100,21 +100,20 @@
                     />
                 </aura:if>
             </li>
-
             <li class="lo-button">
                 <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
-                    <div class="divider-line" />
+                    <div class="divider-line"></div>
                     <lightning:button
                         variant="base"
                         label="{!$Label.c.PP_Logout}"
                         onclick="{!c.logout}"
-                        class="apollo-btn switcher-logout-txt"
+                        class="pp-logout"
                     ></lightning:button>
                     <aura:set attribute="else">
                         <lightning:button
                             onclick="{!c.logout}"
                             label="{!$Label.c.Profile_Menu_Log_Out}"
-                            class="switcher-logout-txt"
+                            class="apollo-btn logout-btn"
                         >
                         </lightning:button>
                     </aura:set>

@@ -30,6 +30,10 @@ export default class PpAccountSettings extends LightningElement {
     contactChanged = false;
     showMobileNavComponent = false;
     spinner;
+    participantState;
+    consentPreferenceData;
+    isDesktopFlag = true;
+
     labels = {
         ACCOUNT_SETTINGS,
         PROFILE_INFO,
@@ -44,9 +48,9 @@ export default class PpAccountSettings extends LightningElement {
 
     navHeadersList = [
         { label: PROFILE_INFO, value: 'profileInformation' },
-        { label: PASSWORD_MANAGEMENT, value: 'passwordchange' },
+        { label: PASSWORD_MANAGEMENT, value: 'password-change' },
         { label: COMMUNICATION_PREF, value: 'communication-preferences' },
-        { label: LANG_LOCATION, value: 'langloc' },
+        { label: LANG_LOCATION, value: 'lang-loc' },
         { label: CUSTOMIZE_EXP, value: 'changePref' },
         { label: COOKIE_SETTINGS, value: 'cookiesSettings' },
         { label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' }
@@ -58,6 +62,8 @@ export default class PpAccountSettings extends LightningElement {
                 this.spinner = this.template.querySelector('c-web-spinner');
                 this.spinner.show();
                 this.initializeData();
+                this.participantState = communityService.getCurrentCommunityMode().participantState;
+                this.isMobile ? this.isDesktopFlag = false : this.isDesktopFlag = true;
             })
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
@@ -132,7 +138,7 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     get showPasswordManagement() {
-        return this.componentId === 'passwordchange' ? true : false;
+        return this.componentId === 'password-change' ? true : false;
     }
 
     get showCommunicationPreference() {
@@ -140,7 +146,7 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     get showLanguageAndLocation() {
-        return this.componentId === 'langloc' ? true : false;
+        return this.componentId === 'lang-loc' ? true : false;
     }
 
     get showCustomizeExperience() {
@@ -176,6 +182,7 @@ export default class PpAccountSettings extends LightningElement {
                 this.userType = initialData.myContact.UserCommunytyType__c;
                 this.contact = initialData.myContact;
                 this.currentEmail = initialData.myContact.Email;
+                this.consentPreferenceData = initialData.consentPreferenceData;
                 this.isInitialized = true;
                 this.setComponentId(queryString);
                 this.spinner.hide();
@@ -189,15 +196,15 @@ export default class PpAccountSettings extends LightningElement {
         if (queryString.includes('profileInformation')) {
             this.componentId = 'profileInformation';
             window.history.replaceState(null, null, '?profileInformation');
-        } else if (queryString.includes('passwordchange')) {
-            this.componentId = 'passwordchange';
-            window.history.replaceState(null, null, '?passwordchange');
+        } else if (queryString.includes('password-change')) {
+            this.componentId = 'password-change';
+            window.history.replaceState(null, null, '?password-change');
         } else if (queryString.includes('communication-preferences')) {
             this.componentId = 'communication-preferences';
             window.history.replaceState(null, null, '?communication-preferences');
-        } else if (queryString.includes('langloc')) {
-            this.componentId = 'langloc';
-            window.history.replaceState(null, null, '?langloc');
+        } else if (queryString.includes('lang-loc')) {
+            this.componentId = 'lang-loc';
+            window.history.replaceState(null, null, '?lang-loc');
         } else if (queryString.includes('changePref')) {
             this.componentId = 'changePref';
             window.history.replaceState(null, null, '?changePref');

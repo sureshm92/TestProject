@@ -169,7 +169,6 @@ export default class Medicalinformation extends LightningElement {
 
     getPEDetails({ peid: this.selectedPe })
       .then((result) => {
-        console.log(">>>result>>" + JSON.stringify(result));
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
         this.lstExistingCommorbidity = [];
@@ -229,7 +228,6 @@ export default class Medicalinformation extends LightningElement {
             if (!flTitle.includes(flExtension)) {
               this.medicalHistoryRecord.attachments[i].attachment.Title =
                 flTitle + "." + flExtension;
-              console.log(">>extension exist>>");
             }
             this.medicalHistoryRecord.attachments[i].attachment.CreatedDate =
               new Intl.DateTimeFormat(LOCALE, options).format(dt);
@@ -245,8 +243,6 @@ export default class Medicalinformation extends LightningElement {
             this.bioMarkerResultData =
               result.biomarkerdata.mapBiomarkerKeyValue;
           }
-          console.log('>>biomarkermedia>'+JSON.stringify(result.lstbioMarkerMediaFiles));
-          
           if(result.lstbioMarkerMediaFiles && result.lstbioMarkerMediaFiles.length != 0){
             this.lstmediafiles = result.lstbioMarkerMediaFiles;
             this.isbiomarkerResultAvail = true;
@@ -276,7 +272,6 @@ export default class Medicalinformation extends LightningElement {
       })
       .catch((error) => {
         console.log(">>error while retreive init>>>" + JSON.stringify(error));
-        console.log(">>error>>>" + error);
         this.isFilesRetrieved = true;
         this.isMedicalDataLoaded = true;
         this.isRequestHistrySuccess = true;
@@ -487,17 +482,14 @@ export default class Medicalinformation extends LightningElement {
       var index = this.returnpervalue.lstComorbidities.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
       );
-      console.log(">>index>>" + index);
       var existingCommordityIndex = this.lstExistingCommorbidity.findIndex(
         (x) => x.Id === event.currentTarget.dataset.key
       );
-      console.log(">>existingCommordityIndex>>" + existingCommordityIndex);
       let comorToInsertIndex = -1;
       if (this.lstCommorbitiesToInsert)
         comorToInsertIndex = this.lstCommorbitiesToInsert.findIndex(
           (x) => x.Id === event.currentTarget.dataset.key
         );
-      console.log(">>comorToInsertIndex>>" + comorToInsertIndex);
       if (index != -1) {
         this.returnpervalue.lstAllComorbidities.push(
           this.returnpervalue.lstComorbidities[index]
@@ -524,11 +516,7 @@ export default class Medicalinformation extends LightningElement {
               ].Comorbidity_Name__c.toLowerCase()
           );
         this.isComorbidityLoad = true;
-      }
-      console.log(
-        ">>lstCommorbitiesToDelete>>" +
-          JSON.stringify(this.lstCommorbitiesToDelete)
-      );
+      } 
       if(this.lstCommorbitiesToDelete.length != 0 || this.lstCommorbitiesToInsert.length != 0)
       {
         this.isComorbidityyChanged = true;
@@ -629,7 +617,6 @@ export default class Medicalinformation extends LightningElement {
         if (result.lstBiomarkerResultWrapper.length != 0) {
           this.isbiomarkerResultAvail = true;
         }
-        console.log('>>>result>>'+JSON.stringify(result));
         if(result.lstbioMarkerMediaFiles.length !=0)
         {
           this.isbiomarkerResultAvail = true;
@@ -672,7 +659,6 @@ export default class Medicalinformation extends LightningElement {
               .catch((error) => {
                 this.isRequestHistrySuccess = true;
                 console.log(">>error histry>>>" + JSON.stringify(error));
-                console.log(">>error histry>>>" + error);
               });
 
             break;
@@ -721,7 +707,6 @@ export default class Medicalinformation extends LightningElement {
       })
       .catch((error) => {
         console.log(">>Error in sending request>>>" + JSON.stringify(error));
-        console.log(">>Error in sending request>>>" + error);
         this.isRequestHistrySuccess = true;
       });
   }
@@ -790,7 +775,6 @@ export default class Medicalinformation extends LightningElement {
       };
       var data = Base64.decode(GizmoResult).toString();
       data = data.replace("<h1>", '<h1 class="hide-survey-header">');
-      console.log(">>data>>" + data);
       result = {data : data, decodeResult : true};
     }
     return result;
@@ -809,7 +793,6 @@ export default class Medicalinformation extends LightningElement {
         L.classList.toggle("bg-white");
       });
     if (event.currentTarget.dataset.name == "screenerOneAcc") {
-      console.log(">>coming in screner accordian");
       if(this.decodeMRRResultGizmo){
           this.template.querySelector(".screener1").innerHTML =
             this.decodeMRRResultGizmo;
@@ -818,7 +801,6 @@ export default class Medicalinformation extends LightningElement {
           this.template.querySelector(".screener2").innerHTML =
             this.decodePreScreenerResultGizmo;
       }
-      console.log(">>coming in screner accordian end>>");
     }
   }
 
@@ -949,7 +931,6 @@ export default class Medicalinformation extends LightningElement {
         });
         this.dispatchEvent(evt);
         this.isMedicalDataLoaded = true;
-        console.log(">>resut>>" + result);
         const tabEvent = new CustomEvent("handletabs", {});
         this.dispatchEvent(tabEvent);
       })

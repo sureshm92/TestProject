@@ -20,6 +20,9 @@ trigger ParticipantEnrollmentStatusHistoryTrigger on Participant_Enrollment_Stat
         ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
     );
     TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentSHTriggerHandler.UpdatePERReEngaged.class
+    );
+    TriggerHandlerExecutor.execute(
         ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
     );
     TriggerHandlerExecutor.execute(

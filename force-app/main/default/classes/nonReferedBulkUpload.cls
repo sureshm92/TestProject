@@ -81,7 +81,7 @@ public without sharing class nonReferedBulkUpload {
                 cntDocumentIds.add(cdlink.ContentDocumentId);       
             }
             
-            errcvList = [SELECT VersionData,Title, CreatedBy.Name, ContentModifiedDate, ContentUrl, Initial_Total_Records__c, Accepted__c, Rejected_Records__c, ContentDocumentId, PathOnClient FROM ContentVersion WHERE IsLatest = true AND ContentDocumentId IN : cntDocumentIds and FileExtension = 'csv' ORDER BY createddate DESC];
+            errcvList = [SELECT VersionData,Title, CreatedBy.Name, ContentModifiedDate, ContentUrl, Initial_Total_Records__c, Accepted__c, Rejected_Records__c, ContentDocumentId, PathOnClient FROM ContentVersion WHERE IsLatest = true AND ContentDocumentId IN : cntDocumentIds and FileExtension = 'csv' AND Initial_Total_Records__c != null  ORDER BY createddate DESC];
             
             for(ContentVersion cv : errcvList){
                 if(cv.Rejected_Records__c != 0)
@@ -432,6 +432,16 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.YOB__c=rec[6];
                         peRec.Legal_Status__c=rec[7];
                         peRec.Patient_Auth__c=rec[8];
+                        if(peRec.Patient_Auth__c == 'Yes'){
+                            peRec.Permit_IQVIA_to_contact_about_study__c = true;
+                            peRec.Permit_Mail_Email_contact_for_this_study__c = true;
+                            peRec.Permit_SMS_Text_for_this_study__c = true;
+                            peRec.Permit_Voice_Text_contact_for_this_study__c = true;
+                            peRec.Study_Artificial_Voice_Consent__c = true;
+                            peRec.Study_Assisted_Dialing_Consent__c = true;
+                            peRec.Study_Direct_Mail_Consent__c = true;
+                            peRec.Study_Pre_recorded_Voice_Consent__c = true;
+                        }
                         peRec.mailing_country_code__c= countryCode;
                         peRec.mailing_state_code__c= stateCode;
                         peRec.Phone__c=rec[11];

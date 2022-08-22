@@ -717,6 +717,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         Participant_Status__c,
         Last_Status_Changed_Notes__c,
         Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+        Participant__r.Gender__c,
         Initial_visit_scheduled_date__c,
         Initial_visit_scheduled_time__c,
         Initial_visit_occurred_flag__c,
@@ -754,6 +755,8 @@ public without sharing class PIR_StatusDetailControllerTest {
         peshList.add(pehistory1);
         //byPassTriggersMethod();
         insert peshList;
+        Participant__c perRec= [select Id,Gender__c from Participant__c where Email__c='part1@email.com' limit 1];
+        perRec.Gender__c='Female';
         Test.startTest();
         parList[0].Add_televisit_for_Initial_Visit__c = true;
         parList[0].Initial_Visit_Televisit_Created__c = false;
@@ -772,13 +775,13 @@ public without sharing class PIR_StatusDetailControllerTest {
         TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-        PIR_StatusDetailController.doSaveStatusDetails(parList[0],'');
-        PIR_StatusDetailController.doSaveStatusDetails(parList[1],'');
-        PIR_StatusDetailController.doSaveStatusDetails(parList[2],'');
-         PIR_StatusDetailController.doSaveStatusDetails(parList[2],vp.id);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[0],perRec,'');
+        PIR_StatusDetailController.doSaveStatusDetails(parList[1],perRec,'');
+        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,'');
+         PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,vp.id);
         try{
             //parList[0].Non_Enrollment_Reason__c = 'test Show For Initial Visit';
-            PIR_StatusDetailController.doSaveStatusDetails(new Participant_Enrollment__c(),'');
+            PIR_StatusDetailController.doSaveStatusDetails(new Participant_Enrollment__c(),new Participant__c(),'');
         }catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
         Test.stopTest();
     }

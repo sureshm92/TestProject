@@ -37,6 +37,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
+    /*Start Email Consent*/
+    public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
+
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -111,6 +114,7 @@ public without sharing class NotificationCatalog {
     public static final String MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG = 'Msg_To_Delegate_Study_Level_Welcome_Msg';
     public static final String MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG = 'Msg_To_Delegate_Platform_Lvl_Welcme_Msg';
     public static final String MSG_TO_PT_PLATFORM_LVL_WELCME_MSG = 'Msg_To_PT_Platform_Lvl_Welcme_Msg';
+
     /*
      * MESSAGE TO TELEVISIT ATTENDEE
      *

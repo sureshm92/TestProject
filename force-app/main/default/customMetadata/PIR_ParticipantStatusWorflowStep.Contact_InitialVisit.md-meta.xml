@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>In_progress_criteria__c</field>
-        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Contact Attempted;Received;</value>
+        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Contact Attempted;Received;Participant No Show;Successfully re-engaged</value>
     </values>
     <values>
         <field>InitialVisit__c</field>
@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>List_of_Statuses__c</field>
-        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Pre-review Failed;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;</value>
+        <value xsi:type="xsd:string">Ready to Contact;Pre-review Passed;Pre-review Failed;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;Successfully re-engaged;Participant No Show</value>
     </values>
     <values>
         <field>Name__c</field>

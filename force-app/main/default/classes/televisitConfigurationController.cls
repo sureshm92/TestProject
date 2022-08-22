@@ -9,7 +9,7 @@ public without sharing class  televisitConfigurationController {
             trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c];
         }
         
-        String query = 'select id,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId';
+        String query = 'select id,First_Reminder__c,Second_Reminder__c,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId';
         if(!countryList.isEmpty()){
             query += ' and Site__r.BillingCountry IN:countryList';
         }
@@ -53,10 +53,13 @@ public without sharing class  televisitConfigurationController {
             wrap.studysiteurl = '/'+ss.id;
             wrap.bannerdisplayoffsettime = ss.Banner_Display_Offset_Time__c;
             wrap.bannerdisposeoffsettime = ss.Banner_Dispose_Offset_Time__c;
+            wrap.FirstReminder = String.valueof(ss.First_Reminder__c);
+            wrap.SecondReminder = String.valueof(ss.Second_Reminder__c);
             List<vendorwrapper> vwlist = new List<vendorwrapper>();
             for(Televisit_Record_Vendor__c trv:trvList){
                 vendorwrapper vw = new vendorwrapper();
                 vw.vendorId = trv.Id;
+                vw.uniquekey = ss.id+'-'+trv.Id;
                 if(mapwithstudysiteandtvs != null && mapwithstudysiteandtvs.get(ss.id) != null){
                     set<Id> venderset = mapwithstudysiteandtvs.get(ss.id).keyset();
                     List<Id> idLIst = new  List<Id>(venderset);
@@ -276,6 +279,59 @@ public without sharing class  televisitConfigurationController {
             system.debug('==================>'+e.getMessage());
         }
     }
+    @AuraEnabled
+    public static void updateremindervalues(string studysiteId,string remindername,string selValue){
+        Study_Site__c ss = new Study_Site__c();
+        ss.Id = studysiteId;
+        if(remindername == 'FirstReminder'){
+            if(string.isBlank(selValue)){
+                ss.First_Reminder__c = null;
+            }else{
+                ss.First_Reminder__c = integer.valueof(selValue);
+            }
+        }else{
+            if(string.isBlank(selValue)){
+                ss.Second_Reminder__c = null;
+            }else{
+                ss.Second_Reminder__c = integer.valueof(selValue);
+            }
+            
+        }
+        
+        try{
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.PrepareAdditionalFieldsHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SwitchContactUserModeHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.CreateHCPEnrollmentsForRPInWhiteListHandler.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class
+                        );
+            TriggerHandlerExecutor.bypassHandler(
+                            StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
+                        );
+            update ss;
+        }catch(exception e){
+            system.debug('==================>'+e.getMessage());
+        }
+
+    }
     public static List<Televisit_Record_Vendor__c> getVendors(String studySiteId) {
         String filter =
             'Study_Site__c =  \'' +
@@ -301,6 +357,15 @@ public without sharing class  televisitConfigurationController {
 
         return vendors;
     }
+    @AuraEnabled
+    public static Boolean vendoravailability(String studySiteId) {
+        List<TelevisitVendorSettings__c> tvsList = [Select id,Study_Site__c,isEnable__c from TelevisitVendorSettings__c where isEnable__c = true and 
+        Study_Site__c =:studySiteId and Televisit_Record_Vendor__c IN (Select id from Televisit_Record_Vendor__c)];
+        if(tvsList != null && !tvsList.isEmpty()){
+           return true;
+        }
+        return false;
+    }
     
     public class ResponeWrapper {
         
@@ -311,12 +376,15 @@ public without sharing class  televisitConfigurationController {
         @AuraEnabled public string studysiteurl;
         @AuraEnabled public string bannerdisplayoffsettime;
         @AuraEnabled public string bannerdisposeoffsettime;
+        @AuraEnabled public string FirstReminder;
+        @AuraEnabled public string SecondReminder;
         @AuraEnabled public list<vendorwrapper> vendorrapperlist;
     }
     
     public class vendorwrapper{
         @AuraEnabled public string vendorId;
         @AuraEnabled public boolean isEnable;
+        @AuraEnabled public string uniquekey;
     }
     
     public class WrapperResult{

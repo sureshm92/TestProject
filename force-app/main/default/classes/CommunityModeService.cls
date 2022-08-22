@@ -813,7 +813,7 @@ public without sharing class CommunityModeService {
         return resMap;
     }
 
-    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
+ private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId) {
         Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
         List<Id> ssDelegateIds = new List<Id>();
         Map<Id, Id> permissionSetOfUserMapId = new Map<Id, Id>();

@@ -64,6 +64,107 @@ public without sharing class ParticipantInformationRemote {
             }else{
                 pi.containsFile = false;
             }
+            
+            
+         List<Participant_Enrollment_Status_History__c> pehistory = new List<Participant_Enrollment_Status_History__c>();
+         pehistory = [
+         SELECT
+          Id,
+          Date__c,Name,
+          Status_Order__c,
+          toLabel(Status__c),
+          toLabel(Non_Enrollment_Reason__c),
+          Notes__c,
+          CreatedBy.Name,
+          Additional_Notes__c,
+          CreatedBy.IsPortalEnabled,
+          CreatedBy.contact.userCommunityMode__c,
+          Status_Label__c
+        FROM Participant_Enrollment_Status_History__c
+        WHERE
+          ParticipantEnrollment__c = :peId
+          AND Status_Order__c = 2
+        ORDER BY Name DESC Limit 1
+      ];
+     // peBubbleChartInfo bubblechart = new peBubbleChartInfo();
+      if(pehistory.size() > 0){
+          system.debug('history');
+           if(pehistory[0].Status_Label__c == 'Participant_No_Show'){
+                pi.isPNS= true;
+                pi.dateOccured=pehistory[0].Date__c.date().format();
+                pi.occuredDate=pehistory[0].Date__c.date();
+                pi.isContact=false;
+                
+                String title = '';
+                  title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pehistory[0].Status__c);
+                  if (pehistory[0].Notes__c != null) {
+                    title = title + ', ' + pehistory[0].Notes__c;
+                  }
+                   pi.historyTitle = title;
+                   pi.detailDate = pehistory[0].Date__c.format('YYYY-MM-dd hh:mm:ss a');
+                  pi.createdBy = ParticipantInformationRemote.getMasked(
+                    pehistory[0].CreatedBy.IsPortalEnabled,
+                    pehistory[0].CreatedBy.contact.userCommunityMode__c,
+                    pehistory[0].CreatedBy.Name
+                  );
+                  String createdName =   pi.createdBy;
+                  pi.detail =  ' ' +
+                    TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
+                    ' ' +
+                    pehistory[0].Date__c.format() +
+                    ' ' +
+                    TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
+                    ' ' +
+                    createdName;
+           }
+           
+          else if(pehistory[0].Status_Label__c == 'Successfully_Contacted' || pehistory[0].Status_Label__c == 'Successfully_Re_Engaged'){
+              
+                pi.dateOccured=pehistory[0].Date__c.date().format();
+                pi.occuredDate=pehistory[0].Date__c.date();
+                pi.reason=pehistory[0].Non_Enrollment_Reason__c;
+                pi.isPNS= false;  
+                  String title = '';
+                  if(pehistory[0].Status__c == 'Successfully re-engaged'){
+                      String sc = 'Successfully Re-Engaged';
+                      title =TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,sc);
+                       pi.isContact=false;
+                  }else{
+                     pi.isContact=false;
+                  }
+                  if (pehistory[0].Non_Enrollment_Reason__c != null) {
+                    //title = title + ' - ' + pesh.Non_Enrollment_Reason__c;
+                    title = title + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pehistory[0].Non_Enrollment_Reason__c.trim());
+                  }
+                  if (pehistory[0].Notes__c != null) { 
+                    title = title + ', ' + pehistory[0].Notes__c;
+                  }
+                   pi.historyTitle = title;
+                     pi.detailDate = pehistory[0].Date__c.format('YYYY-MM-dd hh:mm:ss a');
+                  pi.createdBy = ParticipantInformationRemote.getMasked(
+                    pehistory[0].CreatedBy.IsPortalEnabled,
+                    pehistory[0].CreatedBy.contact.userCommunityMode__c,
+                    pehistory[0].CreatedBy.Name
+                  );
+                  String createdName =   pi.createdBy;
+                  pi.detail =  ' ' +
+                    TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
+                    ' ' +
+                    pehistory[0].Date__c.format() +
+                    ' ' +
+                    TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
+                    ' ' +
+                    createdName;
+           }
+
+           
+      }
+      
+      else{
+           pi.isPNS= false;
+             pi.isContact= false; 
+      }
+       
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -1893,6 +1994,23 @@ public without sharing class ParticipantInformationRemote {
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
     }
+    
+    
+    public static String getMasked(
+    Boolean IsPortalEnabled,
+    String userCommunityMode,
+    String Name
+  ) {
+    if (IsPortalEnabled == true) {
+      if (userCommunityMode == 'CC') {
+        return System.Label.RH_Masked_IQVIA_User;
+      } else {
+        return Name;
+      }
+    } else {
+      return System.Label.RH_Masked_IQVIA_User;
+    }
+  }
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192
@@ -1903,7 +2021,7 @@ public without sharing class ParticipantInformationRemote {
      * @exception IOException On input error.
      * @see IOException
      */
-    public class ParticipantItemWithSteps {
+    public class ParticipantItemWithSteps{
         @AuraEnabled
         public String participantItem;
         @AuraEnabled
@@ -1960,4 +2078,5 @@ public without sharing class ParticipantInformationRemote {
         @AuraEnabled
         public Decimal shLogStatus { get; set; }
     }
+    
 }
