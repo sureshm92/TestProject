@@ -13,6 +13,8 @@ export default class PpHelp extends LightningElement {
     isRTL = false;
     isDelegate = false;
     spinner;
+    enableStyle;
+    communityTemplate;
 
     renderedCallback() {}
     connectedCallback() {
@@ -26,7 +28,6 @@ export default class PpHelp extends LightningElement {
                         this.initializeData();
                     })
                     .catch((error) => {
-                        // console.log(error.body.message);
                         console.log('err', error);
                     });
             })
@@ -39,7 +40,9 @@ export default class PpHelp extends LightningElement {
         if (!communityService.isDummy()) {
             this.userMode = communityService.getUserMode();
             this.isDelegate = communityService.isDelegate();
+            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
             this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
+            this.enableStyle = this.isRTL == true ? 'rtl-container-help' : '';
             this.isInitialized = communityService.isInitialized();
             if (this.isInitialized) {
                 this.spinner.hide();

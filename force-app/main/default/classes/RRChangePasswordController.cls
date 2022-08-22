@@ -82,6 +82,7 @@ public without sharing class RRChangePasswordController {
     public String maskUserName {get;set;}
     public String maskLastName {get;set;}
     public String maskDaytimephone {get;set;}
+    public String addPhotoLabel {get;set;}
 
     public Boolean mainPortal {
         get {
@@ -190,6 +191,7 @@ public without sharing class RRChangePasswordController {
         maskUserName = userVal.Username.substring(0,3)+'************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
+        addPhotoLabel=hasProfilePic?System.Label.PP_AddProfilePhoto:System.Label.PP_AddPhoto;
 
         previousLanguage = contact.Language__c;
 

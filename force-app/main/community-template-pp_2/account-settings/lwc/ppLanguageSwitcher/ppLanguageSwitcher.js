@@ -101,7 +101,7 @@ export default class PpLanguageSwitcher extends LightningElement {
     }
 
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';
+        return this.isRTL ? 'cardRTL grayInfoIcon' : 'grayInfoIcon';
     }
 
     get reNewMargin(){

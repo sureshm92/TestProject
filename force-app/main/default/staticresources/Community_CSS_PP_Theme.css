@@ -137,3 +137,7 @@
 .anchor-container a{
     text-decoration: none !important;
 }
+
+.grayInfoIcon lightning-primitive-icon{
+    color: #444444 !important;
+}
