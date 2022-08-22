@@ -207,5 +207,8 @@
    font-size: medium;
    text-rendering: geometricPrecision 500 ;
    color: #000000;
+}         
+.THIS .container{
+    margin-top: -51px !important;
 }
 }
