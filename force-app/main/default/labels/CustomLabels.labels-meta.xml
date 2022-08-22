@@ -13884,6 +13884,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
     </labels>
+     <labels>
+        <fullName>PP_AS_F_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS  F Re-enter new password</shortDescription>
+        <value>Re-enter New Password</value>
+    </labels>
     <labels>
         <fullName>PP_Re_enter_new_password</fullName>
         <language>en_US</language>
@@ -27456,6 +27463,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
+    </labels>
+    <labels>
+        <fullName>RH_CountryConstent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_CountryConstent</shortDescription>
+        <value>By checking this box, you confirm that your participant and/or participant&apos;s guardian country of residence is same as the study team member while enrolling into the study .Any discrepeancy found here will result in participant record not added into the study.</value>
     </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>

@@ -55,6 +55,8 @@ public without sharing class  televisitConfigurationController {
             wrap.bannerdisposeoffsettime = ss.Banner_Dispose_Offset_Time__c;
             wrap.FirstReminder = String.valueof(ss.First_Reminder__c);
             wrap.SecondReminder = String.valueof(ss.Second_Reminder__c);
+            wrap.FirstKey = 'First'+ss.id;
+            wrap.SecondKey = 'Second'+ss.id;
             List<vendorwrapper> vwlist = new List<vendorwrapper>();
             for(Televisit_Record_Vendor__c trv:trvList){
                 vendorwrapper vw = new vendorwrapper();
@@ -378,6 +380,8 @@ public without sharing class  televisitConfigurationController {
         @AuraEnabled public string bannerdisposeoffsettime;
         @AuraEnabled public string FirstReminder;
         @AuraEnabled public string SecondReminder;
+        @AuraEnabled public string FirstKey;
+        @AuraEnabled public string SecondKey;
         @AuraEnabled public list<vendorwrapper> vendorrapperlist;
     }
     

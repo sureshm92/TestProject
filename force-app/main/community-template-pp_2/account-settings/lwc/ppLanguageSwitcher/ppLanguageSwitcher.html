@@ -11,7 +11,7 @@
                     <!-- Language Options Form Elements -->
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12" class="mb-10">
-                            <label class="slds-form-element__label field-title" for="language-desc">
+                            <label class="slds-form-element__label field-title new-title" for="language-desc">
                                 {label.PG_Login_H_Language_Description}
                             </label>
                         </lightning-layout-item>
@@ -24,7 +24,7 @@
                                 {label.PG_AS_F_Preferred_Language}</label>
                                 <span class="cp-red">*</span>
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_Preferred_Language_Help_Text}>
+                                    <lightning-helptext content={label.PP_AS_F_Preferred_Language_Help_Text} icon-name="utility:info">
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -53,7 +53,7 @@
                                 >
                                 {label.PP_Second_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
+                                    <lightning-helptext icon-name="utility:info" content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -79,7 +79,7 @@
                                 >
                                {label.PP_Third_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_3rd_Choice_Language_Help_Text}>
+                                    <lightning-helptext icon-name="utility:info" content={label.PP_AS_F_3rd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -280,7 +280,7 @@
                     <!-- Language Options Form Elements -->
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12" class="mb-10">
-                            <label class="slds-form-element__label field-title" for="language-desc">
+                            <label class="slds-form-element__label field-title new-title" for="language-desc">
                                 {label.PG_Login_H_Language_Description}
                             </label>
                         </lightning-layout-item>
@@ -293,7 +293,7 @@
                                 {label.PG_AS_F_Preferred_Language}</label>
                                 <span class="cp-red">*</span>
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_Preferred_Language_Help_Text}>
+                                    <lightning-helptext icon-name="utility:info" content={label.PP_AS_F_Preferred_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -319,7 +319,7 @@
                                 >
                                 {label.PP_Second_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
+                                    <lightning-helptext icon-name="utility:info" content={label.PP_AS_F_2nd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -345,7 +345,7 @@
                                 >
                                 {label.PP_Third_Language}</label>                              
                                 <span>
-                                    <lightning-helptext content={label.PP_AS_F_3rd_Choice_Language_Help_Text}>
+                                    <lightning-helptext icon-name="utility:info" content={label.PP_AS_F_3rd_Choice_Language_Help_Text}>
                                     </lightning-helptext>
                                 </span>
                                 <div class="slds-form-element__control slds-p-top_xx-small">   
@@ -494,7 +494,7 @@
                     <lightning-layout multiple-rows="true" class="mb-10">
                         <lightning-layout-item size="12">
                             <button
-                            class="slds-button saveButton slds-button_brand apollo-btn primary" 
+                            class="slds-button saveButtonMobile slds-button_brand apollo-btn primary" 
                             data-id="saveBtn"                                   
                             onclick={doChangeLanguage}
                             disabled            
