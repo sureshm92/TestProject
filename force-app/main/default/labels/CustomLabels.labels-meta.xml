@@ -13884,6 +13884,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
     </labels>
+     <labels>
+        <fullName>PP_AS_F_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS  F Re-enter new password</shortDescription>
+        <value>Re-enter New Password</value>
+    </labels>
     <labels>
         <fullName>PP_Re_enter_new_password</fullName>
         <language>en_US</language>
@@ -18422,8 +18429,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Cookiesnote</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
-        </labels>
-        <labels>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18859,7 +18866,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
-        <value>Enter New Password</value>
+        <value>Enter new password</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -26273,14 +26280,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Self</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Self</shortDescription>
         <value>Self</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>PP_Program</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27218,8 +27225,8 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
         <value>Enter a valid phone format</value>
-        </labels>
-        <labels>
+    </labels>
+    <labels>
         <fullName>PortalUserProfile</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27449,6 +27456,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
+    </labels>
+    <labels>
+        <fullName>RH_CountryConstent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_CountryConstent</shortDescription>
+        <value>By checking this box, you confirm that your participant and/or participant&apos;s guardian country of residence is same as the study team member while enrolling into the study .Any discrepeancy found here will result in participant record not added into the study.</value>
     </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>

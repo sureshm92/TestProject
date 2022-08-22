@@ -101,7 +101,7 @@ export default class PpLanguageSwitcher extends LightningElement {
     }
 
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';
+        return this.isRTL ? 'cardRTL grayInfoIcon' : 'grayInfoIcon';
     }
 
     get reNewMargin(){
@@ -115,8 +115,12 @@ export default class PpLanguageSwitcher extends LightningElement {
     renderedCallback(){
         this.saveButton = this.template.querySelector('button[data-id=saveBtn]');
         this.saveButton ? this.isInputValid(): "";
-        // this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
-        // this.disableStateCombobox();
+        if(this.isInitialized){
+            if(this.statesLVList && this.statesLVList.length == 0){
+                this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
+                this.disableStateCombobox();
+            }
+        }
     }
     
     connectedCallback(){
