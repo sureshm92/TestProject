@@ -12,6 +12,7 @@
 .communication-pref {
     margin-top: 32px;
     padding-left: 20px;
+    padding-right: 11px;
 }
 
 .as-title {
@@ -107,6 +108,8 @@
     font-size: 16px;
     font-weight: 500;
     margin-top: 12px;
+    padding-right: 11px;
+    text-align: justify;
 }
 
 .study-card {
