@@ -19,8 +19,7 @@ import RH_TV_NoRecordsFoundMessage from '@salesforce/label/c.RH_TV_NoRecordsFoun
 import RH_TV_SiteStaffRequiredErrorMessage from '@salesforce/label/c.RH_TV_SiteStaffRequiredErrorMessage';
 import RH_UserEmailPermissionAlert from '@salesforce/label/c.RH_UserEmailPermissionAlert';
 import RH_UserRegistration_Warning from '@salesforce/label/c.RH_UserRegistration_Warning';
-
-
+import FORM_FACTOR from '@salesforce/client/formFactor';
 import RH_TV_Discard from '@salesforce/label/c.RH_TV_Discard';
 import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
 import RH_TV_Close from '@salesforce/label/c.RH_TV_Close';
@@ -50,6 +49,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
 
     @api fetchTelevisitRecord3(){
         this.fetchTelevisitRecord();
+        this.isEmailPermitted = true;
+        this.checkForPPUser();
     }
     backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
     notification = pirResources+'/pirResources/icons/bell.svg';
@@ -87,6 +88,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     @track selectedAttendeesList = [];
     @track itemToRemove = {name:'',id:''};
     @track selectedItems;
+    @track isMobileDevice = false;
     isPPUserActivated = true;
     isEmailPermitted = true;
     label = {
@@ -127,8 +129,19 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.visitDate = event.target.dataset.visitdate;
             
             var visitDateTime = new Date(event.target.dataset.visitdatetime).toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
-            visitDateTime = this.getTwentyFourHourTime(visitDateTime)
+            visitDateTime = this.getTwentyFourHourTime(visitDateTime);
+            //this.startTime = visitDateTime;
+
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.startTime = visitDateTime.substring(0, 5);
+                
+            }else{
+                this.isMobileDevice = false;
             this.startTime = visitDateTime;
+            }
+  
+
 
             //this.startTime = this.msToTime(event.target.dataset.starttime);
             
@@ -150,8 +163,21 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 this.defaultTime = '00:00:00.000Z';
             }else{
                 this.defaultTime = newdatetimezone;
+            
             }
             this.currentTime = newdatetimezone;
+            
+            //Added for android issue
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.defaultTime = this.defaultTime.substring(0, 5);
+                this.currentTime = this.currentTime.substring(0, 5);
+            }else{
+                this.isMobileDevice = false;
+                this.defaultTime = this.defaultTime;
+                this.currentTime = this.currentTime;
+            }
+
         }else{
             this.televisitEditView = false;
             this.televisitRecordId = '';
@@ -176,6 +202,17 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
             this.defaultTime = newdatetimezone;
             this.currentTime = newdatetimezone;
+
+            //Added for android issue
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.defaultTime = this.defaultTime.substring(0, 5);
+                this.currentTime = this.currentTime.substring(0, 5);
+            }else{
+                this.isMobileDevice = false;
+                this.defaultTime = this.defaultTime;
+                this.currentTime = this.currentTime;
+            }
 
             //this.fetchRequiredAttendees();
             this.isLoading = true;
@@ -376,6 +413,12 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         duration !== null && duration !== undefined && duration !== '' && visitDate >= this.today && 
         this.siteStaffAdded && !this.errorTime){
             this.disableSaveButton = false;
+            //Added for android issue
+            if(this.visitDate === this.today){
+                if(this.startTime < this.currentTime && this.startTimeChanged){
+                    this.disableSaveButton = true;
+                }
+            }
         }else{
             this.disableSaveButton = true;
         }

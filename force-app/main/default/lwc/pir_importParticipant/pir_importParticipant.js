@@ -14,6 +14,7 @@ import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Communi
 import SS_Upload_Participants from '@salesforce/label/c.SS_Upload_Participants';
 import RH_StudyName_Import from '@salesforce/label/c.RH_StudyName_Import';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
+import RH_CountryConstent from '@salesforce/label/c.RH_CountryConstent';
 import RH_UploadFile_Import from '@salesforce/label/c.RH_UploadFile_Import';
 import RH_StudySite_Import from '@salesforce/label/c.RH_StudySite_Import';
 import BulkImport_Instructions from '@salesforce/label/c.BulkImport_Instructions';
@@ -79,6 +80,7 @@ isSuppressed = true;
 isStudyPPEnabled = false;
 disablePatientInvite = true;
 isDataLoading = false;
+isCountryCheck=false;
 isFileLoadedComplete = false;
 visitPlanAvailable = false;
 visitPlanDisabled = false;
@@ -121,7 +123,8 @@ label = { PIR_Study_Site_Name,
           RH_Bulkimport_EmptyFile,
           RH_Bulkimport_MaxiumRecord,
           RH_Bulkimport_HeaderFailed,
-          RH_BulkImport_InvalidFileFormat
+          RH_BulkImport_InvalidFileFormat,
+          RH_CountryConstent
         };
 connectedCallback() {
     loadScript(this, xlsxmin).then(() => {});
@@ -391,7 +394,7 @@ studysitehandleChange(event) {
             this.createUsers = false;
             this.isEmail = false;
             this.doContact = false;
-             
+            this.isCountryCheck=false;
            this.isPhone = false;
            this.isSMS = false;
                
@@ -471,9 +474,13 @@ handleConsentChange(event){
     this.toggleImportButton();
 
   }
+  handleCountryChange(event){
+    this.isCountryCheck=event.target.checked;
+    this.toggleImportButton();
+  }
 
   toggleImportButton(){ 
-    if(this.isFileLoadedComplete && this.selectedStudy && this.selectedSite && this.selectedStatus && this.doContact)
+    if(this.isFileLoadedComplete && this.selectedStudy && this.selectedSite && this.selectedStatus && this.doContact && this.isCountryCheck)
     {
         if(this.visitPlanAvailable && this.visitPlanRequired && !this.selectedvisitPlanId)
             this.shouldDisableImport = true;

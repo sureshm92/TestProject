@@ -182,6 +182,13 @@
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 importInputPopup">
                           <c-consent-manager call-source="importParticipant"  onconsentchange={handleConsentChange} study-site-id={selectedSite}> </c-consent-manager>
                           </div>
+                          <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 importInputPopup">
+                           <div class="display-checkbox ">
+                           <lightning-input type="checkbox" data-name="countrycheck"  varient="label-hidden" checked={isCountryCheck}   onchange={handleCountryChange} 
+                           name="country"></lightning-input>
+                           <span class="checkbox_width"><label class="country-checkbox" >{label.RH_CountryConstent}</label></span>
+                           </div> 
+                        </div>
                        
                        </template>
                        <template if:false={shouldDisableImportStatus}>

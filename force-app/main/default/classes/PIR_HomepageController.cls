@@ -2091,6 +2091,11 @@ public without sharing class PIR_HomepageController {
         {
            pe.ParticipantNoShow__c=false;
         }
+        if(oParticipantStatus==PEStatusState.PE_STATUS_SUCCESSFULLY_REENGAGED 
+          && pe.Participant_Status__c==PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+          {
+            pe.ParticipantNoShow__c=false;
+          }
 
         if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
