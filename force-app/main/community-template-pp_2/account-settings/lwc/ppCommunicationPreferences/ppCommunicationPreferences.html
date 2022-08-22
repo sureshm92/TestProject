@@ -45,7 +45,7 @@
                                         <span class="po-text-red"
                                             >{label.PP_Communication_Pref_Warning}
                                         </span>
-                                        <span>{errorLabelText}</span>
+                                        <span>&nbsp;{errorLabelText}</span>
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={redirectToProfileInfoTab}
@@ -481,9 +481,31 @@
     </template>
 
     <template if:false={isDesktop}>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="back-button">
+                    <template if:false={isRTL}>
+                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                        </c-web-icon>
+                    </template>
+                    <span
+                        class="slds-p-left_x-small slds-p-right_x-small"
+                        onclick={showMenuBar}
+                        data-header="comm-pref"
+                        >{label.BACK}</span
+                    >
+                    <template if:true={isRTL}>
+                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                        </c-web-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+
         <div class={cardRTL}>
             <div class="communication-pref">
-                <span class={communicationPrefHeader}> {label.PP_Communication_Pref} </span>
+                <span class={communicationPrefHeader}> 
+                    <span class="as-title">{label.PP_Communication_Pref}</span> </span>
                 <template if:true={studyError}>
                     <lightning-layout
                         multiple-rows="true"

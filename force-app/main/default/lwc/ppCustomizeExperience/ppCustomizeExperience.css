@@ -39,20 +39,31 @@
     padding: 1rem;
 }
 
-.mb-15{
+.mb-5 {
+    margin-bottom: 5px;
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-15 {
     margin-bottom: 15px;
 }
 
-.mb-20{
+.mb-20 {
     margin-bottom: 20px;
 }
 
-.margin-lr-15{
+.mr-4{
+    margin-right: 10px;
+}
+
+.margin-lr-15 {
     margin-left: 15px;
     margin-right: -15px;
 }
 
-.margin-lr-15Plus{
+.margin-lr-15Plus {
     margin-left: -15px;
     margin-right: 15px;
 }
@@ -65,7 +76,7 @@
     fill: #7e7e7e;
 }
 
-.icon-check-green{
+.icon-check-green {
     height: 12px;
     width: 14px;
     margin-right: 4px;
@@ -120,30 +131,31 @@
 }
 
 .apollo-btn.primary {
-    background: #297DFD;
-    box-shadow: 0 4px 8px 0 rgb(41 125 253 / 16%), 0 4px 4px 0 rgb(0 0 0 / 4%), 0 8px 16px 0 rgb(41 125 253 / 32%);
-    color: #FFFFFF;
+    background: #297dfd;
+    box-shadow: 0 4px 8px 0 rgb(41 125 253 / 16%), 0 4px 4px 0 rgb(0 0 0 / 4%),
+        0 8px 16px 0 rgb(41 125 253 / 32%);
+    color: #ffffff;
     font-size: 1rem;
     padding: 6px 16px;
     margin-top: 0.5px;
 }
 
-.cp-red{
+.cp-red {
     color: red;
     font-size: 20px;
     margin-left: -5px;
 }
 
 .apollo-btn:disabled {
-    opacity: .4;
+    opacity: 0.4;
 }
 
-.red{
+.red {
     color: red;
     margin-top: 3px;
 }
 
-.icon-eye{
+.icon-eye {
     float: right;
     position: absolute;
     margin-top: 6px;
@@ -153,7 +165,7 @@
     height: auto;
 }
 
-.icon-eye-mobile{
+.icon-eye-mobile {
     float: right;
     position: absolute;
     margin-top: 8px;
@@ -163,7 +175,7 @@
     height: auto;
 }
 
-.icon-eye-rtl{
+.icon-eye-rtl {
     float: left;
     position: absolute;
     margin-top: 6px;
@@ -173,7 +185,7 @@
     height: auto;
 }
 
-.icon-eye-mobile-rtl{
+.icon-eye-mobile-rtl {
     float: left;
     position: absolute;
     margin-top: 8px;
@@ -183,16 +195,85 @@
     height: auto;
 }
 
-.icon-eye-gray{
+.icon-eye-gray {
     fill: #999999;
     height: 35px;
     width: 35px;
     display: inline-block;
 }
 
-.icon-eye-blue{
-    fill: #297DFD;
+.icon-eye-blue {
+    fill: #297dfd;
     height: 35px;
     width: 35px;
     display: inline-block;
+}
+
+.searchOutputGrid{
+    background-color: #f4f8fb;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.pill .btn{
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    padding-left: 10px;
+    cursor: default;
+}
+
+.pill .btn-primary {
+    font-size: 14px;
+    color: #000;
+    border-color: #ededed;
+}
+.pill .btn .badge {
+    position: relative;
+    top: 6px;
+    right: -8px;
+}
+
+.pill .btn .badge-rtl {
+    position: relative;
+    top: 6px;
+    right: 4px;
+}
+
+.pill-margin{
+    margin-left: -4px;
+}
+
+.pill-margin-rtl{
+    margin-left: 4px;
+}
+
+.saveButton {
+    height: 40px;
+    width: 150px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.saveButtonMobile {
+    height: 40px;
+    width: 100%;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 20px;
 }
