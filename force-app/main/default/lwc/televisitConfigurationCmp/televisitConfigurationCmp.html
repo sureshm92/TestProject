@@ -155,13 +155,13 @@
               <lightning-layout-item>
                 <div class="slds-form-element slds-form-element_horizontal" >
                   <label class="slds-form-element__label">1st:</label>
-                  <lightning-input type="number" maxlength = "3" value = {row.FirstReminder} data-target-id = "FirstReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                  <lightning-input type="number" data-uniquekey = "{row.FirstKey}" maxlength = "3" value = {row.FirstReminder} data-target-id = "FirstReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
                 </div>
               </lightning-layout-item>&nbsp;
               <lightning-layout-item>
                 <div class="slds-form-element slds-form-element_horizontal">
                   <label class="slds-form-element__label">2nd:</label>
-                  <lightning-input type="number" maxlength = "3" value = {row.SecondReminder} data-target-id = "SecondReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                  <lightning-input type="number" data-uniquekey = "{row.SecondKey}" maxlength = "3" value = {row.SecondReminder} data-target-id = "SecondReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
                 </div>
               </lightning-layout-item>
             </lightning-layout>
