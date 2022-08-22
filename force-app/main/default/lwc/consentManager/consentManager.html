@@ -53,7 +53,7 @@
         <!--IQVIA Outreach -->
         <template if:true={isIqviaOutreachEnabled}>
             <template if:true={isCountryUS}>
-                <div class="label_align">  
+                <div class={classForCountryConsent}>  
                     <lightning-input 
                                         type="checkbox" 
                                         data-id="outReachConsent" 
@@ -71,7 +71,7 @@
                     <label class={ClassNameforLabel} >{PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW}</label>
                 </div> </br>
                 
-                    <div class="label_align slds-p-left_large p-left_mobile ">
+                    <div class={classNameforPhone}>
                         <lightning-input 
                                             data-id="outreachPhoneConsent" 
                                             type="checkbox" 
@@ -83,7 +83,7 @@
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                         <span> <label class={ClassNameforLabel} for="outreachPhoneConsent">{PHONE}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium">
+                    <div class={classNameforEmail}>
                         <lightning-input 
                                             type="checkbox" 
                                             data-id="outreachEmailConsent" 
@@ -95,7 +95,7 @@
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                         <span><label class={ClassNameforLabel} for="outreachEmailConsent">{EMAIL}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium">
+                    <div class={classNameforSMS}>
                         <lightning-input 
                                             type="checkbox" 
                                             data-id="outreachSMSConsent" 
@@ -107,7 +107,7 @@
                                             class=" slds-m-right_medium checkbox_size"></lightning-input>
                                         <span> <label class={ClassNameforLabel} for="outreachSMSConsent">{SMS_TEXT}</label></span>
                     </div>
-                    <div class="label_align slds-p-left_medium  p-left_mobile">
+                    <div class={classNameforDirectEmail}>
                         <lightning-input 
                                             type="checkbox" 
                                             data-id="outreachDirectEmailConsent" 

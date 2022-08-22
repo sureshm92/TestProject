@@ -27451,6 +27451,13 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Successfully Re-Engaged</value>
     </labels>
     <labels>
+        <fullName>RH_CountryConstent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_CountryConstent</shortDescription>
+        <value>By checking this box, you confirm that your participant and/or participant&apos;s guardian country of residence is same as the study team member while enrolling into the study .Any discrepeancy found here will result in participant record not added into the study.</value>
+    </labels>
+    <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>
         <protected>false</protected>

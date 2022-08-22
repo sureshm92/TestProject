@@ -166,6 +166,17 @@
     margin-left: -8px;
     width: 100%;
 }
+.country-checkbox{
+    font-size: 14px !important;
+    color: black !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: -2px
+}
+.country-margin{
+    margin-top: 17px
+}
 .isocssunderline:focus {
     color: var(--lwc-colorTextLinkActive,#135F90);
 }
