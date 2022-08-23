@@ -44,7 +44,8 @@
     .patient-delegate-item-rectangle {
         margin-left: 0rem;
         height: 144px;
-        width: 350px;
+        width: 358px;
+        margin-bottom: 1.5rem;
     }
     .btn-deactivate-mob {
         margin-left: 3.8rem;
