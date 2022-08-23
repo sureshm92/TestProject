@@ -1,0 +1,25 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    {label.getSupport}
+    <lightning-combobox
+        name={selectedOption}
+        value={selectedOption}
+        placeholder={placeholder}
+        options={options}
+        onchange={handleChange}
+    ></lightning-combobox>
+    <template if:true={isEditYOB}>
+        {label.ppFrom} {currentYOB} {label.ppTo}
+        <lightning-combobox
+            name={selectedYOB}
+            value={selectedYOB}
+            placeholder={label.selectYear}
+            options={yearOptions}
+            onchange={doCheckYearOfBith}
+        ></lightning-combobox>
+        <template if:true={showMinorErrorMsg}> {label.minorMessage} </template>
+    </template>
+    <template if:true={isMatchUsernameEmail}> uSERNAME </template>
+
+    <button onclick={doCreateYOBCase} disabled={disableSave}>{label.submitButton}</button>
+</template>

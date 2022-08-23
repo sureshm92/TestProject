@@ -14837,6 +14837,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Submit Your Request</value>
     </labels>
     <labels>
+        <fullName>PP_Request_Submitted_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Request Submitted Success Message</shortDescription>
+        <value>Your request was submitted successfully!</value>
+    </labels>
+    <labels>
         <fullName>PG_HLP_BTN_View_Knowledge_Article</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19624,6 +19631,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_To</shortDescription>
         <value>to</value>
     </labels>
+     <labels>
+        <fullName>PP_To_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To_Year</shortDescription>
+        <value>To</value>
+    </labels>
     <labels>
         <fullName>PP_ToEmailAddressDntTranslate</fullName>
         <language>en_US</language>
@@ -19906,6 +19920,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
         <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
+    </labels>
+      <labels>
+        <fullName>PP_Edit_Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Edit Year of Birth</shortDescription>
+        <value>Edit Year of Birth</value>
+    </labels>
+     <labels>
+        <fullName>PP_Match_Username_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Match Username Email</shortDescription>
+        <value>Match Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Support_Topic</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Select support topic</shortDescription>
+        <value>Select support topic</value>
+    </labels>
+     <labels>
+        <fullName>PP_Get_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Get Support</shortDescription>
+        <value>Get Support</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
