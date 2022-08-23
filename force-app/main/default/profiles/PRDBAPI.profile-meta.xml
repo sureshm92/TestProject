@@ -5828,4 +5828,8 @@
         <recordType>Comorbidities__c.Comorbidity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ImportLeads</name>
+    </userPermissions>
 </Profile>
