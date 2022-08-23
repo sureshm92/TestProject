@@ -81,27 +81,4 @@ export default class PpHelp extends LightningElement {
             stub.setPageName('cppHelp');
         }
     }
-    openQuickReference() {
-        /**alert('openQuickReference');
-        var webViewer = pdfjs_dist + '/web/viewer.html';
-        console.log('webViewer', webViewer);
-        console.log('participant_user_guide', participant_user_guide);
-        window.open(webViewer + '?file=' + participant_user_guide, '_blank');
-        /**window.open(
-            webViewer +
-                '?file=' +
-                $A.get('$Resource.' + quickReference) +
-                '&fileName=' +
-                $A.get('$Label.c.Quick_Reference_Card'),
-            '_blank'
-        ); **/
-        var webViewer = pdfjs_dist + '/web/viewer.html';
-        console.log('webViewer', webViewer);
-        // console.log('participant_user_guide', participant_user_guide);
-
-        getResourceURL({ resourceName: 'RP_user_guide' }).then((result) => {
-            console.log('ur;ll;;', result);
-            window.open(webViewer + '?file=' + result, '_blank');
-        });
-    }
 }
