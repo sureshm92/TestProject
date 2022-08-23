@@ -113,6 +113,14 @@ export default class ConsentManager extends LightningElement {
         }
         
     }
+    get classForCountryConsent(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align bulkimportMarginConsent';
+        }
+        else{
+            return 'label_align';
+        }
+    }
     get studyConsentClassName(){
         if(this._callSource == "importParticipant"){
             return 'label_align bulkimportmargin';
@@ -146,6 +154,43 @@ export default class ConsentManager extends LightningElement {
             return 'slds-form-element__label-for-checkbox';
         }
 
+    }
+    get classNameforPhone(){
+
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_large p-left_mobile importtMbl_phonecss';
+        }
+        else {
+            return 'label_align slds-p-left_large p-left_mobile';
+        }
+
+    }
+    get classNameforEmail(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium importtMbl_Emailcss';
+        }
+        else {
+            return 'label_align slds-p-left_medium';
+        }
+        
+    }
+    get classNameforSMS(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium importtMbl_SMScss';
+        }
+        else {
+            return 'label_align slds-p-left_medium';
+        }
+        
+    }
+    get classNameforDirectEmail(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium  p-left_mobile importtMbl_DMailcss bulkimportMarginConsent';
+        }
+        else {
+            return 'label_align slds-p-left_medium  p-left_mobile';
+        }
+        
     }
 
     @api

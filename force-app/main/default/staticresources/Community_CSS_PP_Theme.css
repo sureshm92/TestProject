@@ -29,6 +29,9 @@
 .cp-content {
     align-items: start;
 }
+.user-profile-icon .slds-icon_x-small{
+    margin:8px 0 0 8px !important;
+}
 
 .cp-logo-block{
     margin: 50px auto auto;
@@ -133,4 +136,8 @@
 
 .anchor-container a{
     text-decoration: none !important;
+}
+
+.grayInfoIcon lightning-primitive-icon{
+    color: #444444 !important;
 }

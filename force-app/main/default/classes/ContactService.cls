@@ -304,7 +304,7 @@ public without sharing class ContactService {
             preferredLaguages.add(contact.Third_Choice_Language__c);
         return preferredLaguages;
     }
-
+    @AuraEnabled
     public static Contact getContact(Id contactId) {
         if (contactId == null)
             return null;
