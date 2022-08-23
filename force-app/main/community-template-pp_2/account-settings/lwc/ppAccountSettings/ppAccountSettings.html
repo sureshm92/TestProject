@@ -1,0 +1,146 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={bodyContainerClass}>
+            <!--Desktop Navigation Menu-->
+            <template if:false={isMobile}>
+                <div class="slds-col slds-size_3-of-12 nav-container">
+                    <h2 class={titleClass}>{labels.ACCOUNT_SETTINGS}</h2>
+                    <div class={navBarClass}>
+                        <nav class="slds-nav-vertical" aria-label="Header List">
+                            <div class="slds-nav-vertical__section">
+                                <ul aria-describedby="entity-header">
+                                    <template for:each={navHeadersList} for:item="navHeader">
+                                        <li
+                                            key={navHeader.value}
+                                            class="slds-nav-vertical__item"
+                                            data-header={navHeader.value}
+                                            onclick={navigateToSelectedComponent}
+                                        >
+                                            <lightning-formatted-rich-text
+                                                class="slds-nav-vertical__action"
+                                                value={navHeader.label}
+                                            ></lightning-formatted-rich-text>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </template>
+            <!--Mobile Navigation Menu-->
+            <template if:true={isMobile}>
+                <template if:true={showMobileNavComponent}>
+                    <div class="slds-col slds-size_1-of-1">
+                        <h2 class={titleClass}>{labels.ACCOUNT_SETTINGS}</h2>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <ul class="slds-border_top nav-container-mobile">
+                                    <template for:each={navHeadersList} for:item="navHeader">
+                                        <div class="slds-grid slds-wrap" key={navHeader.value}>
+                                            <div
+                                                class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-vertical_medium slds-var-p-left_large slds-p-right_large"
+                                            >
+                                                <div class="slds-grid slds-wrap">
+                                                    <div
+                                                        class="slds-col slds-size_10-of-12 nav-mobile-title"
+                                                    >
+                                                        {navHeader.label}
+                                                    </div>
+                                                    <div
+                                                        class="slds-col slds-size_2-of-12 icon-align"
+                                                    >
+                                                        <span class={iconContainerClass}>
+                                                            <lightning-icon
+                                                                icon-name={expandIconName}
+                                                                size="x-small"
+                                                                data-header={navHeader.value}
+                                                                alternative-text={navHeader.label}
+                                                                title={navHeader.label}
+                                                                class="icon-fill-class"
+                                                                onclick={handleSelectedHeader}
+                                                            >
+                                                            </lightning-icon>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={showMobileNavComponent}>
+                <div class={navComponentContainerClass}>
+                    <div class={navComponentClass}>
+                        <template if:true={showProfileInformation}>
+                            <c-pp-account-settings-edit-profile
+                                user-mode={userMode}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                is-delegate={isDelegate}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-account-settings-edit-profile>
+                        </template>
+                        <template if:true={showPasswordManagement}>
+                            <!--Password Management Component-->
+                            <c-pp-change-password
+                                user-mode={userMode}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                is-delegate={isDelegate}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-change-password>
+                        </template>
+                        <template if:true={showCommunicationPreference}>
+                            <!--Communication Preferences Component-->
+                            <c-pp-communication-preferences
+                                is-delegate={isDelegate}
+                                participant-state={participantState}
+                                is-desktop={isDesktopFlag}
+                                consent-preference-data={consentPreferenceData}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                                is-r-t-l={isRTL}
+                            >
+                            </c-pp-communication-preferences>
+                        </template>
+                        <template if:true={showLanguageAndLocation}>
+                            <!--Language and Location Component-->
+                            <c-pp-language-switcher
+                                person-wrapper={personWrapper}
+                                contact-section-data={contactSectionData}
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-language-switcher>
+                        </template>
+                        <template if:true={showCustomizeExperience}>
+                            <!--Customize Experience Component-->
+                            <c-pp-customize-experience
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-customize-experience>
+                        </template>
+                        <template if:true={showCookieSettings}>
+                            <!--Cookie Settings Component-->
+                        </template>
+                        <template if:true={showMedicalRecordAccess}>
+                            <!--Medical Record Access Component-->
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

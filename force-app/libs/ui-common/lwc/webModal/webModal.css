@@ -9,3 +9,10 @@
 .slds-modal__content {
     overflow: initial;
 }
+
+.card-top-bg {
+    height: 16px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
+}

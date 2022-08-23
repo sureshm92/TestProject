@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS .nav-item {
+.THIS .nav-item {
     color: white;
     font-size: 16px;
     line-height: 18px;
@@ -31,9 +31,10 @@
 }
 
 .THIS.nav-menu.rtl {
-        /* flex-direction: row-reverse;*/
-         /* @noflip */  direction: rtl;
-     }
+    /* flex-direction: row-reverse;*/
+    /* @noflip */
+    direction: rtl;
+}
 
 .THIS.nav-menu.right {
     margin-left: 20px;
@@ -67,4 +68,7 @@
     fill: white;
     width: 14px;
     opacity: 0.8;
+}
+.THIS .navigation-icon {
+    padding-bottom: 10px;
 }

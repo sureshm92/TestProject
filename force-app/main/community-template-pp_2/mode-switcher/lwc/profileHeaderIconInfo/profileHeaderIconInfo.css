@@ -1,0 +1,70 @@
+.header-container {
+    box-sizing: border-box;
+    height: auto;
+    width: 281px;
+    border: 1px solid #ecf3ff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #ecf3ff;
+    margin: 16px 0 0 0;
+}
+.icon-radius {
+    height: 32px;
+    width: 32px;
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+
+.header-setting-txt {
+    height: 24px;
+    width: 230px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.header-setting-email {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 17px;
+    width: 208px;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.setting-txt {
+    height: 17px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.slds-icon_x-small {
+    margin: 7px 0 0 8px !important;
+}
+.switcher-list {
+    padding: 10px 0 10px 0;
+}
+.icon-color {
+    --sds-c-icon-color-foreground-default: #005587;
+}
+.list-item {
+    height: 30px;
+    align-items: center;
+}
+.list-item:hover {
+    cursor: pointer;
+    background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+    /* .header-setting-email {
+        width: 215px;
+    } */
+}

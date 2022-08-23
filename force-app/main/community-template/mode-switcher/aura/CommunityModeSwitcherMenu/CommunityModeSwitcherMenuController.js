@@ -34,9 +34,16 @@
     },
 
     doSelectItem: function (component, event, helper) {
-        const source = event.getParam('source');
-        let navigateTo = source.get('v.navigateTo');
-        const itemValue = source.get('v.itemValue');
+        let navigateTo;
+        let itemValue;
+        if (component.get('v.templateName') == 'PatientPortal') {
+            itemValue = event.getParam('itemValue');
+            navigateTo = event.getParam('navigateTo');
+        } else {
+            const source = event.getParam('source');
+            navigateTo = source.get('v.navigateTo');
+            itemValue = source.get('v.itemValue');
+        }
         var comModes = component.get('v.communityModes');
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
@@ -68,25 +75,24 @@
                         const comData = JSON.parse(returnValue);
                         component.set('v.currentMode', comData.currentMode);
                         component.set('v.communityModes', comData.communityModes);
-                        
+
                         if (comData.currentMode.template.needRedirect) {
                             var networkId;
-                            if(navigateTo == 'account-settings' || navigateTo == 'my-team'){
-                                 networkId = comData.currentMode.template.networkId;
-                            comData.currentMode.template.redirectURL =
-                                comData.currentMode.template.currentCommunityURL +
-                                '/servlet/networks/switch?networkId=' +
-                                networkId +
-                                '&startURL=';
-                            }else{
-                                 networkId = comData.currentMode.template.networkId;
-                            comData.currentMode.template.redirectURL =
-                                comData.currentMode.template.currentCommunityURL +
-                                '/servlet/networks/switch?networkId=' +
-                                networkId +
-                                '&startURL=/s/';
+                            if (navigateTo == 'account-settings' || navigateTo == 'my-team') {
+                                networkId = comData.currentMode.template.networkId;
+                                comData.currentMode.template.redirectURL =
+                                    comData.currentMode.template.currentCommunityURL +
+                                    '/servlet/networks/switch?networkId=' +
+                                    networkId +
+                                    '&startURL=';
+                            } else {
+                                networkId = comData.currentMode.template.networkId;
+                                comData.currentMode.template.redirectURL =
+                                    comData.currentMode.template.currentCommunityURL +
+                                    '/servlet/networks/switch?networkId=' +
+                                    networkId +
+                                    '&startURL=/s/';
                             }
-                           
                         }
                         communityService.setCurrentCommunityMode(comData.currentMode, navigateTo);
                         if (comData.currentMode.template.needRedirect) return;
@@ -107,9 +113,7 @@
                                 communityService.setTrialMatchVisible(
                                     userVisibility.trialMatchVisible
                                 );
-                                communityService.setEDiaryVisible(
-                                    userVisibility.eDiaryVisible
-                                );
+                                communityService.setEDiaryVisible(userVisibility.eDiaryVisible);
                                 component.getEvent('onModeChange').fire();
                                 component.find('pubsub').fireEvent('reload');
                             }
@@ -136,5 +140,9 @@
         communityService.executeAction(component, 'getLogoutURL', null, function (url) {
             window.location.replace(url + '/secur/logout.jsp');
         });
+    },
+    handleCardVisiblity: function (component, event, helper) {
+        component.set('v.reset', true);
+        component.set('v.reset', false);
     }
 });

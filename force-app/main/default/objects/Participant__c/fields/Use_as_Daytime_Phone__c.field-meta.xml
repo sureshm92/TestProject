@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_as_Daytime_Phone__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If checked, Daytime Phone will be updated with Mobile Phone and Phone Type will be updated with Mobile</description>
+    <externalId>false</externalId>
+    <label>Use as Daytime Phone</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

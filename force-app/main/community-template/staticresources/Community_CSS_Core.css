@@ -67,6 +67,15 @@ a:hover {
     flex-shrink: 0;
     width: 165px;
 }
+.logo-container-pp {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 52px;
+    margin-left: -52px;
+    flex-shrink: 0;
+    width: 165px;
+}
 
 .logo-container .title-logo {
     max-height: 38px;
@@ -126,6 +135,9 @@ a:hover {
     padding: 10px!important;
     margin: 10px 0!important;
     border-radius: 5px!important;
+}
+.btn-upload-photo  input[type="file" i]::-webkit-file-upload-button  {
+	cursor: pointer;
 }
 /*----------------------------------------------------- MRR ------------------------------------------------------------*/
 
@@ -1502,6 +1514,12 @@ input[type=password]::-ms-clear
     max-width: 1140px;
     margin: auto;
 }
+
+.rr-width-limiter-pp{
+    max-width: 1140px;
+    margin-left: auto;
+}
+
 .rr-width-limiterRTL{
     max-width: 1140px;
     margin: auto;
@@ -1640,6 +1658,10 @@ input[type=password]::-ms-clear
     .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
         width: .9rem;
         height: .9rem;
+    }
+    .logo-container-pp {
+        margin-right: 0px !important;
+        margin-left: 52px !important;
     }
 }
 

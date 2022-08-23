@@ -367,6 +367,7 @@ public without sharing class AccountSettingsController {
                 Date_of_Birth__c,
                 Nickname__c,
                 Suffix__c,
+                Use_as_Daytime_Phone__c,
                 Phone_Type__c,
                 Alternative_Phone_Number__c,
                 Alternative_Phone_Type__c
@@ -678,6 +679,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public String mobilePhone;
         @AuraEnabled
+        public Boolean useAsDaytimePhone;
+        @AuraEnabled
         public String fax;
         @AuraEnabled
         public Boolean optInEmail;
@@ -742,6 +745,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                             participant.Phone_Type__c != 'Mobile'
                             ? ''
                             : contact.MobilePhone;
+
+            useAsDaytimePhone = isParticipant ? participant.Use_as_Daytime_Phone__c : false;
 
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
@@ -846,6 +851,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             personParticipant.Salutation__c = prefix;
             personParticipant.Nickname__c = nickname;
             personParticipant.Phone_Type__c = phoneType;
+            personParticipant.Use_as_Daytime_Phone__c = useAsDaytimePhone;
 
             return personParticipant;
         }
@@ -1055,7 +1061,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Alternative_Phone_Type__c,
                 Birth_Year__c,
                 Email__c,
-                Contact__c
+                Contact__c,
+                Use_as_Daytime_Phone__c
             FROM Participant__c
             WHERE Contact__c = :contId
         ][0];

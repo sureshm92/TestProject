@@ -52,6 +52,7 @@ public without sharing class CommunityModes {
         public Boolean isDelegate;
         public Boolean isSelected;
         public Boolean hasBeenActive;
+        public Boolean isProgram;
         public List<PPCommunityModeItem> subItems;
 
         public PPCommunityModeItem(Boolean isDelegate, Boolean hasBeenActive) {
@@ -66,7 +67,8 @@ public without sharing class CommunityModes {
             String subTitle,
             Id peId,
             Id delegateId,
-            Boolean isDelegate
+            Boolean isDelegate,
+            Boolean isProgram
         ) {
             this.mode = mode;
             this.title = title;
@@ -74,6 +76,7 @@ public without sharing class CommunityModes {
             this.peId = peId;
             this.delegateId = delegateId;
             this.isDelegate = isDelegate;
+            this.isProgram=isProgram;
             this.subItems = new List<PPCommunityModeItem>();
         }
     }

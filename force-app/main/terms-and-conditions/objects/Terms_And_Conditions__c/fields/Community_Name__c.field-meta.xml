@@ -22,6 +22,11 @@
                 <label>GSK Community</label>
             </value>
             <value>
+                <fullName>IQVIA Patient Portal</fullName>
+                <default>false</default>
+                <label>IQVIA Patient Portal</label>
+            </value>
+            <value>
                 <fullName>Janssen Community</fullName>
                 <default>false</default>
                 <label>Janssen Community</label>

@@ -1,0 +1,21 @@
+<template>
+    <div class={cardRTL}>
+        <div class="accordion_container">
+            <lightning-layout multiple-rows="true">
+                <template for:each={ctpAccordionData} for:item="acc" for:index="index">
+                    <lightning-layout-item size="12" key={acc.id} class="accordion-margin">
+                        <div class="accordion-section">
+                            <lightning-button-icon icon-name={acc.iconName} data-id={acc.id} variant="bare" size="medium" class={arrowCss} onclick={openAccordionBody}></lightning-button-icon>
+                                <div class="accordion_head " data-id={acc.id} onclick={openAccordionBody}>{acc.label}
+                                </div>
+                                
+                            <div class={acc.bodyClass}>
+                                <lightning-formatted-rich-text class="accordion_body_text" value={acc.body}></lightning-formatted-rich-text>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </div>         
+</template>

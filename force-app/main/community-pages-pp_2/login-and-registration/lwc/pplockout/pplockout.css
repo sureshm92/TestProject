@@ -1,0 +1,31 @@
+.locked-out {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin: 0.5em 0;
+}
+.after-several-failed {
+    height: 72px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin: 1rem 0 0 0;
+}
+.locked-out-time {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 35px;
+    text-align: center;
+    margin-top: 2.248rem;
+}
+.rtl {
+    direction: rtl;
+}

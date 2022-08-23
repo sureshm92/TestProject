@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 6/11/2020.
  -->
 
- <aura:component description="CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
+<aura:component description="CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
     <!-- attributes: -->
     <aura:attribute name="user" type="User" access="private" />
     <aura:attribute name="initialCommunityModes" type="Object" />
@@ -10,6 +10,7 @@
     <aura:attribute name="currentMode" type="Object" />
     <aura:attribute name="reset" type="Boolean" default="false" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
+    <aura:attribute name="templateName" type="String" />
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
@@ -21,24 +22,54 @@
     <aura:handler event="c:RefreshProfile" action="{!c.handleApplicationEvent}" />
 
     <aura:if isTrue="{!not(v.reset)}">
-        <c:ModeHeaderMenu class="menu-block">
+        <c:ModeHeaderMenu class="menu-block" templateName="{!v.templateName}">
             <aura:set attribute="title">
-                <c:SmallIconButton
-                    user="{!v.user}"
-                    isDelegate="{!v.currentMode.isDelegate}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <c:profileImageDropdown
+                        user="{!v.user}"
+                        isDelegate="{!v.currentMode.isDelegate}"
+                        hasProfilePic="{!v.hasProfilePic}"
+                    />
+                    <aura:set attribute="else">
+                        <c:SmallIconButton
+                            user="{!v.user}"
+                            isDelegate="{!v.currentMode.isDelegate}"
+                            hasProfilePic="{!v.hasProfilePic}"
+                        />
+                    </aura:set>
+                </aura:if>
             </aura:set>
             <li class="header">
-                <c:HeaderViewInformation
-                    user="{!v.user}"
-                    currentMode="{!v.currentMode}"
-                    hasProfilePic="{!v.hasProfilePic}"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <c:profileHeaderIconInfo
+                        user="{!v.user}"
+                        currentMode="{!v.currentMode}"
+                        hasProfilePic="{!v.hasProfilePic}"
+                        onpageNavigation="{!c.handleCardVisiblity}"
+                        communityModes="{!v.communityModes}"
+                        onitemselection="{!c.doSelectItem}"
+                    />
+                    <aura:set attribute="else">
+                        <c:HeaderViewInformation
+                            user="{!v.user}"
+                            currentMode="{!v.currentMode}"
+                            hasProfilePic="{!v.hasProfilePic}"
+                        />
+                    </aura:set>
+                </aura:if>
             </li>
             <li class="body">
                 <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
-                    <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}" />
+                    <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                        <c:patientPortalMenuItems
+                            allModes="{!v.communityModes}"
+                            user="{!v.user}"
+                            onitemselection="{!c.doSelectItem}"
+                        />
+                    </aura:if>
+                    <aura:if isTrue="{!notequals(v.templateName, 'PatientPortal')}">
+                        <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}" />
+                    </aura:if>
                 </aura:if>
                 <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
                     <c:RHCommunityModesList
@@ -62,20 +93,31 @@
                         reset="{!v.reset}"
                     />
                 </aura:if>
-                 <aura:if isTrue="{!equals(v.communityModes.type, 'CC_Only')}">
+                <aura:if isTrue="{!equals(v.communityModes.type, 'CC_Only')}">
                     <c:CommunityModeSwitcherMenuButtons
                         type="{!v.communityModes.type}"
                         reset="{!v.reset}"
                     />
                 </aura:if>
             </li>
-            
             <li class="lo-button">
-                <lightning:button
-                    onclick="{!c.logout}"
-                    label="{!$Label.c.Profile_Menu_Log_Out}"
-                    class="apollo-btn logout-btn"
-                />
+                <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
+                    <div class="divider-line"></div>
+                    <lightning:button
+                        variant="base"
+                        label="{!$Label.c.PP_Logout}"
+                        onclick="{!c.logout}"
+                        class="pp-logout"
+                    ></lightning:button>
+                    <aura:set attribute="else">
+                        <lightning:button
+                            onclick="{!c.logout}"
+                            label="{!$Label.c.Profile_Menu_Log_Out}"
+                            class="apollo-btn logout-btn"
+                        >
+                        </lightning:button>
+                    </aura:set>
+                </aura:if>
             </li>
         </c:ModeHeaderMenu>
     </aura:if>

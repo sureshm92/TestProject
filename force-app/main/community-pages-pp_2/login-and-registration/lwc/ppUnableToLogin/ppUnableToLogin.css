@@ -1,0 +1,51 @@
+.slds-modal__container {
+    width: 39%;
+}
+.unable-login-card-top {
+    height: 16px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
+}
+.slds-modal__footer {
+    border-top-style: none;
+}
+.unable-login-title {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.locked-out-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.btn-close {
+    width: 96px;
+    color: #ffffff;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+}
+.text-justify {
+    text-align: justify;
+}
+
+@media all and (max-width: 768px) {
+    .slds-modal__container {
+        width: 83%;
+    }
+    .btn-close {
+        width: 100%;
+    }
+}

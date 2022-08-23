@@ -1,0 +1,131 @@
+<template>
+    <template if:false={isMobile}>
+        <c-web-spinner class="main-spinner"></c-web-spinner>
+        <div class="rr-body-content">
+            <!--Header-->
+            <div class="slds-grid slds-grid_vertical-align-start title-content">
+                <div class={headerDesktopClass}>{labels.PP_HEADER}</div>
+                <div
+                    class="slds-col slds-size_1-of-12 slds-align_absolute-center full-height slds-p-bottom_large divider"
+                ></div>
+                <div class="slds-col slds-size_8-of-12 last-updated slds-p-right_large">
+                    <div class="slds-clearfix full-height">
+                        <div class="slds-float_left full-height slds-p-left_large">
+                            <div class="last-updatedD slds-align_absolute-center">
+                                {labels.LAST_UPDATED} {lastUpdated}
+                            </div>
+                        </div>
+                        <div class="slds-float_right full-height">
+                            <div class="download-pdfD slds-align_absolute-center">
+                                <a onclick={downloadPPAsPDF}>{labels.DOWNLOAD_AS_PDF}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="slds-grid slds-grid body-content">
+                <div
+                    class="slds-col slds-size_3-of-12 slds-p-left_large slds-p-right_large header-bar slds-p-left_large slds-p-bottom_large"
+                >
+                    <div class={headerScrollerClass}>
+                        <div class="header-list">
+                            <nav class="slds-nav-vertical" aria-label="Header List">
+                                <div class="slds-nav-vertical__section">
+                                    <ul aria-describedby="entity-header">
+                                        <template for:each={options} for:item="option">
+                                            <li
+                                                key={option.value}
+                                                class="slds-nav-vertical__item"
+                                                data-header={option.value}
+                                                data-label={option.label}
+                                                onclick={navigateToSelectedHeader}
+                                            >
+                                                <lightning-formatted-rich-text
+                                                    class="slds-nav-vertical__action"
+                                                    value={option.label}
+                                                ></lightning-formatted-rich-text>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="slds-col slds-size_1-of-12 slds-align_absolute-center full-height slds-p-bottom_large divider"
+                >
+                    <div class="slds-border_right full-height"></div>
+                </div>
+                <div
+                    class="slds-col slds-size_8-of-12 tc-content slds-p-left_large slds-p-right_large slds-p-bottom_large"
+                >
+                    <div class={richContentClass} data-id="ppRichTextD" id="ppRichTextD">
+                        <!--Rich text displayed here-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={isMobile}>
+        <div class="rr-body-content">
+            <!-- Loading Spinner-->
+            <c-web-spinner class="main-spinner"></c-web-spinner>
+            <!-- Header label-->
+            <div class={headerContainer}>
+                <div class={headerLabel}>
+                    <div class={privacyHeader}>{labels.PP_HEADER}</div>
+                </div>
+                <div class={lastUpdatedDateClass}>
+                    <div class={acceptedDateLabel}>{labels.LAST_UPDATED} {lastUpdated}</div>
+                </div>
+            </div>
+
+            <!-- Mobile Dropdown-->
+            <div class={comboboxClass}>
+                <div class={chapterClass}>{labels.CHAPTER}</div>
+                <div
+                    id="dropdown"
+                    class={dropdownClass}
+                    onclick={toggleElement}
+                    onfocusout={removeElementFocus}
+                    tabindex="0"
+                >
+                    <span class="dropdown-span">{currentHeaderLabel}</span>
+                    <ul class="dropdown-menu" data-id="dropdown-menu">
+                        <template for:each={options} for:item="option">
+                            <li
+                                key={option.value}
+                                class="dropdown-li"
+                                value={option.value}
+                                data-header={option.value}
+                                data-label={option.label}
+                                onclick={navigateToSelectedHeader}
+                            >
+                                <lightning-formatted-rich-text
+                                    value={option.label}
+                                ></lightning-formatted-rich-text>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+            <!-- Privacy Policy Body Content-->
+            <div class={ppBodyContentClass}>
+                <div class={ppContentClass} data-id="ppRichText" id="ppRichText">
+                    <!--Rich text displayed here-->
+                </div>
+            </div>
+
+            <!-- Privacy Policy Mobile Footer-->
+            <div class="rr-bottom-bar-area">
+                <div class="rr-bottom-bar">
+                    <div class="rr-width-limiter bar-content side-padding">
+                        <a onclick={downloadPPAsPDF}>{labels.DOWNLOAD_AS_PDF}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

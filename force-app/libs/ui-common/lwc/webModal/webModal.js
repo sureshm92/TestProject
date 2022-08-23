@@ -9,6 +9,7 @@ export default class WebModal extends LightningElement {
     @api headerText;
     @api size = 'medium';
     @api cancelCallback;
+    @api ppBackgroundRequired = false;
 
     //Public methods:---------------------------------------------------------------------------------------------------
     @api show() {
@@ -35,5 +36,9 @@ export default class WebModal extends LightningElement {
 
     get backDropClass() {
         return 'slds-backdrop ' + (this.isShow ? ' slds-backdrop_open ' : '');
+    }
+
+    get topBackground() {
+        return this.ppBackgroundRequired ? 'slds-grid card-top-bg' : 'slds-hide';
     }
 }

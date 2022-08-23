@@ -33,45 +33,72 @@
         <div class="panel">
             <div class="vrs-panel" style="position: relative">
                 <div class="group-container">
-                    <div class="group-title">Visit Configuration</div>
+                    <div class="group-title">Community Layout</div>
+                    <div class="global-data">
+                        <div class="global-element">
+                            <lightning:input
+                                             aura:id="stworkspaceToggle"
+                                             type="toggle"
+                                             label="Study Workspace"
+                                             name="studyWorkspaceToggle"
+                                             checked="{!not(v.ctp.Is_Program__c)}"
+                                             onchange="{!c.saveCTP}"
+                                             variant="label-hidden"
+                                             />
+                            <div style="margin-left: 10px">Study Workspace (About the Study, My Visits, My Results)</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input
+                                             aura:id="prToggle"
+                                             type="toggle"
+                                             label="Program (Description)"
+                                             name="programToggle"
+                                             checked="{!v.ctp.Is_Program__c}"
+                                             onchange="{!c.saveCTP}"
+                                             variant="label-hidden"
+                                             />
+                            <div style="margin-left: 10px; margin-right: 20px">Program (Description)</div>
+                        </div>
+                    </div>
+                    <div class="group-title">Progress Timeline</div>
                     <div class="global-data">
                         <div class="global-element">
                             <lightning:input
                                              aura:id="stToggle"
                                              type="toggle"
-                                             label="Status Timeline"
+                                             label="Status/Milestones"
                                              name="statusTimelineToggle"
                                              checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
                                              onchange="{!c.saveCTP}"
                                              variant="label-hidden"
                                              />
-                            <div style="margin-left: 10px">Status Timeline</div>
+                            <div style="margin-left: 10px">Status/Milestones</div>
                         </div>
                         <div class="global-element">
                             <lightning:input
                                              aura:id="vsToggle"
                                              type="toggle"
-                                             label="Visit Schedule"
+                                             label="Visits/Events"
                                              name="visitScheduleToggle"
                                              checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
                                              onchange="{!c.saveCTP}"
                                              variant="label-hidden"
                                              />
-                            <div style="margin-left: 10px; margin-right: 20px">Visit Schedule</div>
+                            <div style="margin-left: 10px; margin-right: 20px">Visits/Events</div>
                         </div>
                     </div>
-                    <div class="group-title">Study Documents Configuration</div>
+                    <div class="group-title">Resources</div>
                     <div class="global-data">
                         <div class="global-element">
                             <lightning:input
                                              type="toggle"
-                                             label="Study Documents"
+                                             label="Documents"
                                              name="studyDocumentsToggle"
                                              onchange="{!c.saveCTP}"
                                              checked="{!v.ctp.Study_Documents_Are_Available__c}"
                                              variant="label-hidden"
                                              />
-                            <div style="margin-left: 10px">Study Documents</div>
+                            <div style="margin-left: 10px">Documents</div>
                         </div>
                         <div class="global-element">
                             <lightning:input
@@ -83,6 +110,17 @@
                                              variant="label-hidden"
                                              />
                             <div style="margin-left: 10px">Video and Articles</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input
+                                             type="toggle"
+                                             label="Relevant Links"
+                                             name="RelevantLinksToggle"
+                                             onchange="{!c.saveCTP}"
+                                             checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                                             variant="label-hidden"
+                                             />
+                            <div style="margin-left: 10px">Relevant Links</div>
                         </div>
                     </div>
                     <div class="group-title">Travel Support</div>
@@ -150,17 +188,6 @@
                                              variant="label-hidden"
                                              />
                             <div style="margin-left: 10px">Tasks</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                             type="toggle"
-                                             label="Relevant Links"
-                                             name="RelevantLinksToggle"
-                                             onchange="{!c.saveCTP}"
-                                             checked="{!v.ctp.Relevant_Links_Are_Available__c}"
-                                             variant="label-hidden"
-                                             />
-                            <div style="margin-left: 10px">Relevant Links</div>
                         </div>
                         <div class="global-element">
                             <lightning:input

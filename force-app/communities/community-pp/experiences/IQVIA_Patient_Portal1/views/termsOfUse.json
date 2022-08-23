@@ -1,0 +1,37 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:EmptyLayout",
+  "id" : "664b824d-5477-4c56-8ec4-aa91ae92998d",
+  "label" : "Terms of Use",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppTermsOfUse",
+      "id" : "b5a51f1e-2aae-43d1-9e14-2ffdeb43ada6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "864d909e-a257-4dac-8ce2-330d07726ba5",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Terms And Conditions"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "814b1813-244c-4ca4-b5b9-dae271b211d0",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4e9fe835-ba09-49f1-8c92-51c56619bd84",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
+  "type" : "view",
+  "viewType" : "custom-terms-and-conditions"
+}

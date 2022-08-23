@@ -1,6 +1,6 @@
 /**
-* Created by Leonid Bartenev
-*/
+ * Created by Leonid Bartenev
+ */
 
 public without sharing class ReferringRemote {
     public class InitData {
@@ -20,7 +20,7 @@ public without sharing class ReferringRemote {
         public String delegateAccessLevel;
         public String contentDoc;
     }
-    
+
     public class AccountWrapper {
         public Account clinic;
         public String name;
@@ -29,7 +29,7 @@ public without sharing class ReferringRemote {
         public String siteType;
         public Account ssAccount;
     }
-    
+
     @AuraEnabled
     public static String getInitData(
         Id trialId,
@@ -42,10 +42,10 @@ public without sharing class ReferringRemote {
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
-        
+
         //ContentDocumentLink
         initData.contentDoc = getContentDocumentLink(trialId, language);
-        
+
         //localize pes
         if (initData.trial.Link_to_Pre_screening__c != null) {
             initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(
@@ -57,7 +57,7 @@ public without sharing class ReferringRemote {
                 .getHCPEnrollmentByIdImpl(hcpeId, userMode, delegateId); //getHCPEnrollmentForHCPByTrial(trialId);
         }
         //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
-        
+
         //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
         if (peId != null) {
             initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(
@@ -81,7 +81,7 @@ public without sharing class ReferringRemote {
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
-        
+
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
         List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance()
             .getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true, delegateId);
@@ -133,7 +133,7 @@ System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
 throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
 }*/
     }
-    
+
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
@@ -155,13 +155,13 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     );
                 }
             }
-            
+
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
                 ? Date.today().year() - birthDate.year()
                 : Date.today().year() - birthDate.year() - 1;
-            
+
             if (
                 ageByCountryCode.get(
                     participant.Mailing_Country_Code__c +
@@ -183,24 +183,24 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 needsGuardian = participantAge < 18;
             }
         }
-        
+
         return '' + needsGuardian;
     }
-    
+
     @AuraEnabled
     public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
         Boolean isAdult = false;
-        
+
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
         );
-        
+
         Participant__c delegateparticipant = (Participant__c) JSON.deserialize(
             delegateParticipantJSON,
             Participant__c.class
         );
-        
+
         if (!String.isEmpty(delegateparticipant.Birth_Year__c)) {
             List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
@@ -215,10 +215,10 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     );
                 }
             }
-            
+
             Integer delegateAge =
                 (Date.Today().Year()) - (Integer.valueof(delegateparticipant.Birth_Year__c));
-            
+
             if (
                 ageByCountryCode.get(
                     participant.Mailing_Country_Code__c +
@@ -239,26 +239,26 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 isAdult = delegateAge >= 18;
             }
         }
-        
+
         return '' + isAdult;
     }
-    
+
     public static String getContentDocumentLink(Id trialId, String language) {
         system.debug('language' + language);
         List<Res_study__c> st = [
             SELECT Id, Resource__r.Id, Resource__r.Language__c
             FROM Res_study__c
             WHERE
-            Clinical_Trial_Profile__c = :trialId
-            AND Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c = TRUE
-            AND Resource__r.Resource_Type__c = 'Patient Authorization Template'
-            AND Visible_To_RP__c = TRUE
-            AND (Resource__r.Language__c = :language
-                 OR Resource__r.Language__c = 'en_US')
+                Clinical_Trial_Profile__c = :trialId
+                AND Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c = TRUE
+                AND Resource__r.Resource_Type__c = 'Patient Authorization Template'
+                AND Visible_To_RP__c = TRUE
+                AND (Resource__r.Language__c = :language
+                OR Resource__r.Language__c = 'en_US')
             ORDER BY CreatedDate DESC
         ];
         Id resId;
-        
+
         if (st.size() > 0) {
             for (Res_study__c sr : st) {
                 if (sr.Resource__r.Language__c == language) {
@@ -269,16 +269,16 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 }
             }
         }
-        
+
         List<ContentDocument> entries = new List<ContentDocument>();
-        
+
         if (resId != null) {
             List<ContentDocumentLink> cdls = [
                 SELECT Id, ContentDocumentId
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :resId
             ];
-            
+
             Set<Id> documentIds = new Set<Id>();
             for (ContentDocumentLink cdl : cdls) {
                 documentIds.add(cdl.ContentDocumentId);
@@ -295,7 +295,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         } else
             return null;
     }
-    
+
     public class resourceWrapper {
         @AuraEnabled
         public Res_study__c st;
@@ -303,14 +303,14 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         public List<ContentDocument> attachments;
         @AuraEnabled
         public String baseURL;
-        
+
         public resourceWrapper(Res_study__c st, List<ContentDocument> attachments, String baseURL) {
             this.st = st;
             this.attachments = attachments;
             this.baseURL = baseURL;
         }
     }
-    
+
     @AuraEnabled
     public static void deleteFile(String contentDocId) {
         System.debug('contentDocId--' + contentDocId);
@@ -323,7 +323,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             AuraHelper.throwException(e);
         }
     }
-    
+
     @AuraEnabled
     public static void saveParticipant(
         Id hcpeId,
@@ -332,7 +332,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         String participantDelegateJSON,
         String delegateId,
         String ddInfo,
-        String contentDocId       
+        String contentDocId
     ) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -356,7 +356,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-            if(delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null){
+            if (delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null) {
                 participantDelegate.Id = delegateDuplicateInfo.participantId;
                 try {
                     upsert participantDelegate;
@@ -368,8 +368,11 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
             );
-            if(enrollment.Pre_screening_Status__c=='Pass' || enrollment.Pre_screening_Status__c == 'Fail'){
-                enrollment.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+            if (
+                enrollment.Pre_screening_Status__c == 'Pass' ||
+                enrollment.Pre_screening_Status__c == 'Fail'
+            ) {
+                enrollment.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
                 enrollment.Pre_Screener_Completed_Date__c = Datetime.now();
             }
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
@@ -407,9 +410,15 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
             HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c');
             HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
-                .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId, HCPE_FIELDS);
+                .getHCPEnrollmentByIdImpl(
+                    hcpeId,
+                    CommunityService.USER_MODE_HCP,
+                    delegateId,
+                    HCPE_FIELDS
+                );
             Boolean filterCriteria =
-                hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Virtual'&& hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Hybrid' &&
+                hcpEnrollment.Study_Site__r.Study_Site_Type__c != 'Virtual' &&
+                hcpEnrollment.Study_Site__r.Study_Site_Type__c != 'Hybrid' &&
                 hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c != null &&
                 !hcpEnrollment.Study_Site__r.Suppress_Participant_Emails__c &&
                 !hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -419,10 +428,13 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             enrollment.Show_Referring_Provider__c = true;
-            enrollment.Non_Referral_Reason__c='';
+            enrollment.Non_Referral_Reason__c = '';
             //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
-            if(filterCriteria && participant.Adult__c && String.isNotBlank(participant.Email__c))//adult added for RH-5266
-            {
+            if (
+                filterCriteria &&
+                participant.Adult__c &&
+                String.isNotBlank(participant.Email__c) //adult added for RH-5266
+            ) {
                 enrollment.Invited_To_PP_Date__c = DateTime.now();
             }
             system.debug('');
@@ -437,12 +449,12 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             }
             if (sSite[0].Site__c != null) {
                 participant.Site__c = sSite[0].Site__c;
-                participant.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
+                participant.Alternative_Phone_Number__c = enrollment.Participant_Alternative_Phone__c;
                 participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
             }
-            
+
             ParticipantService.createParticipantAndUpdatePE(
                 participant,
                 participantDelegate,
@@ -460,7 +472,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                 ];
                 if (newpartcipant.Contact__c != null) {
                     Contact participantCon = new Contact(Id = newpartcipant.Contact__c);
-                    
+
                     if (participant.Phone_Type__c == 'Home') {
                         participantCon.HomePhone = participant.Phone__c;
                     }
@@ -481,18 +493,20 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                         participantCon.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
                         
                     }
-                      //End                         
-                    
-                    update participantCon;
+                    //End
+                     //update participantCon; updating on future method
+                    String objJSONStr = Json.serialize(participantCon);
+                    updateParticipantContact(objJSONStr);    
+                   
                 }
             }
-            
+
             Boolean createDelegateuser = true;
             // Added this lines for REF-2592 bug fixing, to stop sending email to the Virtual/Hybrid study
             if (
                 hcpEnrollment != null &&
                 (hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Virtual' ||
-                 hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Hybrid')
+                hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Hybrid')
             ) {
                 createDelegateuser = false;
             }
@@ -539,16 +553,16 @@ FOR UPDATE
                 } else {
                     newContact = [
                         SELECT
-                        Id,
-                        FirstName,
-                        LastName,
-                        Email,
-                        MailingCity,
-                        MailingCountryCode,
-                        MailingStateCode,
-                        MailingState,
-                        MailingPostalCode,
-                        MailingCountry
+                            Id,
+                            FirstName,
+                            LastName,
+                            Email,
+                            MailingCity,
+                            MailingCountryCode,
+                            MailingStateCode,
+                            MailingState,
+                            MailingPostalCode,
+                            MailingCountry
                         FROM Contact
                         WHERE Id = :delegateDuplicateInfo.contactId
                     ];
@@ -587,10 +601,10 @@ FOR UPDATE
                     ];
                     List<Participant_Enrollment__c> particpantEnrollList = [
                         SELECT
-                        Id,
-                        Study_Site__r.Study_Site_Type__c,
-                        Study_Site__r.Suppress_Participant_Emails__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                            Id,
+                            Study_Site__r.Study_Site_Type__c,
+                            Study_Site__r.Suppress_Participant_Emails__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
                         FROM Participant_Enrollment__c
                         WHERE Participant__c = :participantId
                     ];
@@ -612,15 +626,16 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                             particpantEnrollList[0].Study_Site__r.Study_Site_Type__c ==
                             StudySiteService.SS_TYPE_TRADITIONAL &&
                             (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c ||
-                             particpantEnrollList[0]
-                             .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
-                            communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
+                            particpantEnrollList[0]
+                                .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
+                            (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT ||
+                            communityTemplateName == CommunityTemplateService.TEMPLATE_PP)
                         ) {
                             TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );
                         }
-                        
+
                         insert ptDelegateRef;
                     }
                 }                
@@ -637,32 +652,17 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                            con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
                            con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
                            con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
-                           
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
-                            );
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.createNotificationsHandler.class
-                            );
-                            
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-                            );
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
-                            TriggerHandlerExecutor.bypassHandler(
-                                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
-                            );
 
-                           update con;
+                             //update con; moved to future method
+                             String objJSONStr = Json.serialize(con);
+                             updateParticipantContact(objJSONStr);
                    }
                 //}
                 if (createDelegateuser) {
-                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },
-                                           TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
-                                          );
+                    createParticipantUsers(
+                        new Map<Id, Id>{ newContact.Id => null },
+                        TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                    );
                 }
             } else if (
                 !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
@@ -678,8 +678,8 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         hcpEnrollment.Study_Site__c
                     );
                     String permissionSetName = CommunityTemplateService.getTemplate(
-                        ss.Clinical_Trial_Profile__r.CommunityTemplate__c
-                    )
+                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        )
                         .permissionSet;
                     actionAssignContactPermissions.addPermission(
                         newParticipant.Contact__c,
@@ -689,34 +689,33 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
-            }
-            
-            //REF-3566
-            else if(participantDelegate == null){
+            } else if (participantDelegate == null) {
+                //REF-3566
                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
-                For(Patient_Delegate__c pd:[SELECT Id,
-                                            Primary_Delegate__c
-                                            FROM Patient_Delegate__c
-                                            WHERE Participant__c =: participantId 
-                                           ]) {
-                                               if(pd.Primary_Delegate__c == True){
-                                                   pd.Primary_Delegate__c = False;
-                                                   pdList.add(pd);
-                                               }
-                                           }
-                update pdList;
-                
+                for (Patient_Delegate__c pd : [
+                    SELECT Id, Primary_Delegate__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c = :participantId
+                ]) {
+                    if (pd.Primary_Delegate__c == true) {
+                        pd.Primary_Delegate__c = false;
+                        pdList.add(pd);
+                    }
+                }
+               //update pdList; moved to future method
+               String objJSONStr = Json.serialize(pdList);
+               updatePatientDelegate(objJSONStr);
             }
-            
+
             System.debug('contentDocId--' + contentDocId);
             if (!String.isBlank(contentDocId)) {
                 List<Participant_Enrollment__c> particpantEnrollList = [
                     SELECT
-                    Id,
-                    Study_Site__r.Study_Site_Type__c,
-                    Study_Site__r.Suppress_Participant_Emails__c,
-                    Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c
+                        Id,
+                        Study_Site__r.Study_Site_Type__c,
+                        Study_Site__r.Suppress_Participant_Emails__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c
                     FROM Participant_Enrollment__c
                     WHERE Participant__c = :participantId
                 ];
@@ -743,21 +742,60 @@ update objConVersion;*/
             AuraHelper.throwException(e);
         }
     }
+
+    @Future
+    public static void updateParticipantContact(String objJson){
+             Contact participantCont = (Contact) JSON.deserialize(
+            objJson,
+            Contact.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.createNotificationsHandler.class
+            );
+            
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+            );
+        update participantCont;
+    }
     
     @Future
-    public static void createParticipantUsers(Map<Id, Id> usersToCreate,
-                                              Map<Id,String> invitationsVisibleTemp
-                                             ) {
-                                                 if (usersToCreate != null && !usersToCreate.isEmpty())
-                                                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                                                     .createParticipantUsers(usersToCreate);
-                                                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
-                                                 TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
-                                                 if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
-                                                     TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
-                                                 }
-                                             }
-    
+    public static void updatePatientDelegate(String objJson){
+             Patient_Delegate__c  patientDelegate = (Patient_Delegate__c) JSON.deserialize(
+            objJson,
+            Patient_Delegate__c.class
+        );
+        update patientDelegate;
+    }
+
+    @Future
+    public static void createParticipantUsers(
+        Map<Id, Id> usersToCreate,
+        Map<Id, String> invitationsVisibleTemp
+    ) {
+        if (usersToCreate != null && !usersToCreate.isEmpty())
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                .createParticipantUsers(usersToCreate);
+        //Recalling createSurveyTasks method to create survey task for Patient Delegates
+        TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
+        if (
+            TaskService.invitationsVisibleTemp != null &&
+            !TaskService.invitationsVisibleTemp.isEmpty()
+        ) {
+            TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp, true);
+        }
+    }
+
     @AuraEnabled
     public static void setfailedReferral(String peJSON, String reason) {
         try {
@@ -772,8 +810,8 @@ update objConVersion;*/
             if (reason == ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING) {
                 pe.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_FAIL;
             }
-            if(pe.Pre_screening_Status__c=='Pass' || pe.Pre_screening_Status__c == 'Fail'){
-                pe.Pre_Screener_Completed_by__c =  CommunityService.getUserContact().Id;
+            if (pe.Pre_screening_Status__c == 'Pass' || pe.Pre_screening_Status__c == 'Fail') {
+                pe.Pre_Screener_Completed_by__c = CommunityService.getUserContact().Id;
                 pe.Pre_Screener_Completed_Date__c = Datetime.now();
             }
             upsert pe;
@@ -781,7 +819,7 @@ update objConVersion;*/
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     /*private static String getCityString(Account acc){
 List<String> addressList = new List<String>();
 if(acc.BillingCity != null) addressList.add(acc.BillingCity);
@@ -789,12 +827,12 @@ if(acc.BillingState != null) addressList.add(acc.BillingState);
 if(acc.BillingPostalCode != null) addressList.add(acc.BillingPostalCode);
 return String.join(addressList, ', ');
 }*/
-    
+
     public static final Map<String, List<String>> STATES_MAP = FieldDescribeUtil.getDependentOptionsImpl(
         User.CountryCode,
         User.StateCode
     );
-    
+
     @AuraEnabled
     public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate(
         String email,
@@ -803,10 +841,10 @@ return String.join(addressList, ', ');
     ) {
         return ReferHealthcareProviderRemote.checkDuplicate(null, email, firstName, lastName, null);
     }
-    
+
     @AuraEnabled
-    public static void saveUpdatedPER(String peID){
-        try{
+    public static void saveUpdatedPER(String peID) {
+        try {
             Participant_Enrollment__c per = new Participant_Enrollment__c(
                 Id = peId,
                 Contacted__c = true,
@@ -814,11 +852,11 @@ return String.join(addressList, ', ');
                 Consulted__c = true,
                 Consulted_Date__c = System.today(),
                 Have_you_Documented_the_Discussion__c = true,
-                Discussion_Documented_Date__c = System.today());
+                Discussion_Documented_Date__c = System.today()
+            );
             update per;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
-        
     }
 }

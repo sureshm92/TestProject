@@ -1,0 +1,37 @@
+.profile-information-rectangle {
+    box-sizing: border-box;
+    height: 46rem;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    margin-left: 24px;
+    position: absolute;
+    top: 4.5rem;
+}
+.profile-information {
+    font-size: 24px;
+    font-weight: 600;
+}
+.slds-form-element__label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+}
+.btn-save-opacity {
+    opacity: 0.5;
+}
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+@media screen and (max-width: 768px) {
+    .profile-information-rectangle {
+        height: auto;
+        margin-left: 0px;
+        width: 22.375rem;
+    }
+}

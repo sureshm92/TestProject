@@ -1,0 +1,6 @@
+.phone-menu-background {
+    background-color: #10558a;
+}
+div:last-child {
+    border-bottom-right-radius: 20px;
+}

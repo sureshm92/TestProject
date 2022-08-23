@@ -15,22 +15,25 @@ public without sharing class UploadParticipantsDelegateHelper {
         Map<String, String> duplicateDelegateMainParticipantMap = new Map<String, String>();
         Set<Id> successfullyInsertedContactSet = new Set<Id>();
         Integer trackingNumberSuccess = 0;
-        Set<Id>iqviaOutReachSet = new Set<Id>();
+        Set<Id> iqviaOutReachSet = new Set<Id>();
         Map<String, String> participantEmailMap = new Map<String, String>();
         ErrorPatientDelegateWrapper errorwrap = new ErrorPatientDelegateWrapper();
         //Used for update the contact and participant records which were identified as duplicates.
         List<Contact> contactUpdateList = new List<Contact>();
         List<Participant__c> participantUpdateList = new List<Participant__c>();
-        
+
         //For Duplicate Row check in same sheet
         Set<String> duplicateRowCheckSet = new Set<String>();
-        Map<String,String> duplicateRowMap = new Map<String,String>();
-        Map<String,String> duplicateContactRowMap = new Map<String,String>();
+        Map<String, String> duplicateRowMap = new Map<String, String>();
+        Map<String, String> duplicateContactRowMap = new Map<String, String>();
         String duplicateKey = '';
         for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
             //Duplicate check in the sheet
-            duplicateKey = pWrapper.DelegateFirstName+pWrapper.DelegateLastName+pWrapper.DelegateEmail;
-            if(!duplicateRowCheckSet.contains(duplicateKey)){
+            duplicateKey =
+                pWrapper.DelegateFirstName +
+                pWrapper.DelegateLastName +
+                pWrapper.DelegateEmail;
+            if (!duplicateRowCheckSet.contains(duplicateKey)) {
                 duplicateRowCheckSet.add(duplicateKey);
                 //Duplicate check participant and contact records for existing records in the system
                 ReferHealthcareProviderRemote.HealthcareProvider ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
@@ -78,15 +81,18 @@ public without sharing class UploadParticipantsDelegateHelper {
                 participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
                 participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
                 participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
-                if(String.isBlank(ddInfo.contactId)){
+                if (String.isBlank(ddInfo.contactId)) {
                     participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
                     participantDelegate.Attestation__c = true;
-                    participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                    participantDelegate.Attested_by__c = CommunityService.getInstance()
+                        .getCurrentContactId();
                     participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                 }
 
                 /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
-                if (!pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)) {
+                if (
+                    !pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)
+                ) {
                     participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
                     participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
                     participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
@@ -105,14 +111,18 @@ public without sharing class UploadParticipantsDelegateHelper {
                     participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
                 }
                 //Patient Delegate initiation
-                participantEmailMap.put(pWrapper.mainparticipant.Id,pWrapper.mainparticipant.Email__c);
+                participantEmailMap.put(
+                    pWrapper.mainparticipant.Id,
+                    pWrapper.mainparticipant.Email__c
+                );
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = pWrapper.mainparticipant.Id;
                 ptDelegateRef.Status__c = 'Disconnected';
                 ptDelegateRef.Primary_Delegate__c = true;
-                ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
+                ptDelegateRef.Is_Created_by_Bulk_Import__c = true;
                 if (
-                    ddInfo == null || (String.isBlank(ddInfo.contactId) || ddInfo.participantId == null)
+                    ddInfo == null ||
+                    (String.isBlank(ddInfo.contactId) || ddInfo.participantId == null)
                 ) {
                     if (!String.isBlank(ddInfo.contactId)) {
                         delegateContact = new Contact(Id = ddInfo.contactId);
@@ -126,13 +136,14 @@ public without sharing class UploadParticipantsDelegateHelper {
                         ddInfo.contactId,
                         pWrapper.mainparticipant.Id
                     );
-                    duplicateContactRowMap.put(duplicateKey,ddInfo.contactId);
+                    duplicateContactRowMap.put(duplicateKey, ddInfo.contactId);
                 }
-            }
-            else
-            {
-                duplicateRowMap.put(duplicateKey,pWrapper.mainparticipant.Id);
-                participantEmailMap.put(pWrapper.mainparticipant.Id,pWrapper.mainparticipant.Email__c);
+            } else {
+                duplicateRowMap.put(duplicateKey, pWrapper.mainparticipant.Id);
+                participantEmailMap.put(
+                    pWrapper.mainparticipant.Id,
+                    pWrapper.mainparticipant.Email__c
+                );
             }
         }
 
@@ -147,12 +158,19 @@ public without sharing class UploadParticipantsDelegateHelper {
             if (saveRes[i].isSuccess()) {
                 mapParticipant.get(countIndex).Contact__c = saveRes[i].getId();
                 patientDelegateMap.get(countIndex).Contact__c = saveRes[i].getId();
-                if(patientDelegateMap.get(countIndex) != null && studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c && 
-                (participantEmailMap.get(patientDelegateMap.get(countIndex).Participant__c) == null || string.isBlank(participantEmailMap.get(patientDelegateMap.get(countIndex).Participant__c) ))){
+                if (
+                    patientDelegateMap.get(countIndex) != null &&
+                    studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c &&
+                    (participantEmailMap.get(patientDelegateMap.get(countIndex).Participant__c) ==
+                    null ||
+                    string.isBlank(
+                        participantEmailMap.get(patientDelegateMap.get(countIndex).Participant__c)
+                    ))
+                ) {
                     iqviaOutReachSet.add(saveRes[i].getId());
                 }
                 successfullyInsertedContactSet.add(saveRes[i].getId());
-                duplicateContactRowMap.put(duplicateKey,saveRes[i].getId());
+                duplicateContactRowMap.put(duplicateKey, saveRes[i].getId());
             } else {
                 errorwrap.errorRecordCount++;
                 Database.Error error = saveRes[i].getErrors().get(0);
@@ -164,9 +182,9 @@ public without sharing class UploadParticipantsDelegateHelper {
                     ' ' +
                     error.getMessage()
                 );
-                 if(!test.isRunningTest()){
-                errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines, countIndex));
-                 }
+                if (!test.isRunningTest()) {
+                    errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines, countIndex));
+                }
                 mapParticipant.remove(countIndex);
             }
         }
@@ -195,8 +213,10 @@ public without sharing class UploadParticipantsDelegateHelper {
                     ' ' +
                     error.getMessage()
                 );
-                if(!test.isRunningTest()){
-                errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines, countIndexParticipant));
+                if (!test.isRunningTest()) {
+                    errorwrap.listOfFailedRecords.add(
+                        getCleanMessage(csvLines, countIndexParticipant)
+                    );
                 }
                 mapParticipant.remove(countIndexParticipant);
             }
@@ -206,32 +226,51 @@ public without sharing class UploadParticipantsDelegateHelper {
 
         Map<String, String> dupDelMainParticipantMap = new Map<String, String>();
         Map<String, String> dupDelegateMainParticipantMap = new Map<String, String>();
-        Map<String,Patient_Delegate__c> dupDelOtherPatientPrimaryDelegates = new Map<String,Patient_Delegate__c>();
-        Map<String,Patient_Delegate__c> dupDelPatientCurrentNonPrimaryDelegates = new Map<String,Patient_Delegate__c>();
+        Map<String, Patient_Delegate__c> dupDelOtherPatientPrimaryDelegates = new Map<String, Patient_Delegate__c>();
+        Map<String, Patient_Delegate__c> dupDelPatientCurrentNonPrimaryDelegates = new Map<String, Patient_Delegate__c>();
         if (!duplicateDelegateMainParticipantMap.isEmpty()) {
-            for (Patient_Delegate__c patientDel : [
-                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id, Participant__r.Email__c
-                FROM Patient_Delegate__c
-                WHERE
-                    Participant__c IN :duplicateDelegateMainParticipantMap.values()
+            for (
+                Patient_Delegate__c patientDel : [
+                    SELECT
+                        ID,
+                        Participant__c,
+                        Contact__c,
+                        Primary_Delegate__c,
+                        Contact__r.Id,
+                        Participant__r.Id,
+                        Participant__r.Email__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c IN :duplicateDelegateMainParticipantMap.values()
                     //AND Contact__r.Id IN :duplicateDelegateMainParticipantMap.keySet()
-            ]) {
-                if( patientDel.Primary_Delegate__c && (patientDel.Participant__r.Email__c == null || string.isBlank(patientDel.Participant__r.Email__c)) &&
-                    studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                ]
+            ) {
+                if (
+                    patientDel.Primary_Delegate__c &&
+                    (patientDel.Participant__r.Email__c == null ||
+                    string.isBlank(patientDel.Participant__r.Email__c)) &&
+                    studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                ) {
                     iqviaOutReachSet.add(patientDel.Contact__r.Id);
-                    }
-                if(duplicateDelegateMainParticipantMap.keySet().contains(patientDel.Contact__r.Id)){
+                }
+                if (
+                    duplicateDelegateMainParticipantMap.keySet().contains(patientDel.Contact__r.Id)
+                ) {
                     dupDelegateMainParticipantMap.put(
                         patientDel.Contact__r.Id,
                         patientDel.Participant__r.Id
                     );
-                    if(!patientDel.Primary_Delegate__c){
-                        dupDelPatientCurrentNonPrimaryDelegates.put(patientDel.Contact__r.Id,patientDel);
+                    if (!patientDel.Primary_Delegate__c) {
+                        dupDelPatientCurrentNonPrimaryDelegates.put(
+                            patientDel.Contact__r.Id,
+                            patientDel
+                        );
                     }
-                }else if (patientDel.Primary_Delegate__c){
-                    dupDelOtherPatientPrimaryDelegates.put(patientDel.Participant__r.Id, patientDel);
+                } else if (patientDel.Primary_Delegate__c) {
+                    dupDelOtherPatientPrimaryDelegates.put(
+                        patientDel.Participant__r.Id,
+                        patientDel
+                    );
                 }
-
             }
             List<Patient_Delegate__c> updatePDs = new List<Patient_Delegate__c>();
             for (String cntId : duplicateDelegateMainParticipantMap.keySet()) {
@@ -245,21 +284,35 @@ public without sharing class UploadParticipantsDelegateHelper {
                         cntId,
                         duplicateDelegateMainParticipantMap.get(cntId)
                     );
-                }else if(duplicateDelegateMainParticipantMap.get(cntId) != null &&
-                    dupDelegateMainParticipantMap.keySet().contains(cntId)){
-                    if(!dupDelPatientCurrentNonPrimaryDelegates.isEmpty() && dupDelPatientCurrentNonPrimaryDelegates.containsKey(cntId)){
-                        Patient_Delegate__c currentPd =  dupDelPatientCurrentNonPrimaryDelegates.get(cntId);
+                } else if (
+                    duplicateDelegateMainParticipantMap.get(cntId) != null &&
+                    dupDelegateMainParticipantMap.keySet().contains(cntId)
+                ) {
+                    if (
+                        !dupDelPatientCurrentNonPrimaryDelegates.isEmpty() &&
+                        dupDelPatientCurrentNonPrimaryDelegates.containsKey(cntId)
+                    ) {
+                        Patient_Delegate__c currentPd = dupDelPatientCurrentNonPrimaryDelegates.get(
+                            cntId
+                        );
                         currentPd.Primary_Delegate__c = true;
                         updatePDs.add(currentPd);
-                        if(!dupDelOtherPatientPrimaryDelegates.isEmpty() && dupDelOtherPatientPrimaryDelegates.containsKey(dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c)){
-                            Patient_Delegate__c oldPd = dupDelOtherPatientPrimaryDelegates.get(dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c);
+                        if (
+                            !dupDelOtherPatientPrimaryDelegates.isEmpty() &&
+                            dupDelOtherPatientPrimaryDelegates.containsKey(
+                                dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c
+                            )
+                        ) {
+                            Patient_Delegate__c oldPd = dupDelOtherPatientPrimaryDelegates.get(
+                                dupDelPatientCurrentNonPrimaryDelegates.get(cntId).Participant__c
+                            );
                             oldPd.Primary_Delegate__c = false;
                             updatePDs.add(oldPd);
                         }
                     }
                 }
             }
-            if(!updatePDs.isEmpty()){
+            if (!updatePDs.isEmpty()) {
                 Database.update(updatePDs, false);
             }
         }
@@ -273,35 +326,43 @@ public without sharing class UploadParticipantsDelegateHelper {
             ptDelegateRef.Participant__c = dupDelMainParticipantMap.get(contactIdKey);
             ptDelegateRef.Status__c = 'Disconnected';
             ptDelegateRef.Primary_Delegate__c = true;
-            ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
+            ptDelegateRef.Is_Created_by_Bulk_Import__c = true;
             pdList.add(ptDelegateRef);
-            if(participantEmailMap != null && studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c  && 
-               (participantEmailMap.get(ptDelegateRef.Participant__c) == null || string.isBlank(participantEmailMap.get(ptDelegateRef.Participant__c)))
-              ){
+            if (
+                participantEmailMap != null &&
+                studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c &&
+                (participantEmailMap.get(ptDelegateRef.Participant__c) == null ||
+                string.isBlank(participantEmailMap.get(ptDelegateRef.Participant__c)))
+            ) {
                 iqviaOutReachSet.add(contactIdKey);
             }
-            
         }
 
-        List <Patient_Delegate__c>pdDuplicateList = new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> pdDuplicateList = new List<Patient_Delegate__c>();
 
-        if(duplicateRowMap != null)
-        {
-            for(String key : duplicateRowMap.keySet())
-            {
+        if (duplicateRowMap != null) {
+            for (String key : duplicateRowMap.keySet()) {
                 String contactId = '';
                 String mainparticipantId = '';
 
-                if(duplicateRowMap != null && duplicateRowMap.get(key) != null && duplicateContactRowMap != null && duplicateContactRowMap.get(key) != null){
-                    contactId = duplicateContactRowMap.get(key);                 
+                if (
+                    duplicateRowMap != null &&
+                    duplicateRowMap.get(key) != null &&
+                    duplicateContactRowMap != null &&
+                    duplicateContactRowMap.get(key) != null
+                ) {
+                    contactId = duplicateContactRowMap.get(key);
                     mainparticipantId = duplicateRowMap.get(key);
-                    Patient_Delegate__c pd = createPatientDelegate(contactId,mainparticipantId);
+                    Patient_Delegate__c pd = createPatientDelegate(contactId, mainparticipantId);
                     pdDuplicateList.add(pd);
-                    if(participantEmailMap != null && studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c  && 
-                       (participantEmailMap.get(pd.Participant__c) == null || string.isBlank(participantEmailMap.get(pd.Participant__c)))
-                      ){
-                          iqviaOutReachSet.add(contactId);
-                      }
+                    if (
+                        participantEmailMap != null &&
+                        studySiteDetails.Clinical_Trial_Profile__r.IQVIA_Outreach__c &&
+                        (participantEmailMap.get(pd.Participant__c) == null ||
+                        string.isBlank(participantEmailMap.get(pd.Participant__c)))
+                    ) {
+                        iqviaOutReachSet.add(contactId);
+                    }
                 }
             }
             if (!pdDuplicateList.isEmpty()) {
@@ -315,7 +376,8 @@ public without sharing class UploadParticipantsDelegateHelper {
                 studySiteDetails.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL &&
                 (studySiteDetails.Suppress_Participant_Emails__c ||
                 studySiteDetails.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
-                communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
+                (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT ||
+                communityTemplateName == CommunityTemplateService.TEMPLATE_PP)
             ) {
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
@@ -335,10 +397,10 @@ public without sharing class UploadParticipantsDelegateHelper {
                         ' ' +
                         error.getMessage()
                     );
-                    if(!test.isRunningTest()){
-                    errorwrap.listOfFailedRecords.add(
-                        getCleanMessage(csvLines, countIndexParticipant)
-                    );
+                    if (!test.isRunningTest()) {
+                        errorwrap.listOfFailedRecords.add(
+                            getCleanMessage(csvLines, countIndexParticipant)
+                        );
                     }
                 }
             }
@@ -357,10 +419,10 @@ public without sharing class UploadParticipantsDelegateHelper {
             Contact cc = new Contact();
             cc.Id = c;
             cc.FirstName = null;
-            if(!test.isRunningTest()){
-            cc.LastName = contactToPart.get(c).Name;
+            if (!test.isRunningTest()) {
+                cc.LastName = contactToPart.get(c).Name;
             }
-            if(iqviaOutReachSet != null && iqviaOutReachSet.contains(c)){
+            if (iqviaOutReachSet != null && iqviaOutReachSet.contains(c)) {
                 cc.Participant_Opt_In_Status_Emails__c = outreachEmail;
                 cc.Participant_Opt_In_Status_SMS__c = outreachSMS;
                 cc.Participant_Phone_Opt_In_Permit_Phone__c = outreachPhone;
@@ -372,7 +434,7 @@ public without sharing class UploadParticipantsDelegateHelper {
             }
             conListtoBeUpdated.add(cc);
         }
-        for(Id consent:iqviaOutReachSet){
+        for (Id consent : iqviaOutReachSet) {
             Contact cc = new Contact();
             cc.Id = consent;
             cc.Participant_Opt_In_Status_Emails__c = outreachEmail;
@@ -401,78 +463,84 @@ public without sharing class UploadParticipantsDelegateHelper {
         return cleanMessage;
     }
 
-    public static Patient_Delegate__c createPatientDelegate(String contactId,String mainparticipantId) {
+    public static Patient_Delegate__c createPatientDelegate(
+        String contactId,
+        String mainparticipantId
+    ) {
         Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
         ptDelegateRef.Contact__c = contactId;
         ptDelegateRef.Participant__c = mainparticipantId;
         ptDelegateRef.Status__c = 'Disconnected';
         ptDelegateRef.Primary_Delegate__c = true;
-        ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
+        ptDelegateRef.Is_Created_by_Bulk_Import__c = true;
         return ptDelegateRef;
     }
 
-    public static void updateDelegateRecords(List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList) {
+    public static void updateDelegateRecords(
+        List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList
+    ) {
         Map<Id, Participant__c> participantUpdateMap = new Map<Id, Participant__c>();
-         
-         ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+
+        ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
         for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
-               ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
-                     null,
-                     pWrapper.DelegateEmail,
-                     pWrapper.DelegateFirstName,
-                     pWrapper.DelegateLastName,
-                     null
-                 );
+            ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
+                null,
+                pWrapper.DelegateEmail,
+                pWrapper.DelegateFirstName,
+                pWrapper.DelegateLastName,
+                null
+            );
             //Participant initiation
-                 Participant__c participantDelegate = new Participant__c();
-                 Boolean isUpdateRequired = false;
-                 if(ddInfo != null && ddInfo.participantId != null){
-                     participantDelegate.Id = ddInfo.participantId;
-                     if(!String.isBlank(pWrapper.DelegatePhoneNo)){
-                         participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
-                         participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
-                         isUpdateRequired = true;
-                     }
-                     if (pWrapper.isParticipantAdult == false && !String.isBlank(pWrapper.DelegatePhoneNo)) {
-                         participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
-                         participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
-                         participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
-                         participantDelegate.Alternative_Phone_Type__c = 'Home';
-                         isUpdateRequired = true;
-                     } else if (
-                         pWrapper.isParticipantAdult == false && String.isBlank(pWrapper.DelegatePhoneNo)
-                     ) {
-                         participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
-                         participantDelegate.Phone_Type__c = 'Home';
-                         participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
-                         participantDelegate.Alternative_Phone_Type__c = 'Home';
-                         isUpdateRequired = true;
-                     } else if (
-                         pWrapper.isParticipantAdult == true && String.isBlank(pWrapper.DelegatePhoneNo)
-                     ) {
-                         participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
-                         participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
-                         isUpdateRequired = true;
-                     }
-                     if(isUpdateRequired == true){
-                     participantUpdateMap.put(participantDelegate.Id,participantDelegate);
-                     }
-                   }
+            Participant__c participantDelegate = new Participant__c();
+            Boolean isUpdateRequired = false;
+            if (ddInfo != null && ddInfo.participantId != null) {
+                participantDelegate.Id = ddInfo.participantId;
+                if (!String.isBlank(pWrapper.DelegatePhoneNo)) {
+                    participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                    participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
+                    isUpdateRequired = true;
+                }
+                if (
+                    pWrapper.isParticipantAdult == false &&
+                    !String.isBlank(pWrapper.DelegatePhoneNo)
+                ) {
+                    participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                    participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
+                    participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                    participantDelegate.Alternative_Phone_Type__c = 'Home';
+                    isUpdateRequired = true;
+                } else if (
+                    pWrapper.isParticipantAdult == false && String.isBlank(pWrapper.DelegatePhoneNo)
+                ) {
+                    participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
+                    participantDelegate.Phone_Type__c = 'Home';
+                    participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                    participantDelegate.Alternative_Phone_Type__c = 'Home';
+                    isUpdateRequired = true;
+                } else if (
+                    pWrapper.isParticipantAdult == true && String.isBlank(pWrapper.DelegatePhoneNo)
+                ) {
+                    participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
+                    participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
+                    isUpdateRequired = true;
+                }
+                if (isUpdateRequired == true) {
+                    participantUpdateMap.put(participantDelegate.Id, participantDelegate);
+                }
+            }
         }
-         try{
-        if(!participantUpdateMap.values().isEmpty()){
-            Database.SaveResult[] delegateSR = Database.update(participantUpdateMap.values(),false);
-             //Update participantUpdateMap.values();
-         }
-             }catch (Exception exp) {
-             system.debug(
-                 'Delegate Update::' +
-                 exp.getMessage() +
-                 ' ' +
-                 exp.getStackTraceString()
-             );
-         }
-     }
+        try {
+            if (!participantUpdateMap.values().isEmpty()) {
+                Database.SaveResult[] delegateSR = Database.update(
+                    participantUpdateMap.values(),
+                    false
+                );
+                //Update participantUpdateMap.values();
+            }
+        } catch (Exception exp) {
+            system.debug('Delegate Update::' + exp.getMessage() + ' ' + exp.getStackTraceString());
+        }
+    }
 
     public class ErrorPatientDelegateWrapper {
         public SET<String> listOfFailedRecordsWithMsg = new Set<String>();

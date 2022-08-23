@@ -1,0 +1,45 @@
+<template>
+    <label class="slds-form-element__label" for="">{header}</label>
+    <template if:true={disablePicklist}>
+        <div
+            class="dropdown disabled"
+            onclick={toggleElement}
+            onfocusout={removeElementFocus}
+            tabindex="0"
+        >
+            <span class="dropdown-span">{placeHolder}</span>
+            <ul class="dropdown-menu" data-id="dropdown-menu">
+                <template for:each={optionsList} for:item="listViewItem">
+                    <li
+                        key={listViewItem.value}
+                        data-id={listViewItem.value}
+                        onclick={handlePicklistSelection}
+                    >
+                        <lightning-formatted-rich-text
+                            class="dropdown-span"
+                            value={listViewItem.label}
+                        ></lightning-formatted-rich-text>
+                    </li>
+                </template>
+            </ul></div
+    ></template>
+    <template if:false={disablePicklist}>
+        <div class="dropdown" onclick={toggleElement} onfocusout={removeElementFocus} tabindex="0">
+            <span class="dropdown-span">{placeHolder}</span>
+            <ul class="dropdown-menu" data-id="dropdown-menu">
+                <template for:each={optionsList} for:item="listViewItem">
+                    <li
+                        key={listViewItem.value}
+                        data-id={listViewItem.value}
+                        onclick={handlePicklistSelection}
+                    >
+                        <lightning-formatted-rich-text
+                            class="dropdown-span"
+                            value={listViewItem.label}
+                        ></lightning-formatted-rich-text>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </template>
+</template>

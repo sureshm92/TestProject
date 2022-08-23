@@ -1,0 +1,66 @@
+<template>
+    <section
+        role="dialog"
+        tabindex="-1"
+        aria-modal="true"
+        aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open"
+    >
+        <div class="slds-modal__container">
+            <div class="slds-grid unable-login-card-top"></div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-col unable-login-title">{labels.unableToLogin}</div>
+                    <div class="slds-col">
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="close"
+                            title="close"
+                            size="x-small"
+                            onclick={closeModal}
+                        >
+                        </lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin1}</span>
+                    <p class="slds-m-top_xx-small text-justify">
+                        {labels.unableToLogin2}&nbsp;
+                        <span class="font-thickness"
+                            ><a onclick={redirectToForgotPassword}>
+                                {labels.loginLinkForgot}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin3}
+                    </p>
+                </div>
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin4}</span>
+                    <p class="slds-m-top_xx-small text-justify">
+                        {labels.unableToLogin5}&nbsp;
+                        <span class="font-thickness"
+                            ><a href="mailto:support@mail.clinicalresearch.com ">
+                                {labels.unableToLogin6}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin7}
+                    </p>
+                </div>
+
+                <div class="slds-m-top_x-small">
+                    <span class="locked-out-txt">{labels.unableToLogin8}</span>
+                    <p class="slds-m-top_xx-small text-justify">
+                        {labels.unableToLogin9}&nbsp;
+                        <span class="font-thickness"
+                            ><a href="mailto:support@mail.clinicalresearch.com ">
+                                {labels.unableToLogin6}
+                            </a> </span
+                        >&nbsp; {labels.unableToLogin10}
+                    </p>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button btn-close" onclick={closeModal}>Close</button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

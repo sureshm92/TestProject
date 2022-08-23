@@ -1,0 +1,96 @@
+<template>
+    <template if:false={isLockOut}>
+        <div class="slds-grid slds-grid_align-center">
+            <div class="slds-col">
+                <div class="patient-care-txt">For Participants and Caregivers</div>
+                <div class="prof-clinical-txt">
+                    Connecting professionals, patients and clinical researchers for better
+                    healthcare.
+                </div>
+                <template if:true={inError}>
+                    <div class="login-validation" style="margin-top: -1em; margin-bottom: 0.5em">
+                        <img style={errorIconPosition} src={exclamation} />
+                        <span style={erroContainerPosition}>
+                            <lightning-formatted-rich-text
+                                class="error-container"
+                                value={errorMsg}
+                            ></lightning-formatted-rich-text>
+                        </span>
+                    </div>
+                </template>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="userName">{label.userName}</label>
+                    <div class="slds-form-element__control">
+                        <input
+                            type="text"
+                            data-id="userName"
+                            class={className}
+                            onkeyup={handleuserNameChange}
+                            onclick={handleClick}
+                        />
+                    </div>
+                    <label class="slds-form-element__label" for="password">{label.password}</label>
+                    <div class="slds-form-element__control">
+                        <input
+                            type={passwordInputType}
+                            data-id="password"
+                            class={className}
+                            onkeyup={handlepasswordChange}
+                        />
+                        <button class="slds-button slds-button_icon eye-icon" onclick={changeImgSrc}>
+                            <img class="" src={eyeHidden} style="" title="Show" />
+                        </button>
+                    </div>
+                    <button class="slds-button btn-login" onclick={handleLogin}>
+                        {label.login}
+                    </button>
+                    <div class="slds-grid forgot-unable-link">
+                        <div class="slds-col slds-size_6-of-12">
+                            <lightning-button
+                                variant="base"
+                                label={label.forgotPassword}
+                                onclick={handleForgotPassword}
+                                class="forgot-unable-pwd-txt font-thickness"
+                            >
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12">
+                            <lightning-button
+                                variant="base"
+                                label={label.unableToLogin}
+                                onclick={handleUnableToLogin}
+                                class="forgot-unable-pwd-txt unable-login font-thickness"
+                            >
+                            </lightning-button>
+                            <template if:true={showPopup}>
+                                <c-pp-unable-to-login
+                                    user-id={userNam}
+                                    onmodalclose={handleModalClose}
+                                ></c-pp-unable-to-login>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={isLockOut}>
+        <c-pplockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-pplockout>
+        <div class="slds-align_absolute-center unable-to-log-in">
+            <lightning-button
+                variant="base"
+                label={label.unableToLogin}
+                onclick={handleUnableToLogin}
+                class="forgot-unable-pwd-txt unable-login"
+            >
+            </lightning-button>
+        </div>
+        <template if:true={showPopup}>
+            <c-pp-unable-to-login
+                user-id={userNam}
+                onmodalclose={handleModalClose}
+            ></c-pp-unable-to-login>
+        </template>
+    </template>
+    <c-web-spinner fixed="true"></c-web-spinner>
+</template>

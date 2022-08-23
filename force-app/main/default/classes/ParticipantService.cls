@@ -1,4 +1,9 @@
 public without sharing class ParticipantService {
+    public static final List<Age_of_Majority__mdt> Age_Of_Majorities = [
+        SELECT Country_Code__c, State_Code__c, Age__c
+        FROM Age_of_Majority__mdt
+        ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
+    ];
     public class ParticipantServiceException extends Exception {
     }
 
@@ -57,6 +62,8 @@ public without sharing class ParticipantService {
         public List<Televisit_Record_Vendor__c> teleVendors;
         @AuraEnabled
         public Boolean isTeleVendorEnabled;
+        @AuraEnabled
+        public String loggedInUserName;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -72,6 +79,7 @@ public without sharing class ParticipantService {
             isTravelSupportEnabled = false;
             showTravelCardInPreEnrollment = false;
             showNonInitialVisits = false;
+            loggedInUserName = '';
         }
     }
 
@@ -202,6 +210,7 @@ public without sharing class ParticipantService {
         }
         participantState.welcomeMessage = getWelcomeMessage();
         participantState.communityName = UserContext.getCurrentCommunityName();
+        participantState.loggedInUserName=getLoggedInUserName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -317,6 +326,25 @@ public without sharing class ParticipantService {
         return ctp.Shareback_Settings_On_Country_Level__c &&
             (String.isBlank(ctp.Shareback_Settings_Countries__c) ||
             ctp.Shareback_Settings_Countries__c.containsIgnoreCase(countryCode));
+    }
+
+    @TestVisible
+    private String getLoggedInUserName(){
+        String userName;
+        List<Participant__c> participants = new List<Participant__c>();
+        if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
+            participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+        }
+        if (participants.size() == 0) {
+            userName = (String) CommunityService.getUserContact().get('Name');
+        } else {
+            userName = participants[0].Full_Name__c;
+        }
+        return userName;
     }
 
     @TestVisible
@@ -515,11 +543,7 @@ public without sharing class ParticipantService {
     public static List<Participant__c> checkParticipantsAgeOfMajority(
         List<Participant__c> participants
     ) {
-        List<Age_of_Majority__mdt> ageOfMajorities = [
-            SELECT Country_Code__c, State_Code__c, Age__c
-            FROM Age_of_Majority__mdt
-            ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
-        ];
+        List<Age_of_Majority__mdt> ageOfMajorities = Age_Of_Majorities;
 
         for (Participant__c prt : participants) {
             if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c))

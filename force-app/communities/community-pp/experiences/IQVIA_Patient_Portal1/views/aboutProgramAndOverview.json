@@ -1,0 +1,37 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:EmptyLayout",
+  "id" : "89f897ba-1c43-4548-9597-9dc1e9d7b276",
+  "label" : "About Program and Overview",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:pageProgramOverviewDetails",
+      "id" : "10186252-4487-4f86-9bac-bc59be5b6511",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "37e05b6a-9df6-4254-8f1d-76846c293930",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "About Program and Overview"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c155c240-eefd-4288-a5bd-5103804c5eaf",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "555675bb-3329-4181-b440-22875cd938ff",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-about-program-and-overview"
+}

@@ -11,6 +11,8 @@
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="communityName" type="String" />
+
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -19,7 +21,12 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true" />
     <aura:if isTrue="{!v.initialized}">
         <aura:if isTrue="{!v.userMode == 'Participant'}">
-            <c:HomePageParticipant />
+            <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
+                <c:homePageParticipantNew/>
+            <aura:set attribute="else">
+                <c:HomePageParticipant />
+            </aura:set>
+            </aura:if>
         </aura:if>
         <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'PI')}">
             <c:StudyListView />

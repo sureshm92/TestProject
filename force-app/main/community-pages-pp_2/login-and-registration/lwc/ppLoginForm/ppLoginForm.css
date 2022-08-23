@@ -1,0 +1,163 @@
+
+.patient-care-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    margin: 16px 0 16px 0;
+}
+.prof-clinical-txt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    margin: 16px 0 24px 0;
+}
+.slds-form-element__label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+}
+.input-field-container {
+    box-sizing: border-box;
+    height: 32px;
+    width: 318px;
+    border-radius: 16px;
+    padding-right: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin-bottom: 28px;
+}
+
+.input-field-container-error {
+    border-color: #e20000;
+    box-sizing: border-box;
+    height: 32px;
+    width: 318px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin-bottom: 28px;
+}
+.btn-login {
+    width: 318px;
+    color: #ffffff;
+    border-radius: 16px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    margin: 22px 0 0 0;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+}
+.eye-icon {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+}
+.eye-icon img {
+    height: 14.34px;
+    width: 15.67px;
+    opacity: 0.5;
+}
+.unable-login {
+    float: right;
+}
+.forgot-unable-link {
+    margin: 16px 0 0 0;
+}
+.forgot-unable-pwd-txt {
+    height: 19px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    line-height: 19px;
+}
+.login-validation {
+    display: flex;
+    border: 1px solid #e20000;
+    border-radius: 8px;
+    background: #fde5e5;
+    padding: 8px;
+}
+.login-validation img {
+    margin-left: 0;
+}
+.error-container {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    height: 16px;
+    width: 16px;
+    border: 1px solid #b5b5b5;
+    border-radius: 2px;
+    background-color: #ffffff;
+}
+.checkbox-container:hover input ~ .checkmark {
+    background-color: white;
+    cursor: pointer;
+}
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #0768fd;
+}
+.checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+.checkbox-container .checkmark:after {
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.slds-checkbox__label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+}
+.unable-to-log-in {
+    height: 19px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: center;
+    margin-top: 1.5rem;
+    cursor: default;
+}

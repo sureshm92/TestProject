@@ -1,0 +1,14 @@
+.prof-img-icon {
+    display: inline-flex;
+}
+.caret-icon {
+    margin: 5px 0px 0px 10px;
+}
+.down-icon {
+    --sds-c-icon-color-foreground-default: #ffffff;
+}
+@media all and (max-width: 768px) {
+    .caret-icon {
+        display: none;
+    }
+}

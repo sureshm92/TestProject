@@ -1,0 +1,136 @@
+/* style for the css menu dropdown container */
+.dropdown {
+    display: flex;
+    position: absolute;
+    left: 15px;
+    align-items: center;
+    width: 281px;
+    height: 2rem;
+    color: #000;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.25rem;
+    padding: 0 0.25rem 0 0.5rem;
+    background: #fff;
+    font-size: 1rem;
+}
+
+.dropdown:after {
+    content: '';
+    background: url(/resource/1571137334000/SelectMenuTriangleDown);
+    position: relative;
+    top: 0;
+    right: 10px;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+    z-index: inherit 20000;
+}
+
+/* style for the dropdown box */
+.dropdown-menu {
+    width: 281px;
+    max-height: 200px !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 1rem 0 0.5rem;
+    position: absolute;
+    z-index: 1;
+    top: 1.5rem;
+    left: -1px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+    box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    display: none !important;
+}
+
+.dropdown-menu:before {
+    position: absolute;
+    left: 1rem;
+    top: 0rem;
+    color: #999;
+}
+
+.dropdown-menu li .dropdown-span {
+    display: block;
+    color: #000;
+    padding: 0.5rem 1rem;
+    display: block !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+}
+
+.dropdown-menu li:first-child {
+    padding-top: 0rem;
+}
+
+.dropdown-menu li:last-child {
+    padding-bottom: 1rem;
+}
+
+.dropdown-menu li:hover {
+    background: #ecf3ff;
+    transition: 0.25s;
+}
+
+.dropdown:focus,
+.dropdown-menu:focus {
+    outline: none;
+}
+
+.active {
+    display: block !important;
+}
+
+.dropdown-span {
+    display: block;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 249px;
+}
+.disabled {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    pointer-events: none;
+}
+
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+}
+
+/* Scroll bar custom */
+.THIS ::-webkit-scrollbar {
+    width: 5px;
+}
+
+.THIS ::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.THIS ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
+}

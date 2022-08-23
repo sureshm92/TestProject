@@ -1,0 +1,30 @@
+.curr-mode-delg-title {
+    height: 40px;
+    width: 265px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.curr-mode-self-title {
+    height: 40px;
+    color: #444444;
+    font-size: 16px;
+    font-weight: bold;
+}
+.my-icon {
+    --sds-c-icon-color-foreground-default: #0768fd;
+}
+.delegate-item {
+    height: 57px;
+    width: 265px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.participant-delegate-email {
+    color: #999999;
+    font-size: 14px;
+}
+.delegate-details {
+    font-weight: bold;
+}
