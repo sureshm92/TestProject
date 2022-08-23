@@ -27469,7 +27469,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_CountryConstent</shortDescription>
-        <value>By checking this box, you confirm that your participant and/or participant&apos;s guardian country of residence is same as the study team member while enrolling into the study .Any discrepeancy found here will result in participant record not added into the study.</value>
+        <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records will not be added.</value>
     </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
