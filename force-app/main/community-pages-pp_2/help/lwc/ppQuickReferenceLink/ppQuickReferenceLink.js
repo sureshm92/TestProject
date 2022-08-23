@@ -10,7 +10,7 @@ import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 
 export default class PpQuickReferenceLink extends LightningElement {
     videoLink;
-    userMode;
+    @api userMode;
     userManual;
     quickReference;
     yearOfBirthPicklistvalues;
