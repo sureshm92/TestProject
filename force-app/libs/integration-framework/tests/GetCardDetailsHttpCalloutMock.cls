@@ -7,20 +7,21 @@ public with sharing class GetCardDetailsHttpCalloutMock implements HttpCalloutMo
     public  GetCardDetailsHttpCalloutMock  (Integer in_rescode){
         rescode=in_rescode;
     }
-    public  GetCardDetailsHttpCalloutMock (){
-
-    }
+    /*public  GetCardDetailsHttpCalloutMock (integer rescode){
+    this.rescode= rescode;
+    }*/
     public HttpResponse respond(HttpRequest request) {
         HttpResponse response = new HttpResponse();
         response.setHeader('Content-Type', 'application/json');
         response.setBody('[{"balance": 3053.47, "status": "active"},{"balance": 747.42, "status": "replaced"}]');
-       if (rescode==null){
-        rescode=200;
+       integer rcode=rescode;
+       if (rcode==null){
+           rcode=200;
        }else{
            response.setStatus('Internal Server Error');
        }
 
-        response.setStatusCode(rescode);
+        response.setStatusCode(rcode);
         return response;
     }
 }
