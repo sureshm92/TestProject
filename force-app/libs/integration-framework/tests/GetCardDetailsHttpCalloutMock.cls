@@ -14,14 +14,13 @@ public with sharing class GetCardDetailsHttpCalloutMock implements HttpCalloutMo
         HttpResponse response = new HttpResponse();
         response.setHeader('Content-Type', 'application/json');
         response.setBody('[{"balance": 3053.47, "status": "active"},{"balance": 747.42, "status": "replaced"}]');
-       integer rcode=rescode;
-       if (rcode==null){
-           rcode=200;
+       if (rescode==null){
+           rescode=200;
        }else{
            response.setStatus('Internal Server Error');
        }
 
-        response.setStatusCode(rcode);
+        response.setStatusCode(rescode);
         return response;
     }
 }
