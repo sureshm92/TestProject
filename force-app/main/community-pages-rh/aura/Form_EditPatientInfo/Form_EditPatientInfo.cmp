@@ -222,7 +222,7 @@
                         </aura:if>
                     </aura:if>
                     <div
-                         class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
+                         class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4 container' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8 container'}"
                          >
                         <div class="label">
                             <abbr title="required" class="slds-required">*</abbr
