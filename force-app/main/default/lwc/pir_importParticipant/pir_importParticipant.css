@@ -175,7 +175,7 @@
     margin-left: -2px
 }
 .country-margin{
-    margin-top: 17px
+    margin-bottom: 17px
 }
 .isocssunderline:focus {
     color: var(--lwc-colorTextLinkActive,#135F90);
