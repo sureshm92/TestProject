@@ -1,0 +1,12 @@
+<template>
+    <div class="slds-form-element__control">
+        <c-pp-web-select
+            is-r-t-l={isRTL}
+            label-hidden="true"
+            place-holder={labels.PP_SELECT_FAQ}
+            options={helpTopicOptions}
+            onchangevalue={handleQueryChange}
+        ></c-pp-web-select>
+    </div>
+    <template if:true={selectedTopicSetting}>{selectedTopicSetting.displaySolution}</template>
+</template>
