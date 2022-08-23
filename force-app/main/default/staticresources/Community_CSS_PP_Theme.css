@@ -41,8 +41,17 @@
     height: 2rem !important;
     box-sizing: border-box !important;
     border: 1px solid #d9d9d9 !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+}
+
+.profile-info-btn .slds-button{
+    height: 2rem !important;
+    width:6rem !important;
+    border-radius: 16px !important;
+    background-color: #0768FD !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32) !important;
+    
 }
 
 .profile-info-error-input .slds-input{
@@ -72,7 +81,9 @@
 .font-thickness {
     font-weight: 500;
 }
-
+.rr-width-limiter.side-padding {
+    padding-top: 0px !important;
+}
 @media (max-width: 500px){
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;

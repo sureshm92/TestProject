@@ -902,7 +902,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     handleUpdatePerson() {
         updatePerson({ wrapperJSON: JSON.stringify(this.personWrapper) })
             .then((result) => {
-                this.spinner.hide();
                 this.showToast(this.labels.DATA_UPDATE, this.labels.DATA_UPDATE, 'success');
                 setTimeout(() => {
                     this.reInitializePage();
@@ -917,6 +916,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     reInitializePage() {
         this.initializeHasFieldError();
         this.initializeData();
+        this.spinner.hide();
     }
 
     initializeHasFieldError() {
