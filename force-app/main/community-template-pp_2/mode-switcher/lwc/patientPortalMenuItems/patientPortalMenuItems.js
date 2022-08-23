@@ -10,7 +10,6 @@ import program from '@salesforce/label/c.PP_Program';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PatientPortalMenuItems extends LightningElement {
-    participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
     @api allModes;
     @api user;
     @api pickListOptions = [];
