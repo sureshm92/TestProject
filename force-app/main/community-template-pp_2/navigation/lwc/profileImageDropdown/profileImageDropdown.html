@@ -13,8 +13,17 @@
             </template>
             <template if:false={hasProfilePic}>
                 <div title={fullName}>
-                    <c-web-icon color="white" svg-class="small-avatar" icon-name={profileIconName}>
-                    </c-web-icon>
+                    <template if:true={isDelegate}>
+                        <span><img src={icon_url} /></span>
+                    </template>
+                    <template if:false={isDelegate}>
+                        <c-web-icon
+                            color="white"
+                            svg-class="small-avatar"
+                            icon-name={profileIconName}
+                        >
+                        </c-web-icon>
+                    </template>
                 </div>
             </template>
         </span>

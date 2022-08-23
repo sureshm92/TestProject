@@ -1,0 +1,55 @@
+<template>
+    <div class="slds-section slds-is-close" data-id="section-container">
+        <!--Section Header-->
+        <h6 class="slds-section__title">
+            <a aria-controls="tasksList" onclick={toggleSection}>
+                <span class="title-text" title={labels.DELEGATE_TASK}>{labels.DELEGATE_TASK}</span>
+                <span class="slds-p-horizontal_small">
+                    <lightning-icon
+                        icon-name="utility:chevrondown"
+                        size="xx-small"
+                        class="slds-section__title-action-icon slds-button__icon_left section-icon"
+                        alternative-text="button icon"
+                    ></lightning-icon>
+                </span>
+            </a>
+        </h6>
+        <!--Section Body-->
+        <div class="slds-section__content slds-p-top_none" id="tasksList">
+            <span>
+                <!--Delegate Tasks List-->
+                <ul class={listClass}>
+                    <template for:each={accessList} for:item="access">
+                        <li class="task-item" key={access.value}>
+                            <div
+                                class="slds-grid slds-wrap slds-grid slds-wrap slds-grid_vertical-align-center"
+                            >
+                                <div
+                                    class="slds-col slds-size_1-of-12-custom slds-p-horizontal_none"
+                                >
+                                    <span>
+                                        <lightning-icon
+                                            icon-name="utility:record"
+                                            size="xx-small"
+                                            class="bullet-icon slds-m-right_x-small"
+                                            alternative-text="bullet icon"
+                                        ></lightning-icon>
+                                    </span>
+                                </div>
+                                <div
+                                    class="slds-col slds-size_11-of-12-custom slds-p-horizontal_none"
+                                >
+                                    <span class="task-list-text">{access.label}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+                <!--Task Condition-->
+                <div class="conditional-feature slds-p-top_small slds-m-horizontal_small">
+                    {labels.CONDITIONAL_FEATURE}
+                </div>
+            </span>
+        </div>
+    </div>
+</template>

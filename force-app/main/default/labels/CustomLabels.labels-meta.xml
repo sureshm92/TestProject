@@ -27499,4 +27499,84 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Profile Information</shortDescription>
         <value>Profile Information</value>
     </labels>
+    <labels>
+        <fullName>PP_AS_COMPLETE_TASK</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_COMPLETE_TASK</shortDescription>
+        <value>Complete tasks on your behalf</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_RECEIVE_EMAIL</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_RECEIVE_EMAIL</shortDescription>
+        <value>Receive emails about your program status</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_LAB_RESULTS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_LAB_RESULTS</shortDescription>
+        <value>See your lab results</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_VITALS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_VITALS</shortDescription>
+        <value>See your vitals</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_MEASUREMENTS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_MEASUREMENTS</shortDescription>
+        <value>See your measurements</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE</shortDescription>
+        <value>*all features may not be available for each program</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Header</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Header</shortDescription>
+        <value>##PatientFirstName ##PatientLastName has designated you as their delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Remove</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Remove</shortDescription>
+        <value>You are about to remove yourself from the Delegate list. This action cannot be undone. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DelegateTasks</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DelegateTasks</shortDescription>
+        <value>What can I see or do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Removed</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Removed</shortDescription>
+        <value>You have been succesfully removed from the Delegates list</value>
+    </labels>
 </CustomLabels>
