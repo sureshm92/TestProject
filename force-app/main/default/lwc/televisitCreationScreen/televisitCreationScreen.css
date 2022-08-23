@@ -388,11 +388,17 @@ textdecoration {
         width: 100%;
     }
     .notify-img{
-        width: 28px !important;
+        width: 32px !important;
     }
     
     .alert-img{
         width: 100px !important;
+    }
+    div.mainSpinnerHolder::-webkit-scrollbar {
+        width: 0px;
+    }
+    .tv_label{
+        text-align: left;
     }
 }
 

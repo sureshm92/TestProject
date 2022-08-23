@@ -81,6 +81,7 @@ isStudyPPEnabled = false;
 disablePatientInvite = true;
 isDataLoading = false;
 isCountryCheck=false;
+countryDisable=true;
 isFileLoadedComplete = false;
 visitPlanAvailable = false;
 visitPlanDisabled = false;
@@ -158,6 +159,7 @@ connectedCallback() {
                     this.importParticipantStatus = participentStatuses;
                 }
                 this.shouldDisableImportStatus = false; 
+                this.countryDisable=false;
                 this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
                 if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
                         &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
@@ -335,11 +337,13 @@ studyhandleChange(event) {
     this.studySiteList = options;
     this.selectedSite = '';
     this.shouldDisableImportStatus = true;
+    this.countryDisable=true;
     this.studysiteaccess = false;
     this.visitPlanAvailable = false;
     this.selectedStatus = '';
     this.isDataLoading = false;
     this.visitPlanRequired = false;
+    this.isCountryCheck=false;
     this.toggleImportButton();
 
 }
@@ -380,6 +384,7 @@ studysitehandleChange(event) {
             }
             
             this.shouldDisableImportStatus = false; 
+            this.countryDisable=false;
             if(this.template.querySelector("c-consent-manager"))
             {
                 this.template.querySelector("c-consent-manager").resetConsents();

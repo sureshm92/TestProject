@@ -8,23 +8,18 @@
 
   <template if:true={isMedicalDataLoaded} class="slds-is-relative">
     <div class={maindivcls}>
-    <div
-      class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll "
-    >
-      <div
-        class="slds-grid slds-wrap slds-gutters slds-p-left_medium slds-p-left_x-small slds-p-right_x-small p-left-right"
-      >
-        <div class="slds-col slds-size--1-of-1 slds-m-top_small">
-          <div class="step-card-title slds-m-bottom_small">{label.pir_Medical_General}</div>
-          <div
-            class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12 slds-m-bottom_small slds-p-around_none"
-          >
-            <div class="slds-grid slds-wrap slds-gutters">
-              <div
-                class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-m-bottom_small"
-              >
-                <div class="slds-form-element">
-                  <!-- <label class="slds-form-element__label" for="form-element-01"> {label.BMI} 
+      <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-1 vertical-scroll ">
+        <div
+          class="slds-grid slds-wrap slds-gutters slds-p-left_medium slds-p-left_x-small slds-p-right_x-small p-left-right">
+          <div class="slds-col slds-size--1-of-1 slds-m-top_small">
+            <div class="step-card-title slds-m-bottom_small">{label.pir_Medical_General}</div>
+            <div
+              class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12 slds-m-bottom_small slds-p-around_none">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div
+                  class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-m-bottom_small">
+                  <div class="slds-form-element">
+                    <!-- <label class="slds-form-element__label" for="form-element-01"> {label.BMI} 
                   <span class="tooltip"> 
                     
                         <lightning-icon icon-name="utility:info" size="xx-small" alternative-text="info" title="info" class="icon-w-info"></lightning-icon>
@@ -32,714 +27,474 @@
                    
                   </span>  
                  </label> -->
-                 <label
-                 class="slds-form-element__label BMIclass slds-truncate rtl-width"
-                 title={label.BMI}
-               >
-                 {label.BMI}
-                 <lightning-helptext
-                   class="info-icon bmihelptext"
-                   content={label.pir_BmiHelptext}
-                 ></lightning-helptext>
-               </label>
-                  <div class="slds-form-element__control lgthninginput">
-                   <lightning-input type="text"   name="BMI" class="inputcmp"  value={returnpervalue.BMI} onblur={handlevalueupdateBMI} 
-                    >
-                  </lightning-input> 
-                  </div> 
-                  
-                </div>
-              </div>
-              <div
-                class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-large-size_2-of-12 slds-m-bottom_small"
-              >
-                <label class="slds-form-element__label" for="High Risk">
-                  {label.High_Risk}
-                </label>
-                <lightning-input
-                  type="checkbox"
-                  label=""
-                  name="HighRisk"
-                  checked={returnpervalue.HighRisk}
-                  onchange={handlevalueupdateRisk}
-                ></lightning-input>
-              </div>
-              <div
-                class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small p-left-none"
-              >
-                <label class="slds-form-element__label" for="High Priority">
-                  {label.High_Priority}
-                </label>
-                <lightning-input
-                  type="checkbox"
-                  label=""
-                  name="Highpriority"
-                  checked={returnpervalue.Highpriority}
-                  onchange={handlevalueupdatePriority}
-                ></lightning-input>
-              </div>
-            </div>
-          </div>
-          <div
-            class="slds-col slds-size_1-of-2 slds-medium-size_1-of-12 slds-large-size_1-of-12"
-          ></div>
-        </div>
-        <!-- General End  -->
-        <div class="slds-col slds-size--1-of-1 slds-m-bottom_x-small">
-          <div class="step-card-title slds-m-bottom_xxx-small">
-            {label.RH_Comorbidities}
-          </div>
-          <div class="slds-grid slds-wrap slds-gutters">
-            <div
-              class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-            >
-              <div class="slds-form-element">
-                <div
-                  class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left"
-                >
-                  <lightning-icon
-                    icon-name="utility:search"
-                    size="x-small"
-                    alternative-text="search"
-                    title="search"
-                    class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default icon-opacity icon-search"
-                  ></lightning-icon>
+                    <label class="slds-form-element__label BMIclass slds-truncate rtl-width" title={label.BMI}>
+                      {label.BMI}
+                      <lightning-helptext class="info-icon bmihelptext" content={label.pir_BmiHelptext}>
+                      </lightning-helptext>
+                    </label>
+                    <div class="slds-form-element__control lgthninginput">
+                      <lightning-input type="text" name="BMI" class="inputcmp" value={returnpervalue.BMI}
+                        onblur={handlevalueupdateBMI}>
+                      </lightning-input>
+                    </div>
 
-                  <lightning-input
-                    type="text"
-                    id="searchText2"
-                    placeholder={label.pir_Medical_Search_Commorbidity}
-                    data-name="searchcomm"
-                    onchange={getFilterRecord}
-                    onblur={hideFilterRecord}
-                  ></lightning-input>
-                </div>
-              </div>
-            </div>
-            <template if:true={commorbityshowresult}>
-              <div
-                id="listbox-id-1"
-                class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid searchresult commorverticalScroll"
-                role="listbox"
-              >
-                <ul
-                  class="slds-listbox slds-listbox_vertical"
-                  role="presentation"
-                >
-                  <template for:each={filterRecord} for:item="record">
-                    <li
-                      key={record.Id}
-                      onclick={onSelect}
-                      data-id={record.Id}
-                      data-key={record.Id}
-                      role="presentation"
-                      data-name={record.Name}
-                    >
-                      <span
-                        class="slds-lookup__item-action slds-lookup__item-action--label commorditysearch"
-                        role="option"
-                      >
-                        <lightning-icon
-                          class="slds-icon slds-icon--small slds-icon-text-default"
-                          size="small"
-                        ></lightning-icon>
-                        <span
-                          class="slds-truncate"
-                          title={record.Comorbidity_Name__c}
-                          >{record.Comorbidity_Name__c}</span
-                        >
-                      </span>
-                    </li>
-                  </template>
-                </ul>
-              </div>
-            </template>
-
-            <template if:false={isComorbidityLoad}>
-              <lightning-spinner alternative-text="Loading..." variant="brand">
-              </lightning-spinner>
-            </template>
-            <div
-              class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small"
-            >
-              <template
-                for:each={returnpervalue.lstComorbidities}
-                for:item="comordity"
-              >
-                <div class="Search-result" key={comordity.Id}>
-                  <div class="selectedValue">
-                    <span
-                      class="com-width slds-truncate"
-                      title={comordity.Comorbidity_Name__c}
-                    >
-                      {comordity.Comorbidity_Name__c}
-                    </span>
-                    <span>
-                      <lightning-icon
-                        icon-name="utility:clear"
-                        size="x-small"
-                        class="close-icon icon-opacity"
-                        data-id={comordity.Id}
-                        data-key={comordity.Id}
-                        onclick={removecomorbidity}
-                      ></lightning-icon>
-                    </span>
                   </div>
                 </div>
-                <!-- Search-result -->
-              </template>
-            </div>
-          </div>
-        </div>
-        <!-- Comorbidities End -->
-    
-
-        <div
-          class="slds-col slds-size--1-of-1 slds-m-bottom_x-small slds-m-top_xx-small"
-        >
-          <ul class="slds-accordion">
-            <li class="slds-accordion__list-item">
-              <section
-                class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top"
-              >
-                <div class="slds-accordion__summary medicalHistoryAccBg">
-                  <h2 class="slds-accordion__summary-heading">
-                    <button
-                      class="slds-button slds-button_reset slds-accordion__summary-action"
-                      data-name="medicalHistoryAcc"
-                      aria-controls="referenceId-42"
-                      aria-expanded="true"
-                      onclick={toggleAccordian}
-                    >
-                      <lightning-icon
-                        class="medicalHistoryAcc"
-                        icon-name="utility:chevronright"
-                        size="xx-small"
-                        alternative-text="Home"
-                      ></lightning-icon>
-                      <lightning-icon
-                        class="medicalHistoryAcc slds-hide"
-                        icon-name="utility:chevrondown"
-                        size="xx-small"
-                        alternative-text="Home"
-                      ></lightning-icon>
-                      <span
-                        class="slds-accordion__summary-content active-accordion slds-p-left_x-small"
-                        >{label.pir_MedicalHistory}</span
-                      >
-                    </button>
-                  </h2>
+                <div
+                  class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-large-size_2-of-12 slds-m-bottom_small">
+                  <label class="slds-form-element__label text-overflow" for="High Risk" title={label.High_Risk}>
+                    {label.High_Risk}
+                  </label>
+                  <lightning-input type="checkbox" label="" name="HighRisk" checked={returnpervalue.HighRisk}
+                    onchange={handlevalueupdateRisk}></lightning-input>
                 </div>
                 <div
-                  class="slds-m-top_small medicalHistoryAcc slds-hide"
-                  id="referenceId-42"
-                >
-                  <!-- Medical History -->
-                  <!-- citizen functionality start
-                                  -->
-                  <template if:true={returnpervalue.selectedPER.Study_Site__r.Medical_Record_Upload__c}>
-                  <div class="slds-grid slds-wrap slds-gutters">
-                    <div
-                      class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-                    >
-                      <p class="medical-record slds-m-top_xx-small">
-                        <strong> {label.Participant_Medical_History} </strong>
-                      </p>
-                    </div>
-                    <template
-                      if:false={isFilesRetrieved}
-                      class="slds-is-relative"
-                    >
-                      <lightning-spinner
-                        alternative-text="Loading..."
-                        variant="brand"
-                      >
-                      </lightning-spinner>
-                    </template>
-                    <div
-                      class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix"
-                    >
-                      <button
-                        class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small slds-float_right stretch-btn"
-                        onclick={renderModel}
-                      >
-                        <img class="upload-icon" src={upload} />
-                        {label.pir_MedicalImport_header}
-                      </button>
-                    </div>
+                  class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small p-left-none">
+                  <label class="slds-form-element__label margintocheckbox" for="High Priority">
+                    {label.High_Priority}
+                  </label>
+                  <lightning-input type="checkbox" label="" name="Highpriority" checked={returnpervalue.Highpriority}
+                    onchange={handlevalueupdatePriority}></lightning-input>
+                </div>
+              </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-12 slds-large-size_1-of-12"></div>
+          </div>
+          <!-- General End  -->
+          <div class="slds-col slds-size--1-of-1 slds-m-bottom_x-small">
+            <div class="step-card-title slds-m-bottom_xxx-small">
+              {label.RH_Comorbidities}
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters">
+              <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                <div class="slds-form-element">
+                  <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                    <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search"
+                      class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default icon-opacity icon-search">
+                    </lightning-icon>
 
-                    <template if:true={ismodelPopup}>
-                      <c-pir_uploadmedicaldocument
-                        maindivcls={popupcls}
-                        uploadonid={returnpervalue.selectedPER.Participant__c}
-                        onclosemodelpopup={renderModel}
-                      ></c-pir_uploadmedicaldocument>
+                    <lightning-input type="text" id="searchText2" placeholder={label.pir_Medical_Search_Commorbidity}
+                      data-name="searchcomm" onchange={getFilterRecord} onblur={hideFilterRecord}></lightning-input>
+                  </div>
+                </div>
+              </div>
+              <template if:true={commorbityshowresult}>
+                <div id="listbox-id-1"
+                  class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid searchresult commorverticalScroll"
+                  role="listbox">
+                  <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                    <template for:each={filterRecord} for:item="record">
+                      <li key={record.Id} onclick={onSelect} data-id={record.Id} data-key={record.Id}
+                        role="presentation" data-name={record.Name}>
+                        <span class="slds-lookup__item-action slds-lookup__item-action--label commorditysearch"
+                          role="option">
+                          <lightning-icon class="slds-icon slds-icon--small slds-icon-text-default" size="small">
+                          </lightning-icon>
+                          <span class="slds-truncate"
+                            title={record.Comorbidity_Name__c}>{record.Comorbidity_Name__c}</span>
+                        </span>
+                      </li>
                     </template>
-                    <template if:true={isfileAvailable}>
-                      <template
-                        for:each={medicalHistoryRecord.attachments}
-                        for:item="attach"
-                      >
+                  </ul>
+                </div>
+              </template>
+
+              <template if:false={isComorbidityLoad}>
+                <lightning-spinner alternative-text="Loading..." variant="brand">
+                </lightning-spinner>
+              </template>
+              <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small">
+                <template for:each={returnpervalue.lstComorbidities} for:item="comordity">
+                  <div class="Search-result" key={comordity.Id}>
+                    <div class="selectedValue">
+                      <span class="com-width slds-truncate" title={comordity.Comorbidity_Name__c}>
+                        {comordity.Comorbidity_Name__c}
+                      </span>
+                      <span>
+                        <lightning-icon icon-name="utility:clear" size="x-small" class="close-icon icon-opacity"
+                          data-id={comordity.Id} data-key={comordity.Id} onclick={removecomorbidity}></lightning-icon>
+                      </span>
+                    </div>
+                  </div>
+                  <!-- Search-result -->
+                </template>
+              </div>
+            </div>
+          </div>
+          <!-- Comorbidities End -->
+
+
+          <div class="slds-col slds-size--1-of-1 slds-m-bottom_x-small slds-m-top_xx-small">
+            <ul class="slds-accordion">
+              <li class="slds-accordion__list-item">
+                <section class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top">
+                  <div class="slds-accordion__summary medicalHistoryAccBg">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                        data-name="medicalHistoryAcc" aria-controls="referenceId-42" aria-expanded="true"
+                        onclick={toggleAccordian}>
+                        <lightning-icon class="medicalHistoryAcc" icon-name="utility:chevronright" size="xx-small"
+                          alternative-text="Home"></lightning-icon>
+                        <lightning-icon class="medicalHistoryAcc slds-hide" icon-name="utility:chevrondown"
+                          size="xx-small" alternative-text="Home"></lightning-icon>
+                        <span
+                          class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{label.pir_MedicalHistory}</span>
+                      </button>
+                    </h2>
+                  </div>
+                  <div class="slds-m-top_small medicalHistoryAcc slds-hide" id="referenceId-42">
+                    <!-- Medical History -->
+                    <!-- citizen functionality start
+                                  -->
+                    <template if:true={returnpervalue.selectedPER.Study_Site__r.Medical_Record_Upload__c}>
+                      <div class="slds-grid slds-wrap slds-gutters">
                         <div
-                          class="slds-truncate slds-col slds-size_11-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-                          key={attach.attachment.Id}
-                        >
-                          <a
-                            class="attachtitle"
-                            onclick={openModelpopup}
-                            title={attach.attachment.Title}
-                            data-name={attach.attachment.Title}
-                            data-extension={attach.attachment.FileExtension}
-                            data-id={attach.attachment.Id}
-                            data-content={attach.attachment.ContentSize}
-                            >{attach.attachment.Title}</a
-                          >
+                          class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                          <p class="medical-record slds-m-top_xx-small">
+                            <strong> {label.Participant_Medical_History} </strong>
+                          </p>
                         </div>
+                        <template if:false={isFilesRetrieved} class="slds-is-relative">
+                          <lightning-spinner alternative-text="Loading..." variant="brand">
+                          </lightning-spinner>
+                        </template>
                         <div
-                          class="slds-col slds-size_9-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small"
-                          key={attach.attachment.Id}
-                        >
-                          <div class="doc-date-time">
-                            <strong> {attach.attachment.CreatedDate}</strong>
-                          </div>
+                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix">
+                          <button
+                            class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small slds-float_right stretch-btn"
+                            onclick={renderModel}>
+                            <img class="upload-icon" src={upload} />
+                            {label.pir_MedicalImport_header}
+                          </button>
                         </div>
-                        <div 
-                        class="slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 slds-m-bottom_small"
-                        key={attach.attachment.Id}
-                        >
-                        <div class="slds-grid slds-wrap">
-                          <div class=" slds-size_1-of-3">
-                          <div  if:true={attach.isDeleteAllowed} >
-                              <span class="slds-p-left_medium p-right">
-                                <img class="download-icon m-icon" 
-                                src={deleteIcon}
-                                onclick={DeleteFile}
-                                data-id={attach.attachment.Id}
-                                />
-                            </span>
-                          </div>
-                          </div>
-                          <div class=" slds-size_1-of-3"></div>
-                          <template if:true={ismodelDeletePopup}>
-                            <c-pir_deletemedicaldocument
-                              maindivcls={popupcls}
-                              deleteid={deleteId}
-                              onclosemodelpopupanddelete={deleteAndCloseModal}
-                            ></c-pir_deletemedicaldocument>
-                          </template>
-                          <div class="slds-float_right slds-size_1-of-3">
-                            <span class="slds-p-left_medium p-right">
-                              <a
-                                href={fileDownloadLink}
-                                target="_blank"
-                                download={attach.attachment.Title}
-                                data-id={attach.attachment.Id}
-                                data-url={medicalHistoryRecord.baseURL}
-                              >
-                                <img
-                                  class="download-icon"
-                                  title={label.PIR_Download}
-                                  onclick={DownloadFile}
-                                  data-id={attach.attachment.Id}
-                                  src={download}
-                                />
-                              </a>
-                            </span>
-                          </div>
-                        </div>    
-                        </div>
-                      </template>
-                    </template>
-                    <template if:true={openmodel}>
-                      <div
-                        class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop"
-                      >
-                        <div class="slds-modal__container setW">
-                          <div class="slds-modal__header">
-                            <b>{label.BulkImport_File_Name} : {fileName}</b>
-                            <button
-                              class="slds-button slds-modal__close slds-button--icon"
-                              title="Close"
-                              onclick={closeModal}
-                            >
-                              <lightning-icon
-                                icon-name="utility:close"
-                                size="small"
-                              >
-                              </lightning-icon>
-                            </button>
-                          </div>
-                          <div
-                            class="slds-modal__content slds-p-around--small slds-grid slds-wrap"
-                          >
-                            <!--  Write Your Content here  -->
+
+                        <template if:true={ismodelPopup}>
+                          <c-pir_uploadmedicaldocument maindivcls={popupcls}
+                            uploadonid={returnpervalue.selectedPER.Participant__c} onclosemodelpopup={renderModel}>
+                          </c-pir_uploadmedicaldocument>
+                        </template>
+                        <template if:true={isfileAvailable}>
+                          <template for:each={medicalHistoryRecord.attachments} for:item="attach">
                             <div
-                              class="slds-align_absolute-center"
-                            >
-                              <span>
-                                <iframe
-                                  style="
+                              class="slds-truncate slds-col slds-size_11-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
+                              key={attach.attachment.Id}>
+                              <a class="attachtitle" onclick={openModelpopup} title={attach.attachment.Title}
+                                data-name={attach.attachment.Title} data-extension={attach.attachment.FileExtension}
+                                data-id={attach.attachment.Id}
+                                data-content={attach.attachment.ContentSize}>{attach.attachment.Title}</a>
+                            </div>
+                            <div
+                              class="slds-col slds-size_9-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small"
+                              key={attach.attachment.Id}>
+                              <div class="doc-date-time">
+                                <strong> {attach.attachment.CreatedDate}</strong>
+                              </div>
+                            </div>
+                            <div
+                              class="slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 slds-m-bottom_small"
+                              key={attach.attachment.Id}>
+                              <div class="slds-grid slds-wrap">
+                                <div class=" slds-size_1-of-3">
+                                  <div if:true={attach.isDeleteAllowed}>
+                                    <span class="slds-p-left_medium p-right">
+                                      <img class="download-icon m-icon" src={deleteIcon} onclick={DeleteFile}
+                                        data-id={attach.attachment.Id} />
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class=" slds-size_1-of-3"></div>
+                                <template if:true={ismodelDeletePopup}>
+                                  <c-pir_deletemedicaldocument maindivcls={popupcls} deleteid={deleteId}
+                                    onclosemodelpopupanddelete={deleteAndCloseModal}></c-pir_deletemedicaldocument>
+                                </template>
+                                <div class="slds-float_right slds-size_1-of-3">
+                                  <span class="slds-p-left_medium p-right">
+                                    <a href={fileDownloadLink} target="_blank" download={attach.attachment.Title}
+                                      data-id={attach.attachment.Id} data-url={medicalHistoryRecord.baseURL}>
+                                      <img class="download-icon" title={label.PIR_Download} onclick={DownloadFile}
+                                        data-id={attach.attachment.Id} src={download} />
+                                    </a>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                        </template>
+                        <template if:true={openmodel}>
+                          <div class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop">
+                            <div class="slds-modal__container setW">
+                              <div class="slds-modal__header">
+                                <b>{label.BulkImport_File_Name} : {fileName}</b>
+                                <button class="slds-button slds-modal__close slds-button--icon" title="Close"
+                                  onclick={closeModal}>
+                                  <lightning-icon icon-name="utility:close" size="small">
+                                  </lightning-icon>
+                                </button>
+                              </div>
+                              <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap">
+                                <!--  Write Your Content here  -->
+                                <div class="slds-align_absolute-center">
+                                  <span>
+                                    <iframe style="
                                     min-width: 57vw;
                                     height: 400px;
                                     z-index: -999;
-                                  "
-                                  src={openfileUrl}
-                                  frameborder="0"
-                                >
-                                </iframe>
-                              </span>
+                                  " src={openfileUrl} frameborder="0">
+                                    </iframe>
+                                  </span>
+                                </div>
+                                <br />
+                              </div>
                             </div>
-                            <br />
                           </div>
-                        </div>
+                        </template>
+                        <div class="medical-border-bottom"></div>
                       </div>
                     </template>
-                    <div class="medical-border-bottom"></div>
-                  </div>
-                  </template>
-                  <!--  
+                    <!--  
                          citizen functionality End-->
-                  <!-- Human API Start-->
-                  <template if:true={returnpervalue.isSiteEnabledHumanAPI}>
-                    <div
-                      class="slds-grid slds-wrap slds-gutters slds-m-top_x-small"
-                    >
-                      <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-                      >
-                        <p class="medical-record">
-                          <strong>{label.RH_MedicalRecordProvider}</strong>
-                        </p>
-                      </div>
-                      <template if:false={isReportAvailable}>
+                    <!-- Human API Start-->
+                    <template if:true={returnpervalue.isSiteEnabledHumanAPI}>
+                      <div class="slds-grid slds-wrap slds-gutters slds-m-top_x-small">
                         <div
-                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-                        >
-                          <div class="btn-medical-record">
-                            <button
-                              class="slds-button apollo-btn primary ipad-mode-btn slds-p-around_x-small stretch-btn float-btns"
-                              onclick={handleauthorze}
-                            >
-                              {label.RH_RequestMedicalBtn}
-                            </button>
-                          </div>
-                        </div>
-                      </template>
-                      <template if:true={isReportAvailable}>
-                        <div
-                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium"
-                        >
-                          <div class="m-report slds-truncate">
-                            <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
-                            <lightning-formatted-url
-                              value={highlightsReport.reportUrl}
-                              label={highlightsReport.reportName}
-                              title={highlightsReport.reportName}
-                              target="_blank"
-                            >
-                            </lightning-formatted-url>
-                          </div>
-                        </div>
-
-                        <template
-                          for:each={detailedReport}
-                          for:item="detailrep"
-                        >
-                          <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-m-bottom_medium"
-                            key={index}
-                          >
-                            <p>{detailrep.providerName}</p>
-                          </div>
-                          <div
-                            class="slds-col slds-size_7-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium"
-                            key={index}
-                          >
-                            <p class="MedicalCreatedate">
-                              {detailrep.createdAt}
-                            </p>
-                          </div>
-                          <div
-                            class="slds-col slds-size_5-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-m-bottom_medium"
-                            key={index}
-                          >
-                            <div class="m-report">
-                              <a href={detailrep.reportUrl} target="_blank"
-                                >{detailrep.reportName}</a
-                              >
-                            </div>
-                          </div>
-                        </template>
-                      </template>
-                      <template if:false={isReportAvailable}>
-                        <template
-                          for:each={lstEnrollmenthistry}
-                          for:item="enrollment"
-                        >
-                          <div
-                            key={index}
-                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12"
-                          >
-                            <p>
-                              {label.RH_MedicalRecordAuthorized}
-                              <lightning-formatted-date-time
-                                value={enrollment.NewValue}
-                                year="numeric"
-                                day="2-digit"
-                                month="short"
-                                hour="2-digit"
-                                minute="2-digit"
-                                class="formatedTime"
-                              ></lightning-formatted-date-time>
-                            </p>
-                          </div>
-                        </template>
-                      </template>
-                      <template
-                        if:false={isRequestHistrySuccess}
-                        class="slds-is-relative"
-                      >
-                        <lightning-spinner
-                          alternative-text="Loading..."
-                          variant="brand"
-                        >
-                        </lightning-spinner>
-                      </template>
-                    </div>
-                    <div class="medical-border-bottom w-100"></div>
-                  </template>
-                  <!-- Human API End-->
-                  <!-- Medical History End-->
-
-                  <!-- Biomarker Start -->
-                  <template if:true={returnpervalue.isBiomarkerAvailable}>
-                    <div
-                      class="slds-grid slds-wrap slds-gutters slds-m-top_x-small"
-                    >
-                      <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium"
-                      >
-                        <p class="medical-record slds-m-top_xx-small">
-                          <strong> {label.Biomarkers_Header} </strong>
-                        </p>
-                      </div>
-                      <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix"
-                      >
-                        <div class="slds-grid slds-wrap slds-gutters">
-                          <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-m-bottom_medium hide-div-mob"
-                          ></div>
-                          <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 slds-m-bottom_medium"
-                          >
-                            <lightning-combobox
-                              name={label.pir_Assesment_Date_Time}
-                              label={label.pir_Assesment_Date_Time}
-                              value={filterasseseddatetime}
-                              title={label.pir_Assesment_Date_Time}
-                              options={returnpervalue.biomarkerdata.dateTimeLabelValue}
-                              onchange={updatefilterbiomarkerresult}
-                            ></lightning-combobox>
-                          </div>
-                        </div>
-                      </div>
-                      <template if:true={isbiomarkerResultAvail}>
-                        <template if:true={ismediaFileAvailable}> 
-                          <div
-                          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_large mediafilecss"
-                          key={index}
-                        >
-                            <c-media-file show-table={ismediaFileAvailable} media-files={lstmediafiles}> </c-media-file>
-                          </div>
-                        </template>
-                        <template
-                          for:each={bioMarkerResultData}
-                          for:item="biomarkerresult"
-                        >
-                          <div
-                            class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_3-of-12 slds-m-bottom_large"
-                            key={biomarkerresult.Id}
-                          >
-                            <p class="medical-sub-text slds-m-bottom_medium">
-                              <strong>{biomarkerresult.key}</strong>
-                            </p>
-                            <p class="medical-sub-text">
-                              <strong>{biomarkerresult.value}</strong>
-                            </p>
-                          </div>
-                        </template>
-                      </template>
-                      <template if:false={isbiomarkerResultAvail}>
-                        <div class="slds-m-bottom_large">
-                          <p class="medical-sub-text slds-m-bottom_medium">
-                            <strong> {label.No_records_to_display}</strong>
+                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                          <p class="medical-record">
+                            <strong>{label.RH_MedicalRecordProvider}</strong>
                           </p>
                         </div>
-                      </template>
-                      <template
-                      if:false={isBiomarkerRetriveSuccess}
-                      class="slds-is-relative"
-                    >
-                      <lightning-spinner
-                        alternative-text="Loading..."
-                        variant="brand"
-                      >
-                      </lightning-spinner>
-                    </template>
-                    </div>
-                  </template>
-                  <!-- Biomarker End -->
-                </div>
-              </section>
-            </li>
+                        <template if:false={isReportAvailable}>
+                          <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
+                            <div class="btn-medical-record">
+                              <button
+                                class="slds-button apollo-btn primary ipad-mode-btn slds-p-around_x-small stretch-btn float-btns"
+                                onclick={handleauthorze}>
+                                {label.RH_RequestMedicalBtn}
+                              </button>
+                            </div>
+                          </div>
+                        </template>
+                        <template if:true={isReportAvailable}>
+                          <div
+                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
+                            <div class="m-report slds-truncate">
+                              <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
+                              <lightning-formatted-url value={highlightsReport.reportUrl}
+                                label={highlightsReport.reportName} title={highlightsReport.reportName} target="_blank">
+                              </lightning-formatted-url>
+                            </div>
+                          </div>
 
-            <template if:true={displayGizmoResult}>
-              <li class="slds-accordion__list-item">
-                <section
-                  class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top"
-                >
-                  <div class="slds-accordion__summary screenerOneAccBg">
-                    <h2 class="slds-accordion__summary-heading">
-                      <button
-                        class="slds-button slds-button_reset slds-accordion__summary-action"
-                        data-name="screenerOneAcc"
-                        aria-controls="referenceId-43"
-                        aria-expanded="true"
-                        onclick={toggleAccordian}
-                      >
-                        <lightning-icon
-                          class="screenerOneAcc"
-                          icon-name="utility:chevronright"
-                          size="xx-small"
-                          alternative-text="Home"
-                        ></lightning-icon>
-                        <lightning-icon
-                          class="screenerOneAcc slds-hide"
-                          icon-name="utility:chevrondown"
-                          size="xx-small"
-                          alternative-text="Home"
-                        ></lightning-icon>
-                        <span
-                          class="slds-accordion__summary-content active-accordion slds-p-left_x-small"
-                          >{label.pir_Screener}</span
-                        >
-                      </button>
-                    </h2>
-                  </div>
-
-                  <div
-                    class="slds-m-top_small screenerOneAcc slds-hide"
-                    id="referenceId-43"
-                  >
-                    <div class="slds-grid slds-wrap slds-gutters">
-                      <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium"
-                      >
-                        <div class="slds-grid slds-grid_vertical">
-                          <template if:true={returnpervalue.booldisplaymrrgizmo}>
-                            <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
-                              <template if:true={decodeMRRResult}>
-                                <!-- <lightning-formatted-rich-text
-                                                          value={decodeResultGizmo}
-                                                      ></lightning-formatted-rich-text> -->
-                                <div class="screener1" lwc:dom="manual"></div>
-                              </template>
-                              <template if:false={decodeMRRResult}>
-                                <iframe
-                                  src={returnpervalue.strMRRSurveyResult}
-                                  height="500px"
-                                  width="100%"
-                                  allowfullscreen="true"
-                                ></iframe>
-                              </template>
+                          <template for:each={detailedReport} for:item="detailrep">
+                            <div
+                              class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-m-bottom_medium"
+                              key={index}>
+                              <p>{detailrep.providerName}</p>
+                            </div>
+                            <div
+                              class="slds-col slds-size_7-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium"
+                              key={index}>
+                              <p class="MedicalCreatedate">
+                                {detailrep.createdAt}
+                              </p>
+                            </div>
+                            <div
+                              class="slds-col slds-size_5-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-m-bottom_medium"
+                              key={index}>
+                              <div class="m-report">
+                                <a href={detailrep.reportUrl} target="_blank">{detailrep.reportName}</a>
+                              </div>
                             </div>
                           </template>
-                          <template if:true={returnpervalue.booldisplayprescreenergizmo}>                      
-                            <div class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
-                              <template if:true={decodePreScreenerResult}>
-                                <!-- <lightning-formatted-rich-text
+                        </template>
+                        <template if:false={isReportAvailable}>
+                          <template for:each={lstEnrollmenthistry} for:item="enrollment">
+                            <div key={index}
+                              class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                              <p>
+                                {label.RH_MedicalRecordAuthorized}
+                                <lightning-formatted-date-time value={enrollment.NewValue} year="numeric" day="2-digit"
+                                  month="short" hour="2-digit" minute="2-digit" class="formatedTime">
+                                </lightning-formatted-date-time>
+                              </p>
+                            </div>
+                          </template>
+                        </template>
+                        <template if:false={isRequestHistrySuccess} class="slds-is-relative">
+                          <lightning-spinner alternative-text="Loading..." variant="brand">
+                          </lightning-spinner>
+                        </template>
+                      </div>
+                      <div class="medical-border-bottom w-100"></div>
+                    </template>
+                    <!-- Human API End-->
+                    <!-- Medical History End-->
+
+                    <!-- Biomarker Start -->
+                    <template if:true={returnpervalue.isBiomarkerAvailable}>
+                      <div class="slds-grid slds-wrap slds-gutters slds-m-top_x-small">
+                        <div
+                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
+                          <p class="medical-record slds-m-top_xx-small">
+                            <strong> {label.Biomarkers_Header} </strong>
+                          </p>
+                        </div>
+                        <div
+                          class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix">
+                          <div class="slds-grid slds-wrap slds-gutters">
+                            <div
+                              class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-m-bottom_medium hide-div-mob">
+                            </div>
+                            <div
+                              class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 slds-m-bottom_medium">
+                              <lightning-combobox name={label.pir_Assesment_Date_Time}
+                                label={label.pir_Assesment_Date_Time} value={filterasseseddatetime}
+                                title={label.pir_Assesment_Date_Time}
+                                options={returnpervalue.biomarkerdata.dateTimeLabelValue}
+                                onchange={updatefilterbiomarkerresult}></lightning-combobox>
+                            </div>
+                          </div>
+                        </div>
+                        <template if:true={isbiomarkerResultAvail}>
+                          <template if:true={ismediaFileAvailable}>
+                            <div
+                              class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_large mediafilecss"
+                              key={index}>
+                              <c-media-file show-table={ismediaFileAvailable} media-files={lstmediafiles}>
+                              </c-media-file>
+                            </div>
+                          </template>
+                          <template for:each={bioMarkerResultData} for:item="biomarkerresult">
+                            <div
+                              class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_3-of-12 slds-m-bottom_large"
+                              key={biomarkerresult.Id}>
+                              <p class="medical-sub-text slds-m-bottom_medium">
+                                <strong>{biomarkerresult.key}</strong>
+                              </p>
+                              <p class="medical-sub-text">
+                                <strong>{biomarkerresult.value}</strong>
+                              </p>
+                            </div>
+                          </template>
+                        </template>
+                        <template if:false={isbiomarkerResultAvail}>
+                          <div class="slds-m-bottom_large">
+                            <p class="medical-sub-text slds-m-bottom_medium">
+                              <strong> {label.No_records_to_display}</strong>
+                            </p>
+                          </div>
+                        </template>
+                        <template if:false={isBiomarkerRetriveSuccess} class="slds-is-relative">
+                          <lightning-spinner alternative-text="Loading..." variant="brand">
+                          </lightning-spinner>
+                        </template>
+                      </div>
+                    </template>
+                    <!-- Biomarker End -->
+                  </div>
+                </section>
+              </li>
+
+              <template if:true={displayGizmoResult}>
+                <li class="slds-accordion__list-item">
+                  <section class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top">
+                    <div class="slds-accordion__summary screenerOneAccBg">
+                      <h2 class="slds-accordion__summary-heading">
+                        <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                          data-name="screenerOneAcc" aria-controls="referenceId-43" aria-expanded="true"
+                          onclick={toggleAccordian}>
+                          <lightning-icon class="screenerOneAcc" icon-name="utility:chevronright" size="xx-small"
+                            alternative-text="Home"></lightning-icon>
+                          <lightning-icon class="screenerOneAcc slds-hide" icon-name="utility:chevrondown"
+                            size="xx-small" alternative-text="Home"></lightning-icon>
+                          <span
+                            class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{label.pir_Screener}</span>
+                        </button>
+                      </h2>
+                    </div>
+
+                    <div class="slds-m-top_small screenerOneAcc slds-hide" id="referenceId-43">
+                      <div class="slds-grid slds-wrap slds-gutters">
+                        <div
+                          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                          <div class="slds-grid slds-grid_vertical">
+                            <template if:true={returnpervalue.booldisplaymrrgizmo}>
+                              <div
+                                class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
+                                <template if:true={decodeMRRResult}>
+                                  <!-- <lightning-formatted-rich-text
                                                           value={decodeResultGizmo}
                                                       ></lightning-formatted-rich-text> -->
-                                <div class="screener2" lwc:dom="manual"></div>
-                              </template>
-                              <template if:false={decodePreScreenerResult}>
-                                <iframe
-                                  src={returnpervalue.strPreScreenerSurveyResult}
-                                  height="500px"
-                                  width="100%"
-                                  allowfullscreen="true"
-                                ></iframe>
-                              </template>
-                            </div>
+                                  <div class="screener1" lwc:dom="manual"></div>
+                                </template>
+                                <template if:false={decodeMRRResult}>
+                                  <iframe src={returnpervalue.strMRRSurveyResult} height="500px" width="100%"
+                                    allowfullscreen="true"></iframe>
+                                </template>
+                              </div>
+                            </template>
+                            <template if:true={returnpervalue.booldisplayprescreenergizmo}>
+                              <div
+                                class="slds-col slds-border_bottom slds-border_top slds-border_left slds-border_right">
+                                <template if:true={decodePreScreenerResult}>
+                                  <!-- <lightning-formatted-rich-text
+                                                          value={decodeResultGizmo}
+                                                      ></lightning-formatted-rich-text> -->
+                                  <div class="screener2" lwc:dom="manual"></div>
+                                </template>
+                                <template if:false={decodePreScreenerResult}>
+                                  <iframe src={returnpervalue.strPreScreenerSurveyResult} height="500px" width="100%"
+                                    allowfullscreen="true"></iframe>
+                                </template>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </li>
+              </template>
+              <!---->
+              <template if:true={returnpervalue.booliqviaregistry}>
+                <li class="slds-accordion__list-item">
+                  <section class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top">
+                    <div class="slds-accordion__summary screenerTwoAccBg">
+                      <h2 class="slds-accordion__summary-heading">
+                        <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                          data-name="screenerTwoAcc" aria-controls="referenceId-45" aria-expanded="true"
+                          onclick={toggleAccordian}>
+                          <lightning-icon class="screenerTwoAcc" icon-name="utility:chevronright" size="xx-small"
+                            alternative-text="Home"></lightning-icon>
+                          <lightning-icon class="screenerTwoAcc slds-hide" icon-name="utility:chevrondown"
+                            size="xx-small" alternative-text="Home"></lightning-icon>
+                          <span
+                            class="slds-accordion__summary-content active-accordion slds-p-left_x-small">{label.pir_Screener}</span>
+                        </button>
+                      </h2>
+                    </div>
+                    <div class="slds-m-top_small screenerTwoAcc slds-hide" id="referenceId-45">
+                      <div class="slds-grid slds-wrap slds-gutters">
+                        <div
+                          class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                          <template if:true={loadSurvey}>
+                            <c-pir_survey-Response-View selectedpeid={selectedPe} check-survey={loadSurvey}>
+                            </c-pir_survey-Response-View>
                           </template>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </section>
-              </li>
-            </template>
-            <!---->
-            <template if:true={returnpervalue.booliqviaregistry}>
-              <li class="slds-accordion__list-item">
-                <section
-                  class="slds-accordion__section slds-is-open slds-p-bottom_none accordion-p-top"
-                >
-                  <div class="slds-accordion__summary screenerTwoAccBg">
-                    <h2 class="slds-accordion__summary-heading">
-                      <button
-                        class="slds-button slds-button_reset slds-accordion__summary-action"
-                        data-name="screenerTwoAcc"
-                        aria-controls="referenceId-45"
-                        aria-expanded="true"
-                        onclick={toggleAccordian}
-                      >
-                        <lightning-icon
-                          class="screenerTwoAcc"
-                          icon-name="utility:chevronright"
-                          size="xx-small"
-                          alternative-text="Home"
-                        ></lightning-icon>
-                        <lightning-icon
-                          class="screenerTwoAcc slds-hide"
-                          icon-name="utility:chevrondown"
-                          size="xx-small"
-                          alternative-text="Home"
-                        ></lightning-icon>
-                        <span
-                          class="slds-accordion__summary-content active-accordion slds-p-left_x-small"
-                          >{label.pir_Screener}</span
-                        >
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    class="slds-m-top_small screenerTwoAcc slds-hide"
-                    id="referenceId-45"
-                  >
-                    <div class="slds-grid slds-wrap slds-gutters">
-                      <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium"
-                      >
-                        <template if:true={loadSurvey}>
-                          <c-pir_survey-Response-View
-                            selectedpeid={selectedPe}
-                            check-survey={loadSurvey}
-                          ></c-pir_survey-Response-View>
-                        </template>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </li>
-            </template>
-          </ul>
+                  </section>
+                </li>
+              </template>
+            </ul>
+          </div>
         </div>
+        <!-- Medical-tab End -->
       </div>
-      <!-- Medical-tab End -->
+      <!-- complete section -->
     </div>
-    <!-- complete section -->
-  </div>
   </template>
 </template>

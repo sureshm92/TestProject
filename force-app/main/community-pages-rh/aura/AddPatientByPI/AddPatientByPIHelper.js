@@ -201,6 +201,19 @@
                 });
                 $A.enqueueAction(action2);
     },
+    doSaveAndExitHelper: function (component) {
+        if(component.get('v.doSaveNew')){
+           var mainDiv =  document.getElementsByClassName("fieldsDiv");
+           mainDiv[0].focus();
+           this.initData(component);
+           this.setDelegate(component);
+           component.find('editForm').refreshEmailInput(); 
+        }else{
+           var urlEvent = $A.get("e.force:navigateToURL");
+           urlEvent.setParams({ "url": "/my-referrals" });  
+           urlEvent.fire(); 
+        } 
+    },
     setDelegate: function (component) {
         var ss = component.get('v.ss');
         var delegateParticipant = {
