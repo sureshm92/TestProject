@@ -11,6 +11,9 @@ import participant_user_guide from '@salesforce/resourceUrl/Participant_user_gui
 import getHelpInitData from '@salesforce/apex/HelpController.getHelpInitData';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 
+import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+
 export default class PpHelp extends LightningElement {
     isInitialized = false;
     userMode;
@@ -25,6 +28,24 @@ export default class PpHelp extends LightningElement {
     helpTopicSettings;
     participantPicklistvalues;
     sitePicklistvalues;
+
+    isMobile = false;
+
+    exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
+    help_section_icon = pp_icons + '/' + 'help-section-icon.png';
+
+
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';     
+    }
+
+    get headerPanelClass() {
+        return this.isMobile ? 'header-panel-mobile' : 'header-panel';
+    }
+
+    get leftColPadding(){
+        return this.isRTL ? 'mb-15 leftColumn-RTL' : 'mb-15 leftColumn';
+    }
 
     renderedCallback() {}
     connectedCallback() {

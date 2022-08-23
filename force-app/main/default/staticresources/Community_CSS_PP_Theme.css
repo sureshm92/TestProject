@@ -152,3 +152,8 @@
 .grayInfoIcon lightning-primitive-icon{
     color: #444444 !important;
 }
+
+.rr-min-body-height .rr-min-body-height {
+    min-height: auto !important;
+    padding-bottom: 35px !important;
+}
