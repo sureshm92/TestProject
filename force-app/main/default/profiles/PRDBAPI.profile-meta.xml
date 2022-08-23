@@ -5163,7 +5163,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Site_Staff__c.Phone__c</field>
-        <field>Site_Staff__c.Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
