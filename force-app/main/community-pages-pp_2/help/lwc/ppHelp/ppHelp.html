@@ -12,12 +12,16 @@
 
                     <c-pp-help-topics
                         user-mode={userMode}
+                        help-topic-options={helpTopicOptions}
+                        help-topic-settings={helpTopicSettings}
                         community-template={communityTemplate}
                         is-r-t-l={isRTL}
                     ></c-pp-help-topics>
                 </div>
                 <div class="slds-col slds-size_1-of-3">
-                    <span>Quick Reference Guide</span>
+                    <button class="apollo-btn secondary ah-button" onclick={openQuickReference}>
+                        Quick Reference Guide
+                    </button>
                 </div>
             </div>
         </div>
