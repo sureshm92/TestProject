@@ -46,7 +46,8 @@
 }
 .THIS .tooltip {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
+    display: block;
     cursor: pointer;
     white-space: nowrap;
 }
@@ -57,6 +58,18 @@
     overflow: hidden;
     color: #444;
     font-size: 0.875rem;
+}
+
+.THIS .textoverlap1 {
+    width: 3rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #444;
+    font-size: 0.875rem;
+}
+.THIS .dflex{
+    display: flex;
 }
 
 /* ----------------END-----------*/
@@ -136,7 +149,7 @@
     /* @noflip */
     margin-right: 81%;
 }
-.THIS .slds-datepicker table {
+/*.THIS .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
@@ -149,7 +162,7 @@
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
-}
+}*/
 
 .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
     white-space: nowrap;
@@ -708,4 +721,8 @@
 
 .THIS .sameline {
     display: flex;
+}
+
+.THIS .slds-datepicker {
+    max-width: 50rem;
 }
