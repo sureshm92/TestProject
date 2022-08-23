@@ -20,6 +20,10 @@
 .btn-save-opacity {
     opacity: 0.5;
 }
+:host {
+    --sds-c-checkbox-color-background-checked: #0769fd;
+    --sds-c-checkbox-mark-color-foreground: #fff;
+}
 .spins::after {
     position: absolute;
     content: 'Loading......';

@@ -26,7 +26,7 @@
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
-            <div class="ps-body">
+            <div class="{!v.communityName == 'IQVIA Patient Portal' ? 'ps-body-pp' : 'ps-body'}">
                 <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
                     <c:ppMyTeam usermode="{!v.userMode}" />
                     <aura:set attribute="else">
