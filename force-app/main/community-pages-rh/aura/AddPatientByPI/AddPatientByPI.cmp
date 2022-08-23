@@ -11,6 +11,8 @@
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
     <!-- private attributes: -->
+    <aura:attribute name="partID" type="String" default="" />
+    <aura:attribute name="doSaveNew" type="Boolean" default="false" />
     <aura:attribute name="pe" type="Participant_Enrollment__c" />
     <aura:attribute name="participant" type="Participant__c" />
     <aura:attribute name="participantDelegate" type="Participant__c" />
