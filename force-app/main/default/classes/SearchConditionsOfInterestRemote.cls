@@ -29,7 +29,7 @@ public without sharing class SearchConditionsOfInterestRemote {
         }
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {

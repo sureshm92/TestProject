@@ -121,18 +121,33 @@
                                         <!--max="23:45:00.000Z"-->
                                         
                                         <template if:false={isMobileDevice}>
-                                    <abbr class="slds-required">*</abbr>
-                                    <label class="inputFields">Start Time</label>
-                                        <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
-                                            variant="label-hidden"
-                                            value={startTime}
-                                            label="Start Time"
-                                                title="Start Time" min={defaultTime}  placeholder="Select Time"
+                                            <abbr class="slds-required">*</abbr>
+                                            <label class="inputFields">Start Time</label>
+                                            <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
+                                                variant="label-hidden"
+                                                value={startTime}
+                                                label="Start Time"
+                                                    title="Start Time" min={defaultTime}  placeholder="Select Time"
+                                                    >
+                                            </lightning-input>
+                                        </template>
+                                        <template if:true={isMobileDevice}>
+                                            <div>
+                                                <abbr class="slds-required">*</abbr>
+                                                <label class="inputFields">Start Time</label>
+                                            </div>
+                                            <div>
+                                                <lightning-input  class="inputFields slds-p-vertical_x-small time" name="Start Time" data-id="Start Time" type="time" data-value="Start Time" onchange={handleChangeValidation}
+                                                    variant="label-hidden"
+                                                    value={startTime}
+                                                    label="Start Time"
+                                                    title="Start Time" min={defaultTime}  placeholder="Select Time"
                                                 >
-                                        </lightning-input>
+                                            </lightning-input>
+                                            </div>
                                         </template>
 
-
+                                        <!--
                                         <template if:true={isMobileDevice}>
                                             <div>
                                                 <abbr class="slds-required">*</abbr>
@@ -144,6 +159,7 @@
                                                 title="Start Time" min={defaultTime} placeholder="Select Time" step="60" />
                                             </div>
                                         </template>
+                                        -->
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-vertical_xx-small">
                                     <abbr class="slds-required">*</abbr>
