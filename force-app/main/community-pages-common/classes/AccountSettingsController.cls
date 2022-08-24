@@ -1088,7 +1088,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Alternative_Phone_Type__c,
                 Birth_Year__c,
                 Email__c,
-                Contact__c
+                Contact__c,
+                Use_as_Daytime_Phone__c
             FROM Participant__c
             WHERE Contact__c = :contId
         ][0];
