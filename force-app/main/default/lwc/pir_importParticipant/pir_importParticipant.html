@@ -134,6 +134,15 @@
                              </div><!-- slds-p-bottom_xxx-small -->
                           </div><!-- slds-form-element modalBody -->
                        </div><!-- slds-col slds-size_1-of-1 -->
+                       <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 importInputPopup">
+                           <div class="display-checkbox country-margin">
+                           <lightning-input type="checkbox" data-name="countrycheck"   varient="label-hidden" checked={isCountryCheck}  disabled={countryDisable} onchange={handleCountryChange} 
+                           name="country"></lightning-input>
+                           <span class="checkbox_width"><label class="country-checkbox" >{label.RH_CountryConstent}</label>
+                           <span class="slds-text-color_error fileUpload">*</span>
+                           </span>
+                        </div> 
+                     </div>
                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_xx-small">
                           <div class="fileUpload">
                              {label.PG_AP_F_Patient_Status_Select}
@@ -182,7 +191,6 @@
                           <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 importInputPopup">
                           <c-consent-manager call-source="importParticipant"  onconsentchange={handleConsentChange} study-site-id={selectedSite}> </c-consent-manager>
                           </div>
-                       
                        </template>
                        <template if:false={shouldDisableImportStatus}>
                        <template if:true={isSuppressed}>

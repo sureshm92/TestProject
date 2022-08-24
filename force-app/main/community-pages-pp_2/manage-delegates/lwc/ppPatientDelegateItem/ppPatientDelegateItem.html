@@ -1,23 +1,43 @@
 <template>
-    <div class="patient-delegate-item-rectangle slds-p-around_large slds-m-bottom_medium">
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+
+    <div class="patient-delegate-item-rectangle slds-p-around_large">
         <div class="slds-grid slds-gutters slds-wrap">
-            <div class="slds-col slds-size_1-of-5 slds-medium-size_2-of-12 slds-m-top_small">
-                <c-web-icon icon-size="medium" icon-name={delegate}></c-web-icon>
-                <!-- <c-web-icon icon-size="medium" icon-name={switcherDelegate}></c-web-icon> -->
+            <div class="slds-col slds-size_1-of-5 slds-medium-size_1-of-12 slds-m-top_small">
+                <span><img src={icon_url} /></span>
             </div>
-            <div class="slds-col slds-size_4-of-5 slds-medium-size_8-of-12">
-                <span class="dlegate-name">John Jameson</span><br />
-                <span class="dlegate-email">john.jameson@gmail.com</span>
+            <div class="slds-col slds-size_4-of-5 slds-medium-size_9-of-12">
+                <span class="dlegate-name">{delegateFullname}</span><br />
+                <span class="dlegate-email">{contact.Email}</span>
             </div>
             <div class="slds-col slds-medium-size_2-of-12 slds-m-top_small btn-deactivate-mob">
                 <button
                     class="slds-button slds-button_neutral btn-deactivate label-deactivate"
-                    onclick={handleRemoveDelegates}
+                    onclick={handleClick}
+                    title={btntitle}
                 >
-                    Deactivate
+                    {btntitle}
                 </button>
                 <template if:true={showpopup}>
-                    <c-pp-remove-delegate-modal onmodalclose={handleModalClose}>
+                    <c-pp-remove-delegate-modal
+                        contact={contact}
+                        messtext={messText}
+                        tittext={titText}
+                        usermode={usermode}
+                        selectedparent={selectedparent}
+                        onconfirmmodal={handleConfirmdelete}
+                        onmodalclose={handleModalClose}
+                    >
                     </c-pp-remove-delegate-modal>
                 </template>
             </div>

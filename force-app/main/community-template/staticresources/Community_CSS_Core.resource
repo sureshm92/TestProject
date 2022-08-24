@@ -127,6 +127,10 @@ a:hover {
     margin: 10px 0!important;
     border-radius: 5px!important;
 }
+
+.btn-upload-photo  input[type="file" i]::-webkit-file-upload-button  {
+	cursor: pointer;
+}
 /*----------------------------------------------------- MRR ------------------------------------------------------------*/
 
 .mrr-items{
@@ -302,7 +306,8 @@ input:focus {
 
 .rr-form-element input[type='text'],
 .rr-form-element input[type='password'],
-.rr-form-element input[type='email']{
+.rr-form-element input[type='email'],
+.rr-form-element input[type='date']{
     color: #000000;
     font-size: 1rem;
     line-height: 20px;
@@ -312,6 +317,7 @@ input:focus {
     width: 100%;
     display: block;
     height: 32px;
+	text-align: left;
 }
 
 .rr-form-element input[type='text']:hover,

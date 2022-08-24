@@ -29,6 +29,9 @@
 .cp-content {
     align-items: start;
 }
+.user-profile-icon .slds-icon_x-small{
+    margin:8px 0 0 8px !important;
+}
 
 .cp-logo-block{
     margin: 50px auto auto;
@@ -38,8 +41,17 @@
     height: 2rem !important;
     box-sizing: border-box !important;
     border: 1px solid #d9d9d9 !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+}
+
+.profile-info-btn .slds-button{
+    height: 2rem !important;
+    width:6rem !important;
+    border-radius: 16px !important;
+    background-color: #0768FD !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32) !important;
+    
 }
 
 .profile-info-error-input .slds-input{
@@ -69,7 +81,6 @@
 .font-thickness {
     font-weight: 500;
 }
-
 @media (max-width: 500px){
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -91,13 +102,18 @@
     min-width: 40%;
     font-size: 1rem;
     font-weight: 600;
-    line-height: 2rem;
-    text-align: center;
+    line-height: 1.5rem;
+    text-align: initial !important;
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
+}
+
+.toastMessage.forceActionsText {
+    font-family: "Proxima Nova"!important;
+    padding-left: 0.5rem;
 }
 
 .toastContainer .toastClose {
@@ -117,4 +133,24 @@
 .toastContainer .forceToastMessage .toastClose .slds-button__icon--large{
     height: 1rem !important;
     width: 1rem !important;
+}
+.masked .slds-input {
+    -webkit-text-security: disc;
+}
+
+.ppCombobox button{  
+    border-radius: 20px !important;
+}
+
+.anchor-container a{
+    text-decoration: none !important;
+}
+
+.grayInfoIcon lightning-primitive-icon{
+    color: #444444 !important;
+}
+
+.rr-min-body-height .rr-min-body-height {
+    min-height: auto !important;
+    padding-bottom: 35px !important;
 }

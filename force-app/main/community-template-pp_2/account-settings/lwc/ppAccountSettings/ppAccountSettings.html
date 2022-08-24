@@ -100,12 +100,14 @@
                         <template if:true={showCommunicationPreference}>
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
-                                is-delegate={isDelegate}  
-                                participant-state={participantState} 
+                                is-delegate={isDelegate}
+                                participant-state={participantState}
                                 is-desktop={isDesktopFlag}
                                 consent-preference-data={consentPreferenceData}
                                 user-mode={userMode}
-                            >                                    
+                                onshownavmenubar={showNavigationMenu}
+                                is-r-t-l={isRTL}
+                            >
                             </c-pp-communication-preferences>
                         </template>
                         <template if:true={showLanguageAndLocation}>
@@ -122,6 +124,13 @@
                         </template>
                         <template if:true={showCustomizeExperience}>
                             <!--Customize Experience Component-->
+                            <c-pp-customize-experience
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-customize-experience>
                         </template>
                         <template if:true={showCookieSettings}>
                             <!--Cookie Settings Component-->

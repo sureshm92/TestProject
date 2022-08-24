@@ -112,12 +112,16 @@ export default class PpActionAddProfilePhoto extends LightningElement {
     readFile(uploadedFile) {
         if (uploadedFile) {
             if (!uploadedFile.type.match(/(image.*)/)) {
-                communityService.showToast('', 'error', this.labels.WRONG_FORMAT);
+                this.showToast(this.labels.WRONG_FORMAT, this.labels.WRONG_FORMAT, 'error');
                 return;
             }
 
             if (uploadedFile.size > MAX_FILE_SIZE) {
-                communityService.showToast('', 'error', this.labels.FILE_SIZE_EXCEEDED);
+                this.showToast(
+                    this.labels.FILE_SIZE_EXCEEDED,
+                    this.labels.FILE_SIZE_EXCEEDED,
+                    'error'
+                );
                 return;
             }
 
