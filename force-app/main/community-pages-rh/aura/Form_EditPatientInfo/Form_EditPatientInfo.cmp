@@ -2,12 +2,10 @@
  - Created by Leonid Bartenev 
  -->
 
- <aura:component description="Form_EditPatientInfo" extends="c:CommunityContext"  controller="ParticipantInformationRemote">
-    <ltng:require
-                  scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"
-                  />
-    
+<aura:component description="Form_EditPatientInfo" extends="c:CommunityContext"
+    controller="ParticipantInformationRemote">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}" />
+
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public" />
     <aura:attribute name="participant" type="Participant__c" access="public" />
@@ -39,47 +37,45 @@
     <aura:attribute name="useThisDelegate" type="Boolean" default="true" />
     <aura:attribute name="recordFound" type="Boolean" default="true" />
     <aura:attribute name="BtnClicked" type="String" />
-    <aura:attribute name="isEmailConfrmBtnClick" type="Boolean"  />
-    <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" /> 
-    <aura:attribute name="isEmailForPartRequired" type="Boolean"  /> 
-    <aura:attribute name="isVisitPlanAssigned" type="Boolean"/>
+    <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" />
+    <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
+    <aura:attribute name="isEmailForPartRequired" type="Boolean" />
+    <aura:attribute name="isVisitPlanAssigned" type="Boolean" />
 
-    
-    <aura:attribute name="yob" type="List" /> <!--Added by Vikrant -->
-    <aura:attribute name="attestAge" type="Boolean" default="false" /> <!--Added by Vikrant -->
-    <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" /> 
-    <aura:attribute name="isAdultDel" type="Boolean"  /> 
-    <aura:attribute name="yobBlankErrMsg" type="Boolean"/>   
-    <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
-    <aura:attribute name="isBulkImport" type="Boolean"/>
-    <aura:attribute name="isBulkImportOld" type="Boolean"/>
-    <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean"/>
-    <aura:attribute name="resetDate" type="Boolean" default="true"/>
+
+    <aura:attribute name="yob" type="List" />
+    <!--Added by Vikrant -->
+    <aura:attribute name="attestAge" type="Boolean" default="false" />
+    <!--Added by Vikrant -->
+    <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" />
+    <aura:attribute name="isAdultDel" type="Boolean" />
+    <aura:attribute name="yobBlankErrMsg" type="Boolean" />
+    <aura:attribute name="delNotAdultErrMsg" type="Boolean" />
+    <aura:attribute name="isBulkImport" type="Boolean" />
+    <aura:attribute name="isBulkImportOld" type="Boolean" />
+    <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean" />
+    <aura:attribute name="resetDate" type="Boolean" default="true" />
     <!--RH-5960 -->
-    <aura:attribute name="resetState" type="Boolean" default="true"/>
-    <aura:attribute name="resetDOB" type="Boolean" default="true"/>
-    
+    <aura:attribute name="resetState" type="Boolean" default="true" />
+    <aura:attribute name="resetDOB" type="Boolean" default="true" />
+
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="emailDelegate" type="String" />
-    
+
     <!-- private attributes: -->
-    <aura:attribute name="screeningRequired" type="Boolean" default="false"   />
+    <aura:attribute name="screeningRequired" type="Boolean" default="false" />
     <aura:attribute name="todayDate" type="Date" access="private" />
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
     <aura:attribute name="dataStamp" type="String" access="private" />
     <aura:attribute name="visitPlanDisabled" type="Boolean" access="private" />
-    
+
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.needsGuardian}" action="{!c.doClearValidity}" />
-    
-    <aura:handler
-                  name="ddMessageButtonClick"
-                  event="c:DDMessageEvent"
-                  action="{!c.approveDelegate}"
-                  />
-    
-    
-    
+
+    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}" />
+
+
+
     <!-- methods: -->
     <aura:method name="checkFields" action="{!c.doCheckFields}" access="public" />
     <aura:method name="createDataStamp" action="{!c.doCreateDataStamp}" access="public" />
@@ -89,42 +85,32 @@
     <!--RH-5960 -->
     <aura:method name="refreshStateInput" action="{!c.doRefreshStateInput}" access="public" />
     <aura:method name="refreshDOBInput" action="{!c.doRefreshDOBInput}" access="public" />
-    
-    <c:RRSpinner aura:id="spinner" size="medium"  fixed="true" />
-    
-    
+
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" />
+
+
     <!-- component body: -->
     <aura:if isTrue="{!!v.isRefreshView}">
         <div>
             <!-- patient details: -->
             <div class="ap-section">
-                <div class="slds-grid slds-wrap">	
+                <div class="slds-grid slds-wrap">
                     <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
-                </div> 
+                </div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                                >{!$Label.c.PG_AS_F_First_name}
+                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
                         </div>
-                        <lightning:input
-                                         aura:id="ParticipantFirstName"
-                                         type="text"
-                                         value="{!v.participant.First_Name__c}"
-                                         required="true"
-                                         onblur="{!c.doCheckFields}"
-                                         />
+                        <lightning:input aura:id="ParticipantFirstName" type="text"
+                            value="{!v.participant.First_Name__c}" required="true" onblur="{!c.doCheckFields}" />
                     </div>
                     <aura:if isTrue="{!v.isRTL}">
                         <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8 "
-                             style="width: fit-content">
+                            style="width: fit-content">
                             <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
-                            <lightning:input
-                                             aura:id="ParticipantMiddleName"
-                                             type="text"
-                                             value="{!v.participant.Middle_Name__c}"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+                            <lightning:input aura:id="ParticipantMiddleName" type="text"
+                                value="{!v.participant.Middle_Name__c}" onblur="{!c.doCheckFields}" />
                         </div>
                         <aura:set attribute="else">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
@@ -132,312 +118,200 @@
                                     <div class="textoverlapMiddleName">
                                         {!$Label.c.PG_AS_F_Middle_name}
                                     </div>
-                                     <span>{!$Label.c.PG_AS_F_Middle_name}</span>
+                                    <span>{!$Label.c.PG_AS_F_Middle_name}</span>
                                 </div>
-                               
-                                <lightning:input
-                                                 aura:id="ParticipantMiddleName"
-                                                 type="text"
-                                                 value="{!v.participant.Middle_Name__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 />
+
+                                <lightning:input aura:id="ParticipantMiddleName" type="text"
+                                    value="{!v.participant.Middle_Name__c}" onblur="{!c.doCheckFields}" />
                             </div>
                         </aura:set>
                     </aura:if>
-                    
-                    
+
+
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                                >{!$Label.c.PG_AS_F_Last_name}
+                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}
                         </div>
-                        <lightning:input
-                                         type="text"
-                                         value="{!v.participant.Last_Name__c}"
-                                         required="true"
-                                         onblur="{!c.doCheckFields}"
-                                         />
+                        <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
+                            onblur="{!c.doCheckFields}" />
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8">
                         <div class="label">{!$Label.c.PG_AS_F_Suffix}</div>
-                        <lightning:input
-                                         type="text"
-                                         value="{!v.participant.Suffix__c}"
-                                         onblur="{!c.doCheckFields}"
-                                         />
+                        <lightning:input type="text" value="{!v.participant.Suffix__c}" onblur="{!c.doCheckFields}" />
                     </div>
-                    
-                    
+
+
                     <aura:if isTrue="{!v.fromActionParticipant || v.fromAddParticipantPage}">
                         <div
-                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4'}"
-                             >
+                            class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4'}">
                             <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
-                            <lightning:input
-                                             type="text"
-                                             value="{!v.participant.Nickname__c}"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+                            <lightning:input type="text" value="{!v.participant.Nickname__c}"
+                                onblur="{!c.doCheckFields}" />
                         </div>
                         <aura:if isTrue="{!v.fromAddParticipantPage}">
                             <aura:if isTrue="{!v.isRTL}">
-                                <div 
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4"
-                                     >
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4">
                                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
-                                    <lightning:input
-                                                     aura:id="mrnId"
-                                                     type="text"
-                                                     value="{!v.pe.MRN_Id__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     />
+                                    <lightning:input aura:id="mrnId" type="text" value="{!v.pe.MRN_Id__c}"
+                                        onblur="{!c.doCheckFields}" />
                                 </div>
                                 <aura:set attribute="else">
-                                    <div 
-                                         class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4"
-                                         >
+                                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4">
                                         <div class="label" style="width: 310px">{!$Label.c.MRN_Internal_Id}</div>
-                                        <lightning:input
-                                                         aura:id="mrnId"
-                                                         type="text"
-                                                         value="{!v.pe.MRN_Id__c}"
-                                                         onblur="{!c.doCheckFields}"
-                                                         />
+                                        <lightning:input aura:id="mrnId" type="text" value="{!v.pe.MRN_Id__c}"
+                                            onblur="{!c.doCheckFields}" />
                                     </div>
                                 </aura:set>
                             </aura:if>
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
                         </aura:if>
                         <aura:if isTrue="{!v.fromAddParticipantPage}">
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4"
-                                 />
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4"
-                                 />
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4" />
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4" />
                         </aura:if>
                     </aura:if>
                     <div
-                         class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4 container' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8 container'}"
-                         >
+                        class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4 container' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8 container'}">
                         <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                                >{!$Label.c.PG_AS_F_Date_of_Birth}
+                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                         </div>
-                        <div class="{!v.isRTL? 'rightAlign dob-mobile-size':'dob-mobile-size'}" > 
-                            <lightning:input
-                                             max="{!v.todayDate}"
-                                             min="1900-01-01"
-                                             type="date"
-                                             value="{!v.participant.Date_of_Birth__c}"
-                                             required="true"
-                                             autocomplete="off"
-                                             onchange="{!c.doCheckDateOfBith}"
-                                             dateStyle="medium"
-                                             />
+                        <div class="{!v.isRTL? 'rightAlign dob-mobile-size':'dob-mobile-size'}">
+                            <lightning:input max="{!v.todayDate}" min="1900-01-01" type="date"
+                                value="{!v.participant.Date_of_Birth__c}" required="true" autocomplete="off"
+                                onchange="{!c.doCheckDateOfBith}" dateStyle="medium" />
                         </div>
                     </div>
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
                         <div
-                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
-                             >
+                            class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
                             <div class="label">
-                                <abbr title="required" class="slds-required">*</abbr
-                                    >{!$Label.c.PG_AP_F_Language}
+                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}
                             </div>
-                            <c:rrSelect
-                                        options="{!v.formData.languageLVList}"
-                                        value="{!v.userLanguage}"
-                                        required="true"
-                                        useSentenceFont="false"
-                                        onchange="{!c.doCheckFields}"
-                                        />
+                            <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.userLanguage}" required="true"
+                                useSentenceFont="false" onchange="{!c.doCheckFields}" />
                         </div>
                         <aura:set attribute="else">
                             <div
-                                 class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}"
-                                 >
+                                class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        >{!$Label.c.PG_AP_F_Language}
+                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}
                                 </div>
-                                <c:rrSelect
-                                            options="{!v.formData.languageLVList}"
-                                            value="{!v.contactInfo.Language__c}"
-                                            required="true"
-                                            useSentenceFont="false"
-                                            onchange="{!c.doCheckFields}"
-                                            />
-                            </div>
-                        </aura:set>
-                    </aura:if>    
-                    <aura:if isTrue="{!v.isRTL}">
-                        <div
-                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
-                             >
-                            <div class="label">
-                                <abbr title="required" class="slds-required">*</abbr
-                                    >{!$Label.c.PG_AS_F_Gender}
-                            </div>
-                            <c:rrSelect
-                                        options="{!v.formData.genderLVList}"
-                                        value="{!v.participant.Gender__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        required="true"
-                                        useSentenceFont="false"
-                                        onchange="{!c.doCheckFields}"
-                                        />
-                        </div>
-                        <aura:set attribute="else">
-                            <div
-                                 class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
-                                 >
-                                <div class="label">
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        >{!$Label.c.PG_AS_F_Gender}
-                                </div>
-                                <c:rrSelect
-                                            options="{!v.formData.genderLVList}"
-                                            value="{!v.participant.Gender__c}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                            required="true"
-                                            useSentenceFont="false"
-                                            onchange="{!c.doCheckFields}"
-                                            />
+                                <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.contactInfo.Language__c}"
+                                    required="true" useSentenceFont="false" onchange="{!c.doCheckFields}" />
                             </div>
                         </aura:set>
                     </aura:if>
-                    
-                    
-                    <div
-                         class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                         />
+                    <aura:if isTrue="{!v.isRTL}">
+                        <div
+                            class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
+                            <div class="label">
+                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}
+                            </div>
+                            <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
+                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
+                                onchange="{!c.doCheckFields}" />
+                        </div>
+                        <aura:set attribute="else">
+                            <div
+                                class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
+                                <div class="label">
+                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}
+                                </div>
+                                <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
+                                    placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
+                                    onchange="{!c.doCheckFields}" />
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
                 </div>
             </div>
-            
+
             <!-- contact information: -->
             <div class="ap-section">
                 <!--<aura:if
                     isTrue="{!!v.needsGuardian &amp;&amp; ((v.participantDelegate &amp;&amp; !v.participant.Adult__c) || (v.participantDelegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c))}"
                 >-->
-                <aura:if isTrue="{!v.fromActionParticipant}"> 
+                <aura:if isTrue="{!v.fromActionParticipant}">
                     <div class="slds-grid slds-wrap">
                         <div class="ap-section-title">{!$Label.c.PG_Ref_L_Primary_Delegate_Information}</div>
                     </div>
                     <div class="slds-grid slds-gutters slds-wrap">
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >  
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <aura:if isTrue="{!!v.participant.Adult__c}">   
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        > </aura:if>{!$Label.c.PG_AS_F_First_name}
+                                <aura:if isTrue="{!!v.participant.Adult__c}">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>{!$Label.c.PG_AS_F_First_name}
                             </div>
-                            
-                            <lightning:input
-                                             aura:id="DelegateFirstName"
-                                             type="text"
-                                             value="{!v.participantDelegate.First_Name__c}"
-                                             required="{! !v.participant.Adult__c }"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+
+                            <lightning:input aura:id="DelegateFirstName" type="text"
+                                value="{!v.participantDelegate.First_Name__c}" required="{! !v.participant.Adult__c }"
+                                onblur="{!c.doCheckFields}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <aura:if isTrue="{!!v.participant.Adult__c}">  
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        ></aura:if>{!$Label.c.PG_AS_F_Last_name}
+                                <aura:if isTrue="{!!v.participant.Adult__c}">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>{!$Label.c.PG_AS_F_Last_name}
                             </div>
-                            <lightning:input
-                                             aura:id="DelegateLastName"             
-                                             type="text"
-                                             value="{!v.participantDelegate.Last_Name__c}"
-                                             required="{!!v.participant.Adult__c }"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+                            <lightning:input aura:id="DelegateLastName" type="text"
+                                value="{!v.participantDelegate.Last_Name__c}" required="{!!v.participant.Adult__c }"
+                                onblur="{!c.doCheckFields}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <aura:if isTrue="{!!v.participant.Adult__c}">  
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        ></aura:if>{!$Label.c.PG_AS_F_Email_address}
+                                <aura:if isTrue="{!!v.participant.Adult__c}">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>{!$Label.c.PG_AS_F_Email_address}
                             </div>
-                            <lightning:input
-                                             aura:id="DelegateEmail"             
-                                             type="text"
-                                             value="{!v.participantDelegate.Email__c}"
-                                             required="{!!v.participant.Adult__c }"
-                                             onblur="{!c.doCheckFields}"
-                                             
-                                             />
+                            <lightning:input aura:id="DelegateEmail" type="text"
+                                value="{!v.participantDelegate.Email__c}" required="{!!v.participant.Adult__c }"
+                                onblur="{!c.doCheckFields}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
-                             <div class="label tooltip">
-                                <div class="textoverlap">                                    
-                                    <aura:if isTrue="{!!v.participant.Adult__c}">  
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
+                            <div class="label tooltip">
+                                <div class="textoverlap">
+                                    <aura:if isTrue="{!!v.participant.Adult__c}">
                                         <abbr title="required" class="slds-required">*</abbr>
-                                    </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
-                                <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                    </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                 </div>
-                            <lightning:input
-                                             aura:id="DelegatePhoneName" 
-                                             type="text"
-                                             value="{!v.participantDelegate.Phone__c}"
-                                             required="{!!v.participant.Adult__c }"
-                                             onblur="{!c.doCheckFields}"
-                                             disabled="{!v.isParticipantExist}"             
-                                             />
+                                <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                            </div>
+                            <lightning:input aura:id="DelegatePhoneName" type="text"
+                                value="{!v.participantDelegate.Phone__c}" required="{!!v.participant.Adult__c }"
+                                onblur="{!c.doCheckFields}" disabled="{!v.isParticipantExist}" />
                         </div>
                     </div>
                     <aura:if isTrue="{! v.isFirstPrimaryDelegate || v.isBulkImport}">
-                        <div
-                             class="slds-grid slds-wrap slds-gutters rr-form-element"
-                             >
+                        <div class="slds-grid slds-wrap slds-gutters rr-form-element">
                             <div class="slds-col slds-size--2-of-10">
                                 <div class="label">
-                                    <abbr title="required" class="slds-required"
-                                          >*</abbr
-                                        > {!$Label.c.RH_YearofBirth}
+                                    <abbr title="required" class="slds-required">*</abbr> {!$Label.c.RH_YearofBirth}
                                 </div>
-                                <c:rrSelect
-                                            options="{!v.yob}"	
-                                            value="{!v.participantDelegate.Birth_Year__c}"
-                                            useSentenceFont="false"
-                                            onchange="{!c.doCheckFields}"
-                                            /> 
-                                
+                                <c:rrSelect options="{!v.yob}" value="{!v.participantDelegate.Birth_Year__c}"
+                                    useSentenceFont="false" onchange="{!c.doCheckFields}" />
+
                             </div>
                             <aura:if isTrue="{!!v.isBulkImport}">
-                                <div
-                                     class="rr-form-element slds-no-label slds-col"
-                                     style="margin-top: 30px;margin-bottom: 3px;"
-                                     >
+                                <div class="rr-form-element slds-no-label slds-col"
+                                    style="margin-top: 30px;margin-bottom: 3px;">
                                     <div class="rr-cb-container">
-                                        <lightning:input
-                                                         type="checkbox"
-                                                         label=""
-                                                         checked="{!v.attestAge}"
-                                                         onchange="{!c.doCheckFields}"
-                                                         aura:id="AttestCheckbox" 
-                                                         required = "true"
-                                                         disabled= "{!!v.isAdultDel}"
-                                                         />
-                                        
+                                        <lightning:input type="checkbox" label="" checked="{!v.attestAge}"
+                                            onchange="{!c.doCheckFields}" aura:id="AttestCheckbox" required="true"
+                                            disabled="{!!v.isAdultDel}" />
+
                                     </div>
-                                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                                    <div class="label rr-cb-label"
+                                        style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                                         {!$Label.c.RH_DelegateAttestation}
                                     </div>
-                                </div> 
+                                </div>
                             </aura:if>
                             <div class="slds-col slds-size--1-of-1 rr-error">
                                 <aura:if isTrue="{!v.yobBlankErrMsg}">
@@ -446,284 +320,213 @@
                                 <aura:if isTrue="{!v.delNotAdultErrMsg}">
                                     {!$Label.c.RH_MinorDelegateErrMsg}
                                 </aura:if>
-                            </div> 
+                            </div>
                         </div>
                     </aura:if>
                 </aura:if>
             </div>
             <div
-                 class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section"
-                 >
+                class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section">
                 <!--  <aura:if  isTrue="{!and(v.duplicateDelegateInfo.PartcipantId != Null
                                   , v.duplicateDelegateInfo.isDuplicate == false)}" > -->
                 <aura:if isTrue="{!!v.useThisDelegate }">
-                    <c:DuplicateDelegateMessage
-                                                delegateDuplicateInfo="{!v.duplicateDelegateInfo}"
-                                                recordFound = "{!v.recordFound}"
-                                                BtnClicked = "{!v.BtnClicked}"
-                                                />
+                    <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.duplicateDelegateInfo}"
+                        recordFound="{!v.recordFound}" BtnClicked="{!v.BtnClicked}" />
                 </aura:if>
-                <!--  </aura:if> -->  
+                <!--  </aura:if> -->
             </div>
-            
+
             <aura:if isTrue="{!v.fromAddParticipantPage}">
                 <div class="slds-grid slds-wrap">
                     <div class="ap-section-title">
                         {!$Label.c.PG_AP_H_Participant_Contact_Information}
-                    </div></div>
+                    </div>
+                </div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label">
-                            <abbr
-                                  title="required"
-                                  style="
+                            <abbr title="required" style="
                                          {
                                          !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                          }
-                                         "
-                                  class="slds-required"
-                                  >{!!v.needsGuardian ? '*' : ''}</abbr
-                                >{!$Label.c.PG_AS_F_Email_address}
+                                         " class="slds-required">{!!v.needsGuardian ? '*' :
+                                ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
                         </div>
-                        
+
                         <!-- REF-3070  Added disabled-->
                         <!-- REF-5960-->
                         <aura:if isTrue="{!v.resetDate}">
-                        	<lightning:input
-                                         aura:id="emailInput"
-                                         type="text"
-                                         value="{!v.participant.Email__c}"
-                                         required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                         disabled="{!!v.participant.Adult__c}"
-                                         onblur="{!c.doCheckFields}"
-                                         messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                         />
+                            <lightning:input aura:id="emailInput" type="text" value="{!v.participant.Email__c}"
+                                required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}"
+                                messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}" />
                         </aura:if>
                     </div>
                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label tooltip">
-                            <div class="textoverlap">                                 
-                                
-                                <abbr title="required" class="slds-required"
-                                      >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
-                                    >{!$Label.c.PG_Ref_L_Re_enter_email_address}
+                            <div class="textoverlap Email">
+
+                                <abbr title="required" class="slds-required">{!!v.needsGuardian ||
+                                    v.participant.Email__c ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
                             </div>
                             <span>{!$Label.c.PG_Ref_L_Re_enter_email_address}</span>
-                            </div>
+                        </div>
                         <!-- REF-3070 Added disabled-->
                         <!-- REF-5960-->
                         <aura:if isTrue="{!v.resetDOB}">
-                        	<lightning:input
-                                         aura:id="emailParticipantRepeatField"
-                                         type="text"
-                                         value="{!v.emailParticipantRepeat}"
-                                         required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                         disabled="{!!v.participant.Adult__c}"
-                                         onblur="{!c.doCheckFields}"
-                                         messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                        />
+                            <lightning:input aura:id="emailParticipantRepeatField" type="text"
+                                value="{!v.emailParticipantRepeat}"
+                                required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}"
+                                messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}" />
                         </aura:if>
                     </div>
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
-                    
+
                     <aura:if isTrue="{!v.isRTL}">
                         <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <abbr
-                                      title="required"
-                                      style="
+                                <abbr title="required" style="
                                              {
                                              !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                              }
-                                             "
-                                      class="slds-required"
-                                      >{!!v.needsGuardian ? '*' : ''}</abbr
-                                    >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
+                                             " class="slds-required">{!!v.needsGuardian ? '*' :
+                                    ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                             </div>
                             <!-- REF-3070 Added disabled-->
                             <!--RH-5960 -->
                             <aura:if isTrue="{!v.resetDOB}">
-                            <lightning:input
-                                             type="text"
-                                             value="{!v.participant.Phone__c}"
-                                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                             disabled="{!!v.participant.Adult__c}"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+                                <lightning:input type="text" value="{!v.participant.Phone__c}"
+                                    required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                    disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
                             </aura:if>
                         </div>
                         <aura:set attribute="else">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
-                                
-                                <div class="label tooltip">                                        
-                                    <div class="textoverlap">                                            
-                                        <abbr
-                                              title="required"
-                                              style="
+
+                                <div class="label tooltip">
+                                    <div class="textoverlap Primary">
+                                        <abbr title="required" style="
                                                      {
                                                      !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                                      }
-                                                     "
-                                              class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>
-                                        {!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</div>
-                                    
+                                                     " class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>
+                                        {!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
+                                    </div>
+
                                     <span>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
                                 </div>
                                 <!-- REF-3070 Added disabled-->
                                 <!-- RH-5960-->
                                 <aura:if isTrue="{!v.resetDOB}">
-                                <lightning:input
-                                                 type="text"
-                                                 value="{!v.participant.Phone__c}"
-                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                                 disabled="{!!v.participant.Adult__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 />
-                                    </aura:if>
+                                    <lightning:input type="text" value="{!v.participant.Phone__c}"
+                                        required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                        disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
+                                </aura:if>
                             </div>
                         </aura:set>
-                </aura:if>
+                    </aura:if>
 
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
-                        <div class="label" >
-                            <abbr
-                                  title="required"
-                                  style="
+                        <div class="label">
+                            <abbr title="required" style="
                                          {
                                          !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                          }
-                                         "
-                                  class="slds-required"
-                                  ><!--{!!v.needsGuardian ? '*' : ''}--><!--RH-6074-->{!!v.needsGuardian &amp;&amp; (!v.participantDelegate &amp;&amp; v.participant.Adult__c) ? '*' : ''}</abbr
-                                >{!$Label.c.PG_AP_F_Phone_Type}
+                                         " class="slds-required">
+                                <!--{!!v.needsGuardian ? '*' : ''}-->
+                                <!--RH-6074-->{!!v.needsGuardian &amp;&amp; (!v.participantDelegate &amp;&amp;
+                                v.participant.Adult__c) ? '*' : ''}
+                            </abbr>{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
                         <!-- REF-3070  Added disabled-->
                         <!-- RH-5960-->
                         <aura:if isTrue="{!v.resetDOB}">
-                        	<c:rrSelect
-                                    options="{!v.formData.phoneTypeLVList}"
-                                    value="{!v.participant.Phone_Type__c}"
-                                    placeholder="{!$Label.c.PG_AC_Select}"
-                                    required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                    disabled="{!!v.participant.Adult__c}"
-                                    onchange="{!c.doCheckFields}"
-                                    />
-                       	</aura:if>
+                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}" onchange="{!c.doCheckFields}" />
+                        </aura:if>
                     </div>
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
                     <div class="slds-col slds-size--2-of-8 rr-form-element" />
-                    
+
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                                >{!$Label.c.PE_Country}
+                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                         </div>
-                        <c:rrSelect
-                                    options="{!v.formData.countriesLVList}"
-                                    value="{!v.participant.Mailing_Country_Code__c}"
-                                    placeholder="{!$Label.c.PG_AC_Select}"
-                                    required="true"
-                                    useSentenceFont="false"
-                                    onchange="{!c.doCountryCodeChanged}"
-                                    />
+                        <c:rrSelect options="{!v.formData.countriesLVList}"
+                            value="{!v.participant.Mailing_Country_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                            required="true" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}" />
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
                             <aura:if isTrue="{!!empty(v.statesLVList)}">
-                                <abbr title="required" class="slds-required">*</abbr> </aura:if
-                                >{!$Label.c.PE_State}
+                                <abbr title="required" class="slds-required">*</abbr>
+                            </aura:if>{!$Label.c.PE_State}
                         </div>
                         <!--RH-5960 -->
                         <aura:if isTrue="{!v.resetState}">
-                        	<c:rrSelect
-                                    aura:id="stateField"
-                                    options="{!v.statesLVList}"
-                                    disabled="{!empty(v.statesLVList)}"
-                                    value="{!v.participant.Mailing_State_Code__c}"
-                                    setValueAsSelected="true"
-                                    placeholder="{!$Label.c.PG_AC_Select}"
-                                    required="{!!empty(v.statesLVList)}"
-                                    useSentenceFont="false"
-                                    onchange="{!c.doStateChange}"
-                                    />
-						</aura:if>
+                            <c:rrSelect aura:id="stateField" options="{!v.statesLVList}"
+                                disabled="{!empty(v.statesLVList)}" value="{!v.participant.Mailing_State_Code__c}"
+                                setValueAsSelected="true" placeholder="{!$Label.c.PG_AC_Select}"
+                                required="{!!empty(v.statesLVList)}" useSentenceFont="false"
+                                onchange="{!c.doStateChange}" />
+                        </aura:if>
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                                >{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
                         </div>
-                        <lightning:input
-                                         type="text"
-                                         value="{!v.participant.Mailing_Zip_Postal_Code__c}"
-                                         required="true"
-                                         onblur="{!c.doCheckFields}"
-                                         />
+                        <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}" required="true"
+                            onblur="{!c.doCheckFields}" />
                     </div>
-                    <div
-                         class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                         />
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
                 </div>
                 <aura:set attribute="else">
                     <div class="slds-grid slds-wrap">
                         <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                     </div>
                     <div class="slds-grid slds-gutters slds-wrap">
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <aura:if isTrue="{! !v.fromActionParticipant}" >
-                                    <abbr
-                                          title="required"
-                                          style="
+                                <aura:if isTrue="{! !v.fromActionParticipant}">
+                                    <abbr title="required" style="
                                                  {
                                                  !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                                  }
-                                                 "
-                                          class="slds-required"
-                                          >{!!v.needsGuardian ? '*' : ''}</abbr
-                                        >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                 " class="slds-required">{!!v.needsGuardian ? '*' :
+                                        ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                     <aura:set attribute="else">
                                         <div class="label tooltip">
-                                            <div class="textoverlap">    
-                                                <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">                                                  
+                                            <div class="textoverlap">
+                                                <aura:if
+                                                    isTrue="{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
                                                     <abbr title="required" class="slds-required">*</abbr>
-                                                </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
+                                                </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                            </div>
                                             <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
-                                          </div>
+                                        </div>
 
                                     </aura:set>
-                                    
+
                                 </aura:if>
                             </div>
-                            <aura:if isTrue="{! !v.fromActionParticipant}" >
+                            <aura:if isTrue="{! !v.fromActionParticipant}">
                                 <!-- REF-3070 Added disabled-->
-                                <lightning:input
-                                                 aura:id="phoneInput"
-                                                 type="text"
-                                                 value="{!v.participant.Phone__c}"
-                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                                 disabled="{!!v.participant.Adult__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 />
+                                <lightning:input aura:id="phoneInput" type="text" value="{!v.participant.Phone__c}"
+                                    required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                    disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
                                 <aura:set attribute="else">
-                                    <lightning:input
-                                                     aura:id="phoneInputParticipant"
-                                                     type="text"
-                                                     value="{!v.participant.Phone__c}"
-                                                     required="{!!v.participantDelegate}"
-                                                     disabled="{!!v.participant.Adult__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     />
+                                    <lightning:input aura:id="phoneInputParticipant" type="text"
+                                        value="{!v.participant.Phone__c}" required="{!!v.participantDelegate}"
+                                        disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
                                 </aura:set>
                             </aura:if>
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
                                 <!--<abbr
                                     title="required"
@@ -735,319 +538,205 @@
                                     class="slds-required"
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                >-->
-                                <aura:if isTrue="{! !v.fromActionParticipant}" >
-                                <abbr
-                                      title="required"
-                                      style="
+                                <aura:if isTrue="{! !v.fromActionParticipant}">
+                                    <abbr title="required" style="
                                              {
                                              !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                              }
-                                             "
-                                      class="slds-required"
-                                      >{!!v.needsGuardian ? '*' : ''}</abbr
-                                    >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                                <aura:set attribute="else">
-                                    <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
-                                        <abbr
-                                              title="required"
-                                              class="slds-required"
-                                              >*</abbr
-                                            ></aura:if>{!$Label.c.PG_AP_F_Phone_Type}
-                                </aura:set>
-                                
+                                             " class="slds-required">{!!v.needsGuardian ? '*' :
+                                        ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                    <aura:set attribute="else">
+                                        <aura:if
+                                            isTrue="{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
+                                            <abbr title="required" class="slds-required">*</abbr>
+                                        </aura:if>{!$Label.c.PG_AP_F_Phone_Type}
+                                    </aura:set>
+
                                 </aura:if>
                             </div>
                             <!-- REF-3070 Added disabled-->
-                            <c:rrSelect
-                                        aura:id="phoneTypeInput"
-                                        options="{!v.formData.phoneTypeLVList}"
-                                        value="{!v.participant.Phone_Type__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                        disabled="{!!v.participant.Adult__c}"
-                                        onchange="{!c.doCheckFields}"
-                                        />
-                        </div> 
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                            <c:rrSelect aura:id="phoneTypeInput" options="{!v.formData.phoneTypeLVList}"
+                                value="{!v.participant.Phone_Type__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                                required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}" onchange="{!c.doCheckFields}" />
+                        </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <aura:if isTrue="{! !v.fromActionParticipant}" >
-                                    <abbr
-                                          title="required"
-                                          style="
+                                <aura:if isTrue="{! !v.fromActionParticipant}">
+                                    <abbr title="required" style="
                                                  {
                                                  !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                                  }
-                                                 "
-                                          class="slds-required"
-                                          >{!!v.needsGuardian ? '*' : ''}</abbr
-                                        >{!$Label.c.PG_AS_F_Email_address} 
+                                                 " class="slds-required">{!!v.needsGuardian ? '*' :
+                                        ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
                                     <aura:set attribute="else">
-                                        <aura:if isTrue = "{!!v.participantDelegate.Email__c &amp;&amp; v.participant.Adult__c}">
-                                            <abbr
-                                                  title="required"
-                                                  class="slds-required"
-                                                  >*</abbr
-                                                ></aura:if>{!$Label.c.PG_AS_F_Email_address}   
-                                        
+                                        <aura:if
+                                            isTrue="{!!v.participantDelegate.Email__c &amp;&amp; v.participant.Adult__c}">
+                                            <abbr title="required" class="slds-required">*</abbr>
+                                        </aura:if>{!$Label.c.PG_AS_F_Email_address}
+
                                     </aura:set>
-                                    
+
                                 </aura:if>
                             </div>
-                            <aura:if isTrue="{! !v.fromActionParticipant}" >
+                            <aura:if isTrue="{! !v.fromActionParticipant}">
                                 <!-- REF-3070 Added disabled-->
-                                <lightning:input
-                                                 aura:id="emailInput"
-                                                 type="text"
-                                                 value="{!v.participant.Email__c}"
-                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                                 disabled="{!!v.participant.Adult__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 />
+                                <lightning:input aura:id="emailInput" type="text" value="{!v.participant.Email__c}"
+                                    required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                    disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
                                 <aura:set attribute="else">
                                     <!-- REF-3070 Added disabled-->
-                                    <lightning:input
-                                                     aura:id="emailInputParticipant"
-                                                     type="text"
-                                                     value="{!v.participant.Email__c}"
-                                                     required="{!!v.participantDelegate.Email__c}"
-                                                     disabled="{!!v.participant.Adult__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     />
+                                    <lightning:input aura:id="emailInputParticipant" type="text"
+                                        value="{!v.participant.Email__c}" required="{!!v.participantDelegate.Email__c}"
+                                        disabled="{!!v.participant.Adult__c}" onblur="{!c.doCheckFields}" />
                                 </aura:set>
                             </aura:if>
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             />
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <abbr title="required" class="slds-required">*</abbr
-                                    >{!$Label.c.PE_Country}
+                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                             </div>
-                            <c:rrSelect
-                                        options="{!v.formData.countriesLVList}"
-                                        value="{!v.participant.Mailing_Country_Code__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        required="true"
-                                        useSentenceFont="false"
-                                        onchange="{!c.doCountryCodeChanged}"
-                                        />
+                            <c:rrSelect options="{!v.formData.countriesLVList}"
+                                value="{!v.participant.Mailing_Country_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                                required="true" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
                                 <aura:if isTrue="{!!empty(v.statesLVList)}">
-                                    <abbr title="required" class="slds-required">*</abbr> </aura:if
-                                    >{!$Label.c.PE_State}
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>{!$Label.c.PE_State}
                             </div>
-                            <c:rrSelect
-                                        aura:id="stateField"
-                                        options="{!v.statesLVList}"
-                                        disabled="{!empty(v.statesLVList)}"
-                                        value="{!v.participant.Mailing_State_Code__c}"
-                                        setValueAsSelected="true"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        required="true"
-                                        useSentenceFont="false"
-                                        onchange="{!c.doStateChange}"
-                                        />
+                            <c:rrSelect aura:id="stateField" options="{!v.statesLVList}"
+                                disabled="{!empty(v.statesLVList)}" value="{!v.participant.Mailing_State_Code__c}"
+                                setValueAsSelected="true" placeholder="{!$Label.c.PG_AC_Select}" required="true"
+                                useSentenceFont="false" onchange="{!c.doStateChange}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
-                                <abbr title="required" class="slds-required">*</abbr
-                                    >{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
                             </div>
-                            <lightning:input
-                                             type="text"
-                                             value="{!v.participant.Mailing_Zip_Postal_Code__c}"
-                                             required="true"
-                                             onblur="{!c.doCheckFields}"
-                                             />
+                            <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
+                                required="true" onblur="{!c.doCheckFields}" />
                         </div>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                             />
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
                         <aura:if isTrue="{!v.fromActionParticipant}">
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                                 >
-                                 <div class="label tooltip">
-                                    <div class="textoverlapDaytimeTelephoneNumbe2"> 
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
+                                <div class="label tooltip">
+                                    <div class="textoverlapDaytimeTelephoneNumbe2">
                                         {!$Label.c.PG_AP_F_Alternative_Phone_Number}
                                     </div>
-                                    <span>{!$Label.c.PG_AP_F_Alternative_Phone_Number}</span>     
+                                    <span>{!$Label.c.PG_AP_F_Alternative_Phone_Number}</span>
                                 </div>
-                                <lightning:input
-                                                 type="text"
-                                                 value="{!v.participant.Alternative_Phone_Number__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 disabled="{!!v.participant.Adult__c}"
-                                                 />
+                                <lightning:input type="text" value="{!v.participant.Alternative_Phone_Number__c}"
+                                    onblur="{!c.doCheckFields}" disabled="{!!v.participant.Adult__c}" />
                             </div>
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                                 >
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                                 <div class="label tooltip">
-                                    <div class="textoverlapDaytimeTelephoneNumbe3">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
-                                    <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</span> 
-                                   </div> 
-                                <c:rrSelect
-                                            options="{!v.formData.phoneTypeLVList}"
-                                            value="{!v.participant.Alternative_Phone_Type__c}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                            onchange="{!c.doCheckFields}"
-                                            disabled="{!!v.participant.Alternative_Phone_Number__c || !v.participant.Adult__c}"
-                                            />
-                            </div>
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                                 />
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                                 />
-                        </aura:if>
-                        <div
-                                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--4-of-8"
-                            >
-                                <div class="label">
-                                    {!$Label.c.PG_AP_F_Preferred_Contact_Time}
+                                    <div class="textoverlapDaytimeTelephoneNumbe3">
+                                        {!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                    <span
+                                        style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</span>
                                 </div>
-                                <lightning:input
-                                    type="text"
-                                    value="{!v.participant.Preferred_Contact_Time__c}"
-                                    onblur="{!c.doCheckFields}"
-                                    maxlength = "255"
-                                />
+                                <c:rrSelect options="{!v.formData.phoneTypeLVList}"
+                                    value="{!v.participant.Alternative_Phone_Type__c}"
+                                    placeholder="{!$Label.c.PG_AC_Select}" onchange="{!c.doCheckFields}"
+                                    disabled="{!!v.participant.Alternative_Phone_Number__c || !v.participant.Adult__c}" />
                             </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" />
+                        </aura:if>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--4-of-8">
+                            <div class="label">
+                                {!$Label.c.PG_AP_F_Preferred_Contact_Time}
+                            </div>
+                            <lightning:input type="text" value="{!v.participant.Preferred_Contact_Time__c}"
+                                onblur="{!c.doCheckFields}" maxlength="255" />
+                        </div>
                     </div>
                 </aura:set>
             </aura:if>
-            
+
             <!-- referral information -->
             <aura:if isTrue="{!!v.fromActionParticipant}">
                 <div class="ap-section">
-                    <div class="slds-grid slds-wrap">	
+                    <div class="slds-grid slds-wrap">
                         <div class="ap-section-title">
                             {!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details :
                             $Label.c.PG_AP_H_Referral_Information}
-                        </div></div>
+                        </div>
+                    </div>
                     <div class="slds-grid slds-gutters slds-wrap ">
                         <aura:if isTrue="{!!v.updateMode}">
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
-                                 >
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        >{!$Label.c.PG_AP_F_Patient_Status}
+                                    <abbr title="required"
+                                        class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}
                                 </div>
-                                <c:rrSelect
-                                            options="{!v.formData.peStatusLVList}"
-                                            value="{!v.pe.Participant_Status__c}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                            required="true"
-                                            useSentenceFont="false"
-                                            onchange="{!c.doCheckFields}"
-                                            />
+                                <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}"
+                                    placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
+                                    onchange="{!c.doCheckFields}" />
                             </div>
                         </aura:if>
-                        <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
-                             >
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
                             <div class="label">
                                 <aura:if isTrue="{!!v.updateMode}">
                                     <abbr title="required" class="slds-required">*</abbr>
                                 </aura:if>
                                 {!$Label.c.PG_AP_F_Referred_By}
                             </div>
-                            <c:rrSelect
-                                        options="{!v.formData.referredByLVList}"
-                                        value="{!v.pe.Referred_By__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        required="true"
-                                        useSentenceFont="false"
-                                        onchange="{!c.doCheckFields}"
-                                        />
+                            <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
+                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
+                                onchange="{!c.doCheckFields}" />
                         </div>
                         <aura:if isTrue="{!v.isRTL}">
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
-                                 > 
-                                
-                                
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
+
+
                                 <div class="label">
                                     <aura:if isTrue="{!v.screeningRequired}">
                                         <abbr title="required" class="slds-required">*</abbr>
                                     </aura:if>
                                     {!$Label.c.PG_AP_F_Screening_Subject_Id}
                                 </div>
-                                <lightning:input
-                                                 aura:id="screeningId"
-                                                 type="text"
-                                                 value="{!v.pe.Screening_ID__c}"
-                                                 onblur="{!c.doCheckFields}"
-                                                 required="{!v.screeningRequired}"
-                                                 />
+                                <lightning:input aura:id="screeningId" type="text" value="{!v.pe.Screening_ID__c}"
+                                    onblur="{!c.doCheckFields}" required="{!v.screeningRequired}" />
                             </div>
                             <aura:set attribute="else">
-                                <div
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
-                                     > 
-                                    
-                                    
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
+
+
                                     <div class="label" style="width: auto;">
                                         <aura:if isTrue="{!v.screeningRequired}">
                                             <abbr title="required" class="slds-required">*</abbr>
                                         </aura:if>
                                         {!$Label.c.PG_AP_F_Screening_Subject_Id}
                                     </div>
-                                    <lightning:input
-                                                     aura:id="screeningId"
-                                                     type="text"
-                                                     value="{!v.pe.Screening_ID__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     required="{!v.screeningRequired}"
-                                                     />
+                                    <lightning:input aura:id="screeningId" type="text" value="{!v.pe.Screening_ID__c}"
+                                        onblur="{!c.doCheckFields}" required="{!v.screeningRequired}" />
                                 </div>
                             </aura:set>
                         </aura:if>
-                        
+
                         <aura:if isTrue="{!v.visitPlanAvailable}">
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
-                                 >
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
                                 <div class="label">
                                     <aura:if isTrue="{!v.visitPlanRequired}">
-                                        <abbr title="required" class="slds-required"
-                                              >*</abbr
-                                            > </aura:if
-                                        >{!$Label.c.FD_PE_Field_Arm_Cohort}
+                                        <abbr title="required" class="slds-required">*</abbr>
+                                    </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
                                 </div>
-                                <c:rrSelect
-                                            options="{!v.formData.visitPlansLVList}"
-                                            disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
-                                            value="{!v.pe.Visit_Plan__c}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                            required="{!v.visitPlanRequired}"
-                                            useSentenceFont="false"
-                                            onchange="{!c.doCheckFields}"
-                                            setValueAsSelected="true"
-                                            />
+                                <c:rrSelect options="{!v.formData.visitPlansLVList}"
+                                    disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
+                                    value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                                    required="{!v.visitPlanRequired}" useSentenceFont="false"
+                                    onchange="{!c.doCheckFields}" setValueAsSelected="true" />
                             </div>
-                            <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
-                                 />
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5" />
                         </aura:if>
                         <!--<aura:if isTrue="{!!v.visitPlanAvailable}">
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
                         </aura:if>-->
-                        
+
                         <!--<aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; (v.participant.Email__c &amp;&amp; v.isAdult) || (v.haveDelegate &amp;&amp;  v.participant.Health_care_proxy_is_needed__c)}">
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-1"></div>
 
@@ -1068,88 +757,56 @@
                 </div>
                 <aura:set attribute="else">
                     <div class="ap-section">
-                        <div class="slds-grid slds-wrap">	
+                        <div class="slds-grid slds-wrap">
                             <div class="ap-section-title">
                                 {!$Label.c.PG_AS_F_Participation_Information}
-                            </div></div>
+                            </div>
+                        </div>
                         <div class="slds-grid slds-gutters slds-wrap">
-                            <div
-                                 class="customWidth rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
-                                 >
+                            <div class="customWidth rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                                 <div class="label">
                                     {!$Label.c.Source_ID}
                                     <span>
-                                        <c:Help_Text
-                                                     text="{!$Label.c.PG_AS_F_Source_ID_Help_Text}"
-                                                     />
+                                        <c:Help_Text text="{!$Label.c.PG_AS_F_Source_ID_Help_Text}" />
                                     </span>
                                 </div>
                                 <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
-                                    <lightning:input
-                                                     aura:id="sourceID"
-                                                     type="text"
-                                                     value="{!v.pe.MRN_Id__c}"
-                                                     disabled="{!v.disableSourceId}"
-                                                     title="{!v.pe.MRN_Id__c}"
-                                                     
-                                                     />
+                                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.MRN_Id__c}"
+                                        disabled="{!v.disableSourceId}" title="{!v.pe.MRN_Id__c}" />
                                 </aura:if>
                                 <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
-                                    <lightning:input
-                                                     aura:id="sourceID"
-                                                     type="text"
-                                                     value="{!v.pe.Patient_ID__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     disabled="true"
-                                                     title="{!v.pe.Patient_ID__c}"
-                                                     />
+                                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.Patient_ID__c}"
+                                        onblur="{!c.doCheckFields}" disabled="true" title="{!v.pe.Patient_ID__c}" />
                                 </aura:if>
                                 <aura:if
-                                         isTrue="{!v.pe.Referral_Source__c != 'PI' &amp;&amp; v.pe.Referral_Source__c != 'HCP'}"
-                                         >
-                                    <lightning:input
-                                                     aura:id="sourceID"
-                                                     type="text"
-                                                     value="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     disabled="true"
-                                                     title="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}"             
-                                                     />
+                                    isTrue="{!v.pe.Referral_Source__c != 'PI' &amp;&amp; v.pe.Referral_Source__c != 'HCP'}">
+                                    <lightning:input aura:id="sourceID" type="text"
+                                        value="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}"
+                                        onblur="{!c.doCheckFields}" disabled="true"
+                                        title="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}" />
                                 </aura:if>
                             </div>
                             <aura:if isTrue="{!v.pe.Screening_ID__c}">
-                                <div
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
-                                     >
-                                    <div class="label" >
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                                    <div class="label">
                                         {!$Label.c.PG_AS_F_Screening_Subject_ID}
                                     </div>
-                                    <lightning:input
-                                                     aura:id="ScreeningId"
-                                                     type="text"
-                                                     value="{!v.pe.Screening_ID__c}"
-                                                     onblur="{!c.doCheckFields}"
-                                                     disabled="true"
-                                                     />
+                                    <lightning:input aura:id="ScreeningId" type="text" value="{!v.pe.Screening_ID__c}"
+                                        onblur="{!c.doCheckFields}" disabled="true" />
                                 </div>
                             </aura:if>
 
                             <aura:if isTrue="{!or(v.pe.Visit_Plan__c,v.formData.visitPlansLVList.length >0)}">
                                 <div
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 visit-plan-display"
-                                     >
+                                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 visit-plan-display">
                                     <div class="label">{!$Label.c.FD_PE_Field_Arm_Cohort}</div>
-                                    
-                                    <c:rrSelect
-                                                options="{!v.formData.visitPlansLVList}"
-                                                disabled="{!and(v.isOneVisitPlanAvailableAndSelected!=true,v.pe.Visit_Plan__c &amp;&amp; or(v.formData.visitPlansLVList.length ==1,v.formData.visitPlansLVList.length ==0))}"
-                                                value="{!v.pe.Visit_Plan__c}"
-                                                placeholder="{!$Label.c.PG_AC_Select}"
-                                                useSentenceFont="false"
-                                                onchange="{!c.doCheckFields}"
-                                                setValueAsSelected="true"
-                                                />
-                                    
+
+                                    <c:rrSelect options="{!v.formData.visitPlansLVList}"
+                                        disabled="{!and(v.isOneVisitPlanAvailableAndSelected!=true,v.pe.Visit_Plan__c &amp;&amp; or(v.formData.visitPlansLVList.length ==1,v.formData.visitPlansLVList.length ==0))}"
+                                        value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                                        useSentenceFont="false" onchange="{!c.doCheckFields}"
+                                        setValueAsSelected="true" />
+
                                 </div>
                             </aura:if>
                         </div>
