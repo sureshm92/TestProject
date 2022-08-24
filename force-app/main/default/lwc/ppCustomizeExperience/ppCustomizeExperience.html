@@ -103,12 +103,19 @@
                                                             class={iconEye}
                                                             data-name={showCoi.coi.Therapeutic_Area__r.Name}
                                                         >
-                                                            <c-web-icon
+                                                            <!-- <c-web-icon
                                                                 icon-size="medium-large"
                                                                 icon-name={closeIcon}
                                                                 icon-color="#999999"
                                                             >
-                                                            </c-web-icon>
+                                                            </c-web-icon> -->
+
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                            <use xlink:href={closeIcon}></use>
+                                                        </svg>
                                                         </span>
                                                     </span>
                                                 </button>
