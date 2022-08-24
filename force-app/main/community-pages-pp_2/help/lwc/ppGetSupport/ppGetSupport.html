@@ -1,6 +1,6 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-    <template if:false={isdelegate}>
+    <template if:true={isParticipant}>
         {label.getSupport}
         <lightning-combobox
             name={selectedOption}
@@ -9,19 +9,18 @@
             options={options}
             onchange={handleChange}
         ></lightning-combobox>
-        <template if:true={isParticipant}>
-            <template if:true={isEditYOB}>
-                {label.ppFrom} {currentYOB} {label.ppTo}
-                <lightning-combobox
-                    name={selectedYOB}
-                    value={selectedYOB}
-                    placeholder={label.selectYear}
-                    options={yearOptions}
-                    onchange={doCheckYearOfBith}
-                ></lightning-combobox>
-                <template if:true={showMinorErrorMsg}> {label.minorMessage} </template>
-            </template></template
-        >
+
+        <template if:true={isEditYOB}>
+            {label.ppFrom} {currentYOB} {label.ppTo}
+            <lightning-combobox
+                name={selectedYOB}
+                value={selectedYOB}
+                placeholder={label.selectYear}
+                options={yearOptions}
+                onchange={doCheckYearOfBith}
+            ></lightning-combobox>
+            <template if:true={showMinorErrorMsg}> {label.minorMessage} </template>
+        </template>
 
         <template if:true={isMatchUsernameEmail}>
             <template if:false={isShowUserMatch}>
@@ -49,7 +48,7 @@
         </span>
     </template>
 
-    <template if:false={isdelegate}>
+    <template if:true={isParticipant}>
         <button onclick={doCreateYOBCase} disabled={disableSave}>{label.submitButton}</button>
     </template>
 </template>

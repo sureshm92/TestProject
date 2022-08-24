@@ -33,9 +33,6 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     spinner;
     showMinorErrorMsg = false;
     disableSave = true;
-    changeUserName;
-
-    usernamesTomerge;
 
     label = {
         edit_Year_of_Birth,
@@ -82,7 +79,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
     get isParticipant() {
         let isParticipant;
-        isParticipant = this.userMode == 'Participant' ? true : false;
+        isParticipant = this.userMode == 'Participant' && this.isdelegate == false ? true : false;
         return isParticipant;
     }
     get isShowUserMatch() {
@@ -129,7 +126,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         this.spinner.show();
         if (this.isEditYOB) {
             createYOBCase({
-                birthYear: this.selectedYOB,
+                yob: this.selectedYOB,
                 username: false,
                 userEmail: '',
                 currentYob: this.currentYOB,
@@ -146,7 +143,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 });
         } else if (this.isMatchUsernameEmail) {
             createYOBCase({
-                birthYear: '',
+                yob: this.selectedYOB,
                 username: true,
                 userEmail: this.userEmail,
                 currentYob: this.currentYOB,
