@@ -1,0 +1,42 @@
+.modal-header-text {
+    color: #000000;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 2rem;
+}
+
+.web-modal-window .slds-modal__container {
+    width: 33%;
+    min-width: 25rem;
+}
+
+.slds-modal__content {
+    overflow: initial;
+}
+
+.card-top-bg {
+    height: 1rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
+}
+
+.close-cursor {
+    cursor: pointer;
+}
+
+.footer-container {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: #ffffff;
+    padding-bottom: 1.5rem;
+    margin-top: -0.75rem;
+    border-top: none;
+}
+
+@media screen and (max-width: 768px) {
+    .web-modal-window .slds-modal__container {
+        min-width: 80%;
+    }
+}
