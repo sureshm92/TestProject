@@ -133,12 +133,12 @@
                                     <td data-label="faccepted" class="slds-text-align_center">
                                         <div class="slds-truncate" title={b.Accepted_Records__c}>{b.Accepted_Records__c}</div>
                                     </td>    
-                                    <template if:true={b.Download_URL__c}>
+                                    <template if:true={b.isRejected}>
                                     <td data-label="frejected" class="slds-text-align_center ">
                                         <div class="slds-truncate slds-text-color_error color_error_bold" title={b.Rejected_Records__c}>{b.Rejected_Records__c}</div>
                                     </td>   
                                     </template>
-                                    <template if:false={b.Download_URL__c}>
+                                    <template if:false={b.isRejected}>
                                         <td data-label="frejected" class="slds-text-align_center ">
                                             <div class="slds-truncate " title={b.Rejected_Records__c}>{b.Rejected_Records__c}</div>
                                         </td>   
