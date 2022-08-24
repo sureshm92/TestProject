@@ -397,3 +397,7 @@
         word-break: break-word;
     }
 }
+
+.enforce-temp-title{
+    width: auto;
+}

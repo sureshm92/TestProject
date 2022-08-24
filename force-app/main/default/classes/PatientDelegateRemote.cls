@@ -15,6 +15,17 @@ public without sharing class PatientDelegateRemote {
     }
 
     @AuraEnabled
+    public static String getYourPatientLastName() {
+        try {
+            if (ParticipantContext.isCurrentDelegate())
+                return ParticipantContext.getCurrentParticipant().Last_Name__c;
+            return null;
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static String getDelegateByContactId(String id) {
         try {
             return JSON.serialize(PatientDelegateService.getInstance().getDelegateContact(id));

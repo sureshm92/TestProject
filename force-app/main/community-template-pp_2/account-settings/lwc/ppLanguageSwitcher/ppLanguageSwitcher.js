@@ -23,6 +23,7 @@ import PP_Third_Language from '@salesforce/label/c.PP_Third_Language';
 import PP_Second_Language from '@salesforce/label/c.PP_Second_Language';
 import PP_Language_and_Location from '@salesforce/label/c.PP_Language_and_Location';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
+import BACK from '@salesforce/label/c.Back';
 
 
 import getInitData from '@salesforce/apex/PP_LanguageSwitcherRemote.getInitData';
@@ -91,7 +92,8 @@ export default class PpLanguageSwitcher extends LightningElement {
         PP_Second_Language,
         PP_Preferred_Time_Zone,
         PP_Time_Zone_and_Location,
-        PP_Profile_Update_Success
+        PP_Profile_Update_Success,
+        BACK
     }
 
     get headerPanelClass() {
@@ -99,18 +101,26 @@ export default class PpLanguageSwitcher extends LightningElement {
     }
 
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';
+        return this.isRTL ? 'cardRTL grayInfoIcon' : 'grayInfoIcon';
     }
 
     get reNewMargin(){
         return this.isRTL ? 'slds-form-element margin-lr-15Plus' : 'slds-form-element margin-lr-15';
     }
 
+    get iconChevron() {
+        return 'icon-chevron-left';
+    }
+
     renderedCallback(){
         this.saveButton = this.template.querySelector('button[data-id=saveBtn]');
         this.saveButton ? this.isInputValid(): "";
-        // this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
-        // this.disableStateCombobox();
+        if(this.isInitialized){
+            if(this.statesLVList && this.statesLVList.length == 0){
+                this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
+                this.disableStateCombobox();
+            }
+        }
     }
     
     connectedCallback(){
@@ -190,18 +200,20 @@ export default class PpLanguageSwitcher extends LightningElement {
         this.statesLVList.length == 0 ? this.stateComboboxEle.disabled = true : this.stateComboboxEle.disabled = false;
     }
 
-    doCheckFieldsValidity(event){
-        //let personWrapper = component.get('v.personWrapper');
-       // component.set('v.isDisabled', false);      
+    doCheckFieldsValidity(event){      
         this.personWrapper.mailingCC = event.target.value;
         this.selectedCountry = this.personWrapper.mailingCC;
         this.selectedState = "";
-        if (this.personWrapper.mailingCC !== this.previousCC) {
-          //  let statesByCountryMap = component.get('v.statesByCountryMap');
+        if (this.personWrapper.mailingCC !== this.previousCC) {         
             let states = this.statesByCountryMap[this.personWrapper.mailingCC];
             this.statesLVList = states;
             this.previousCC = this.personWrapper.mailingCC;
-            this.personWrapper.mailingSC = null;
+            if(this.statesLVList.length == 0){
+                this.personWrapper.mailingSC = null
+            }else{
+                this.personWrapper.mailingSC = this.statesLVList[0].value; 
+                this.selectedState = this.statesLVList[0].value;
+            }
         }
 
         this.isInputValid();
