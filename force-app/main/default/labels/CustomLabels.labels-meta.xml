@@ -27580,4 +27580,12 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP Delegate Deactivated</shortDescription>
         <value>Delegates was successfully deactivated</value>
     </labels>
+    <labels>
+        <fullName>PP_Delegate_Activated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Activated</shortDescription>
+        <value>Delegates was successfully activated</value>
+    </labels>
 </CustomLabels>
