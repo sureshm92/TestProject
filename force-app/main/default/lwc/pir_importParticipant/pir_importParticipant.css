@@ -45,6 +45,9 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+.checkbox_mtop{
+    margin-top: 2px;
+}
 .fileUpload{    
   /*  color: #444444; */
     font-family: "Proxima Nova";
