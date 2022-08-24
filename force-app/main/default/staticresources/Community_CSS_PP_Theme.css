@@ -46,6 +46,7 @@
 }
 
 .profile-info-btn .slds-button{
+    color:#ffffff;
     height: 2rem !important;
     width:6rem !important;
     border-radius: 16px !important;
