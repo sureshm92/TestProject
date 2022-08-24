@@ -334,6 +334,14 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 });
                 this.noRecords=true;
             }
+            for (var i = 0; i < result.bulkHistoryDataCompleted.length; i++){
+                if(result.bulkHistoryDataCompleted[i].Rejected_Records__c!='0'){
+                    result.bulkHistoryDataCompleted[i].isRejected=true;
+                }
+                else{
+                    result.bulkHistoryDataCompleted[i].isRejected=false;
+                }
+            }
 
             if(this.isSpinnerRunning){
             this.saving = false; 
