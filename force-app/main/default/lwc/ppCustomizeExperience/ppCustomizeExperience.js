@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
@@ -46,6 +47,8 @@ export default class PpCustomizeExperience extends LightningElement {
     showmenu = false;
     bypass;
 
+    closeIcon = pp_icons + '/' + 'close-circle.svg' + '#' + 'close-circle-icon';
+
     // Component padding
     get headerPanelClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
@@ -80,7 +83,7 @@ export default class PpCustomizeExperience extends LightningElement {
     }
     renderedCallback() {
         if (this.isInitialized == true) {
-            //this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner = this.template.querySelector('c-web-spinner');
         }
     }
     connectedCallback() {
@@ -88,8 +91,9 @@ export default class PpCustomizeExperience extends LightningElement {
             .then(() => {
                 Promise.all([loadStyle(this, communityPPTheme)])
                     .then(() => {
-                        //this.spinner = this.template.querySelector('c-web-spinner');
-                        //this.spinner ? this.spinner.show() : '';
+                        this.spinner = this.template.querySelector('c-web-spinner');
+                        this.spinner ? this.spinner.show() : '';
+                        this.initializeData();
                     })
                     .catch((error) => {
                         console.log(error.body.message);
@@ -98,7 +102,9 @@ export default class PpCustomizeExperience extends LightningElement {
             .catch((error) => {
                 communityService.showToast('error', 'error', error.message, 100);
             });
+    }
 
+    initializeData(){        
         getInitData()
             .then((returnValue) => {
                 console.log('success', returnValue);
@@ -108,14 +114,14 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.conditionsOfInterestTemp = copy;
                 //console.log(this.conditionsOfInterestTemp[0].coi.Id);
                 window.setTimeout(() => {
-                    this.callhelper(coival);
-                    //this.spinner.hide();
+                    this.callhelper(coival);                    
                 }, 500);
+                this.spinner.hide();
             })
             .catch((error) => {
                 console.log('error');
                 communityService.showToast('error', 'error', error.message, 100);
-                //this.spinner.hide();
+                this.spinner.hide();
             });
     }
 
@@ -139,9 +145,8 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     callhelper(coival) {
-        //alert('called');
         this.bypass = false;
-        //this.spinner.show();
+        this.spinner.show();
         searchConditionOfInterest({
             nameTA: coival
         })
@@ -169,7 +174,7 @@ export default class PpCustomizeExperience extends LightningElement {
                         }
                     }
                 }
-                //this.spinner.hide();
+                this.spinner.hide();
                 this.displayedItems = unselecteditems;
             })
             .catch((error) => {
@@ -250,7 +255,6 @@ export default class PpCustomizeExperience extends LightningElement {
         }
     }
     saveElement() {
-        //alert('called');
         const deleteCOI = this.conditionOfInterestList;
         this.conditionsOfInterestTemp.sort(function (a, b) {
             return a.Condition_Of_Interest_Order__c - b.Condition_Of_Interest_Order__c;
@@ -315,12 +319,12 @@ export default class PpCustomizeExperience extends LightningElement {
                     }
                     this.showmenu = false;
                     this.conditionOfInterestList = coiSaveWrapperList;
-                    //this.spinner.hide();
+                    this.spinner.hide();
                 })
                 .catch((error) => {
                     console.log('error');
                     communityService.showToast('error', 'error', error.message, 100);
-                    //this.spinner.hide();
+                    this.spinner.hide();
                 });
             createSubscribeConnection({
                 cois: coiList
