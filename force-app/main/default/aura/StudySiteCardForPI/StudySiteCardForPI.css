@@ -362,6 +362,10 @@
         width: 100%;
     }
 
+    .THIS .ss-info-buttonsRTL {
+           margin:20px -15px 0 15px !important;
+     }
+
     .THIS .ss-info-buttons #manageReferringClinicsBySS,
     .THIS .ss-info-buttons #openToReceiveReferrals {
         margin-bottom: 0;
