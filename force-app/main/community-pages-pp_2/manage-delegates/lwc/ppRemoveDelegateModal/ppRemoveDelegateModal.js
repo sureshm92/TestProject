@@ -42,11 +42,6 @@ export default class PpRemoveDelegateModal extends LightningElement {
 
         this.dispatchEvent(selectedEvent);
         this.showmodal = false;
-        communityService.showToast(
-            '',
-            'success',
-            this.label.PP_Delegate_Deactivated 
-        );
-
+        communityService.showToast('', 'success', this.label.PP_Delegate_Deactivated, 300);
     }
 }
