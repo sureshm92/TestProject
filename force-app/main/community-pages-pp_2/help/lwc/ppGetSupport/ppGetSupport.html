@@ -1,0 +1,55 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:false={isdelegate}>
+        {label.getSupport}
+        <lightning-combobox
+            name={selectedOption}
+            value={selectedOption}
+            placeholder={placeholder}
+            options={options}
+            onchange={handleChange}
+        ></lightning-combobox>
+        <template if:true={isParticipant}>
+            <template if:true={isEditYOB}>
+                {label.ppFrom} {currentYOB} {label.ppTo}
+                <lightning-combobox
+                    name={selectedYOB}
+                    value={selectedYOB}
+                    placeholder={label.selectYear}
+                    options={yearOptions}
+                    onchange={doCheckYearOfBith}
+                ></lightning-combobox>
+                <template if:true={showMinorErrorMsg}> {label.minorMessage} </template>
+            </template></template
+        >
+
+        <template if:true={isMatchUsernameEmail}>
+            <template if:false={isShowUserMatch}>
+                <lightning-input
+                    type="checkbox"
+                    label={label.matchUsernameEmail}
+                    name="input1"
+                ></lightning-input>
+            </template>
+            <template if:true={isShowUserMatch}>
+                <lightning-input
+                    type="checkbox"
+                    label={label.matchUsernameEmail}
+                    name="input3"
+                    checked
+                    disabled
+                ></lightning-input>
+            </template>
+        </template>
+
+        {label.helpResponse}&nbsp;
+        <span
+            ><a onclick={navigateToAccountSettings}><b> {label.accountSettings}&nbsp;</b></a>
+            {label.updateProfileResponse}
+        </span>
+    </template>
+
+    <template if:false={isdelegate}>
+        <button onclick={doCreateYOBCase} disabled={disableSave}>{label.submitButton}</button>
+    </template>
+</template>

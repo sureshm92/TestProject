@@ -194,6 +194,17 @@
     min-width: 20%;
 }
 
+.THIS .Email {
+    padding: 5px 0;
+    line-height: 10px;
+    margin-bottom: -2px;
+}
+
+.THIS .Primary {
+    padding: 4px 0;
+    line-height: 12px;
+    margin-bottom: -2px;
+}
 @media all and (max-width: 480px) {
     .THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
         margin-top: 30px;
