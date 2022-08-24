@@ -2,8 +2,12 @@
  - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
-<aura:component description="StudySiteCardForPI" controller="StudyListViewController" extends="c:CommunityContext">
-    <!-- attributes: -->    
+<aura:component
+    description="StudySiteCardForPI"
+    controller="StudyListViewController"
+    extends="c:CommunityContext"
+>
+    <!-- attributes: -->
     <aura:attribute name="siteWrapper" type="Object" />
     <aura:attribute name="delegatePicklist" type="List" />
     <aura:attribute name="rerenderComponent" type="Boolean" description="false" />
@@ -20,7 +24,9 @@
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.studySite}">
             <div class="card-header">
-                <div class="pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">{!v.siteWrapper.PIName}</div>
+                <div class="pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
+                    {!v.siteWrapper.PIName}
+                </div>
                 <div class="manage-location-details" style="{!if(v.isRTL, 'text-align: left;','')}">
                     <span onclick="{!c.showManageLocationDetails}">
                         {!$Label.c.SS_Manage_Location_Details}</span
@@ -50,14 +56,15 @@
                         </div>
                         <div
                             class="{!'slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ' + if(v.isRTL,'clinic-typeRTL ss-info-detailsRTL','clinic-type ss-info-details')}"
-                        >   
+                        >
                             <aura:if isTrue="{!v.isRTL}">
-                                {! $Label.c.SS_Site +' '+ (v.siteWrapper.studySite.Study_Site_Type__c)}
-                            <aura:set attribute="else">
-                                {!(v.siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}   
-                            </aura:set>
+                                {! $Label.c.SS_Site +' '+
+                                (v.siteWrapper.studySite.Study_Site_Type__c)}
+                                <aura:set attribute="else">
+                                    {!(v.siteWrapper.studySite.Study_Site_Type__c) + ' '+
+                                    $Label.c.SS_Site}
+                                </aura:set>
                             </aura:if>
-                            
                         </div>
                         <div
                             class="{!'slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
@@ -208,7 +215,7 @@
                                         class="apollo-btn secondary slds-align-bottom"
                                         disabled="{!action.disabled}"
                                         title="{!action.disableReason}"
-                                        style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
+                                        style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'ss-info-buttonsRTL','')}"
                                         onclick="{!c.doAction}"
                                     >
                                         {!action.label}
@@ -218,25 +225,27 @@
 
                             <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
-                                 <button
-                                            id=""
-                                            data-gtm=""
-                                            value=""
-                                            class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
-                                            disabled="false"
-                                            title=""
-                                            style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
-                                            onclick="{!c.doActionBulkImport}"
-                                        >
-                                           {!$Label.c.pir_Bulk_Import_History}
-                                        </button>
+                                <button
+                                    id=""
+                                    data-gtm=""
+                                    value=""
+                                    class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
+                                    disabled="false"
+                                    title=""
+                                    style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
+                                    onclick="{!c.doActionBulkImport}"
+                                >
+                                    {!$Label.c.pir_Bulk_Import_History}
+                                </button>
                             </aura:if>
-                            <!-- builk import page --> 
+                            <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
                                 <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">
                                     <c:uiHeaderMenu aura:id="menuId" class="mode-block">
                                         <aura:set attribute="title">
-                                            <div class="apollo-btn primary slds-align-bottom slds-top-margin-mobiles">
+                                            <div
+                                                class="apollo-btn primary slds-align-bottom slds-top-margin-mobiles"
+                                            >
                                                 <div title="Add Participant">
                                                     {!v.addParticipantInfo.label}
                                                 </div>
@@ -271,7 +280,6 @@
                                     </c:uiHeaderMenu>
                                 </div>
                             </aura:if>
-                           
                         </div>
                     </div>
                 </div>
