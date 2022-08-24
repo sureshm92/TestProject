@@ -237,7 +237,7 @@
                                              required="true"
                                              autocomplete="off"
                                              onchange="{!c.doCheckDateOfBith}"
-                                             dateStyle="medium"
+                                             dateStyle="medium" 
                                              />
                         </div>
                     </div>
