@@ -81,9 +81,6 @@
 .font-thickness {
     font-weight: 500;
 }
-.rr-width-limiter.side-padding {
-    padding-top: 0px !important;
-}
 @media (max-width: 500px){
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -151,4 +148,9 @@
 
 .grayInfoIcon lightning-primitive-icon{
     color: #444444 !important;
+}
+
+.rr-min-body-height .rr-min-body-height {
+    min-height: auto !important;
+    padding-bottom: 35px !important;
 }

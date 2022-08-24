@@ -27572,4 +27572,20 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_AS_Delegate_Removed</shortDescription>
         <value>You have been succesfully removed from the Delegates list</value>
     </labels>
+    <labels>
+        <fullName>PP_Delegate_Deactivated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Deactivated</shortDescription>
+        <value>Delegates was successfully deactivated</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Activated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Activated</shortDescription>
+        <value>Delegates was successfully activated</value>
+    </labels>
 </CustomLabels>
