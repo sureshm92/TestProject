@@ -119,6 +119,23 @@ public without sharing class AccountSettingsController {
                         prepareCommunicationPreferenceData(participantEnrollments, initData);
                     }
 
+                    //Prepare Program Overview data
+                    //check if delegate self view or delegate viewing as an alumni participant
+                    if (
+                        participantState.value == ParticipantService.ParticipantStates.ALUMNI &&
+                        participantState.hasPatientDelegates
+                    ) {
+                        initData.programOverViewData.isDelegateSelfView = true;
+                    }
+                    if (
+                        participantState.value == ParticipantService.ParticipantStates.ALUMNI &&
+                        !participantState.hasPatientDelegates
+                    ) {
+                        //check if Alunmi participant
+                        initData.programOverViewData.isAlumniParticipant = true;
+                    }
+                    initData.programOverViewData.communityName = participantState.communityName;
+
                     for (Participant_Enrollment__c p : participantEnrollments) {
                         if (p.Study_Site__r.SMS_Are_Available__c) {
                             initData.isSMSAvailableFromSS = true;
@@ -599,6 +616,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Participant__c participant;
         @AuraEnabled
         public ConsentPreferenceData consentPreferenceData = new ConsentPreferenceData();
+        @AuraEnabled
+        public ProgramOverViewData programOverViewData = new ProgramOverViewData();
     }
 
     public class ContactSectionData {
@@ -657,6 +676,14 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isMobilePhoneNumberAvailable = false;
         @AuraEnabled
         public Boolean isSelfAccountSettingWarningMessage = false;
+    }
+
+    public class ProgramOverViewData {
+        public Boolean isDelegateSelfView = false;
+        @AuraEnabled
+        public Boolean isAlumniParticipant = false;
+        @AuraEnabled
+        public String communityName;
     }
 
     public class PersonWrapper {
@@ -1061,8 +1088,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Alternative_Phone_Type__c,
                 Birth_Year__c,
                 Email__c,
-                Contact__c,
-                Use_as_Daytime_Phone__c
+                Contact__c
             FROM Participant__c
             WHERE Contact__c = :contId
         ][0];
