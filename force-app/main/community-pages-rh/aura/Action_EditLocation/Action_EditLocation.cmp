@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="slds-col slds-size--3-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
+                                    class="{! 'slds-col slds-size--3-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers ' + if(v.isRTL,'','margintopleft')}">
                                     <aura:if
                                         isTrue="{!('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy ||
                                                         v.account.BillingGeocodeAccuracy == 'Block' || v.account.BillingGeocodeAccuracy == 'Street' || v.account.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">

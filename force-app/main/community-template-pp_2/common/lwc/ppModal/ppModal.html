@@ -1,98 +1,27 @@
 <template>
     <section role="dialog" tabindex="-1" aria-modal="true" class={sectionClass}>
         <div class="slds-modal__container">
-            <header class="slds-modal__header">
-                <lightning-button-icon
-                    alternative-text="Close"
-                    class="slds-modal__close"
-                    icon-name="utility:close"
-                    variant="bare-inverse"
-                    onclick={cancel}
-                    size="large"
-                ></lightning-button-icon>
-                <h2 class="slds-modal__title slds-text-heading_medium slds-hyphenate">
-                    {headerText}
-                </h2>
-            </header>
-            <div class="slds-modal__content slds-p-around_medium">
-                <slot name="body"></slot>
-            </div>
-            <footer class="slds-modal__footer">
-                <slot name="footer"></slot>
-            </footer>
-        </div>
-    </section>
-    <div class={backDropClass}></div>
-</template>
-
-<!--
-
-<template>
-    <section
-        role="dialog"
-        tabindex="-1"
-        aria-modal="true"
-        aria-labelledby="modal-heading-01"
-        class="slds-modal slds-fade-in-open"
-    >
-        <div class="slds-modal__container">
-            <div class="slds-grid unable-login-card-top"></div>
-            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                <div class="slds-grid slds-grid_align-spread">
-                    <div class="slds-col unable-login-title">{labels.unableToLogin}</div>
-                    <div class="slds-col">
+            <div class="slds-grid card-top-bg"></div>
+            <div class="slds-modal__content slds-p-around_large">
+                <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+                    <div class="slds-col modal-header-text">{headerText}</div>
+                    <div class="slds-col close-cursor">
                         <lightning-icon
                             icon-name="utility:close"
                             alternative-text="close"
                             title="close"
                             size="x-small"
-                            onclick={closeModal}
+                            onclick={handleCloseModal}
                         >
                         </lightning-icon>
                     </div>
                 </div>
-                <div class="slds-m-top_x-small">
-                    <span class="locked-out-txt">{labels.unableToLogin1}</span>
-                    <p class="slds-m-top_xx-small text-justify">
-                        {labels.unableToLogin2}&nbsp;
-                        <span class="font-thickness"
-                            ><a onclick={redirectToForgotPassword}>
-                                {labels.loginLinkForgot}
-                            </a> </span
-                        >&nbsp; {labels.unableToLogin3}
-                    </p>
-                </div>
-                <div class="slds-m-top_x-small">
-                    <span class="locked-out-txt">{labels.unableToLogin4}</span>
-                    <p class="slds-m-top_xx-small text-justify">
-                        {labels.unableToLogin5}&nbsp;
-                        <span class="font-thickness"
-                            ><a href="mailto:support@mail.clinicalresearch.com ">
-                                {labels.unableToLogin6}
-                            </a> </span
-                        >&nbsp; {labels.unableToLogin7}
-                    </p>
-                </div>
-
-                <div class="slds-m-top_x-small">
-                    <span class="locked-out-txt">{labels.unableToLogin8}</span>
-                    <p class="slds-m-top_xx-small text-justify">
-                        {labels.unableToLogin9}&nbsp;
-                        <span class="font-thickness"
-                            ><a href="mailto:support@mail.clinicalresearch.com ">
-                                {labels.unableToLogin6}
-                            </a> </span
-                        >&nbsp; {labels.unableToLogin10}
-                    </p>
-                </div>
+                <slot name="body"></slot>
             </div>
-            <div class="slds-modal__footer">
-                <button class="slds-button btn-close" onclick={closeModal}>Close</button>
+            <div class="slds-modal__footer slds-p-horizontal_large footer-container">
+                <slot name="footer"></slot>
             </div>
         </div>
     </section>
-    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    <div class={backDropClass}></div>
 </template>
-
-
--->

@@ -218,7 +218,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 if (this.userMode === 'Participant') {
                     this.isAdult = initialData.participant.Adult__c;
                 }
+                /**Delegate */
                 if (communityService.getCurrentCommunityMode().currentDelegateId) {
+                    this.isDelegate = true;
                     this.userId = communityService.getCurrentCommunityMode().currentDelegateId;
                     if (this.userMode === 'Participant') {
                         if (
@@ -227,10 +229,22 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                         ) {
                             this.userEmail = initialData.delegateUserName.Username;
                         }
+                        if (this.personWrapper.showBirthDate && this.personWrapper.dateBirth) {
+                            this.parseDOB(this.personWrapper.dateBirth);
+                        }
                     }
                 } else {
+                    this.isDelegate = false;
                     this.userId = initialData.myContact.Id;
-                    this.parseDOB(this.personWrapper.dateBirth);
+                    if (
+                        !this.isDelegate &&
+                        !this.personWrapper.showBirthDate &&
+                        !this.personWrapper.dateBirth
+                    ) {
+                        this.parseDelegateDOB(this.personWrapper.birthYear);
+                    } else {
+                        this.parseDOB(this.personWrapper.dateBirth);
+                    }
                     if (this.userMode === 'Participant' && this.isAdult) {
                         this.userEmail = initialData.userName;
                     }
@@ -248,6 +262,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.initializeLabels();
                 this.isInitialized = true;
                 console.log('Thanos:::', this.contactSectionData);
+                console.log('End Game:::', this.initData);
                 this.spinner.hide();
             })
             .catch((error) => {
@@ -452,6 +467,12 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         return this.isAdult && this.userEmail;
     }
 
+    get dobDisabled() {
+        return this.isDelegate || (!this.isDelegate && !this.personWrapper.showBirthDate)
+            ? true
+            : false;
+    }
+
     get isMobilePhoneRequired() {
         return this.personWrapper.optInSMS && this.personWrapper.mailingCC === 'US' ? true : false;
     }
@@ -637,8 +658,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 }
                 emailField.reportValidity();
             } else {
+                let emailField = this.template.querySelector(`[data-id="email-input"]`);
                 this.showErrorInput('email-input');
                 this.hasFieldError.isEmailHasError = true;
+                emailField.setCustomValidity(this.emailFieldError);
+                emailField.reportValidity();
             }
         }
     }
@@ -747,13 +771,21 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
 
     /**Convert DOB to three different fields */
     parseDOB(dateOfBirthInput) {
-        let dob = new Date(dateOfBirthInput);
-        this.dateOfBirth = {
-            year: dob.getFullYear().toString(),
-            month: dob.toLocaleString(LOCALE, { month: '2-digit' }).toString(),
-            day: dob.toLocaleString(LOCALE, { day: '2-digit' }).toString()
-        };
-        this.setAllowedDays(this.dateOfBirth.month);
+        if (dateOfBirthInput) {
+            let dob = new Date(dateOfBirthInput);
+            this.dateOfBirth = {
+                year: dob.getFullYear().toString(),
+                month: dob.toLocaleString(LOCALE, { month: '2-digit' }).toString(),
+                day: dob.toLocaleString(LOCALE, { day: '2-digit' }).toString()
+            };
+            this.setAllowedDays(this.dateOfBirth.month);
+        }
+    }
+
+    parseDelegateDOB(birthYearInput) {
+        if (birthYearInput) {
+            this.dateOfBirth.year = birthYearInput;
+        }
     }
 
     /**Set days based on month and year */
@@ -870,10 +902,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     handleUpdatePerson() {
         updatePerson({ wrapperJSON: JSON.stringify(this.personWrapper) })
             .then((result) => {
-                this.spinner.hide();
                 this.showToast(this.labels.DATA_UPDATE, this.labels.DATA_UPDATE, 'success');
                 setTimeout(() => {
-                    this.reloadPage();
+                    this.reInitializePage();
                 }, 2000);
             })
             .catch((error) => {
@@ -882,9 +913,22 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             });
     }
 
-    reloadPage() {
-        communityService.navigateToPage('account-settings?profileInformation');
-        window.location.reload(true);
+    reInitializePage() {
+        this.initializeHasFieldError();
+        this.initializeData();
+        this.spinner.hide();
+    }
+
+    initializeHasFieldError() {
+        this.hasFieldError = {
+            isFNHasError: false,
+            isLNHasError: false,
+            isDOBHasError: false,
+            isEmailHasError: false,
+            isMPHasError: false,
+            isDPHasError: false,
+            isFieldChanged: false
+        };
     }
 
     showToast(titleText, messageText, variantType) {

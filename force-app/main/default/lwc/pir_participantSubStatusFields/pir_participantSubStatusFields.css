@@ -24,12 +24,24 @@
 .checkbox_alignment {
     margin: 0.3rem 0px 0px 0px;
 }
-.textoverlap {
-    width: 12rem;
+.text-overlap
+{
+    width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+
 }
+
+.disflex{
+    display:flex;
+}
+
+.margininitial{
+    margin-top:4px
+}
+
+
 .sitepreferences {
     font-size: 14px;
     font-family: 'Proxima Nova';
