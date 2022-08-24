@@ -231,6 +231,19 @@ export default class PpNewTeamMember extends LightningElement {
             alert('else block');
         }
     }
+    //Partially Mask the field
+    partiallyMaskFields(value) {
+        let maskedValue = '';
+        for (let i = 0; i < value.length; i++) {
+            if (i == 0) {
+                maskedValue += value.charAt(0);
+            } else {
+                maskedValue += '*';
+            }
+        }
+        return maskedValue;
+    }
+
     doSearchContact() {
         let delegate = this.delegate;
         if (
@@ -259,6 +272,14 @@ export default class PpNewTeamMember extends LightningElement {
                 //let userMode = this.userMode;
                 //let parentId = this.parentId;
                 this.delegate = contactData.delegates[0];
+                //Partially mask first Name
+                this.delegate.delegateContact.FirstName = this.partiallyMaskFields(
+                    this.delegate.delegateContact.FirstName
+                );
+                //Partially mask Last Name
+                this.delegate.delegateContact.LastName = this.partiallyMaskFields(
+                    this.delegate.delegateContact.LastName
+                );
                 console.log('isActive--->' + this.delegate.isActive);
                 this.isDelegateActive = this.delegate.isActive;
                 if (
@@ -282,8 +303,9 @@ export default class PpNewTeamMember extends LightningElement {
                     trialName: this.label.PG_NTM_L_Permission_level_will_apply_to_all_studies
                 };
                 this.allTrialLevel = allTrialLevel;
-                let studyDelegateLavelItems =
-                    this.template.querySelector('[data-id="study-level"]');
+                let studyDelegateLavelItems = this.template.querySelector(
+                    '[data-id="study-level"]'
+                );
                 if (studyDelegateLavelItems) {
                     for (let i = 0; i < studyDelegateLavelItems.length; i++) {
                         studyDelegateLavelItems[i].refresh();
