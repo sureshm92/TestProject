@@ -11275,6 +11275,10 @@
         <tab>Televisit_Attendee__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+     <tabVisibilities>
+        <tab>Study_Closure__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
