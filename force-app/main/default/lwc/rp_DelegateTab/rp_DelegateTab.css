@@ -100,6 +100,12 @@ overflow: hidden;
   line-height: 30px;
 }
 
+:dir(rtl) .information > div {
+  margin-left: 2.25rem;
+  margin-top: -1.45rem;
+  line-height: 16px;
+  padding-right: 30px;
+}
 .information > div {
   margin-left: 2.25rem;
   margin-top: -1.45rem;
