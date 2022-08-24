@@ -11,6 +11,7 @@ import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 export default class PpQuickReferenceLink extends LightningElement {
     videoLink;
     @api userMode;
+    @api isDelegate;
     userManual;
     quickReference;
     yearOfBirthPicklistvalues;
@@ -24,7 +25,6 @@ export default class PpQuickReferenceLink extends LightningElement {
         this.initializeData();
     }
     initializeData() {
-        console.log('-----------initializeData-----------');
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 var initData = JSON.parse(result);
