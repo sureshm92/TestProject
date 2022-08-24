@@ -18833,6 +18833,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_EmailMatch</shortDescription>
         <value>I would like my username &amp; email to match</value>
     </labels>
+      <labels>
+        <fullName>PP_Match_Username_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Match Username Email</shortDescription>
+        <value>I would like my Username &amp; Email to match</value>
+    </labels>
     <labels>
         <fullName>PP_EmailSent</fullName>
         <language>en_US</language>
@@ -19721,6 +19728,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UpdateProfileResp</shortDescription>
         <value>&gt; Contact Information &gt; Edit &gt; Save</value>
+    </labels>
+     <labels>
+        <fullName>PP_UpdateProfileResponse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UpdateProfileResponse</shortDescription>
+        <value>&gt; Profile Information &gt;  Save</value>
     </labels>
     <labels>
         <fullName>PP_Upload_Photo</fullName>

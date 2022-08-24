@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import edit_Year_of_Birth from '@salesforce/label/c.PP_Edit_Year_of_Birth';
 import match_Username_Email from '@salesforce/label/c.PP_Match_Username_Email';
 import select_Support_Topic from '@salesforce/label/c.PP_Select_Support_Topic';
@@ -9,24 +10,31 @@ import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
+import matchUsernameEmail from '@salesforce/label/c.PP_Match_Username_Email';
+import helpResponse from '@salesforce/label/c.PP_HelpResponse';
+import accountSettings from '@salesforce/label/c.PP_Account_Settings';
+import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
 
-export default class PpGetSupport extends LightningElement {
+export default class PpGetSupport extends NavigationMixin(LightningElement) {
     @api isdelegate;
     @api isDuplicate;
     @api currentYOB;
     @api showUserMatch;
     @api yearOfBirthPicklistvalues;
+    @api userEmail;
+    @api usrName;
+    @api userMode;
     isEditYOB = false;
     isMatchUsernameEmail = false;
     spinner;
     showMinorErrorMsg = false;
     disableSave = true;
     changeUserName;
-    userEmail;
+
     usernamesTomerge;
 
     label = {
@@ -39,13 +47,18 @@ export default class PpGetSupport extends LightningElement {
         getSupport,
         submitButton,
         minorMessage,
-        requestSubmitted
+        requestSubmitted,
+        matchUsernameEmail,
+        helpResponse,
+        updateProfileResponse,
+        accountSettings
     };
 
     selectedOption;
     selectedYOB;
     value = 'inProgress';
     placeholder = select_Support_Topic;
+    doMatchUsernameEmail;
 
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -67,6 +80,15 @@ export default class PpGetSupport extends LightningElement {
     get yearOptions() {
         return this.yearOfBirthPicklistvalues;
     }
+    get isParticipant() {
+        let isParticipant;
+        isParticipant = this.userMode == 'Participant' ? true : false;
+        return isParticipant;
+    }
+    get isShowUserMatch() {
+        this.disableSave = this.showUserMatch == true ? true : false;
+        return this.showUserMatch;
+    }
 
     handleChange(event) {
         this.selectedOption = event.detail.value;
@@ -84,7 +106,6 @@ export default class PpGetSupport extends LightningElement {
     }
     doCheckYearOfBith(event) {
         this.selectedYOB = event.detail.value;
-        console.log('????????????slected YOB' + this.selectedYOB);
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
 
@@ -110,13 +131,30 @@ export default class PpGetSupport extends LightningElement {
             createYOBCase({
                 birthYear: this.selectedYOB,
                 username: false,
+                userEmail: '',
+                currentYob: this.currentYOB,
+                mergeUserNames: this.isDuplicate,
+                usrList: this.usrName
+            })
+                .then((result) => {
+                    communityService.showToast('', 'success', requestSubmitted, 100);
+                    communityService.navigateToPage('help');
+                    this.spinner.hide();
+                })
+                .catch((error) => {
+                    console.log('error', error);
+                });
+        } else if (this.isMatchUsernameEmail) {
+            createYOBCase({
+                birthYear: '',
+                username: true,
                 userEmail: this.userEmail,
                 currentYob: this.currentYOB,
                 mergeUserNames: this.isDuplicate,
-                usrList: this.usernamesTomerge
+                usrList: this.usrName
             })
                 .then((result) => {
-                    communityService.showToast('', 'success', requestSubmitted, 300);
+                    communityService.showToast('', 'success', requestSubmitted, 100);
                     communityService.navigateToPage('help');
                     this.spinner.hide();
                 })
@@ -124,5 +162,14 @@ export default class PpGetSupport extends LightningElement {
                     console.log('error', error);
                 });
         }
+    }
+
+    navigateToAccountSettings() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'account-settings'
+            }
+        });
     }
 }
