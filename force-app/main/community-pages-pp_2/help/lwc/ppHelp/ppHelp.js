@@ -33,23 +33,23 @@ export default class PpHelp extends LightningElement {
     isMobile = false;
 
     exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
+    exclamation = pp_icons + '/' + 'status-exclamation.svg' + '#' + 'status-exclamation-icon';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
-
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';     
+        return this.isRTL ? 'cardRTL' : '';
     }
 
     get headerPanelClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
     }
 
-    get leftColPadding(){
+    get leftColPadding() {
         return this.isRTL ? 'mb-15 leftColumn-RTL' : 'mb-15 leftColumn';
     }
 
-    get breadCrumMobile(){
+    get breadCrumMobile() {
         return this.isRTL ? 'mr-10' : '';
     }
 
@@ -114,7 +114,7 @@ export default class PpHelp extends LightningElement {
         }
     }
 
-    navigateToAccSettings(){
+    navigateToAccSettings() {
         window.open('account-settings', '_blank');
-    }   
+    }
 }

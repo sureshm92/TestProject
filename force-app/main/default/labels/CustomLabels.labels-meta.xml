@@ -18833,11 +18833,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_EmailMatch</shortDescription>
         <value>I would like my username &amp; email to match</value>
     </labels>
-    <labels>
-        <fullName>PP_Match_Username_Email</fullName>
+      <labels>
+        <fullName>PP_Match_Username_And_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username Email</shortDescription>
+        <shortDescription>PP Match Username And Email</shortDescription>
         <value>I would like my Username &amp; Email to match</value>
     </labels>
     <labels>
