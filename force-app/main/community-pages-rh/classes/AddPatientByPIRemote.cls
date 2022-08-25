@@ -411,9 +411,9 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
                    
                 }
-                  //update participantCon; converted to future method
-                  String objJSONStr = Json.serialize(participantCon);
-                  updateParticipantContact(objJSONStr);
+                  update participantCon;
+                  //String objJSONStr = Json.serialize(participantCon);
+                  //updateParticipantContact(objJSONStr);
             }
 
             if (
