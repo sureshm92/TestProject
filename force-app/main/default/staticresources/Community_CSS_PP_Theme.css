@@ -97,7 +97,7 @@
 }
 
 .toastContainer > .forceToastMessage {
-    width: 40%;
+    width: fit-content;
     max-width: 1424px;
     min-height: 40px;
     min-width: 40%;
@@ -108,13 +108,17 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content{
+    padding-left: 0.5rem;
+}
+
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
 }
 
 .toastMessage.forceActionsText {
     font-family: "Proxima Nova"!important;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 
 .toastContainer .toastClose {
