@@ -27415,4 +27415,18 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
     </labels>
+    <labels>
+        <fullName>Navigation_AboutProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the Program</shortDescription>
+        <value>About the Program</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_AboutStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the study</shortDescription>
+        <value>About the Study</value>
+    </labels>
 </CustomLabels>
