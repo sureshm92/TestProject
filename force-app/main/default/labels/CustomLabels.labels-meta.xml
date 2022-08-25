@@ -20805,6 +20805,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Email Error</shortDescription>
         <value>Enter a valid email format</value>
     </labels>
+     <labels>
+        <fullName>PP_Required_Field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Required Field</shortDescription>
+        <value>Required Field</value>
+    </labels>
     <labels>
         <fullName>Pswd_ValidationMsg8</fullName>
         <language>en_US</language>
