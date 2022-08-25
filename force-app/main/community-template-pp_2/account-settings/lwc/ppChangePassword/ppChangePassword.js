@@ -274,6 +274,8 @@ export default class PpChangePassword extends LightningElement {
             this.disableUpdateButton();
         }else if(password != renewpassword){
             this.disableUpdateButton();
+        }else if(password == renewpassword && (password.length < 8 || renewpassword.length < 8)){
+            this.disableUpdateButton();
         }else if(oldpassword.length == 0){
             this.disableUpdateButton();
         }else{
