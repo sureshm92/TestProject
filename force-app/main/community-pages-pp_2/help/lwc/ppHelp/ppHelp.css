@@ -6,6 +6,7 @@
     padding: 1.5rem;
     padding-bottom: 0px;
     margin-top: -15px;
+    padding-right: 5px;
 }
 
 .header-panel-mobile {
@@ -155,6 +156,7 @@
 
 .acc-settings-link {
     color: #0f6efd;
+    font-size: 15px;
 }
 
 .acc-settings-link:hover {
@@ -165,7 +167,7 @@
     height: 48px;
     color: #595959;
     font-family: 'Proxima Nova';
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
@@ -173,5 +175,4 @@
 
 .pad10 {
     text-align: center;
-    margin-top: -10px;
 }
