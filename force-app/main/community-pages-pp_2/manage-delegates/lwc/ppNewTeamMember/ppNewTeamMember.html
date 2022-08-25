@@ -32,6 +32,10 @@
                             label={label.PG_AS_F_Email_address}
                             value={delegate.delegateContact.Email}
                             onblur={doSearchContact}
+                            pattern="[A-Za-z0-9._-]+@[a-z0-9-]+.[a-z]{2,}$"
+                            message-when-pattern-mismatch={label.PP_Email_Error}
+                            message-when-value-missing={label.PP_Required_Field}
+
                         ></lightning-input>
                     </div>
                 </div>
@@ -52,6 +56,8 @@
                             value={delegate.delegateContact.FirstName}
                             maxlength={maxLengthData.FirstName}
                             required
+                            message-when-value-missing={label.PP_Required_Field}
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>
@@ -71,6 +77,8 @@
                             value={delegate.delegateContact.LastName}
                             maxlength={maxLengthData.LastName}
                             required
+                            message-when-value-missing={label.PP_Required_Field}
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>

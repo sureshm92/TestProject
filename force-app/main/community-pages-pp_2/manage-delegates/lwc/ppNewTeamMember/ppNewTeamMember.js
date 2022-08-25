@@ -27,6 +27,8 @@ import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
 import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
 import PP_Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.PP_Attestation_Confirmation_Message_For_Teams';
+import PP_Email_Error from '@salesforce/label/c.PP_Email_Error';
+import PP_Required_Field from '@salesforce/label/c.PP_Required_Field';
 
 export default class PpNewTeamMember extends LightningElement {
     @track delegate = {};
@@ -69,7 +71,9 @@ export default class PpNewTeamMember extends LightningElement {
         PG_NTM_L_Already_Exists,
         TST_You_have_successfully_created_permissions_for,
         Profile_Information,
-        PP_Attestation_Confirmation_Message_For_Teams
+        PP_Attestation_Confirmation_Message_For_Teams,
+        PP_Email_Error,
+        PP_Required_Field
     };
     backToDelegates(event) {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -246,8 +250,19 @@ export default class PpNewTeamMember extends LightningElement {
         }
         return maskedValue;
     }
-
+    //Validate input field
+    doValidateField(event) {
+        let fieldId = event.currentTarget.dataset.id;
+        //alert('id: ' + ids);
+        if (fieldId === 'firstNameInput') {
+            this.template.querySelector('[data-id="firstNameInput"]').reportValidity();
+        }
+        if (fieldId === 'lastNameInput') {
+            this.template.querySelector('[data-id="lastNameInput"]').reportValidity();
+        }
+    }
     doSearchContact() {
+        this.template.querySelector('[data-id="emailInput"]').reportValidity();
         let delegate = this.delegate;
         if (
             delegate.delegateContact.Email != undefined &&
@@ -291,7 +306,8 @@ export default class PpNewTeamMember extends LightningElement {
                     communityService.showToast(
                         '',
                         'error',
-                        this.label.TST_You_cannot_add_yourself_as_a_delegate
+                        this.label.TST_You_cannot_add_yourself_as_a_delegate,
+                        100
                     );
                 } else if (
                     contactData.delegates[0].delegateContact.Id === undefined &&
@@ -365,13 +381,15 @@ export default class PpNewTeamMember extends LightningElement {
                                 communityService.showToast(
                                     '',
                                     'error',
-                                    this.label.PP_DelegateAlreadyExists
+                                    this.label.PP_DelegateAlreadyExists,
+                                    100
                                 );
                             } else {
                                 communityService.showToast(
                                     '',
                                     'error',
-                                    this.label.PP_ActiveDelegateError
+                                    this.label.PP_ActiveDelegateError,
+                                    100
                                 );
                             }
                             //component.find('mainSpinner').hide();
@@ -391,7 +409,8 @@ export default class PpNewTeamMember extends LightningElement {
                                             delegate.delegateContact.FirstName +
                                             ' ' +
                                             delegate.delegateContact.LastName +
-                                            '.'
+                                            '.',
+                                        100
                                     );
                                     this.isAttested = false;
                                     this.template.querySelector(
