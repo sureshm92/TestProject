@@ -1,35 +1,31 @@
 <template>
   <div class={maindivcls}>
-  <div class={filterClass}>
-    <template if:false={loaded}>
-      <lightning-spinner alternative-text="Loading"></lightning-spinner>
-    </template>
-    <div class="slds-col slds-size_12-of-12 closebutton">
-      <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}></lightning-icon>  
-    </div>
-    <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
-      <div
-        class="
+    <div class={filterClass}>
+      <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+      </template>
+      <div class="slds-col slds-size_12-of-12 closebutton">
+        <lightning-icon icon-name="utility:close" size="x-small" class="close-icon-pop" onclick={handleCloseFilter}>
+        </lightning-icon>
+      </div>
+      <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_2-of-12
           slds-large-size_2-of-12
           m-bottom-small
-        "
-      >
-        <div class="filter-heading">{label.Study_Information}</div>
-      </div>
-      <div
-        class="
+        ">
+          <div class="filter-heading">{label.Study_Information}</div>
+        </div>
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_10-of-12
           slds-large-size_10-of-12
-        "
-      >
-        <div class="slds-grid slds-wrap slds-gutters">
-          <div
-            class="
+        ">
+          <div class="slds-grid slds-wrap slds-gutters">
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
@@ -37,208 +33,143 @@
               m-bottom-small
               p-left-none
               p-right-rtl
-            "
-          >
-            <lightning-combobox
-              name="Active/Inactive"
-              label={label.Active_InActive}
-              value={selectedActiveInactive}
-              placeholder=""
-              options={activeoptions}
-              onchange={activehandleChange}
-            ></lightning-combobox>
-          </div>
-          <div
-            class="
+            ">
+              <lightning-combobox name="Active/Inactive" label={label.Active_InActive} value={selectedActiveInactive}
+                placeholder="" options={activeoptions} onchange={activehandleChange}></lightning-combobox>
+            </div>
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
-            "
-          >
-            <lightning-combobox
-              name="Study"
-              label={label.Study}
-              value={defaultStudy}
-              placeholder=""
-              options={studylist}
-              onchange={studyhandleChange}
-            ></lightning-combobox>
-          </div>
-          <div
-            class="
+            ">
+              <lightning-combobox name="Study" label={label.Study} value={defaultStudy} placeholder=""
+                options={studylist} onchange={studyhandleChange}></lightning-combobox>
+            </div>
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
-            "
-          >
-            <lightning-combobox
-              name="StudySites"
-              label={label.Study_Sites}
-              value={defaultSite}
-              placeholder=""
-              options={studySiteList}
-              onchange={studysiteshandleChange}
-            ></lightning-combobox>
-          </div>
-          <div
-            class="
+            ">
+              <div title={label.Study_Sites} class="text-overflow margin-top">{label.Study_Sites}</div>
+              <lightning-combobox name="StudySites" variant="label-hidden" value={defaultSite} placeholder=""
+                options={studySiteList} onchange={studysiteshandleChange}></lightning-combobox>
+            </div>
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
-            "
-          >
-            <lightning-combobox
-              name="Status"
-              label={label.Status}
-              value={defaultStatus}
-              placeholder=""
-              options={statusoptions}
-              onchange={statushandleChange}
-            ></lightning-combobox>
-          </div>
-          <div
-            class="
+            ">
+              <lightning-combobox name="Status" label={label.Status} value={defaultStatus} placeholder=""
+                options={statusoptions} onchange={statushandleChange}></lightning-combobox>
+            </div>
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
-            "
-          >
-            <lightning-combobox
-              name="Source"
-              label={label.Source}
-              value={defaultSource}
-              placeholder=""
-              options={sourceoptions}
-              onchange={sourcehandleChange}
-            ></lightning-combobox>
+            ">
+              <lightning-combobox name="Source" label={label.Source} value={defaultSource} placeholder=""
+                options={sourceoptions} onchange={sourcehandleChange}></lightning-combobox>
+            </div>
           </div>
+          <!-- slds-grid-->
         </div>
-        <!-- slds-grid-->
       </div>
-    </div>
-    <!-- slds-grid study Information -->
+      <!-- slds-grid study Information -->
 
-    <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
-      <div
-        class="
+      <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_2-of-12
           slds-large-size_2-of-12
-        "
-      >
-        <div class="filter-heading">{label.Demographics}</div>
-      </div>
-      <div
-        class="
+        ">
+          <div class="filter-heading">{label.Demographics}</div>
+        </div>
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_10-of-12
           slds-large-size_10-of-12
-        "
-      >
-        <div class="slds-grid slds-wrap slds-gutters">
-          <div
-            class="
+        ">
+          <div class="slds-grid slds-wrap slds-gutters">
+            <div class="
               slds-col
               slds-size_1-of-1
               slds-medium-size_6-of-12
               slds-large-size_6-of-12
               p-left-none
               w-Demographics
-            "
-          >
-            <div class="slds-grid slds-wrap slds-gutters">
-              <div
-                class="
+            ">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="
                   slds-col
                   slds-size_5-of-12
                   slds-medium-size_5-of-12
                   slds-large-size_5-of-12
                   m-bottom-small
-                "
-              >
-                <p class="filter-age">{label.AgeIsBetween}</p>
-              </div>
-              <div
-                class="
+                ">
+                  <p class="filter-age">{label.AgeIsBetween}</p>
+                </div>
+                <div class="
                   slds-col
                   slds-size_2-of-12
                   slds-medium-size_2-of-12
                   slds-large-size_2-of-12
                   m-bottom-small
                   p-left-none p-right-demo p-age-lr
-                "
-              >
-                <div class="slds-form-element">
-                  <div class="slds-form-element__control">
-                    <lightning-input
-                      type="number"
-                      id="text-input-id-68"
-                      name="input1"
-                      value={ageStartValue}
-                      data-name="agestart"
-                      message-when-step-mismatch = "Enter whole number"
-                      onchange={handleAgeStartChange}
-                    ></lightning-input>
+                ">
+                  <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                      <lightning-input type="number" id="text-input-id-68" name="input1" value={ageStartValue}
+                        data-name="agestart" message-when-step-mismatch="Enter whole number"
+                        onchange={handleAgeStartChange}></lightning-input>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="
+                <div class="
                   slds-col
                   slds-size_1-of-12
                   slds-medium-size_1-of-12
                   slds-large-size_1-of-12
                   m-bottom-small
                   p-left-none p-left-age
-                "
-              >
-                <p class="filter-age and">{label.And}</p>
-              </div>
-              <div
-                class="
+                ">
+                  <p class="filter-age and">{label.And}</p>
+                </div>
+                <div class="
                   slds-col
                   slds-size_4-of-12
                   slds-medium-size_3-of-12
                   slds-large-size_3-of-12
                   m-bottom-small
                   p-left-none p-left-demo p-right-age
-                "
-              >
-                <div class="slds-form-element">
-                  <div class="slds-form-element__control">
-                    <lightning-input
-                      type="number"
-                      id="text-input-id-69"
-                      name="input11"
-                      value={ageEndValue}
-                      data-name="ageend"
-                      message-when-step-mismatch = "Enter whole number"
-                      onchange={handleAgeEndChange}
-                    ></lightning-input>
+                ">
+                  <div class="slds-form-element">
+                    <div class="slds-form-element__control marginleft">
+                      <lightning-input type="number" id="text-input-id-69" name="input11" value={ageEndValue}
+                        data-name="ageend" message-when-step-mismatch="Enter whole number"
+                        onchange={handleAgeEndChange}></lightning-input>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- slds-grid-->
             </div>
-            <!-- slds-grid-->
-          </div>
-          <!-- slds-col-->
-          <!-- Ethnicity starts -->
-          <div
-            class="
+            <!-- slds-col-->
+            <!-- Ethnicity starts -->
+            <div class="
               eth
               slds-col
               slds-size_1-of-1
@@ -246,123 +177,80 @@
               slds-large-size_4-of-12
               outcome-form-element
               slds-m-bottom_medium p-left
-            "
-          >
-            <label class="slds-form-element__label slds-no-flex"
-              >{RH_Ethnicity}<span class="close-icon" onclick={removeAllE}
-                >{label.Clear_All}</span
-              ></label
-            >
-            <div
-              class="
+            ">
+              <label class="slds-form-element__label slds-no-flex disflex"><span class="text-overflow1"
+                  title={RH_Ethnicity}>{RH_Ethnicity}</span><span class="close-icon"
+                  onclick={removeAllE}>{label.Clear_All}</span></label>
+              <div class="
                 slds-form-element__control
                 slds-grow slds-input
                 slds-p-around--none
                 eBox dropdown-width
-              "
-              tabindex="0"
-              onfocus={openETH}
-              onblur={closeETH}
-            >
-              <div class="slds-combobox_container">
-                <div
-                  class="
+              " tabindex="0" onfocus={openETH} onblur={closeETH}>
+                <div class="slds-combobox_container">
+                  <div class="
                     slds-combobox
                     slds-dropdown-trigger
                     slds-dropdown-trigger_click
                     eBoxOpen 
-                  "
-                >
-                  <div
-                    class="
+                  ">
+                    <div class="
                       slds-combobox__form-element
                       slds-input-has-icon slds-input-has-icon_right
-                    "
-                    role="none"
-                  >
-                    <div class="selectedOption">
-                      <template if:true={getFirstSelecedEth}>
-                        <span class="selectedValue slds-truncate" >
-                          {getFirstSelecedEth}                            
-                        </span>
-                        <div class="ethmore">
-                          {ethCount}
-                        </div>
-                      </template>
-                    </div>
-                    <span
-                      class="
+                    " role="none">
+                      <div class="selectedOption">
+                        <template if:true={getFirstSelecedEth}>
+                          <span class="selectedValue slds-truncate">
+                            {getFirstSelecedEth}
+                          </span>
+                          <div class="ethmore">
+                            {ethCount}
+                          </div>
+                        </template>
+                      </div>
+                      <span class="
                         slds-icon_container
                         slds-icon-utility-down
                         slds-input__icon slds-input__icon_right
-                      "
-                    >
-                      <lightning-icon
-                        icon-name="utility:down"
-                        size="x-small"
-                        alternative-text="down"
-                      ></lightning-icon>
-                    </span>
-                  </div>
-                  <div
-                    data-id="ethinicityBox"
-                    class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
-                    role="listbox"
-                  >
-                    <ul
-                      class="slds-listbox slds-listbox_vertical"
-                      role="presentation"
-                    >
-                      <template if:true={picklistValues}>
-                        <template for:each={picklistValues} for:item="item">
-                          <li
-                            key={item.value}
-                            role="presentation"
-                            class="slds-listbox__item"
-                          >
-                            <div
-                              id={item.value}
-                              onclick={divSetEth}
-                              class="
+                      ">
+                        <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
+                        </lightning-icon>
+                      </span>
+                    </div>
+                    <div data-id="ethinicityBox" class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
+                      role="listbox">
+                      <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template if:true={picklistValues}>
+                          <template for:each={picklistValues} for:item="item">
+                            <li key={item.value} role="presentation" class="slds-listbox__item">
+                              <div id={item.value} onclick={divSetEth} class="
                                 slds-media
                                 slds-listbox__option slds-listbox__option_plain
                                 slds-media_small
-                              "
-                              role="option"
-                            >
-                              <span
-                                class="
+                              " role="option">
+                                <span class="
                                   slds-media__figure
                                   slds-listbox__option-icon
-                                "
-                              ></span>
-                              <span class="slds-media__body">
-                                <label class="slds-truncate">
-                                  <input
-                                    type="checkbox"
-                                    name={item.label}
-                                    value={item.value}
-                                    class="input-width noclk"
-                                    onchange={setEthinicityList}
-                                  />
-                                  <span class="text-for-check"
-                                    >{item.label}</span
-                                  >
-                                </label>
-                              </span>
-                            </div>
-                          </li>
+                                "></span>
+                                <span class="slds-media__body">
+                                  <label class="slds-truncate">
+                                    <input type="checkbox" name={item.label} value={item.value}
+                                      class="input-width noclk" onchange={setEthinicityList} />
+                                    <span class="text-for-check">{item.label}</span>
+                                  </label>
+                                </span>
+                              </div>
+                            </li>
+                          </template>
                         </template>
-                      </template>
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- Ethnicity ends -->
-          <div
-            class="
+            <!-- Ethnicity ends -->
+            <div class="
               slds-col
               slds-size_1-of-1
               slds-medium-size_2-of-12
@@ -370,286 +258,212 @@
               m-bottom-small
               p-left-none
               m-top-birth
-            "
-          > 
-            <lightning-combobox
-              name="Sex at Birth"
-              label={label.SexAtBirth}
-              value={defaultSex}
-              placeholder=""
-              options={sexatbirthoptions}
-              onchange={sexatbirthhandleChange}
-            ></lightning-combobox>
-          </div>
-          <div
-            class="
+            ">
+              <lightning-combobox name="Sex at Birth" label={label.SexAtBirth} value={defaultSex} placeholder=""
+                options={sexatbirthoptions} onchange={sexatbirthhandleChange}></lightning-combobox>
+            </div>
+            <div class="
               slds-col
               slds-size_1-of-2
               slds-medium-size_2-of-12
               slds-large-size_2-of-12
               m-bottom-small
               p-left-none
-            "
-          ></div>
+            "></div>
+          </div>
+          <!-- slds-grid-->
         </div>
-        <!-- slds-grid-->
       </div>
-    </div>
-    <!-- slds-grid study Information -->
+      <!-- slds-grid study Information -->
 
-    <div class="slds-grid slds-wrap slds-gutters">
-      <div
-        class="
+      <div class="slds-grid slds-wrap slds-gutters">
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_2-of-12
           slds-large-size_2-of-12
-        "
-      >
-        <div class="filter-heading">{label.Others}</div>
-      </div>
-      <div
-        class="
+        ">
+          <div class="filter-heading">{label.Others}</div>
+        </div>
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_10-of-12
           slds-large-size_10-of-12
-        "
-      >
-        <div class="slds-grid slds-wrap slds-gutters">
-          <div
-            class="
+        ">
+          <div class="slds-grid slds-wrap slds-gutters">
+            <div class="
               slds-col
               slds-size_1-of-1
               slds-medium-size_7-of-12
               slds-large-size_7-of-12
-            "
-          >
-            <div class="slds-grid slds-wrap slds-gutters">
-              <div
-                class="
+            ">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="
                   slds-col
                   slds-size_1-of-2
                   w-high-risk
                   other-m-top
                   m-bottom-small
-                "
-              >
-                <lightning-input
-                  type="checkbox"
-                  label={label.HighRisk}
-                  name="HighRisk"
-                  checked={defaultHighRisk}
-                  onchange={handleHighRisk}
-                ></lightning-input>
-              </div>
-              <div
-                class="
+                ">
+                  <div class="disflex">
+                    <lightning-input type="checkbox" name="HighRisk" checked={defaultHighRisk}
+                      onchange={handleHighRisk}>
+                    </lightning-input>
+                    <div>{label.HighRisk}</div>
+                  </div>
+                </div>
+                <div class="
                   slds-col
                   slds-size_1-of-2
                   w-high-priority
                   other-m-top
                   m-bottom-small
-                "
-              >
-                <lightning-input
-                  type="checkbox"
-                  label={label.HighPriority}
-                  name="HighPriority"
-                  checked={defaultHighPriority}
-                  onchange={handleHighPriority}
-                ></lightning-input>
-              </div>
-              <div
-                class="
+                ">
+                  <div class="disflex">
+                    <lightning-input type="checkbox" name="HighPriority" checked={defaultHighPriority}
+                      onchange={handleHighPriority}></lightning-input>
+                    <div>{label.HighPriority}</div>
+                  </div>
+                </div>
+                <div class="
                   slds-col
                   slds-size_1-of-2
                   w-comorbidities
                   other-m-top
                   m-bottom-small
-                "
-              >
-                <lightning-input
-                  type="checkbox"
-                  label={label.Comorbidities}
-                  name="Comorbidities"
-                  checked={defaultComorbidities}
-                  onchange={handleComorbidities}
-                ></lightning-input>
+                ">
+                  <div class="disflex">
+                    <lightning-input type="checkbox" name="Comorbidities" checked={defaultComorbidities}
+                      onchange={handleComorbidities}></lightning-input>
+                    <div>{label.Comorbidities}</div>
+                  </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 w-initial-visit m-bottom-small">
+                  <div class="text-overflow margin-top1" title={label.InitialVisit}>{label.InitialVisit}</div>
+                  <lightning-combobox name="InitialVisit" variant="label-hidden" value={ininialvisitScheduledOption}
+                    placeholder="Select" options={initialvisitoptions} onchange={initialvisithandleChange}>
+                  </lightning-combobox>
+                </div>
               </div>
-              <div
-                class="slds-col slds-size_1-of-2 w-initial-visit m-bottom-small"
-              >
-                <lightning-combobox
-                  name="InitialVisit"
-                  label={label.InitialVisit}
-                  value={ininialvisitScheduledOption}
-                  placeholder="Select"
-                  options={initialvisitoptions}
-                  onchange={initialvisithandleChange}
-                >
-                </lightning-combobox>
-              </div>
+              <!-- slds-grid-->
             </div>
-            <!-- slds-grid-->
-          </div>
-          <!-- slds-col -->
-          <div
-            class="
+            <!-- slds-col -->
+            <div class="
               slds-col
               slds-size_1-of-1
               slds-medium-size_5-of-12
               slds-large-size_5-of-12
-            "
-          >
-            <div class="slds-grid slds-wrap slds-gutters">
-              <div
-                class="
+            ">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="
                   slds-col
                   slds-size_1-of-1
                   slds-medium-size_12-of-12
                   slds-large-size_12-of-12
-                "
-              >
-                <div class="slds-grid slds-wrap slds-gutters">
-                  <div
-                    class="
+                ">
+                  <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="
                       slds-col
                       slds-size_1-of-1
                       w-scheduled-date
                       m-bottom-small
-                    "
-                  >
-                    <div class="slds-form-element">
-                      <label class="slds-form-element__label" for="">
-                        {label.InitialVisitScheduledDate}
-                      </label>
+                    ">
+                      <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="">
+                          {label.InitialVisitScheduledDate}
+                        </label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="slds-grid slds-wrap slds-gutters">
-                  <div
-                    class="
+                  <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="
                       slds-col
                       slds-size_1-of-2
                       w-date
                       m-top-date m-bottom-small
-                    "
-                  >
-                    <lightning-input
-                      type="date"
-                      name="date1"
-                      label=""
-                      placeholder={label.pir_mm_dd_yyyy}
-                      disabled={isInitialVisitSelected}
-                      value={initialvisitStart}
-                      data-name="datestart"
-                      onchange={handleInitialVisitStartDateChange}
-                    ></lightning-input>
-                  </div>
-                  <div
-                    class="
+                    ">
+                      <lightning-input type="date" name="date1" label="" placeholder={label.pir_mm_dd_yyyy}
+                        disabled={isInitialVisitSelected} value={initialvisitStart} data-name="datestart"
+                        onchange={handleInitialVisitStartDateChange}></lightning-input>
+                    </div>
+                    <div class="
                       slds-col
                       slds-size_1-of-2
                       w-to
                       m-top-date m-bottom-small
-                    "
-                  >
-                    <p class="filter-date">{label.PP_To}</p>
-                  </div>
-                  <div
-                    class="
+                    ">
+                      <p class="filter-date">{label.PP_To}</p>
+                    </div>
+                    <div class="
                       slds-col
                       slds-size_1-of-2
                       w-date w-date-right
                       m-top-date m-bottom-small
-                    "
-                  >
-                    <lightning-input
-                      type="date"
-                      name="date2"
-                      label=""
-                      placeholder={label.pir_mm_dd_yyyy}
-                      disabled={isInitialVisitSelected}
-                      value={initialvisitEnd}
-                      data-name="dateend"
-                      onchange={handleInitialVisitEndDateChange}
-                    ></lightning-input>
+                    ">
+                      <lightning-input type="date" name="date2" label="" placeholder={label.pir_mm_dd_yyyy}
+                        disabled={isInitialVisitSelected} value={initialvisitEnd} data-name="dateend"
+                        onchange={handleInitialVisitEndDateChange} class="marginleft1"></lightning-input>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- slds-col -->
           </div>
-          <!-- slds-col -->
+          <!-- slds-grid-->
         </div>
-        <!-- slds-grid-->
+        <!-- slds-col -->
       </div>
-      <!-- slds-col -->
-    </div>
-    <!-- slds-grid Others  -->
-    <div
-      class="
+      <!-- slds-grid Others  -->
+      <div class="
         slds-grid slds-wrap slds-gutters
         slds-m-top_large
         slds-m-bottom_large 
-      "
-    >
-      <div
-        class="
+      ">
+        <div class="
           slds-col
           slds-size_1-of-1
           slds-medium-size_12-of-12
           slds-large-size_12-of-12 btn-p-left
-        "
-      >
-        <div class="slds-btn-right hidebutton">
-          <button
-            class="
+        ">
+          <div class="slds-btn-right hidebutton">
+            <button class="
               slds-button
               apollo-btn
               secondary
               reset-btn
               slds-p-around_x-medium
-            "
-            disabled={isAnythingChangedForReset}
-            onclick={resetFilter}
-          >
-            {label.Reset}
-          </button>
-          <button
-            class="
+            " disabled={isAnythingChangedForReset} onclick={resetFilter}>
+              {label.Reset}
+            </button>
+            <button class="
               apollo-btn
               secondary
               ipad-mode-btn
               filter-btn
               slds-p-around_x-medium
-            "
-            disabled={isbuttonenabled}
-            onclick={createPreset}
-          >
-            {label.CreatePreset}
-          </button>
-          <button
-            class="
+            " disabled={isbuttonenabled} onclick={createPreset}>
+              {label.CreatePreset}
+            </button>
+            <button class="
               apollo-btn
               secondary
               ipad-mode-btn
               filter-btn
               slds-p-around_x-medium apply-fil-btn
-            "
-            disabled={isbuttonenabled}
-            onclick={applyFilter}
-          >
-            {label.ApplyFilters}
-          </button>
+            " disabled={isbuttonenabled} onclick={applyFilter}>
+              {label.ApplyFilters}
+            </button>
+          </div>
         </div>
       </div>
+      <!-- button -->
     </div>
-    <!-- button -->
-  </div>
   </div>
   <!-- filter-area -->
   <template if:true={shoulddisplaypopup}>
-      <c-pir_createpreset maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}> </c-pir_createpreset>
+    <c-pir_createpreset maindivcls={maindivcls} onclosepresetmodel={closepresetmodel} filter-wrapper={filterWrapper}>
+    </c-pir_createpreset>
   </template>
 </template>

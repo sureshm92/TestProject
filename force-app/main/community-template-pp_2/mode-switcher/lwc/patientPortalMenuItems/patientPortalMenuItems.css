@@ -5,7 +5,6 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: #ecf3ff;
-    margin-top: 1px;
 }
 .curr-mode-title {
     border-radius: 4px;
@@ -15,6 +14,7 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 .self {
     height: 40px;
@@ -27,18 +27,21 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 .participant-delegate-title {
     color: #444444;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
 }
 .participant-delegate-email {
     color: #999999;
     font-size: 14px;
 }
-.my-icon {
+.chevron-icon {
     --sds-c-icon-color-foreground-default: #0768fd;
+    cursor: pointer;
 }
 .participant-label {
     height: 24px;

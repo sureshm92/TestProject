@@ -531,6 +531,9 @@ public without sharing class PatientDelegateService {
         List<Id> partContactsIds,
         List<String> delegatedCntFields
     ) {
+        if (partContactsIds.isEmpty()) {
+            return new Map<Id, List<Contact>>();
+        }
         List<String> pdFields = new List<String>();
         pdFields.add('Participant__r.Contact__c');
         for (String cntField : delegatedCntFields)
@@ -684,6 +687,12 @@ public without sharing class PatientDelegateService {
             DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI),
             true
         );
+    }
+    // method to return PE Ids for all participant statuses
+    public static List<Id> getAvailablePEIDsForAllContacts(Id contactId) {
+        list<Id> contactIds = new List<Id>{ contactId };
+        List<Id> resList = getPEIdsListByContactIdMap(contactIds, null, true).get(contactId);
+        return resList == null ? new List<Id>() : resList;
     }
 
     public static List<Id> getAvailablePEIdsForContact(Id contactId) {

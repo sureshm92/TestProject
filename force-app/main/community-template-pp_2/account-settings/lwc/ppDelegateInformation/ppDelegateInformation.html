@@ -1,0 +1,52 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <div class={bodyContainerClass}>
+        <!--Header Information-->
+        <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none participant-del-info">
+            {delegateInformation}
+        </div>
+        <!--Content Information-->
+        <div
+            class="slds-col slds-size_1-of-1 slds-p-horizontal_none withdraw-info slds-p-top_x-small"
+        >
+            {withdrawInformation}
+        </div>
+        <!--Delegate Tasks List Component-->
+        <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
+            <c-pp-delegate-tasks-table
+                user-mode={userMode}
+                is-mobile={isMobile}
+                is-r-t-l={isRTL}
+            ></c-pp-delegate-tasks-table>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
+            <!--Save Button Section-->
+            <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_xxx-small">
+                    <div class="slds-grid input-text-size">
+                        <div class={withdrawButtonContainerClass}>
+                            <div class="slds-form-element slds-p-horizontal_small">
+                                <button class={withdrawButtonClass} onclick={handleWithdrawModal}>
+                                    {labels.WITHDRAW_BUTTON}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Withdraw From Delegate Appointment Modal-->
+    <template if:true={removeDelegate}>
+        <c-pp-remove-delegate-modal
+            contact={delegateContact}
+            messtext={labels.REMOVE_DELEGATE}
+            tittext="Remove Delegate"
+            usermode={userMode}
+            onconfirmmodal={handleRemoveDelegate}
+            onmodalclose={handleModalClose}
+        >
+        </c-pp-remove-delegate-modal>
+    </template>
+</template>

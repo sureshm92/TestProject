@@ -198,6 +198,11 @@
     color: grey;
     width: 16px;
     margin-right: 8px;
+    fill: #999999;
+  }
+
+  .gray-arrow{
+    color: #999999;
   }
   
   .po-tab-menu {

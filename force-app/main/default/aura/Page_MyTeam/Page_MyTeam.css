@@ -4,3 +4,11 @@
 .THIS.ps-container .ps-body {
     padding-top: 30px;
 }
+.THIS.ps-container .ps-body-pp {
+    padding-top: 0px;
+}
+@media screen and (max-width: 768px) {
+    .THIS.ps-container .ps-body-pp {
+        padding-top: 20px;
+    }
+}

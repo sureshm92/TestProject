@@ -6,6 +6,28 @@ public without sharing class ParticipantWorkflowService {
     public static final String PARTICIPANT_ENROLLMENT_SOBJECT_ALIAS = 'pe';
     public static final String PARTICIPANT_ENROLLMENT_STATUS_HISTORY_SOBJECT_ALIAS = 'pesh';
     public static final String CLINICAL_TRIAL_PROFILE_SOBJECT_ALIAS = 'ctp';
+    public static final List<Participant_Workflow_Step__mdt> Participant_Workflow_Step = [SELECT
+                                                                                            Id,
+                                                                                            DeveloperName,
+                                                                                            Condition__c,
+                                                                                            Name_Label__c,
+                                                                                            Order__c,
+                                                                                            History_Label__c,
+                                                                                            Card_Name_Label__c,
+                                                                                            No_Outcome_Label__c,
+                                                                                            Failed_State_Editing_Enabled__c,
+                                                                                            Outcome_Placeholder_Label__c,
+                                                                                            History_Item_Title_Template_Label__c,
+                                                                                            History_Item_Details_Template_Label__c,
+                                                                                            Form_Fields__c,
+                                                                                            In_Progress_Condition__c,
+                                                                                            Additional_Notes_For_Statuses__c,
+                                                                                            Success_Condition__c,
+                                                                                            Success_Date_Field__c,
+                                                                                            In_Progress_Date_Field__c,
+                                                                                            Success_Checkbox_Field__c
+                                                                                            FROM Participant_Workflow_Step__mdt
+                                                                                            ORDER BY Order__c ASC];
 
     @AuraEnabled
     public static ParticipantWorkflowWrapper prepareParticipantWorkflowHelper(
@@ -339,30 +361,7 @@ public without sharing class ParticipantWorkflowService {
         Clinical_Trial_Profile__c ctp
     ) {
         List<Participant_Workflow_Step__mdt> eligibleSteps = new List<Participant_Workflow_Step__mdt>();
-        for (Participant_Workflow_Step__mdt step : [
-            SELECT
-                Id,
-                DeveloperName,
-                Condition__c,
-                Name_Label__c,
-                Order__c,
-                History_Label__c,
-                Card_Name_Label__c,
-                No_Outcome_Label__c,
-                Failed_State_Editing_Enabled__c,
-                Outcome_Placeholder_Label__c,
-                History_Item_Title_Template_Label__c,
-                History_Item_Details_Template_Label__c,
-                Form_Fields__c,
-                In_Progress_Condition__c,
-                Additional_Notes_For_Statuses__c,
-                Success_Condition__c,
-                Success_Date_Field__c,
-                In_Progress_Date_Field__c,
-                Success_Checkbox_Field__c
-            FROM Participant_Workflow_Step__mdt
-            ORDER BY Order__c ASC
-        ]) {
+        for (Participant_Workflow_Step__mdt step : Participant_Workflow_Step) {
             if (
                 String.isBlank(step.Condition__c) ||
                 ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)
@@ -378,30 +377,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, String> stepsAndStates
     ) {
         List<Participant_Workflow_Step__mdt> eligibleSteps = new List<Participant_Workflow_Step__mdt>();
-        for (Participant_Workflow_Step__mdt step : [
-            SELECT
-                Id,
-                DeveloperName,
-                Condition__c,
-                Name_Label__c,
-                Order__c,
-                History_Label__c,
-                Card_Name_Label__c,
-                No_Outcome_Label__c,
-                Failed_State_Editing_Enabled__c,
-                Outcome_Placeholder_Label__c,
-                History_Item_Title_Template_Label__c,
-                History_Item_Details_Template_Label__c,
-                Form_Fields__c,
-                In_Progress_Condition__c,
-                Additional_Notes_For_Statuses__c,
-                Success_Condition__c,
-                Success_Date_Field__c,
-                In_Progress_Date_Field__c,
-                Success_Checkbox_Field__c
-            FROM Participant_Workflow_Step__mdt
-            ORDER BY Order__c ASC
-        ]) {
+        for (Participant_Workflow_Step__mdt step : Participant_Workflow_Step) {
             if (
                 String.isBlank(step.Condition__c) ||
                 ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)
@@ -1679,29 +1655,7 @@ public without sharing class ParticipantWorkflowService {
             ctpIds.add(pi.pe.Clinical_Trial_Profile__c);
             peIds.add(pi.pe.Id);
         }
-        List<Participant_Workflow_Step__mdt> steps = [
-            SELECT
-                Id,
-                DeveloperName,
-                Condition__c,
-                Name_Label__c,
-                Order__c,
-                History_Label__c,
-                Card_Name_Label__c,
-                No_Outcome_Label__c,
-                Failed_State_Editing_Enabled__c,
-                Outcome_Placeholder_Label__c,
-                History_Item_Title_Template_Label__c,
-                History_Item_Details_Template_Label__c,
-                Form_Fields__c,
-                In_Progress_Condition__c,
-                Success_Condition__c,
-                Success_Date_Field__c,
-                In_Progress_Date_Field__c,
-                Success_Checkbox_Field__c
-            FROM Participant_Workflow_Step__mdt
-            ORDER BY Order__c ASC
-        ];
+        List<Participant_Workflow_Step__mdt> steps = Participant_Workflow_Step;
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> outcomesMap = getOutcomesMap(
             steps,
             null

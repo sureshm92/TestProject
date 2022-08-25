@@ -22,78 +22,50 @@
 
     <!--body-->
     <div class="{!v.isRTL? 'RTL': ''}">
-    <div class="ssp-header">
-        <div class="slds-grid slds-wrap">
-            <div class="slds-large-size_9-of-12">
-                <div class="ssp-content">
-                    <div class="ssp-label slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
-                    <div class="{!v.isRTL? 'ssp-selectRTL slds-size_2-of-6' : 'ssp-select slds-size_2-of-6'}">
-                        <c:rrSelect
-                            value="{!v.selectedSearchOption}"
-                            options="{!v.searchList}"
-                            placeholder="{!$Label.c.CC_ChooseAnOption}"
-                            onchange="{!c.doUpdateSelection}"
-                            useSentenceFont="false"
-                        />
-                    </div>
-                    <div
-                        class="ssp-search slds-size_3-of-6"
-                        onkeyup="{!c.onKeyUp}"
-                        aura:id="search"
-                    >
-                        <c:rrInput
-                            valueString="{!v.searchText}"
-                            iconName="icon-search"
-                            disabled="{!v.sectionDisabled}"
-                            placeholder="{!v.searchTextPlaceHolder}"
-                            errorMessage="{!if(v.containsSerchTxt, '' , $Label.c.CC_SearchTxtRequired)}"
-                        />
-                    </div>
-                    <div class="ssp-button-search slds-size_1-of-6">
-                        <lightning:button
-                            variant="brand"
-                            class="apollo-btn primary"
-                            label="{!$Label.c.CC_Btn_Search}"
-                            disabled="{!v.sectionDisabled}"
-                            onclick="{!c.doSearch}"
-                        />
-                    </div>
-                    <div class="ssp-button-reset slds-size_1-of-6" style="width: fit-content;">
-                        <lightning:button
-                            variant="base"
-                            disabled="{!v.sectionDisabled}"
-                            label="{!$Label.c.CC_Btn_Reset}"
-                            onclick="{!c.doReset}"
-                        />
+        <div class="ssp-header">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-large-size_9-of-12">
+                    <div class="ssp-content">
+                        <div class="ssp-label slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
+                        <div class="{!v.isRTL? 'ssp-selectRTL slds-size_2-of-6' : 'ssp-select slds-size_2-of-6'}">
+                            <c:rrSelect value="{!v.selectedSearchOption}" options="{!v.searchList}"
+                                placeholder="{!$Label.c.CC_ChooseAnOption}" onchange="{!c.doUpdateSelection}"
+                                useSentenceFont="false" />
+                        </div>
+                        <div class="ssp-search slds-size_3-of-6" onkeyup="{!c.onKeyUp}" aura:id="search">
+                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
+                                disabled="{!v.sectionDisabled}" placeholder="{!v.searchTextPlaceHolder}"
+                                errorMessage="{!if(v.containsSerchTxt, '' , $Label.c.CC_SearchTxtRequired)}" />
+                        </div>
+                        <div class="ssp-button-search slds-size_1-of-6">
+                            <lightning:button variant="brand" class="apollo-btn primary"
+                                label="{!$Label.c.CC_Btn_Search}" disabled="{!v.sectionDisabled}"
+                                onclick="{!c.doSearch}" />
+                        </div>
+                        <div class="ssp-button-reset slds-size_1-of-6" style="width: fit-content;">
+                            <lightning:button variant="base" disabled="{!v.sectionDisabled}"
+                                label="{!$Label.c.CC_Btn_Reset}" onclick="{!c.doReset}" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="slds-grid slds-grid_align-spread">
-            <div class="slds-col">
-                <span style="display: flex">
-                    <label class="ssp-label">{!$Label.c.PG_FP_L_Sort_by}</label>
-                    <div class="{!v.isRTL? 'ssp-sort-listRTL':'ssp-sort-list'}">
-                        <c:rrSelect
-                            class="width"
-                            value="{!v.sortType}"
-                            options="{!v.sortVariants}"
-                            setValueAsSelected="{!v.setValueAsSelected}"
-                            useSentenceFont="false"
-                        />
-                    </div>
-                </span>
-            </div>
-            <div class="slds-col" style="display: none">
-                <lightning:button
-                    class="apollo-btn secondary"
-                    label="{!$Label.c.CC_Btn_ExportAll}"
-                    onclick="{!c.doExportAll}"
-                    disabled="{!v.hasResult}"
-                />
+            <div class="slds-grid slds-grid_align-spread">
+                <div class="slds-col">
+                    <span style="display: flex">
+                        <label class="ssp-label textoverflow"
+                            title="{!$Label.c.PG_FP_L_Sort_by}">{!$Label.c.PG_FP_L_Sort_by}</label>
+                        <div class="{!v.isRTL? 'ssp-sort-listRTL':'ssp-sort-list'}">
+                            <c:rrSelect class="width" value="{!v.sortType}" options="{!v.sortVariants}"
+                                setValueAsSelected="{!v.setValueAsSelected}" useSentenceFont="false" />
+                        </div>
+                    </span>
+                </div>
+                <div class="slds-col" style="display: none">
+                    <lightning:button class="apollo-btn secondary" label="{!$Label.c.CC_Btn_ExportAll}"
+                        onclick="{!c.doExportAll}" disabled="{!v.hasResult}" />
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </aura:component>
