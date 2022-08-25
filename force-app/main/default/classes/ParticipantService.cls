@@ -440,6 +440,54 @@ public without sharing class ParticipantService {
         }
     }
 
+    public Static String createParticipantAndUpdatePEImpls(
+        Participant__c participant,
+        Participant__c participantDelegate,
+        Participant_Enrollment__c pe,
+        String userLanguage
+    ){
+        try {
+        participant.Preferred_Language__c = userLanguage;
+        ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+        participantWithDelegate.participant = participant;
+        participantWithDelegate.delegate = participantDelegate;
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
+            participantWithDelegate
+        );
+        String ParticipantID='';    
+        Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
+        if (participantFromDatabase != null) {
+            AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+            participant = participantFromDatabase;
+            ParticipantID = participant.Id;
+        } else {
+            //check contact duplicate:
+            if (duplicateService.findDuplicateContact(participant) != null) {
+                Contact existingContact = duplicateService.findDuplicateContact(participant);
+                participant.Contact__c = existingContact.Id;
+                if ('Home' == participant.Phone_Type__c) {
+                    existingContact.HomePhone = participant.Phone__c;
+                }
+                if ('Mobile' == participant.Phone_Type__c) {
+                    existingContact.MobilePhone = participant.Phone__c;
+                } else {
+                    existingContact.Phone = participant.Phone__c;
+                }
+                update existingContact;
+            }
+            system.debug('>>beforeInsertPart>' + limits.getQueries());
+            insert participant;
+            system.debug('>>AfterInsertPart>' + limits.getQueries());
+            ParticipantID = participant.Id;
+        }
+       return ParticipantID;
+      } catch (Exception e) {
+                System.debug('ERROR: ' + e);
+                 AuraHelper.throwException(e);
+            }
+             return null;
+    }
+
     // Static facade: --------------------------------------------------------------------------------------------------
 
     public static ParticipantState getParticipantState() {
@@ -454,6 +502,16 @@ public without sharing class ParticipantService {
     ) {
         getInstance()
             .createParticipantAndUpdatePEImpl(participant, participantDelegate, pe, userLanguage);
+    }
+    public static String createParticipantAndUpdatePES(
+        Participant__c participant,
+        Participant__c participantDelegate,
+        Participant_Enrollment__c pe,
+        String userLanguage
+    ) {
+         string partID = createParticipantAndUpdatePEImpls(participant, participantDelegate, pe, userLanguage);
+            return partID ;
+           
     }
 
     public static List<LabelValueItem> getGenderLVList() {

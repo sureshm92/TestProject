@@ -23,6 +23,14 @@ label{
     align-items: baseline;
 }
 
+:dir(rtl) .LabelRTL {
+    margin-left: 17px;
+}
+
+:dir(rtl) .labelRTL{
+    margin-left: 15px;
+}
+
 .bulkimportmargin {
     margin-bottom: -8px;
     margin-top: 6px;
@@ -36,7 +44,7 @@ label{
     max-width: 7px;
 }
 .bulkimportMarginConsent{
-    margin-bottom: 17px;
+    margin-bottom: 5px;
 }
 
 .importParticipantClass {

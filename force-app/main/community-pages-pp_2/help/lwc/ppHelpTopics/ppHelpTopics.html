@@ -1,0 +1,22 @@
+<template>
+    <div class="slds-form-element__control">
+        <c-pp-web-select
+            is-r-t-l={isRTL}
+            label-hidden="true"
+            place-holder={labels.PP_SELECT_FAQ}
+            options={helpTopicOptions}
+            onchangevalue={handleQueryChange}
+        ></c-pp-web-select>
+    </div>
+    <template if:true={selectedTopicSetting}>
+        <lightning-layout multiple-rows="true" class="mt-20">
+            <lightning-layout-item size="12" class="help-topic-solution-container">
+                <span class="help-topic-text">
+                    <lightning-formatted-rich-text
+                        value={selectedTopicSetting.displaySolution}
+                    ></lightning-formatted-rich-text>
+                </span>
+            </lightning-layout-item>
+        </lightning-layout>        
+    </template>
+</template>

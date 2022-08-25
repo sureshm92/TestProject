@@ -1,96 +1,130 @@
 <template>
     <div class="spinner">
         <template if:true={isLoading}>
-          <lightning-spinner alternative-text="Loading" variant="brand" size="medium" class="spins"> </lightning-spinner>
-        </template>
-      </div>
-  
-    <template if:true={showppNewTeamMember}>
-        <div class="back-to-manage-delegate slds-m-bottom_medium">
-            <lightning-icon icon-name="utility:chevronleft" size="xx-small"> </lightning-icon
-            ><span onclick={handleBackToDelegates}>{label.Back_to_Manage_Delegates}</span>
-        </div>
-    </template>
-    <template if:false={showppNewTeamMember}>
-        <div class="manage-delegate slds-m-bottom_medium">{label.PP_ManageDelegates}</div>
-    </template>
-    <div class="slds-grid slds-wrap">
-        <div
-            class="slds-col slds-grid slds-wrap slds-size_1-of-1 slds-medium-size_4-of-12 slds-vertical-border"
-        >
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                <button
-                    class="slds-button btn-add-new-delegate slds-m-bottom_medium"
-                    onclick={inviteTeamMembers}
-                >
-                   {label.Add_New_Delegate}
-                </button>
-            </div>
-            <div
-                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 rectangle slds-order_2 slds-medium-order_1"
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
             >
-                <span class="list-heading-text">What can your delegate see or do?</span>
-                <ul class="slds-list_dotted slds-m-vertical_medium">
-                    <li class="myteam-list-txt">Complete tasks on your behalf</li>
-                    <li class="myteam-list-txt">Receive emails about your program status</li>
-                    <li class="myteam-list-txt">See your lab results</li>
-                    <li class="myteam-list-txt">See your vitals</li>
-                    <li class="myteam-list-txt">See your measurements</li>
-                </ul>
-                <span class="myteam-asteric-txt"
-                    >*all features may not be available for each program</span
-                >
-            </div>
+            </lightning-spinner>
+        </template>
+    </div>
+    <div class="slds-grid mob-m-top">
+        <div class="slds-col slds-m-bottom_medium">
+            <template if:false={showppNewTeamMember}
+                ><span class="manage-delegate">{label.PP_ManageDelegates}</span>
+            </template>
             <template if:true={showppNewTeamMember}>
-                <div class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12">
-                    <template if:true={delegates}>
-                        <template for:each={delegates} for:item="delegate">
-                            <c-pp-patient-delegate-item key={delegate.Email} contact={delegate.delegateContact} usermode={usermode} selectedparent={piSelectedParent}
-                            is-active={delegate.isActive} onrerenderteampage ={handleInitData} ></c-pp-patient-delegate-item>
-
-                         </template>
-                        </template>
-
-                    <!--<c-pp-new-team-member></c-pp-new-team-member>-->
-                </div>
-            </template>
-            <template if:false={showppNewTeamMember}>
-                <div
-                    class="slds-col slds-hide_medium slds-size_1-of-1 slds-m-top_small slds-m-bottom_large slds-medium-size_8-of-12 slds-align_absolute-center slds-order_1 slds-medium-order_2"
-                >
-                    <span class="there-are-no-delegat"
-                        >There are no delegates registered at the moment. Click on Add New Delegate
-                        to allow access to your information.</span
+                <span class="mouse-pointer" onclick={handleBackToDelegates}
+                    ><lightning-icon
+                        icon-name="utility:chevronleft"
+                        alternative-text="Back-icon"
+                        title="Back"
+                        size="xx-small"
                     >
-                </div>
+                    </lightning-icon
+                    ><span class="back-to-manage-delegate">{label.Back_to_Manage_Delegates}</span>
+                </span>
             </template>
         </div>
-       <template if:true={showppNewTeamMember}>
-            <div class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12">
-                <c-pp-new-team-member selected-parent ={piSelectedParent}  onbacktodelegates={handleInitData}></c-pp-new-team-member> 
-                <!--<c-pp-patient-delegate-item></c-pp-patient-delegate-item>-->
-            </div>
-        </template>
-        <template if:false={showppNewTeamMember}>
-            <div
-                class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12 slds-align_absolute-center"
-            >
-                <span class="there-are-no-delegat"
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-vertical-border">
+            <div class="slds-grid slds-wrap">
+                <template if:false={showppNewTeamMember}>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                        <button
+                            class="slds-button btn-add-new-delegate slds-m-bottom_medium"
+                            onclick={inviteTeamMembers}
+                        >
+                            {label.Add_New_Delegate}
+                        </button>
+                    </div>
+                </template>
+                <template if:true={showppNewTeamMember}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-m-bottom_medium"
                     >
-                    <template if:true={delegates}>
-                        <template for:each={delegates} for:item="delegate">
-                            <c-pp-patient-delegate-item key={delegate.Email} contact={delegate.delegateContact} usermode={usermode} selectedparent={piSelectedParent}
-                            is-active={delegate.isActive} onrerenderteampage ={handleInitData} ></c-pp-patient-delegate-item>
-
-                         </template>
-                        </template>
-                        <template if:false={delegates}>
-                            There are no delegates registered at the moment. Click on Add New Delegate to
-                            allow access to your information--- Anitha
-                            </template>
-
-                    </span
+                        <span class="add-new-delegate">Add New Delegates</span>
+                    </div>
+                </template>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 rectangle slds-order_2 slds-medium-order_1"
                 >
+                    <span class="list-heading-text">What can your delegate see or do?</span>
+                    <ul class="slds-list_dotted slds-m-vertical_medium">
+                        <li class="myteam-list-txt">{label.PP_AS_COMPLETE_TASK}</li>
+                        <li class="myteam-list-txt">{label.PP_AS_RECEIVE_EMAIL}</li>
+                        <li class="myteam-list-txt">{label.PP_AS_LAB_RESULTS}</li>
+                        <li class="myteam-list-txt">{label.PP_AS_VITALS}</li>
+                        <li class="myteam-list-txt">{label.PP_AS_MEASUREMENTS}</li>
+                    </ul>
+                    <span class="myteam-asteric-txt">{label.PP_AS_CONDITIONAL_FEATURE}</span>
+                </div>
+                <template if:true={isInitialized}>
+                    <div
+                        class="slds-col slds-hide_medium slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2"
+                    >
+                        <template if:false={showppNewTeamMember}>
+                            <template if:true={delegates.length}>
+                                <template for:each={delegates} for:item="delegate">
+                                    <c-pp-patient-delegate-item
+                                        key={delegate.Email}
+                                        contact={delegate.delegateContact}
+                                        usermode={usermode}
+                                        selectedparent={piSelectedParent}
+                                        is-active={delegate.isActive}
+                                        onrerenderteampage={handleInitData}
+                                    ></c-pp-patient-delegate-item>
+                                </template>
+                            </template>
+                            <template if:false={delegates.length}>
+                                <span class="no-delegate-mob-txt"
+                                    >There are no delegates registered at the moment. Click on Add
+                                    New Delegate to allow access to your information.</span
+                                ></template
+                            >
+                        </template>
+                        <template if:true={showppNewTeamMember}>
+                            <c-pp-new-team-member
+                                selected-parent={piSelectedParent}
+                                onbacktodelegates={handleInitData}
+                            ></c-pp-new-team-member>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <template if:true={isInitialized}>
+            <div class="slds-col slds-show_medium slds-size_1-of-1 slds-medium-size_8-of-12">
+                <template if:false={showppNewTeamMember}>
+                    <template if:true={delegates.length}>
+                        <template for:each={delegates} for:item="delegate">
+                            <c-pp-patient-delegate-item
+                                key={delegate.Email}
+                                contact={delegate.delegateContact}
+                                usermode={usermode}
+                                selectedparent={piSelectedParent}
+                                is-active={delegate.isActive}
+                                onrerenderteampage={handleInitData}
+                            ></c-pp-patient-delegate-item>
+                        </template>
+                    </template>
+                    <template if:false={delegates.length}>
+                        <span class="no-delegate-desk-txt"
+                            >There are no delegates registered at the moment. Click on Add New
+                            Delegate to allow access to your information.</span
+                        >
+                    </template>
+                </template>
+                <template if:true={showppNewTeamMember}>
+                    <!-- here add new delegate will come -->
+                    <c-pp-new-team-member
+                        selected-parent={piSelectedParent}
+                        onbacktodelegates={handleInitData}
+                    ></c-pp-new-team-member>
+                </template>
             </div>
         </template>
     </div>

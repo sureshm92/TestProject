@@ -271,6 +271,8 @@ public without sharing class PIR_BulkImportController {
        public List<Bulk_Import_History__c> bulkHistoryDataInProgress;
        @AuraEnabled
        public Boolean showInstructions;
+       @AuraEnabled
+       public Boolean isRejected;
        
        
    }

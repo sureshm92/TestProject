@@ -29,6 +29,9 @@
 .cp-content {
     align-items: start;
 }
+.user-profile-icon .slds-icon_x-small{
+    margin:8px 0 0 8px !important;
+}
 
 .cp-logo-block{
     margin: 50px auto auto;
@@ -38,8 +41,18 @@
     height: 2rem !important;
     box-sizing: border-box !important;
     border: 1px solid #d9d9d9 !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+}
+
+.profile-info-btn .slds-button{
+    color:#ffffff;
+    height: 2rem !important;
+    width:6rem !important;
+    border-radius: 16px !important;
+    background-color: #0768FD !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32) !important;
+    
 }
 
 .profile-info-error-input .slds-input{
@@ -69,7 +82,6 @@
 .font-thickness {
     font-weight: 500;
 }
-
 @media (max-width: 500px){
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -137,4 +149,47 @@
 
 .grayInfoIcon lightning-primitive-icon{
     color: #444444 !important;
+}
+
+.rr-min-body-height .rr-min-body-height {
+    min-height: auto !important;
+    padding-bottom: 35px !important;
+}
+
+.support-combobox button{
+    border-radius: 20px;
+}
+
+.label-email-pass-match .slds-form-element__label{
+    height: 48px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    height: 13px;
+    width: 12px;
+    color: #0768fd;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+color: #0768fd!important;
+}
+.slds-accordion__content {
+    overflow-x: scroll;
+    max-height: 200px;
 }
