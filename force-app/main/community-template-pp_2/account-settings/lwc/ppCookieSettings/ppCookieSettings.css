@@ -14,6 +14,20 @@
 .as-container .as-password {
 }
 
+.cardRTL {
+    direction: rtl;
+}
+
+.back-button {
+    color: #0768fd;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 2rem;
+    margin-bottom: 8px;
+    margin-left: -3px;
+}
+
 .as-title {
     color: #000000;
     font-family: 'Proxima Nova';
