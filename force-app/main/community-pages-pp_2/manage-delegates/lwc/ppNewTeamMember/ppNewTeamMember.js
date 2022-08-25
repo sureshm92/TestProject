@@ -26,6 +26,7 @@ import getContactData from '@salesforce/apex/MyTeamRemote.getContactData';
 import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
 import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
+import PP_Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.PP_Attestation_Confirmation_Message_For_Teams';
 
 export default class PpNewTeamMember extends LightningElement {
     @track delegate = {};
@@ -66,7 +67,9 @@ export default class PpNewTeamMember extends LightningElement {
         PG_PST_L_Delegates_Back,
         PG_NTM_BTN_Back_to_My_Team,
         PG_NTM_L_Already_Exists,
-        TST_You_have_successfully_created_permissions_for
+        TST_You_have_successfully_created_permissions_for,
+        Profile_Information,
+        PP_Attestation_Confirmation_Message_For_Teams
     };
     backToDelegates(event) {
         const selectedEvent = new CustomEvent('backtodelegates', {
