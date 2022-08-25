@@ -262,7 +262,7 @@ export default class PpNewTeamMember extends LightningElement {
         }
     }
     doSearchContact() {
-        this.template.querySelector('[data-id="emailInput"]').reportValidity();
+        let email = this.template.querySelector('[data-id="emailInput"]');
         let delegate = this.delegate;
         if (
             delegate.delegateContact.Email != undefined &&
@@ -272,8 +272,14 @@ export default class PpNewTeamMember extends LightningElement {
             this.isCorrectEmail = false;
             delegate.delegateContact.Id = null;
             this.delegate = delegate;
+            email.setCustomValidity(this.label.PP_Email_Error);
+            email.reportValidity();
             return;
-        } else this.isCorrectEmail = true;
+        } else {
+            email.setCustomValidity('');
+            email.reportValidity();
+            this.isCorrectEmail = true;
+        }
 
         let oldFirstName = delegate.delegateContact.FirstName;
         let oldLastName = delegate.delegateContact.LastName;
