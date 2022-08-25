@@ -31,7 +31,8 @@
  <aura:attribute name="showModeSwitcher" type="Boolean" default="false" />
  <aura:attribute name="logoURL" type="String" />
  <aura:attribute name="communityName" type="String" />
- <aura:attribute name="communityApiName" type="String" />ura:attribute name="isRTL" type="Boolean" />
+ <aura:attribute name="communityApiName" type="String" />
+ <aura:attribute name="isRTL" type="Boolean" />
  <aura:attribute name="urlPathPrefix" type="String" />
  <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
  <aura:attribute name="communityServ" type="Object" />
