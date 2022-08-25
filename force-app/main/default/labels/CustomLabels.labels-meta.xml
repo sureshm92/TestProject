@@ -13884,7 +13884,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18561,7 +18561,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
-        <value>Delegate&apos;s mobile phone updated succesfully!</value>
+        <value>Delegate&apos;s mobile phone updated successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
@@ -18834,10 +18834,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I would like my username &amp; email to match</value>
     </labels>
       <labels>
-        <fullName>PP_Match_Username_Email</fullName>
+        <fullName>PP_Match_Username_And_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username Email</shortDescription>
+        <shortDescription>PP Match Username And Email</shortDescription>
         <value>I would like my Username &amp; Email to match</value>
     </labels>
     <labels>
@@ -19638,7 +19638,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_To</shortDescription>
         <value>to</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_To_Year</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19729,7 +19729,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_UpdateProfileResp</shortDescription>
         <value>&gt; Contact Information &gt; Edit &gt; Save</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_UpdateProfileResponse</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19935,14 +19935,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
         <value>##ShortCommunityName: You have a new task ##SurveyName to complete, due on ##expirationDate. Log in to view ##CommunityURL. Reply STOP to Stop or HELP for help</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>PP_Edit_Year_of_Birth</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Edit Year of Birth</shortDescription>
         <value>Edit Year of Birth</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Match_Username_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19956,7 +19956,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Select support topic</shortDescription>
         <value>Select support topic</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Get_Support</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27643,5 +27643,29 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>flase</protected>
         <shortDescription>PP Delegate Activated</shortDescription>
         <value>Delegates was successfully activated</value>
+    </labels>
+    <labels>
+        <fullName>You_are_not_enrolled_in_any_program_at_the_moment</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You_are_not_enrolled_in_any_program_at_the_moment</shortDescription>
+        <value>You are not enrolled in any program at them moment</value>
+    </labels>
+    <labels>
+        <fullName>When_a_program_is_active_you_will_find_a_brief_overview_of_it_here</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>When_a_program_is_active_you_will_find_a_brief_overview_of_it_here</shortDescription>
+        <value>When a program is active you will find a brief overview of it here</value>
+    </labels>
+    <labels>
+        <fullName>No_active_program</fullName>
+        <categories></categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No_active_program</shortDescription>
+        <value>No active program</value>
     </labels>
 </CustomLabels>

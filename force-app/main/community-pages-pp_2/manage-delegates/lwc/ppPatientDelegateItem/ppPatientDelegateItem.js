@@ -8,7 +8,6 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import PP_Delegate_Activated from '@salesforce/label/c.PP_Delegate_Activated';
 
 export default class PpPatientDelegateItem extends LightningElement {
-
     showpopup = false;
     @api contact;
     @api isActive;
@@ -60,12 +59,7 @@ export default class PpPatientDelegateItem extends LightningElement {
                 .catch((error) => {
                     this.isLoading = false;
                 });
-                communityService.showToast(
-                    '',
-                    'success',
-                    this.label.PP_Delegate_Activated 
-                );
-        
+            communityService.showToast('', 'success', this.label.PP_Delegate_Activated, 300);
         }
     }
 
@@ -107,7 +101,7 @@ export default class PpPatientDelegateItem extends LightningElement {
         const showHideModal = event.detail;
         this.showpopup = showHideModal;
     }
-    
+
     handleConfirmdelete(event) {
         this.isLoading = true;
         let contactobj = event.detail.contact;
