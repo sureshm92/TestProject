@@ -169,3 +169,27 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    height: 13px;
+    width: 12px;
+    color: #0768fd;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+color: #0768fd!important;
+}
+.slds-accordion__content {
+    overflow-x: scroll;
+    max-height: 200px;
+}
