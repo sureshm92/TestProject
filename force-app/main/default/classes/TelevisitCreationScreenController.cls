@@ -450,11 +450,20 @@ Public without sharing Class TelevisitCreationScreenController {
         if(!String.isBlank(perId)){
             Participant_Enrollment__c per = [select Id,Participant_Contact__c,Permit_Mail_Email_contact_for_this_study__c,Participant__c  from Participant_Enrollment__c where Id  =:perId];
             participantData.isEmailPermitted = per.Permit_Mail_Email_contact_for_this_study__c;
+            Set<Id> contactId = new Set<Id>();
+            if(!String.isBlank(per.Participant_Contact__c)){
+                contactId.add(per.Participant_Contact__c);   
+            }
             
-            Patient_Delegate__c participantDelegate = [SELECT Id,Contact__c,Primary_Delegate__c FROM Patient_Delegate__c WHERE Participant__c =: per.Participant__c and Primary_Delegate__c = true];
+            List<Patient_Delegate__c> participantDelegate = [SELECT Id,Contact__c,Primary_Delegate__c FROM Patient_Delegate__c WHERE Participant__c =: per.Participant__c and Primary_Delegate__c = true];
+            if(participantDelegate.size() > 0){
+                if(!String.isBlank(participantDelegate[0].Contact__c)){
+                    contactId.add(participantDelegate[0].Contact__c);  
+                }
+            }
             
-            if(!String.isBlank(per.Participant_Contact__c) || !String.isBlank(participantDelegate.Contact__c)){
-                List<user> usr = [select Id,IsCommunityUserRegistered__c from User where IsCommunityUserRegistered__c = true AND (contactId=:per.Participant_Contact__c OR contactId=:participantDelegate.Contact__c) limit 1];
+            if(contactId.size()> 0){
+                List<user> usr = [select Id,IsCommunityUserRegistered__c from User where IsCommunityUserRegistered__c = true AND (contactId=:contactId) limit 1];
                 if(usr.size()>0){
                     participantData.isPPUserActivated =  usr[0].IsCommunityUserRegistered__c;
                 }else{
