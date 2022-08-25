@@ -102,13 +102,21 @@
                 <template if:true={isParticipant}>
                     <!--Disabled Button-->
                     <template if:true={isDisableSave}>
-                        <button onclick={doCreateYOBCase} disabled={disableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile"
+                        >
                             {label.submitButton}
                         </button>
                     </template>
                     <!--Enabled Button-->
                     <template if:false={isDisableSave}>
-                        <button onclick={doCreateYOBCase} disabled={disableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile"
+                        >
                             {label.submitButton}
                         </button>
                     </template>

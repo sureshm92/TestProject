@@ -20432,6 +20432,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Participant_quick_reference</shortDescription>
         <value>Participant_quick_reference</value>
     </labels>
+     <labels>
+        <fullName>Participant_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Settings</shortDescription>
+        <value>Participant Settings</value>
+    </labels>
     <labels>
         <fullName>Participants_Referred_Label</fullName>
         <language>en_US</language>
