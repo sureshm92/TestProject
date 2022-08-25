@@ -89,7 +89,11 @@
 }
 
 .pt-4 {
-    padding-top: 4px;
+    padding-top: 4px;    
+}
+
+.ml-12{
+    margin-left: -12px;
 }
 
 .mt-20 {
@@ -168,7 +172,6 @@
 }
 
 .pad10 {
-    padding: 10px;
     text-align: center;
     margin-top: -10px;
 }
