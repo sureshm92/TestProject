@@ -51,7 +51,6 @@
 .THIS .checkBox-desc {
     height: 16px;
     width: 16px;
-    border: 1px solid #d9d9d9;
     border-radius: 2px;
     background-color: #ffffff;
     margin-right: 10px;
@@ -107,4 +106,42 @@
 .THIS .btn-send {
     display: block;
     margin-top: 30px;
+}
+
+.THIS .mt-10 {
+    margin-top: 10px;
+}
+
+.THIS .al-consents-align {
+    float: left;
+    white-space: normal;
+    box-sizing: border-box;
+}
+
+.THIS .consent-label {
+    color: #444;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 17px;
+    display: block;
+    margin-bottom: 8px;
+    margin-left: -2px;
+}
+
+.THIS .mr-10 {
+    margin-right: 10px;
+}
+
+.THIS .blue-highlight-text-color {
+    color: #0f6efd;
+}
+
+.THIS .blue-highlight-text-color:hover {
+    cursor: pointer;
+}
+
+.THIS .slds-modal__container {
+    max-width: 60rem !important;
+    width: 90% !important;
+    height: 100%;
 }

@@ -92,6 +92,10 @@
                 <behavior>Readonly</behavior>
                 <field>Enable_RP_Outreach_Email__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Banner_Display_Offset_Time__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -3,6 +3,7 @@
     color: black !important;
     font-weight: bold !important;
 }
+
 label{
     height: 48px;
     width: 812px;
@@ -13,9 +14,18 @@ label{
     line-height: 24px;
 }
 
+.bulkimportFont{
+    font-size: 14px !important;
+}
+
 .label_align{
     display:flex;
     align-items: baseline;
+}
+
+.bulkimportmargin {
+    margin-bottom: -8px;
+    margin-top: 6px;
 }
 
 .errorMsg{
@@ -24,6 +34,9 @@ label{
 
 .checkbox_size{
     max-width: 7px;
+}
+.bulkimportMarginConsent{
+    margin-bottom: 5px;
 }
 
 .importParticipantClass {
@@ -39,5 +52,30 @@ label{
 @media all and (max-width: 767px) {
     .importParticipantClass {
         padding-left: 18px;
+    }
+    .p-left_mobile{
+        padding-left: 2px;
+    }
+
+    .importtMbl_phonecss {
+        width: 38%;
+        padding-left: unset;
+
+    }
+
+    .importtMbl_Emailcss {
+        width: 50%;
+    }
+    
+    .importtMbl_SMScss {
+        width: 39.7%;
+        margin-left: -16px;
+
+    }
+
+    .importtMbl_DMailcss {
+        width: 50%;
+        margin-left: 25px;
+
     }
 }

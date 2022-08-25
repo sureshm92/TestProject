@@ -74,7 +74,11 @@
                     option.hidden = 'true';
                     option.disabled = 'true';
                     var select = document.getElementById('extendcallminutes');
+                    var existingOption = document.getElementById('optionExtendCall');
+                    if(existingOption!=null && existingOption.text != 'Extend Call')
                     select.appendChild(option);
+                    else
+                    	existingOption.selected = 'true';
                 }
 
                 var bc = new BroadcastChannel('{!sessionId}');
@@ -1087,11 +1091,13 @@
                             callDisconnected = true;
                         }
                     }else if (currentTime > jsAutoDisconnectMeetingTime) {
+                        fetchUpdatedTelevisitDetails();
+                        if (currentTime > jsAutoDisconnectMeetingTime) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;
                         }
-
+                        }
                     }
 
                 },
@@ -1430,7 +1436,7 @@
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                width: 100px;
+                 width: 102px;
             }
 
             .cp-main-logo {
@@ -1694,9 +1700,9 @@
                     padding: 10px;
                 }
                 .televisitBanner {
-                    margin-top: 100px;
+                    margin-top: 55px;
                     padding: 0px;
-                    width: 80%;
+                    width: 80% !important;
                     z-index: 9;
                 }
                 .slds-button-circle {
@@ -1713,7 +1719,27 @@
                  .tv_banner::before{
                     display: none;
                 }
+                .warning_content{
+                    display: flex;
+                    justify-content: right;
+                    align-items: center;
+                }
+                button.extendCallListUpdatedClass{width : auto}
+                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 98px}
+                .extent_time{display: flex}
                 
+            }
+            @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
+            only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
+            only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
+            only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2),
+            only screen and (min-device-width: 414px) and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3),
+            only screen and (min-device-width: 375px) and (max-device-height: 812px) and (-webkit-device-pixel-ratio: 3),
+            only screen and (min-device-width: 390px) and (max-device-height: 844px) and (-webkit-device-pixel-ratio: 3),
+            only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 2),
+            only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 3),
+            only screen and (min-device-width: 428px) and (max-device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 110px}
             }
 
             @media screen and (max-width: 900px) {
@@ -1733,6 +1759,8 @@
                 .height-full {
                     height: 520px !important;
                 }
+                .extent_time{display: flex}
+                .televisitBanner{width: 90%}
             }
 
             .main-container-open {
@@ -2046,6 +2074,10 @@
                 left: 0;
                 right: auto;
                 height: auto;
+                max-width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             
             .share-container {
@@ -2455,7 +2487,7 @@
                 <div id="call-container" class="slds-grid slds-wrap">
                     <div class="slds-col">
                         <div
-                            class="in-call-header slds-grid slds-grid_align-spread heading-container slds-has-flexi-truncate"
+                            class="in-call-header slds-grid slds-align_absolute-center heading-container slds-has-flexi-truncate"
                         >
                             <div class="slds-col">
                                 <h1

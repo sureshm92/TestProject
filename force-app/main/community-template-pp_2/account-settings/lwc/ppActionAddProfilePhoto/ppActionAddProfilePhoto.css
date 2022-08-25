@@ -1,0 +1,125 @@
+.mobile-body {
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem;
+}
+.avatar-icon {
+    background-color: #d9d9d9;
+    height: 55px;
+    min-width: 55px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+.no-avatar-icon {
+    border-radius: 100%;
+    /* border: 0.1px solid lightgrey; */
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+.profile-pic {
+    width: 55px;
+    height: 55px;
+}
+.single-avatar {
+    /* height: 24px;
+    width: 21px; */
+}
+
+.photo-label {
+    text-align: left;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: 100%;
+}
+
+.user-name {
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 2rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 90%;
+}
+
+.user-name-rtl {
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 2rem;
+    word-break: break-all;
+}
+.file-upload {
+    display: inline-block;
+    cursor: pointer;
+    color: blue;
+}
+.profile-label {
+    color: #0768fd;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    text-align: center;
+}
+.file-upload:hover {
+    background-color: #eef5ff;
+}
+.profile-btn-container {
+    display: flex;
+    justify-content: space-around;
+}
+.btn-upload-photo {
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+}
+.input-file {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+}
+.divider-vertical-standard-line {
+    color: #0768fd;
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-weight: 600;
+    background-color: rgb(255 255 255);
+}
+.remove-photo {
+    font-size: 16px;
+    color: #0768fd;
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 500;
+    margin-left: 3px;
+    cursor: pointer;
+}
+.remove-photo-disabled {
+    opacity: 0.4;
+    cursor: auto;
+}
+.remove-photo:hover {
+    background-color: #eef5ff;
+}
+.rtl {
+    text-align: right;
+    float: right;
+    direction: rtl;
+}

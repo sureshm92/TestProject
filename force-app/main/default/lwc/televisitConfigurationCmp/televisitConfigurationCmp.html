@@ -26,7 +26,7 @@
                   onoptionchange={selectedStusysite}></c-multi-lookup>
       </lightning-layout-item>
       <lightning-layout-item size="6" padding="around-small">
-         <div style="float:right"><lightning-button label={label.addvendorLabel} title="Cancel" onclick={createvendor}></lightning-button></div>
+         <div style="float:right"><lightning-button label={label.addvendorLabel} onclick={createvendor}></lightning-button></div>
       </lightning-layout-item>
   </lightning-layout>
 </lightning-card>
@@ -55,7 +55,7 @@
           <!-- Modal/Popup Box LWC footer starts here -->
           <footer class="slds-modal__footer">
               <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">{label.cancelLabel}</button>
-              <button class="slds-button slds-button_brand" disabled = {vendercreationcheck} onclick={submitDetails} title="OK">{label.saveLabel}</button>
+              <button class="slds-button slds-button_brand" disabled = {vendercreationcheck} onclick={submitDetails} title="Save">{label.saveLabel}</button>
           </footer>
       </div>
   </section>
@@ -70,7 +70,7 @@
     <tr>
 
       <th scope="col" class="" style = "position: sticky">
-        <div class="slds-truncate" title="Name" data-id= "Country" onclick={sortRecs} >{label.countryLabel}
+        <div class="slds-truncate" data-id= "Country" onclick={sortRecs} >{label.countryLabel}
           <template if:false={soritingShow}>
             <lightning-icon   icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
             <lightning-icon   icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
@@ -78,7 +78,7 @@
         </div>
       </th>
       <th class="fix" scope="col" >
-        <div class="slds-truncate" title="Some Custom Column" data-id= "StudySite" onclick={sortRecs} >{label.studysitLabel}
+        <div class="slds-truncate" data-id= "StudySite" onclick={sortRecs} >{label.studysitLabel}
           <template if:true={soritingShow}>
             <lightning-icon  icon-name="utility:arrowup" size="x-small" if:true={uparrow}></lightning-icon>
             <lightning-icon  icon-name="utility:arrowdown" size="x-small" if:true={downarrow}></lightning-icon>
@@ -86,7 +86,7 @@
         </div>
       </th>
       <th class="" scope="col">
-        <div class="slds-truncate" title="Some Custom Column">{label.studysitNumbrLabel}</div>
+        <div class="slds-truncate">{label.studysitNumbrLabel}</div>
     </th>
       <template for:each={venders} for:item="row">
       <th key = {row.Id}>
@@ -107,13 +107,16 @@
        </th>
       </template>
       <th class="" scope="col">
-        <div class="slds-truncate" title="Some Custom Column" ><a>{label.bannerdisplayLabel}</a></div>
-        <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
+        <div class="slds-truncate"><a>{label.bannerdisplayLabel}</a></div>
     </th>
+    <th class="" scope="col">
+      <div class="slds-truncate"><a>Reminders (hours)</a></div>
+    </th>
+    <!--
     <th class="" scope="col">
       <div class="slds-truncate" title="Some Custom Column"><a>{label.bannerdisposeLabel}</a></div>
       <div class="slds-truncate" title="Some Custom Column"><a>{label.offsetTimeLabel}</a></div>
-  </th>
+  </th>-->
     </tr>
   </thead>
   <tbody>
@@ -129,7 +132,7 @@
         <template for:each={row.vendorrapperlist} for:item="row1">
            <td key = {row.studysiteid}>
             <!--<input  data-id = {row.studysiteid} data-target-id ={row1.vendorId} type="checkbox" onclick={handleClick}/>-->
-            <lightning-input type="checkbox" checked={row1.isEnable} 
+            <lightning-input type="checkbox" checked={row1.isEnable} data-uniquekey = {row1.uniquekey}
                     data-id = {row.studysiteid} data-target-id ={row1.vendorId} onchange={handleClick}></lightning-input>
            </td>
         </template>
@@ -148,7 +151,22 @@
                 </select> 
         </td>
         <td>
+            <lightning-layout>
+              <lightning-layout-item>
+                <div class="slds-form-element slds-form-element_horizontal" >
+                  <label class="slds-form-element__label">1st:</label>
+                  <lightning-input type="number" data-uniquekey = "{row.FirstKey}" maxlength = "3" value = {row.FirstReminder} data-target-id = "FirstReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                </div>
+              </lightning-layout-item>&nbsp;
+              <lightning-layout-item>
+                <div class="slds-form-element slds-form-element_horizontal">
+                  <label class="slds-form-element__label">2nd:</label>
+                  <lightning-input type="number" data-uniquekey = "{row.SecondKey}" maxlength = "3" value = {row.SecondReminder} data-target-id = "SecondReminder" data-id = {row.studysiteid} style="width: 80px;" onchange={updateremindervalues}></lightning-input>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
           <!--<lightning-combobox dropdown-alignment = "auto" data-target-id = "disposeoffsettime" name="disposeoffsettime" data-id = {row.studysiteid}  value={row.bannerdisposeoffsettime} options={picklistoptions} onchange={handleTypeChange}> </lightning-combobox> -->
+         <!--
           <select class="slds-select" 
                         onchange={handleTypeChange} 
                         data-target-id = "disposeoffsettime"
@@ -159,7 +177,7 @@
                     <template for:each={picklistoptions} for:item="option">
                         <option key={option.label}  class="" value={option.value}>{option.value}</option>
                     </template>
-                </select> 
+                </select> -->
         </td>
       </tr>
     </template>

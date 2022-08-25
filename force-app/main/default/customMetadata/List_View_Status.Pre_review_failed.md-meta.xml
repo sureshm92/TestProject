@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Available_Statuses__c</field>
-        <value xsi:type="xsd:string">Pre-review Failed,Received,Contact Attempted,Pre-review Passed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,,Eligibility Passed,Eligibility Failed</value>
+        <value xsi:type="xsd:string">Pre-review Failed,Received,Contact Attempted,Pre-review Passed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Eligibility Passed,Eligibility Failed</value>
     </values>
     <values>
         <field>Final_Consent__c</field>

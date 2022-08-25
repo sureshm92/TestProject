@@ -33,4 +33,10 @@ public with sharing class TrialItemRemote {
             AuraHelper.throwException(e);
         }
     }
+
+    @AuraEnabled
+    public static void updatePreferences(String contactInfo) {
+        system.debug('here--' + contactInfo);
+        PreferenceManagementController.saveConsent('', contactInfo, 'IQVIA_OUTREACH');
+    }
 }

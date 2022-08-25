@@ -1,27 +1,88 @@
 <template>
     <template for:each={commModes} for:item="item">
-        <div class="slds-grid curr-mode-delg-title" key={item.title}>
-            <div class="slds-col slds-size_10-of-12">
-                <div class="slds-grid slds-grid_vertical">
+        <div key={item.title} class="slds-p-bottom_x-small">
+            <template if:true={item.isSelected}>
+                <template if:false={item.isDelegate}>
                     <div
-                        class="slds-col slds-m-left_xx-small title-label-div-height"
+                        class="curr-mode-delg-title curr-mode-self-title slds-m-vertical_x-small slds-p-top_x-small slds-p-left_small"
                         data-id={item.title}
                         data-value={item.programList}
                         onclick={handleListDisplay}
                     >
                         {item.title}
                     </div>
-                    <div
-                        class="slds-col slds-m-left_xx-small title-label-div-height"
-                        if:true={item.isDelegate}
-                    >
-                        <span class="participants-delega">{label.partipantsDelegate}</span>
+                </template>
+                <template if:true={item.isDelegate}>
+                    <div class="slds-grid delegate-item slds-p-around_x-small">
+                        <div
+                            class="slds-col slds-size_10-of-12 delegate-details"
+                            data-id={item.title}
+                            data-value={item.programList}
+                            onclick={handleListDisplay}
+                        >
+                            {item.title}
+                            <template if:true={item.isDelegate}>
+                                <div class="slds-col slds-grid slds-size_1-of-1">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                    >
+                                        {label.partipantsDelegate}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:true={item.isDelegate}>
+                            <div
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
+                                onclick={handleNavigation}
+                                data-id={item.title}
+                            >
+                                <span><img src={icon_url} /></span></div
+                        ></template>
                     </div>
-                </div>
-            </div>
-            <div class="slds-col slds-m-top_x-small slds-size_2-of-12" if:true={item.isDelegate}>
-                <c-web-icon color="blue" icon-name="participant_settings"> </c-web-icon>
-            </div>
+                </template>
+            </template>
+            <template if:false={item.isSelected}>
+                <template if:false={item.isDelegate}>
+                    <div
+                        class="curr-mode-delg-title slds-m-vertical_x-small slds-p-top_x-small slds-p-left_small"
+                        data-id={item.title}
+                        data-value={item.programList}
+                        onclick={handleListDisplay}
+                    >
+                        {item.title}
+                    </div>
+                </template>
+                <template if:true={item.isDelegate}>
+                    <div class="slds-grid delegate-item slds-p-around_x-small">
+                        <div
+                            class="slds-col slds-size_10-of-12"
+                            data-id={item.title}
+                            data-value={item.programList}
+                            onclick={handleListDisplay}
+                        >
+                            {item.title}
+                            <template if:true={item.isDelegate}>
+                                <div class="slds-col slds-grid slds-size_1-of-1">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                    >
+                                        {label.partipantsDelegate}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:true={item.isDelegate}>
+                            <div
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
+                                onclick={handleNavigation}
+                                data-id={item.title}
+                            >
+                                <span><img src={icon_url} /></span></div
+                        ></template>
+                    </div>
+                </template>
+            </template>
         </div>
     </template>
 </template>

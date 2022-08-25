@@ -4,9 +4,6 @@
 .THIS .delegate-selectRTL{
     margin-right: 0px !important;
 }
-.THIS .delegate-select{
-    width:100%
-}
 
 .THIS .slds-file-selector,
 .THIS .slds-file-selector__dropzone {
@@ -82,15 +79,6 @@
     justify-content: space-between;
 }
 
-.THIS .custom-width {
-    width: 100%;
-}
-
-@media (max-device-width: 767px) {
-    .THIS .custom-width {
-        display: unset;
-    }
-}    
 @media screen and (max-width: 500px) {
     .THIS .cPopup .p-container .p-footer {
         max-height: 40vh;

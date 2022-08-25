@@ -3,7 +3,7 @@
     <fullName>Permit_SMS_Text_for_this_study__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Permit SMS/Text for this study</label>
+    <label>Study SMS Consent</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

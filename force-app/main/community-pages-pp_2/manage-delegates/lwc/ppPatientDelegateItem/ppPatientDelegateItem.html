@@ -1,23 +1,46 @@
 <template>
-    <div class="rr-white-panel mti-container">
-        <div class="mti-name">{contactname}</div>
-        <div class="mti-email">{contact.Email}</div>
-        <div class="mti-button-container">
-            <template if:true={mobile}>
-                <lightning-button class="apollo-btn tertiary" title={title} onclick={handleClick}>
-                    {title}
-                </lightning-button>
-                <template if:false={mobile}>
-                    <lightning-button
-                        class="apollo-btn tertiary"
-                        style="margin-right: 600px"
-                        title={title}
-                        onclick={handleClick}
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+
+    <div class="patient-delegate-item-rectangle slds-p-around_large">
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col slds-size_1-of-5 slds-medium-size_1-of-12 slds-m-top_small">
+                <span><img src={icon_url} /></span>
+            </div>
+            <div class="slds-col slds-size_4-of-5 slds-medium-size_9-of-12">
+                <span class="dlegate-name">{delegateFullname}</span><br />
+                <span class="dlegate-email">{contact.Email}</span>
+            </div>
+            <div class="slds-col slds-medium-size_2-of-12 slds-m-top_small btn-deactivate-mob">
+                <button
+                    class="slds-button slds-button_neutral btn-deactivate label-deactivate"
+                    onclick={handleClick}
+                    title={btntitle}
+                >
+                    {btntitle}
+                </button>
+                <template if:true={showpopup}>
+                    <c-pp-remove-delegate-modal
+                        contact={contact}
+                        messtext={messText}
+                        tittext={titText}
+                        usermode={usermode}
+                        selectedparent={selectedparent}
+                        onconfirmmodal={handleConfirmdelete}
+                        onmodalclose={handleModalClose}
                     >
-                        {title}
-                    </lightning-button>
+                    </c-pp-remove-delegate-modal>
                 </template>
-            </template>
+            </div>
         </div>
     </div>
 </template>

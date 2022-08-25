@@ -6,6 +6,7 @@ import fetchAttendees from "@salesforce/apex/TelevisitCreationScreenController.f
 import fetchSelectedAttendees from "@salesforce/apex/TelevisitCreationScreenController.fetchSelectedAttendees";
 import updateAttendees from "@salesforce/apex/TelevisitCreationScreenController.updateAttendees";
 import cancelTelevisit from "@salesforce/apex/TelevisitCreationScreenController.cancelTelevisit";
+import fetchParticipantDetails from "@salesforce/apex/TelevisitCreationScreenController.fetchParticipantDetails";
 import { NavigationMixin } from "lightning/navigation";
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import pirResources from '@salesforce/resourceUrl/pirResources';
@@ -16,7 +17,9 @@ import RH_TV_CancelTelevisit from '@salesforce/label/c.RH_TV_CancelTelevisit';
 import RH_TV_CancelMessage from '@salesforce/label/c.RH_TV_CancelMessage';
 import RH_TV_NoRecordsFoundMessage from '@salesforce/label/c.RH_TV_NoRecordsFoundMessage';
 import RH_TV_SiteStaffRequiredErrorMessage from '@salesforce/label/c.RH_TV_SiteStaffRequiredErrorMessage';
-
+import RH_UserEmailPermissionAlert from '@salesforce/label/c.RH_UserEmailPermissionAlert';
+import RH_UserRegistration_Warning from '@salesforce/label/c.RH_UserRegistration_Warning';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 import RH_TV_Discard from '@salesforce/label/c.RH_TV_Discard';
 import RH_TV_Confirm from '@salesforce/label/c.RH_TV_Confirm';
 import RH_TV_Close from '@salesforce/label/c.RH_TV_Close';
@@ -46,8 +49,12 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
 
     @api fetchTelevisitRecord3(){
         this.fetchTelevisitRecord();
+        this.isEmailPermitted = true;
+        this.checkForPPUser();
     }
     backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
+    notification = pirResources+'/pirResources/icons/bell.svg';
+    alert = pirResources+'/pirResources/icons/status-alert.svg';
     value = 'Scheduled';
     duration;
     @track startTime;
@@ -81,6 +88,9 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     @track selectedAttendeesList = [];
     @track itemToRemove = {name:'',id:''};
     @track selectedItems;
+    @track isMobileDevice = false;
+    isPPUserActivated = true;
+    isEmailPermitted = true;
     label = {
         RH_TV_View,
         RH_TV_CreateTelevisit,
@@ -94,6 +104,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         RH_TV_Close,
         RH_TV_Remove,
         RH_TV_Save,
+        RH_UserEmailPermissionAlert,
+        RH_UserRegistration_Warning
 
     }
 
@@ -117,8 +129,19 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.visitDate = event.target.dataset.visitdate;
             
             var visitDateTime = new Date(event.target.dataset.visitdatetime).toLocaleTimeString('en-US', { timeZone: TIME_ZONE });
-            visitDateTime = this.getTwentyFourHourTime(visitDateTime)
+            visitDateTime = this.getTwentyFourHourTime(visitDateTime);
+            //this.startTime = visitDateTime;
+
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.startTime = visitDateTime.substring(0, 5);
+                
+            }else{
+                this.isMobileDevice = false;
             this.startTime = visitDateTime;
+            }
+  
+
 
             //this.startTime = this.msToTime(event.target.dataset.starttime);
             
@@ -140,8 +163,21 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 this.defaultTime = '00:00:00.000Z';
             }else{
                 this.defaultTime = newdatetimezone;
+            
             }
             this.currentTime = newdatetimezone;
+            
+            //Added for android issue
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.defaultTime = this.defaultTime.substring(0, 5);
+                this.currentTime = this.currentTime.substring(0, 5);
+            }else{
+                this.isMobileDevice = false;
+                this.defaultTime = this.defaultTime;
+                this.currentTime = this.currentTime;
+            }
+
         }else{
             this.televisitEditView = false;
             this.televisitRecordId = '';
@@ -166,6 +202,17 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             newdatetimezone = this.getTwentyFourHourTime(newdatetimezone);
             this.defaultTime = newdatetimezone;
             this.currentTime = newdatetimezone;
+
+            //Added for android issue
+            if(FORM_FACTOR == 'Small'){
+                this.isMobileDevice = true;
+                this.defaultTime = this.defaultTime.substring(0, 5);
+                this.currentTime = this.currentTime.substring(0, 5);
+            }else{
+                this.isMobileDevice = false;
+                this.defaultTime = this.defaultTime;
+                this.currentTime = this.currentTime;
+            }
 
             //this.fetchRequiredAttendees();
             this.isLoading = true;
@@ -311,15 +358,28 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 }
             }
             if(fieldName === 'Start Time'){
-                this.startTime = val;
                 this.startTimeChanged = true;
+                this.startTime = val;         
+                this.errorTime = false;
+
+                if(val < this.defaultTime){
+                    this.errorTime = true;
+                    dom.setCustomValidity('Enter Current or Future Time');
+                }
+                else {
+                    this.errorTime = false;
+                }
             }
             if(fieldName === 'Duration'){
                 this.duration = val;
             }   
-            if(!val.replace(/\s/g, '')){
+            if(val == null){
                 dom.setCustomValidity('Please Enter the ' +fieldName);
-            }else{
+            }
+            else if(!val.replace(/\s/g, '')){
+                dom.setCustomValidity('Please Enter the ' +fieldName);
+            }
+            else if(!this.errorTime ){
                 dom.setCustomValidity('');
             }
             dom.reportValidity();
@@ -340,6 +400,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.duplicateSelectedTelevisitAttendeesList = [];
     }
 
+    errorTime = false;
+
     checkAllFieldsArePopulated(){
         var title = this.template.querySelector('[data-id="Title"]').value.replace(/\s/g, '');
         var visitDate = this.template.querySelector('[data-id="Visit Date"]').value;
@@ -349,8 +411,14 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         visitDate !== null && visitDate !== undefined && visitDate !== '' && 
         this.startTime !== null && this.startTime !== undefined && this.startTime !== '' && 
         duration !== null && duration !== undefined && duration !== '' && visitDate >= this.today && 
-        this.siteStaffAdded){
+        this.siteStaffAdded && !this.errorTime){
             this.disableSaveButton = false;
+            //Added for android issue
+            if(this.visitDate === this.today){
+                if(this.startTime < this.currentTime && this.startTimeChanged){
+                    this.disableSaveButton = true;
+                }
+            }
         }else{
             this.disableSaveButton = true;
         }
@@ -425,6 +493,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
 
     connectedCallback(){
         this.displayTelevisitRecords = true;        
+        this.checkForPPUser();      
         this.fetchTelevisitRecord();
 
         var rightNow = new Date();
@@ -540,6 +609,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.attendeesList = [];
         this.televisitAttendeesList = [];
         //this.fetchAttendees();
+        this.checkForPPUser();
         this.fetchTelevisitRecord();
     }
 
@@ -755,5 +825,16 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.televisitAttendeesList = this.televisitAttendeesListTemp;
         }  
         
+    }
+
+    checkForPPUser(){
+        fetchParticipantDetails({perId : this.peid.id })
+        .then((result) => {
+            this.isPPUserActivated = result.isPPUserActivated;
+            this.isEmailPermitted = result.isEmailPermitted;
+        })
+        .catch((error) => {
+            console.log('error on PP check'+JSON.stringify(error));
+        });
     }
 }

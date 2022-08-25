@@ -35,7 +35,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     wave = PP_Desktoplogos + '/wave_desktop.png';
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
     eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
-
+    
     label = {
         unableToLogin,
         forgotPassword,

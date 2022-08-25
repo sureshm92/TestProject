@@ -42,9 +42,14 @@
 .vertical-scroll {
     height: 51vh;
     overflow: auto;
-    /* padding: 0px 5px 0px 0px; */
     overflow-x: hidden;
     margin-top: 10px;
+}
+.vertical-scroll::-webkit-scrollbar {
+    width: 1px;
+}
+.vertical-scroll::-webkit-scrollbar-thumb {
+    background: #fff;   
 }
 /* Scrollbar Code */
 ::-webkit-scrollbar {
@@ -247,6 +252,53 @@ textdecoration {
 .tv_edit {
     margin-top: -15px;
 }
+.space_between{
+    justify-content: space-between;
+}
+
+.notify-box{
+    width: 100%;
+    border-radius: 4px;
+    border-width: 1px;
+    outline-style: solid;
+    outline-width: 2px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    text-align: justify;
+    justify-content: start;
+}
+
+.notify-box-outline{
+    outline: auto;
+    outline-color: #FF9300;
+    background : rgba(255,147,0,0.08);
+}
+
+.alert-box-outline{
+    outline: auto;
+    outline-color: #FF0000;
+    background : rgba(255,0,0,0.08);
+}
+
+.notify-img{
+    width: 16px !important;
+}
+
+.alert-img{
+    width: 38px !important;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 920px){
+    .notify-img{
+        width: 16px !important;
+    }
+    
+    .alert-img{
+        width: 55px !important;
+    }
+}
+
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .visit-date,
@@ -265,7 +317,7 @@ textdecoration {
         margin-left: unset;
         display: unset;
         width: unset;
-        margin-top: -1px;
+        margin-top: -3px;
     }
 
     .televisit {
@@ -279,7 +331,7 @@ textdecoration {
 }
 
 /* iphones */
-@media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
+/* @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
     only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2),
@@ -292,12 +344,13 @@ textdecoration {
     .hideDesktopView {
         display: block;
     }
-}
+} */
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 767px) {
     .televisit {
         float: none;
         margin-left: 0;
+        margin-top: -2px;
         display: grid;
         width: 100%;
     }
@@ -309,7 +362,7 @@ textdecoration {
         flex-direction: column-reverse;
         width: 100%;
     }
-    .televisit_acion_btn button {
+    .televisit_acion_btn button, .cancel_tv_actionBtn button{
         margin: 8px 0;
         padding: 8px 0;
     }
@@ -328,6 +381,24 @@ textdecoration {
     .save-btn {
         float: left;
         margin-left: -35px;
+    }
+    .cancel_tv_actionBtn{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .notify-img{
+        width: 32px !important;
+    }
+    
+    .alert-img{
+        width: 100px !important;
+    }
+    div.mainSpinnerHolder::-webkit-scrollbar {
+        width: 0px;
+    }
+    .tv_label{
+        text-align: left;
     }
 }
 
@@ -356,6 +427,9 @@ textdecoration {
         padding-left: 35px;
         margin-top: -15px;
     }
+    .CancelledTag {       
+        padding: 2px 8px 2px 8px;       
+    }
 }
 
 @media only screen and (min-width: 400px) and (max-width: 540px) {
@@ -367,5 +441,12 @@ textdecoration {
 @media all and (max-width: 281px) {
     .tv_edit {
         padding-left: 15px;
+    }
+    .notify-img{
+        width: 55px !important;
+    }
+    
+    .alert-img{
+        width: 175px !important;
     }
 }

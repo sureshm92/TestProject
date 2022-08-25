@@ -84,7 +84,7 @@ public without sharing class TasksRemote {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
             if (
-                ParticipantContext.getCurrentUser() != null &&
+                /*ParticipantContext.getCurrentUser() != null &&*/ /*create tasks for minors */
                 (participantState.value == ParticipantService.ParticipantStates.ALUMNI ||
                 participantState.ctp.Tasks_Are_Available__c)
             ) {

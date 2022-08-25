@@ -72,6 +72,8 @@
                     if (component.get('v.userMode') === 'Participant') {
                         if (initData.participant.Adult__c && initData.delegateUserName != null) {
                             component.set('v.userEmail', initData.delegateUserName.Username);
+                        } else if (!initData.participant.Adult__c) {
+                            component.set('v.hideContactInformationForDel', true);
                         }
                     }
                 } else {
@@ -201,7 +203,7 @@
                 hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c,
                 userMode: component.get('v.userMode')
             },
-            function () { }
+            function () {}
         );
     },
 
@@ -440,7 +442,7 @@
         }
     },
     navigateToHelpPage: function (component, event, helper) {
-        communityService.navigateToPage('help');  
+        communityService.navigateToPage('help');
     },
 
     doUpdatePerson: function (component, event, helper) {

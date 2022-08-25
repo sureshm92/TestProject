@@ -601,6 +601,7 @@ export default class Rp_PatientTab extends LightningElement {
             this.patientrecord[0].peRecord.Participant_Opt_In_Status_Emails__c = event.detail.consentMap.contact.Participant_Opt_In_Status_Emails__c;
             this.patientrecord[0].peRecord.Participant_Opt_In_Status_SMS__c = event.detail.consentMap.contact.Participant_Opt_In_Status_SMS__c;
             this.patientrecord[0].peRecord.Participant_Phone_Opt_In_Permit_Phone__c = event.detail.consentMap.contact.Participant_Phone_Opt_In_Permit_Phone__c;
+            this.patientrecord[0].peRecord.IQVIA_Direct_Mail_Consent__c = event.detail.consentMap.contact.IQVIA_Direct_Mail_Consent__c;
         }
         if(event.detail.consentMap.cType == 'study'){
             this.patientrecord[0].peRecord.Permit_Mail_Email_contact_for_this_study__c = event.detail.consentMap.pe.Permit_Mail_Email_contact_for_this_study__c;

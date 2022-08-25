@@ -254,48 +254,50 @@ public with sharing class ECOAService {
                             timeZoneVal = delegateUserObj.TimeZoneSidKey;
                         }
                     }
-                    List<Map<String, String>> requestMapList = new List<Map<String, String>>();
-                    Map<String, String> requestMap = new Map<String, String>{
-                        'username' => peObj.Id,
-                        //'email' => peObj.Participant__r.Email__c,
-                        'timezone' => timeZoneVal,
-                        'subjectId' => peObj.Id,
-                        'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
-                        'studyVersionGuid' => peObj.Clinical_Trial_Profile__r.Study_Version_GUID__c,
-                        'subjectLocale' => 'en',
-                        'eproRuleSetGuid' => studySchedulesList[0].EproRuleSetGuid__c,
-                        'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
-                        'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
-                        'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
-                        'loginType' => 'SSO',
-                        'loginSsoId' => peObj.Id,
-                        'loginSsoIssuerGuid' => apiParamsMap.get(ISSUER_GUID).ParamValue__c
-                    };
-                    requestMapList.add(requestMap);
-                    HttpCallout remoteCall = new HttpCallout(
-                        null,
-                        'POST',
-                        headerMap,
-                        JSON.serializePretty(requestMapList),
-                        ECOAService.class
-                    );
-
-                    remoteCall.setEndPointURL('callout:ECOAIntegration/subjects');
-
-                    remoteCall.setAutoLogInsert(false);
-
-                    String respBody = (String) remoteCall.execute();
-
-                    if (remoteCall.log.Success__c) {
-                        List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
-                            respBody
+                    if(timeZoneVal != ''){
+                        List<Map<String, String>> requestMapList = new List<Map<String, String>>();
+                        Map<String, String> requestMap = new Map<String, String>{
+                            'username' => peObj.Id,
+                            //'email' => peObj.Participant__r.Email__c,
+                            'timezone' => timeZoneVal,
+                            'subjectId' => peObj.Id,
+                            'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
+                            'studyVersionGuid' => peObj.Clinical_Trial_Profile__r.Study_Version_GUID__c,
+                            'subjectLocale' => 'en',
+                            'eproRuleSetGuid' => studySchedulesList[0].EproRuleSetGuid__c,
+                            'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
+                            'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
+                            'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
+                            'loginType' => 'SSO',
+                            'loginSsoId' => peObj.Id,
+                            'loginSsoIssuerGuid' => apiParamsMap.get(ISSUER_GUID).ParamValue__c
+                        };
+                        requestMapList.add(requestMap);
+                        HttpCallout remoteCall = new HttpCallout(
+                            null,
+                            'POST',
+                            headerMap,
+                            JSON.serializePretty(requestMapList),
+                            ECOAService.class
                         );
-                        peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
-                        // pesToUpdate.add(peObj);
-                        sObjectsList.add(peObj);
-                    }
-                    if (remoteCall.log != null) {
-                        sObjectsList.add(remoteCall.log);
+
+                        remoteCall.setEndPointURL('callout:ECOAIntegration/subjects');
+
+                        remoteCall.setAutoLogInsert(false);
+
+                        String respBody = (String) remoteCall.execute();
+
+                        if (remoteCall.log.Success__c) {
+                            List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
+                                respBody
+                            );
+                            peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
+                            // pesToUpdate.add(peObj);
+                            sObjectsList.add(peObj);
+                        }
+                        if (remoteCall.log != null) {
+                            sObjectsList.add(remoteCall.log);
+                        }
                     }
                 }
             } catch (Exception e) {

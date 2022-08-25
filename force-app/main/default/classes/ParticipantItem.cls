@@ -19,6 +19,27 @@ public without sharing class ParticipantItem {
     public Boolean showVisits;
     @AuraEnabled
     public Boolean showVisitsinPreTrial;
+    
+    //
+     @AuraEnabled
+        public Boolean isPNS{ get; set; }
+        @AuraEnabled
+        public String dateOccured;
+        @AuraEnabled
+        public Date occuredDate;
+        @AuraEnabled
+        public String reason;
+        @AuraEnabled
+        public Boolean isContact{ get; set; }
+        @AuraEnabled
+        public String historyTitle;
+        @AuraEnabled
+        public String detailDate;
+        @AuraEnabled
+        public String createdBy;
+        @AuraEnabled
+        public String detail;
+    //
 
     @AuraEnabled //REF-2826
     public Boolean containsFile;

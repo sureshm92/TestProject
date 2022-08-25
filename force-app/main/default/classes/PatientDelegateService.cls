@@ -113,6 +113,7 @@ public without sharing class PatientDelegateService {
         return DatabaseService.query(
             new List<String>{
                 'Id',
+                'Primary_Delegate__c',
                 'Participant__c',
                 'Participant__r.Contact__c',
                 'Participant__r.Contact__r.Name',
@@ -530,6 +531,9 @@ public without sharing class PatientDelegateService {
         List<Id> partContactsIds,
         List<String> delegatedCntFields
     ) {
+        if (partContactsIds.isEmpty()) {
+            return new Map<Id, List<Contact>>();
+        }
         List<String> pdFields = new List<String>();
         pdFields.add('Participant__r.Contact__c');
         for (String cntField : delegatedCntFields)
@@ -684,11 +688,34 @@ public without sharing class PatientDelegateService {
             true
         );
     }
+    // method to return PE Ids for all participant statuses
+    public static List<Id> getAvailablePEIDsForAllContacts(Id contactId) {
+        list<Id> contactIds = new List<Id>{ contactId };
+        List<Id> resList = getPEIdsListByContactIdMap(contactIds, null, true).get(contactId);
+        return resList == null ? new List<Id>() : resList;
+    }
 
     public static List<Id> getAvailablePEIdsForContact(Id contactId) {
         List<Id> resList = getAvailablePEIdsListByContactIdMap(new List<Id>{ contactId })
             .get(contactId);
         return resList == null ? new List<Id>() : resList;
+    }
+
+    //Get PER record for Delegate for Alumni Participant.
+    public static List<Id> getAvailablePEIdsForDelContact(Id contactId) {
+        List<Id> resList = getAvailablePEIdsListByDelContactIdMap(new List<Id>{ contactId })
+            .get(contactId);
+        return resList == null ? new List<Id>() : resList;
+    }
+
+    //Get PER record for Delegate for Alumni Participant.
+    public static Map<Id, List<Id>> getAvailablePEIdsListByDelContactIdMap(List<Id> contactIds) {
+        return getPEIdsListByContactIdMap(
+            contactIds,
+            ' Participant_Status__c IN ' +
+            DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI),
+            true
+        );
     }
 
     public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(
@@ -871,5 +898,25 @@ public without sharing class PatientDelegateService {
             }
         }
         PatientDelegateService.updatePermissionSets(allContactIds);
+    }
+    /**
+     * @description: This Method will retun true if the Patient Delegate is Primary delegate else it will return false.
+     *
+     * @author: Krishna Mahto
+     * @param: pdContactId
+     * @return: Boolean
+     **/
+    public static Boolean isPrimaryDelegate(Id pdContactId, Id currentParticipantId) {
+        Boolean isPrimaryDelegate = false;
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+        pdList = [
+            SELECT Id, Primary_Delegate__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :pdContactId AND Participant__c = :currentParticipantId
+        ];
+        if (pdList != null && !pdList.isEmpty() && pdList[0].Primary_Delegate__c) {
+            isPrimaryDelegate = true;
+        }
+        return isPrimaryDelegate;
     }
 }

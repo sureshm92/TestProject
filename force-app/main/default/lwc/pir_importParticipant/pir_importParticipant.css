@@ -1,0 +1,299 @@
+/** Import code Starts **/
+.pop-title { 
+    color: #000000;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.bar {    
+    height: 4px;
+    background: linear-gradient(270deg,#0076ae,#250056);
+    position: relative;
+}
+.model-small{
+    width: 420px;
+    max-width: 52.0625rem;
+    min-width: 0;
+}
+.close-arrow-left{
+    margin-right:0;
+}
+.close-icon{
+    cursor: pointer;
+    padding-left: 32px;
+}
+.bulkImportScroll{
+    /* height: 30rem; */
+    max-height: 66vh;
+    overflow-y: auto;
+}
+.bulkautoScroll{
+    height:auto;
+}
+
+.fileName{    
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.fileUpload{    
+  /*  color: #444444; */
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 12px;
+}
+.progressBar {
+    width: 95%;
+    display: inline-block;
+}
+.closeIcon {
+    width: 5%;
+    display: inline;
+    padding-left: 2%;
+    cursor: pointer;
+}
+.fileInput{
+    width: 100%;
+    height: 95px;
+    position: absolute;
+    cursor: pointer;
+}
+.fileHolder{
+    min-height: 110px;
+}
+.disabledrag{
+    opacity: 0.5;
+}
+.fileBox{
+    width: 100%;
+    height: 95px;
+    border: 1px dashed #B5B5B5;
+    border-radius: 4px;
+    background-color: #F2F2F2;
+    position: absolute;
+    pointer-events: none;
+}
+.uploadLabel{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+}
+.linkLabel{
+    color: #297CFD;
+}
+.uploadLabel-Italic{
+    font-style: italic;
+}
+.downloadLabel{
+    color: #297CFD;
+    font-size: 12px;
+    line-height: 13px;
+    text-align: right;
+}
+.w-instruction{
+   width: 31%;
+   padding-right: 0;
+}
+.w-template{
+    width: 33%;
+    padding-right: 0;
+}
+.w-langauge{
+    width: 36%;
+}
+.p-left-icon{
+    padding-left: 6px;
+    cursor: pointer;
+}
+.previewFilename{
+    font-size: 11px;
+}
+.previewImage{
+    background: #F2F2F2;
+    width: 109px;
+    border-radius: 6px;
+}
+.dropdown-margin-top{
+    margin-top: -20px;
+}
+.slds-selectdropdown{
+    --slds-c-input-color-border: #ea001e;
+    --slds-c-input-shadow: #ea001e 0 0 0 1px inset;
+    --slds-c-input-color-background: var(--slds-c-input-color-background, var(--sds-c-input-color-background, white));
+    --slds-c-input-text-color: var(--slds-c-input-text-color, var(--sds-c-input-text-color), #74747);
+}
+.previewImg{
+    height: 77px;
+    width: 101px;
+}
+.truncate-width{
+    width: 7rem;
+}
+.btn-height{
+    height: 40px;
+}
+.import-btn{
+    float: right;
+}
+.discard-btn{
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 4px 0 rgb(255 255 255 / 4%);
+    float: right;
+    margin-right: 10px;
+    width:auto;
+}
+.container_popup{
+    z-index: 9999;
+}
+.containerbackdrop_popup{
+    z-index: 9998;
+}
+.display-checkbox{
+    display: flex;
+}
+.checkbox_width{
+    font-size: 14px;
+    margin-left: -8px;
+    width: 100%;
+}
+.country-checkbox{
+    font-size: 14px !important;
+    color: black !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: -2px
+}
+.country-margin{
+    margin-bottom: 17px
+}
+.isocssunderline:focus {
+    color: var(--lwc-colorTextLinkActive,#135F90);
+}
+@media (max-device-width: 767px) {
+    .model-small{
+        width: auto;
+        min-width: auto;
+    }
+    .mobile-width{
+        width: 100%;
+    }
+    .close-icon{
+        padding-left: 30px;
+        margin-top: 5px;
+    }
+    .bulkImportScroll{
+        max-height: 68vh;
+    }
+    .w-instruction {
+        width: 100%;
+    }
+    .w-template {
+        width: 50%;
+        padding-right: 0;
+    }
+    .w-langauge {
+        width: 50%;
+        padding-left: 0;
+    }
+    .labelRightMob{
+        text-align: right !important;
+    }
+    .downloadLabel{
+        text-align: left;
+        margin-top: 14px;
+        margin-bottom: 4px;
+        font-size: 11px;
+    }
+    .p-left-icon{
+        padding-left: 3px;
+    }
+    .marTopIcon{
+        margin-top: 10px;
+    }
+    .fileBox{
+        height: 70px;
+    }
+    .fileInput{
+        height: 70px;
+    }
+    .fileHolder{
+        min-height: 90px;
+    }
+    .uploadLabel{
+        font-size: 11px;
+    }
+    .marTop{
+        margin-top: 10px;
+    }
+    .slds-text_center{
+        text-align: left;
+    }
+    .checkbox_width{
+        margin-left: -4px;
+    }
+    /* .import-btn{
+        float: left;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .discard-btn{
+        width: 100%;
+        margin-left: 0;
+    } */
+}  
+@media (min-width: 767px) {
+    .model-small{
+        width: 100%;
+    }
+}
+@media (min-width: 992px) {
+    .model-small{
+        width: 680px;
+    }
+} 
+/* Scrollbar Code */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999; 
+    border-radius: 4px;
+    cursor:pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #858383;
+}
+/* Scrollbar Code End */
+/** RTL Code **/
+.rtlLangauge .close-arrow-left{
+    margin-right: calc(-1 * var(--lwc-spacingSmall,0.75rem));
+}
+.rtlLangauge .close-icon{
+    padding-left: 0;
+    padding-right: 21px;
+}
+.rtlLangauge .import-btn{
+    float: left;
+    margin-left: 0;
+}
+.rtlLangauge .p-left-icon{ 
+    padding-right: 6px;
+    cursor: pointer;
+}
+.rtlLangauge .downloadLabel{
+    text-align: left;
+}
+/** RTL code End **/
+ /** import code End **/

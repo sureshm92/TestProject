@@ -12,6 +12,7 @@ import Pre_review_Failed from '@salesforce/label/c.Pre_review_Failed';
 import PWS_Contact_Outcome_Placeholder from '@salesforce/label/c.PWS_Contact_Outcome_Placeholder';
 import Contacted_Not_Suitable from '@salesforce/label/c.Contacted_Not_Suitable';
 import Successfully_Contacted from '@salesforce/label/c.Successfully_Contacted';
+import Successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged';
 import Unable_to_Reach from '@salesforce/label/c.Unable_to_Reach';
 import Eligibility_Passed from '@salesforce/label/c.Eligibility_Passed';
 import Eligibility_Failed from '@salesforce/label/c.Eligibility_Failed';
@@ -155,6 +156,8 @@ import BTN_Add_Provider from '@salesforce/label/c.BTN_Add_Provider';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BTN_Next from '@salesforce/label/c.BTN_Next';
 import BTN_Back from '@salesforce/label/c.BTN_Back';
+import Participant_No_Show from '@salesforce/label/c.Participant_No_Show';
+
 
     const label = {
         Received: Received,
@@ -171,6 +174,7 @@ import BTN_Back from '@salesforce/label/c.BTN_Back';
         PWS_Contact_Outcome_Placeholder:PWS_Contact_Outcome_Placeholder,
         Contacted_Not_Suitable:Contacted_Not_Suitable,
         Successfully_Contacted:Successfully_Contacted,
+        Successfully_Re_Engaged:Successfully_Re_Engaged,
         Unable_to_Reach:Unable_to_Reach,
         Eligibility_Passed:Eligibility_Passed,
         Eligibility_Failed:Eligibility_Failed,
@@ -312,6 +316,7 @@ import BTN_Back from '@salesforce/label/c.BTN_Back';
         BTN_Add_Provider:BTN_Add_Provider,
         BTN_Save:BTN_Save,
         BTN_Next:BTN_Next,
-        BTN_Back:BTN_Back
+        BTN_Back:BTN_Back,
+        Participant_No_Show:Participant_No_Show
     };
     export {label};

@@ -1,0 +1,85 @@
+<template>
+    <div class="slds-grid slds-wrap pir-bulkImport pir-parent bulkImport">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+            <template if:true={navigatingFromStudy}>
+                <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
+                    <a href="#" onmousedown={handleStudiesPg}>   <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon></a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleStudiesPg} title={label.Home_Page_Label} class="breadcrumbfont slds-p-left_xx-small">{label.Home_Page_Label}</a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
+                </div>
+            </template>
+            <template if:false={navigatingFromStudy}>
+                <div class="breadcrumbHead slds-truncate slds-p-bottom_small slds-p-top_small">
+                    <a href="#" onmousedown={handleStudiesPg}>  <lightning-icon icon-name="utility:home" size="xx-small" class="slds-p-left_xx-small lightning-home" alternative-text="Home"></lightning-icon></a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><a href="#" onmousedown={handleParticipantPg} title={label.My_Participant} class="breadcrumbfont slds-p-left_xx-small">{label.My_Participant}</a>
+                    <lightning-icon icon-name="utility:chevronright" size="xx-small" class="lightning-icon slds-p-left_xx-small" alternative-text=">"></lightning-icon><span class="breadcrumbfont slds-p-left_xx-small">{label.pir_Bulk_Import_History}</span>
+                </div>
+            </template>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 ">
+            <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_small slds-m-top_x-small">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label custom-label" for="">{label.PIR_Study_Name}</label>
+                        <div class="slds-form-element__control custom-input">
+                            <!-- <lightning-combobox
+                            name="Study Name"
+                            label=""
+                            value=""
+                            placeholder=""
+                            title="Study Sites note"
+                            options={studynameoptions}
+                            onchange={studynamehandleChange}
+                            ></lightning-combobox>  -->
+                            <lightning-combobox
+                            name="Study"
+                            placeholder="Select"
+                            value={selectedStudy}
+                            options={studylist}
+                            onchange={studyhandleChange}
+                            ></lightning-combobox>  
+                        </div>    
+                    </div>    
+                </div>   
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_x-small">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label custom-label" for="">{label.PIR_Study_Site_Name}</label>
+                        <div class="slds-form-element__control custom-input"> 
+                            <!-- <lightning-combobox
+                            name="Study Sites"
+                            label=""
+                            value=""
+                            placeholder=""
+                            title="Study Sites note"
+                            options={studysitesoptions}
+                            onchange={studysiteshandleChange}
+                            ></lightning-combobox> -->
+                            <lightning-combobox
+                            name="studysite"
+                            value={selectedSite}
+                            placeholder="Select"
+                            options={studySiteList}
+                            onchange={studysitehandleChange}
+                            disabled={studysiteaccess}
+                            ></lightning-combobox>	
+                        </div>    
+                    </div>        
+                </div>  
+            </div>
+            <div class="section-padding tabs bulkimportTab importTab">
+                <lightning-tabset>
+                    <lightning-tab label={label.RH_RP_Bulk_Import}>
+                        <c-pir_-bulk-import-files onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate} get-study={selectedStudyChild} get-study-site={selectedStudySiteChild}  stop-spinner={stopSpinnerChild}></c-pir_-bulk-import-files>
+                        <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-wrap pagination-widthD ">      
+                            <template if:true={totalRecord}>
+                                <c-pir_participant-pagination class="pg" total-records={totalRecord} onpagechange={pageChanged} is-table={isTable} > </c-pir_participant-pagination>
+                             </template>
+                        </div>
+                    </lightning-tab>         
+                </lightning-tabset>
+                
+            </div>
+            
+        </div>    
+    </div>
+</template>

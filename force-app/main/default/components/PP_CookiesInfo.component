@@ -9,12 +9,61 @@
             display: none;
         }
 
-        .ci-panel {
-            max-width: 1127px;
-        }
-
         .brow-mob-rtl div svg {
             margin: 1rem 75rem 0 0;
+        }
+
+        .pp-ci-bottom-aria {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3000;
+            margin-bottom: 63px;
+        }
+
+        .ci-panel {
+            height: unset;
+            position: relative;
+            max-width: 1366px;
+            max-width: 1246px;
+            padding: 20px;
+            opacity: 0.85;
+            border-radius: 8px 8px 0 0;
+            background-color: #000000;
+            box-shadow: -2px 8px 10px 0 rgb(0 0 0 / 15%);
+            margin-bottom: 32px;
+        }
+
+        .ci-content-container {
+            max-width: 75%;
+            color: #FFFFFF;
+            font-family: "Proxima Nova";
+            font-size: 14px;
+            letter-spacing: 0;
+            line-height: 17px;
+        }
+
+        .ci-button {
+            position: absolute;
+            right: 225px;
+            top: 40%;
+        }
+
+        .slds-scope .ci-button .slds-button {
+            padding: 0 2.5rem;
+            color: #ffffff;
+            border-radius: 16px;
+            background-color: #0768fd;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .ci-icon {
+            position: absolute;
+            right: 31px;
+            top: 40%;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
@@ -24,71 +73,27 @@
             .brow-mob-rtl {
                 height: 200px;
             }
-        }
 
-        .pp-ci-bottom-aria {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 88px;
-            z-index: 3000;
-            margin-bottom: 63px;
-
-        }
-
-        .ci-panel {
-            height: 116px;
-            max-width: 1366px;
-            height: 110px;
-            max-width: 1246px;
-            padding: 20px;
-            opacity: 0.7;
-            border-radius: 8px 8px 0 0;
-            background-color: #000000;
-            box-shadow: -2px 8px 10px 0 rgb(0 0 0 / 15%);
-            margin-bottom: 32px;
-        }
-
-        .ci-content-container {
-            height: 68px;
-            max-width: 1021px;
-            color: #FFFFFF;
-            font-family: "Proxima Nova";
-            font-size: 14px;
-            letter-spacing: 0;
-            line-height: 17px;
-            /* padding: 9px; */
-        }
-
-        .ci-icon {
-            position: absolute;
-            right: 31px;
-            top: 33px;
-            cursor: pointer;
+            .ci-content-container {
+                max-width: 55%;
+            }
         }
     </style>
 
-    <div class="pp-ci-bottom-aria  + {!if(isRTL == true, 'brow-mob-rtl', '')}">
+    <div class="pp-ci-bottom-aria ci-hidden + {!if(isRTL == true, 'brow-mob-rtl', '')}" style="display: none;">
         <div class="ci-panel">
             <span class="ci-content-container">{!$Label.PP_Cookiesnote}
             </span>
+            <div class="ci-button">
+                <button class="slds-button slds-button_brand changepwdbtn" onclick="return closeCookiesInfo()">Dismiss</button>
+            </div>
+            <div class="ci-icon" onclick="return closeCookiesInfo()">
+                <svg aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-close" style="fill: white;"></use>
+                </svg>
+            </div>
         </div>
-        <div class="ci-button">
-            <button style="    width: 126px;
-            height: 32px;
-            color: #ffffff;
-            border-radius: 16px;
-            background-color: #0768fd;position: absolute;
-            right: 75px;
-            top: 33px;
-            cursor: pointer;" class="slds-button slds-button_brand changepwdbtn" onclick="return closeCookiesInfo()">Dismiss</button>
-        </div>
-        <div class="ci-icon" onclick="return closeCookiesInfo()">
-            <svg aria-hidden="true">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-close" style="fill: white;"></use>
-            </svg>
-        </div>
+
     </div>
 
     <script>

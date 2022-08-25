@@ -1,12 +1,15 @@
 import { LightningElement, api } from 'lwc';
-import partipantsDelegate from '@salesforce/label/c.Paticipant_s_Delegate';
+import partipantsDelegate from '@salesforce/label/c.Participant_s_Delegate';
 import noActiveStudies from '@salesforce/label/c.No_active_studies';
 import noActivePrograms from '@salesforce/label/c.No_Active_Programs';
 import viewingAs from '@salesforce/label/c.Viewing_as';
 import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
+import self from '@salesforce/label/c.PP_Self';
+import study from '@salesforce/label/c.CC_Study';
+import program from '@salesforce/label/c.PP_Program';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PatientPortalMenuItems extends LightningElement {
-    participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
     @api allModes;
     @api user;
     @api pickListOptions = [];
@@ -19,6 +22,7 @@ export default class PatientPortalMenuItems extends LightningElement {
     currentMode;
     setCurrentMode;
     placeHolder;
+    isToggle = false;
     showAllModes = false;
     label = {
         viewingAs,
@@ -27,6 +31,7 @@ export default class PatientPortalMenuItems extends LightningElement {
         noActivePrograms
     };
     contactName;
+    icon_url = pp_icons + '/participant_settings.svg';
 
     connectedCallback() {
         this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
@@ -40,7 +45,11 @@ export default class PatientPortalMenuItems extends LightningElement {
             let commModes = this.allModes.ppModeItems;
             for (let i = 0; i < commModes.length; i++) {
                 mode = this.prepareRecords(commModes[i].subItems);
-                this.commModeList.push(mode);
+                if (mode.isSelected) {
+                    this.commModeList.unshift(mode);
+                } else {
+                    this.commModeList.push(mode);
+                }
             }
         }
     }
@@ -50,23 +59,26 @@ export default class PatientPortalMenuItems extends LightningElement {
         let mode;
         let title;
         let isDelegate;
-        title = allSubModes[0].title == this.contactName ? 'Self' : allSubModes[0].title;
+        let isSelected;
+        title = allSubModes[0].title == this.contactName ? self : allSubModes[0].title;
         isDelegate = allSubModes[0].isDelegate;
         pickListValues = this.preparePickListOptions(allSubModes);
         if (this.setCurrentMode) {
             this.currentMode = {
                 title:
-                    this.currentSelection.title == this.contactName ? 'Self' : allSubModes[0].title,
+                    this.currentSelection.title == this.contactName ? self : allSubModes[0].title,
                 isDelegate: this.currentSelection.isDelegate,
                 programList: pickListValues
             };
             this.pickListOptions = pickListValues;
             this.setCurrentMode = false;
+            isSelected = true;
         }
         mode = {
             title: title,
             isDelegate: isDelegate,
-            programList: pickListValues
+            programList: pickListValues,
+            isSelected: isSelected
         };
         return mode;
     }
@@ -76,7 +88,7 @@ export default class PatientPortalMenuItems extends LightningElement {
         for (let i = 0; i < allSubModes.length; i++) {
             let comboBoxHeader;
             let peId;
-            comboBoxHeader = allSubModes[i].isProgram ? 'Program' : 'Study';
+            comboBoxHeader = allSubModes[i].isProgram ? program : study;
             let studyName = allSubModes[i].subTitle;
             if (studyName == this.label.noActiveStudies || studyName == this.label.noActivePrograms)
                 peId = studyName;
@@ -85,7 +97,8 @@ export default class PatientPortalMenuItems extends LightningElement {
                 label: studyName,
                 value: peId,
                 comboBoxLabel: comboBoxHeader,
-                subItemValue: allSubModes[i]
+                subItemValue: allSubModes[i],
+                isSelected: allSubModes[i].isSelected
             };
             pickListOptions.push(pickList);
             if (allSubModes[i].isSelected == true) {
@@ -137,7 +150,7 @@ export default class PatientPortalMenuItems extends LightningElement {
             this.comboBoxHeader = item[0].programList[0].comboBoxLabel;
             this.defaultPickListValue = item[0].programList[0].value;
             this.currentMode = {
-                title: item[0].title == this.contactName ? 'Self' : item[0].title,
+                title: item[0].title == this.contactName ? self : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
             };
@@ -153,7 +166,7 @@ export default class PatientPortalMenuItems extends LightningElement {
             this.dispatchEvent(modeselection);
         } else {
             this.currentMode = {
-                title: item[0].title == this.contactName ? 'Self' : item[0].title,
+                title: item[0].title == this.contactName ? self : item[0].title,
                 isDelegate: item[0].isDelegate,
                 programList: item[0].programList
             };
@@ -174,9 +187,8 @@ export default class PatientPortalMenuItems extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
     handleClick() {
-        if (this.showAllModes) {
-            this.showAllModes = false;
-        } else this.showAllModes = true;
+        this.isToggle = !this.isToggle;
+        this.showAllModes = !this.showAllModes;
     }
     get svgClass() {
         return '';

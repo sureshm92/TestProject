@@ -6,6 +6,8 @@ import selectallstudysite from '@salesforce/apex/televisitConfigurationControlle
 import deselectallstudysite from '@salesforce/apex/televisitConfigurationController.deselectallstudysites';
 import deletevendordetails from '@salesforce/apex/televisitConfigurationController.deleteVendor';
 import updatestudysitedetails from '@salesforce/apex/televisitConfigurationController.updatestudysite';
+import vendoravailabilitycheck from '@salesforce/apex/televisitConfigurationController.vendoravailability';
+import updateremindervalues from '@salesforce/apex/televisitConfigurationController.updateremindervalues';
 import saveLabel from '@salesforce/label/c.Save';
 import cancelLabel from '@salesforce/label/c.Cancel';
 import selectcountryLabel from '@salesforce/label/c.RH_RP_Select_Country';
@@ -339,67 +341,112 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.isSpinner = true;
         let targetId = event.target.dataset.targetId;
         let studyId = event.currentTarget.dataset.id;
+        let uniquekey = studyId + '-'+targetId;
         var totalRecords = [];
-
-        for(var i in this.totalstudysitelist) {
-            let row = Object.assign({}, this.totalstudysitelist[i]);
-            for(var j in row.vendorrapperlist){
-                let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
-                if(targetId == vendorRow.vendorId && studyId ==  this.totalstudysitelist[i].studysiteid){
-                    if(event.target.checked){
-                        vendorRow.isEnable = true;
-                        row.vendorrapperlist[j] = vendorRow;
+        var check = event.target.checked;
+        vendoravailabilitycheck({ studySiteId:studyId})
+        .then((result) => {
+            console.log('result-->'+result);
+            if(result && check){
+                this.isSpinner = false;
+                this.template.querySelector('[data-uniquekey="'+uniquekey+'"]').checked = false;
+                const event = new ShowToastEvent({
+                    title: 'Warning!',
+                    message: 'Only one televisit provider per Study Site could be selected!',
+                    variant: 'warning',
+                    mode: 'dismissable'
+                });
+                this.dispatchEvent(event);
+            }else{
+                for(var i in this.totalstudysitelist) {
+                    let row = Object.assign({}, this.totalstudysitelist[i]);
+                    for(var j in row.vendorrapperlist){
+                        let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
+                        if(targetId == vendorRow.vendorId && studyId ==  this.totalstudysitelist[i].studysiteid){
+                            if(check){
+                                vendorRow.isEnable = true;
+                                row.vendorrapperlist[j] = vendorRow;
+                            }
+                            else{
+                                vendorRow.isEnable = false;
+                                row.vendorrapperlist[j] = vendorRow;
+                            }
+                        }
                     }
-                    else{
-                        vendorRow.isEnable = false;
-                        row.vendorrapperlist[j] = vendorRow;
-                    }
+                    totalRecords.push(row);
                 }
+                this.totalstudysitelist = [];
+                this.totalstudysitelist = totalRecords;
+                createorupdatetvs({ studyId:studyId,vendorId:targetId,isEnable:check})
+                    .then((result) => {
+                        console.log('result-->'+result);
+                        this.isSpinner = false;
+                    })
+                    .catch((error) => {
+                        console.log(JSON.stringify(error));
+                        this.isSpinner = false;
+                    });
             }
-            totalRecords.push(row);
-        }
-        this.totalstudysitelist = [];
-        this.totalstudysitelist = totalRecords;
-        createorupdatetvs({ studyId:studyId,vendorId:targetId,isEnable:event.target.checked})
-            .then((result) => {
-                console.log('result-->'+result);
-                this.isSpinner = false;
-            })
-            .catch((error) => {
-                console.log(JSON.stringify(error));
-                this.isSpinner = false;
-            });
+        })
+        .catch((error) => {
+            console.log(JSON.stringify(error));
+            this.isSpinner = false;
+        });
+   
     }
 
     //Select all records
     selectallstudysites(event){
         this.isSpinner =true;
+        var vendorexist = false;
         let vendorRecId = event.currentTarget.dataset.id;
-        console.log(vendorRecId);
-        var totalRecords = [];
         for(var i in this.totalstudysitelist) {
             let row = Object.assign({}, this.totalstudysitelist[i]);
             for(var j in row.vendorrapperlist){
                 let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
-                if(vendorRecId == vendorRow.vendorId){
-                    vendorRow.isEnable = true;
+                if(vendorRow.isEnable && vendorRecId != vendorRow.vendorId ){
+                    vendorexist = true;
+                    break;
                 }
-                row.vendorrapperlist[j] = vendorRow;
             }
-            totalRecords.push(row);
         }
-        this.totalstudysitelist = [];
-        this.totalstudysitelist = totalRecords;
-
-        selectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
-        .then((result) => {
-            console.log('result-->'+result);
+        if(!vendorexist){
+            console.log(vendorRecId);
+            var totalRecords = [];
+            for(var i in this.totalstudysitelist) {
+                let row = Object.assign({}, this.totalstudysitelist[i]);
+                for(var j in row.vendorrapperlist){
+                    let vendorRow = Object.assign({},  row.vendorrapperlist[j]);
+                    if(vendorRecId == vendorRow.vendorId){
+                        vendorRow.isEnable = true;
+                    }
+                    row.vendorrapperlist[j] = vendorRow;
+                }
+                totalRecords.push(row);
+            }
+            this.totalstudysitelist = [];
+            this.totalstudysitelist = totalRecords;
+    
+            selectallstudysite({ vendorId:vendorRecId,ctpId:this.recordId,respwrapper:JSON.stringify(this.totalstudysitelist)})
+            .then((result) => {
+                console.log('result-->'+result);
+                this.isSpinner =false;
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error));
+                this.isSpinner =false;
+            });
+        }else{
             this.isSpinner =false;
-        })
-        .catch((error) => {
-            console.log(JSON.stringify(error));
-            this.isSpinner =false;
-        });
+            const event = new ShowToastEvent({
+                title: 'Warning!',
+                message: 'Only one televisit provider per Study Site could be selected!',
+                variant: 'warning',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+        }
+        
     }
 
     deselectallstudysites(event){
@@ -565,11 +612,39 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     
         unsubscribe(this.subscription);
         this.subscription = null;
-      }
+    }
     
-      handleClear() {
+    handleClear() {
         this.receivedMessage = null;
-      }
+    }
+    updateremindervalues(event){
+        this.isSpinner = true;
+        let studysiteid = event.currentTarget.dataset.id;
+        let targetId = event.target.dataset.targetId;
+        let uniquekey;
+        if(targetId == 'FirstReminder'){
+            uniquekey = 'First'+studysiteid;
+        }else{
+            uniquekey = 'Second'+studysiteid;
+        }
+        console.log('++++++++++'+studysiteid);
+        console.log('++++++++++targetId'+targetId);
+        console.log('++++++++++111'+event.target.value);
+        let finalValue = event.target.value;
+        if(event.target.value.includes('.') ){
+            this.template.querySelector('[data-uniquekey="'+uniquekey+'"]').value = event.target.value.replace('.','');
+            finalValue = event.target.value.replace('.','');
+        }
 
-    
+        updateremindervalues({ studysiteId:studysiteid,remindername:targetId,selValue:finalValue})
+        .then((result) => {
+            console.log('result-->'+result);
+            this.isSpinner = false;
+          //  this.getteledetails(this.recordId);
+        })
+        .catch((error) => {
+            this.isSpinner = false;
+            console.log(JSON.stringify(error));
+        });
+    }    
 }

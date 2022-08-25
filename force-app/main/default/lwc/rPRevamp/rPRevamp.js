@@ -350,7 +350,7 @@ export default class RPRevamp extends LightningElement {
             '"""I attest that patient is of the age of legal majority"".   Options: Yes/No            Whether the attestation from RP to indicate whether this patient is above the legal age or not."'
         );
         row2.push(
-            '"""My patient, and/or patient\'s legal guardian if applicable, agrees to share their contact information and patient\'s pre-screener data with IQVIA and its affiliates, and the study doctors, so that they may contact the patient and/or their delegate regarding study participation.""  Options: Yes/No  To indicate whether the RP has the authorization from the patient or  blank when not filled. Required Only if the file has Personal Information"'
+            '"""My patient, and/or patient\'s legal guardian if applicable, agrees to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information.  Their consent is not required as a condition of purchasing any property, goods, or services.""  Options: Yes/No. To indicate whether the RP has the authorization from the patient or blank when not filled. Required Only if the file has Personal Information"'
         );
         row2.push(
             '"Defaulted to the RP\'s country if not filled. If the country is changed, then age of legal majority check has to be done depending on the new value. Spell out the country name if entering it, example: United States"'

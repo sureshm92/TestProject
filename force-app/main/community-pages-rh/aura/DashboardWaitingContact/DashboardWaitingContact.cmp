@@ -21,6 +21,7 @@
     <aura:attribute name="recordLength" type="String" default="0" />
     <aura:attribute name="initRows" type="Integer" default="10" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="isPhone" type="Boolean" default="false" />
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}" />
@@ -47,10 +48,15 @@
                     <thead>
                         <tr class="slds-line-height_reset">
                             <th class="" scope="col">
+                                <div class="slds-truncate" title="reengage">
+                                    {!$Label.c.ReEngaged}
+                                </div>
+                            </th>
+                            <th class="" scope="col">
                                 <div class="slds-truncate" title="Name">
                                     {!$Label.c.PI_DB_PAC_Name_Header}
                                 </div>
-                            </th>
+                            </th>                            
                             <th class="" scope="col">
                                 <div class="slds-truncate" title="Source">
                                     {!$Label.c.PI_DB_PAC_Source_Header}
@@ -79,7 +85,28 @@
                     <tbody>
                         <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
                             <tr class="slds-hint-parent">
-                                <th scope="row">
+                                <td class="desktop-display">
+                                    <aura:if isTrue="{!v.isPhone}">
+                                        {!$Label.c.ReEngage_Dashboard}&nbsp;
+                                        <aura:if isTrue="{!item.isReEngagePar}">
+                                            {!$Label.c.BTN_Yes}
+                                            <aura:set attribute="else">
+                                                {!$Label.c.BTN_No}
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else">
+                                            <div class="slds-truncate slds-text-align_center">
+                                                <aura:if isTrue="{!item.isReEngagePar}">
+                                                    <lightning:input type="checkbox" name="reegnage" checked="true" disabled="true"/>
+                                                    <aura:set attribute="else">
+                                                        <lightning:input type="checkbox" name="noshow" checked="false" disabled="true"/>
+                                                    </aura:set>
+                                                </aura:if>                                            
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <th scope="row" class="mobile-padding-left">
                                     <div class="slds-truncate">
                                         <aura:if isTrue="{!item.isAbleToEdit}">
                                             <div data-gtm="LNK_View_Participants_Details">
@@ -98,6 +125,27 @@
                                         </aura:if>
                                     </div>
                                 </th>
+                                <td class="mobile-display">
+                                    <aura:if isTrue="{!v.isPhone}">
+                                        {!$Label.c.ReEngage_Dashboard}&nbsp;
+                                        <aura:if isTrue="{!item.isReEngagePar}">
+                                            {!$Label.c.BTN_Yes}
+                                            <aura:set attribute="else">
+                                                {!$Label.c.BTN_No}
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else">
+                                            <div class="slds-truncate slds-text-align_center">
+                                                <aura:if isTrue="{!item.isReEngagePar}">
+                                                    <lightning:input type="checkbox" name="reegnage" checked="true" disabled="true"/>
+                                                    <aura:set attribute="else">
+                                                        <lightning:input type="checkbox" name="noshow" checked="false" disabled="true"/>
+                                                    </aura:set>
+                                                </aura:if>                                            
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
                                 <td>
                                     <div class="slds-truncate">{!item.source}</div>
                                 </td>

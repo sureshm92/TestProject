@@ -1,0 +1,53 @@
+.patient-delegate-item-rectangle {
+    box-sizing: border-box;
+    height: 96px;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    margin-left: 1.5rem;
+}
+.btn-deactivate {
+    box-sizing: border-box;
+    height: 32px;
+    width: 107px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.spins::after {
+    position: absolute;
+    content: 'Loading......';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
+.label-deactivate {
+    transform: rotate(-360deg);
+    color: #0768fd;
+    font-size: 14px;
+    font-weight: 500;
+}
+.dlegate-name {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 500;
+}
+.dlegate-email {
+    color: #595959;
+    font-size: 16px;
+}
+@media screen and (max-width: 768px) {
+    .patient-delegate-item-rectangle {
+        margin-left: 0rem;
+        height: 144px;
+        width: 358px;
+        margin-bottom: 1.5rem;
+    }
+    .btn-deactivate-mob {
+        margin-left: 3.8rem;
+    }
+}

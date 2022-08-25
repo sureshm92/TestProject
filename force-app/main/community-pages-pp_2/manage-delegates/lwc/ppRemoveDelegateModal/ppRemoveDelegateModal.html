@@ -1,24 +1,40 @@
 <template>
-    <c-web-modal header-text="Deactivate Delegate" size="small">
-        <div slot="body">
-            You are about to deactivate John Jameson from your account. Are you sure you would like
-            to continue?
-        </div>
-        <div slot="footer">
-            <lightning-button
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
                 variant="brand"
-                label="Brand"
-                title="Confirm"
-                onclick={doDecactivateDelegate}
-                class="slds-m-left_x-small"
-            ></lightning-button>
-            <lightning-button
-                variant="bare"
-                label="Cencel"
-                title="Confirm"
-                onclick={doCancel}
-                class="slds-m-left_x-small"
-            ></lightning-button>
-        </div>
-    </c-web-modal>
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+
+    <template if:true={showmodal}>
+        <c-pp-modal
+            header-text={tittext}
+            size="small"
+            onclose={handleModalClose}
+            is-show={showmodal}
+        >
+            <div slot="body">
+                <div class="body-container">{messtext}</div>
+            </div>
+            <div slot="footer">
+                <div class="slds-grid slds-gutters slds-grid_align-end">
+                    <div class="slds-col">
+                        <button class="slds-button button-cancel" onclick={handleModalClose}>
+                            {label.BTN_Cancel}
+                        </button>
+                    </div>
+                    <div class="slds-col">
+                        <button class="slds-button button-confirm" onclick={confirmModal}>
+                            {label.BTN_Confirm}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </c-pp-modal>
+    </template>
 </template>

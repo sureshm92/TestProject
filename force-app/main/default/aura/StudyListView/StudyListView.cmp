@@ -235,7 +235,12 @@
             <c:Action_ManageLocationDetails aura:id="actionManageLocationDetails" />
 
             <!-- UploadParticipants dialog -->
-            <c:Action_UploadParticipants aura:id="actionUploadParticipants" />
+            <!-- <c:Action_UploadParticipants aura:id="actionUploadParticipants" /> -->
+            <c:PIR_ImportParticipants aura:id="actionUploadParticipants"  />
+            
+             <!-- ImportParticipants dialog -->
+            <!-- <c:Action_ImportParticipants aura:id="actionImportParticipants" /> -->
+            
         </div>
     </aura:if>
 

@@ -11,7 +11,7 @@
                                 </div>
                             </lightning-layout-item>
                             <lightning-layout-item padding="around-small" size="9">
-                                <h2 class="po-fontsize">Welcome, {userName}</h2>
+                                <h2 class="po-fontsize">{userName}</h2>
                                 <template if:true={clinicalrecord}>
                                     <c-program-overview
                                         clinicalrecord={clinicalrecord}
@@ -26,19 +26,20 @@
     </template>
     <template if:false={desktop}>
         <template if:true={clinicalrecord}>
-            <div class="po-container">
+            <div>
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item padding="around-small" size="12">
-                        <lightning-layout>                          
-                            <lightning-layout-item padding="around-small" size="12">
-                                <h2 class="po-fontsize">Welcome, {userName}</h2>
-                                <template if:true={clinicalrecord}>
-                                    <c-program-overview
-                                        clinicalrecord={clinicalrecord}
-                                    ></c-program-overview>
-                                </template>
-                            </lightning-layout-item>
-                        </lightning-layout>
+                    <lightning-layout-item size="6">    
+                        <img src=""/>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" class="margin-top-bottom-20">    
+                        <h2 class="po-fontsize">{userName}</h2>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12"> 
+                        <template if:true={clinicalrecord}>
+                            <c-program-overview
+                                clinicalrecord={clinicalrecord}
+                            ></c-program-overview>
+                        </template>                           
                     </lightning-layout-item>
                 </lightning-layout>
             </div>

@@ -3,7 +3,7 @@
     <fullName>Participant_Phone_Opt_In_Permit_Phone__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Opt In Phone</label>
+    <label>IQVIA Phone Consent</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

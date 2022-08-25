@@ -1,0 +1,524 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={headerPanelClass}>
+            <!--Mobile Back Button-->
+            <template if:true={isMobile}>
+                <div class="slds-grid slds-wrap slds-gutters slds-p-bottom_small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="back-button">
+                            <template if:false={isRTL}>
+                                <c-web-icon
+                                    icon-size="medium"
+                                    icon-name={iconChevron}
+                                    icon-color="#297dfd"
+                                >
+                                </c-web-icon>
+                            </template>
+                            <span
+                                class="slds-p-left_x-small slds-p-right_x-small"
+                                onclick={showMenuBar}
+                                data-header="profile-information"
+                                >{labels.BACK}</span
+                            >
+                            <template if:true={isRTL}>
+                                <c-web-icon
+                                    icon-size="medium"
+                                    icon-name={iconChevron}
+                                    icon-color="#297dfd"
+                                >
+                                </c-web-icon>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <div class="as-title">{labels.PROFILE_INFO}</div>
+            <!--Profile Photo Username Section-->
+            <div class="as-email rr-form-element">
+                <div class="as-email-input slds-grid">
+                    <div class="slds-col slds-size_1-of-1">
+                        <template if:true={isAdultUser}>
+                            <c-pp-action-add-profile-photo
+                                user-id={userId}
+                                user-name={userEmail}
+                                is-mobile={isMobile}
+                                is-delegate={isDelegate}
+                                has-profile-pic={hasProfilePic}
+                                is-r-t-l={isRTL}
+                                user-mode={userMode}
+                            ></c-pp-action-add-profile-photo>
+                        </template>
+                        <template if:false={isAdultUser}>
+                            <div class="slds-grid profile-img">
+                                <div class="avatar-icon-minor">
+                                    <c-web-icon
+                                        icon-height="20"
+                                        icon-width="18"
+                                        icon-name="single-neutral"
+                                        icon-color="#444444"
+                                        class="single-avatar"
+                                    ></c-web-icon>
+                                </div>
+                                <div class="profile-email">{minorUserName}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!--General Information Section-->
+            <div class="slds-grid slds-grid_vertical-align-start">
+                <div class="slds-col slds-size_1-of-1 sub-section-header">
+                    {labels.GENERAL_INFO}
+                </div>
+            </div>
+
+            <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                <div class="slds-col slds-size_1-of-1 slds-m-top_x-small">
+                    <div class="slds-grid slds-wrap slds-gutters input-text-size">
+                        <!--PREFIX-->
+                        <div class={shortContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="prefix-input"
+                                >
+                                    {labels.PREFIX}</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <c-pp-web-select
+                                        is-r-t-l={isRTL}
+                                        label-hidden="true"
+                                        place-holder="Select"
+                                        selected-value={personWrapper.prefix}
+                                        is-disabled={isDelegate}
+                                        options={contactSectionData.prefixList}
+                                        onchangevalue={handlePrefixChange}
+                                    ></c-pp-web-select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--FIRST NAME-->
+                        <div class={longContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="first-name-input"
+                                >
+                                    {labels.FIRST_NAME}<abbr
+                                        class="slds-required required-icon"
+                                        title="required"
+                                        >*
+                                    </abbr></label
+                                >
+                                <div class="slds-form-element__control">
+                                    <lightning-input
+                                        type="text"
+                                        data-id="first-name-input"
+                                        variant="label-hidden"
+                                        class="profile-info-input"
+                                        required="true"
+                                        value={personWrapper.firstName}
+                                        onkeyup={handleFirstNameChange}
+                                        disabled={isDelegate}
+                                    ></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!--MIDDLE INITIAL-->
+                        <div class={shortContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="middle-initial-input"
+                                >
+                                    {labels.MIDDLE_INITIAL}</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <lightning-input
+                                        type="text"
+                                        data-id="middle-initial-input"
+                                        variant="label-hidden"
+                                        class="profile-info-input"
+                                        value={personWrapper.middleName}
+                                        onkeyup={handleMiddleNameChange}
+                                        disabled={isDelegate}
+                                    ></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!--LAST NAME-->
+                        <div class={longContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="last-name-input"
+                                >
+                                    {labels.LAST_NAME}<abbr
+                                        class="slds-required required-icon"
+                                        title="required"
+                                        >*
+                                    </abbr></label
+                                >
+                                <div class="slds-form-element__control">
+                                    <lightning-input
+                                        type="text"
+                                        data-id="last-name-input"
+                                        variant="label-hidden"
+                                        class="profile-info-input"
+                                        required="true"
+                                        value={personWrapper.lastName}
+                                        onkeyup={handleLastNameChange}
+                                        disabled={isDelegate}
+                                        message-when-value-missing={requiredFieldError}
+                                    ></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!--SUFFIX-->
+                        <div class={shortContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="suffix-input"
+                                >
+                                    {labels.SUFFIX}</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <lightning-input
+                                        type="text"
+                                        data-id="suffix-input"
+                                        variant="label-hidden"
+                                        class="profile-info-input"
+                                        value={personWrapper.suffix}
+                                        onkeyup={handleSuffixChange}
+                                        disabled={isDelegate}
+                                    ></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!--PREFERRED NAME / NICKNAME-->
+                        <div class={xLongContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="preferred-name-input"
+                                >
+                                    {labels.PREFERRED_NAME}</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <lightning-input
+                                        type="text"
+                                        data-id="preferred-name-input"
+                                        variant="label-hidden"
+                                        class="profile-info-input"
+                                        value={personWrapper.nickname}
+                                        onkeyup={handlePreferredNameChange}
+                                        disabled={isDelegate}
+                                    ></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!--GENDER-->
+                        <div class={genderContainerClass}>
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label field-title"
+                                    for="gender-input"
+                                >
+                                    {labels.GENDER}</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <c-pp-web-select
+                                        is-r-t-l={isRTL}
+                                        label-hidden="true"
+                                        place-holder="Select"
+                                        custom-class={genderComboboxClass}
+                                        selected-value={personWrapper.gender}
+                                        is-disabled={isDelegate}
+                                        options={contactSectionData.gendersLVList}
+                                        onchangevalue={handleGenderChange}
+                                    ></c-pp-web-select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--DATE OF BIRTH-->
+                        <div class={dobContainerClass}>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label field-title" for="dob-input">
+                                    {labels.DOB}<abbr
+                                        class="slds-required required-icon"
+                                        title="Date of Birth"
+                                        >*
+                                    </abbr></label
+                                >
+                                <div class="slds-form-element__control" data-id="dob-input">
+                                    <div class="slds-grid">
+                                        <!--MONTH-->
+                                        <div class={dobFieldClass}>
+                                            <c-pp-web-select
+                                                is-r-t-l={isRTL}
+                                                label-hidden="true"
+                                                place-holder="Month"
+                                                custom-class={dobInputClass}
+                                                selected-value={dateOfBirth.month}
+                                                is-disabled={dobDisabled}
+                                                options={monthsList}
+                                                onchangevalue={handleMonthChange}
+                                            ></c-pp-web-select>
+                                        </div>
+                                        <!--DAY-->
+                                        <div class={dobFieldClass}>
+                                            <c-pp-web-select
+                                                is-r-t-l={isRTL}
+                                                label-hidden="true"
+                                                place-holder="Day"
+                                                custom-class={dobInputClass}
+                                                selected-value={dateOfBirth.day}
+                                                is-disabled={dobDisabled}
+                                                options={daysList}
+                                                onchangevalue={handleDayChange}
+                                            ></c-pp-web-select>
+                                        </div>
+                                        <!--YEAR-->
+                                        <div class={dobFieldClass}>
+                                            <c-pp-web-select
+                                                is-r-t-l={isRTL}
+                                                label-hidden="true"
+                                                place-holder="Year"
+                                                custom-class={dobInputClass}
+                                                selected-value={dateOfBirth.year}
+                                                is-disabled={dobDisabled}
+                                                options={yearsList}
+                                                onchangevalue={handleYearChange}
+                                            ></c-pp-web-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="slds-form-element__help field-error-message slds-hide"
+                                    data-id="dob-error-message"
+                                >
+                                    {dobFieldError}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Delegate Withdraw Consent Section Yet to Design-->
+            <template if:true={isDelegate}>
+                <div class="delegate-info slds-p-vertical_medium">
+                    <c-pp-delegate-information
+                        user-mode="Participant"
+                        delegate-contact={delegateContact}
+                        is-mobile={isMobile}
+                        is-r-t-l={isRTL}
+                    ></c-pp-delegate-information>
+                </div>
+            </template>
+            <!--Contact Information Section-->
+            <template if:true={initData.participant.Adult__c}>
+                <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                    <div class="slds-col slds-size_1-of-1 sub-section-header">
+                        {labels.CONTACT_INFO}
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 comm-pref-help">
+                        <lightning-formatted-rich-text
+                            value={commPrefMessage}
+                        ></lightning-formatted-rich-text>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_x-small"
+                    >
+                        <div class="slds-grid input-text-size">
+                            <div class={emailContainerClass}>
+                                <!--EMAIL-->
+                                <div class="slds-form-element">
+                                    <label
+                                        class="slds-form-element__label field-title"
+                                        for="email-input"
+                                    >
+                                        {labels.EMAIL_ADDRESS}<abbr
+                                            class="slds-required required-icon"
+                                            title="required"
+                                        >
+                                        </abbr
+                                    ></label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="email"
+                                            data-id="email-input"
+                                            variant="label-hidden"
+                                            class="profile-info-input"
+                                            value={contact.Email}
+                                            onkeyup={handleEmailChange}
+                                            disabled={isDelegate}
+                                        ></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--EMAIL WARNING MESSAGE-->
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_x-small"
+                    >
+                        <div class="slds-grid input-text-size">
+                            <div
+                                class="slds-form-element slds-col slds-size_7-of-7 slds-p-vertical_x-small"
+                            >
+                                <div class={emailWarningContainerClass}>
+                                    <div class={emailWarningIconClass}>
+                                        <img src={emailWarningIcon} />
+                                    </div>
+                                    <div class={emailWarningMessageClass}>
+                                        <lightning-formatted-rich-text
+                                            value={emailWarningMessage}
+                                        ></lightning-formatted-rich-text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--MOBILE PHONE AND USE AS DAYTIME PHONE CHECKBOX-->
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_x-small"
+                    >
+                        <div class={mobileContainerClass}>
+                            <div
+                                class="slds-form-element slds-col slds-size_4-of-4 slds-medium-size_7-of-7 slds-p-vertical_x-small"
+                            >
+                                <div class="slds-form-element">
+                                    <label
+                                        class="slds-form-element__label field-title"
+                                        for="mobile-phone-input"
+                                        >{labels.MOBILE_PHONE}<abbr
+                                            class="slds-required required-icon"
+                                            title="required"
+                                            ><template if:true={isMobilePhoneRequired}>*</template>
+                                        </abbr></label
+                                    >
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-grid slds-wrap slds-gutters">
+                                            <div class={mobilePhoneContainerClass}>
+                                                <lightning-input
+                                                    type="tel"
+                                                    data-id="mobile-phone-input"
+                                                    variant="label-hidden"
+                                                    class="profile-info-input"
+                                                    required={isMobilePhoneRequired}
+                                                    value={personWrapper.mobilePhone}
+                                                    onkeyup={handleMobilePhoneChange}
+                                                ></lightning-input>
+                                            </div>
+                                            <div class={useAsDaytimeContainerClass}>
+                                                <div class="slds-checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="use-as-daytime"
+                                                        data-id="use-as-daytime-input"
+                                                        id="use-as-daytime-input"
+                                                        value={personWrapper.useAsDaytimePhone}
+                                                        checked={isUseAsDaytimePhoneChecked}
+                                                        disabled={isMobilePhoneInvalid}
+                                                        onclick={handleUseAsDaytimePhone}
+                                                    />
+                                                    <label
+                                                        class="slds-checkbox__label"
+                                                        for="use-as-daytime-input"
+                                                    >
+                                                        <span class="slds-checkbox_faux"></span>
+                                                        <span
+                                                            class="slds-form-element__label field-title"
+                                                            >{labels.USE_AS_DAYTIME_PHONE}</span
+                                                        >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--DAYTIME PHONE AND PHONE TYPE-->
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_x-small"
+                    >
+                        <div class="slds-grid input-text-size">
+                            <div class={daytimePhoneContainerClass}>
+                                <div class="slds-form-element">
+                                    <label
+                                        class="slds-form-element__label field-title"
+                                        for="datetime-phone-input"
+                                        >{labels.DAYTIME_PHONE}<abbr
+                                            class="slds-required required-icon"
+                                            title="required"
+                                            >*
+                                        </abbr></label
+                                    >
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="tel"
+                                            data-id="daytime-phone-input"
+                                            variant="label-hidden"
+                                            class="profile-info-input"
+                                            value={personWrapper.homePhone}
+                                            onkeyup={handleDaytimePhoneChange}
+                                            disabled={isUseAsDaytimePhoneChecked}
+                                        ></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class={phoneTypeContainerClass}>
+                                <div class="slds-form-element">
+                                    <label
+                                        class="slds-form-element__label field-title"
+                                        for="phone-type-input"
+                                        >{labels.PHONE_TYPE}</label
+                                    >
+                                    <div class="slds-form-element__control">
+                                        <c-pp-web-select
+                                            is-r-t-l={isRTL}
+                                            label-hidden="true"
+                                            place-holder="Select"
+                                            selected-value={personWrapper.phoneType}
+                                            is-disabled={isUseAsDaytimePhoneChecked}
+                                            options={contactSectionData.phoneTypeList}
+                                            onchangevalue={handlePhoneTypeChange}
+                                            custom-class={phoneTypeWidthClass}
+                                        ></c-pp-web-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!--Save Button Section-->
+            <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-m-top_large">
+                    <div class="slds-grid input-text-size">
+                        <div class={saveButtonContainerClass}>
+                            <div class="slds-form-element">
+                                <button
+                                    class={saveButtonClass}
+                                    onclick={handleSave}
+                                    disabled={isSaveDisabled}
+                                >
+                                    {labels.SAVE}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

@@ -140,8 +140,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_PI_New_C_S_Referral</template>
     </alerts>
     <alerts>
@@ -196,8 +195,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_RP_New_C_S_Referral</template>
     </alerts>    
     <fieldUpdates>

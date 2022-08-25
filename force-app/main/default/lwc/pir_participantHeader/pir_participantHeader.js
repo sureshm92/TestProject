@@ -149,7 +149,11 @@ export default class Pir_participantHeader extends LightningElement {
                     {
                         this.showAction = true;
                         this.showActionName = 'SH';
-                        this.showActionbtnDisabled = false;
+                        if(this.per.Clinical_Trial_Profile__r.Initial_Visit_Required__c && (this.per.Status_Order__c == '4' || this.per.Status_Order__c == '5')){
+                            this.showActionbtnDisabled = false;
+                        }else{
+                            this.showActionbtnDisabled = false;
+                        }
                         this.showActionlabel = this.label.RH_Send_to_DCT_Platform; 
                         this.showActiondt = false;
                         this.btnToolTip =  this.label.PIR_Decentralized_Trials;

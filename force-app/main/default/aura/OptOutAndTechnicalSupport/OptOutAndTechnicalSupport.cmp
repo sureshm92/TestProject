@@ -22,12 +22,15 @@
     <!--Component Body-->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="{!v.showSuccessMessage?'slds-hide':'slds-show main-content-div'}">
+        <h3 class="opt-out-header"> {!$Label.c.Opt_Out_Update_Communication_Pref}</h3>
+        <p class="comm-italics">{!$Label.c.Opt_Out_Update_Communication_Pref_Help}</p>
         <lightning:checkboxGroup
             name="{!v.optOutTranslatedTitle}"
             label="{!v.optOutTranslatedTitle}"
             options="{!v.optOutSubCategoryList}"
             value="{!v.selectedOptOutSubCategory}"
             onchange="{!c.handleChange}"
+            variant = "label-hidden"
         >
         </lightning:checkboxGroup>
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />

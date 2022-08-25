@@ -110,12 +110,16 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
             pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Study_Direct_Mail_Consent__c = allowEmail;
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
-            //pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
-            if (createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)) {
-                //RH-5163
-                pe.Invited_To_PP_Date__c = DateTime.now();
+            pe.Study_Pre_recorded_Voice_Consent__c = allowPhone;
+            pe.Study_Assisted_Dialing_Consent__c = allowPhone;
+            pe.Study_Artificial_Voice_Consent__c = allowPhone;
+            
+			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
+            if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
+                pe.Invited_To_PP_Date__c =  DateTime.now();
             }
 
             Participant__c participantDelegate;
@@ -166,8 +170,15 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
                     participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
                     participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Artificial_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
+                   
                 }
-                update participantCon;
+                  //update participantCon; converted to future method
+                  String objJSONStr = Json.serialize(participantCon);
+                  updateParticipantContact(objJSONStr);
             }
 
             if (
@@ -186,12 +197,240 @@ public without sharing class AddPatientByPIRemote {
                 participantId,
                 participantJSON,
                 allowDelegateContact,
-                TaskService.invitationsVisibleTemp // added this to hold the value of this param in future method
+                TaskService.invitationsVisibleTemp, // added this to hold the value of this param in future method
+                contactConsentJSON,
+                iqviaOutreachEnabled
             );
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @AuraEnabled
+    public static String saveParticipants(
+        String participantJSON,
+        String peJSON,
+        String userLanguage,
+        String ssId,
+        Boolean createUser,
+        String participantDelegateJSON,
+        String delegateDuplicateInfo,
+        Boolean allowEmail,
+        Boolean allowPhone,
+        Boolean allowSMS,
+        Boolean allowContact,
+        Boolean allowDelegateContact,
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled
+    ) {
+        try {
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
+
+            if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
+                );
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(
+                        ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                    );
+                }
+            }
+
+            Participant__c participant = (Participant__c) JSON.deserialize(
+                participantJSON,
+                Participant__c.class
+            );
+            trimParticipantFields(participant);
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
+                peJSON,
+                Participant_Enrollment__c.class
+            );
+            participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
+            pe.Referral_Source__c = 'PI';
+            pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
+            pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Study_Direct_Mail_Consent__c = allowEmail;
+            pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
+            pe.Permit_SMS_Text_for_this_study__c = allowSMS;
+            pe.Study_Pre_recorded_Voice_Consent__c = allowPhone;
+            pe.Study_Assisted_Dialing_Consent__c = allowPhone;
+            pe.Study_Artificial_Voice_Consent__c = allowPhone;
+            
+            //pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
+            if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
+                pe.Invited_To_PP_Date__c =  DateTime.now();
+            }
+
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(
+                    participantDelegateJSON,
+                    Participant__c.class
+                );
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                }
+            }
+             String parID = 
+            ParticipantService.createParticipantAndUpdatePES(
+                participant,
+                participantDelegate,
+                pe,
+                userLanguage
+            );
+            return parID ;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+            return null;
+        }
+    }
+    
+    @AuraEnabled
+    public static Integer savePER(
+        String partId,
+        String peJSON,
+        String ssId,
+        String participantDelegateJSON,
+        String participantJSON,
+        String delegateDuplicateInfo,
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled,
+        Boolean allowDelegateContact,
+        Boolean createUser
+    ) {
+        try{
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
+
+            if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
+                );
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(
+                        ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                    );
+                }
+            }
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
+                peJSON,
+                Participant_Enrollment__c.class
+            );
+            
+             
+            String participantId = !String.isBlank(partId)
+                ? partId
+                : pe.Participant__c;
+            Participant__c newParticipant = [
+                SELECT Id, Contact__c, Phone__c,Phone_Type__c,First_Name__c,Last_Name__c
+                FROM Participant__c
+                WHERE Id = :participantId 
+            ];
+            system.debug('>>BeforePEINSERT>' + limits.getQueries());
+            if (pe != null) {
+                pe.Participant__c = partId;
+                if (pe.Participant_Name__c == null)
+                    pe.Participant_Name__c = newParticipant.First_Name__c;
+                if (pe.Participant_Surname__c == null)
+                    pe.Participant_Surname__c = newParticipant.Last_Name__c;
+                try {
+                    system.debug('>>BeforeUpsertPE>' + limits.getQueries());
+                    DatabaseService.getInstance().upsertToDB(pe);
+                    system.debug('>>aFTERUpsertPE>' + limits.getQueries());
+                } catch (Exception e) {
+                    String errorMsg = e.getMessage();
+                    if (errorMsg.contains('DUPLICATE')) {
+                        errorMsg = Label.Error_Message_Participant_Duplicate;
+                    }
+                    System.debug('ERROR: ' + errorMsg);AuraHelper.throwException(e);
+                    //throw new ParticipantServiceException(errorMsg);
+                }
+            }
+            
+            if (newParticipant.Contact__c != null) {
+                Contact participantCon = new Contact(Id = newParticipant.Contact__c);
+
+                if (newParticipant.Phone_Type__c == 'Home') {
+                    participantCon.HomePhone = newParticipant.Phone__c;
+                }
+                if (newParticipant.Phone_Type__c == 'Mobile') {
+                    participantCon.MobilePhone = newParticipant.Phone__c;
+                } else {
+                    participantCon.Phone = newParticipant.Phone__c;
+                }
+                if (
+                    iqviaOutreachEnabled &&
+                    String.isNotBlank(contactConsentJSON) &&
+                    String.isNotEmpty(contactConsentJSON)
+                ) {
+                    contact contactConsent = (Contact) JSON.deserialize(
+                        contactConsentJSON,
+                        Contact.class
+                    );
+                    participantCon.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
+                    participantCon.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
+                    participantCon.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Artificial_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
+                   
+                }
+                  //update participantCon; converted to future method
+                  String objJSONStr = Json.serialize(participantCon);
+                  updateParticipantContact(objJSONStr);
+            }
+
+            if (
+                createUser &&
+                newParticipant != null &&
+                !String.isBlank(newParticipant.Contact__c) &&
+                !String.isBlank(ssId)
+            ) {
+                assignParticipantPermissions(ssId, newParticipant.Contact__c);
+            }
+
+            // updateParticipant(JSON.serialize(participant));
+            createParticipantDelegate(
+                participantDelegateJSON,
+                delegateDuplicateInfo,
+                participantId,
+                participantJSON,
+                allowDelegateContact,
+                TaskService.invitationsVisibleTemp, // added this to hold the value of this param in future method
+                contactConsentJSON,
+                iqviaOutreachEnabled
+            );
+            //Moved history Creation to Trigger
+            System.debug('>>>TRANSACTIONOVER>>>'+limits.getQueries());
+            return limits.getQueries();
+         } catch (Exception e) {
+            AuraHelper.throwException(e);
+            return limits.getQueries();
+        }
+       
+    }
+
+    @Future
+    public static void updateParticipantContact(String objJson) {
+             Contact participantCont = (Contact) JSON.deserialize(
+            objJson,
+            Contact.class
+        );
+        update participantCont;
     }
 
     @Future
@@ -313,11 +552,17 @@ public without sharing class AddPatientByPIRemote {
         String participantId,
         String participantJSON,
         Boolean createDelegateuser,
-        Map<Id, String> invitationsVisibleTemp
+        Map<Id,String> invitationsVisibleTemp,
+        String contactConsentJSON,
+        Boolean iqviaOutreachEnabled
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
+        );
+        contact contactConsent = (Contact) JSON.deserialize(
+            contactConsentJSON,
+            Contact.class
         );
         Participant__c participantDelegate;
         if (!String.isBlank(participantDelegateJSON)) {
@@ -396,7 +641,10 @@ public without sharing class AddPatientByPIRemote {
                         MailingState,
                         MailingCountry,
                         MailingStateCode,
-                        MailingPostalCode
+                    	MailingPostalCode,
+                        Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c,
+                        Participant_Phone_Opt_In_Permit_Phone__c
                     FROM Contact
                     WHERE Id = :ddInfo.contactId
                 ];
@@ -426,9 +674,10 @@ public without sharing class AddPatientByPIRemote {
                 insert participantDelegate;
             }
             //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+            List<Patient_Delegate__c> checkPDel;
             if (participantId != null && newContact.Id != null) {
-                List<Patient_Delegate__c> checkPDel = [
-                    SELECT Id
+                checkPDel = [
+                    SELECT Id,Primary_Delegate__c,Participant__r.Email__c
                     FROM Patient_Delegate__c
                     WHERE Participant__c = :participantId AND Contact__c = :newContact.Id
                 ];
@@ -478,6 +727,33 @@ public without sharing class AddPatientByPIRemote {
 
                     insert ptDelegateRef;
                 }
+            }
+            if(iqviaOutreachEnabled && ((checkPDel.isEmpty() && (participant.Email__c == null || participant.Email__c == '' || participant.Email__c.trim() == '')) || 
+              (checkPDel != null && !checkPDel.isEmpty() && checkPDel[0].Primary_Delegate__c && checkPDel[0].Participant__r.Email__c == null) )
+               && String.isNotBlank(contactConsentJSON) && String.isNotEmpty(contactConsentJSON)){
+                    contact con = new contact();
+                    con.id = newContact.Id;
+                    con.Participant_Opt_In_Status_Emails__c = contactConsent.Participant_Opt_In_Status_Emails__c;
+                    con.Participant_Opt_In_Status_SMS__c = contactConsent.Participant_Opt_In_Status_SMS__c;
+                    con.Participant_Phone_Opt_In_Permit_Phone__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Artificial_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Assisted_Dialing_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Pre_recorded_Voice_Consent__c = contactConsent.Participant_Phone_Opt_In_Permit_Phone__c;
+                    con.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
+                    
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.PopulateOverrideFields.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForCCContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+                    );
+                    update con;
             }
             // }
             if (createDelegateuser) {

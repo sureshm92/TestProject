@@ -1,5 +1,7 @@
 import { LightningElement, api, wire, track } from "lwc";
 import pirResources from "@salesforce/resourceUrl/pirResources";
+import xlsxmin from '@salesforce/resourceUrl/xlsxmin';
+import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStudyAccessLevel from "@salesforce/apex/PIR_HomepageController.getStudyAccessLevel";
 import bulkstatusDetail from "@salesforce/apex/PIR_HomepageController.bulkstatusDetail";
@@ -36,11 +38,16 @@ import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PG_DBPI_L_study_site from '@salesforce/label/c.PG_DBPI_L_study_site';
 import pir_Health_Information from '@salesforce/label/c.pir_Health_Information';
 import RH_TV_TabTitle from '@salesforce/label/c.RH_TV_TabTitle';
+import successfully_Re_Engaged from '@salesforce/label/c.Successfully_Re_Engaged';
 import { NavigationMixin } from 'lightning/navigation';
 import { label } from "c/pir_label";
 import getUserLanguage from '@salesforce/apex/PIR_HomepageController.fetchCurrentUserLanguage';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
-
+import PIR_Study_Site_Name from '@salesforce/label/c.PIR_Study_Site_Name';
+import PIR_Study_Name from '@salesforce/label/c.PIR_Study_Name';
+import PG_AP_F_Patient_Status from '@salesforce/label/c.PG_AP_F_Patient_Status';
+import PIR_Community_CSS from '@salesforce/resourceUrl/PIR_Community_CSS'; 
+import { loadStyle } from 'lightning/platformResourceLoader';
 export default class Pir_participantParent extends NavigationMixin(LightningElement) {
   @api peId;
   @api firstName;
@@ -84,6 +91,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studySiteList;
   enableTelevisitTab = false;
   isTelevisitTab=false;
+  //import participant variables
+  shouldDisableImport = true;
+  shouldDisableImportStatus = true;
+  importParticipantStatus = [];
   @api callTelevisistMethod = false;
   selectedStudy='';selectedSite='';saving = false;studysiteaccess=false;
   label = {
@@ -118,8 +129,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     PG_AC_Select,
     PG_DBPI_L_study_site,
     pir_Health_Information,
+    PIR_Study_Site_Name,
+    PIR_Study_Name,
+    PG_AP_F_Patient_Status,
+    RH_TV_TabTitle,
     PIR_Reason_Required,
-    RH_TV_TabTitle
+    successfully_Re_Engaged
   };
   
   @api isRTL = false; 
@@ -138,10 +153,15 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             this.maindivcls = 'ltr';
           }
         })
+        .then(() => {
+         
+        })
         .catch((error) => {
               this.error = error;
         });
     }
+    loadScript(this, xlsxmin).then(() => {});
+    loadStyle(this, PIR_Community_CSS)
   }
 
   @wire(getStudyAccessLevel)
@@ -151,21 +171,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     } else if (error) {
         this.error = error;
     }
-  }
-  getTelevisitVisibility(peid){
-    getTelevisitVisibility({ParticipantEnrollmentId : peid})
-            .then((result) => {
-                this.enableTelevisitTab = result;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-  }
-  handleStudyAndSite(event){
-    this.studylist = event.detail.studylist;
-    this.siteAccessLevels = event.detail.siteAccessLevels;
-    this.studyToStudySite = event.detail.studyToStudySite;
-    this.studysiteaccess = true;
   }
   studyhandleChange(event) {
     var picklist_Value = event.target.value;
@@ -198,6 +203,22 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   studysitehandleChange(event) {
     this.selectedSite = event.target.value;
   }
+  getTelevisitVisibility(peid){
+    getTelevisitVisibility({ParticipantEnrollmentId : peid})
+            .then((result) => {
+                this.enableTelevisitTab = result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+  }
+  handleStudyAndSite(event){
+    this.studylist = event.detail.studylist;
+    this.siteAccessLevels = event.detail.siteAccessLevels;
+    this.studyToStudySite = event.detail.studyToStudySite;
+    this.studysiteaccess = true;
+  }
+  
   get isStatusDetail(){
      if(this.selectedTab === "Status Details"){
        return true;
@@ -412,6 +433,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     if(!this.isDetailModalOpen){     
       this.isParticipantDetail = true;
       this.isMedicalTab = false;
+      this.callTelevisistMethod = false;
       if ((this.statusDetailValueChanged || this.disablebtn) && this.discardTab == false) {
         this.template.querySelector("lightning-tabset").activeTabValue = "Status Details";
         this.selectedTab = "Participant Details";
@@ -610,12 +632,26 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.showErrorToast('Error');
     }
   }
-  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;
+  exportItem=false;addParticipant=false;siteAccessLevels;bulkStatusSpinner=false;importParticipant=false;
   handleDropLabel(event){
     this.dropdownLabel=event.detail;
     if(this.dropdownLabel=='Add New Participant'){
         this.addParticipant = true;
         this.studysiteaccess = true;   
+    }else if(this.dropdownLabel=='Import Participants'){
+        console.log('import mod');
+        this.importParticipant = true;
+    }else if(this.dropdownLabel=='Bulk Import History'){
+        console.log('B import ');
+        this[NavigationMixin.Navigate]({
+          type: 'comm__namedPage',
+          attributes: {
+              pageName: 'bulk-imports'
+            },
+          state: {
+            'myParticipants' : true
+           }
+      });
     }else{
       if(this.dropdownLabel=='Export'){
         this.exportItem=true;
@@ -624,6 +660,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         this.exportItem=false;
       }
     }
+  }
+  handleImportParticipant(){
+    this.addParticipant = false;
+    this.selectedSite = '';
+    this.selectedStudy = ''; 
+    this.importParticipant = false;
   }
   handlepopup(event){
     this.openpopup=event.detail;
@@ -796,7 +838,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         validationList.push(btnValidationSuccess);
       }
     }
+    
     //5. 
+    console.log('selected outcome->'+this.newStatusSelected+'='+this.selectedreason);
     if(this.newStatusSelected == "Pre-review Failed" ||
     this.newStatusSelected == "Screening Failed" ||
     this.newStatusSelected == "Unable to Screen" ||
@@ -810,6 +854,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.newStatusSelected == "Eligibility Failed"
     ){
            if(this.selectedreason == ""){
+             console.log('Reason empty');
              btnValidationSuccess = false;
              validationList.push(btnValidationSuccess);
            }
@@ -840,7 +885,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
           return this.label.PG_ACPE_L_Reason;
     }
   }
-  
+
   handleReasonChange(event){
     if(event.target.value == null || event.target.value == ' '){
        this.selectedreason = '';
@@ -860,7 +905,12 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 }
   handleStatusChanges(event){
     this.newStatusSelected = event.detail.newStatusSelected;
+    if(event.detail.oParticipantStatus=='Successfully re-engaged'){
+      this.oParticipantStatus = 'Successfully Re-Engaged';
+    }
+    else{
     this.oParticipantStatus = event.detail.oParticipantStatus;
+    }
     this.studyID = event.detail.studyId;
     
  }
@@ -903,7 +953,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
             if(this.newStatusSelected == "Contacted - Not Suitable"){
               this.selectedreason ='';
             }else{
-               //Reason changes fix
+              //Reason changes fix
               //this.selectedreason =  reasonList[0];
             }
             this.isReasonEmpty = false;
@@ -959,6 +1009,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   handleCloseStatus(){
     this.isStatusChange = false;
   }
+  
   checkFormChanges(event) {
     this.isSharingOptionsChanged = true;
     this.isSharingTab = true;
@@ -994,4 +1045,34 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.template.querySelector("c-pir_participant-pagination").goToStart();
   }
 
+  // import modal  -->
+     value = [];
+    get studynameoptions() {
+        return [
+            { label: 'GSM testing study', value: 'GSM testing study' },
+            { label: 'GSM testing study', value: 'GSM testing study' },
+        ];
+    }
+    get studysitesoptions() {
+        return [
+            { label: 'GSM testing study site ', value: 'GSM testing study site' },
+            { label: 'GSM testing study site GSM testing study', value: 'GSM testing study site GSM testing study' },       
+        ];
+    }
+    
+    get options() {
+        return [
+            { label: 'By checking this box, you confirm that your patient and/or patients legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.', value: 'option1' },
+            { label: 'Your patient or patient’s legal guardian also consents to be contacted by SMS/Text Message for these purposes.', value: 'option2' },
+        ];
+    }
+  //import modal end-->
+  get checkStatusReEngaged(){
+    
+    return this.oParticipantStatus == this.label.successfully_Re_Engaged;
+  } 
+  get reasonClass(){
+    return 'slds-col '+ (this.checkStatusReEngaged ? 'slds-size_1-of-2' : 'slds-size_1-of-1')
+      + ' slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-top_xx-small slds-m-bottom_small';
+  } 
 }

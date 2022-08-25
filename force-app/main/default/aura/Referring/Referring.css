@@ -46,7 +46,8 @@
 }
 .THIS .tooltip {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
+    display: block;
     cursor: pointer;
     white-space: nowrap;
 }
@@ -57,6 +58,18 @@
     overflow: hidden;
     color: #444;
     font-size: 0.875rem;
+}
+
+.THIS .textoverlap1 {
+    width: 3rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #444;
+    font-size: 0.875rem;
+}
+.THIS .dflex{
+    display: flex;
 }
 
 /* ----------------END-----------*/
@@ -136,7 +149,7 @@
     /* @noflip */
     margin-right: 81%;
 }
-.THIS .slds-datepicker table {
+/*.THIS .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
@@ -149,7 +162,7 @@
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
-}
+}*/
 
 .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
     white-space: nowrap;
@@ -229,6 +242,53 @@
     display: inline-block;
     text-align: center;
     padding: 0 5px;
+}
+
+.THIS .mrr-alert {
+    text-align: center;
+    padding-top: 150px;
+    min-height: 500px;
+}
+
+.THIS .mrr-alert .main-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 48px;
+}
+
+.THIS .mrr-alert.fail .main-title {
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .main-title,
+.THIS .green-text {
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .apollo-btn.tertiary,
+.THIS .mrr-alert.fail .apollo-btn.tertiary {
+    background: none;
+    color: #297dfd;
+}
+
+.THIS .mrr-alert .rr-icon-default {
+    width: 64px;
+    height: 64px;
+    display: block;
+    margin: 5px auto;
+}
+
+.THIS .mrr-alert.fail .rr-icon-default {
+    fill: #e20000;
+}
+
+.THIS .mrr-alert.pass .rr-icon-default {
+    fill: #00c221;
+}
+
+.THIS .mrr-alert button {
+    display: block;
+    margin: 20px auto;
 }
 
 .THIS .pe-button:first-child {
@@ -661,4 +721,8 @@
 
 .THIS .sameline {
     display: flex;
+}
+
+.THIS .slds-datepicker {
+    max-width: 50rem;
 }

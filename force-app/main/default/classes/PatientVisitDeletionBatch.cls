@@ -1,0 +1,54 @@
+global class PatientVisitDeletionBatch implements Database.Batchable<sObject>, Database.Stateful{
+    private String ctpId;
+    private Boolean isStudyToDelete = false;
+    private Set<Id> patientVisitIds = new Set<Id>();
+    
+    global PatientVisitDeletionBatch(String ctpId){
+        this.ctpId = ctpId;
+    }
+    global PatientVisitDeletionBatch(String ctpId, Boolean isStudyToDelete){
+        this.ctpId = ctpId;
+        this.isStudyToDelete = isStudyToDelete;
+    }
+    global Database.QueryLocator start(Database.BatchableContext BC){
+        
+        String query = 'SELECT Id FROM Participant_Enrollment__c ';
+        if(String.isNotBlank(ctpId)) {
+            query += 'WHERE Clinical_Trial_Profile__c = :ctpId';
+        } else {
+            query += 'LIMIT 0';
+        }
+        return Database.getQueryLocator(query);
+    }
+    
+    global void execute(Database.BatchableContext BC, List<Participant_Enrollment__c> participantEnrollments){
+        
+        if(isStudyToDelete) {
+            delete [SELECT Id FROM Patient_Visit__c WHERE Participant_Enrollment__c IN :participantEnrollments];
+        } else {
+            
+            patientVisitIds.addAll((new Map<Id,Patient_Visit__c>(
+                [SELECT Id FROM Patient_Visit__c WHERE Participant_Enrollment__c IN :participantEnrollments]
+            )).keySet());
+        }
+    }
+    
+    global void finish(Database.BatchableContext BC){
+        
+        if(isStudyToDelete == false) {
+        
+            List<Study_Closure__c> studyClosureProcessList = [
+                SELECT Id FROM Study_Closure__c WHERE Clinical_Trial_Profile_Id__c = :ctpId LIMIT 1
+            ];
+            if(studyClosureProcessList.isEmpty() == false) {
+                
+                List<ContentVersion> contentVersions =new List<ContentVersion>();
+                contentVersions.add(Batch_SCParticipantEnrollment.constructCsvFile(
+                    ctpId, 'Patient Visit', patientVisitIds
+                ));
+                
+                Batch_SCParticipantEnrollment.insertContentVersions(studyClosureProcessList[0].Id, contentVersions);
+            }
+        }
+    }
+}

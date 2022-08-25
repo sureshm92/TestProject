@@ -58,6 +58,9 @@
             formInputs[i].showHelpMessageIfInvalid();
         }
         for(var i = 0; i < formInputs2.length; i++){
+            if(formInputs2[i] && formInputs2[i].get('v.value')) {
+                formInputs2[i].set('v.value',  formInputs2[i].get('v.value').trim());
+            }
            formInputs2[i].showHelpMessageIfInvalid();
         }
         var selectYr = component.find("yearField");
@@ -94,22 +97,26 @@
     },
 
     doSaveAndExit: function (component, event, helper) {
-        helper.createParticipant(component, function () {
-            // communityService.navigateToHome();
-            var urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({ "url": "/my-referrals" });  
-            urlEvent.fire(); 
-        });
+        /**  helper.createParticipant(component, function () {
+              // communityService.navigateToHome();
+              var urlEvent = $A.get("e.force:navigateToURL");
+              urlEvent.setParams({ "url": "/my-referrals" });  
+              urlEvent.fire(); 
+          }); **/
+          component.set('v.doSaveNew',false);
+           helper.createParticipants(component);console.log('dosaveandexit'); 
     },
-
+  
     doSaveAndNew: function (component, event, helper) {
-        helper.createParticipant(component, function () {
-            var mainDiv =  document.getElementsByClassName("fieldsDiv");
-            mainDiv[0].focus();
-            helper.initData(component);
-            helper.setDelegate(component);
-            component.find('editForm').refreshEmailInput();
-        });
+         /** helper.createParticipant1(component, function () {
+              var mainDiv =  document.getElementsByClassName("fieldsDiv");
+              mainDiv[0].focus();
+              helper.initData(component);
+              helper.setDelegate(component);
+              component.find('editForm').refreshEmailInput();
+          });**/
+           component.set('v.doSaveNew',true);
+           helper.createParticipants(component);console.log('dosaveandnew'); 
     },
 
     doCheckfields: function (component, event, helper) {
@@ -214,6 +221,7 @@
             component.set('v.contactConsent.Participant_Opt_In_Status_Emails__c',event.getParam('consentMap').contact.Participant_Opt_In_Status_Emails__c);
             component.set('v.contactConsent.Participant_Opt_In_Status_SMS__c',event.getParam('consentMap').contact.Participant_Opt_In_Status_SMS__c);
             component.set('v.contactConsent.Participant_Phone_Opt_In_Permit_Phone__c',event.getParam('consentMap').contact.Participant_Phone_Opt_In_Permit_Phone__c);
+            component.set('v.contactConsent.IQVIA_Direct_Mail_Consent__c',event.getParam('consentMap').contact.IQVIA_Direct_Mail_Consent__c);
         }
     }
 });

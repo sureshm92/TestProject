@@ -2,7 +2,7 @@
  * Created by Kryvolap
  */
 
-public without sharing class ParticipantEnrollmentSHTriggerHandler {
+public without sharing class ParticipantEnrollmentSHTriggerHandler { 
     //Handlers----------------------------------------------------------------------------------------------------------
     public class SendPESHToEPR extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
@@ -27,6 +27,11 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createUsersOrSendNotifications(newList);
+        }
+    }
+    public class UpdatePERReEngaged extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            UpdatePERReEngaged(newList);
         }
     }
 
@@ -140,6 +145,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 Id,
                 Enrolled_Date__c,
                 Informed_Consent__c,
+            	Succesfully_Re_Engaged__c,
                 Last_Status_Changed_Notes__c,
                 Non_Enrollment_Reason__c,
                 Participant_Status__c,
@@ -181,7 +187,57 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 if (headHistory.Date__c != null)
                     pe.Enrolled_Date__c = headHistory.Date__c.date();
             }
+            if (
+                headHistory.Status__c == 'Successfully re-engaged'
+            ) {
+                pe.Succesfully_Re_Engaged__c = true;   
+            }
         }
+        System.debug('enrollments:' + enrollments);
+        update enrollments;
+    }
+    @TestVisible
+    private static void UpdatePERReEngaged(
+        List<Participant_Enrollment_Status_History__c> newList
+    ) {
+        Set<Id> peIds = new Set<Id>();
+        for (Participant_Enrollment_Status_History__c history : newList) 
+        {
+            peIds.add(history.ParticipantEnrollment__c);
+
+        }
+        
+        List<Participant_Enrollment__c> enrollments = [
+            SELECT
+                Id,
+            	Succesfully_Re_Engaged__c,
+                Participant_Status__c,
+				Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+				Initial_visit_scheduled_date__c,
+				Initial_visit_scheduled_time__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIds
+        ];
+        for (Participant_Enrollment__c pe : enrollments)
+         {
+		    if(pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true){
+                 if( pe.Succesfully_Re_Engaged__c==true && 
+                 (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed' || pe.Participant_Status__c=='Eligibility Failed')
+                && pe.Initial_visit_scheduled_time__c!=null && pe.Initial_visit_scheduled_date__c!=null)
+                {
+                    pe.Succesfully_Re_Engaged__c=false;
+                }
+            }
+            else{
+                if( pe.Succesfully_Re_Engaged__c==true 
+               && (pe.Participant_Status__c=='Successfully Contacted' || pe.Participant_Status__c=='Eligibility Passed' || pe.Participant_Status__c=='Eligibility Failed') )
+                {
+                     pe.Succesfully_Re_Engaged__c=false;
+                }
+            }
+        }
+	
         System.debug('enrollments:' + enrollments);
         update enrollments;
     }

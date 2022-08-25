@@ -8,5 +8,6 @@ trigger TelevisitTrigger on Televisit__c(after insert, after update) {
     }  */
     TriggerHandlerExecutor.execute(TelevisitTriggerHandler.NotifyAttendees.class);
     TriggerHandlerExecutor.execute(TelevisitTriggerHandler.TelevisitEventTrigger.class);
+    TriggerHandlerExecutor.execute(TelevisitTriggerHandler.TelevisitRescheduleTrigger.class);
 
 }

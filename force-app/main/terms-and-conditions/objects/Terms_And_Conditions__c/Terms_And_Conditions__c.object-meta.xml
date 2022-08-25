@@ -153,14 +153,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Terms And Conditions</label>
+    <label>Terms or Policies</label>
     <nameField>
         <displayFormat>TC-{0000}</displayFormat>
         <label>Terms or Policies Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Terms And Conditions</pluralLabel>
+    <pluralLabel>Terms or Policies</pluralLabel>
     <searchLayouts>
         <searchFilterFields>NAME</searchFilterFields>
         <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>

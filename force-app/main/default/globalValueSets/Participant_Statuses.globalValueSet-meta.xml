@@ -106,6 +106,16 @@
         <label>Contacted - Not Suitable</label>
     </customValue>
     <customValue>
+        <fullName>Successfully re-engaged</fullName>
+        <default>false</default>
+        <label>Successfully Re-Engaged</label>
+    </customValue>
+    <customValue>
+        <fullName>Participant No Show</fullName>
+        <default>false</default>
+        <label>Participant No Show</label>
+    </customValue>
+    <customValue>
         <fullName>Screening Passed</fullName>
         <default>false</default>
         <label>Screening Passed</label>

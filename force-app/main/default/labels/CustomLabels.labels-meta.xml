@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ReEngage_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngage_Dashboard</shortDescription>
+        <value>Re-engaged?</value>
+    </labels>
+    <labels>
+        <fullName>ReEngaged</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ReEngaged</shortDescription>
+        <value>Re-engaged</value>
+    </labels>
+    <labels>
         <fullName>Add_Televisit_Vendor</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -82,6 +96,30 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Creation Email Subject</shortDescription>
         <value>New Televisit scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Body</shortDescription>
+        <value>Your ##VisitName televisit is rescheduled
+
+            &lt;b&gt;Televisit revised Date/Time: &lt;/b&gt; ##VisitTime
+            &lt;b&gt;Duration:&lt;/b&gt;  ##VisitDuration</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Header</shortDescription>
+        <value>Televisit was rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_Reschedule_Email_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit Reschedule Email Subject</shortDescription>
+        <value>Televisit was rescheduled</value>
     </labels>
     <labels>
         <fullName>Televisit_Meet_Sub1</fullName>
@@ -206,8 +244,8 @@ The IQVIA Referral Hub Support Team</value>
         <fullName>Banner_Display_Offset_Time</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Banner display</shortDescription>
-        <value>Banner display</value>
+        <shortDescription>Banner Display (minutes)</shortDescription>
+        <value>Banner Display (minutes)</value>
     </labels>
     <labels>
         <fullName>Banner_dispose</fullName>
@@ -270,6 +308,20 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Remove Email Subject</shortDescription>
         <value>You were removed from a televisit</value>
+    </labels>
+    <labels>
+        <fullName>Participant_No_Show</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant No Show</shortDescription>
+        <value>Participant No Show</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Reason_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Reason_Required</shortDescription>
+        <value>Reason (required)</value>
     </labels>
     <labels>
         <fullName>PIR_Discard</fullName>
@@ -396,6 +448,27 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Start Date Error Message</shortDescription>
         <value>Start date cannot be in the past</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_Email</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information.</value>
+    </labels>
+    <labels>
+        <fullName>SS_RH_ROW_Consent_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_RH_ROW_Consent_SMS</shortDescription>
+        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes</value>
     </labels>
     <labels>
         <fullName>Site_DB_Invited</fullName>
@@ -4569,6 +4642,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Pending approval/activation</value>
     </labels>
     <labels>
+        <fullName>RH_Direct_Mail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Direct_Mail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5704,7 +5784,9 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body Participant Import Completed</shortDescription>
         <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
-            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
+            If there were any records that were not able to be imported, corrections may be made in the file available on Bulk Import History Page and re-imported .
+
+			Your user name is ##userName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient0</fullName>
@@ -9637,6 +9719,20 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA intervention required</value>
     </labels>
     <labels>
+        <fullName>IQ_RH_ROW_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_ROW_Consent</shortDescription>
+        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>IQ_RH_US_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQ_RH_US_Consent</shortDescription>
+        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA, who may contact them at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to send you updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+    </labels>
+    <labels>
         <fullName>IQVIA_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10197,7 +10293,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ListView_GroupStatuses</shortDescription>
-        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted,Participant No Show,Successfully re-engaged</value>
     </labels>
     <labels>
         <fullName>ListView_New_Status</fullName>
@@ -12102,6 +12198,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
+        <fullName>Opt_Out_Update_Communication_Pref</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Update my communication preferences</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Update_Communication_Pref_Help</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>If you have previously opted in to any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>Originator</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12173,13 +12285,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PIR_Declined Practitioner</shortDescription>
         <value>Declined Practitioner</value>
-    </labels>
-    <labels>
-        <fullName>PIR_Reason_Required</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PIR_Reason_Required</shortDescription>
-        <value>Reason (required)</value>
     </labels>
     <labels>
         <fullName>pir_Delete_close</fullName>
@@ -12642,6 +12747,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_Sent to DCT Platform</shortDescription>
         <value>Sent to DCT Platform</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudySite_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudySite_Import</shortDescription>
+        <value>Study Site:</value>
     </labels>
     <labels>
         <fullName>Send_to_DCT</fullName>
@@ -13535,6 +13647,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>This will be used to display study information when your Preferred Language is not available.</value>
     </labels>
     <labels>
+        <fullName>PP_AS_F_2nd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F 2nd Choice Language Help Text</shortDescription>
+        <value>To be used when your Preferred Language is not available.</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_3rd_Choice_Language</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13547,6 +13666,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
         <value>This will be used to display study information when your other 2 choices are not available.</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_F_3rd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F 3rd Choice Language Help Text</shortDescription>
+        <value>To be used when your Preferred and Second Language are not available.</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Current_Password</fullName>
@@ -13738,6 +13864,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>This will be your default language to display study information whenever possible.</value>
     </labels>
     <labels>
+        <fullName>PP_AS_F_Preferred_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F Preferred Language Help Text</shortDescription>
+        <value>Default language to display study information.</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Preferred_Timezone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13750,6 +13883,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
+    </labels>
+     <labels>
+        <fullName>PP_AS_F_Re_enter_new_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS  F Re-enter new password</shortDescription>
+        <value>Re-enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_Re_enter_new_password</fullName>
@@ -13813,6 +13953,62 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG_AS_F_Update_Password</shortDescription>
         <value>Update Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Incorrect_password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Incorrect password</shortDescription>
+        <value>Incorrect password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_does_not_fit_criteria</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password does not fit criteria</shortDescription>
+        <value>Password does not fit criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_does_not_match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password does not match</shortDescription>
+        <value>Password does not match</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_Requirements</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Password Requirements</shortDescription>
+        <value>Password Requirements</value>
+    </labels>
+    <labels>
+        <fullName>PP_Second_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Second Language</shortDescription>
+        <value>Second Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Third_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Third Language</shortDescription>
+        <value>Third Language</value>
+    </labels>
+    <labels>
+        <fullName>PP_Time_Zone_and_Location</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Time Zone and Location</shortDescription>
+        <value>Time Zone and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Time_Zone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Preferred Time Zone</shortDescription>
+        <value>Preferred Time Zone</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Username</fullName>
@@ -14978,7 +15174,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Lockout</shortDescription>
         <value>Locked out</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_BTN_Back_To_Log_in</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16781,14 +16977,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+        <value>By checking these boxes, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Outreach_Consent_US</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates, using the telephone number(s) and/or email they have provided, about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA, who may contact them at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to send them updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
@@ -16802,14 +16998,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_By</shortDescription>
-        <value>You confirm that the patient and/or patient's legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
+        <value>You confirm that the participant and/or participant's legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient&apos;s legal guardian consents to be contacted at the telephone number(s) and/or email to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, to schedule study appointments and keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
@@ -16837,7 +17033,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US</shortDescription>
-        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/Text for these purposes.</value>
+        <value>Your participant or participant's legal guardian also consents to be contacted by SMS/Text for these purposes.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
@@ -16858,14 +17054,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
-        <value>By checking this box, you confirm that your patient and/or patient's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and/or email they have provided to keep them updated about important study-related information and activities, such as scheduling appointments.</value>
+        <value>By checking this box, you confirm that your participant and/or participant's legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_Study_Outreach_By</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_Study_Outreach_By</shortDescription>
-        <value>By checking these boxes, you confirm that your patient and/or patient's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
+        <value>By checking these boxes, you confirm that your participant and/or participant's legal guardian also consents to the processing of their personal data by IQVIA for the purposes of sending them updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email they have provided, by the following means:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -18033,6 +18229,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Desktop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Desktop</shortDescription>
+        <value>Learn more</value>
+    </labels>
+    <labels>
+        <fullName>PP_ProgramOverview_LearnMore_Mobile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ProgramOverview_LearnMore_Mobile</shortDescription>
+        <value>Learn about your program</value>
+    </labels>
+    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18059,6 +18269,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_SaveContinue</shortDescription>
         <value>Save &amp; Continue</value>
+    </labels>
+    <labels>
+        <fullName>PP_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Overview</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Objective</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Objective</shortDescription>
+        <value>Objective</value>
+    </labels>
+    <labels>
+        <fullName>PP_Program_Overview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Program_Overview</shortDescription>
+        <value>Program Overview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participation_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participation_Criteria</shortDescription>
+        <value>Participation Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Eligible_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant_Eligible_Criteria</shortDescription>
+        <value>To be eligible to participate in the program, one must meet the following criteria: </value>
+    </labels>
+    <labels>
+        <fullName>PP_Inclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Inclusion_Criteria</shortDescription>
+        <value>Inclusion Criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Exclusion_Criteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Exclusion_Criteria</shortDescription>
+        <value>Exclusion Criteria</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -18170,6 +18429,174 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Cookiesnote</shortDescription>
         <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist ony during one session and disappear from your computer when you close your browser or turn off your computer. Persisent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website. By using our website, you are accepting our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentA</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentB</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consentC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consentC</shortDescription>
+        <value>, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_Gen_Comm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_Gen_Comm</shortDescription>
+        <value>General Communication</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del</shortDescription>
+        <value>Click on the “profile” icon on the top right of the page and switch to Participant’s view to check the study level consents within the Participant’s Account Settings.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Blank_Del_View_Par</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Blank_Del_View_Par</shortDescription>
+        <value>Below are the consent status and communication preferences for the participant. As a delegate you do not have access to edit these preferences.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_All</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Dmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Dmail</shortDescription>
+        <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Outreach_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Outreach_consent</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA for the purposes of sending me updates about new clinical trial opportunities according to the terms of IQVIA's Privacy Policy, using the telephone number(s) and/or email I have provided, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_SMS</shortDescription>
+        <value>SMS/Text</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Study_consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Study_consent</shortDescription>
+        <value>I consent to the processing of my personal data by a study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_savechanges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_savechanges</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Del_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
+        <value>Delegate&apos;s mobile phone updated succesfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Par_Mobile_Upd_Success</shortDescription>
+        <value>Mobile phone updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required</shortDescription>
+        <value>Mobile phone is required to receive SMS/Text communication. Provided information will be updated in your</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Mobile_Required_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Mobile_Required_Del</shortDescription>
+        <value>Participant delegate&apos;s mobile phone is required to receive SMS/Text communication. Provided information will be updated in the delegate&apos;s</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Pref_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Pref_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Study_Static_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Communication_Study_Static_Message</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Profile Information</shortDescription>
+        <value>Profile Information</value>
     </labels>
     <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
@@ -18413,7 +18840,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Email Sent</shortDescription>
         <value>Email sent!</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Email_Sent_To_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18434,12 +18861,12 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Enter Associated Email</shortDescription>
         <value>Enter the email associated with your account.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_EnterNewPassword</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EnterNewPassword</shortDescription>
-        <value>Enter New Password</value>
+        <value>Enter new password</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -18694,6 +19121,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Phone number must be numeric.</value>
     </labels>
     <labels>
+        <fullName>PP_MinorMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MinorMessage</shortDescription>
+        <value>Access denied for minors</value>
+    </labels>
+    <labels>
         <fullName>PP_MustInclude</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18796,7 +19230,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoAdd</shortDescription>
-        <value>Photo addedd successfully</value>
+        <value>Photo uploaded successfully!</value>
     </labels>
     <labels>
         <fullName>PP_ProfileInformation</fullName>
@@ -18810,7 +19244,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoRemove</shortDescription>
-        <value>Photo removed successfully</value>
+        <value>Photo removed successfully!</value>
     </labels>
     <labels>
         <fullName>PP_PlatformPrivacyPolicyNote</fullName>
@@ -18930,13 +19364,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Privacypolicy</shortDescription>
         <value>Powered by IQVIA © 2022. All rights reserved.</value>
-    </labels>
-    <labels>
-        <fullName>PP_Profile_Information</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Profile Information</shortDescription>
-        <value>Profile Information</value>
     </labels>
     <labels>
         <fullName>PP_Profile_Update_Success</fullName>
@@ -19092,6 +19519,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Select Year</value>
     </labels>
     <labels>
+        <fullName>PP_Select_FAQ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_FAQ</shortDescription>
+        <value>Select a FAQ</value>
+    </labels>
+    <labels>
         <fullName>PP_SendBtn</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19216,8 +19650,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Toggle_Information</shortDescription>
-        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
-communications using the toggles below.</value>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional communications by setting your preferences in </value>
     </labels>
     <labels>
         <fullName>PP_Travel_Booking</fullName>
@@ -19393,6 +19826,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_Warning</shortDescription>
         <value>Warning:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Welcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Welcome</shortDescription>
+        <value>Welcome</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
@@ -19916,11 +20356,11 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
-        <fullName>Paticipant_s_Delegate</fullName>
+        <fullName>Participant_s_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Paticipant's Delegate</shortDescription>
-        <value>Paticipant's Delegate</value>
+        <shortDescription>Participant's Delegate</shortDescription>
+        <value>Participant's Delegate</value>
     </labels>
     <labels>
         <fullName>Participant_quick_reference</fullName>
@@ -19949,6 +20389,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Are you sure you would like to continue?</value>
     </labels>
     <labels>
         <fullName>Patient_Portal_Views</fullName>
@@ -20281,7 +20728,14 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_ValidationMsg7</shortDescription>
         <value>The password you entered is too easy to guess. Enter a different one</value>
     </labels>
-     <labels>
+    <labels>
+        <fullName>PP_Attest_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Attest_Message</shortDescription>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
+    </labels>
+    <labels>
         <fullName>PP_Email_Error</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20420,6 +20874,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Apply Filters</shortDescription>
         <value>Apply Filters</value>
+    </labels>
+    <labels>
+        <fullName>RH_Arm_Cohert_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Arm_Cohert_Import</shortDescription>
+        <value>Arm/Cohort:</value>
     </labels>
     <labels>
         <fullName>RH_Business_Address</fullName>
@@ -21016,6 +21477,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_WaitTime_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_WaitTime_Import</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -22233,7 +22701,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Remember My Username</shortDescription>
-        <value>Remember My Username</value>
+        <value>Remember my username</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
@@ -24205,6 +24673,20 @@ communications using the toggles below.</value>
         <value>Your password has been changed successfully.</value>
     </labels>
     <labels>
+        <fullName>TST_password_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST password updated successfully</shortDescription>
+        <value>Password updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_current_password_is_invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your current password is invalid</shortDescription>
+        <value>Your current password is invalid</value>
+    </labels>
+    <labels>
         <fullName>TST_activated</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -25806,6 +26288,20 @@ communications using the toggles below.</value>
         <value>required</value>
     </labels>
     <labels>
+        <fullName>PP_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Self</shortDescription>
+        <value>Self</value>
+    </labels>
+    <labels>
+        <fullName>PP_Program</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Program</shortDescription>
+        <value>Program</value>
+    </labels>
+    <labels>
         <fullName>PP_Forgot_Password_Footer1</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -26007,6 +26503,34 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>PIR_Preset_Created_Message</shortDescription>
         <value>has been created.</value>
+    </labels>
+    <labels>
+        <fullName>pir_Bulk_Import_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pir_ Bulk Import History</shortDescription>
+        <value>Bulk Import History</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Import_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Import_Participants</shortDescription>
+        <value>Import Participants</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Study_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Site_Name</shortDescription>
+        <value>Study Site:</value>
+    </labels>
+    <labels>
+        <fullName>PIR_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PIR_Study_Name</shortDescription>
+        <value>Study Name:</value>
     </labels>
     <labels>
         <fullName>PIR_Preset_Delete_Message</fullName>
@@ -26612,5 +27136,483 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>Last Updated On</shortDescription>
         <value>Last Updated on:</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note1</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our </value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note2</shortDescription>
+        <value>and acknowledge our</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note3</shortDescription>
+        <value>, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note1</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA's</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note2</shortDescription>
+        <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preferences</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Communication Preferences</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Record_Access</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Medical Record Access</shortDescription>
+        <value>Medical Record Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_COMMUNICATION_PREFERENCE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
+        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UPDATE_EMAIL_WARNING</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
+        <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_DOB_ERROR</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DOB_ERROR</shortDescription>
+        <value>Date must be ##TODAY or earlier</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preferred_Name</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Preferred_Name</shortDescription>
+        <value>Preferred Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_USE_AS_DAYTIME_PHONE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USE_AS_DAYTIME_PHONE</shortDescription>
+        <value>Use as Daytime Phone</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DATA_UPDATE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DATA_UPDATE</shortDescription>
+        <value>Your data was updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_UPLOADED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_UPLOADED</shortDescription>
+        <value>Photo uploaded successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_PHOTO_REMOVED</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_PHOTO_REMOVED</shortDescription>
+        <value>Photo removed successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_REQUIRED_FIELD</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_REQUIRED_FIELD</shortDescription>
+        <value>Required field</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_INVALID_PHONE_FORMAT</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_INVALID_PHONE_FORMAT</shortDescription>
+        <value>Enter a valid phone format</value>
+    </labels>
+    <labels>
+        <fullName>PortalUserProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PortalUserProfile</shortDescription>
+        <value>IQVIA Customer Community Plus Login User</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_HeaderFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_HeaderFailed</shortDescription>
+        <value>File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImportFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportFiles</shortDescription>
+        <value>Bulk Import Files</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImport_InvalidFileFormat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImport_InvalidFileFormat</shortDescription>
+        <value>Invalid file format. Allowable file formats are .xlsx or .csv only.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_EmptyFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_EmptyFile</shortDescription>
+        <value>File is empty. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_BulkImportInst</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_BulkImportInst</shortDescription>
+        <value>Instructions for Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>RH_Bulkimport_MaxiumRecord</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Bulkimport_MaxiumRecord</shortDescription>
+        <value>File contains more than 45,000 records; you may split the file. Please correct the problem and try again.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ChoosePP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ChoosePP</shortDescription>
+        <value>Choose to Invite to Patient Portal if applicable.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImport</shortDescription>
+        <value>Click on &lt;b&gt; Import Participants. &lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ClickImportButton</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ClickImportButton</shortDescription>
+        <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_DownloadIcon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DownloadIcon</shortDescription>
+        <value>Click the download icon under the Actions column of the applicable row in the Bulk Import Files list</value>
+    </labels>
+    <labels>
+        <fullName>RH_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_File</shortDescription>
+        <value>Drag-and-drop or browse to locate and &lt;b&gt;upload&lt;/b&gt; the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImport</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImport</shortDescription>
+        <value>File Import</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileImportProgress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileImportProgress</shortDescription>
+        <value>File Import in Progress</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileTemplate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileTemplate</shortDescription>
+        <value>Click the &lt;b&gt; File Template &lt;/b&gt; download button near the top right of the table to access file with the acceptable import format.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportInformation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportInformation</shortDescription>
+        <value>Enter available information for the participants into the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportNoRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportNoRecords</shortDescription>
+        <value>Imported files with participants will be shown here. &lt;br&gt; Click on Import Participants to upload a file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ImportSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ImportSuccess</shortDescription>
+        <value>Participant record import completed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InformationSharing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InformationSharing</shortDescription>
+        <value>Attest to information sharing and contact consent for the participants and/or their legal guardians included in the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_InputChanges</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_InputChanges</shortDescription>
+        <value>Input applicable changes directly into the file to correct the indicated errors and save the file (do NOT change the file name)</value>
+    </labels>
+    <labels>
+        <fullName>RH_RejectedRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RejectedRecords</shortDescription>
+        <value>Any rejected records will require correction and re-upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_RepeatSteps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_RepeatSteps</shortDescription>
+        <value>Repeat steps 3-8 above.</value>
+    </labels>
+    <labels>
+        <fullName>RH_SelectStudy_SIte</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_SelectStudy_SIte</shortDescription>
+        <value>Select the &lt;b&gt;Study Name and Study Site.&lt;/b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>RH_ShowLanding</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ShowLanding</shortDescription>
+        <value>Don&apos;t show me again on landing</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyName_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_StudyName_Import</shortDescription>
+        <value>Study Name:</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadFile_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadFile_Import</shortDescription>
+        <value>Upload File</value>
+    </labels>
+    <labels>
+        <fullName>RH_UploadResult</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UploadResult</shortDescription>
+        <value>The results of your upload will appear at the top of the table with the total records, accepted records, and rejected records displayed.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Upload_import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Upload_import</shortDescription>
+        <value>Upload</value>
+    </labels>
+    <labels>
+        <fullName>RH_UserEmailPermissionAlert</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UserEmailPermissionAlert</shortDescription>
+        <value>Study related email notifications are off for the Participant or Participant(s) primary delegate. Please update their communication preferences under the Information Sharing section in the Participant Details tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_UserRegistration_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_UserRegistration_Warning</shortDescription>
+        <value>Participant or Participant(s) primary delegate hasn’t joined Patient Portal yet.</value>
+    </labels>
+    <labels>
+        <fullName>RH_ValidationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ValidationError</shortDescription>
+        <value>Check the &lt;b&gt;Validation Errors&lt;/b&gt; column in the file for the rejection reason</value>
+    </labels>
+    <labels>
+        <fullName>RH_AllRecords</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_AllRecords</shortDescription>
+        <value>All accepted records can now be found in your &lt;b&gt;My Participants&lt;/b&gt; list.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Re_Engaged</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Successfully Re-Engaged</shortDescription>
+        <value>Successfully Re-Engaged</value>
+    </labels>
+    <labels>
+        <fullName>RH_CountryConstent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_CountryConstent</shortDescription>
+        <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records will not be added.</value>
+    </labels>
+    <labels>
+        <fullName>Back_to_Manage_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Manage Delegates</shortDescription>
+        <value>Back to Manage Delegates</value>
+    </labels>
+    <labels>
+        <fullName>Add_New_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add New Delegate</shortDescription>
+        <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Information</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_COMPLETE_TASK</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_COMPLETE_TASK</shortDescription>
+        <value>Complete tasks on your behalf</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_RECEIVE_EMAIL</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_RECEIVE_EMAIL</shortDescription>
+        <value>Receive emails about your program status</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_LAB_RESULTS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_LAB_RESULTS</shortDescription>
+        <value>See your lab results</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_VITALS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_VITALS</shortDescription>
+        <value>See your vitals</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_MEASUREMENTS</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_MEASUREMENTS</shortDescription>
+        <value>See your measurements</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_CONDITIONAL_FEATURE</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_CONDITIONAL_FEATURE</shortDescription>
+        <value>*all features may not be available for each program</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Header</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Header</shortDescription>
+        <value>##PatientFirstName ##PatientLastName has designated you as their delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Remove</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Remove</shortDescription>
+        <value>You are about to remove yourself from the Delegate list. This action cannot be undone. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_DelegateTasks</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_DelegateTasks</shortDescription>
+        <value>What can I see or do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_AS_Delegate_Removed</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_Delegate_Removed</shortDescription>
+        <value>You have been succesfully removed from the Delegates list</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Deactivated</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP Delegate Deactivated</shortDescription>
+        <value>Delegates was successfully deactivated</value>
     </labels>
 </CustomLabels>

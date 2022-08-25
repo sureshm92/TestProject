@@ -4,6 +4,12 @@
 ({
     doInit: function (component, event, helper) {
         component.set('v.peList', null);
+        let device = $A.get("$Browser.formFactor");
+        console.log('device:'+device);
+        if(device === 'PHONE') {
+            component.set('v.isPhone',true);
+        }
+        
         window.setTimeout(
             $A.getCallback(function () {
                 //helper.totalAwaitingContactedList(component);

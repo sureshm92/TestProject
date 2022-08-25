@@ -1,0 +1,27 @@
+<messaging:emailTemplate subject="{!$Label.Televisit_Reschedule_Email_Subject}"
+                         recipientType="Contact"
+                         relatedToType="Televisit_Attendee__c"
+                         language="{!recipient.Language__c}"> 
+  <messaging:htmlEmailBody >
+     <c:EmailWireframe recipientId="{!recipient.Id}"
+                        sourceId="{!relatedTo.Id}"
+                        header="{!$Label.Televisit_Reschedule_Email_Header}"
+                        greeting="{!$Label.Televisit_Greeting}"
+                        signature="{!$Label.Televisit_Signature}"
+                        communityTemplate="Janssen">
+     <c:Paragraph emailLabel="{!$Label.Televisit_Reschedule_Email_Body}"/>
+     <!--<c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
+     </c:EmailWireframe>
+  </messaging:htmlEmailBody> 
+  <messaging:plainTextEmailBody >
+     <c:EmailWireframeText recipientId="{!recipient.Id}"
+                           sourceId="{!relatedTo.Id}"
+                           header="{!$Label.Televisit_Reschedule_Email_Header}"
+                           greeting="{!$Label.Televisit_Greeting}"
+                           signature="{!$Label.Televisit_Signature}"
+                           communityTemplate="Janssen">
+     <c:ParagraphText emailLabel="{!$Label.Televisit_Reschedule_Email_Body}"/>
+     <!--<c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>-->
+     </c:EmailWireframeText>
+   </messaging:plainTextEmailBody>
+</messaging:emailTemplate>

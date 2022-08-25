@@ -1,8 +1,15 @@
 import { LightningElement } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import DEVICE from '@salesforce/client/formFactor';
+// importing Custom Label
+import PPWELCOME from '@salesforce/label/c.PP_Welcome';
+
 
 export default class HomePageParticipantNew extends LightningElement {
+    label = {
+        PPWELCOME
+    };
+    
     participantState;
     clinicalrecord;
     error;
@@ -18,7 +25,7 @@ export default class HomePageParticipantNew extends LightningElement {
                 if (result) {
                     this.participantState = JSON.parse(result);
                     if(this.participantState){
-                        this.userName = this.participantState.loggedInUserName;
+                            this.userName = this.label.PPWELCOME +', ' +this.participantState.loggedInUserName;
                     }
                     if (this.participantState.pe) {
                         if (this.participantState.pe.Clinical_Trial_Profile__r) {

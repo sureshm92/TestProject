@@ -100,7 +100,8 @@
          var dataStamp = component.get('v.dataStamp');
          var isValid = false;
          const screeningIdRequiredStatuses =
-             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+             'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete'
+             + (formData.ctp && formData.ctp.Tokenization_Support__c ? '; Screening Passed' : '');
          const visitPlanRequiredStatuses =
              'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
          let screeningIdRequired = false;
@@ -383,6 +384,18 @@
                  }
                  //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
                  if (needsGuardian || participantDelegate || participant.Phone__c) {
+                    let reqFieldsFilled;
+                    let allValid;
+                     if (component.find('emailInput').constructor === Array) {
+                      let fieldsGroup = 'emailInput';
+                       allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
+                      return validSoFar && inputCmp.get('v.validity').valid;
+                         }, true);
+                         reqFieldsFilled = false;
+                   }else if(component.find('emailInput').get('v.validity').valid){
+                        reqFieldsFilled = true;
+                       allValid = false;
+                   } 
                      isValid = false;
                      isValid =
                          isValid ||
@@ -397,14 +410,15 @@
                            participantDelegate ||
                            (emailParticipantRepeat &&
                             participant.Email__c &&
-                            component.find('emailInput').get('v.validity').valid)) &&
+                            (allValid || reqFieldsFilled))) &&
                           (!participantDelegate || (participantDelegate.phone__c && participantDelegate.Phone__c.trim())) &&
                           (!participantDelegate || (participantDelegate.First_Name__c && participantDelegate.First_Name__c.trim())) &&
                           (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
                           participant.Mailing_Zip_Postal_Code__c &&
                           pe &&
-                          pe.Participant_Status__c &&
-                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
+                          pe.Participant_Status__c && 
+                          (!screeningIdRequired || (screeningIdRequired && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
+                          (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c && pe.Screening_ID__c.trim())) &&
                           (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                           //stateVaild &&
                           (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
