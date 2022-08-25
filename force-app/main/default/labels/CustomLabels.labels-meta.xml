@@ -13884,7 +13884,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-Enter New Password</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27614,5 +27614,19 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
         <value>Delegates was successfully deactivated</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_AboutProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the Program</shortDescription>
+        <value>About the Program</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_AboutStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the study</shortDescription>
+        <value>About the Study</value>
     </labels>
 </CustomLabels>
