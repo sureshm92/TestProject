@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import edit_Year_of_Birth from '@salesforce/label/c.PP_Edit_Year_of_Birth';
-import match_Username_Email from '@salesforce/label/c.PP_Match_Username_Email';
+import match_Username_Email_Option from '@salesforce/label/c.PP_Match_Username_Email';
 import select_Support_Topic from '@salesforce/label/c.PP_Select_Support_Topic';
 import ppFrom from '@salesforce/label/c.PP_From';
 import ppTo from '@salesforce/label/c.PP_To_Year';
@@ -10,14 +10,16 @@ import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
-import matchUsernameEmail from '@salesforce/label/c.PP_Match_Username_Email';
+import matchUsernameEmail from '@salesforce/label/c.PP_Match_Username_And_Email';
 import helpResponse from '@salesforce/label/c.PP_HelpResponse';
 import accountSettings from '@salesforce/label/c.PP_Account_Settings';
 import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
+import DEVICE from '@salesforce/client/formFactor';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 
 export default class PpGetSupport extends NavigationMixin(LightningElement) {
     @api isdelegate;
@@ -33,10 +35,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     spinner;
     showMinorErrorMsg = false;
     disableSave = true;
+    chngUsernameEmailValue;
+
+    isMobile;
+    cardRTL;
 
     label = {
         edit_Year_of_Birth,
-        match_Username_Email,
+        match_Username_Email_Option,
         select_Support_Topic,
         ppFrom,
         ppTo,
@@ -53,11 +59,12 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
 
     selectedOption;
     selectedYOB;
-    value = 'inProgress';
     placeholder = select_Support_Topic;
     doMatchUsernameEmail;
 
     connectedCallback() {
+        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
@@ -67,10 +74,23 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             });
     }
 
+    get marginForDOBEdit() {
+        if (this.isEditYOB) {
+            return 'mt-25';
+        }
+        if (this.isMatchUsernameEmail) {
+            return 'mt-15';
+        }
+    }
+
+    get marginMatchEmailPass() {
+        return this.isMatchUsernameEmail ? 'mb-10' : '';
+    }
+
     get options() {
         return [
             { label: edit_Year_of_Birth, value: edit_Year_of_Birth },
-            { label: match_Username_Email, value: match_Username_Email }
+            { label: match_Username_Email_Option, value: match_Username_Email_Option }
         ];
     }
 
@@ -83,23 +103,25 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         return isParticipant;
     }
     get isShowUserMatch() {
-        this.disableSave = this.showUserMatch == true ? true : false;
         return this.showUserMatch;
     }
 
-    handleChange(event) {
+    get placeholder() {
+        return this.placeholder;
+    }
+    get isDisableSave() {
+        return this.disableSave;
+    }
+    handleChangeSelection(event) {
+        this.disableSave = true;
         this.selectedOption = event.detail.value;
         if (this.selectedOption == edit_Year_of_Birth) {
             this.isEditYOB = true;
             this.isMatchUsernameEmail = false;
-        } else if (this.selectedOption == match_Username_Email) {
+        } else if (this.selectedOption == match_Username_Email_Option) {
             this.isMatchUsernameEmail = true;
             this.isEditYOB = false;
         }
-    }
-    handleYearChange(event) {}
-    get placeholder() {
-        return this.placeholder;
     }
     doCheckYearOfBith(event) {
         this.selectedYOB = event.detail.value;
@@ -114,12 +136,17 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                     this.disableSave = false;
                 } else if (isAdult == 'false') {
                     this.showMinorErrorMsg = this.selectedYOB == '' ? false : true;
+                    this.disableSave = true;
                 }
                 this.spinner.hide();
             })
             .catch((error) => {
                 console.log('error', error);
             });
+    }
+    doChangeUsernameEmail(event) {
+        this.chngUsernameEmailValue = event.target.checked;
+        this.disableSave = !this.chngUsernameEmailValue;
     }
     doCreateYOBCase(event) {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -160,7 +187,6 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 });
         }
     }
-
     navigateToAccountSettings() {
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
