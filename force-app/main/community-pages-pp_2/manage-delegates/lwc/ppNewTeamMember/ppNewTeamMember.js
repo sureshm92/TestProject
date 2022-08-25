@@ -239,26 +239,53 @@ export default class PpNewTeamMember extends LightningElement {
         }
     }
     //Partially Mask the field
-    partiallyMaskFields(value) {
+    partiallyMaskFields(value, FieldNameAttribute) {
         let maskedValue = '';
+        let resetValidationError = false;
         for (let i = 0; i < value.length; i++) {
             if (i == 0) {
                 maskedValue += value.charAt(0);
             } else {
                 maskedValue += '*';
+                //resetValidationError=true;
             }
         }
+        if (value) {
+            //FieldNameAttribute.blur(FieldNameAttribute);
+            FieldNameAttribute.setCustomValidity('');
+            FieldNameAttribute.reportValidity();
+        }
+        /*if(resetValidationError){
+            FieldNameAttribute.setCustomValidity('');
+            FieldNameAttribute.reportValidity();
+        }*/
+
         return maskedValue;
     }
     //Validate input field
     doValidateField(event) {
         let fieldId = event.currentTarget.dataset.id;
-        //alert('id: ' + ids);
+        let value = event.currentTarget.value;
+        //alert('value: ' + value);
         if (fieldId === 'firstNameInput') {
-            this.template.querySelector('[data-id="firstNameInput"]').reportValidity();
+            let firstNameInput = this.template.querySelector('[data-id="firstNameInput"]');
+            if (!value) {
+                firstNameInput.setCustomValidity(this.label.PP_Required_Field);
+                firstNameInput.reportValidity();
+            } else {
+                firstNameInput.setCustomValidity('');
+                firstNameInput.reportValidity();
+            }
         }
         if (fieldId === 'lastNameInput') {
-            this.template.querySelector('[data-id="lastNameInput"]').reportValidity();
+            let lastNameInput = this.template.querySelector('[data-id="lastNameInput"]');
+            if (!value) {
+                lastNameInput.setCustomValidity(this.label.PP_Required_Field);
+                lastNameInput.reportValidity();
+            } else {
+                lastNameInput.setCustomValidity('');
+                lastNameInput.reportValidity();
+            }
         }
     }
     doSearchContact() {
@@ -297,13 +324,18 @@ export default class PpNewTeamMember extends LightningElement {
                 //let parentId = this.parentId;
                 this.delegate = contactData.delegates[0];
                 //Partially mask first Name
+                let firstNameAttribute = this.template.querySelector('[data-id="firstNameInput"]');
+                let lastNameAttribute = this.template.querySelector('[data-id="lastNameInput"]');
                 this.delegate.delegateContact.FirstName = this.partiallyMaskFields(
-                    this.delegate.delegateContact.FirstName
+                    this.delegate.delegateContact.FirstName,
+                    firstNameAttribute
                 );
                 //Partially mask Last Name
                 this.delegate.delegateContact.LastName = this.partiallyMaskFields(
-                    this.delegate.delegateContact.LastName
+                    this.delegate.delegateContact.LastName,
+                    lastNameAttribute
                 );
+
                 console.log('isActive--->' + this.delegate.isActive);
                 this.isDelegateActive = this.delegate.isActive;
                 if (
