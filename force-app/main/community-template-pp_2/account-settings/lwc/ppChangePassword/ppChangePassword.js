@@ -124,15 +124,15 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters For Icon color Change
     get toggleCurrentPasswordMaskIcon(){
-        return this.showCurrentPassword ? '#297DFD' : '#999999';
+        return this.showCurrentPassword ? '#297DFD' : '#595959';
     }
 
     get toggleNewPasswordMaskIcon(){
-        return this.showNewPassword ? '#297DFD' : '#999999';
+        return this.showNewPassword ? '#297DFD' : '#595959';
     }
 
     get toggleReNewPasswordMaskIcon(){
-        return this.showReNewPassword ? '#297DFD' : '#999999';
+        return this.showReNewPassword ? '#297DFD' : '#595959';
     }
 
     // getRTL
