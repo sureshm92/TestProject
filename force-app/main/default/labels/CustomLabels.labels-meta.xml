@@ -18561,7 +18561,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
-        <value>Delegate&apos;s mobile phone updated succesfully!</value>
+        <value>Delegate&apos;s mobile phone updated successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
