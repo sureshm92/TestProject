@@ -275,7 +275,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get phoneErrorBorder() {
-        return this.isRTL ? 'po-white-border-left' : 'po-white-border-right';
+        return this.isRTL ? 'po-white-border-right' : 'po-white-border-left';
     }
 
     get phoneErrorBtnMarin() {

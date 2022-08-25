@@ -153,10 +153,11 @@
     height: 16px;
     color: #595959;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 1px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding: 11px 0;
 }
 
 .THIS .objective-section .objective-link {
@@ -197,5 +198,4 @@
 .THIS .bio-russ-lang-suprt {
     padding-left: 2.5rem;
     overflow-x: auto;
-    
 }

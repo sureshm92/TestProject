@@ -97,23 +97,26 @@
     },
 
     doSaveAndExit: function (component, event, helper) {
-        helper.createParticipant(component, function () {
-            // communityService.navigateToHome();
-            var urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({ "url": "/my-referrals" });  
-            urlEvent.fire(); 
-        });
+        /**  helper.createParticipant(component, function () {
+              // communityService.navigateToHome();
+              var urlEvent = $A.get("e.force:navigateToURL");
+              urlEvent.setParams({ "url": "/my-referrals" });  
+              urlEvent.fire(); 
+          }); **/
+          component.set('v.doSaveNew',false);
+           helper.createParticipants(component);console.log('dosaveandexit'); 
     },
-
+  
     doSaveAndNew: function (component, event, helper) {
-        helper.createParticipant(component, function () {
-            var mainDiv =  document.getElementsByClassName("fieldsDiv");
-            mainDiv[0].focus();
-            helper.initData(component);
-            helper.setDelegate(component);
-            component.find('editForm').refreshEmailInput();
-            component.find('editForm').refreshPartDobInput();
-        });
+         /** helper.createParticipant1(component, function () {
+              var mainDiv =  document.getElementsByClassName("fieldsDiv");
+              mainDiv[0].focus();
+              helper.initData(component);
+              helper.setDelegate(component);
+              component.find('editForm').refreshEmailInput();
+          });**/
+           component.set('v.doSaveNew',true);
+           helper.createParticipants(component);console.log('dosaveandnew'); 
     },
 
     doCheckfields: function (component, event, helper) {

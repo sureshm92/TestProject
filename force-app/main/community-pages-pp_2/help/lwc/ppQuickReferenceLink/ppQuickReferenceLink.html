@@ -1,0 +1,27 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" class="mb-15">
+            <button
+                class="custom-btn"
+                onclick={openQuickReference}
+                style="width: 100%; align-item: left"
+            >
+                <span class="qr-text">Quick Reference Guide</span>
+            </button>
+        </lightning-layout-item>
+        <div class="get-support-container mb-15">
+            <lightning-layout-item size="12">
+                <c-pp-get-support
+                    user-mode={userMode}
+                    isdelegate={isDelegate}
+                    is-duplicate={isDuplicate}
+                    current-y-o-b={currentYOB}
+                    show-user-match={showUserMatch}
+                    year-of-birth-picklistvalues={yearOfBirthPicklistvalues}
+                    user-email={currentContactEmail}
+                    usr-name={usrName}
+                ></c-pp-get-support>
+            </lightning-layout-item>
+        </div>
+    </lightning-layout>
+</template>

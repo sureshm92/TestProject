@@ -44,6 +44,9 @@
 .label-margin-top{
     margin-top: 3px;
 }
+
+
+
 .information-text{
     font-size: 16px;
     color: black;
@@ -73,6 +76,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.margin-top{
+    margin-top:-5.5px;
+}
+
 .input-margin{
     margin-top:-5px;
 }
