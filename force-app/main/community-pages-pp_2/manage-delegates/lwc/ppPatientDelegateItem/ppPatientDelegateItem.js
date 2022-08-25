@@ -5,6 +5,8 @@ import btnDectivate from '@salesforce/label/c.BTN_Deactivate';
 import PP_Patient_Delegate_Deactivate_Mess from '@salesforce/label/c.PP_Patient_Delegate_Deactivate_Mess';
 import pgPstLDelegatesRemoveDelegate from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Delegate';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import PP_Delegate_Activated from '@salesforce/label/c.PP_Delegate_Activated';
+
 export default class PpPatientDelegateItem extends LightningElement {
     showpopup = false;
     @api contact;
@@ -17,12 +19,15 @@ export default class PpPatientDelegateItem extends LightningElement {
     @api usermode;
     isLoading = false;
     icon_url = pp_icons + '/user_delegate_avatar.svg';
+
     label = {
         btnMainActivate,
         btnDectivate,
         PP_Patient_Delegate_Deactivate_Mess,
-        pgPstLDelegatesRemoveDelegate
+        pgPstLDelegatesRemoveDelegate,
+        PP_Delegate_Activated
     };
+
     handleClick(event) {
         let isActive = !this.isActive;
         if (!isActive) {
@@ -54,8 +59,10 @@ export default class PpPatientDelegateItem extends LightningElement {
                 .catch((error) => {
                     this.isLoading = false;
                 });
+            communityService.showToast('', 'success', this.label.PP_Delegate_Activated, 300);
         }
     }
+
     get btntitle() {
         if (this.isActive) {
             return btnDectivate;
@@ -81,16 +88,20 @@ export default class PpPatientDelegateItem extends LightningElement {
     get delegate() {
         return 'delegate';
     }
+
     get switcherDelegate() {
         return 'switcher_delegate';
     }
+
     handleRemoveDelegates() {
         this.showpopup = true;
     }
+
     handleModalClose(event) {
         const showHideModal = event.detail;
         this.showpopup = showHideModal;
     }
+
     handleConfirmdelete(event) {
         this.isLoading = true;
         let contactobj = event.detail.contact;

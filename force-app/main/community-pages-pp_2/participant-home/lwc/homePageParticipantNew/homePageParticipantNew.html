@@ -1,6 +1,7 @@
 <template>
     <template if:true={desktop}>
-        <template if:true={clinicalrecord}>
+       <!--<template if:true={clinicalrecord}>--> 
+        <template if:true={showProgramOverview}> 
             <div class="po-container">
                 <lightning-layout multiple-rows="true">
                     <lightning-layout-item padding="around-small" size="12">
@@ -12,7 +13,8 @@
                             </lightning-layout-item>
                             <lightning-layout-item padding="around-small" size="9">
                                 <h2 class="po-fontsize">{userName}</h2>
-                                <template if:true={clinicalrecord}>
+                                <!--<template if:true={clinicalrecord}>--> 
+                                <template if:true={showProgramOverview}> 
                                     <c-program-overview
                                         clinicalrecord={clinicalrecord}
                                     ></c-program-overview>
@@ -25,7 +27,8 @@
         </template>
     </template>
     <template if:false={desktop}>
-        <template if:true={clinicalrecord}>
+        <!--<template if:true={clinicalrecord}>--> 
+            <template if:true={showProgramOverview}> 
             <div>
                 <lightning-layout multiple-rows="true">
                     <lightning-layout-item size="6">    
@@ -35,7 +38,8 @@
                         <h2 class="po-fontsize">{userName}</h2>
                     </lightning-layout-item>
                     <lightning-layout-item size="12"> 
-                        <template if:true={clinicalrecord}>
+                        <!--<template if:true={clinicalrecord}>--> 
+                        <template if:true={showProgramOverview}> 
                             <c-program-overview
                                 clinicalrecord={clinicalrecord}
                             ></c-program-overview>

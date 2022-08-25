@@ -103,12 +103,19 @@
                                                             class={iconEye}
                                                             data-name={showCoi.coi.Therapeutic_Area__r.Name}
                                                         >
-                                                            <c-web-icon
+                                                            <!-- <c-web-icon
                                                                 icon-size="medium-large"
-                                                                icon-name={eyeIcon}
+                                                                icon-name={closeIcon}
                                                                 icon-color="#999999"
                                                             >
-                                                            </c-web-icon>
+                                                            </c-web-icon> -->
+
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                            <use xlink:href={closeIcon}></use>
+                                                        </svg>
                                                         </span>
                                                     </span>
                                                 </button>
@@ -265,12 +272,18 @@
                                                             class={iconEye}
                                                             data-name={showCoi.coi.Therapeutic_Area__r.Name}
                                                         >
-                                                            <c-web-icon
+                                                            <!-- <c-web-icon
                                                                 icon-size="medium-large"
-                                                                icon-name={eyeIcon}
+                                                                icon-name={closeIcon}
                                                                 icon-color="#999999"
                                                             >
-                                                            </c-web-icon>
+                                                            </c-web-icon> -->
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={closeIcon}></use>
+                                                            </svg>
                                                         </span>
                                                     </span>
                                                 </button>
@@ -286,21 +299,13 @@
                     <!-- Save selected pills -->
                     <lightning-layout multiple-rows="true" class="mb-10">
                         <lightning-layout-item size="12">
-                            <!--<button
+                            <button
                                 class="slds-button saveButtonMobile slds-button_brand apollo-btn primary"
                                 data-id="saveBtn"
                                 onclick={saveElement}
                             >
                                 {label.BTN_Save}
-                            </button>-->
-
-                            <lightning-button
-                                variant="brand"
-                                label={label.BTN_Save}
-                                title=""
-                                onclick={saveElement}
-                                class="slds-m-left_x-small"
-                            ></lightning-button>
+                            </button>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>

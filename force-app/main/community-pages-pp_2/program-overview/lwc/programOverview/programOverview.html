@@ -1,7 +1,110 @@
 <template>
     <div class={cardRTL}>
         <template if:true={desktop}>
-            <template if:true={clinicalrecord}>
+            <!-- Program Overview Available -->
+            <template if:false={noProgramOverviewAvailable}>
+                <template if:true={clinicalrecord}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card"
+                        >
+                            <lightning-layout-item size="3" class="border-right">
+                                <template if:true={clinicalrecord.Profile_Picture__c}>
+                                    <div class="po-center">
+                                        <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
+                                    </div>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <template if:true={clinicalrecord.Brief_Summary__c}>
+                                    <div class="po-text">{shortOverview}</div>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3" class="slds-align_absolute-center">
+                                <div class="po-more">
+                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREDESKTOPLabel}</span>
+                                    <lightning-button-icon
+                                        icon-name="utility:chevronright"
+                                        variant="bare"
+                                        size="large"
+                                        onclick={handleclick}
+                                    ></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </template>
+
+            <!-- NO program overview available -->
+            <template if:true={noProgramOverviewAvailable}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card"
+                        >
+                            <lightning-layout-item size="3" class={borderPOHome}>
+                                    <div class="po-center">
+                                        <template if:true={isIqviaLogo}>
+                                            <img src={iqviaLogoUrl} class="po-logo" />
+                                        </template>
+                                        <template if:true={isGskLogo}>
+                                            <img src={gskLogoUrl} class="po-logo" />
+                                        </template>
+                                    </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                    <div class="po-text slds-p-top_x-small">{label.You_are_not_enrolled_in_any_program_at_the_moment}</br>{label.When_a_program_is_active_you_will_find_a_brief_overview_of_it_here}</div>
+                            </lightning-layout-item>                          
+                        </lightning-layout>
+                    </div>
+            </template>
+
+        </template>
+
+        <template if:false={desktop}>
+             <!-- Program Overview Available -->
+            <template if:false={noProgramOverviewAvailable}>
+                <template if:true={clinicalrecord}>
+                    <div class="po-container">
+                        <lightning-layout
+                            multiple-rows="true"
+                            vertical-align="center"
+                            horizontal-align="center"
+                            class="po-custom-card-mobile"
+                        >
+                            <lightning-layout-item size="5" class={borderPOHome}>
+                                <template if:true={clinicalrecord.Profile_Picture__c}>
+                                    <div class="po-center">
+                                        <img src={clinicalrecord.Profile_Picture__c} class="po-logo-mobile" />
+                                    </div>
+                                </template>
+                            </lightning-layout-item>   
+
+                            <lightning-layout-item size="7" class="slds-align_absolute-center">
+                                <div class="po-more">
+                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
+                                    <lightning-button-icon
+                                    icon-name="utility:chevronright"
+                                    variant="bare"
+                                    size="large"
+                                    onclick={handleclick}
+                                ></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+                </template>
+            </template>
+
+            <!-- NO program overview available -->
+            <template if:true={noProgramOverviewAvailable}>
                 <div class="po-container">
                     <lightning-layout
                         multiple-rows="true"
@@ -9,66 +112,23 @@
                         horizontal-align="center"
                         class="po-custom-card"
                     >
-                        <lightning-layout-item size="3" class="border-right">
-                            <template if:true={clinicalrecord.Profile_Picture__c}>
+                        <lightning-layout-item size="3" class={borderPOHome}>
                                 <div class="po-center">
-                                    <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo" />
+                                    </template>
+                                    <template if:false={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo" />
+                                    </template>
                                 </div>
-                            </template>
                         </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <template if:true={clinicalrecord.Brief_Summary__c}>
-                                <div class="po-text">{shortOverview}</div>
-                            </template>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="3" class="slds-align_absolute-center">
-                            <div class="po-more">
-                                <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREDESKTOPLabel}</span>
-                                <lightning-button-icon
-                                    icon-name="utility:chevronright"
-                                    variant="bare"
-                                    size="large"
-                                    onclick={handleclick}
-                                ></lightning-button-icon>
-                            </div>
-                        </lightning-layout-item>
+                        <lightning-layout-item size="8">
+                                <div class="po-text slds-p-top_medium">{label.No_active_program}</div>
+                        </lightning-layout-item>                          
                     </lightning-layout>
                 </div>
-            </template>
         </template>
 
-        <template if:false={desktop}>
-            <template if:true={clinicalrecord}>
-                <div class="po-container">
-                    <lightning-layout
-                        multiple-rows="true"
-                        vertical-align="center"
-                        horizontal-align="center"
-                        class="po-custom-card-mobile"
-                    >
-                        <lightning-layout-item size="5" class={borderPOHome}>
-                            <template if:true={clinicalrecord.Profile_Picture__c}>
-                                <div class="po-center">
-                                    <img src={clinicalrecord.Profile_Picture__c} class="po-logo-mobile" />
-                                </div>
-                            </template>
-                        </lightning-layout-item>   
-
-                        <lightning-layout-item size="7" class="slds-align_absolute-center">
-                            <div class="po-more">
-                                <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
-                                <lightning-button-icon
-                                icon-name="utility:chevronright"
-                                variant="bare"
-                                size="large"
-                                onclick={handleclick}
-                            ></lightning-button-icon>
-                            </div>
-                        </lightning-layout-item>
-
-                    </lightning-layout>
-                </div>
-            </template>
         </template>
     </div>
 </template>

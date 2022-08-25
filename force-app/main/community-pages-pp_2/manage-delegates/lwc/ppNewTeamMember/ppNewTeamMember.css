@@ -6,7 +6,7 @@
     background-color: #ffffff;
     margin-left: 24px;
     position: absolute;
-    top: 4.5rem;
+    top: 5rem;
 }
 .profile-information {
     font-size: 24px;
@@ -19,6 +19,7 @@
 }
 .btn-save-opacity {
     opacity: 0.5;
+    cursor: not-allowed;
 }
 :host {
     --sds-c-checkbox-color-background-checked: #0769fd;
@@ -37,5 +38,6 @@
         height: auto;
         margin-left: 0px;
         width: 22.375rem;
+        position: unset;
     }
 }
