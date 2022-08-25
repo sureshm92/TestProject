@@ -1462,7 +1462,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
-        <value>By checking this box, you confirm that your chosen delegate is a legal adult in their jurisdiction of residence.</value>
+        <value>I attest to this delegate being of legal age in their locale.</value>
     </labels>
     <labels>
         <fullName>August</fullName>
@@ -13953,6 +13953,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG_AS_F_Update_Password</shortDescription>
         <value>Update Password</value>
+    </labels>
+    <labels>
+        <fullName>PP_Attestation_Confirmation_Message_For_Teams</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Attestation Confirmation Message For Teams</shortDescription>
+        <value>By checking this box, you confirm that your chosen delegate is a legal adult in their jurisdiction of residence.</value>
     </labels>
     <labels>
         <fullName>PP_Incorrect_password</fullName>
