@@ -197,3 +197,11 @@ color: #0768fd!important;
     overflow-x: scroll;
     max-height: 200px;
 }
+.cookie-accordion-border .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none !important;
+    box-shadow: none;
+
+}
+.cookie-accordion-border lightning-primitive-icon svg {
+   fill: #297dfd !important;  
+}
