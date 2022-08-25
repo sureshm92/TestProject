@@ -10,7 +10,7 @@ import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
-import matchUsernameEmail from '@salesforce/label/c.PP_Match_Username_And_Email';
+import matchUsernameEmail from '@salesforce/label/c.PP_Change_Username_And_Email';
 import helpResponse from '@salesforce/label/c.PP_HelpResponse';
 import accountSettings from '@salesforce/label/c.PP_Account_Settings';
 import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
