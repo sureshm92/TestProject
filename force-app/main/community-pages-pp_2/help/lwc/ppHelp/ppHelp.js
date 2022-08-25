@@ -13,6 +13,7 @@ import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpHelp extends LightningElement {
     isInitialized = false;
@@ -32,23 +33,33 @@ export default class PpHelp extends LightningElement {
     isMobile = false;
 
     exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
+    exclamation = pp_icons + '/' + 'status-exclamation.svg' + '#' + 'status-exclamation-icon';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
-
+    homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';     
+        return this.isRTL ? 'cardRTL' : '';
     }
 
     get headerPanelClass() {
         return this.isMobile ? 'header-panel-mobile' : 'header-panel';
     }
 
-    get leftColPadding(){
+    get leftColPadding() {
         return this.isRTL ? 'mb-15 leftColumn-RTL' : 'mb-15 leftColumn';
+    }
+
+    get breadCrumMobile() {
+        return this.isRTL ? 'mr-10' : '';
+    }
+
+    handleHomePage() {
+        communityService.navigateToPage('');
     }
 
     renderedCallback() {}
     connectedCallback() {
+        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([loadStyle(this, communityPPTheme)])
@@ -101,5 +112,9 @@ export default class PpHelp extends LightningElement {
             let stub = this.template.querySelector('c-builder-stub');
             stub.setPageName('cppHelp');
         }
+    }
+
+    navigateToAccSettings() {
+        window.open('account-settings', '_blank');
     }
 }

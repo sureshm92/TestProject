@@ -134,6 +134,13 @@
                         </template>
                         <template if:true={showCookieSettings}>
                             <!--Cookie Settings Component-->
+                            <c-pp-cookie-settings
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-cookie-settings>
                         </template>
                         <template if:true={showMedicalRecordAccess}>
                             <!--Medical Record Access Component-->

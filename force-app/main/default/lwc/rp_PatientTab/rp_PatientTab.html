@@ -17,7 +17,7 @@
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>
-                    <lightning-layout multiple-rows="true" key={pe.peRecord.Id}  vertical-align="end">
+                    <lightning-layout multiple-rows="true" key={pe.peRecord.Id} vertical-align="end">
                         <lightning-layout-item padding="around-small" size="9">
                             <div>
                                 <lightning-input disabled={isaccesslevelthree} type="text"
@@ -30,10 +30,10 @@
                         <lightning-layout-item padding="around-small" size="3">
                             <div class="tooltip">
                                 <div class="textoverlap middle-initial">{label.RH_RP_Middle_Initial}</div>
-                             <lightning-input type="text" disabled={isaccesslevelthree}
-                                variant="label-hidden" name="Middle Initial"
-                                value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI"
-                                data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                                <lightning-input type="text" disabled={isaccesslevelthree} variant="label-hidden"
+                                    name="Middle Initial" value={pe.peRecord.Patient_Middle_Name_Initial__c}
+                                    data-value="MI" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                                </lightning-input>
                                 <span>{label.RH_RP_Middle_Initial}</span>
                             </div>
                         </lightning-layout-item>
@@ -84,7 +84,7 @@
                                 onchange={changeInputValue} class="col-top">
                             </lightning-combobox>
                         </lightning-layout-item>
-                         <lightning-layout-item padding="around-small" size="6">
+                        <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Sex} name="Sex"
                                     placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}
@@ -140,39 +140,43 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-combobox disabled={disableField} label={label.RH_RP_Phone_Type}
-                                    name="Phone Type" placeholder={label.RH_RP_Select_Phone_Type}
-                                    value={pe.peRecord.Patient_Phone_Type__c} options={pe.phoneTypeList}
-                                    data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
-                                    class="col-top">
-                                </lightning-combobox>
+                                <div class="tooltip">
+                                    <div class="textoverlap">{label.RH_RP_Phone_Type}</div>
+                                    <lightning-combobox disabled={disableField} variant="label-hidden" name="Phone Type"
+                                        placeholder={label.RH_RP_Select_Phone_Type}
+                                        value={pe.peRecord.Patient_Phone_Type__c} options={pe.phoneTypeList}
+                                        data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
+                                        class="col-top">
+                                    </lightning-combobox>
+                                    <span>{label.RH_RP_Phone_Type}</span>
+                                </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <div class="tooltip" >
+                                <div class="tooltip">
                                     <div class="textoverlap">{label.RH_RP_Alt_Phone_Number}</div>
-                                    <lightning-input type="text" disabled={disableField}
-                                    variant="label-hidden" name="Alt Phone Number" 
-                                    value={pe.peRecord.Participant_Alternative_Phone__c} data-value="AltPhoneNumber"
-                                    data-id={pe.peRecord.Id} onchange={changeInputValue}> 
+                                    <lightning-input type="text" disabled={disableField} variant="label-hidden"
+                                        name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c}
+                                        data-value="AltPhoneNumber" data-id={pe.peRecord.Id}
+                                        onchange={changeInputValue}>
                                     </lightning-input>
                                     <span>{label.RH_RP_Alt_Phone_Number}</span>
-                                   </div>
+                                </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <div class="tooltip">
                                     <div class="textoverlap">{label.RH_RP_Alt_Phone_Type}</div>
-                                 <lightning-combobox disabled={disableField} variant="label-hidden"
-                                       name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type}
-                                       value={pe.peRecord.Participant_Alt_Phone_Type__c} options={pe.altPhoneTypeList}
-                                       data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
-                                       class="col-top">
-                                   </lightning-combobox>
-                                   <span>{label.RH_RP_Alt_Phone_Type}</span>
-                                 </div>
+                                    <lightning-combobox disabled={disableField} variant="label-hidden"
+                                        name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type}
+                                        value={pe.peRecord.Participant_Alt_Phone_Type__c} options={pe.altPhoneTypeList}
+                                        data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
+                                        class="col-top">
+                                    </lightning-combobox>
+                                    <span>{label.RH_RP_Alt_Phone_Type}</span>
+                                </div>
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>
@@ -195,8 +199,8 @@
                             <div>
                                 <lightning-combobox required="true" label={label.RH_RP_Legal_Status} name="Legal Status"
                                     placeholder={label.RH_RP_Legal_Status_Verified} value={pe.peRecord.Legal_Status__c}
-                                    options={pe.legalStatusList} data-value="LegalStatus"
-                                    data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                                    options={pe.legalStatusList} data-value="LegalStatus" data-id={pe.peRecord.Id}
+                                    onchange={changeInputValue} class="col-top">
                                 </lightning-combobox>
                             </div>
                         </lightning-layout-item>
@@ -206,28 +210,35 @@
                     <lightning-layout>
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree} required="true"
-                                    label={label.RH_RP_Patient_Auth_Status} name="Patient Auth Status"
-                                    placeholder={label.RH_RP_Patient_Auth_Status_Verified}
-                                    value={pe.peRecord.Patient_Auth__c} options={pe.patientAuthStatusList}
-                                    data-value="PatientAuthStatus" data-id={pe.peRecord.Id} onchange={changeInputValue}
-                                    class="col-top">
-                                </lightning-combobox>
+                                <div class="tooltip">
+                                    <div class="textoverlap">{label.RH_RP_Patient_Auth_Status}</div>
+                                    <lightning-combobox disabled={isaccesslevelthree} required="true"
+                                        variant="label-hidden" name="Patient Auth Status"
+                                        placeholder={label.RH_RP_Patient_Auth_Status_Verified}
+                                        value={pe.peRecord.Patient_Auth__c} options={pe.patientAuthStatusList}
+                                        data-value="PatientAuthStatus" data-id={pe.peRecord.Id}
+                                        onchange={changeInputValue} class="col-top">
+                                    </lightning-combobox>
+                                    <span>{label.RH_RP_Patient_Auth_Status}</span>
+                                </div>
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>
             </lightning-layout>
             <div key={pe.peRecord.Id} style="margin-top: 10px;">
-                <c-consent-manager  isaccesslevelthree = {isaccesslevelthree} onconsentchange={handleConsentUpdate}  pe-updation="true" participant-enrollment={pe.peRecord} participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP"  ></c-consent-manager>
+                <c-consent-manager isaccesslevelthree={isaccesslevelthree} onconsentchange={handleConsentUpdate}
+                    pe-updation="true" participant-enrollment={pe.peRecord}
+                    participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP">
+                </c-consent-manager>
             </div>
         </template>
-        <div class="topIcon-control slds-hide_medium" >
-            <img src={topIcon} class="topIcon"  onclick={goTop}>
+        <div class="topIcon-control slds-hide_medium">
+            <img src={topIcon} class="topIcon" onclick={goTop}>
         </div>
     </div>
     <div class="divider"></div>
-    
+
     <div class="patient-button">
         <button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel"
             disabled={disabledsavebutton}>{label.Cancel}</button> &nbsp;&nbsp;&nbsp;&nbsp;
