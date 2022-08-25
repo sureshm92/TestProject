@@ -16,7 +16,11 @@ export default class HomePageParticipantNew extends LightningElement {
     userName = "Sarah";
 
     desktop = true;
+    isDelegateSelfview = false;
     
+    get showProgramOverview (){
+        return (this.clinicalrecord || this.isDelegateSelfview) ? true : false;
+    }
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
@@ -32,6 +36,9 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
                         }
                     }
+                    //For Delegate Self view
+                    this.isDelegateSelfview = (this.participantState.value == 'ALUMNI') && this.participantState.hasPatientDelegates && !this.participantState.isDelegate;
+
                 }
             })
             .catch((error) => {
