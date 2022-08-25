@@ -252,7 +252,7 @@ public inherited sharing class PatientVisitService {
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
 		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Completed_Date__c,Visit__r.Icons__c from Patient_Visit__c where Id =:visitId];
-         for (Patient_Visit__c visit : visits) {
+        for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId = visit.Visit__r.Visit_Plan__c;
                 break;
@@ -265,7 +265,7 @@ public inherited sharing class PatientVisitService {
                 if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
                     iconNames = visits[0].Visit__r.Icons__c.split(';');
          }
-        iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
+        iconDetails = [SELECT Id, Name, Label__c, Description__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }

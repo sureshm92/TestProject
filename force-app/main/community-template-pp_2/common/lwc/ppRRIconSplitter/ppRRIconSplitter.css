@@ -1,0 +1,69 @@
+.icons-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.icons-row .icon:last-child .dots {
+    display: none;
+}
+
+.icon {
+    position: relative;
+    display: flex;
+    overflow: visible;
+}
+
+.iconBold {
+    color: #767676;
+    font-weight: bold;
+    text-align: left;
+}
+
+.icon-item {
+    padding-left: 10px;
+    fill: #999 !important;
+}
+
+.dots {
+    padding-left: 2px;
+    padding-top: 13px;
+    font-weight: bold;
+    position: absolute;
+    left: 32px;
+}
+
+.icon-item:hover {
+    fill: #595959 !important;
+}
+
+.icons-row .icon .svl-icon {
+    cursor: default;
+}
+
+.free-space {
+    flex-shrink: 0;
+    width: 32px;
+}
+
+.icon:hover .tooltiptext {
+    visibility: visible;
+}
+
+.icon .tooltiptitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rtl {
+    right: 0 !important;
+}
+
+@media (max-width: 468px) {
+    .icons-container .icons-row .icon {
+        position: static;
+    }
+
+    .icon .tooltiptext {
+        left: 0;
+    }
+}
