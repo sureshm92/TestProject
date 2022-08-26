@@ -1,8 +1,10 @@
 @IsTest
-private class Test_Batch_UpdatePendingNotifications   {
+private class Test_Batch_UpdatePendingNotifications {
     @IsTest
     static void testBehavior() {
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         Contact contactIns = [
             SELECT Id, Email, Language__c, Phone
             FROM Contact
@@ -25,8 +27,8 @@ private class Test_Batch_UpdatePendingNotifications   {
             )
         );
         insert notifications;
-         Test.startTest();
-           DataBase.executeBatch(new Batch_UpdatePendingNotifications ());
-          Test.stopTest();
+        Test.startTest();
+        DataBase.executeBatch(new Batch_UpdatePendingNotifications());
+        Test.stopTest();
     }
 }
