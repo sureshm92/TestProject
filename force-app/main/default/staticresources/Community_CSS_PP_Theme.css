@@ -281,3 +281,14 @@ color: #0768fd!important;
     padding-left: 1rem !important;
     font-weight: 600 !important;
 }
+
+
+.logo-container-pp {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 52px;
+    margin-left: -62px;
+    flex-shrink: 0;
+    width: 165px;
+}
