@@ -6,11 +6,13 @@ import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import quickRefernceCard from '@salesforce/label/c.Quick_Reference_Card';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 
 export default class PpQuickReferenceLink extends LightningElement {
     videoLink;
     @api userMode;
+    @api isDelegate;
     userManual;
     quickReference;
     yearOfBirthPicklistvalues;
@@ -24,7 +26,6 @@ export default class PpQuickReferenceLink extends LightningElement {
         this.initializeData();
     }
     initializeData() {
-        console.log('-----------initializeData-----------');
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 var initData = JSON.parse(result);
@@ -47,8 +48,7 @@ export default class PpQuickReferenceLink extends LightningElement {
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            console.log('ur;ll;;', result);
-            window.open(webViewer + '?file=' + result, '_blank');
+            window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
         });
     }
 }

@@ -8,6 +8,10 @@
     background-color: #ecf3ff;
     margin: 16px 0 0 0;
 }
+.single {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 .icon-radius {
     height: 32px;
     width: 32px;
@@ -63,6 +67,7 @@
     cursor: pointer;
     background-color: #fff;
 }
+
 @media screen and (max-width: 768px) {
     /* .header-setting-email {
         width: 215px;

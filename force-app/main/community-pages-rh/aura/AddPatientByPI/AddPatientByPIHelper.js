@@ -164,7 +164,11 @@
                         allowDelegateContact: isDelegate,
                         contactConsentJSON: JSON.stringify(component.get('v.contactConsent')),
                         iqviaOutreachEnabled: component.get('v.ctp').IQVIA_Outreach__c,
-                        partId:component.get('v.partID')
+                        partId:component.get('v.partID'),
+                        allowEmail: component.get('v.isEmail'),
+                        allowPhone: component.get('v.isPhone'),
+                        allowSMS: component.get('v.isSMS'), 
+                        allowContact: component.get('v.doContact')
                         });
                 action2.setCallback(this, function(response){
                     var state = response.getState();
@@ -200,6 +204,19 @@
                     }
                 });
                 $A.enqueueAction(action2);
+    },
+    doSaveAndExitHelper: function (component) {
+        if(component.get('v.doSaveNew')){
+           var mainDiv =  document.getElementsByClassName("fieldsDiv");
+           mainDiv[0].focus();
+           this.initData(component);
+           this.setDelegate(component);
+           component.find('editForm').refreshEmailInput(); 
+        }else{
+           var urlEvent = $A.get("e.force:navigateToURL");
+           urlEvent.setParams({ "url": "/my-referrals" });  
+           urlEvent.fire(); 
+        } 
     },
     setDelegate: function (component) {
         var ss = component.get('v.ss');

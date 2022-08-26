@@ -1,0 +1,21 @@
+.help-topic-solution-container{
+    box-sizing: border-box;
+    height: auto;
+    border: 1px solid #D9D9D9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);
+    padding: 20px;
+}
+
+.help-topic-text{
+    height: 72px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.mt-20{
+    margin-top: 20px;
+}
