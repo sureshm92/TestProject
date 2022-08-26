@@ -90,16 +90,16 @@
     --sds-c-checkbox-mark-color-foreground: #fff;
 }
 
-.disabled{
+.disabled {
     opacity: 0.5;
 }
 
-.matchEmailText{
+.matchEmailText {
     height: 48px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
 }
