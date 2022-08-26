@@ -21,8 +21,11 @@ export default class PpQuickReferenceLink extends LightningElement {
     currentContactEmail;
     isDuplicate;
     showUserMatch;
+    showGetSupport;
     renderedCallback() {}
     connectedCallback() {
+        let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
+        this.showGetSupport = currentDelgId == null ? true : false;
         this.initializeData();
     }
     initializeData() {
