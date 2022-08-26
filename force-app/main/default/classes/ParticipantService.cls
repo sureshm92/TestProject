@@ -342,7 +342,7 @@ public without sharing class ParticipantService {
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
         } else {
-            userName = participants[0].Full_Name__c;
+            userName = participants[0].First_Name__c;
         }
         return userName;
     }
