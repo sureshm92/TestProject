@@ -110,9 +110,6 @@
                                     <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
                                          <lightning-input type="text" label={utilLabels.PG_AS_F_Nickname} title={utilLabels.PG_AS_F_Nickname} name="nickname" value={participant.Nickname__c} onchange={changeInputValue} data-value="Nickname"></lightning-input>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
-                                         <lightning-input type="date" name="input1" label={utilLabels.PG_AS_F_Date_of_Birth} title={utilLabels.PG_AS_F_Date_of_Birth} value={participant.Date_of_Birth__c} onchange={changeInputValue} data-value="DOB" placeholder="" required=""></lightning-input>
-                                    </div>
                                     <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
                                     <lightning-combobox
                                         name="Sex"
@@ -126,6 +123,53 @@
                                         required=""
                                         ></lightning-combobox>
                                     </div>
+                                    <div class="slds-col  slds-size_1-of-1 slds-medium-size_2-of-4 slds-large-size_2-of-4 outcome-form-element slds-m-bottom_medium"></div>
+                                
+                                    <div if:true={isMonthMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                        <lightning-combobox
+                                              name={MOB}
+                                              label={MOB}
+                                              value={valueMM}
+                                              title={MOB}
+                                              placeholder="MM"
+                                              options={optionsMM}
+                                              onchange={handleMMChange} required=""></lightning-combobox>
+                                  </div>
+                                  <div if:true={isDayMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                              <lightning-combobox
+                                              name={DOB}
+                                              label={DOB}
+                                              value={valueDD}
+                                              title={DOB}
+                                              placeholder="DD"
+                                              options={optionsDD}
+                                              onchange={handleDDChange} required=""></lightning-combobox>
+                                  </div>
+                                  <div class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                                              <lightning-combobox
+                                              name={YOB}
+                                              label={YOB}
+                                              title={YOB}
+                                              value={valueYYYY}
+                                              placeholder="YYYY"
+                                              options={optionsYYYY}
+                                              onchange={handleYYYYChange} required="">
+                                              </lightning-combobox>
+                                  </div>
+                                  <div if:false={isDayMandate} class="slds-col  slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_medium">
+                             
+                                    <div >
+                                          <lightning-combobox
+                                                label={Age}
+                                                value={participantSelectedAge}
+                                                placeholder="Age"
+                                                options={ageOptions}
+                                                onchange={handleAgeChange} 
+                                                required=""
+                                                >
+                                                </lightning-combobox>
+                                    </div>
+                              </div>
                                 </div>
                                 <!-- participant's personal information End -->  
                                 <!-- update participant's contact information Start -->
