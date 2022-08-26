@@ -8,7 +8,7 @@ import getInitData from '@salesforce/apex/AccountSettingsController.getInitData'
 // importing Custom Label
 import PPLEARNMOREMBLELabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Mobile';
 import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_LearnMore_Desktop';
-import When_a_program_is_active_you_will_find_a_brief_overview_of_it_here from '@salesforce/label/c.When_a_program_is_active_you_will_find_a_brief_overview_of_it_here';
+import When_a_program_is_active_you_will_find_a_brief_overview_about_it_here from '@salesforce/label/c.When_a_program_is_active_you_will_find_a_brief_overview_about_it_here';
 import You_are_not_enrolled_in_any_program_at_the_moment from '@salesforce/label/c.You_are_not_enrolled_in_any_program_at_the_moment';
 import No_active_program from '@salesforce/label/c.No_active_program';
 
@@ -17,7 +17,7 @@ export default class ProgramOverview extends LightningElement {
     label = {
         PPLEARNMOREMBLELabel,
         PPLEARNMOREDESKTOPLabel,
-        When_a_program_is_active_you_will_find_a_brief_overview_of_it_here,
+        When_a_program_is_active_you_will_find_a_brief_overview_about_it_here,
         You_are_not_enrolled_in_any_program_at_the_moment,
         No_active_program
     };
