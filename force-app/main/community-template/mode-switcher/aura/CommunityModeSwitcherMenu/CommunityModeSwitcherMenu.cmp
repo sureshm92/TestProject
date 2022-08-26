@@ -45,7 +45,7 @@
                         user="{!v.user}"
                         currentMode="{!v.currentMode}"
                         hasProfilePic="{!v.hasProfilePic}"
-                        onpageNavigation="{!c.handleCardVisiblity}"
+                        onpagenavigation="{!c.handleCardVisiblity}"
                         communityModes="{!v.communityModes}"
                         onitemselection="{!c.doSelectItem}"
                     />
