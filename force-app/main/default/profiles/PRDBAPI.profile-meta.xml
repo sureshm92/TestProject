@@ -2447,11 +2447,6 @@
     </fieldPermissions>
     <fieldPermissions>
        <editable>false</editable>
-        <field>Lead.PostalCode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-       <editable>false</editable>
         <field>Lead.Pre_Screened_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
