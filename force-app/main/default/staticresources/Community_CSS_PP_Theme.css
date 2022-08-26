@@ -46,6 +46,7 @@
 }
 
 .profile-info-btn .slds-button{
+    color:#ffffff;
     height: 2rem !important;
     width:6rem !important;
     border-radius: 16px !important;
@@ -96,7 +97,7 @@
 }
 
 .toastContainer > .forceToastMessage {
-    width: 40%;
+    width: fit-content;
     max-width: 1424px;
     min-height: 40px;
     min-width: 40%;
@@ -107,13 +108,17 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content{
+    padding-left: 0.5rem;
+}
+
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
 }
 
 .toastMessage.forceActionsText {
     font-family: "Proxima Nova"!important;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 
 .toastContainer .toastClose {
@@ -154,3 +159,65 @@
     min-height: auto !important;
     padding-bottom: 35px !important;
 }
+
+.support-combobox button{
+    border-radius: 20px;
+}
+
+.label-email-pass-match .slds-form-element__label{
+    height: 48px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    height: 13px;
+    width: 12px;
+    color: #0768fd;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+color: #0768fd!important;
+}
+.slds-accordion__content {
+    overflow-x: scroll;
+    max-height: 200px;
+}
+.cookie-accordion-border .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none !important;
+    box-shadow: none;
+
+}
+.cookie-accordion-border lightning-primitive-icon svg {
+   fill: #297dfd !important;   
+}
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+}
+
+

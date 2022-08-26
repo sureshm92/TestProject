@@ -448,12 +448,27 @@ Public without sharing Class TelevisitCreationScreenController {
     public static participantEnrollment fetchParticipantDetails(String perId){
         participantEnrollment participantData = new participantEnrollment();
         if(!String.isBlank(perId)){
-            Participant_Enrollment__c per = [select Id,Participant_Contact__c,Permit_Mail_Email_contact_for_this_study__c  from Participant_Enrollment__c where Id  =:perId];
+            Participant_Enrollment__c per = [select Id,Participant_Contact__c,Permit_Mail_Email_contact_for_this_study__c,Participant__c  from Participant_Enrollment__c where Id  =:perId];
             participantData.isEmailPermitted = per.Permit_Mail_Email_contact_for_this_study__c;
+            Set<Id> contactId = new Set<Id>();
             if(!String.isBlank(per.Participant_Contact__c)){
-                List<user> usr = [select Id,IsCommunityUserRegistered__c from User where contactId=:per.Participant_Contact__c limit 1];
-                if(usr.size()>0)
+                contactId.add(per.Participant_Contact__c);   
+            }
+            
+            List<Patient_Delegate__c> participantDelegate = [SELECT Id,Contact__c,Primary_Delegate__c FROM Patient_Delegate__c WHERE Participant__c =: per.Participant__c and Primary_Delegate__c = true];
+            if(participantDelegate.size() > 0){
+                if(!String.isBlank(participantDelegate[0].Contact__c)){
+                    contactId.add(participantDelegate[0].Contact__c);  
+                }
+            }
+            
+            if(contactId.size()> 0){
+                List<user> usr = [select Id,IsCommunityUserRegistered__c from User where IsCommunityUserRegistered__c = true AND (contactId=:contactId) limit 1];
+                if(usr.size()>0){
                     participantData.isPPUserActivated =  usr[0].IsCommunityUserRegistered__c;
+                }else{
+                    participantData.isPPUserActivated = false;
+                }
             }
         }
         return participantData;

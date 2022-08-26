@@ -72,8 +72,8 @@
 }
 
 .saveButton {
-    height: 40px;
-    width: 150px;
+    height: 32px;
+    width: 96px;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
@@ -85,7 +85,7 @@
 }
 
 .saveButtonMobile {
-    height: 40px;
+    height: 32px;
     width: 100%;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -94,7 +94,7 @@
     line-height: 16px;
     text-align: center;
     margin-top: 10px;
-    border-radius: 20px;
+    border-radius: 20px; 
 }
 
 :host {
