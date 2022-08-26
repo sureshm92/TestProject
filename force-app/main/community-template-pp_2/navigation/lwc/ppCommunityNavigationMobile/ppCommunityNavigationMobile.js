@@ -8,9 +8,15 @@ import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 
 export default class PpCommunityNavigationMobile extends LightningElement {
-    @api communityServic;    
+    @api communityServic; 
+    @api showSideMenu;
+
     participantTabs = [];
     currentPageName;
+
+    menuCss = "phone-menu-background nav-menu slds-border_top slds-p-vertical_large ";
+
+    
     connectedCallback() {
         this.populateNavigationItems();
     }
@@ -86,6 +92,8 @@ export default class PpCommunityNavigationMobile extends LightningElement {
             this.updateCurrentPage(this.currentPageName);
         }
         try{
+            //this.menuCss += "toggleClass";
+            !this.showSideMenu ? this.menuCss += "toggleClass" : "";
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
             currentPageName = this.communityServic.getPageName();
         }catch (e) {

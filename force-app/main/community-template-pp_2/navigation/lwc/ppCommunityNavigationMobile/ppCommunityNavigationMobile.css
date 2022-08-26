@@ -5,3 +5,7 @@
 div:last-child {
     border-bottom-right-radius: 20px;
 }
+
+.toggleClass{
+    display: none;
+}
