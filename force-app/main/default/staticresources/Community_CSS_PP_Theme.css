@@ -220,4 +220,9 @@ color: #0768fd!important;
     font-size: 15px;
 }
 
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {    
+    background-color: #444444;
+}
+
 
