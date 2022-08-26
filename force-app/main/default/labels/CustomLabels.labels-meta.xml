@@ -18841,10 +18841,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I would like my username &amp; email to match</value>
     </labels>
     <labels>
-        <fullName>PP_Change_Username_And_Email</fullName>
+        <fullName>PP_Username_And_Email_Change_GetSupport</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Change Username And Email</shortDescription>
+        <shortDescription>PP Username And Email Change GetSupport</shortDescription>
         <value>I would like my Username &amp; Email to match</value>
     </labels>
     <labels>
@@ -19950,10 +19950,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Year of Birth</value>
     </labels>
     <labels>
-        <fullName>PP_Match_Username_Email</fullName>
+        <fullName>PP_Username_Email_GetSupport</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username Email</shortDescription>
+        <shortDescription>PP_Username_Email_GetSupport</shortDescription>
         <value>Match Username &amp; Email</value>
     </labels>
     <labels>
