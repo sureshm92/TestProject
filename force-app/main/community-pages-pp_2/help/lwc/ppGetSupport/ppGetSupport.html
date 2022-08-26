@@ -1,9 +1,9 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isParticipant}>
+        <div class="support-container">
+            <!-- DESKTOP VIEW -->
 
-    <div class="support-container">
-        <!-- DESKTOP VIEW -->
-        <template if:true={isParticipant}>
             <div class={cardRTL}>
                 <!-- Lable and Initial Combobox -->
                 <lightning-layout multiple-rows="true">
@@ -25,46 +25,44 @@
 
                 <!-- Edit Year of Birth Elements  -->
                 <lightning-layout multiple-rows="true">
-                    <template if:true={isParticipant}>
-                        <template if:true={isEditYOB}>
-                            <lightning-layout-item size="5" class="mt-10">
-                                <lightning-layout multiple-rows="true" class="">
-                                    <lightning-layout-item size="5">
-                                        <span class="from">{label.ppFrom}</span>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item size="7">
-                                        <span class="from-date">{currentYOB}</span>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                    <template if:true={isEditYOB}>
+                        <lightning-layout-item size="5" class="mt-10">
+                            <lightning-layout multiple-rows="true" class="">
+                                <lightning-layout-item size="5">
+                                    <span class="from">{label.ppFrom}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="7">
+                                    <span class="from-date">{currentYOB}</span>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
 
-                            <lightning-layout-item size="7" class="mt-10">
-                                <lightning-layout multiple-rows="true" class="">
-                                    <lightning-layout-item size="2">
-                                        <span class="to">{label.ppTo}</span>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item size="10" class="support-combobox">
-                                        <lightning-combobox
-                                            value={selectedYOB}
-                                            placeholder={label.selectYear}
-                                            options={yearOptions}
-                                            onchange={doCheckYearOfBith}
-                                            label="YOB"
-                                            variant="label-hidden"
-                                            class="mt-5"
-                                        ></lightning-combobox>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item size="2"> </lightning-layout-item>
-                                    <lightning-layout-item size="10">
-                                        <template if:true={showMinorErrorMsg}>
-                                            <span class="place-error-message"
-                                                >{label.minorMessage}
-                                            </span>
-                                        </template>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
-                        </template>
+                        <lightning-layout-item size="7" class="mt-10">
+                            <lightning-layout multiple-rows="true" class="">
+                                <lightning-layout-item size="2">
+                                    <span class="to">{label.ppTo}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="10" class="support-combobox">
+                                    <lightning-combobox
+                                        value={selectedYOB}
+                                        placeholder={label.selectYear}
+                                        options={yearOptions}
+                                        onchange={doCheckYearOfBith}
+                                        label="YOB"
+                                        variant="label-hidden"
+                                        class="mt-5"
+                                    ></lightning-combobox>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2"> </lightning-layout-item>
+                                <lightning-layout-item size="10">
+                                    <template if:true={showMinorErrorMsg}>
+                                        <span class="place-error-message"
+                                            >{label.minorMessage}
+                                        </span>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
                     </template>
                 </lightning-layout>
 
@@ -97,18 +95,14 @@
                     </lightning-layout-item>
                     <lightning-layout-item size="11">
                         <template if:true={isMatchUsernameEmail}>
-                            <template if:false={isShowUserMatch}>
-                                 <span class="matchEmailText">{label.matchUsernameEmail}</span>
-                            </template>
+                            <span class="matchEmailText">{label.matchUsernameEmail}</span>
                         </template>
                     </lightning-layout-item>
                 </lightning-layout>
             </div>
-        </template>
 
-        <lightning-layout multiple-rows="true" class={marginForDOBEdit}>
-            <lightning-layout-item size="12">
-                <template if:true={isParticipant}>
+            <lightning-layout multiple-rows="true" class={marginForDOBEdit}>
+                <lightning-layout-item size="12">
                     <!--Disabled Button-->
                     <template if:true={isDisableSave}>
                         <button
@@ -129,8 +123,8 @@
                             {label.submitButton}
                         </button>
                     </template>
-                </template>
-            </lightning-layout-item>
-        </lightning-layout>
-    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
 </template>
