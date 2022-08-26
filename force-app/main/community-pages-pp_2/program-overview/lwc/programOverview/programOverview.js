@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import DEVICE from '@salesforce/client/formFactor';
-import IQVIA_Logo from '@salesforce/resourceUrl/PH_logo';
+import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
@@ -22,7 +22,7 @@ export default class ProgramOverview extends LightningElement {
         No_active_program
     };
 
-    iqviaLogoUrl = IQVIA_Logo+'/iqvia.png';
+    iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
     gskLogoUrl = GSK_Logo+'/gsk-full.png';
     
     @api clinicalrecord;
