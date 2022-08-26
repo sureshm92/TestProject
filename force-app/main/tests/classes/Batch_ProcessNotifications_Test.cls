@@ -5,8 +5,9 @@
 public class Batch_ProcessNotifications_Test {
     @testSetup
     static void setup() {
+        Test.startTest();
         TestData.loadTestData();
-
+        Test.stopTest();
         Participant_Enrollment__c pe = [
             SELECT Id, Participant__r.Contact__c
             FROM Participant_Enrollment__c
