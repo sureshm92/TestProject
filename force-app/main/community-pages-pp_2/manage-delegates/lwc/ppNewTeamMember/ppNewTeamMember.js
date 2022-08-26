@@ -369,16 +369,6 @@ export default class PpNewTeamMember extends LightningElement {
                 this.changedLevels = [];
                 this.changedLevelsAll = [];
                 this.isLoading = false;
-
-                //One Extra call to remove the error message from the input Name fields.
-                /*if (this.counter == 1) {
-                    this.counter++;
-                    this.doSearchContact();
-                } else {
-                    //Reset the counter
-                    this.counter = 1;
-                }
-                */
             })
             .catch((error) => {
                 this.isLoading = false;
