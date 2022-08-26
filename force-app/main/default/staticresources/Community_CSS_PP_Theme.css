@@ -97,7 +97,7 @@
 }
 
 .toastContainer > .forceToastMessage {
-    width: 40%;
+    width: fit-content;
     max-width: 1424px;
     min-height: 40px;
     min-width: 40%;
@@ -108,13 +108,17 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content{
+    padding-left: 0.5rem;
+}
+
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
 }
 
 .toastMessage.forceActionsText {
     font-family: "Proxima Nova"!important;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 
 .toastContainer .toastClose {
@@ -193,3 +197,27 @@ color: #0768fd!important;
     overflow-x: scroll;
     max-height: 200px;
 }
+.cookie-accordion-border .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none !important;
+    box-shadow: none;
+
+}
+.cookie-accordion-border lightning-primitive-icon svg {
+   fill: #297dfd !important;   
+}
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+}
+
+

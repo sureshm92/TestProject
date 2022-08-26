@@ -164,7 +164,11 @@
                         allowDelegateContact: isDelegate,
                         contactConsentJSON: JSON.stringify(component.get('v.contactConsent')),
                         iqviaOutreachEnabled: component.get('v.ctp').IQVIA_Outreach__c,
-                        partId:component.get('v.partID')
+                        partId:component.get('v.partID'),
+                        allowEmail: component.get('v.isEmail'),
+                        allowPhone: component.get('v.isPhone'),
+                        allowSMS: component.get('v.isSMS'), 
+                        allowContact: component.get('v.doContact')
                         });
                 action2.setCallback(this, function(response){
                     var state = response.getState();

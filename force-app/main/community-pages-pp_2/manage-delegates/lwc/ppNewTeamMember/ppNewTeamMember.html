@@ -31,6 +31,7 @@
                             variant="label-hidden"
                             label={label.PG_AS_F_Email_address}
                             value={delegate.delegateContact.Email}
+                            message-when-value-missing={label.PP_Required_Field}
                             onblur={doSearchContact}
                         ></lightning-input>
                     </div>
@@ -52,6 +53,7 @@
                             value={delegate.delegateContact.FirstName}
                             maxlength={maxLengthData.FirstName}
                             required
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>
@@ -71,6 +73,7 @@
                             value={delegate.delegateContact.LastName}
                             maxlength={maxLengthData.LastName}
                             required
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>
@@ -80,7 +83,7 @@
                     data-id="consentcheck"
                     class="taps validate"
                     type="checkbox"
-                    label="I attest to this delegate being of legal age in their locale."
+                    label={label.PP_Attestation_Confirmation_Message_For_Teams}
                     checked={isAttested}
                     onchange={handleDateChange}
                 ></lightning-input>
