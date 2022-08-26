@@ -32,12 +32,11 @@ export default class PpHelp extends LightningElement {
 
     isMobile = false;
 
-    exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';   
+    //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';   
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
+    exclamation = pp_icons + '/' + 'status-exclamation-icon.png';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
-    exclamation = pp_icons + '/' + 'status_exclamation.svg' + '#' + 'exclamation';
-    check = rr_community_icons + '/' + 'check.svg' + '#' + 'check';
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
