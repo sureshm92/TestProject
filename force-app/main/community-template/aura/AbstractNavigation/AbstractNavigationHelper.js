@@ -153,7 +153,9 @@
         let participantTabs = [];
         participantTabs.push(this.allPagesMap['participant-home']);
         if (communityService.getCurrentCommunityMode().currentPE) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             participantTabs.push(this.allPagesMap['my-study']);
+            }
         } else {
             participantTabs.push(this.allPagesMap['resources']);
         }
@@ -166,8 +168,9 @@
             }
         }
         if (communityService.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             participantTabs.push(this.allPagesMap['messages']);
-            
+            }
         }
         if (communityService.getTrialMatchVisible()) {
             //PEH-2288: Check from the currentCommunityMode
