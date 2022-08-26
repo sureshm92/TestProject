@@ -10,7 +10,27 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { label } from "c/pir_label";
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
+import RH_MOB from '@salesforce/label/c.RH_MOB';
+import RH_YOB from '@salesforce/label/c.RH_YearofBirth';
+import RH_DOB from '@salesforce/label/c.RH_DOB';
+import Age from '@salesforce/label/c.Age';
+import January from '@salesforce/label/c.January'
+import February from '@salesforce/label/c.February'
+import March from '@salesforce/label/c.March'
+import April from '@salesforce/label/c.April'
+import May from '@salesforce/label/c.May'
+import June from '@salesforce/label/c.June'
+import July from '@salesforce/label/c.July'
+import August from '@salesforce/label/c.August'
+import September from '@salesforce/label/c.September'
+import October from '@salesforce/label/c.October'
+import November from '@salesforce/label/c.November'
+import December from '@salesforce/label/c.December'
 export default class Pir_participantEmancipated extends LightningElement {
+    DOB = RH_DOB;
+    YOB = RH_YOB;
+    MOB = RH_MOB;
+    Age = Age;
     @api openModal = false;
     @api currentTab = "0";
     @api selectedPE;
@@ -49,6 +69,11 @@ export default class Pir_participantEmancipated extends LightningElement {
     checkIcon = pirResources+'/pirResources/icons/status-good.svg';
     noneIcon = pirResources+'/pirResources/icons/circle.svg';
     nonecls = 'neutral';    
+    
+    //DOB
+    isDayMandate = false;
+    isMonthMandate = false;
+    
     @api maindivcls;
     
     label = {
@@ -193,6 +218,25 @@ export default class Pir_participantEmancipated extends LightningElement {
                 if(!this.participant.Alternative_Phone_Type__c || !this.participant.Alternative_Phone_Number__c){
                     this.participant.Alternative_Phone_Type__c = 'Home';
                 }
+                this.studyDobFormat = result.dobconfig;
+                if(participant.Birth_Day__c){
+                    this.valueDD = participant.Birth_Day__c.toString();
+                    console.log("participant.Birth_Day__c"+participant.Birth_Day__c);
+                }
+                if(participant.Birth_Month__c){
+                console.log("participant.Birth_Month__c"+participant.Birth_Month__c);
+                    this.valueMM = participant.Birth_Month__c.toString();
+                }
+                this.valueYYYY = participant.Birth_Year__c;
+                if(participant.Age__c){
+                    this.participantSelectedAge = participant.Age__c.toString();
+                if(result.dobconfig.includes("DD")){
+                    this.isDayMandate=true;
+                    this.calculateAge();
+                }
+                if(result.dobconfig.includes("MM")){
+                    this.isMonthMandate=true;
+                }
             }).then(()=> {
                 this.currentTab = "1"; 
                 this.customButtonValidation();
@@ -295,7 +339,7 @@ export default class Pir_participantEmancipated extends LightningElement {
         }else if(event.target.dataset.value === "Nickname"){
             this.participant.Nickname__c = event.target.value;
         }else if(event.target.dataset.value === "DOB"){
-            this.participant.Date_of_Birth__c = event.target.value;
+           // this.participant.Date_of_Birth__c = event.target.value;
         }else if(event.target.dataset.value === "Sex"){
             this.participant.Gender__c = event.target.value;
         }else if(event.target.dataset.value === "PhoneNumber"){
@@ -331,7 +375,6 @@ export default class Pir_participantEmancipated extends LightningElement {
           //1.
           if(this.participant.First_Name__c.trim() && this.participant.First_Name__c != null && this.participant.First_Name__c != '' && this.participant.First_Name__c.length !=0 &&
              this.participant.Last_Name__c.trim() && this.participant.Last_Name__c != null && this.participant.Last_Name__c != '' && this.participant.Last_Name__c.length !=0 &&
-             this.participant.Date_of_Birth__c != null && this.participant.Date_of_Birth__c != '' && this.participant.Date_of_Birth__c.length !=0 &&
              this.participant.Gender__c != null && this.participant.Gender__c != '' && this.participant.Gender__c.length !=0 &&
              this.participant.Phone__c != null && this.participant.Phone__c != '' && this.participant.Phone__c.trim() && this.participant.Phone__c.length !=0 &&
              this.participant.Phone_Type__c != null && this.participant.Phone_Type__c != '' && this.participant.Phone_Type__c.length !=0 &&
@@ -360,7 +403,20 @@ export default class Pir_participantEmancipated extends LightningElement {
                     validationList.push(false);
                 }
             }
-           
+            // 4.DOB
+            if(this.isDayMandate && this.valueDD == '--'){
+                validationList.push(false);
+            }
+            if(this.isMonthMandate && this.valueMM == '--'){
+                validationList.push(false);
+            }
+            if(this.valueYYYY == '----'){
+                validationList.push(false);
+            }
+            if(this.participantSelectedAge==null){
+                validationList.push(false);
+            }
+
             if(validationList.includes(false)){ 
                 this.isValid = true;
             }else{
@@ -928,4 +984,157 @@ export default class Pir_participantEmancipated extends LightningElement {
         });
         this.dispatchEvent(evt);
       }  
+    valueDD = '--';
+    valueYYYY = '----';
+    valueMM = '--';
+    lastDay = 31;
+    firstYear = 1900;
+    lastYear = parseInt(new Date().getFullYear());
+    participantSelectedAge ;
+    studyDobFormat;
+    get optionsDD() {
+        var opt = [];
+        for(var i = 1 ; i<=this.lastDay ;i++){
+            var x = i.toString();
+            if(i<10)
+                x='0'+x;
+            opt.push({label: x, value: x });
+        }
+        return opt;
+    }
+    get optionsMM() {
+        var opt = [];
+        opt.push({label: January, value:'01' });
+        opt.push({label: February, value:'02' });
+        opt.push({label: March, value:'03' });
+        opt.push({label: April, value:'04' });
+        opt.push({label: May, value:'05' });
+        opt.push({label: June, value:'06' });
+        opt.push({label: July, value:'07' });
+        opt.push({label: August, value:'08' });
+        opt.push({label: September, value:'09' });
+        opt.push({label: October, value:'10' });
+        opt.push({label: November, value:'11' });
+        opt.push({label: December, value:'12' });       
+        return opt;
+    }
+    get optionsYYYY() {
+        var opt = [];
+        for(var i = this.firstYear ; i<=this.lastYear ;i++){
+            opt.push({label: i.toString(), value: i.toString() });
+        }
+        return opt;
+    }
+    handleDDChange(event) {
+        this.valueDD = event.detail.value;  
+        this.participant.Birth_Day__c = event.detail.value;     
+        this.dateChanged();
+    }
+    handleMMChange(event) {
+        this.valueMM = event.detail.value;        
+        this.participant.Birth_Month__c = event.detail.value;  
+        var maxDayMonths = ['01','03','05','07','08','10','12'];
+        var minDayMonths = ['04','06','09','11'];
+        if(maxDayMonths.includes(this.valueMM)){
+            this.lastDay = 31;
+        }
+        else if(minDayMonths.includes(this.valueMM)){
+            this.lastDay = 30;
+        }
+        else if(this.valueMM == '02'){
+            if(this.valueYYYY =='----' || this.isLeapYear()){
+                this.lastDay = 29;
+            }     
+            else{
+                this.lastDay = 28;
+            }                      
+        }
+        if( parseInt(this.valueDD) > this.lastDay){
+            this.valueDD = this.lastDay.toString();
+        }
+        this.dateChanged();
+    }
+    handleYYYYChange(event) {
+        this.valueYYYY = event.detail.value;        
+        this.participant.Birth_Year__c = event.detail.value; 
+        if(this.valueMM=='02'){
+            if(this.isLeapYear() ){
+                this.lastDay = 29;
+            }
+            else{
+                this.lastDay = 28;
+            }
+        }
+        if( parseInt(this.valueDD) > this.lastDay){
+            this.valueDD = this.lastDay.toString();
+        }
+        this.dateChanged();
+    }
+    isLeapYear(){
+        if(parseInt(this.valueYYYY)%400==0){
+            return true;
+        }
+        if(parseInt(this.valueYYYY)%100==0){
+            return false;
+        }
+        if(parseInt(this.valueYYYY)%4==0){
+            return true;
+        }
+        return false;
+    }
+    dateChanged(){
+        this.participantSelectedAge = null;
+        this.calculateAge();   
+        this.customButtonValidation();     
+    }
+    calculateAge(){
+        if(this.studyDobFormat  == 'DD-MM-YYYY' && this.valueYYYY!='----' && this.valueMM!='--' && this.valueDD!='--'
+               && this.valueYYYY!=undefined && this.valueMM!=undefined && this.valueDD!=undefined){
+                var dob = new Date(this.valueYYYY+"-"+this.valueMM+"-"+this.valueDD);
+                //calculate month difference from current date in time
+                var month_diff = Date.now() - dob.getTime();
+                //convert the calculated difference in date format
+                var age_dt = new Date(month_diff); 
+                //extract year from date    
+                var year = age_dt.getUTCFullYear();
+                //now calculate the age of the user
+                var age = Math.abs(year - 1970);
+                this.participantSelectedAge = age.toString();
+                //this.pd['pe']['Participant__r']['Age__c'] = age;
+            }
+            this.participant.Age__c = this.participantSelectedAge;   
+        return this.participantSelectedAge;
+    }
+    //dob changes
+    get ageOptions(){
+        var opt = [];
+        let todayDate = new Date();
+        let higherAge = (todayDate.getUTCFullYear()-this.valueYYYY).toString();
+        let lowerAge = (higherAge-1).toString();
+        let cMonth = todayDate.getMonth()+1;
+        let cDay = todayDate.getDate();
+        let cYear = parseInt(todayDate.getUTCFullYear());
+        let addedValues = '';
+        if((this.studyDobFormat == 'YYYY' || (this.studyDobFormat == 'MM-YYYY' && this.valueMM != '--' && this.valueMM >= cMonth ) 
+        || (this.studyDobFormat == 'DD-MM-YYYY' && this.valueMM != '--' && this.valueDD != '--' && (this.valueMM > cMonth || (this.valueMM == cMonth && this.valueDD > cDay)))) 
+        && this.valueYYYY!='--' && this.valueYYYY!=cYear){
+            opt.push({label: lowerAge, value: lowerAge });
+            addedValues += lowerAge+';';
+        }
+        if(this.studyDobFormat == 'YYYY' || (this.studyDobFormat == 'MM-YYYY' && this.valueMM != '--' && this.valueMM <= cMonth ) 
+        || (this.studyDobFormat == 'DD-MM-YYYY' && this.valueMM != '--' && this.valueDD != '--' && (this.valueMM < cMonth || (this.valueMM == cMonth && this.valueDD <= cDay)))){
+            opt.push({label: higherAge, value: higherAge });
+            addedValues += higherAge+';';
+        }
+        if(!addedValues.includes(this.participantSelectedAge+';') && this.participantSelectedAge!=null){
+            opt.push({label: this.participantSelectedAge, value: this.participantSelectedAge });
+        }
+        return opt;
+    }
+    handleAgeChange(event) {
+        let ageVal = event.detail.value ;
+        this.participantSelectedAge = event.detail.value ;
+        this.participant.Age__c  = ageVal;       
+        this.customButtonValidation(); 
+    }
 }
