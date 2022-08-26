@@ -203,5 +203,21 @@ color: #0768fd!important;
 
 }
 .cookie-accordion-border lightning-primitive-icon svg {
-   fill: #297dfd !important;  
+   fill: #297dfd !important;   
 }
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+}
+
+
