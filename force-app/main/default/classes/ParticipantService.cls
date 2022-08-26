@@ -210,7 +210,7 @@ public without sharing class ParticipantService {
         }
         participantState.welcomeMessage = getWelcomeMessage();
         participantState.communityName = UserContext.getCurrentCommunityName();
-        participantState.loggedInUserName=getLoggedInUserName();
+        participantState.loggedInUserName = getLoggedInUserName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -298,7 +298,7 @@ public without sharing class ParticipantService {
                         FROM Televisit_Attendee__c
                         WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
                     )
-                    AND Participant_Enrollment__c =: participantState.pe.Id
+                    AND Participant_Enrollment__c = :participantState.pe.Id
             ];
             return (!tvList.isEmpty());
         }
@@ -329,12 +329,12 @@ public without sharing class ParticipantService {
     }
 
     @TestVisible
-    private String getLoggedInUserName(){
+    private String getLoggedInUserName() {
         String userName;
         List<Participant__c> participants = new List<Participant__c>();
         if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
             participants = [
-                SELECT Full_Name__c
+                SELECT First_Name__c
                 FROM Participant__c
                 WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
             ];
@@ -440,52 +440,52 @@ public without sharing class ParticipantService {
         }
     }
 
-    public Static String createParticipantAndUpdatePEImpls(
+    public static String createParticipantAndUpdatePEImpls(
         Participant__c participant,
         Participant__c participantDelegate,
         Participant_Enrollment__c pe,
         String userLanguage
-    ){
+    ) {
         try {
-        participant.Preferred_Language__c = userLanguage;
-        ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
-        participantWithDelegate.participant = participant;
-        participantWithDelegate.delegate = participantDelegate;
-        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
-            participantWithDelegate
-        );
-        String ParticipantID='';    
-        Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
-        if (participantFromDatabase != null) {
-            AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
-            participant = participantFromDatabase;
-            ParticipantID = participant.Id;
-        } else {
-            //check contact duplicate:
-            if (duplicateService.findDuplicateContact(participant) != null) {
-                Contact existingContact = duplicateService.findDuplicateContact(participant);
-                participant.Contact__c = existingContact.Id;
-                if ('Home' == participant.Phone_Type__c) {
-                    existingContact.HomePhone = participant.Phone__c;
+            participant.Preferred_Language__c = userLanguage;
+            ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+            participantWithDelegate.participant = participant;
+            participantWithDelegate.delegate = participantDelegate;
+            ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
+                participantWithDelegate
+            );
+            String ParticipantID = '';
+            Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
+            if (participantFromDatabase != null) {
+                AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+                participant = participantFromDatabase;
+                ParticipantID = participant.Id;
+            } else {
+                //check contact duplicate:
+                if (duplicateService.findDuplicateContact(participant) != null) {
+                    Contact existingContact = duplicateService.findDuplicateContact(participant);
+                    participant.Contact__c = existingContact.Id;
+                    if ('Home' == participant.Phone_Type__c) {
+                        existingContact.HomePhone = participant.Phone__c;
+                    }
+                    if ('Mobile' == participant.Phone_Type__c) {
+                        existingContact.MobilePhone = participant.Phone__c;
+                    } else {
+                        existingContact.Phone = participant.Phone__c;
+                    }
+                    update existingContact;
                 }
-                if ('Mobile' == participant.Phone_Type__c) {
-                    existingContact.MobilePhone = participant.Phone__c;
-                } else {
-                    existingContact.Phone = participant.Phone__c;
-                }
-                update existingContact;
+                system.debug('>>beforeInsertPart>' + limits.getQueries());
+                insert participant;
+                system.debug('>>AfterInsertPart>' + limits.getQueries());
+                ParticipantID = participant.Id;
             }
-            system.debug('>>beforeInsertPart>' + limits.getQueries());
-            insert participant;
-            system.debug('>>AfterInsertPart>' + limits.getQueries());
-            ParticipantID = participant.Id;
+            return ParticipantID;
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e);
+            AuraHelper.throwException(e);
         }
-       return ParticipantID;
-      } catch (Exception e) {
-                System.debug('ERROR: ' + e);
-                 AuraHelper.throwException(e);
-            }
-             return null;
+        return null;
     }
 
     // Static facade: --------------------------------------------------------------------------------------------------
@@ -509,9 +509,13 @@ public without sharing class ParticipantService {
         Participant_Enrollment__c pe,
         String userLanguage
     ) {
-         string partID = createParticipantAndUpdatePEImpls(participant, participantDelegate, pe, userLanguage);
-            return partID ;
-           
+        string partID = createParticipantAndUpdatePEImpls(
+            participant,
+            participantDelegate,
+            pe,
+            userLanguage
+        );
+        return partID;
     }
 
     public static List<LabelValueItem> getGenderLVList() {
