@@ -19,6 +19,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     fullName;
     reset = true;
     viewMode = '';
+    userCommModeLength;
     label = {
         Viewing_as_Self,
         Viewing_as_Participant,
@@ -69,6 +70,12 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         return '';
     }
 
+    get headerClass() {
+        return this.userCommModeLength > 1
+            ? 'slds-grid slds-grid_vertical header-container'
+            : 'slds-grid slds-grid_vertical header-container single';
+    }
+
     /* get manageDelegatesClass() {
         if (this.currentMode) {
             return this.currentMode.participantState === 'ALUMNI' && !this.currentMode.isDelegate
@@ -91,6 +98,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             this.fullName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
             this.contactId = this.user.ContactId;
         }
+        this.userCommModeLength = this.communityModes.ppModeItems.length;
         this.getContactData();
         this.reset = true;
         let currentMode = this.currentMode;
@@ -146,7 +154,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             }
         });
         this.dispatchEvent(selectedEvent);
-        //   this.doCloseModal();
+        this.doCloseModal();
     }
     doCloseModal() {
         const pageNavigation = new CustomEvent('pagenavigation');

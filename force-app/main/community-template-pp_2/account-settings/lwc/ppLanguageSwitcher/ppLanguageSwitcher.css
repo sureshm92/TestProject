@@ -94,7 +94,7 @@
     line-height: 16px;
     text-align: center;
     margin-top: 10px;
-    border-radius: 20px;
+    border-radius: 20px; 
 }
 
 :host {

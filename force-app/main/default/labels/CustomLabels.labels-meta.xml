@@ -18841,10 +18841,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I would like my username &amp; email to match</value>
     </labels>
     <labels>
-        <fullName>PP_Match_Username_And_Email</fullName>
+        <fullName>PP_Change_Username_And_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username And Email</shortDescription>
+        <shortDescription>PP Change Username And Email</shortDescription>
         <value>I would like my Username &amp; Email to match</value>
     </labels>
     <labels>
@@ -20431,6 +20431,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Participant_quick_reference</shortDescription>
         <value>Participant_quick_reference</value>
+    </labels>
+     <labels>
+        <fullName>Participant_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Settings</shortDescription>
+        <value>Participant Settings</value>
     </labels>
     <labels>
         <fullName>Participants_Referred_Label</fullName>
@@ -27648,7 +27655,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
-        <value>Delegates was successfully deactivated</value>
+        <value>Delegate was successfully deactivated</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
@@ -27656,7 +27663,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Activated</shortDescription>
-        <value>Delegates was successfully activated</value>
+        <value>Delegate was successfully activated</value>
     </labels>
     <labels>
         <fullName>You_are_not_enrolled_in_any_program_at_the_moment</fullName>
