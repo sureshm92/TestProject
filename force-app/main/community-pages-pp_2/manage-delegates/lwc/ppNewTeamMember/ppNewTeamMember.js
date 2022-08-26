@@ -110,7 +110,7 @@ export default class PpNewTeamMember extends LightningElement {
             } else return false;
         } else return false;
     }
-    get delexistingmsg() {
+    /*get delexistingmsg() {
         if (this.delegate) {
             if (
                 this.delegate.delegateContact != undefined &&
@@ -137,6 +137,7 @@ export default class PpNewTeamMember extends LightningElement {
             }
         }
     }
+    */
 
     get validateData() {
         let savedisabled = false;
@@ -241,6 +242,7 @@ export default class PpNewTeamMember extends LightningElement {
     //Partially Mask the field
     partiallyMaskFields(value) {
         let maskedValue = '';
+        let resetValidationError = false;
         for (let i = 0; i < value.length; i++) {
             if (i == 0) {
                 maskedValue += value.charAt(0);
@@ -253,12 +255,27 @@ export default class PpNewTeamMember extends LightningElement {
     //Validate input field
     doValidateField(event) {
         let fieldId = event.currentTarget.dataset.id;
-        //alert('id: ' + ids);
+        let value = event.currentTarget.value;
+        //alert('value: ' + value);
         if (fieldId === 'firstNameInput') {
-            this.template.querySelector('[data-id="firstNameInput"]').reportValidity();
+            let firstNameInput = this.template.querySelector('[data-id="firstNameInput"]');
+            if (!value) {
+                firstNameInput.setCustomValidity(this.label.PP_Required_Field);
+                firstNameInput.reportValidity();
+            } else {
+                firstNameInput.setCustomValidity('');
+                firstNameInput.reportValidity();
+            }
         }
         if (fieldId === 'lastNameInput') {
-            this.template.querySelector('[data-id="lastNameInput"]').reportValidity();
+            let lastNameInput = this.template.querySelector('[data-id="lastNameInput"]');
+            if (!value) {
+                lastNameInput.setCustomValidity(this.label.PP_Required_Field);
+                lastNameInput.reportValidity();
+            } else {
+                lastNameInput.setCustomValidity('');
+                lastNameInput.reportValidity();
+            }
         }
     }
     doSearchContact() {
@@ -297,6 +314,8 @@ export default class PpNewTeamMember extends LightningElement {
                 //let parentId = this.parentId;
                 this.delegate = contactData.delegates[0];
                 //Partially mask first Name
+                let firstNameElement = this.template.querySelector('[data-id="firstNameInput"]');
+                let lastNameElement = this.template.querySelector('[data-id="lastNameInput"]');
                 this.delegate.delegateContact.FirstName = this.partiallyMaskFields(
                     this.delegate.delegateContact.FirstName
                 );
@@ -304,6 +323,18 @@ export default class PpNewTeamMember extends LightningElement {
                 this.delegate.delegateContact.LastName = this.partiallyMaskFields(
                     this.delegate.delegateContact.LastName
                 );
+                firstNameElement.value = this.delegate.delegateContact.FirstName;
+                lastNameElement.value = this.delegate.delegateContact.LastName;
+                //Reset the custom blank error on FirstName and Last Name input if present.
+                if (firstNameElement.value) {
+                    firstNameElement.setCustomValidity('');
+                    firstNameElement.reportValidity();
+                }
+                if (lastNameElement.value) {
+                    lastNameElement.setCustomValidity('');
+                    lastNameElement.reportValidity();
+                }
+
                 console.log('isActive--->' + this.delegate.isActive);
                 this.isDelegateActive = this.delegate.isActive;
                 if (

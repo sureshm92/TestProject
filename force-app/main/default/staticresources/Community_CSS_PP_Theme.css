@@ -203,5 +203,81 @@ color: #0768fd!important;
 
 }
 .cookie-accordion-border lightning-primitive-icon svg {
-   fill: #297dfd !important;  
+   fill: #297dfd !important;   
+}
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+}
+
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {    
+    background-color: #444444;
+}
+
+/**help topics specific dropdown CSS*/
+.help-topics .dropdown {
+    display: flex !important;
+    position: relative !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: auto !important;
+    color: #444444 !important;
+    border: 1px solid #d9d9d9 !important;
+    padding: 0 0.5rem 0 0.25rem !important;
+    background: #ffffff !important;
+    font-size: 14px !important;
+    letter-spacing: 0 !important;
+    box-sizing: border-box !important;
+    height: 40px !important;   
+    border-radius: 1.25rem !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0) !important;
+}
+
+.help-topics .dropdown:hover{
+    border: 1px solid #0768FD !important;
+}
+
+.help-topics .dropdown:after {
+    top: 11px !important;
+}
+
+.help-topics .dropdown-menu {
+    min-width: auto !important;
+    max-height: 15rem !important;
+    height: auto !important;
+    /* overflow-y: auto; */
+    top: 2.6rem !important;
+    box-sizing: border-box !important;
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 8px 20px 0 rgb(0 0 0 / 8%) !important;
+}
+
+.help-topics .dropdown-menu li {
+    padding: 0.3rem 0.4rem !important;
+}
+
+.help-topics .dropdown-span {
+    height: 1.5rem !important;
+    padding: 0px !important;
+    width: 90% !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 1rem !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5rem !important;
+    padding-left: 1rem !important;
+    font-weight: 600 !important;
 }
