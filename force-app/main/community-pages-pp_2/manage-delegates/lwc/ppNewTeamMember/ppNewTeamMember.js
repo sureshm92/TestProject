@@ -239,7 +239,7 @@ export default class PpNewTeamMember extends LightningElement {
         }
     }
     //Partially Mask the field
-    partiallyMaskFields(value, FieldNameAttribute) {
+    partiallyMaskFields(value) {
         let maskedValue = '';
         let resetValidationError = false;
         for (let i = 0; i < value.length; i++) {
@@ -247,19 +247,8 @@ export default class PpNewTeamMember extends LightningElement {
                 maskedValue += value.charAt(0);
             } else {
                 maskedValue += '*';
-                //resetValidationError=true;
             }
         }
-        if (value) {
-            //FieldNameAttribute.blur(FieldNameAttribute);
-            FieldNameAttribute.setCustomValidity('');
-            FieldNameAttribute.reportValidity();
-        }
-        /*if(resetValidationError){
-            FieldNameAttribute.setCustomValidity('');
-            FieldNameAttribute.reportValidity();
-        }*/
-
         return maskedValue;
     }
     //Validate input field
@@ -324,17 +313,26 @@ export default class PpNewTeamMember extends LightningElement {
                 //let parentId = this.parentId;
                 this.delegate = contactData.delegates[0];
                 //Partially mask first Name
-                let firstNameAttribute = this.template.querySelector('[data-id="firstNameInput"]');
-                let lastNameAttribute = this.template.querySelector('[data-id="lastNameInput"]');
+                let firstNameElement = this.template.querySelector('[data-id="firstNameInput"]');
+                let lastNameElement = this.template.querySelector('[data-id="lastNameInput"]');
                 this.delegate.delegateContact.FirstName = this.partiallyMaskFields(
-                    this.delegate.delegateContact.FirstName,
-                    firstNameAttribute
+                    this.delegate.delegateContact.FirstName
                 );
                 //Partially mask Last Name
                 this.delegate.delegateContact.LastName = this.partiallyMaskFields(
-                    this.delegate.delegateContact.LastName,
-                    lastNameAttribute
+                    this.delegate.delegateContact.LastName
                 );
+                firstNameElement.value = this.delegate.delegateContact.FirstName;
+                lastNameElement.value = this.delegate.delegateContact.LastName;
+                //Reset the custom blank error on FirstName and Last Name input if present.
+                if (firstNameElement.value) {
+                    firstNameElement.setCustomValidity('');
+                    firstNameElement.reportValidity();
+                }
+                if (lastNameElement.value) {
+                    lastNameElement.setCustomValidity('');
+                    lastNameElement.reportValidity();
+                }
 
                 console.log('isActive--->' + this.delegate.isActive);
                 this.isDelegateActive = this.delegate.isActive;
@@ -371,6 +369,16 @@ export default class PpNewTeamMember extends LightningElement {
                 this.changedLevels = [];
                 this.changedLevelsAll = [];
                 this.isLoading = false;
+
+                //One Extra call to remove the error message from the input Name fields.
+                /*if (this.counter == 1) {
+                    this.counter++;
+                    this.doSearchContact();
+                } else {
+                    //Reset the counter
+                    this.counter = 1;
+                }
+                */
             })
             .catch((error) => {
                 this.isLoading = false;
