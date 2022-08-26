@@ -110,7 +110,7 @@ export default class PpNewTeamMember extends LightningElement {
             } else return false;
         } else return false;
     }
-    get delexistingmsg() {
+    /*get delexistingmsg() {
         if (this.delegate) {
             if (
                 this.delegate.delegateContact != undefined &&
@@ -137,6 +137,7 @@ export default class PpNewTeamMember extends LightningElement {
             }
         }
     }
+    */
 
     get validateData() {
         let savedisabled = false;
