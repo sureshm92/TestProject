@@ -230,6 +230,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                 this.valueYYYY = participant.Birth_Year__c;
                 if(participant.Age__c){
                     this.participantSelectedAge = participant.Age__c.toString();
+                }
                 if(result.dobconfig.includes("DD")){
                     this.isDayMandate=true;
                     this.calculateAge();
