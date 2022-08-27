@@ -362,3 +362,25 @@ color: #0768fd!important;
         background-color: #00C221 !important;
         border: 1px solid #00C221 !important;
     }
+    
+.customize-exp lightning-primitive-icon{
+    position: absolute;
+    top: 13px;
+    right: 45px;
+}
+
+.customize-exp button lightning-primitive-icon{
+    position: absolute;
+    top: -3px;
+    right: 39px;
+}
+
+.customize-exp lightning-primitive-icon svg{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.customize-exp .slds-input{
+    padding-left: 15px;
+    padding-right: 20%;
+}
