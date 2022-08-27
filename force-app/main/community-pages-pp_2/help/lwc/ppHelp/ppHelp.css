@@ -91,7 +91,7 @@
 }
 
 .pt-4 {
-    padding-top: 4px;    
+    padding-top: 2px;    
 }
 
 .ml-12{
@@ -130,9 +130,13 @@
 }
 
 .exclamation_green {
-    fill: green;
-    height: 30px;
-    width: 30px;
+    height: 100%;
+    width: 50%;
+}
+
+.exclamation_mobile {
+    height: 100%;
+    width: 100%;
 }
 
 .center-align {
