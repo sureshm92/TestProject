@@ -332,9 +332,13 @@ public without sharing class AddPatientByPIRemote {
         String contactConsentJSON,
         Boolean iqviaOutreachEnabled,
         Boolean allowDelegateContact,
-        Boolean createUser
+        Boolean createUser,
+        Boolean allowEmail,
+        Boolean allowPhone,
+        Boolean allowSMS,
+        Boolean allowContact
     ) {
-        try{
+        try{ 
             TriggerHandlerExecutor.bypassHandler(
                 ContactTriggerHandler.CreateUserForCCContactHandler.class
             );
@@ -353,11 +357,29 @@ public without sharing class AddPatientByPIRemote {
                     );
                 }
             }
+            Participant__c participant = (Participant__c) JSON.deserialize(
+                participantJSON,
+                Participant__c.class
+            );
+            trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
                 peJSON,
                 Participant_Enrollment__c.class
             );
             
+            pe.Referral_Source__c = 'PI';
+            pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
+            pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Study_Direct_Mail_Consent__c = allowEmail;
+            pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
+            pe.Permit_SMS_Text_for_this_study__c = allowSMS;
+            pe.Study_Pre_recorded_Voice_Consent__c = allowPhone;
+            pe.Study_Assisted_Dialing_Consent__c = allowPhone;
+            pe.Study_Artificial_Voice_Consent__c = allowPhone;
+            
+            if(createUser && participant.Adult__c && String.isNotBlank(participant.Email__c)){//RH-5163
+                pe.Invited_To_PP_Date__c =  DateTime.now();
+            }     
              
             String participantId = !String.isBlank(partId)
                 ? partId
@@ -417,9 +439,9 @@ public without sharing class AddPatientByPIRemote {
                     participantCon.IQVIA_Direct_Mail_Consent__c = contactConsent.IQVIA_Direct_Mail_Consent__c;
                    
                 }
-                  //update participantCon; converted to future method
-                  String objJSONStr = Json.serialize(participantCon);
-                  updateParticipantContact(objJSONStr);
+                  update participantCon;
+                  //String objJSONStr = Json.serialize(participantCon);
+                  //updateParticipantContact(objJSONStr);
             }
 
             if (

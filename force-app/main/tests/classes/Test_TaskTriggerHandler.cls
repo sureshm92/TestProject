@@ -7,7 +7,9 @@ public class Test_TaskTriggerHandler {
     static void taskTest() {
         Datetime dateNow = Datetime.now();
 
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         TestData testData = new TestData();
         Test.startTest();
         testData.piContact.Participant_Opt_In_Status_Emails__c = true;
@@ -64,7 +66,9 @@ public class Test_TaskTriggerHandler {
     }
     @IsTest
     static void test_checkTaskFields() {
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
@@ -200,13 +204,15 @@ public class Test_TaskTriggerHandler {
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void test_checkTaskFieldsNegative() {
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
-		
+
         Test.startTest();
         Contact delegate = new Contact(
             FirstName = 'Patient',
@@ -266,8 +272,10 @@ public class Test_TaskTriggerHandler {
                 tsHandler.beforeInsert(new List<Task>{ task });
                 tsHandler.beforeInsert(new List<Task>{ task2 });
             } catch (Exception e) {
-                Boolean expectedExceptionThrown =  e.getMessage().contains('Task Catalog Card:') ? true : false;
-				System.AssertEquals(expectedExceptionThrown, true);
+                Boolean expectedExceptionThrown = e.getMessage().contains('Task Catalog Card:')
+                    ? true
+                    : false;
+                System.AssertEquals(expectedExceptionThrown, true);
             }
         }
         Test.stopTest();
@@ -277,7 +285,9 @@ public class Test_TaskTriggerHandler {
     static void taskTestSurvey() {
         Datetime dateNow = Datetime.now();
 
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         TestData testData = new TestData();
         Test.startTest();
         testData.piContact.Participant_Opt_In_Status_Emails__c = true;

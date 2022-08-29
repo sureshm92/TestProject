@@ -25,6 +25,16 @@
     font-size: 0.8rem;
 }
 
+.THIS .cf-copyright-pp {
+    display: inline-block;
+    white-space: nowrap;
+    color: #6b6b6b;
+    font-size: .8rem;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
 .THIS .cf-links {
     margin: -5px -10px;
 }

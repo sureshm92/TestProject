@@ -6,8 +6,9 @@
 public with sharing class Test_SMSService {
     @TestSetup
     static void testSetup() {
+        Test.startTest();
         TestData.loadTestData();
-
+        Test.stopTest();
         Contact piContact = [
             SELECT Id, Email, Language__c, Phone
             FROM Contact

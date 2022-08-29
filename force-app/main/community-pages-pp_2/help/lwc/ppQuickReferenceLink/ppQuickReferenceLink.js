@@ -6,6 +6,7 @@ import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import quickRefernceCard from '@salesforce/label/c.Quick_Reference_Card';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 
 export default class PpQuickReferenceLink extends LightningElement {
@@ -20,8 +21,11 @@ export default class PpQuickReferenceLink extends LightningElement {
     currentContactEmail;
     isDuplicate;
     showUserMatch;
+    showGetSupport;
     renderedCallback() {}
     connectedCallback() {
+        let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
+        this.showGetSupport = currentDelgId == null ? true : false;
         this.initializeData();
     }
     initializeData() {
@@ -46,9 +50,10 @@ export default class PpQuickReferenceLink extends LightningElement {
     openQuickReference() {
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
-        getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            console.log('ur;ll;;', result);
-            window.open(webViewer + '?file=' + result, '_blank');
+        getResourceURL({ resourceName: this.quickReference }).then((result) => {            
+            setTimeout(() => {
+                window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
+            })
         });
     }
 }
