@@ -2,7 +2,10 @@
 private class Test_Batch_CreateECOASubject {
     @testSetup
     static void setUp() {
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
+        
         Clinical_Trial_Profile__c ctp = [
             SELECT id, Study_GUID__c
             FROM Clinical_Trial_Profile__c
