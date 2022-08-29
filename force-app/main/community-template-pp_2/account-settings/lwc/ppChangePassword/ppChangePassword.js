@@ -111,15 +111,15 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters for Input Type Masked
     get currentPasswordCssClass(){
-        return this.showCurrentPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showCurrentPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get newPasswordCssClass(){
-        return this.showNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get reNewPasswordCssClass(){
-        return this.showReNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showReNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     // Getters For Icon color Change
