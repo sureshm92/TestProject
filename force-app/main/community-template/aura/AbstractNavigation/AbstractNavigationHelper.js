@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- ({
+({
     initItemsMap: function (component, event) {
         //define navigation items:
         this.allPagesMap = {
@@ -154,22 +154,24 @@
         participantTabs.push(this.allPagesMap['participant-home']);
         if (communityService.getCurrentCommunityMode().currentPE) {
             if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-            participantTabs.push(this.allPagesMap['my-study']);
+                participantTabs.push(this.allPagesMap['my-study']);
             }
         } else {
-            participantTabs.push(this.allPagesMap['resources']);
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                participantTabs.push(this.allPagesMap['resources']);
+            }
         }
         if (communityService.getCurrentCommunityMode().hasPastStudies)
             participantTabs.push(this.allPagesMap['past-studies']);
-         //set eDiary tab visibility for Participants. 
+        //set eDiary tab visibility for Participants.
         if (communityService.getEDiaryVisible()) {
-            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') { 
+            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 participantTabs.push(this.allPagesMap['e-diaries']);
             }
         }
         if (communityService.getMessagesVisible()) {
             if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-            participantTabs.push(this.allPagesMap['messages']);
+                participantTabs.push(this.allPagesMap['messages']);
             }
         }
         if (communityService.getTrialMatchVisible()) {
