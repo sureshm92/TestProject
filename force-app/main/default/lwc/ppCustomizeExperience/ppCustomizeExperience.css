@@ -219,19 +219,26 @@
     cursor: pointer;
 }
 
+.mr-8{
+    margin-right: 8px;
+}
+
 .pill .btn{
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: 18px;
     cursor: default;
     padding: 6px;
+    padding-left: 12px;
     padding-right: 23px;
+    font-weight: 600;
+    opacity: 0.8;
 }
 
 .pill .btn-primary {
     font-size: 14px;
     color: #000;
-    border-color: #ededed;
+    border-color: #d9d9d9;
 }
 .pill .btn .badge {
     position: relative;
@@ -254,8 +261,8 @@
 }
 
 .saveButton {
-    height: 40px;
-    width: 150px;
+    height: 32px;
+    width: 112px;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
@@ -280,10 +287,22 @@
 }
 
 .com-icon {
-    fill: #595959;
+    fill: #b5b5b5;
     height: 20px;
     width: 20px;
-    margin-top: -17px;
-    margin-right: -10px;
+    margin-top: -13px;
+    margin-right: -11px;
+    opacity: 0.6;
+}
+
+.bold{
+    height: 24px;
+    width: 838px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
 }
 

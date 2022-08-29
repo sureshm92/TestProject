@@ -50,8 +50,10 @@ export default class PpQuickReferenceLink extends LightningElement {
     openQuickReference() {
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
-        getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
+        getResourceURL({ resourceName: this.quickReference }).then((result) => {            
+            setTimeout(() => {
+                window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
+            })
         });
     }
 }

@@ -1,10 +1,9 @@
 .as-title {
     height: 32px;
-    width: 97px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 550;
     letter-spacing: 0;
     line-height: 32px;
     margin-bottom: 5px;
@@ -99,7 +98,8 @@
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
+    opacity: 0.8;
 }
