@@ -11,9 +11,6 @@ import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
-import helpResponse from '@salesforce/label/c.PP_HelpResponse';
-import accountSettings from '@salesforce/label/c.PP_Account_Settings';
-import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
@@ -51,10 +48,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         submitButton,
         minorMessage,
         requestSubmitted,
-        matchUsernameEmail,
-        helpResponse,
-        updateProfileResponse,
-        accountSettings
+        matchUsernameEmail
     };
     selectedOption;
     selectedYOB;

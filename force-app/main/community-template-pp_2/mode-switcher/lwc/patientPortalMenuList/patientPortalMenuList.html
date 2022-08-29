@@ -15,7 +15,7 @@
                 <template if:true={item.isDelegate}>
                     <div class="slds-grid delegate-item slds-p-around_x-small">
                         <div
-                            class="slds-col slds-size_10-of-12 delegate-details"
+                            class="slds-col slds-size_10-of-12 delegate-details title-overflow-ellipsis"
                             data-id={item.title}
                             data-value={item.programList}
                             onclick={handleListDisplay}
@@ -33,12 +33,14 @@
                         </div>
                         <template if:true={item.isDelegate}>
                             <div
-                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
                                 onclick={handleNavigation}
                                 data-id={item.title}
                             >
-                                <span><img src={icon_url} /></span></div
-                        ></template>
+                                <img src={icon_url} />
+                                <span class="tooltiptext">{label.participantSettings}</span>
+                            </div></template
+                        >
                     </div>
                 </template>
             </template>
@@ -56,7 +58,7 @@
                 <template if:true={item.isDelegate}>
                     <div class="slds-grid delegate-item slds-p-around_x-small">
                         <div
-                            class="slds-col slds-size_10-of-12"
+                            class="slds-col slds-size_10-of-12 title-overflow-ellipsis"
                             data-id={item.title}
                             data-value={item.programList}
                             onclick={handleListDisplay}
@@ -74,12 +76,14 @@
                         </div>
                         <template if:true={item.isDelegate}>
                             <div
-                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
                                 onclick={handleNavigation}
                                 data-id={item.title}
                             >
-                                <span><img src={icon_url} /></span></div
-                        ></template>
+                                <img src={icon_url} />
+                                <span class="tooltiptext">{label.participantSettings}</span>
+                            </div></template
+                        >
                     </div>
                 </template>
             </template>
