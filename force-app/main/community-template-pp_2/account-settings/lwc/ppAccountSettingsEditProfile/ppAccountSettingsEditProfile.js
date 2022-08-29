@@ -914,11 +914,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     reInitializePage() {
-        // this.initializeHasFieldError();
-        // this.initializeData();
-        // this.spinner.hide();
-        communityService.navigateToPage('account-settings?profileInformation');
-        window.location.reload(true);
+        this.initializeHasFieldError();
+        this.initializeData();
+        //this.spinner.hide();
+        // communityService.navigateToPage('account-settings?profileInformation');
+        // window.location.reload();
     }
 
     initializeHasFieldError() {

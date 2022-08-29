@@ -15,6 +15,10 @@
         ) {
             component.set('v.communityType', 'Janssen');
         }
+
+        if(communityService.getCurrentCommunityTemplateName()=='PatientPortal'){
+            component.set('v.isPatientPortal', true);
+        }
         let currentPage = communityService.getPageName();
         let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
         const pagesWithSharedPrivacyPolicy = communityService.getPagesWithSharedPrivacyPolicy();

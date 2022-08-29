@@ -100,7 +100,7 @@ export default class PpCustomizeExperience extends LightningElement {
                     });
             })
             .catch((error) => {
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
             });
     }
 
@@ -120,7 +120,7 @@ export default class PpCustomizeExperience extends LightningElement {
             })
             .catch((error) => {
                 console.log('error');
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
                 this.spinner.hide();
             });
     }
@@ -178,7 +178,7 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.displayedItems = unselecteditems;
             })
             .catch((error) => {
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
             });
     }
 
@@ -286,7 +286,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let arr = [];
         this.searchInput = '';
         this.saveCOIs();
-        communityService.showToast('success', 'success', this.label.PP_Profile_Update_Success, 100);
+        communityService.showToast('', 'success', this.label.PP_Profile_Update_Success, 100);
         //communityService.navigateToPage('account-settings?changePref');
     }
     saveCOIs() {
@@ -323,7 +323,7 @@ export default class PpCustomizeExperience extends LightningElement {
                 })
                 .catch((error) => {
                     console.log('error');
-                    communityService.showToast('error', 'error', error.message, 100);
+                    communityService.showToast('', 'error', error.message, 100);
                     this.spinner.hide();
                 });
             createSubscribeConnection({
