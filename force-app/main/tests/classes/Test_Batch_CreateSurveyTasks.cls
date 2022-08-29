@@ -2,17 +2,21 @@
  * Created by Igor Malyuta on 04.10.2019.
  */
 
-@IsTest(SeeAllData=true)
-private class Test_Batch_CreateSurveyTasks {
+@IsTest
+public class Test_Batch_CreateSurveyTasks {
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
     @IsTest
     static void testBehavior() {
-        TestData.loadTestData();
-
-        Test.startTest();
+        
         TestData testData = new TestData();
         User delegateUser = testData.createPatientDelegate();
         insert delegateUser;
-
+		
         List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty())
             return;
@@ -40,7 +44,6 @@ private class Test_Batch_CreateSurveyTasks {
         };
 
         Batch_CreateSurveyTasks.launch(invitationsVisible);
-        Test.stopTest();
 
         Integer numberOfCreatedTasks = 0;
         List<Task> tasks = [
