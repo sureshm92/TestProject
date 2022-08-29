@@ -187,6 +187,8 @@ export default class Pir_participantHeader extends LightningElement {
                  if((this.per.Pre_screening_Status__c!='Pass' && this.per.Pre_screening_Status__c !='Fail') && 
                     this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c){
                     this.showPreScreener_Button = true;
+                 }else{
+                    this.showPreScreener_Button = false;
                  }
  
              })
