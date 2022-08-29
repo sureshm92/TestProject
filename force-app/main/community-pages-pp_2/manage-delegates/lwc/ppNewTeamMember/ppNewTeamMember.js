@@ -229,14 +229,15 @@ export default class PpNewTeamMember extends LightningElement {
                         this.isLoading = false;
                     })
                     .catch((error) => {
-                        alert('error');
+                        //alert('error');
                         this.isLoading = false;
                         communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                         this.spinner = false;
                     });
             }
         } else {
-            alert('else block');
+            //alert('else block');
+            console.log('else block');
         }
     }
     //Partially Mask the field
@@ -445,8 +446,7 @@ export default class PpNewTeamMember extends LightningElement {
                                             ' ' +
                                             delegate.delegateContact.FirstName +
                                             ' ' +
-                                            delegate.delegateContact.LastName +
-                                            '.',
+                                            delegate.delegateContact.LastName,
                                         100
                                     );
                                     this.isAttested = false;
@@ -462,7 +462,7 @@ export default class PpNewTeamMember extends LightningElement {
                                 })
                                 .catch((error) => {
                                     this.isLoading = false;
-                                    alert('error:::' + error);
+                                    //alert('error:::' + error);
                                 });
                         }
                     })

@@ -147,6 +147,10 @@
     border-radius: 20px !important;
 }
 
+.change-password input{
+    padding-right: 12%;
+}
+
 .anchor-container a{
     text-decoration: none !important;
 }
