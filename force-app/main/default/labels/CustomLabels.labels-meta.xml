@@ -27215,6 +27215,41 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Last Updated on:</value>
     </labels>
     <labels>
+        <fullName>PP_StudyPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note1</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our </value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note2</shortDescription>
+        <value>and acknowledge our</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note3</shortDescription>
+        <value>, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note1</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA's</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note2</shortDescription>
+        <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+    </labels>
+    <labels>
         <fullName>Communication_Preferences</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -27688,5 +27723,19 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+     </labels>
+     <labels>
+        <fullName>Navigation_AboutProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the Program</shortDescription>
+        <value>About the Program</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_AboutStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the study</shortDescription>
+        <value>About the Study</value>
     </labels>
 </CustomLabels>

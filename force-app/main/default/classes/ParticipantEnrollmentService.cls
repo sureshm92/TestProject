@@ -579,6 +579,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Orientation_Required__c',
         'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
         'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+        'Clinical_Trial_Profile__r.Privacy_Policy_ID__c',
         'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
         'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
         'Clinical_Trial_Profile__r.Visit_Plan__c',

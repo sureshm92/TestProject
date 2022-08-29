@@ -2459,6 +2459,11 @@
 		<field>Clinical_Trial_Profile__c.Program_Overview__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Privacy_Policy_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
