@@ -83,14 +83,15 @@
                                         </div>
                                     </div>
                                     <div
-                                        class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small"
+                                        class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
                                     >
-                                        <span
-                                            ><img
-                                                src={icon_url}
-                                                onclick={handleNavigation}
-                                                data-id={currentMode.title}
-                                        /></span>
+                                        <img
+                                            src={icon_url}
+                                            onclick={handleNavigation}
+                                            data-id={currentMode.title}
+                                        /><span class="tooltiptext"
+                                            >{label.participantSettings}</span
+                                        >
                                     </div>
                                 </div>
                             </template>
