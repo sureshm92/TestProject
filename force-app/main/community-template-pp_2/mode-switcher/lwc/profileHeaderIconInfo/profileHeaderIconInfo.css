@@ -20,8 +20,11 @@
 }
 
 .header-setting-txt {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 24px;
-    width: 230px;
+    width: 208px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
