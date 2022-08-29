@@ -83,7 +83,141 @@
             }
         );
     },
-
+    createParticipants: function (component) {
+        component.find('spinner').show();
+        var pe = component.get('v.pe');
+        var participant = component.get('v.participant');
+        var userLanguage = component.get('v.userLanguage');
+        console.log(
+            "component.get('v.delegateDuplicateInfo')>>>>>>",
+            component.get('v.delegateDuplicateInfo')
+        );
+        var ssId = communityService.getUrlParameter('ssId');
+        var isDelegate = component.get('v.createUserForDelegate');
+        if(!component.get('v.needsGuardian')) {
+            component.set('v.participantDelegate',null);
+            component.set('v.delegateDuplicateInfo',null);
+        }
+        var action1 = component.get("c.saveParticipants");
+        action1.setParams({
+                participantJSON: JSON.stringify(participant),
+                peJSON: JSON.stringify(pe),
+                userLanguage: userLanguage,
+                ssId: ssId ? ssId : component.get('v.ss').Id,
+                createUser: component.get('v.createUsers') && component.get('v.communityWithPPInv'),
+                participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+                delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
+                allowEmail: component.get('v.isEmail'),
+                allowPhone: component.get('v.isPhone'),
+                allowSMS: component.get('v.isSMS'),
+                allowContact: component.get('v.doContact'),
+                allowDelegateContact: isDelegate,
+                contactConsentJSON: JSON.stringify(component.get('v.contactConsent')),
+                iqviaOutreachEnabled: component.get('v.ctp').IQVIA_Outreach__c
+        });
+        action1.setCallback(this, function(response){
+            var state = response.getState();
+            if (state === "SUCCESS") { 
+                console.log('server 1 call end');console.log('response-->'+response.getReturnValue());  
+                var partid = response.getReturnValue() ;
+                component.set('v.partID',partid);
+                this.createPER(component);
+            }else{
+                        var errors = response.getError();
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                // log the error passed in to AuraHandledException
+                                console.log("Error message: " + 
+                                            errors[0].message);
+                               communityService.showErrorToast('', errors[0].message); 
+                            }
+                        } else {
+                            console.log("Unknown error");
+                        }
+                    }
+        });
+        $A.enqueueAction(action1);
+       
+    }, 
+    createPER: function (component) { 
+        var pe = component.get('v.pe');
+        var participant = component.get('v.participant');
+        var userLanguage = component.get('v.userLanguage');
+        console.log(
+            "component.get('v.delegateDuplicateInfo')>>>>>>",
+            component.get('v.delegateDuplicateInfo')
+        );
+        var ssId = communityService.getUrlParameter('ssId');
+        var isDelegate = component.get('v.createUserForDelegate');
+        if(!component.get('v.needsGuardian')) {
+            component.set('v.participantDelegate',null);
+            component.set('v.delegateDuplicateInfo',null);
+        }
+                var action2 = component.get("c.savePER");
+                action2.setParams({
+                        participantJSON: JSON.stringify(participant),
+                        peJSON: JSON.stringify(pe),
+                        ssId: ssId ? ssId : component.get('v.ss').Id,
+                        createUser: component.get('v.createUsers') && component.get('v.communityWithPPInv'),
+                        participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+                        delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
+                        allowDelegateContact: isDelegate,
+                        contactConsentJSON: JSON.stringify(component.get('v.contactConsent')),
+                        iqviaOutreachEnabled: component.get('v.ctp').IQVIA_Outreach__c,
+                        partId:component.get('v.partID'),
+                        allowEmail: component.get('v.isEmail'),
+                        allowPhone: component.get('v.isPhone'),
+                        allowSMS: component.get('v.isSMS'), 
+                        allowContact: component.get('v.doContact')
+                        });
+                action2.setCallback(this, function(response){
+                    var state = response.getState();
+                    if (state === "SUCCESS") { 
+                        communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+                        //callback();
+                        component.set('v.doContact', false);
+                        if (!component.get('v.doContact')) {
+                            component.set('v.createUsers', false);
+                        }
+                        component.find('consent-Manager').reInitialize();
+                        component.set('v.attestAge', false);
+                        this.doSaveAndExitHelper(component);
+                        component.find('spinner').hide();
+                    }else{
+                        var errors = response.getError();
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                // log the error passed in to AuraHandledException
+                                console.log("Error message1: " + 
+                                            errors[0].message);
+                                if(errors[0].message.includes('DUPLICATE_VALUE')){ 
+                                    console.log('DUPLICATEDUPLICATE');
+                                     communityService.showErrorToast('', $A.get('$Label.c.Error_Message_Participant_Duplicate'));
+                                }else{
+                                   communityService.showErrorToast('',  errors[0].message);
+                                } 
+                                component.find('spinner').hide();   
+                            }
+                        } else {
+                            console.log("Unknown error");
+                        }
+                    }
+                });
+                $A.enqueueAction(action2);
+    },
+    doSaveAndExitHelper: function (component) {
+        if(component.get('v.doSaveNew')){
+           var mainDiv =  document.getElementsByClassName("fieldsDiv");
+           mainDiv[0].focus();
+           this.initData(component);
+           this.setDelegate(component);
+           component.find('editForm').refreshEmailInput(); 
+        }else{
+           var urlEvent = $A.get("e.force:navigateToURL");
+           urlEvent.setParams({ "url": "/my-referrals" });  
+           urlEvent.fire(); 
+        } 
+    },
     setDelegate: function (component) {
         var ss = component.get('v.ss');
         var delegateParticipant = {

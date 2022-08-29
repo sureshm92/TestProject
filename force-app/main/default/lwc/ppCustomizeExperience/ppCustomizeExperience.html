@@ -10,41 +10,59 @@
 
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12" class="mb-15">
-                            <label class="slds-form-element__label field-title" for="customize-desc">
-                                {label.PP_Customize_Exp_Description}
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-desc bold"
+                            >
+                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <label class="slds-form-element__label field-title" for="customize-condition">
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-condition"
+                            >
                                 Conditions
                             </label>
                         </lightning-layout-item>
-                        <lightning-layout-item size="5">
-                            <div class="slds-form-element__control slds-p-top_xx-small">   
+                        <lightning-layout-item size="6">
+                            <div class="slds-form-element__control slds-p-top_xx-small">
                                 <lightning-input
                                     label="Customize Experience"
                                     variant="label-hidden"
                                     placeholder={label.PP_Customize_search_text}
                                     onchange={bulkSearch}
                                     type="search"
-                                    name="search"   
-                                    class="profile-info-input"                             
-                                ></lightning-input>       
-                            </div>  
-                        </lightning-layout-item> 
+                                    name="search"
+                                    class="profile-info-input customize-exp"
+                                    value={searchInput}
+                                ></lightning-input>
+                            </div>
+                        </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <label class="slds-form-element__label field-title" for="customize-condition">
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-condition"
+                            >
                                 Select up to 5 conditions
                             </label>
-                        </lightning-layout-item>                       
+                        </lightning-layout-item>
                     </lightning-layout>
                     <!-- Search Output -->
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12">
                             <template if:true={isInitialized}>
-                                <div class="table-scroll" data-id="scrolllist" if:true={showSearchOutput}>
+                                <div
+                                    class="table-scroll"
+                                    data-id="scrolllist"
+                                    if:true={showSearchOutput}
+                                >
                                     <template for:each={displayedItems} for:item="coiWrapper">
-                                        <div key={coiWrapper.coi.Therapeutic_Area__r.Name} class="searchOutputGrid mb-5">
+                                        <div
+                                            key={coiWrapper.coi.Therapeutic_Area__r.Name}
+                                            class="searchOutputGrid mb-5"
+                                        >
                                             <span>
                                                 <div class="slds-checkbox">
                                                     <lightning-input
@@ -53,13 +71,16 @@
                                                         type="checkbox"
                                                         value={coiWrapper}
                                                         onchange={handleChange}
+                                                        name={coiWrapper}
                                                     >
                                                     </lightning-input>
                                                 </div>
                                             </span>
-                                            <span class="mr-4">{coiWrapper.coi.Therapeutic_Area__r.Name}</span>
+                                            <span class="mr-4"
+                                                >{coiWrapper.coi.Therapeutic_Area__r.Name}</span
+                                            >
                                         </div>
-                                    </template> 
+                                    </template>
                                 </div>
                             </template>
                         </lightning-layout-item>
@@ -69,22 +90,33 @@
                             <template for:each={conditionsOfInterestTemp} for:item="showCoi">
                                 <div
                                     key={showCoi.coi.Therapeutic_Area__r.Name}
-                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap mr-8"
                                 >
                                     <!-- Custom Pill -->
                                     <div class="slds-form-element">
                                         <div class="slds-form-element__control slds-p-top_xx-small">
                                             <div class="pill">
                                                 <button type="button" class="btn btn-primary">
-                                                    {showCoi.coi.Therapeutic_Area__r.Name} 
+                                                    {showCoi.coi.Therapeutic_Area__r.Name}
                                                     <span class={iconPosition}>
-                                                        <span onclick={handleRemove} class={iconEye} data-name={showCoi.coi.Therapeutic_Area__r.Name}>
-                                                            <c-web-icon
+                                                        <span
+                                                            onclick={handleRemove}
+                                                            class={iconEye}
+                                                            data-name={showCoi.coi.Therapeutic_Area__r.Name}
+                                                        >
+                                                            <!-- <c-web-icon
                                                                 icon-size="medium-large"
-                                                                icon-name={eyeIcon}
+                                                                icon-name={closeIcon}
                                                                 icon-color="#999999"
                                                             >
-                                                            </c-web-icon>
+                                                            </c-web-icon> -->
+
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                            <use xlink:href={closeIcon}></use>
+                                                        </svg>
                                                         </span>
                                                     </span>
                                                 </button>
@@ -101,11 +133,12 @@
                     <lightning-layout multiple-rows="true" class="mb-10">
                         <lightning-layout-item size="12">
                             <button
-                            class="slds-button saveButton slds-button_brand apollo-btn primary" 
-                            data-id="saveBtn"       
+                                class="slds-button saveButton slds-button_brand apollo-btn primary"
+                                data-id="saveBtn"
+                                onclick={saveElement}
                             >
-                            {label.BTN_Save}
-                        </button>
+                                {label.BTN_Save}
+                            </button>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
@@ -147,41 +180,59 @@
 
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12" class="mb-15">
-                            <label class="slds-form-element__label field-title" for="customize-desc">
-                                {label.PP_Customize_Exp_Description}
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-desc"
+                            >
+                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <label class="slds-form-element__label field-title" for="customize-condition">
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-condition"
+                            >
                                 Conditions
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <div class="slds-form-element__control slds-p-top_xx-small">   
+                            <div class="slds-form-element__control slds-p-top_xx-small">
                                 <lightning-input
                                     label="Customize Experience"
                                     variant="label-hidden"
                                     placeholder={label.PP_Customize_search_text}
                                     onchange={bulkSearch}
                                     type="search"
-                                    name="search"   
-                                    class="profile-info-input"                             
-                                ></lightning-input>       
-                            </div>  
-                        </lightning-layout-item> 
+                                    name="search"
+                                    class="profile-info-input customize-exp"
+                                    value={searchInput}
+                                ></lightning-input>
+                            </div>
+                        </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <label class="slds-form-element__label field-title" for="customize-condition">
+                            <label
+                                class="slds-form-element__label field-title"
+                                for="customize-condition"
+                            >
                                 Select up to 5 conditions
                             </label>
-                        </lightning-layout-item>                       
+                        </lightning-layout-item>
                     </lightning-layout>
                     <!-- Search Output -->
                     <lightning-layout multiple-rows="true" class="mb-15">
                         <lightning-layout-item size="12">
                             <template if:true={isInitialized}>
-                                <div class="table-scroll" data-id="scrolllist" if:true={showSearchOutput}>
+                                <div
+                                    class="table-scroll"
+                                    data-id="scrolllist"
+                                    if:true={showSearchOutput}
+                                >
                                     <template for:each={displayedItems} for:item="coiWrapper">
-                                        <div key={coiWrapper.coi.Therapeutic_Area__r.Name} class="searchOutputGrid mb-5">
+                                        <div
+                                            key={coiWrapper.coi.Therapeutic_Area__r.Name}
+                                            class="searchOutputGrid mb-5"
+                                        >
                                             <span>
                                                 <div class="slds-checkbox">
                                                     <lightning-input
@@ -190,13 +241,16 @@
                                                         type="checkbox"
                                                         value={coiWrapper}
                                                         onchange={handleChange}
+                                                        name={coiWrapper}
                                                     >
                                                     </lightning-input>
                                                 </div>
                                             </span>
-                                            <span class="mr-4">{coiWrapper.coi.Therapeutic_Area__r.Name}</span>
+                                            <span class="mr-4"
+                                                >{coiWrapper.coi.Therapeutic_Area__r.Name}</span
+                                            >
                                         </div>
-                                    </template> 
+                                    </template>
                                 </div>
                             </template>
                         </lightning-layout-item>
@@ -206,22 +260,32 @@
                             <template for:each={conditionsOfInterestTemp} for:item="showCoi">
                                 <div
                                     key={showCoi.coi.Therapeutic_Area__r.Name}
-                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap mr-8"
                                 >
                                     <!-- Custom Pill -->
                                     <div class="slds-form-element">
                                         <div class="slds-form-element__control slds-p-top_xx-small">
                                             <div class="pill">
                                                 <button type="button" class="btn btn-primary">
-                                                    {showCoi.coi.Therapeutic_Area__r.Name} 
+                                                    {showCoi.coi.Therapeutic_Area__r.Name}
                                                     <span class={iconPosition}>
-                                                        <span onclick={handleRemove} class={iconEye} data-name={showCoi.coi.Therapeutic_Area__r.Name}>
-                                                            <c-web-icon
+                                                        <span
+                                                            onclick={handleRemove}
+                                                            class={iconEye}
+                                                            data-name={showCoi.coi.Therapeutic_Area__r.Name}
+                                                        >
+                                                            <!-- <c-web-icon
                                                                 icon-size="medium-large"
-                                                                icon-name={eyeIcon}
+                                                                icon-name={closeIcon}
                                                                 icon-color="#999999"
                                                             >
-                                                            </c-web-icon>
+                                                            </c-web-icon> -->
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={closeIcon}></use>
+                                                            </svg>
                                                         </span>
                                                     </span>
                                                 </button>
@@ -238,15 +302,16 @@
                     <lightning-layout multiple-rows="true" class="mb-10">
                         <lightning-layout-item size="12">
                             <button
-                            class="slds-button saveButtonMobile slds-button_brand apollo-btn primary" 
-                            data-id="saveBtn"       
+                                class="slds-button saveButtonMobile slds-button_brand apollo-btn primary"
+                                data-id="saveBtn"
+                                onclick={saveElement}
                             >
-                            {label.BTN_Save}
-                        </button>
+                                {label.BTN_Save}
+                            </button>
                         </lightning-layout-item>
                     </lightning-layout>
                 </div>
             </template>
-        </div>       
+        </div>
     </template>
 </template>

@@ -29,6 +29,9 @@
 .cp-content {
     align-items: start;
 }
+.user-profile-icon .slds-icon_x-small{
+    margin:8px 0 0 8px !important;
+}
 
 .cp-logo-block{
     margin: 50px auto auto;
@@ -38,8 +41,18 @@
     height: 2rem !important;
     box-sizing: border-box !important;
     border: 1px solid #d9d9d9 !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+}
+
+.profile-info-btn .slds-button{
+    color:#ffffff;
+    height: 2rem !important;
+    width:6rem !important;
+    border-radius: 16px !important;
+    background-color: #0768FD !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32) !important;
+    
 }
 
 .profile-info-error-input .slds-input{
@@ -69,7 +82,6 @@
 .font-thickness {
     font-weight: 500;
 }
-
 @media (max-width: 500px){
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
@@ -85,7 +97,7 @@
 }
 
 .toastContainer > .forceToastMessage {
-    width: 40%;
+    width: fit-content;
     max-width: 1424px;
     min-height: 40px;
     min-width: 40%;
@@ -96,13 +108,17 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content{
+    padding-left: 0.5rem;
+}
+
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
 }
 
 .toastMessage.forceActionsText {
     font-family: "Proxima Nova"!important;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 
 .toastContainer .toastClose {
@@ -131,6 +147,244 @@
     border-radius: 20px !important;
 }
 
+.change-password input{
+    padding-right: 12%;
+}
+
 .anchor-container a{
     text-decoration: none !important;
+}
+
+.grayInfoIcon lightning-primitive-icon{
+    color: #444444 !important;
+}
+
+.rr-min-body-height .rr-min-body-height {
+    min-height: auto !important;
+    padding-bottom: 35px !important;
+}
+
+.support-combobox button{
+    border-radius: 20px;
+}
+
+.label-email-pass-match .slds-form-element__label{
+    height: 48px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    height: 13px;
+    width: 12px;
+    color: #0768fd;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+color: #0768fd!important;
+}
+.slds-accordion__content {
+    overflow-x: scroll;
+    /* max-height: 200px; commented because to see 5 val scrollable  */
+}
+.cookie-accordion-border .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none !important;
+    box-shadow: none;
+
+}
+.cookie-accordion-border lightning-primitive-icon svg {
+   fill: #297dfd !important;   
+}
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+}
+
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {    
+    background-color: #444444;
+}
+
+/**help topics specific dropdown CSS*/
+.help-topics .dropdown {
+    display: flex !important;
+    position: relative !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: auto !important;
+    color: #444444 !important;
+    border: 1px solid #d9d9d9 !important;
+    padding: 0 0.5rem 0 0.25rem !important;
+    background: #ffffff !important;
+    font-size: 14px !important;
+    letter-spacing: 0 !important;
+    box-sizing: border-box !important;
+    height: 40px !important;   
+    border-radius: 1.25rem !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0) !important;
+}
+
+.help-topics .dropdown:hover{
+    border: 1px solid #0768FD !important;
+}
+
+.help-topics .dropdown:after {
+    top: 11px !important;
+}
+
+.help-topics .dropdown-menu {
+    min-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow-y: hidden;
+    top: 2.6rem !important;
+    box-sizing: border-box !important;
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 8px 20px 0 rgb(0 0 0 / 8%) !important;
+}
+
+.help-topics .dropdown-menu li {
+    padding: 0.3rem 0.4rem !important;
+}
+
+.help-topics .dropdown-span {
+    height: 1.5rem !important;
+    padding: 0px !important;
+    width: 90% !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 1rem !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5rem !important;
+    padding-left: 1rem !important;
+    font-weight: 600 !important;
+}
+
+
+.logo-container-pp {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 52px;
+    margin-left: -62px;
+    flex-shrink: 0;
+    width: 165px;
+}
+
+.cookie-accordion-border .slds-accordion__summary-action{
+    padding-left: 16px;
+}
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    height: 15px;
+    width: 15px;
+    fill: #0768fd;
+}
+.slds-accordion__section .slds-is-open .slds-accordion__summary-content::after{
+    text-decoration: none !important;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+    color: #0768fd!important;
+    font-size: 18px;
+    font-weight: 600;
+    }
+    .slds-accordion__content {
+        overflow-x: scroll;
+    }
+    .slds-accordion__summary{
+        border-bottom: 1px solid #D9D9D9;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .slds-accordion__summary-heading .slds-button:focus {
+        text-decoration: none;
+    }
+    .ah-toggle .slds-checkbox_toggle{
+        justify-content: end;
+    }
+    .slds-accordion__content{
+        margin: 0 -12px;
+    }
+    
+    .cookie-accordion-border .ah-item-panel {
+        border: none;
+        border-bottom: 1px solid #e9e9e9;
+        background-color: #ffffff;
+        padding: 12px 12px 12px 16px;
+    }
+    .cookie-accordion-border .ah-item-panel:last-child {        
+        border-bottom: none;
+    }
+    .cookie-spacing{
+        padding: 0 13px;
+    }
+    
+    .slds-checkbox_toggle .slds-checkbox_faux, .slds-checkbox_toggle .slds-checkbox--faux, .slds-checkbox--toggle .slds-checkbox_faux, .slds-checkbox--toggle .slds-checkbox--faux {
+        background-color: #D9D9D9 !important;
+        border: 1px solid #D9D9D9 !important;
+        height: 32px;
+        outline: none;
+        width: 56px;
+    }
+    .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux{
+        background-color: #00C221 !important;
+        border: 1px solid #00C221 !important;
+    }
+    
+.customize-exp lightning-primitive-icon{
+    position: absolute;
+    top: 13px;
+    right: 45px;
+}
+
+.customize-exp button lightning-primitive-icon{
+    position: absolute;
+    top: -3px;
+    right: 39px;
+}
+
+.customize-exp lightning-primitive-icon svg{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.customize-exp .slds-input{
+    padding-left: 15px;
+    padding-right: 20%;
 }

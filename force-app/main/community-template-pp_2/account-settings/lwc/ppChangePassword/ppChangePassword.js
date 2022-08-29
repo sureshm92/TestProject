@@ -9,7 +9,7 @@ import TST_password_updated_successfully from '@salesforce/label/c.TST_password_
 import TST_Your_current_password_is_invalid from '@salesforce/label/c.TST_Your_current_password_is_invalid';
 import PG_AS_F_Current_Password from '@salesforce/label/c.PG_AS_F_Current_Password';
 import PG_AS_F_New_password from '@salesforce/label/c.PG_AS_F_New_password';
-import PG_AS_F_Re_enter_new_password from '@salesforce/label/c.PG_AS_F_Re_enter_new_password';
+import PP_AS_F_Re_enter_new_password from '@salesforce/label/c.PP_AS_F_Re_enter_new_password';
 import Pswd_Your_Pswd_Include from '@salesforce/label/c.Pswd_Your_Pswd_Include';
 import Pswd_8_Characters from '@salesforce/label/c.Pswd_8_Characters';
 import Pswd_Include_Any_3 from '@salesforce/label/c.Pswd_Include_Any_3';
@@ -74,7 +74,7 @@ export default class PpChangePassword extends LightningElement {
         PG_AS_F_Current_Password,
         PG_AS_F_New_password,
         PP_Password_Requirements,
-        PG_AS_F_Re_enter_new_password,
+        PP_AS_F_Re_enter_new_password,
         Pswd_Your_Pswd_Include,
         Pswd_8_Characters,
         Pswd_Include_Any_3,
@@ -111,28 +111,28 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters for Input Type Masked
     get currentPasswordCssClass(){
-        return this.showCurrentPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showCurrentPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get newPasswordCssClass(){
-        return this.showNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get reNewPasswordCssClass(){
-        return this.showReNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showReNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     // Getters For Icon color Change
     get toggleCurrentPasswordMaskIcon(){
-        return this.showCurrentPassword ? '#297DFD' : '#999999';
+        return this.showCurrentPassword ? '#297DFD' : '#595959';
     }
 
     get toggleNewPasswordMaskIcon(){
-        return this.showNewPassword ? '#297DFD' : '#999999';
+        return this.showNewPassword ? '#297DFD' : '#595959';
     }
 
     get toggleReNewPasswordMaskIcon(){
-        return this.showReNewPassword ? '#297DFD' : '#999999';
+        return this.showReNewPassword ? '#297DFD' : '#595959';
     }
 
     // getRTL
@@ -273,6 +273,8 @@ export default class PpChangePassword extends LightningElement {
         {
             this.disableUpdateButton();
         }else if(password != renewpassword){
+            this.disableUpdateButton();
+        }else if(password == renewpassword && (password.length < 8 || renewpassword.length < 8)){
             this.disableUpdateButton();
         }else if(oldpassword.length == 0){
             this.disableUpdateButton();

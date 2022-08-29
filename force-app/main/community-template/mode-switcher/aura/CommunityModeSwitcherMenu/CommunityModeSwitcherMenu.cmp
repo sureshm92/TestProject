@@ -46,6 +46,8 @@
                         currentMode="{!v.currentMode}"
                         hasProfilePic="{!v.hasProfilePic}"
                         onpagenavigation="{!c.handleCardVisiblity}"
+                        communityModes="{!v.communityModes}"
+                        onitemselection="{!c.doSelectItem}"
                     />
                     <aura:set attribute="else">
                         <c:HeaderViewInformation

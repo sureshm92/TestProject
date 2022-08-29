@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
@@ -10,12 +11,15 @@ import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_D
 import PP_Customize_search_text from '@salesforce/label/c.PP_Customize_search_text';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BACK from '@salesforce/label/c.Back';
+import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 
 import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
 import searchConditionOfInterest from '@salesforce/apex/SearchConditionsOfInterestRemote.searchConditionOfInterest';
+import deleteCOIMethod from '@salesforce/apex/SearchConditionsOfInterestRemote.deleteCOI';
+import upsertListCoi from '@salesforce/apex/SearchConditionsOfInterestRemote.upsertListCoi';
+import createSubscribeConnection from '@salesforce/apex/SearchConditionsOfInterestRemote.createSubscribeConnection';
 
 export default class PpCustomizeExperience extends LightningElement {
-
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
@@ -24,6 +28,8 @@ export default class PpCustomizeExperience extends LightningElement {
     @track conditionOfInterestList = [];
     @track conditionsOfInterestTemp = []; // list of selected values
     @track displayedItems = [];
+    @track searchInput;
+    @track selectedValues = [];
 
     spinner;
     isInitialized = false;
@@ -33,12 +39,15 @@ export default class PpCustomizeExperience extends LightningElement {
         PP_Customize_Exp_Description,
         PP_Customize_search_text,
         BTN_Save,
-        BACK
+        BACK,
+        PP_Profile_Update_Success
     };
 
     itemshow = false;
     showmenu = false;
     bypass;
+
+    closeIcon = pp_icons + '/' + 'close-circle.svg' + '#' + 'close-circle-icon';
 
     // Component padding
     get headerPanelClass() {
@@ -49,30 +58,34 @@ export default class PpCustomizeExperience extends LightningElement {
         return this.isRTL ? 'cardRTL' : '';
     }
 
-    get eyeIcon(){
-        return "icon-eye";
+    get eyeIcon() {
+        return 'icon-eye';
     }
 
-    get iconEye(){
-        return "cursor";
+    get iconEye() {
+        return 'cursor';
     }
 
-    get showSearchOutput(){
-        return (this.showmenu && this.itemshow) ? true : false;
+    get showSearchOutput() {
+        return this.showmenu && this.itemshow ? true : false;
     }
 
-    get iconPosition(){
+    get iconPosition() {
         return this.isRTL ? 'badge-rtl' : 'badge';
     }
 
-    get pillMargin(){
+    get pillMargin() {
         return this.isRTL ? 'pill-margin-rtl mb-15' : 'pill-margin mb-15';
     }
 
     get iconChevron() {
         return 'icon-chevron-left';
     }
-
+    renderedCallback() {
+        if (this.isInitialized == true) {
+            this.spinner = this.template.querySelector('c-web-spinner');
+        }
+    }
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -80,37 +93,41 @@ export default class PpCustomizeExperience extends LightningElement {
                     .then(() => {
                         this.spinner = this.template.querySelector('c-web-spinner');
                         this.spinner ? this.spinner.show() : '';
+                        this.initializeData();
                     })
                     .catch((error) => {
                         console.log(error.body.message);
                     });
             })
             .catch((error) => {
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
             });
+    }
 
+    initializeData(){        
         getInitData()
             .then((returnValue) => {
                 console.log('success', returnValue);
                 this.isInitialized = true;
-                this.conditionOfInterestList = returnValue;
+                this.conditionOfInterestList = JSON.parse(JSON.stringify(returnValue));
                 let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
                 this.conditionsOfInterestTemp = copy;
-                console.log(this.conditionsOfInterestTemp[0].coi.Id);
+                //console.log(this.conditionsOfInterestTemp[0].coi.Id);
                 window.setTimeout(() => {
-                    this.callhelper(coival);
+                    this.callhelper(coival);                    
                 }, 500);
                 this.spinner.hide();
             })
             .catch((error) => {
                 console.log('error');
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
                 this.spinner.hide();
             });
     }
 
     bulkSearch(event) {
         let coival = event.detail.value;
+        this.searchInput = coival;
         if (coival) {
             this.itemshow = true;
         } else {
@@ -128,7 +145,6 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     callhelper(coival) {
-        //alert('called');
         this.bypass = false;
         this.spinner.show();
         searchConditionOfInterest({
@@ -162,14 +178,14 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.displayedItems = unselecteditems;
             })
             .catch((error) => {
-                communityService.showToast('error', 'error', error.message, 100);
+                communityService.showToast('', 'error', error.message, 100);
             });
     }
 
     handleRemove(event) {
         event.preventDefault();
-        let removedPill = event.currentTarget.getAttribute("data-name");
-        alert(removedPill);
+        let removedPill = event.currentTarget.getAttribute('data-name');
+        //alert(removedPill);
         this.handleClearPill(removedPill);
     }
 
@@ -188,8 +204,42 @@ export default class PpCustomizeExperience extends LightningElement {
         this.showmenu = false;
     }
 
-    handleChange(){
-        alert("TODO: need to write the code");
+    handleChange(event) {
+        console.log('conditionsOfInterestTemp--' + this.conditionsOfInterestTemp);
+        let taList = this.conditionsOfInterestTemp;
+        let inputValue = event.target.name;
+        console.log('inputValue' + inputValue);
+        console.log('event.target.checked' + event.target.checked);
+        console.log(' event.currentTarget.name--' + event.currentTarget.name);
+        var capturedCheckboxName = inputValue;
+        var selectedCheckBoxes = this.selectedValues;
+        let uncheckedValues = [];
+        let finalSelectedvalues = [];
+        if (!event.target.checked) {
+            for (let i = 0; i < taList.length; i++) {
+                if (
+                    taList[i].coi.Therapeutic_Area__r.Name ===
+                    capturedCheckboxName.coi.Therapeutic_Area__r.Name
+                ) {
+                    uncheckedValues.push(capturedCheckboxName.coi.Therapeutic_Area__r.Name);
+                }
+            }
+            if (uncheckedValues) {
+                for (let j = 0; j < taList.length; j++) {
+                    if (uncheckedValues.includes(taList[j].coi.Therapeutic_Area__r.Name)) {
+                    } else {
+                        finalSelectedvalues.push(taList[j]);
+                    }
+                }
+                taList = finalSelectedvalues;
+            }
+        } else if (taList.length < 5) {
+            selectedCheckBoxes.push(capturedCheckboxName);
+            taList.push(capturedCheckboxName);
+        } else {
+            event.target.checked = false;
+        }
+        this.conditionsOfInterestTemp = taList;
     }
 
     showMenuBar(event) {
@@ -202,6 +252,83 @@ export default class PpCustomizeExperience extends LightningElement {
                 })
             );
             this.isInitialized = false;
+        }
+    }
+    saveElement() {
+        const deleteCOI = this.conditionOfInterestList;
+        this.conditionsOfInterestTemp.sort(function (a, b) {
+            return a.Condition_Of_Interest_Order__c - b.Condition_Of_Interest_Order__c;
+        });
+
+        let deleteCoiId = [];
+        for (var i = deleteCOI.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.conditionsOfInterestTemp.length; j++) {
+                if (
+                    deleteCOI[i] &&
+                    deleteCOI[i].coi.Id == this.conditionsOfInterestTemp[j].coi.Id
+                ) {
+                    deleteCOI.splice(i, 1);
+                }
+            }
+        }
+        if (deleteCOI) {
+            deleteCoiId = deleteCOI.map(function (e) {
+                return e.coi.Id;
+            });
+        }
+        if (deleteCoiId) {
+            deleteCOIMethod({
+                coiIds: deleteCoiId
+            });
+        }
+        let copy = JSON.parse(JSON.stringify(this.conditionsOfInterestTemp));
+        this.conditionsOfInterest = copy;
+        let arr = [];
+        this.searchInput = '';
+        this.saveCOIs();
+        communityService.showToast('', 'success', this.label.PP_Profile_Update_Success, 100);
+        //communityService.navigateToPage('account-settings?changePref');
+    }
+    saveCOIs() {
+        let coiWrapperList = this.conditionsOfInterest;
+        let coiList = [];
+        var bool = false;
+        for (let i = 0; i < coiWrapperList.length; i++) {
+            let coi = coiWrapperList[i].coi;
+            coi.Condition_Of_Interest_Order__c = i + 1;
+            coiList.push(coi);
+            bool = true;
+        }
+        if (bool) {
+            upsertListCoi({
+                cois: coiList
+            })
+                .then((returnValue) => {
+                    let coiSaveWrapperList = [];
+
+                    returnValue.forEach(function (e) {
+                        let coiSave = {};
+                        coiSave.isSelected = true;
+                        coiSave.coi = e;
+                        coiSaveWrapperList.push(coiSave);
+                    });
+                    var tempt = this.displayedItems;
+                    if (coiSaveWrapperList.size > 0) {
+                        this.displayedItems = coiSaveWrapperList;
+                        this.showPills = true;
+                    }
+                    this.showmenu = false;
+                    this.conditionOfInterestList = coiSaveWrapperList;
+                    this.spinner.hide();
+                })
+                .catch((error) => {
+                    console.log('error');
+                    communityService.showToast('', 'error', error.message, 100);
+                    this.spinner.hide();
+                });
+            createSubscribeConnection({
+                cois: coiList
+            });
         }
     }
 }

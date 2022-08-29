@@ -621,10 +621,22 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         this.isSpinner = true;
         let studysiteid = event.currentTarget.dataset.id;
         let targetId = event.target.dataset.targetId;
+        let uniquekey;
+        if(targetId == 'FirstReminder'){
+            uniquekey = 'First'+studysiteid;
+        }else{
+            uniquekey = 'Second'+studysiteid;
+        }
         console.log('++++++++++'+studysiteid);
         console.log('++++++++++targetId'+targetId);
         console.log('++++++++++111'+event.target.value);
-        updateremindervalues({ studysiteId:studysiteid,remindername:targetId,selValue:event.target.value})
+        let finalValue = event.target.value;
+        if(event.target.value.includes('.') ){
+            this.template.querySelector('[data-uniquekey="'+uniquekey+'"]').value = event.target.value.replace('.','');
+            finalValue = event.target.value.replace('.','');
+        }
+
+        updateremindervalues({ studysiteId:studysiteid,remindername:targetId,selValue:finalValue})
         .then((result) => {
             console.log('result-->'+result);
             this.isSpinner = false;

@@ -6,6 +6,7 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     margin-left: 1.5rem;
+    width: 100%;
 }
 .btn-deactivate {
     box-sizing: border-box;
@@ -18,7 +19,6 @@
 }
 .spins::after {
     position: absolute;
-    content: 'Loading......';
     width: 100%;
     text-align: center;
     top: calc(50% + 3em);
@@ -44,7 +44,8 @@
     .patient-delegate-item-rectangle {
         margin-left: 0rem;
         height: 144px;
-        width: 350px;
+        width: 358px;
+        margin-bottom: 1.5rem;
     }
     .btn-deactivate-mob {
         margin-left: 3.8rem;

@@ -88,9 +88,11 @@ export default class ConsentManager extends LightningElement {
         switch(value){
             case 'addParticipant':                          
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
+                this.EMAIL_ROW_CONSENT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                             
             break;
             case 'importParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                
+                this.EMAIL_ROW_CONSENT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;           
                 this.getStudySite();
             break;
             case 'ReferParticipantRP':
@@ -112,6 +114,14 @@ export default class ConsentManager extends LightningElement {
             return 'slds-form-element information-text slds-m-bottom_x-small slds-m-top_small';
         }
         
+    }
+    get classForCountryConsent(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align bulkimportMarginConsent';
+        }
+        else{
+            return 'label_align';
+        }
     }
     get studyConsentClassName(){
         if(this._callSource == "importParticipant"){
@@ -146,6 +156,43 @@ export default class ConsentManager extends LightningElement {
             return 'slds-form-element__label-for-checkbox';
         }
 
+    }
+    get classNameforPhone(){
+
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_large p-left_mobile importtMbl_phonecss';
+        }
+        else {
+            return 'label_align slds-p-left_large p-left_mobile';
+        }
+
+    }
+    get classNameforEmail(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium importtMbl_Emailcss';
+        }
+        else {
+            return 'label_align slds-p-left_medium';
+        }
+        
+    }
+    get classNameforSMS(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium importtMbl_SMScss';
+        }
+        else {
+            return 'label_align slds-p-left_medium';
+        }
+        
+    }
+    get classNameforDirectEmail(){
+        if(this._callSource == "importParticipant"){
+            return 'label_align slds-p-left_medium  p-left_mobile importtMbl_DMailcss bulkimportMarginConsent';
+        }
+        else {
+            return 'label_align slds-p-left_medium  p-left_mobile';
+        }
+        
     }
 
     @api
