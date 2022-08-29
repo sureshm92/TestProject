@@ -164,7 +164,7 @@
             <div class="rr-body-content rr-min-body-height">
                 <aura:if isTrue="{!v.isInitialized}">
                     <aura:if isTrue="{!v.isPPonPhone}">
-                        <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
+                        <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}"  showSideMenu="{!v.showSideMenu}"/>
                     </aura:if>
                     <aura:if isTrue="{!!v.isPPonPhone}">
                         <c:CommunityNavigationMobile

@@ -39,34 +39,38 @@
     margin-top: 10px;
 }
 
-.mb-5{
+.mb-5 {
     margin-bottom: 5px;
 }
 
-.mb-10{
+.mb-10 {
     margin-bottom: 10px;
 }
 
-.mb-15{
+.mb-15 {
     margin-bottom: 15px;
 }
 
-.mb-20{
+.mb-20 {
     margin-bottom: 20px;
 }
 
-.cp-red{
+.cp-red {
     color: red;
     font-size: 20px;
     margin-left: -5px;
 }
+.cp-red-prefred-lan {
+    color: red;
+    font-size: 20px;
+}
 
-.margin-lr-15{
+.margin-lr-15 {
     margin-left: 15px;
     margin-right: -15px;
 }
 
-.margin-lr-15Plus{
+.margin-lr-15Plus {
     margin-left: -15px;
     margin-right: 15px;
 }
@@ -94,16 +98,25 @@
     line-height: 16px;
     text-align: center;
     margin-top: 10px;
-    border-radius: 20px; 
+    border-radius: 20px;
 }
 
 :host {
     --slds-c-tooltip-color-background: #444444 !important;
 }
 
-.new-title{
+.new-title {
     color: #444;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 600;
     line-height: inherit;
+}
+.label-p-right {
+    padding-right: 0px;
+}
+@media all and (max-width: 768px) {
+    .label-p-right {
+        padding: 0px 0px 0px 0px;
+        margin: -2px 0 0 0;
+    }
 }

@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import edit_Year_of_Birth from '@salesforce/label/c.PP_Edit_Year_of_Birth';
-import match_Username_Email_Option from '@salesforce/label/c.PP_Match_Username_Email';
+import match_Username_Email_Option from '@salesforce/label/c.PP_Username_Email_GetSupport';
 import select_Support_Topic from '@salesforce/label/c.PP_Select_Support_Topic';
 import ppFrom from '@salesforce/label/c.PP_From';
 import ppTo from '@salesforce/label/c.PP_To_Year';
@@ -10,7 +10,7 @@ import getSupport from '@salesforce/label/c.PP_Get_Support';
 import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
-import matchUsernameEmail from '@salesforce/label/c.PP_Change_Username_And_Email';
+import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
 import helpResponse from '@salesforce/label/c.PP_HelpResponse';
 import accountSettings from '@salesforce/label/c.PP_Account_Settings';
 import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
@@ -22,7 +22,7 @@ import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 
 export default class PpGetSupport extends NavigationMixin(LightningElement) {
-    @api isdelegate;
+    @api showGetSupport;
     @api isDuplicate;
     @api currentYOB;
     @api showUserMatch;
@@ -56,7 +56,6 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         updateProfileResponse,
         accountSettings
     };
-
     selectedOption;
     selectedYOB;
     placeholder = select_Support_Topic;
@@ -98,9 +97,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         return this.yearOfBirthPicklistvalues;
     }
     get isParticipant() {
-        let isParticipant;
-        isParticipant = this.userMode == 'Participant' && this.isdelegate == false ? true : false;
-        return isParticipant;
+        return this.showGetSupport;
     }
     get isShowUserMatch() {
         return this.showUserMatch;
