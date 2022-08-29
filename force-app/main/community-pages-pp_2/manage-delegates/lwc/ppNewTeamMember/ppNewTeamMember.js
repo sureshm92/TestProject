@@ -445,8 +445,7 @@ export default class PpNewTeamMember extends LightningElement {
                                             ' ' +
                                             delegate.delegateContact.FirstName +
                                             ' ' +
-                                            delegate.delegateContact.LastName +
-                                            '.',
+                                            delegate.delegateContact.LastName,
                                         100
                                     );
                                     this.isAttested = false;
