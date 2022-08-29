@@ -73,6 +73,8 @@ export default class PpLanguageSwitcher extends LightningElement {
     
     stateComboboxEle;
 
+    flagChangeInForm = false;
+
     label = {
         PG_Login_H_Language_Options,
         PP_Language_and_Location,
@@ -114,7 +116,7 @@ export default class PpLanguageSwitcher extends LightningElement {
 
     renderedCallback(){
         this.saveButton = this.template.querySelector('button[data-id=saveBtn]');
-        this.saveButton ? this.isInputValid(): "";
+       // this.saveButton ? this.isInputValid(): "";
         if(this.isInitialized){
             if(this.statesLVList && this.statesLVList.length == 0){
                 this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
@@ -200,7 +202,8 @@ export default class PpLanguageSwitcher extends LightningElement {
         this.statesLVList.length == 0 ? this.stateComboboxEle.disabled = true : this.stateComboboxEle.disabled = false;
     }
 
-    doCheckFieldsValidity(event){      
+    doCheckFieldsValidity(event){    
+        this.flagChangeInForm = true;  
         this.personWrapper.mailingCC = event.target.value;
         this.selectedCountry = this.personWrapper.mailingCC;
         this.selectedState = "";
@@ -224,34 +227,44 @@ export default class PpLanguageSwitcher extends LightningElement {
 
     doPrefLangChange(event){
         this.languageKey = event.target.value;
+        this.flagChangeInForm = true; 
         this.isInputValid();
     }
 
     doSecondLangChange(event){
+        this.flagChangeInForm = true; 
         this.secondLangKey = event.target.value;
+        this.isInputValid();
     }
 
     doThirdLangChange(event){
+        this.flagChangeInForm = true; 
         this.thirdLangKey = event.target.value;
+        this.isInputValid();
     }
 
     doPrefTimeZoneChange(event){
+        this.flagChangeInForm = true; 
         this.timezoneKey = event.target.value;
         this.isInputValid();
     }
 
     doLocaleChange(event){
+        this.flagChangeInForm = true; 
         this.localeKey = event.target.value;
         this.isInputValid();
     }
 
     doStateChange(event){
+        this.flagChangeInForm = true; 
         this.selectedState = event.target.value;
         this.isInputValid();
     }
 
     doZipChange(event){
+        this.flagChangeInForm = true; 
         this.selectedZip = event.target.value;
+        this.isInputValid();
     }
 
     // Helper Functions
@@ -376,6 +389,7 @@ export default class PpLanguageSwitcher extends LightningElement {
             country.length == 0) ||
             (statesLVList.length != 0 && 
                 statevalue == "")
+            || !this.flagChangeInForm
         ) 
         {
             this.disableSaveButton();
