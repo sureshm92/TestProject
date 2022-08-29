@@ -635,12 +635,12 @@
     padding-bottom: 3px !important;
 }
 
-.study-override .slds-has-error {
+.THIS .study-override .slds-has-error {
     --slds-c-input-color-border: gray !important;
     --slds-c-input-shadow: none !important;
 }
 
-.study-override {
+.THIS .study-override {
     --slds-c-input-color-border: gray !important;
     --slds-c-input-shadow: none !important;
 }
