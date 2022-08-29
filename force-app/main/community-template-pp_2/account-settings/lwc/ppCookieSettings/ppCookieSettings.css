@@ -14,6 +14,20 @@
 .as-container .as-password {
 }
 
+.cardRTL {
+    direction: rtl;
+}
+
+.back-button {
+    color: #0768fd;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 2rem;
+    margin-bottom: 8px;
+    margin-left: -3px;
+}
+
 .as-title {
     color: #000000;
     font-family: 'Proxima Nova';
@@ -90,13 +104,6 @@
 .as-privacy-form textarea {
     height: 200px;
 }
-
-.as-submit-button {
-}
-
-.as-email-pref-item {
-}
-
 .ah-toggle {
     flex: inherit;
 }
@@ -115,7 +122,7 @@
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 19px;
+    line-height: 30px;
 }
 
 .ah-item-sublabel {
@@ -123,7 +130,7 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
-    line-height: 24px;
+    line-height: 30px;
 }
 
 .ah-item-panel {
@@ -233,13 +240,6 @@
     margin-bottom: 16px;
 }
 
-.cookie-accordion-border {
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-    margin-bottom: 16px;
-}
 .cookie-accordion-label {
     color: #ffffff;
     font-family: 'Proxima Nova';
@@ -252,6 +252,27 @@
 .cookie-scroll-height {
     overflow-y: auto;
     max-height: 200px;
+}
+.cookie-toggle {
+    color: #d9d9d9;
+}
+
+.cookie-accordion-border {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    margin-bottom: 16px;
+    overflow: auto;
+}
+.cookie-accordion-label {
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 500;
+}
+.ah-toggle {
+    border: 0px;
 }
 .cookie-toggle {
     color: #d9d9d9;
@@ -276,4 +297,31 @@
     border-radius: 10px;
 
     background: #999999;
+}
+.cookie-line-height {
+    line-height: 22px;
+}
+.cookie-accordion-height {
+    overflow: hidden;
+    max-height: 420px;
+}
+.cookie-scroll-height {
+    overflow-y: scroll;
+    max-height: 472px;
+}
+.cookie-accordion-mobile {
+    overflow: hidden;
+}
+.cookie-accordion-border .cookie-mobile-toggle {
+    justify-content: end;
+}
+.cookie-accordion-mobile1 {
+    overflow: hidden;
+    max-height: 560px;
+}
+.cookie-mobile-togg {
+    align-self: center;
+}
+.cookie-description-lineheight {
+    line-height: 24px;
 }

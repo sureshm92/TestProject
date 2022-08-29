@@ -4,6 +4,8 @@ public class Test_Batch_CreateECOASubjectEvents {
     static void init() {
         Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
+        
         Clinical_Trial_Profile__c ctp = [
             SELECT id, Study_GUID__c
             FROM Clinical_Trial_Profile__c
@@ -18,7 +20,6 @@ public class Test_Batch_CreateECOASubjectEvents {
         obj1.ClinroRuleSetGuid__c = 'test123';
         obj1.EproRuleSetGuid__c = 'eprorule12';
         insert obj1;
-        Test.stopTest();
     }
 
     @isTest
@@ -37,6 +38,7 @@ public class Test_Batch_CreateECOASubjectEvents {
             WHERE Clinical_Trial_Profile__c = :ctp.id
             LIMIT 1
         ];
+        Test.startTest();
         pe.Subject_GUID__c = '11111';
         pe.Participant_Status__c = 'Enrollment Success';
         update pe;
@@ -44,7 +46,7 @@ public class Test_Batch_CreateECOASubjectEvents {
         Study_Site__c ss = [SELECT id FROM Study_Site__c LIMIT 1];
         ss.ECOA_Site_Guid__c = 'ecosite123';
         update ss;
-        Test.startTest();
+        
         
         Set<Id> peId = new Set<Id>{pe.Id};
         DataBase.executeBatch(new Batch_CreateECOASubjectEvents(peId));
