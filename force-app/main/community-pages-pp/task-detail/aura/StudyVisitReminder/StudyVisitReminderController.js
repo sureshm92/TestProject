@@ -262,7 +262,7 @@
                     }
                 }
                 if (!$A.util.isUndefinedOrNull(reminderOptionValid)) {
-                    reminderOptionValid.setCustomValidity(' ');
+                    reminderOptionValid.setCustomValidity('');
                     reminderOptionValid.reportValidity();
                 }
             } else {
@@ -283,7 +283,7 @@
                 taskName.setCustomValidity($A.get('$Label.c.PP_RequiredErrorMessage'));
                 taskName.reportValidity();
             } else {
-                taskName.setCustomValidity(' ');
+                taskName.setCustomValidity('');
                 taskName.reportValidity();
             }
         }
