@@ -1,7 +1,7 @@
 <template>
     <template for:each={participantTabs} for:item="item">
         <div
-            class="phone-menu-background nav-menu slds-border_top slds-p-vertical_large"
+            class={menuCss}
             key={item.label}
             data-page-name={item.page}
             onclick={handleNavigation}

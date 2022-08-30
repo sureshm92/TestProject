@@ -21,6 +21,7 @@ export default class PpQuickReferenceLink extends LightningElement {
     currentContactEmail;
     isDuplicate;
     showUserMatch;
+    @api showGetSupport;
     renderedCallback() {}
     connectedCallback() {
         this.initializeData();
@@ -48,7 +49,12 @@ export default class PpQuickReferenceLink extends LightningElement {
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
+            setTimeout(() => {
+                window.open(
+                    webViewer + '?file=' + result + '&fileName=' + quickRefernceCard,
+                    '_blank'
+                );
+            });
         });
     }
 }

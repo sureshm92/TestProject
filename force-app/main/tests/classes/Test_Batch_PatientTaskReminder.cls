@@ -9,9 +9,11 @@ public with sharing class Test_Batch_PatientTaskReminder {
 
         Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
+        //Test.startTest();
         delete [SELECT Id FROM Notification__c];
         TestData testData = new TestData();
-        Test.stopTest();
+        //Test.stopTest();
 
         List<Participant__c> participant = [
             SELECT Id, Contact__c, Contact__r.Participant_Opt_In_Status_Emails__c

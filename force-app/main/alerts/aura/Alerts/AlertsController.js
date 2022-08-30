@@ -19,7 +19,9 @@
                     component.set('v.currentAlert', alerts[currentAlertIndex]);
                     component.find('alertsDialog').show();
                 } else {
+                    if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                     component.find('onboardingSlideTour').initialShow();
+                    }
                     component.find('motivationalMessages').show();
                 }
             }

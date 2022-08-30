@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import LOCALE from '@salesforce/i18n/locale';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -10,12 +11,15 @@ import pdfjs_dist from '@salesforce/resourceUrl/pdfjs_dist';
 import participant_user_guide from '@salesforce/resourceUrl/Participant_user_guide';
 import getHelpInitData from '@salesforce/apex/HelpController.getHelpInitData';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
+import helpResponse from '@salesforce/label/c.PP_HelpResponse';
+import accountSettings from '@salesforce/label/c.PP_Account_Settings';
+import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import DEVICE from '@salesforce/client/formFactor';
 
-export default class PpHelp extends LightningElement {
+export default class PpHelp extends NavigationMixin(LightningElement) {
     isInitialized = false;
     userMode;
     isRTL = false;
@@ -29,12 +33,18 @@ export default class PpHelp extends LightningElement {
     helpTopicSettings;
     participantPicklistvalues;
     sitePicklistvalues;
+    showGetSupport;
 
     isMobile = false;
+    label = {
+        helpResponse,
+        accountSettings,
+        updateProfileResponse
+    };
 
-    exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
-    exclamation = pp_icons + '/' + 'status-exclamation.svg' + '#' + 'status-exclamation-icon';
+    //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
+    exclamation = pp_icons + '/' + 'status-exclamation-icon.png';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
     get cardRTL() {
@@ -59,6 +69,8 @@ export default class PpHelp extends LightningElement {
 
     renderedCallback() {}
     connectedCallback() {
+        let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
+        this.showGetSupport = currentDelgId == null ? true : false;
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -115,6 +127,11 @@ export default class PpHelp extends LightningElement {
     }
 
     navigateToAccSettings() {
-        window.open('account-settings', '_blank');
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'account-settings'
+            }
+        });
     }
 }

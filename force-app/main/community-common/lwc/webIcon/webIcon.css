@@ -7,6 +7,11 @@
     display: inline-block;
 }
 
+.rr-icon_exSmall {
+    height: 9.87px;
+    width: 15.99px;
+}
+
 .rr-icon_small {
     height: 15px;
     width: 15px;
