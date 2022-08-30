@@ -161,12 +161,17 @@
                 participantTabs.push(this.allPagesMap['resources']);
             }
         }
-        if (communityService.getCurrentCommunityMode().hasPastStudies)
-            participantTabs.push(this.allPagesMap['past-studies']);
+        if (communityService.getCurrentCommunityMode().hasPastStudies) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                participantTabs.push(this.allPagesMap['past-studies']);
+            }
+        }
         //set eDiary tab visibility for Participants.
         if (communityService.getEDiaryVisible()) {
             if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                participantTabs.push(this.allPagesMap['e-diaries']);
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
+                    participantTabs.push(this.allPagesMap['e-diaries']);
+                }
             }
         }
         if (communityService.getMessagesVisible()) {

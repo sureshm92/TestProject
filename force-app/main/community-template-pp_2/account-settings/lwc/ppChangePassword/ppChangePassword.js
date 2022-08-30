@@ -111,15 +111,15 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters for Input Type Masked
     get currentPasswordCssClass(){
-        return this.showCurrentPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showCurrentPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get newPasswordCssClass(){
-        return this.showNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get reNewPasswordCssClass(){
-        return this.showReNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showReNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     // Getters For Icon color Change
@@ -260,27 +260,7 @@ export default class PpChangePassword extends LightningElement {
         if(oldpassword == null || oldpassword == "" || oldpassword == undefined){
             this.incorrectOldPassword = false;
             this.validateOldPassword();
-        }
-
-        // Handle Update button visibility
-        if( this.isDelegate ||
-            password == null ||
-            password == undefined ||
-            password.length == 0  ||
-            renewpassword == null ||
-            renewpassword == undefined ||
-            renewpassword.length == 0)
-        {
-            this.disableUpdateButton();
-        }else if(password != renewpassword){
-            this.disableUpdateButton();
-        }else if(password == renewpassword && (password.length < 8 || renewpassword.length < 8)){
-            this.disableUpdateButton();
-        }else if(oldpassword.length == 0){
-            this.disableUpdateButton();
-        }else{
-            this.enableUpdateButton();
-        }
+        }        
 
          //Password Strength Check
          let strengthValue = {
@@ -328,6 +308,27 @@ export default class PpChangePassword extends LightningElement {
             this.passwordDoNotMatchCriterion = true;
         }else{
             ((this.caps + this.small + this.numbers + this.special) < 3) ? this.passwordDoNotMatchCriterion = true : this.passwordDoNotMatchCriterion = false;
+        }
+
+        // Handle Update button visibility
+        if( this.isDelegate ||
+            password == null ||
+            password == undefined ||
+            password.length == 0  ||
+            renewpassword == null ||
+            renewpassword == undefined ||
+            renewpassword.length == 0)
+        {
+            this.disableUpdateButton();
+        }else if(password != renewpassword){
+            this.disableUpdateButton();
+        }else if(password == renewpassword && this.passwordDoNotMatchCriterion){
+            this.disableUpdateButton();
+        }        
+        else if(oldpassword.length == 0){
+            this.disableUpdateButton();
+        }else{
+            this.enableUpdateButton();
         }
 
         let newPassEle = this.template.querySelector('lightning-input[data-id=newe-password]');        
