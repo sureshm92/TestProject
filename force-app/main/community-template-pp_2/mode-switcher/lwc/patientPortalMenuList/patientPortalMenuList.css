@@ -28,3 +28,44 @@
 .delegate-details {
     font-weight: bold;
 }
+.title-overflow-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/*  Custom Tooltip  - added by Imteyaz Alam */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #444444;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0 5px 0;
+    position: absolute;
+    z-index: 999;
+    bottom: 120%;
+    left: 46%;
+    margin-left: -80px;
+}
+
+.tooltip .tooltiptext::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #444444 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
