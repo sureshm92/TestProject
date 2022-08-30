@@ -19,6 +19,12 @@
         if(communityService.getCurrentCommunityTemplateName()=='PatientPortal'){
             component.set('v.isPatientPortal', true);
         }
+
+        if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
+            component.set('v.mobile', true);
+        }else{
+            component.set('v.mobile', false);
+        }
         let currentPage = communityService.getPageName();
         let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
         const pagesWithSharedPrivacyPolicy = communityService.getPagesWithSharedPrivacyPolicy();
