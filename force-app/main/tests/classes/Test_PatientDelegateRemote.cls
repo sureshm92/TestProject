@@ -186,8 +186,14 @@ public class Test_PatientDelegateRemote {
         jamesContact.LastName = 'Jones';
         jamesContact.Email = 'jam.smith@gmail.com';
 
+        Contact t1 = new Contact();
+        t1.Email = 'test@test1.com';
+
         Test.startTest();
         PatientDelegateRemote.editPatientDelegateDetail(JSON.serialize(jamesContact));
+        try{
+            PatientDelegateRemote.editPatientDelegateDetail(JSON.serialize(t1));
+        } catch(Exception ex){}
         Test.stopTest();
 
         Contact jamesContact2 = [
@@ -247,6 +253,11 @@ public class Test_PatientDelegateRemote {
        
         System.runAs(testData.participantUser) {
             PatientDelegateRemote.changeDelegateStatus(conDel[0].Id, false);
+            try{
+                PatientDelegateRemote.changeDelegateStatus('c.id',true);
+            }catch(Exception ex) {
+
+            }
         }
       
         List<Patient_Delegate__c> patientDelegate = [
@@ -268,6 +279,11 @@ public class Test_PatientDelegateRemote {
 
         Test.startTest();
         PatientDelegateRemote.withdrawDelegate(jamesContact.Id, false);
+        try{
+            PatientDelegateRemote.withdrawDelegate('jamesContact.Id', true);
+        }catch(Exception ex){
+
+        }
         Test.stopTest();
 
         Contact delegate = [SELECT Id, userCommunityMode__c FROM Contact WHERE FirstName = 'James']

@@ -14,7 +14,7 @@ import PG_AS_F_Locale_For_Date_Format from '@salesforce/label/c.PG_AS_F_Locale_F
 import PG_Login_H_Residence_Region from '@salesforce/label/c.PG_Login_H_Residence_Region';
 import PE_Country from '@salesforce/label/c.PE_Country';
 import PE_State from '@salesforce/label/c.PE_State';
-import PG_AS_F_Zip_Postal_Code from '@salesforce/label/c.PG_AS_F_Zip_Postal_Code';
+import PP_AS_F_Zip_Postal_Code from '@salesforce/label/c.PP_AS_F_Zip_Postal_Code';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 import PP_Preferred_Time_Zone from '@salesforce/label/c.PP_Preferred_Time_Zone';
@@ -88,7 +88,7 @@ export default class PpLanguageSwitcher extends LightningElement {
         PG_Login_H_Residence_Region,
         PE_Country,
         PE_State,
-        PG_AS_F_Zip_Postal_Code,
+        PP_AS_F_Zip_Postal_Code,
         PG_AC_Select,
         PP_Third_Language,
         PP_Second_Language,
