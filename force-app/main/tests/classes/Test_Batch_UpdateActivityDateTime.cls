@@ -101,7 +101,8 @@ private class Test_Batch_UpdateActivityDateTime {
             }
         );
         insert studySite;
-      List<Participant_Enrollment__c> enrollemntLST = new List<Participant_Enrollment__c>();
+        Test.startTest();
+        List<Participant_Enrollment__c> enrollemntLST = new List<Participant_Enrollment__c>();
         Participant_Enrollment__c part = (Participant_Enrollment__c) TestDataFactory.getSObject(
             Participant_Enrollment__c.getSObjectType(),
             new Map<String, Object>{
@@ -131,7 +132,7 @@ private class Test_Batch_UpdateActivityDateTime {
         };
         insert tasksList;
 
-        Test.startTest();
+
         new Batch_UpdateActivityDateTimeOldUsers().execute(null, tasksList);
         Test.stopTest();
 
