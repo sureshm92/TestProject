@@ -468,7 +468,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS_RH_ROW_Consent_SMS</shortDescription>
-        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes</value>
+        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes.</value>
     </labels>
     <labels>
         <fullName>Site_DB_Invited</fullName>
