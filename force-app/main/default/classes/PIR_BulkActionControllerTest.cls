@@ -5,18 +5,31 @@ public class PIR_BulkActionControllerTest {
         TestData.loadTestData(); 
     }
 
-    @isTest
+   @isTest
     static void testCreateUserForPatientProtal(){
+        TestData testData = new TestData();
         List<Participant_Enrollment__c> peList = [SELECT Id FROM Participant_Enrollment__c];
         List<String> peIds = new List<String>();
         for(Participant_Enrollment__c pe:peList){
             peIds.add(pe.Id);
         }
-        
         Test.startTest();
+        List<Clinical_Trial_Profile__c> ctpListnew = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpListnew[0].CommunityTemplate__c='Janssen';
+        update ctpListnew;
+        
+        
         PIR_BulkActionController.createUserForPatientProtal(peIds,true);
         PIR_BulkActionController.updateParticipantData(peIds);
-        PIR_BulkActionController.exportSelected(peIds);        
+        PIR_BulkActionController.exportSelected(peIds);  
+          
+       /* try{
+            System.runAs(testData.piUser) {
+        		PIR_BulkActionController.exportAll(null,null,0,45000,null);
+                PIR_BulkActionController.exportAll(null,null,0,45000,'Janssen');
+                
+            }
+        }catch (Exception ex){}*/
         Test.stopTest();
     }
     
@@ -35,19 +48,23 @@ public class PIR_BulkActionControllerTest {
         }
         Test.startTest();
         PIR_BulkActionController.exportAll(ctpIds,studyIds,0,45000,'Default');
+         PIR_BulkActionController.exportAll(ctpIds,studyIds,0,45000,'Janssen');
+         
         try{
-            System.runAs(testData.participantUser) {
+            System.runAs(testData.piUser) {
         		PIR_BulkActionController.exportAll(null,null,0,45000,null);
+                PIR_BulkActionController.exportAll(null,null,0,45000,'Janssen');
                 
             }
         }catch (Exception ex){}
         try{
             System.runAs(testData.participantUser) {
                 PIR_BulkActionController.exportAll(null,null,0,45000,'Default');
+                //PIR_BulkActionController.PeDataTableWrapper pt=  PIR_BulkActionController.fetchData('Change Participant Status',ctpIds,'Enrollment Success');
+
             }
         } catch (Exception ex){System.debug('Exception:'+ex.getLineNumber()+' '+ex.getMessage());}
         //PIR_BulkActionController.fetchData('Change Participant Status',ctpIds,'Enrollment Success');
         Test.stopTest();
     }
-
-}
+    }
