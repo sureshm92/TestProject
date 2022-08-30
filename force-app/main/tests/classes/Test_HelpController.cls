@@ -33,14 +33,16 @@ public class Test_HelpController {
 
     @IsTest
     public static void runTest() {
+        Test.startTest();
         TestData.loadTestData();
+          Test.stopTest();
         TestData testDataInstance = new TestData();
 
         HelpInitData initDataPart;
         String initExceptionMessage;
         String fileExceptionMessage;
 
-        Test.startTest();
+        
         try {
             HelpController.getHelpInitData('PI','Default');
         } catch (Exception e) {
@@ -92,7 +94,7 @@ public class Test_HelpController {
             FROM ContentDocumentLink
             WHERE LinkedEntityId = :testCase.Id
         ];
-        Test.stopTest();
+      
         System.assert(initExceptionMessage.contains('Attempt to de-reference a null object'));
         System.assert(initDataPart.helpTopicSettings[0].userTypes.contains('PI'));
 
