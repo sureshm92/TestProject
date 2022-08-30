@@ -18,8 +18,9 @@ public without sharing class PIR_StatusDetailControllerTest {
         for(Study_Site__c ss:ssList) {
             ssIds.add(ss.Id);
         }
+        
         Test.startTest();
-         Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
         parList.Initial_visit_scheduled_date__c = system.today();
         update parList;
         List<Clinical_Trial_Profile__c> ctpList = [SELECT Id FROM Clinical_Trial_Profile__c limit 1];
@@ -35,7 +36,42 @@ public without sharing class PIR_StatusDetailControllerTest {
        //try{
            // PIR_StatusDetailController.getRecievedHistory(ctpList[0].Id);  
        // }        catch(Exception ex) {}
-		
+        
+        /*PIR_StatusDetailController.getContactHistory(testData.pe.Id,'PWS_Contact_Name');
+        PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
+        PIR_StatusDetailController.getMasked(true,'CC','Test');
+        PIR_StatusDetailController.getMasked(true,'CC1','Test');
+        PIR_StatusDetailController.getUTCDateTime(system.now());
+        PIR_StatusDetailController.getBubbleStatus(testData.pe.Id);
+        //PIR_StatusDetailController.getStudySiteVisitPlansMap(ssIds);
+        PIR_StatusDetailController.isPESHnotDisabled(null,null,false);*/
+        
+        //getVisitPlansLVList
+
+        Test.stopTest();
+    }
+    
+    @isTest 
+    static void testgetStatusDetail2() {
+        TestData testData = new TestData();
+        PIR_ParticipantStatusWorflowStep__mdt mdtRec = [SELECT Id,DeveloperName,Default_Description__c,
+        Failure_Criteria__c,In_progress_criteria__c,List_of_Statuses__c,Name__c,Order__c,Success_Criteria__c FROM
+        PIR_ParticipantStatusWorflowStep__mdt LIMIT 1 ];
+       
+        List<Study_Site__c> ssList = [Select Id FROM Study_Site__c];
+        List<Id> ssIds = new List<Id>();
+        for(Study_Site__c ss:ssList) {
+            ssIds.add(ss.Id);
+        }
+        
+        Test.startTest();
+        Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
+        parList.Initial_visit_scheduled_date__c = system.today();
+        update parList;
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id FROM Clinical_Trial_Profile__c limit 1];
+        ctpList[0].Initial_Visit_Required__c = false;
+        update ctpList; 
+        
         PIR_StatusDetailController.getContactHistory(testData.pe.Id,'PWS_Contact_Name');
         PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
         PIR_StatusDetailController.getMasked(true,'CC','Test');
@@ -52,6 +88,7 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testgetRecievedHistory_Exception() {
         TestData testData = new TestData();
+        Test.startTest();
         List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
         Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
             Date__c = Datetime.now(),
@@ -64,7 +101,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         peshList.add(pehistory1);
         byPassTriggersMethod();
         insert peshList;
-        Test.startTest();
+        
         PIR_StatusDetailController.getRecievedHistory(testData.pe.Id);
         Test.stopTest();
     }
@@ -82,6 +119,7 @@ public without sharing class PIR_StatusDetailControllerTest {
             Notes__c='Test Notes testing testclass code on this date by test user'
         );
         peshList.add(pehistory1);
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
         List<Study_Site__c> ssList = [Select Id FROM Study_Site__c];
@@ -94,12 +132,13 @@ public without sharing class PIR_StatusDetailControllerTest {
         
         byPassTriggersMethod();
         update testData.ctp;
+        byPassTriggersMethod();
         update testData.pe;
-        Test.startTest();
+        
         PIR_StatusDetailController.getStatusDetail(testData.pe.Id);
         testData.pe.Informed_Consent__c = true;
         Time myTime = Time.newInstance(1, 2, 3, 0);
-        testData.pe.Participant_Status__c	 = 'Declined Consent';
+        testData.pe.Participant_Status__c    = 'Declined Consent';
         testData.pe.Initial_visit_scheduled_date__c = system.today();
         testData.pe.Initial_visit_scheduled_time__c = myTime;
         testData.ctp.Participant_Workflow_Final_Step__c = 'Enrollment';
@@ -112,12 +151,14 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testGetBubbleStatus() {
         TestData testData = new TestData();
+        
+        Test.startTest();
         testData.ctp.Participant_Workflow_Final_Step__c = 'Enrollment';
         testData.pe.Participant_Status__c = 'Enrollment Success';
         byPassTriggersMethod();
         update testData.ctp;
         update testData.pe;
-        Test.startTest();
+        
         PIR_StatusDetailController.getBubbleStatus(testData.pe.Id);
         testData.pe.Participant_Status__c = 'Trial Complete';
         update testData.pe;
@@ -128,19 +169,19 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testGetBubbleStatus2() {
         TestData testData = new TestData();
+        Test.startTest();
         testData.ctp.Participant_Workflow_Final_Step__c = 'Randomization';
         testData.pe.Participant_Status__c = 'Randomization Success';
         byPassTriggersMethod();
         update testData.ctp;
         update testData.pe;
 
-        Test.startTest();
         PIR_StatusDetailController.getBubbleStatus(testData.pe.Id);
         testData.pe.Participant_Status__c = 'Trial Complete';
         update testData.pe;
         PIR_StatusDetailController.getBubbleStatus(testData.pe.Id);
         try{
-            PIR_StatusDetailController.getBubbleStatus(testData.ctp.Id);
+            //PIR_StatusDetailController.getBubbleStatus(testData.ctp.Id);
         }catch(Exception ex){}
         Test.stopTest();
     }
@@ -151,7 +192,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         TestData testData = new TestData();
         List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
         List<Study_Site__c> ssList = new List<Study_Site__c>();
-		ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
         ssList = [SELECT Id FROM Study_Site__c];
         Time myTime = Time.newInstance(1, 2, 3, 0);
         //Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
@@ -174,9 +215,9 @@ public without sharing class PIR_StatusDetailControllerTest {
         );
         insert parList;
         List<Participant_Enrollment__History> parHistoryList = new List<Participant_Enrollment__History>();
-	    parList.Initial_visit_scheduled_date__c = system.today();
+        parList.Initial_visit_scheduled_date__c = system.today();
         parList.Initial_visit_scheduled_time__c = myTime;
-		 Participant_Enrollment__History history3 = new Participant_Enrollment__History();
+         Participant_Enrollment__History history3 = new Participant_Enrollment__History();
         history3.Field = 'created';
         history3.ParentId = parList.Id;
         parHistoryList.add(history3);
@@ -250,9 +291,10 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testGetContactHistoryCreation() {
         TestData testData = new TestData();
+        Test.startTest();
         List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
         List<Study_Site__c> ssList = new List<Study_Site__c>();
-		ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
         ssList = [SELECT Id FROM Study_Site__c];
         Time myTime = Time.newInstance(1, 2, 3, 0);
         
@@ -261,7 +303,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         usrList[0].IsPortalEnabled = true;
         update usrList;
       // Participant_Enrollment__c parList = [SELECT Id, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c LIMIT 1];
-      Test.startTest();
+      
         try{
             System.runAs(usrList[0]) {            
                 PIR_StatusDetailController.getContactHistory(testData.pe.Id,null);
@@ -353,18 +395,18 @@ public without sharing class PIR_StatusDetailControllerTest {
         );
 
         peshList.add(pehistory4);
-        
+        Test.startTest();
         byPassTriggersMethod();
         update parList;        
 
         insert historyList;
         insert peshList;
-        /*List<User> usrList = [SELECT Id,profileId FROM User WHERE Profile.Name = 'API Only'];
+        List<User> usrList = [SELECT Id,profileId FROM User WHERE Profile.Name = 'API Only'];
         for(User userDetail:usrList){
             userDetail.IsPortalEnabled = true;
         }
-        update usrList;*/
-        Test.startTest();
+        //update usrList;
+        
         System.runAs(testData.piUser) {
             PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
         }
@@ -457,10 +499,10 @@ public without sharing class PIR_StatusDetailControllerTest {
 
         peshList.add(history11);
 
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         PIR_StatusDetailController.getEligibilityHistory(testData.pe.Id);
         testData.ctp.Promote_To_SH__c = true;
         testData.ctp.DCT_Platform__c = 'Study Hub';
@@ -475,6 +517,7 @@ public without sharing class PIR_StatusDetailControllerTest {
     @isTest
     static void testGetInitialVisitHistory() {
         TestData testData = new TestData();
+        Test.startTest();
         List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
         Participant_Enrollment_Status_History__c history1 = new Participant_Enrollment_Status_History__c(
             Date__c = Datetime.now(),
@@ -510,7 +553,6 @@ public without sharing class PIR_StatusDetailControllerTest {
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         PIR_StatusDetailController.getInitialVisitHistory(testData.pe.Id);
         Test.stopTest();
     }
@@ -567,11 +609,10 @@ public without sharing class PIR_StatusDetailControllerTest {
             ParticipantEnrollment__c = testData.pe.Id
         );
         peshList.add(history6);
-
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         PIR_StatusDetailController.getScreeningHistory(testData.pe.Id);
         Test.stopTest();
     }
@@ -589,11 +630,10 @@ public without sharing class PIR_StatusDetailControllerTest {
         );
 
         peshList.add(history2);
-
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         try{
             PIR_StatusDetailController.getScreeningHistory(testData.pe.Id);
         }catch(Exception ex){}
@@ -638,10 +678,10 @@ public without sharing class PIR_StatusDetailControllerTest {
             ParticipantEnrollment__c = testData.pe.Id
         );
         peshList.add(history4);
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         try{
             PIR_StatusDetailController.getEnrollmentHistory(testData.pe.Id);
         }catch(Exception ex){}
@@ -674,10 +714,10 @@ public without sharing class PIR_StatusDetailControllerTest {
             ParticipantEnrollment__c = testData.pe.Id
         );
         peshList.add(history4);
+        Test.startTest();
         byPassTriggersMethod();
         insert peshList;
 
-        Test.startTest();
         try{
             PIR_StatusDetailController.getEnrollmentHistory(testData.pe.Id);
         }catch(Exception ex){}
@@ -692,6 +732,7 @@ public without sharing class PIR_StatusDetailControllerTest {
         for(Study_Site__c ss:ssList) {
             ssIds.add(ss.Id);
         }
+        Test.startTest();
 
         Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
         insert visitPlan;
@@ -701,7 +742,6 @@ public without sharing class PIR_StatusDetailControllerTest {
         studyVisitPlan.Visit_Plan__c = visitPlan.Id;
         insert studyVIsitPlan;
 
-        Test.startTest();
         PIR_StatusDetailController.getStudySiteVisitPlansMap(ssIds);
         PIR_StatusDetailController.getVisitPlansLVList(ssIds[0]);
         Test.stopTest();
@@ -716,33 +756,39 @@ public without sharing class PIR_StatusDetailControllerTest {
         ParticipantNoShow__c,
         Participant_Status__c,
         Last_Status_Changed_Notes__c,
-        Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+        Clinical_Trial_Profile__r.Initial_Visit_Required__c,                                      
         Participant__r.Gender__c,
+        Add_televisit_for_Initial_Visit__c,
+        Initial_Visit_Televisit_Created__c,
         Initial_visit_scheduled_date__c,
         Initial_visit_scheduled_time__c,
         Initial_visit_occurred_flag__c,
-        PI_Contact__c,
+        PI_Contact__c, 
         Participant__c,
-        Participant_Contact__c,
-        Participant__r.First_Name__c,
+        Participant_Contact__c, 
+        PI_Contact__r.FirstName, 
+        PI_Contact__r.LastName,
+        Participant__r.First_Name__c, 
         Participant__r.Last_Name__c,
         Participant__r.Adult__c,
         Participant__r.Email__c,
-        Add_televisit_for_Initial_Visit__c,
-        Initial_Visit_Televisit_Created__c,
         Last_Status_Changed_Additional_Notes__c FROM
         Participant_Enrollment__c
         ];
 
         byPassTriggersMethod();
         parList[0].ParticipantNoShow__c = true;
+        parList[0].Add_televisit_for_Initial_Visit__c = true;
+        parList[0].Initial_Visit_Televisit_Created__c = false;
+        parList[0].Initial_visit_scheduled_date__c = system.today().addDays(2);
+        parList[0].Initial_visit_scheduled_time__c = Time.newInstance(18, 30, 2, 20);
         parList[0].Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit';
         parList[2].Participant_Status__c = null;
         parList[2].Last_Status_Changed_Additional_Notes__c = 'test';
         parList[1].Participant_Status__c = 'Eligibility Passed';
-
+        Test.startTest();
         update parList;
-          Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
         List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
         Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
@@ -753,43 +799,56 @@ public without sharing class PIR_StatusDetailControllerTest {
             Notes__c='Test Notes testing testclass code on this date by test user'
         );
         peshList.add(pehistory1);
-        //byPassTriggersMethod();
+        byPassTriggersMethod();
         insert peshList;
         Participant__c perRec= [select Id,Gender__c from Participant__c where Email__c='part1@email.com' limit 1];
         perRec.Gender__c='Female';
-        Test.startTest();
-        parList[0].Add_televisit_for_Initial_Visit__c = true;
-        parList[0].Initial_Visit_Televisit_Created__c = false;
-        parList[0].Initial_visit_scheduled_date__c = system.now().addminutes(15).date();
-        parList[0].Initial_visit_scheduled_time__c = system.now().addminutes(15).time();
-        update parList[0];
-        /*Patient_Delegate__c pd = new Patient_Delegate__c();
-        pd.Participant_Delegate__c = parList[1].Participant__c;
-        pd.Primary_Delegate__c = true;
-        pd.Contact__c = parList[1].PI_Contact__c;
-        pd.Participant__c = parList[0].Participant__c;
-        insert pd;*/
-        TriggerHandlerExecutor.bypassHandler(
-                                TelevisitTriggerHandler.TelevisitEventTrigger.class
-                            );
-        TriggerHandlerExecutor.bypassHandler(
-                                TelevisitTriggerHandler.NotifyAttendees.class
-                            );
         PIR_StatusDetailController.doSaveStatusDetails(parList[0],perRec,'');
         PIR_StatusDetailController.doSaveStatusDetails(parList[1],perRec,'');
         PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,'');
-         PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,vp.id);
+        PIR_StatusDetailController.doSaveStatusDetails(parList[2],perRec,vp.id);
         try{
-            //parList[0].Non_Enrollment_Reason__c = 'test Show For Initial Visit';
+            parList[0].Non_Enrollment_Reason__c = 'test Show For Initial Visit';
             PIR_StatusDetailController.doSaveStatusDetails(new Participant_Enrollment__c(),new Participant__c(),'');
         }catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
+        
         Test.stopTest();
     }
     
+    @isTest
+    static void testIsSuccessfullyReEngaged() {
+        TestData testData = new TestData();
+        List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
+        Participant_Enrollment_Status_History__c history1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Successfully re-engaged',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date',
+            ParticipantEnrollment__c = testData.pe.Id,
+            //Non_Enrollment_Reason__c = 'PI Decision',
+            Notes__c = 'Test Notes1 testing 1 testclass code1 on test date (IQVIA)'
+        );
+
+        peshList.add(history1);
+        Test.startTest();
+        byPassTriggersMethod();
+        insert peshList;
+
+        try{
+            PIR_StatusDetailController.isSuccessfullyReEngaged(testData.pe.Id);
+        }catch(Exception ex){}
+        try{
+            PIR_StatusDetailController.isSuccessfullyReEngaged('testData.pe.Id');
+        }catch(Exception ex) {}
+        
+        Test.stopTest();
+    }
 
     static void byPassTriggersMethod() {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.class
         );
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.prepareAdditionalFields.class
@@ -864,7 +923,25 @@ public without sharing class PIR_StatusDetailControllerTest {
             ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
         );
 
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.DefaultEcoaTask.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.createNotifications.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.EcoaEvents.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.StudyConsentTimestamps.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.UpdatePatientConsent.class
+        );
+        
+        TriggerHandlerExecutor.bypassHandler(
+            TelevisitTriggerHandler.NotifyAttendees.class
+        );
+
     }
-
-
 }
