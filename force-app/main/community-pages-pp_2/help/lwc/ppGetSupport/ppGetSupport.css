@@ -1,0 +1,108 @@
+.as-title {
+    height: 32px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 550;
+    letter-spacing: 0;
+    line-height: 32px;
+    margin-bottom: 5px;
+}
+
+.updateButtonMobile {
+    height: 32px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    color: #297dfd;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mt-25 {
+    margin-top: 25px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-5 {
+    margin-top: -5px;
+}
+
+.from {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.from-date {
+    box-sizing: border-box;
+    height: 32px;
+    margin-top: -5px;
+    padding: 3px;
+    text-align: center;
+    margin-left: -11px;
+    margin-right: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    color: #999999;
+    background-color: #f2f2f2;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+}
+
+.to {
+    height: 24px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.place-error-message {
+    height: 24px;
+    width: 260px;
+    color: #e20000;
+    font-family: 'Proxima Nova';
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+:host {
+    --sds-c-checkbox-color-background-checked: #0769fd;
+    --sds-c-checkbox-mark-color-foreground: #fff;
+}
+
+.disabled {
+    opacity: 0.5;
+}
+
+.matchEmailText {
+    height: 48px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    opacity: 0.8;
+}

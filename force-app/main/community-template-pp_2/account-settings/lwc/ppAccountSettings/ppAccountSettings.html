@@ -89,32 +89,58 @@
                         </template>
                         <template if:true={showPasswordManagement}>
                             <!--Password Management Component-->
-                            <!-- <c-pp-change-password
+                            <c-pp-change-password
                                 user-mode={userMode}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
                                 is-delegate={isDelegate}
-                            ></c-pp-change-password> -->
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-change-password>
                         </template>
                         <template if:true={showCommunicationPreference}>
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
-                                is-delegate={isDelegate}  
-                                participant-state={participantState} 
+                                is-delegate={isDelegate}
+                                participant-state={participantState}
                                 is-desktop={isDesktopFlag}
                                 consent-preference-data={consentPreferenceData}
                                 user-mode={userMode}
-                            >                                    
+                                onshownavmenubar={showNavigationMenu}
+                                is-r-t-l={isRTL}
+                            >
                             </c-pp-communication-preferences>
                         </template>
                         <template if:true={showLanguageAndLocation}>
                             <!--Language and Location Component-->
+                            <c-pp-language-switcher
+                                person-wrapper={personWrapper}
+                                contact-section-data={contactSectionData}
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-language-switcher>
                         </template>
                         <template if:true={showCustomizeExperience}>
                             <!--Customize Experience Component-->
+                            <c-pp-customize-experience
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-customize-experience>
                         </template>
                         <template if:true={showCookieSettings}>
                             <!--Cookie Settings Component-->
+                            <c-pp-cookie-settings
+                                is-delegate={isDelegate}
+                                is-r-t-l={isRTL}
+                                is-mobile={isMobile}
+                                user-mode={userMode}
+                                onshownavmenubar={showNavigationMenu}
+                            ></c-pp-cookie-settings>
                         </template>
                         <template if:true={showMedicalRecordAccess}>
                             <!--Medical Record Access Component-->

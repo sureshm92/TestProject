@@ -8,15 +8,23 @@
     background-color: #ecf3ff;
     margin: 16px 0 0 0;
 }
+.single {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 .icon-radius {
     height: 32px;
     width: 32px;
     background-color: #ffffff;
     border-radius: 20px;
 }
+
 .header-setting-txt {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 24px;
-    width: 230px;
+    width: 208px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -25,8 +33,11 @@
     line-height: 24px;
 }
 .header-setting-email {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 17px;
-    width: 230px;
+    width: 208px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -42,6 +53,9 @@
     letter-spacing: 0;
     line-height: 16px;
 }
+.slds-icon_x-small {
+    margin: 7px 0 0 8px !important;
+}
 .switcher-list {
     padding: 10px 0 10px 0;
 }
@@ -55,4 +69,10 @@
 .list-item:hover {
     cursor: pointer;
     background-color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    /* .header-setting-email {
+        width: 215px;
+    } */
 }

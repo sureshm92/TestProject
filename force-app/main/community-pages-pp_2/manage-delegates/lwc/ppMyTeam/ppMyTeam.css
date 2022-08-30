@@ -1,12 +1,26 @@
 .manage-delegate {
     font-size: 32px;
     font-weight: 600;
-    letter-spacing: 0;
-    line-height: 48px;
 }
 .back-to-manage-delegate {
+    position: relative;
+    top: 0.1rem;
+    left: 0.5rem;
     font-size: 16px;
     font-weight: 500;
+}
+.no-delegate-desk-txt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 360px;
+    color: #595959;
+    text-align: center;
+}
+.no-delegate-mob-txt {
+    width: 360px;
+    color: #595959;
+    text-align: center;
 }
 .btn-add-new-delegate {
     width: 360px;
@@ -18,6 +32,15 @@
     font-weight: 500;
     display: inline-block;
 }
+.spins::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+
 .rectangle {
     box-sizing: border-box;
     height: 276px;
@@ -48,25 +71,32 @@
     letter-spacing: 0;
     line-height: 20px;
 }
-.there-are-no-delegat {
-    width: 360px;
-    color: #595959;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
-    text-align: center;
+.add-new-delegate {
+    font-size: 32px;
+    font-weight: 600;
+    display: inline-block;
 }
 .slds-vertical-border {
     border-right: 1px solid #d9d9d9;
+    height: 720px;
+}
+.mouse-pointer {
+    cursor: pointer;
 }
 @media screen and (max-width: 768px) {
     .slds-vertical-border {
         border-right: none;
+        height: auto;
     }
-    .btn-add-new-delegate,
-    .rectangle,
-    .there-are-no-delegat {
-        width: 350px;
+    .no-delegate-mob-txt {
+        display: inline-block;
+        line-height: 24px;
+        padding: 32px 0 32px 0;
+    }
+    .mob-m-top {
+        margin-top: 20px;
+    }
+    .add-new-delegate {
+        font-size: 24px;
     }
 }

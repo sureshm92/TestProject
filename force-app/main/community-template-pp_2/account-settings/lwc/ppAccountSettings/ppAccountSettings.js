@@ -50,7 +50,7 @@ export default class PpAccountSettings extends LightningElement {
         { label: PROFILE_INFO, value: 'profileInformation' },
         { label: PASSWORD_MANAGEMENT, value: 'password-change' },
         { label: COMMUNICATION_PREF, value: 'communication-preferences' },
-        { label: LANG_LOCATION, value: 'langloc' },
+        { label: LANG_LOCATION, value: 'lang-loc' },
         { label: CUSTOMIZE_EXP, value: 'changePref' },
         { label: COOKIE_SETTINGS, value: 'cookiesSettings' },
         { label: MEDICAL_RECORD_ACCESS, value: 'medRecAccess' }
@@ -146,7 +146,7 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     get showLanguageAndLocation() {
-        return this.componentId === 'langloc' ? true : false;
+        return this.componentId === 'lang-loc' ? true : false;
     }
 
     get showCustomizeExperience() {
@@ -202,9 +202,9 @@ export default class PpAccountSettings extends LightningElement {
         } else if (queryString.includes('communication-preferences')) {
             this.componentId = 'communication-preferences';
             window.history.replaceState(null, null, '?communication-preferences');
-        } else if (queryString.includes('langloc')) {
-            this.componentId = 'langloc';
-            window.history.replaceState(null, null, '?langloc');
+        } else if (queryString.includes('lang-loc')) {
+            this.componentId = 'lang-loc';
+            window.history.replaceState(null, null, '?lang-loc');
         } else if (queryString.includes('changePref')) {
             this.componentId = 'changePref';
             window.history.replaceState(null, null, '?changePref');

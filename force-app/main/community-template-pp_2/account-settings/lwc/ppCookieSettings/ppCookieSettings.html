@@ -1,0 +1,292 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class="paddingbase">
+            <!-- DESKTOP VIEW -->
+            <template if:false={isMobile}>
+                <div class={cardRTL}>
+                    <div class="as-title">{label.AccountSettings_Cookie_Settings}</div>
+                </div>
+
+                <div class="">
+                    <div class="as-email-preference">
+                        <div class="as-sub-title slds-m-bottom_large cookieDesc">
+                            <lightning-formatted-rich-text
+                                value={initData.cookieDescription}
+                                class="cookie-accordion-paragraph"
+                            >
+                            </lightning-formatted-rich-text>
+                        </div>
+                        <lightning-accordion
+                            allow-multiple-sections-open
+                            active-section-name={activeSections}
+                        >
+                            <lightning-accordion-section
+                                class="cookie-accordion-border cookie-accordion-height"
+                                name="Strictly"
+                                label={label.AccountSettings_Strictly_Necessary_Cookies}
+                            >
+                                <div
+                                    class="slds-col slds-size--1-of-1 slds-grid slds-wrap cookie-scroll-height"
+                                >
+                                    <div
+                                        class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section"
+                                    >
+                                        <template
+                                            for:each={initData.cookieSettings}
+                                            for:item="cookieItem"
+                                        >
+                                            <div
+                                                key={cookieItem.Id}
+                                                class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                            >
+                                                <div
+                                                    class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7"
+                                                >
+                                                    <div class="ah-item-label">
+                                                        {cookieItem.cookieName}
+                                                    </div>
+                                                    <div class="ah-item-sublabel">
+                                                        {cookieItem.cookieDescription}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-accordion-section>
+
+                            <lightning-accordion-section
+                                class="cookie-accordion-border"
+                                name="Functional"
+                                label={label.AccountSettings_Functional_Cookies}
+                            >
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section"
+                                    >
+                                        <div
+                                            class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                        >
+                                            <div
+                                                class="slds-col slds-size--11-of-12 slds-medium-size--11-of-12"
+                                            >
+                                                <div class="ah-item-label">
+                                                    {label.AccountSettings_Functional_RRCookies}
+                                                </div>
+                                                <div class="ah-item-sublabel">
+                                                    {label.AccountSettings_RRCookies_Description}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="slds-col slds-size--1-of-12 slds-medium-size--1-of-12 ah-toggle-container"
+                                            >
+                                                <lightning-input
+                                                    type="toggle"
+                                                    label=""
+                                                    data-id="PPCookie"
+                                                    messagetoggleactive={label.BTN_On}
+                                                    variant="label-hidden"
+                                                    messagetoggleinactive={label.BTN_Off}
+                                                    class="slds-col ah-toggle"
+                                                    checked={contact.RRCookiesAllowedCookie__c}
+                                                    onchange={doSwitchOptInCookies}
+                                                >
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                        >
+                                            <div
+                                                class="slds-col slds-size--11-of-12 slds-medium-size--11-of-12"
+                                            >
+                                                <div class="ah-item-label">
+                                                    {label.AccountSettings_Cookies_RRLanguage}
+                                                </div>
+                                                <div class="ah-item-sublabel">
+                                                    {label.AccountSettings_Cookies_RRLanguage_Description}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="slds-col slds-size--1-of-12 slds-medium-size--1-of-12 ah-toggle-container"
+                                            >
+                                                <lightning-input
+                                                    type="toggle"
+                                                    class="ah-toggle"
+                                                    name="input1"
+                                                ></lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isMobile}>
+                <div class={cardRTL}></div>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <div class="back-button">
+                            <template if:false={isRTL}>
+                                <c-web-icon
+                                    icon-size="small"
+                                    icon-name={iconChevron}
+                                    icon-color="#297dfd"
+                                >
+                                </c-web-icon>
+                            </template>
+                            <span
+                                class="slds-p-left_x-small slds-p-right_x-small"
+                                onclick={showMenuBar}
+                                data-header="password-change"
+                                >{label.BACK}</span
+                            >
+                            <template if:true={isRTL}>
+                                <c-web-icon
+                                    icon-size="small"
+                                    icon-name={iconChevron}
+                                    icon-color="#297dfd"
+                                >
+                                </c-web-icon>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <div class="as-title">{label.AccountSettings_Cookie_Settings}</div>
+                <div class="">
+                    <div class="as-email-preference">
+                        <div class="as-sub-title slds-m-bottom_large cookieDesc">
+                            <lightning-formatted-rich-text
+                                value={initData.cookieDescription}
+                                class="cookie-accordion-paragraph"
+                            >
+                            </lightning-formatted-rich-text>
+                        </div>
+                        <lightning-accordion
+                            allow-multiple-sections-open
+                            active-section-name={activeSections}
+                        >
+                            <lightning-accordion-section
+                                class="cookie-accordion-border cookie-accordion-mobile1"
+                                name="Strictly"
+                                label={label.AccountSettings_Strictly_Necessary_Cookies}
+                            >
+                                <div
+                                    class="slds-col slds-size--1-of-1 slds-grid slds-wrap cookie-scroll-height"
+                                >
+                                    <div
+                                        class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section"
+                                    >
+                                        <template
+                                            for:each={initData.cookieSettings}
+                                            for:item="cookieItem"
+                                        >
+                                            <div
+                                                key={cookieItem.Id}
+                                                class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                            >
+                                                <div
+                                                    class="slds-col slds-size--3-of-3 slds-medium-size--7-of-7"
+                                                >
+                                                    <div class="ah-item-label">
+                                                        {cookieItem.cookieName}
+                                                    </div>
+                                                    <div
+                                                        class="ah-item-sublabel cookie-description-lineheight"
+                                                    >
+                                                        {cookieItem.cookieDescription}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-accordion-section>
+
+                            <lightning-accordion-section
+                                class="cookie-accordion-border cookie-accordion-mobile2"
+                                name="Functional"
+                                label={label.AccountSettings_Functional_Cookies}
+                            >
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section"
+                                    >
+                                        <div
+                                            class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                        >
+                                            <div
+                                                class="slds-col slds-size--9-of-12 slds-medium-size--9-of-12"
+                                            >
+                                                <div class="ah-item-label">
+                                                    {label.AccountSettings_Functional_RRCookies}
+                                                </div>
+                                                <div class="ah-item-sublabel cookie-line-height">
+                                                    {label.AccountSettings_RRCookies_Description}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="slds-col slds-size--3-of-12 slds-medium-size--3-of-12 ah-toggle-container cookie-mobile-togg"
+                                            >
+                                                <lightning-input
+                                                    type="toggle"
+                                                    label=""
+                                                    data-id="PPCookie"
+                                                    messagetoggleactive={label.BTN_On}
+                                                    variant="label-hidden"
+                                                    messagetoggleinactive={label.BTN_Off}
+                                                    class="slds-col ah-toggle"
+                                                    checked={contact.RRCookiesAllowedCookie__c}
+                                                    onchange={doSwitchOptInCookies}
+                                                >
+                                                </lightning-input>
+                                                <!--<lightning-input
+                                                    type="toggle"
+                                                    label=""
+                                                    data-id="PPCookie"
+                                                    messagetoggleactive={label.BTN_On}
+                                                    variant="label-hidden"
+                                                    messagetoggleinactive={label.BTN_Off}
+                                                    class="slds-col ah-toggle"
+                                                    checked={contact.RRCookiesAllowedCookie__c}
+                                                    onchange={doSwitchOptInCookies}
+                                                >
+                                                </lightning-input>-->
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                        >
+                                            <div
+                                                class="slds-col slds-size--9-of-12 slds-medium-size--9-of-12"
+                                            >
+                                                <div class="ah-item-label">
+                                                    {label.AccountSettings_Cookies_RRLanguage}
+                                                </div>
+                                                <div class="ah-item-sublabel cookie-line-height">
+                                                    {label.AccountSettings_Cookies_RRLanguage_Description}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="slds-col slds-size--3-of-12 slds-medium-size--3-of-12 ah-toggle-container cookie-mobile-togg"
+                                            >
+                                                <lightning-input
+                                                    type="toggle"
+                                                    class="ah-toggle"
+                                                    name="input1"
+                                                ></lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

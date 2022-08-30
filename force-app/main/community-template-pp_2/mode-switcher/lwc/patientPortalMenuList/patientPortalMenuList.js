@@ -1,12 +1,16 @@
 import { LightningElement, api } from 'lwc';
-import partipantsDelegate from '@salesforce/label/c.Paticipant_s_Delegate';
+import partipantsDelegate from '@salesforce/label/c.Participant_s_Delegate';
 import PP_DesktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import participantSettings from '@salesforce/label/c.Participant_Settings';
 
 export default class PatientPortalMenuList extends LightningElement {
     @api commModes = [];
+    icon_url = pp_icons + '/participant_settings.svg';
     participantSettingImage = PP_DesktopLogos + '/Participant_Settings.svg';
     label = {
-        partipantsDelegate
+        partipantsDelegate,
+        participantSettings
     };
     handleListDisplay(event) {
         let participantName = event.currentTarget.dataset.id;

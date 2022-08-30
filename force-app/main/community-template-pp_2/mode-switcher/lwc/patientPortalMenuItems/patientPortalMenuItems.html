@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-grid slds-grid_vertical pat-menu-items">
-        <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
+    <div class="slds-grid slds-grid_vertical slds-m-top_xxx-small">
+        <div class="slds-col slds-size_1-of-1">
             <template if:true={hasSingleCommMode}>
                 <c-patient-portal-menu-picklist
                     place-holder={placeHolder}
@@ -12,60 +12,98 @@
                 </c-patient-portal-menu-picklist>
             </template>
         </div>
+    </div>
+    <div class="slds-grid slds-grid_vertical pat-menu-items">
         <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
-            <template if:false={hasSingleCommMode}>
-                <lightning-button
-                    variant="base"
-                    label={label.viewingAs}
-                    title={label.viewingAs}
-                    onchange={handleClick}
-                    class="slds-m-left_x-small"
-                >
-                </lightning-button>
-                <lightning-icon
-                    icon-name="utility:chevrondown"
-                    variant="base"
-                    size="x-small"
-                    class="my-icon"
-                    onclick={handleClick}
-                ></lightning-icon>
-                <br />
-                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
-                    <template if:true={showAllModes}>
-                        <c-patient-portal-menu-list
-                            comm-modes={commModeList}
-                            onchangemode={handleChangeMode}
+            <div class="slds-col slds-grid slds-grid_vertical">
+                <template if:false={hasSingleCommMode}>
+                    <div
+                        onclick={handleClick}
+                        class="slds-col slds-align_absolute-center slds-size_1-of-1"
+                    >
+                        <lightning-button
+                            variant="base"
+                            label={label.viewingAs}
+                            title={label.viewingAs}
+                            class="slds-m-right_x-small"
                         >
-                        </c-patient-portal-menu-list>
-                    </template>
-
-                    <template if:false={showAllModes}>
-                        <div
-                            if:false={currentMode.isDelegate}
-                            class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-vertical_x-small curr-mode-delg-title"
-                        >
-                            <div class="self curr-mode-title">{currentMode.title}</div>
-                        </div>
-
-                        <template if:true={currentMode.isDelegate}>
-                            {currentMode.title}
-                            <br />
-                            {label.partipantsDelegate}
-                            <div onclick={handleNavigation} data-id={currentMode.title}>
-                                <c-web-icon svg-class={svgClass} icon-name={iconName}></c-web-icon>
-                            </div>
+                        </lightning-button>
+                        <template if:false={isToggle}>
+                            <lightning-icon
+                                icon-name="utility:chevrondown"
+                                variant="base"
+                                size="xx-small"
+                                class="chevron-icon"
+                            ></lightning-icon>
+                        </template>
+                        <template if:true={isToggle}>
+                            <lightning-icon
+                                icon-name="utility:chevronup"
+                                variant="base"
+                                size="xx-small"
+                                class="chevron-icon"
+                            ></lightning-icon>
                         </template>
                         <br />
-                    </template>
-                </div>
-            </template>
+                    </div>
+                    <div class="slds-col slds-align_absolute-center slds-size_1-of-1">
+                        <template if:true={showAllModes}>
+                            <c-patient-portal-menu-list
+                                comm-modes={commModeList}
+                                onchangemode={handleChangeMode}
+                            >
+                            </c-patient-portal-menu-list>
+                        </template>
+
+                        <template if:false={showAllModes}>
+                            <div
+                                if:false={currentMode.isDelegate}
+                                class="slds-col slds-size_1-of-1 slds-m-vertical_x-small curr-mode-delg-title"
+                            >
+                                <div
+                                    class="self curr-mode-title slds-p-top_x-small slds-p-left_small"
+                                >
+                                    {currentMode.title}
+                                </div>
+                            </div>
+                            <template if:true={currentMode.isDelegate}>
+                                <div
+                                    class="slds-grid delegate-item slds-p-around_x-small slds-m-bottom_small"
+                                >
+                                    <div
+                                        class="slds-col slds-size_10-of-12 participant-delegate-title"
+                                    >
+                                        {currentMode.title}
+                                        <div class="slds-col slds-grid slds-size_1-of-1">
+                                            <div
+                                                class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                            >
+                                                {label.partipantsDelegate}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
+                                    >
+                                        <img
+                                            src={icon_url}
+                                            onclick={handleNavigation}
+                                            data-id={currentMode.title}
+                                        /><span class="tooltiptext"
+                                            >{label.participantSettings}</span
+                                        >
+                                    </div>
+                                </div>
+                            </template>
+                            <br />
+                        </template>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
-    <div class="slds-grid">
-        <div
-            class="slds-col slds-size_1-of-1 slds-align_absolute-center"
-            if:false={hasSingleCommMode}
-        >
+    <div class="slds-grid slds-m-top_xx-small">
+        <div class="slds-col slds-size_1-of-1" if:false={hasSingleCommMode}>
             <c-patient-portal-menu-picklist
                 place-holder={placeHolder}
                 pick-list-options={pickListOptions}

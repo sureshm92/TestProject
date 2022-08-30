@@ -12,6 +12,18 @@ public without sharing class HelpController {
         return helpLabel.replace('##CommunityHelpAbout', communityHelpText);
     }
 
+    @AuraEnabled
+    public static string getResourceURL(String resourceName){
+        String baseURL='';
+        try {
+            //return URL.getSalesforceBaseUrl().toExternalForm()+''+PageReference.forResource('Participant_user_guide').getUrl();
+            baseURL=baseURL+PageReference.forResource(resourceName).getUrl();
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return baseURL;
+    }
+
     /**
      * This is initialize method for current user.
      * @return UserContact

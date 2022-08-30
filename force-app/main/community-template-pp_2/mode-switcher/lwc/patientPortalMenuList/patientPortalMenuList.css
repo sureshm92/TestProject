@@ -3,33 +3,69 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
-    margin-bottom: 10px;
+    cursor: pointer;
 }
-.curr-mode-title {
+.curr-mode-self-title {
     height: 40px;
-    width: 265px;
-    border-radius: 4px;
-    background-color: #ffffff;
+    color: #444444;
+    font-size: 16px;
+    font-weight: bold;
 }
 .my-icon {
     --sds-c-icon-color-foreground-default: #0768fd;
 }
-.participants-delega {
-    height: 17px;
-    width: 230px;
-    color: #999999;
-    font-family: 'Proxima Nova';
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 16px;
+.delegate-item {
+    height: 57px;
+    width: 265px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
 }
-.title-label-div-height {
-    height: 17px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
+.participant-delegate-email {
+    color: #999999;
+    font-size: 14px;
+}
+.delegate-details {
+    font-weight: bold;
+}
+.title-overflow-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/*  Custom Tooltip  - added by Imteyaz Alam */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #444444;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0 5px 0;
+    position: absolute;
+    z-index: 999;
+    bottom: 120%;
+    left: 46%;
+    margin-left: -80px;
+}
+
+.tooltip .tooltiptext::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #444444 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

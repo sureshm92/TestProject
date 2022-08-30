@@ -1,25 +1,32 @@
 <template>
-    <div if:false={reset} class="slds-grid slds-grid_vertical header-container">
+    <div if:false={reset} class={headerClass}>
         <div class="slds-col switcher-list">
             <div class="slds-grid">
-                <div class="slds-col slds-align_absolute-center slds-size_3-of-12 icon-radius">
+                <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
                     <template if:true={hasProfilePic}>
-                        <lightning-avatar
-                            src={user.SmallPhotoUrl}
-                            variant="circle"
-                            size="large"
-                            alternative-text=""
-                            fallback-icon-name="standard:avatar"
-                        ></lightning-avatar>
+                        <span
+                            ><lightning-avatar
+                                src={user.SmallPhotoUrl}
+                                variant="circle"
+                                size="large"
+                                alternative-text=""
+                                fallback-icon-name="standard:avatar"
+                            ></lightning-avatar
+                        ></span>
                     </template>
                     <template if:false={hasProfilePic}>
-                        <lightning-icon
-                            icon-name="utility:user"
-                            size="x-small"
-                            aria-hidden="true"
-                            alternative-text="user"
-                            class="icon-color"
-                        ></lightning-icon>
+                        <template if:true={isDelegate}>
+                            <span><img src={icon_url} /></span>
+                        </template>
+                        <template if:false={isDelegate}>
+                            <lightning-icon
+                                icon-name="utility:user"
+                                size="x-small"
+                                aria-hidden="true"
+                                alternative-text="user"
+                                class="icon-color icon-radius user-profile-icon"
+                            ></lightning-icon>
+                        </template>
                     </template>
                 </div>
                 <div class="slds-col slds-size_9-of-12">
@@ -31,36 +38,35 @@
         <div class="slds-col switcher-list">
             <div class="slds-grid list-item" onclick={doNavigateToAccountSettings}>
                 <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
-                    <lightning-icon
-                        icon-name="utility:settings"
-                        size="x-small"
-                        aria-hidden="true"
-                        alternative-text="user"
-                        class="icon-color"
-                    >
-                    </lightning-icon>
+                    <c-web-icon
+                        icon-name={accountSettingIcon}
+                        icon-color={accountSettIconColor}
+                        icon-size="medium"
+                    ></c-web-icon>
                 </div>
                 <div class="slds-col slds-size_9-of-12">
                     <p class="setting-txt">{label.PP_Account_Settings}</p>
                 </div>
             </div>
         </div>
-        <div class={manageDelegatesClass}>
-            <div class="slds-grid list-item" onclick={doManageDelegates}>
-                <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
-                    <lightning-icon
-                        icon-name="utility:user"
-                        size="x-small"
-                        aria-hidden="true"
-                        alternative-text="user"
-                        class="icon-color"
-                    >
-                    </lightning-icon>
+        <template if:false={isUserDelegate}>
+            <div class="slds-col switcher-list">
+                <div class="slds-grid list-item" onclick={doManageDelegates}>
+                    <div class="slds-col slds-align_absolute-center slds-size_3-of-12">
+                        <lightning-icon
+                            icon-name="utility:user"
+                            size="x-small"
+                            aria-hidden="true"
+                            alternative-text="user"
+                            class="icon-color"
+                        >
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-col slds-size_9-of-12">
+                        <p class="setting-txt">{label.PP_ManageDelegates}</p>
+                    </div>
                 </div>
-                <div class="slds-col slds-size_9-of-12">
-                    <p class="setting-txt">{label.PP_ManageDelegates}</p>
-                </div>
-            </div>
-        </div>
+            </div></template
+        >
     </div>
 </template>
