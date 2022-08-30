@@ -3,7 +3,7 @@ public class Test_Batch_SendPIEmailForNewReferrals {
     @isTest
     private static void ReceivedPIsCreated_NoBatchNotificationsCreated() {
         initData();
-        Test.startTest();
+
         DataBase.executeBatch(new Batch_SendPIEmailForNewReferrals());
         Test.stopTest();
     }
@@ -267,7 +267,7 @@ public class Test_Batch_SendPIEmailForNewReferrals {
             )
         );
         insert resStudies;
-
+		Test.startTest();
         List<Participant__c> participants = [
             SELECT Id, Contact__c
             FROM Participant__c
