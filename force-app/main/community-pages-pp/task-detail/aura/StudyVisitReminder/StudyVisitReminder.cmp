@@ -195,7 +195,7 @@
                                     value="{!v.task.Remind_Me__c}"
                                     onchange="{!c.doValidateFields}"
                                     options="{!v.initData.reminderFrequencyList}"
-                                    class="wi study-override"
+                                    class="wi"
                                     fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                                 />
                             </div>
