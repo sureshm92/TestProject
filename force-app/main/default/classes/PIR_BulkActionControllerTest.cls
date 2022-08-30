@@ -22,14 +22,6 @@ public class PIR_BulkActionControllerTest {
         PIR_BulkActionController.createUserForPatientProtal(peIds,true);
         PIR_BulkActionController.updateParticipantData(peIds);
         PIR_BulkActionController.exportSelected(peIds);  
-          
-       /* try{
-            System.runAs(testData.piUser) {
-        		PIR_BulkActionController.exportAll(null,null,0,45000,null);
-                PIR_BulkActionController.exportAll(null,null,0,45000,'Janssen');
-                
-            }
-        }catch (Exception ex){}*/
         Test.stopTest();
     }
     
@@ -60,11 +52,8 @@ public class PIR_BulkActionControllerTest {
         try{
             System.runAs(testData.participantUser) {
                 PIR_BulkActionController.exportAll(null,null,0,45000,'Default');
-                //PIR_BulkActionController.PeDataTableWrapper pt=  PIR_BulkActionController.fetchData('Change Participant Status',ctpIds,'Enrollment Success');
-
-            }
+                }
         } catch (Exception ex){System.debug('Exception:'+ex.getLineNumber()+' '+ex.getMessage());}
-        //PIR_BulkActionController.fetchData('Change Participant Status',ctpIds,'Enrollment Success');
         Test.stopTest();
     }
     }
