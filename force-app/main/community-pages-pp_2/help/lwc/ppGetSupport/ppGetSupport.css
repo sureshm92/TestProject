@@ -56,13 +56,16 @@
 .from-date {
     box-sizing: border-box;
     height: 32px;
-    padding: 8px;
-    margin-left: 2px;
+    margin-top: -5px;
+    padding: 3px;
+    text-align: center;
+    margin-left: -11px;
+    margin-right: 8px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
     color: #999999;
     background-color: #f2f2f2;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
 }
 
 .to {
