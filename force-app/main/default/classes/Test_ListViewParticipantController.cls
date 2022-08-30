@@ -128,8 +128,11 @@ public class Test_ListViewParticipantController {
     @IsTest
     public static void runTest() {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
-        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID,Override_PI_Referral_Status__c  FROM Study_Site__c LIMIT 1];
+        studySite.Override_PI_Referral_Status__c ='Accepted';
+        update studySite;
         Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
+        
         participant__c p = [SELECT Age__c FROM participant__c LIMIT 1];
         Incentive_Plan__c ip = new Incentive_Plan__c(
         Clinical_Trial_Profile__c = clinical.id,
@@ -149,9 +152,18 @@ public class Test_ListViewParticipantController {
             Incentive_Plan__c= ip.id
         );
         insert ipt;
+        Participant_Enrollment__c pen = [SELECT ID,Participant_Status__c FROM Participant_Enrollment__c LIMIT 1];
+        pen.Participant_Status__c ='Enrollment Success';
+        update pen;
+        Clinical_Trial_Profile__c clinical1 = [SELECT ID,Promote_to_SH__c FROM Clinical_Trial_Profile__c LIMIT 1];
+        clinical1.Promote_to_SH__c=true;
+        clinical1.DCT_Platform__c='Study Hub';
+        update clinical1;
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         List<Id> peList = new List<Id>{ pe.id };
+        List<List_View_Status__mdt> lvs =[ SELECT Managed_in_SH__c, Initial_Visit__c, Available_Statuses__c
+        FROM List_View_Status__mdt ];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
         lw.SelectedIds = new List<Id>{ pe.id };
         lw.pageSize = 5;
@@ -188,9 +200,27 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.getAvailableStatuses('Randomization Success',clinical.Id);
             ListViewParticipantController.statusDetail('Received',clinical.Id);
             ListViewParticipantController.statusDetail('Pre-review Failed',clinical.Id);
+            Test.startTest();
             ListViewParticipantController.createUserForPatientProtal(peList,True);
+            
+            
+            List<Id> peListnew = new List<Id>{ pen.id };
             ListViewParticipantController.updateParticipantStatus(peList,
                                                                   'Received',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Contact Attempted',
+                                                                  True);
+             ListViewParticipantController.updateParticipantStatus(peList,
+                                                                  'In Wash Out Period',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Contact Attempted',
+                                                                  True);
+            ListViewParticipantController.updateParticipantStatus(peList,
+                                                                  'Sent to Study Hub',
                                                                   'Test Notes',
                                                                   'Other',
                                                                   clinical.Id,
@@ -203,6 +233,13 @@ public class Test_ListViewParticipantController {
                                                                   clinical.Id,
                                                                   'Ready To Screen',
                                                                   True);
+             ListViewParticipantController.updateParticipantStatus(peListnew,
+                                                                  'Screening In Progress',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Ready to Screen',
+                                                                  True);
             ListViewParticipantController.updateParticipantStatus(peList,
                                                                   'Contact Attempted',
                                                                   'Test Notes',
@@ -212,13 +249,24 @@ public class Test_ListViewParticipantController {
                                                                   True);
 
             ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
-
+            ListViewParticipantController.getParticipantStatus(clinical1.ID,'Active');
+			
             ListViewParticipantController.getParticipantStatus(clinical.ID,'Inactive');
 
             ListViewParticipantController.updateParticipantData(
                 new List<String>{ pe.id },
                 new List<String>{ pe.id },
                 new List<String>{ pe.id }
+            );
+            ListViewParticipantController.updateParticipantData(
+                new List<String>{  pe.id},
+                new List<String>{ 'Test' },
+                new List<String>{ pe.id }
+            );
+            ListViewParticipantController.updateParticipantData(
+                new List<String>{  pe.id},
+                new List<String>{ 'Test' },
+                new List<String>{ 'Test' }
             );
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
@@ -228,6 +276,10 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.labelValueItemsHaveItem(
                 new List<LabelValueItem>{ lv },
                 'Referring Provider'
+            );
+            ListViewParticipantController.labelValueItemsHaveItem(
+                new List<LabelValueItem>{ lv },
+                ''
             );
             ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
             sr.peList = new List<ListViewParticipantController.PEWrapper>();
@@ -243,7 +295,7 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
             ListViewParticipantController.getParticipantData(pe.id, con.id);
-            
+            Test.stopTest();
         }
     }
 
@@ -279,6 +331,8 @@ public class Test_ListViewParticipantController {
         lw.endPos = 45000;
         
         
+        
+        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -311,6 +365,7 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
+            
             
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
@@ -387,6 +442,19 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
             );
+            try{
+            ListViewParticipantController.fetchData(
+                '',null,null
+            );
+            ListViewParticipantController.updateParticipantData(
+                new List<String>{ 'null'},
+                new List<String>{  'null'},
+                new List<String>{  ''}
+            );
+            
+            }
+            catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
+
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
             ListViewParticipantController.labelValueItemsHaveItem(
