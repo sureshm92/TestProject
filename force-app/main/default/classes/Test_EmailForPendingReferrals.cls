@@ -20,6 +20,21 @@ public class Test_EmailForPendingReferrals {
         .ContactId;
         notification.Time_Zone_Date__c = DateTime.now();
         insert notification;
+        
+        Site_Staff__c siteStaffs = new Site_Staff__c();
+        siteStaffs.Delegate_Level__c ='Level 1';
+        siteStaffs.is_Invited__c =true;
+        siteStaffs.Site_Contact__c =testData.piContact.id;
+        insert siteStaffs;
+        
+        Study_Site__c ss= [select id from Study_Site__c limit 1];
+        
+        HCP_Enrollment__c hcp = new HCP_Enrollment__c();
+        hcp.HCP_Contact__c  =testData.piContact.id;
+        hcp.Study_Site__c = ss.Id;
+        hcp.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+        insert hcp;
+        
         EmailForPendingReferrals.sendMails(new List<Batch_Notification__c>{ notification });
     }
 }
