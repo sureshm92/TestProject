@@ -598,6 +598,9 @@ public without sharing class AddPatientByPIRemote {
                    if(String.isNotBlank(participant.Birth_Year__c)) {
                     partici.Birth_Year__c = participant.Birth_Year__c;
                     }
+                   if(participant.Age__c!=null){
+                    partici.Age__c = participant.Age__c;
+                   }
                     if (String.isNotBlank(participant.Gender__c)) {
                         partici.Gender__c = participant.Gender__c;
                     }
