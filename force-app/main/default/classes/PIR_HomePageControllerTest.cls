@@ -77,11 +77,7 @@ public without sharing class PIR_HomePageControllerTest {
         String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
         
         
-        System.runAs(testData.piUser) {    
-            //PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,true,'','',1);
+        System.runAs(testData.piUser) {
             PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1);
            
             try{
@@ -137,28 +133,106 @@ public without sharing class PIR_HomePageControllerTest {
         String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
         
         
-        System.runAs(testData.piUser) {    
-           // PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
-            
+        System.runAs(testData.piUser) {
             
             PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1);
             PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1);
             PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,'test','',1);
+            
+        }
+       
+        Test.stopTest();
+    }
+    @isTest static void testgetListViewDataNew_1() {
+        // TestData.loadTestData();
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<String> ctpIdList = new List<String>();
+        List<Id> ssIdList = new List<Id>();
+        
+        
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id); 
+        ssIdList.add(ssList[0].Id);
+        Test.startTest();
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
+        partEnroll.Study_Site__c=ssList[0].Id;
+        partEnroll.Participant_Status__c='Received';
+        partEnroll.Referral_Source__c='Principal Investigator';
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Eligibility Passed"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnew = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Not Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT","Eligibility Passed"],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
+        
+        
+        System.runAs(testData.piUser) {    
             PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,false,'','',1);
-            PIR_HomepageController.getListViewData(1,-1,'Default',filterlistnull,true,true,'','',1);
-             
             PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,true,'','',1);
-            
-            PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,true,'','',1);
-            try{
-                 PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,false,'','',1);
-                PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnull,true,false,'','AND',1);
-                
-            }
-            catch(Exception ex) {System.assertEquals(ex.getMessage(),'Script-thrown exception' );}
-            
-            
-            
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1);
+        }
+       
+        Test.stopTest();
+    }
+    @isTest static void testgetListViewDataNew_2() {
+        // TestData.loadTestData();
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<String> ctpIdList = new List<String>();
+        List<Id> ssIdList = new List<Id>();
+        
+        
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id); 
+        ssIdList.add(ssList[0].Id);
+        Test.startTest();
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
+        partEnroll.Study_Site__c=ssList[0].Id;
+        partEnroll.Participant_Status__c='Received';
+        partEnroll.Referral_Source__c='Principal Investigator';
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT","Eligibility Passed"],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
+        
+        
+        System.runAs(testData.piUser) {
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist1,true,true,'','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,false,true,'','',1);
         }
        
         Test.stopTest();
@@ -409,13 +483,120 @@ public without sharing class PIR_HomePageControllerTest {
         perms.PermissionSetId = permissionLST.PermissionSetId;
         insert perms;
             PIR_HomepageController.getStudyAccessLevel();
-            PIR_HomepageController.getPEData(partEnroll.id);
-            PIR_HomepageController.getStudyStudySiteDetails();
         }
         
         Test.stopTest();
     }
-    
+    @isTest
+    static void testgetStudyAccessLevel_2() {
+        TestData testData = new TestData();
+        Test.startTest();
+        Study_Site__c ssn= [select id from Study_Site__c];
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Study_Site__c,Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Study_Site__c=ssn.id;
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        Contact con = [
+            SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
+            FROM Contact
+            WHERE Id = :testData.piContact.id
+        ];
+        User u = [SELECT ContactId, Id, IsActive FROM User WHERE ContactId=:testData.piContact.id];
+        
+        List<Site_Staff__c> SS = new List<Site_Staff__c>();
+        Site_Staff__c s = new Site_Staff__c(
+            Email__c = 'sitestaff' + 1 + '@emil.com',
+            Study_Site__c=ssn.id,
+            Site_Contact__c = con.id,
+            Delegate_Level__c = 'Level 3',
+            is_Invited__c = true);
+        insert s;
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpList[0].CommunityTemplate__c='Janssen';
+        update ctpList;
+        
+        System.runAs(testData.piUser) {
+		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
+            PIR_HomepageController.getPEData(partEnroll.id);
+        }
+        
+        Test.stopTest();
+    }
+    @isTest
+    static void testgetStudyAccessLevel_3() {
+        TestData testData = new TestData();
+        Study_Site__c ssn= [select id from Study_Site__c];
+        
+        Test.startTest();
+        Contact con = [
+            SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
+            FROM Contact
+            WHERE Id = :testData.piContact.id
+        ];
+        User u = [SELECT ContactId, Id, IsActive FROM User WHERE ContactId=:testData.piContact.id];
+        
+        List<Site_Staff__c> SS = new List<Site_Staff__c>();
+        
+        Site_Staff__c s = new Site_Staff__c(
+            Email__c = 'sitestaff' + 1 + '@emil.com',
+            Study_Site__c=ssn.id,
+            Site_Contact__c = con.id,
+            Delegate_Level__c = 'Level 3',
+            is_Invited__c = true);
+        insert s;
+        
+        System.runAs(testData.piUser) {
+		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
+            PIR_HomepageController.getStudyStudySiteDetails();
+            PIR_HomepageController.saveTheChunkFile('test','test','test','test');
+            PIR_HomepageController.LabelValueItemISO la= new PIR_HomepageController.LabelValueItemISO('IND','IND');
+            PIR_HomepageController.getISOLanguage();
+            PIR_HomepageController.getParticipantsStatusesAndVisitPlans(ssn.Id);
+            PIR_HomepageController.getSite(ssn.Id);
+        }
+        
+        Test.stopTest();
+    }
+    @isTest
+    static void testgeneralMethods() {
+        TestData testData = new TestData();
+        Test.startTest();
+        ContentVersion cv=new Contentversion();
+        cv.title='test';
+        cv.PathOnClient ='test';
+        cv.versiondata=EncodingUtil.base64Decode('Test Data');
+        insert cv;
+        System.runAs(testData.piUser) {
+		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
+            PIR_HomepageController.deleteFile(cv.Id);
+        }
+        
+        Test.stopTest();
+    }
     @isTest
     static void testsetMRRStatus() {        
         TestData testData = new TestData();
@@ -472,13 +653,50 @@ public without sharing class PIR_HomePageControllerTest {
                 PIR_HomepageController.getStudyStudySiteDetails();
                 PIR_HomepageController.fetchCurrentUserLanguage();
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'','',1);
+                
+            } catch(Exception ex) {
+                
+            }
+        }
+        Test.stopTest();        
+    }
+    @isTest
+    static void testgetPEDataAdditionalMethod_1() {
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<Id> ctpIdList = new List<Id>();
+        List<Id> ssIdList = new List<Id>();
+        Test.startTest();
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id);
+        ssIdList.add(ssList[0].Id);
+        List<Participant_Enrollment__c> partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+        ];
+        
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlistSiteNull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+         
+        List<Clinical_Trial_Profile__c> ctpListnew = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpListnew[0].CommunityTemplate__c='Janssen';
+        update ctpListnew;
+        
+        String filterlistJanseen = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":[],"studyList":["'+ctpListnew[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        
+       
+        System.runAs(testData.piUser) {
+            try{
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistSiteNull,true,true,'','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlist,true,true,'test','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistJanseen,true,true,'test','',1); 
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'test','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,true,true,'','',1);
                 PIR_HomepageController.getListViewData(1,-1,'Default',filterlist,true,true,'','',1);
-                
                 
             } catch(Exception ex) {
                 
@@ -595,6 +813,7 @@ public without sharing class PIR_HomePageControllerTest {
         TriggerHandlerExecutor.bypassHandler(
             PENotificationTriggerHandler.CreateNotificationHandler.class
         );
+        Test.startTest();
         update testData.pe;
         Contact con = [
             SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
@@ -624,7 +843,7 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         insert ssList;
-        Test.startTest();
+        
         Participant_Enrollment__c partEnroll = [
             SELECT Id, Participant__c, Show_Referring_Provider__c,Participant_Status__c
             FROM Participant_Enrollment__c
@@ -646,7 +865,6 @@ public without sharing class PIR_HomePageControllerTest {
             PIR_HomepageController.getPEData(testData.pe.Id);
             
         }
-        
         Test.stopTest();
     }
     
@@ -682,6 +900,21 @@ public without sharing class PIR_HomePageControllerTest {
         insert perms;
             PIR_HomepageController.getStudyStudySite();
             PIR_HomepageController.fetchPreset();
+            PIR_HomepageController.getStudyStudySite();
+        }
+        Test.stopTest();
+    }
+	@isTest
+    static void testGetStudyStudySite_New() {
+        TestData testData = new TestData();
+        Test.startTest();
+        
+        System.runAs(testData.piUser){
+        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+        PermissionSetAssignment perms = new PermissionSetAssignment();
+        perms.AssigneeId = testData.piUser.Id;
+        perms.PermissionSetId = permissionLST.PermissionSetId;
+        insert perms;
             PIR_HomepageController.getStudyStudySite();
         }
         Test.stopTest();
@@ -788,71 +1021,7 @@ public without sharing class PIR_HomePageControllerTest {
                                                            'Contact Attempted',
                                                            True,
                                                            True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT,
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Contact Attempted',
-                                                           True,
-                                                           True,date.today());
             
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Sent to DCT',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Contact Attempted',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'In Wash Out Period',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Contact Attempted',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Declined Consent',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Declined Consent',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Screening In Progress',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Ready To Screen',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Contact Attempted',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Received',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Unable to Screen',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Received',
-                                                           True,
-                                                           True,date.today());
-            PIR_HomepageController.updateParticipantStatus(peList,
-                                                           'Enrollment Success',
-                                                           'Test Notes',
-                                                           'Other',
-                                                           ctpList[0].Id,
-                                                           'Unable to Screen',
-                                                           True,
-                                                           True,date.today());
             try{
                 PIR_HomepageController.updateParticipantStatus(peList,
                                                                ctpList[0].Id,
@@ -876,28 +1045,26 @@ public without sharing class PIR_HomePageControllerTest {
         
         List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         List<Study_Site__c> ssList = [SELECT Id FROM Study_Site__c limit 1];
-        Preset_Filter__c presetFilter = new Preset_Filter__c(
-            User_Preset__c = testData.piUser.id,
-            Source__c='test',
-            Status__c='test',
-            Ethnicity__c='test,test',
-            StudyId__c=ctpList[0].id,
-            Study_Site_Id__c=ssList[0].id,
-            Default_Preset__c=true,
-            Community_Name__c='Default'
-            
-        );
         
-        insert presetFilter;
-        Preset_Filter__c pf=[select id, User_Preset__c from Preset_Filter__c];
-        ctpList[0].CommunityTemplate__c='Janssen';
-        update ctpList;
         System.runAs(testData.piUser){
-	    PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
+            PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+            PermissionSetAssignment perms = new PermissionSetAssignment();
+            perms.AssigneeId = testData.piUser.Id;
+            perms.PermissionSetId = permissionLST.PermissionSetId;
+            insert perms;
+            Preset_Filter__c presetFilter = new Preset_Filter__c(
+                User_Preset__c = testData.piUser.id,
+                Source__c='test',
+                Status__c='test',
+                Ethnicity__c='test,test',
+                StudyId__c=ctpList[0].id,
+                Study_Site_Id__c=ssList[0].id,
+                Default_Preset__c=true,
+                Community_Name__c='Default'
+                
+            );
+            
+            insert presetFilter;
             PIR_HomepageController.fetchPreset();
         }
         Test.stopTest();

@@ -136,14 +136,16 @@ public class TestData {
             WHERE HCP_Contact__r.LastName = 'HCPTD'
             LIMIT 1
         ];
-        piContact = [SELECT Id, Name FROM Contact WHERE Email = 'pi@emil.com' LIMIT 1];
-
-        piDelegateContact = [
-            SELECT Id, Name
-            FROM Contact
-            WHERE Email = 'pi_delegate@emil.com'
-            LIMIT 1
-        ];
+        List<String> emailList = new List<String>{'pi@emil.com','pi_delegate@emil.com'};
+        List<Contact> contactList = [SELECT Id, Name,Email FROM Contact WHERE Email IN: emailList LIMIT 2 ];
+        for(Contact con:contactList) {
+            if(con.email == 'pi@emil.com') {
+                piContact = con;
+            } else {
+                piDelegateContact = con;
+            }
+        }
+        
     }
 
     public User createPatientDelegate() {
@@ -244,18 +246,10 @@ public class TestData {
     }
 
     public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
-        if (bypass)
+       if (bypass)
             bypassTriggers(externalExecuteTriggerNames);
-
+        
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
-        Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
-        tcList.add(portalTC);
-
-        studyTC = new Terms_And_Conditions__c();
-        tcList.add(studyTC);
-        insert tcList;
-
-        List<Terms_And_Conditions__c> ppList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c ppTc = new Terms_And_Conditions__c(
             Active__c = true,
             Community_Name__c = 'IQVIA Referral Hub',
@@ -265,8 +259,11 @@ public class TestData {
             T_C_Text__c = '<p><b style="font-size: 12pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0);">PRIVACY POLICY</b></p>',
             T_C_Type__c = 'Privacy Policy'
         );
-        ppList.add(ppTc);
-        insert ppList;
+        tcList.add(ppTc);
+		
+        studyTC = new Terms_And_Conditions__c();
+        tcList.add(studyTC);
+        insert tcList;
 
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
@@ -324,6 +321,7 @@ public class TestData {
             userCommunytyType__c = CommunityService.USER_MODE_HCP,
             userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
+        contacts.add(hcpContact);
 
         Contact hcpDelegateContact = new Contact(
             FirstName = 'HCPDelTD',
@@ -332,8 +330,7 @@ public class TestData {
             AccountId = hcpAccount.Id
         );
         contacts.add(hcpDelegateContact);
-
-        contacts.add(hcpContact);
+        
         Contact ccContact = new Contact(
             FirstName = 'CCTD',
             LastName = 'CCTD',
@@ -610,25 +607,14 @@ public class TestData {
         );
         peList.add(pe6);
         insert peList;
-
-        List<Participant_Enrollment_Status_History__c> peshList = [
-          SELECT Id
-          FROM Participant_Enrollment_Status_History__c
-          WHERE ParticipantEnrollment__c = :peList[0].Id
-        ];
-        if(peshList.size() <= 0) {
-            Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
-                pesh.Date__c = Datetime.now();
-                pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
-                pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
-                pesh.ParticipantEnrollment__c = peList[0].Id;
-            insert pesh;
-        }
-        List<Participant_Enrollment_Status_History__c> peshList1 = [
-            SELECT Id
-            FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c = :peList[0].Id
-          ];
+        
+        Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+        pesh.Date__c = Datetime.now();
+        pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+        pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
+        pesh.ParticipantEnrollment__c = peList[0].Id;
+        insert pesh;
+        
         Referral_Network__c referralNetwork = new Referral_Network__c(
             Name = 'Test Referral Network'
         );
@@ -645,7 +631,7 @@ public class TestData {
             TherapeuticAreaId__c = area.Id
         );
         insert contactTherapeuticArea;
-
+        
         Participant_Enrollment__c peForContactUpdate = [
             SELECT Id, Participant_Contact__c
             FROM Participant_Enrollment__c
@@ -679,7 +665,6 @@ public class TestData {
         necessaryTriggersForLoadTestData.add(
             'ParticipantTriggerHandler.CreateContactsForParticipantsHandler'
         );
-
         necessaryTriggersForMostTests.add(
             'HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler'
         );
@@ -719,6 +704,7 @@ public class TestData {
                 bypassTriggerNames.add(codeString.substringBetween(open, close));
             }
         }
+       
         if (necessaryTriggersForLoadTestData.isEmpty())
             prepareTriggersLists();
 
@@ -734,7 +720,6 @@ public class TestData {
                 bypassTriggerNames.remove(bypassTriggerNames.indexOf(name));
             }
         }
-
         try {
             for (String name : bypassTriggerNames) {
                 TriggerHandlerExecutor.bypassHandler(Type.forName(name));
