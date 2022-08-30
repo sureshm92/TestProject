@@ -32,22 +32,6 @@ public without sharing class PIR_StatusDetailControllerTest {
         PIR_StatusDetailController.getoutcomeToReasonMap('PWS_Eligibility_Card_Name');
         PIR_StatusDetailController.getPERdetails(testData.pe.Id);
         PIR_StatusDetailController.getRecievedHistory(testData.pe.Id);
-           
-       //try{
-           // PIR_StatusDetailController.getRecievedHistory(ctpList[0].Id);  
-       // }        catch(Exception ex) {}
-        
-        /*PIR_StatusDetailController.getContactHistory(testData.pe.Id,'PWS_Contact_Name');
-        PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
-        PIR_StatusDetailController.getMasked(true,'CC','Test');
-        PIR_StatusDetailController.getMasked(true,'CC1','Test');
-        PIR_StatusDetailController.getUTCDateTime(system.now());
-        PIR_StatusDetailController.getBubbleStatus(testData.pe.Id);
-        //PIR_StatusDetailController.getStudySiteVisitPlansMap(ssIds);
-        PIR_StatusDetailController.isPESHnotDisabled(null,null,false);*/
-        
-        //getVisitPlansLVList
-
         Test.stopTest();
     }
     
@@ -401,11 +385,6 @@ public without sharing class PIR_StatusDetailControllerTest {
 
         insert historyList;
         insert peshList;
-        List<User> usrList = [SELECT Id,profileId FROM User WHERE Profile.Name = 'API Only'];
-        for(User userDetail:usrList){
-            userDetail.IsPortalEnabled = true;
-        }
-        //update usrList;
         
         System.runAs(testData.piUser) {
             PIR_StatusDetailController.getContactHistory(parList.Id,'PWS_Contact_Name');
@@ -824,7 +803,6 @@ public without sharing class PIR_StatusDetailControllerTest {
             Status__c = 'Successfully re-engaged',
             Additional_Notes__c = 'Test Notes testing testclass code on this date',
             ParticipantEnrollment__c = testData.pe.Id,
-            //Non_Enrollment_Reason__c = 'PI Decision',
             Notes__c = 'Test Notes1 testing 1 testclass code1 on test date (IQVIA)'
         );
 
