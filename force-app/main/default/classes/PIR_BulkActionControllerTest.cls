@@ -41,6 +41,7 @@ public class PIR_BulkActionControllerTest {
         Test.startTest();
         PIR_BulkActionController.exportAll(ctpIds,studyIds,0,45000,'Default');
          PIR_BulkActionController.exportAll(ctpIds,studyIds,0,45000,'Janssen');
+         
         try{
             System.runAs(testData.piUser) {
         		PIR_BulkActionController.exportAll(null,null,0,45000,null);
