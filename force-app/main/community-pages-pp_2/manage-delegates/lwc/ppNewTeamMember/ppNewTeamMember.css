@@ -40,4 +40,13 @@
         width: 22.375rem;
         position: unset;
     }
+    .profile-info-input {
+        margin-bottom: 31px;
+    }
+    .profile-info-input:last-child {
+        margin-bottom: 0px;
+    }
+    .mob-checkbox-txt {
+        text-align: center;
+    }
 }

@@ -32,7 +32,7 @@
                                     <span class="from">{label.ppFrom}</span>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="7">
-                                    <span class="from-date">{currentYOB}</span>
+                                    <div class="from-date">{currentYOB}</div>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </lightning-layout-item>
@@ -50,7 +50,7 @@
                                         onchange={doCheckYearOfBith}
                                         label="YOB"
                                         variant="label-hidden"
-                                        class="mt-5"
+                                        class={highlightErrorForYOBClass}
                                     ></lightning-combobox>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="2"> </lightning-layout-item>
