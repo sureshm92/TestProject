@@ -316,11 +316,11 @@ public without sharing class ApplicationHelpRemote {
                         ' ' +
                         Label.PP_ChangeUsrname_DntTranslate +
                         ' ' +
-                        UserInfo.getUserName();
-                    +' ' +
-                    Label.PP_ToEmailAddressDntTranslate +
-                    ' ' +
-                    UserInfo.getUserEmail();
+                        UserInfo.getUserName() +
+                        ' ' +
+                        Label.PP_ToEmailAddressDntTranslate +
+                        ' ' +
+                        UserInfo.getUserEmail();
                     sub = Label.PP_UsrNameUpdateDntTranslate;
                 }
                 // sub = Label.PP_UsrNameUpdateDntTranslate;
