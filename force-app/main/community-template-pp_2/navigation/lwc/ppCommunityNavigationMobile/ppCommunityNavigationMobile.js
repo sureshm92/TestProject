@@ -65,24 +65,37 @@ export default class PpCommunityNavigationMobile extends LightningElement {
         };
         this.participantTabs.push(allPagesMap['participant-home']);
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['my-study']);
+            }
         } else {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['resources']);
         }
-        if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
+        }
+        if (this.communityServic.getCurrentCommunityMode().hasPastStudies) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['past-studies']);
+            }
+        }
         if (this.communityServic.getEDiaryVisible()) {
             if (this.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                 this.participantTabs.push(allPagesMap['e-diaries']);
             }
         }
+        }
         if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['messages']);
+        }
         }
         if (this.communityServic.getTrialMatchVisible()) {
             if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                 this.participantTabs.push(allPagesMap['trial-match']);
             }
+        }
         }
         this.participantTabs.push(allPagesMap['help']);
     }
