@@ -7,7 +7,7 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void saveParticipant() {
         TestData.loadTestData();
-        Test.startTest();
+        
         TestData testDataInstance = new TestData();
         String checkNeeds;
         String delAge;
@@ -61,6 +61,8 @@ private without sharing class Test_ReferringRemote {
                 Clinical_Trial_Profile__c = testDataInstance.ctp.Id
             );
             insert studyRes;
+            
+            Test.startTest();
             ReferringRemote.saveParticipant(
                 testDataInstance.hcpEnrollment.Id,
                 JSON.serialize(pe),
@@ -136,12 +138,11 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void deletefile() {
         TestData.loadTestData();
-        Test.startTest();
+       
         TestData testDataInstance = new TestData();
         String checkNeeds;
         String delAge;
-
-        List<Resource__c> resources = new List<Resource__c>{
+      List<Resource__c> resources = new List<Resource__c>{
             new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US'),
             new Resource__c(
                 Language__c = 'en_US',
@@ -152,14 +153,23 @@ private without sharing class Test_ReferringRemote {
             )
         };
         insert resources;
+        List<Res_study__c> resStudyList = new List<Res_study__c>();
         Res_study__c studyRes = new Res_study__c(
             Resource__c = resources[1].Id,
             Visible_To_PI__c = true,
             Visible_To_RP__c = true,
             Clinical_Trial_Profile__c = testDataInstance.ctp.Id
         );
-        insert studyRes;
-
+         resStudyList.add(studyRes);
+        Res_study__c studyRes1 = new Res_study__c(
+            Resource__c = resources[1].Id,
+            Visible_To_PI__c = true,
+            Visible_To_RP__c = true,
+            Clinical_Trial_Profile__c = testDataInstance.ctp.Id
+        );
+         resStudyList.add(studyRes1);
+        insert resStudyList;
+       
         // Test.startTest();
         ContentVersion contentVersionInsert = new ContentVersion(
             Title = 'Test',
@@ -175,12 +185,18 @@ private without sharing class Test_ReferringRemote {
             FROM ContentDocument
         ];
 
-        ContentDocumentLink DDL = new ContentDocumentLink(
-            ContentDocumentId = Documents[0].id,
-            LinkedEntityId = resources[1].Id
-        );
-        insert DDL;
+       List<ContentDocumentLink> contentDocList = new List<ContentDocumentLink>();
+        for(Integer i = 0; i < 2; i++){
+            ContentDocumentLink cdl = New ContentDocumentLink();
+            cdl.LinkedEntityId = resStudyList[i].Id;
+            cdl.ContentDocumentId =documents[0].Id;
+            cdl.shareType = 'I';
 
+            contentDocList.add(cdl);
+        }
+        Insert contentDocList;  
+		
+         Test.startTest();
         ReferringRemote.deleteFile(Documents[0].id);
 
         string lang = 'en_US';
