@@ -2,11 +2,13 @@
 private class Test_Batch_TrialMatchNotify {
     @Testsetup
     static void init(){
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
         TestData testData = new TestData();
         testData.ctp.Trial_Match_Is_Available__c = true;
         testData.ctp.Override_Recruitment_Status__c = 'Actively Enrolling';
-        Test.startTest();
+        //Test.startTest();
         update testData.ctp;
         Trial_Match__c tm = new Trial_Match__c(
             Clinical_Trial_Profile__c = testData.ctp.id,
@@ -20,7 +22,7 @@ private class Test_Batch_TrialMatchNotify {
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'
         );
         insert tm;
-        Test.stopTest();
+        //Test.stopTest();
     }
 	@IsTest
     static void batchTrialMatch_test() {
