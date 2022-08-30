@@ -149,6 +149,9 @@
 .dropdown-span {
     width: 250px;
     padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* custom scrollbar */

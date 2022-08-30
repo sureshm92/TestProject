@@ -160,39 +160,39 @@
              </aura:if>
          </div>
 
-         <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
-         <div class="rr-body-content rr-min-body-height">
-             <aura:if isTrue="{!v.isInitialized}">
-                 <aura:if isTrue="{!v.isPPonPhone}">
-                     <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}" />
-                 </aura:if>
-                 <aura:if isTrue="{!!v.isPPonPhone}">
-                     <c:CommunityNavigationMobile
-                         aura:id="navigationMobile"
-                         showSideMenu="{!v.showSideMenu}"
-                         isPPonPhone="{!v.isPPonPhone}"
-                         mode="{!v.currentMode.userMode}"
-                         hasMessage="{!v.hasMessage}"
-                         class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
-                         communityTemplate="{!v.template}"
-                         userMode="{!v.currentMode.userMode}"
-                     />
-                 </aura:if>
-                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                 <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}" currentMode="{!v.currentMode}"></c:televisitMeetBanner>
-             </aura:if>
-             {!v.body}
-         </div>
-         <aura:if isTrue="{!v.isInitialized}">
-             <div class="footer">
-                 <div class="rr-width-limiter" style="padding: 0 15px">
-                     <c:ppCommunityFooter />
-                 </div>
-             </div>
-             <aura:if isTrue="{!not(v.isDummy)}">
-                 <c:CookiesInfo />
-             </aura:if>
-         </aura:if>
+            <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
+            <div class="rr-body-content rr-min-body-height">
+                <aura:if isTrue="{!v.isInitialized}">
+                    <aura:if isTrue="{!v.isPPonPhone}">
+                        <c:ppCommunityNavigationMobile communityServic="{!v.communityServ}"  showSideMenu="{!v.showSideMenu}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isPPonPhone}">
+                        <c:CommunityNavigationMobile
+                            aura:id="navigationMobile"
+                            showSideMenu="{!v.showSideMenu}"
+                            isPPonPhone="{!v.isPPonPhone}"
+                            mode="{!v.currentMode.userMode}"
+                            hasMessage="{!v.hasMessage}"
+                            class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
+                            communityTemplate="{!v.template}"
+                            userMode="{!v.currentMode.userMode}"
+                        />
+                    </aura:if>
+                    <!-- Televisit Meet Banner Section PEH-5892 -->
+                    <c:televisitMeetBanner urlPathPrefix="{!v.urlPathPrefix}" currentMode="{!v.currentMode}"></c:televisitMeetBanner>
+                </aura:if>
+                {!v.body}
+            </div>
+            <aura:if isTrue="{!v.isInitialized}">
+                <div class="footer">
+                    <div class="rr-width-limiter" style="padding: 0 15px">
+                        <c:CommunityFooter />
+                    </div>
+                </div>
+                <aura:if isTrue="{!not(v.isDummy)}">
+                    <c:CookiesInfo />
+                </aura:if>
+            </aura:if>
 
          <aura:if isTrue="{!not(v.isDummy)}">
              <c:Alerts aura:id="alerts" />

@@ -1462,7 +1462,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
-        <value>By checking this box, you confirm that your chosen delegate is a legal adult in their jurisdiction of residence.</value>
+        <value>I attest to this delegate being of legal age in their locale.</value>
     </labels>
     <labels>
         <fullName>August</fullName>
@@ -13955,6 +13955,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Update Password</value>
     </labels>
     <labels>
+        <fullName>PP_Attestation_Confirmation_Message_For_Teams</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Attestation Confirmation Message For Teams</shortDescription>
+        <value>By checking this box, you confirm that your chosen delegate is a legal adult in their jurisdiction of residence.</value>
+    </labels>
+    <labels>
         <fullName>PP_Incorrect_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18833,11 +18840,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_EmailMatch</shortDescription>
         <value>I would like my username &amp; email to match</value>
     </labels>
-      <labels>
-        <fullName>PP_Match_Username_And_Email</fullName>
+    <labels>
+        <fullName>PP_Username_And_Email_Change_GetSupport</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username And Email</shortDescription>
+        <shortDescription>PP Username And Email Change GetSupport</shortDescription>
         <value>I would like my Username &amp; Email to match</value>
     </labels>
     <labels>
@@ -19943,10 +19950,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Year of Birth</value>
     </labels>
     <labels>
-        <fullName>PP_Match_Username_Email</fullName>
+        <fullName>PP_Username_Email_GetSupport</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP Match Username Email</shortDescription>
+        <shortDescription>PP_Username_Email_GetSupport</shortDescription>
         <value>Match Username &amp; Email</value>
     </labels>
     <labels>
@@ -20426,6 +20433,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant_quick_reference</value>
     </labels>
     <labels>
+        <fullName>Participant_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Settings</shortDescription>
+        <value>Participant Settings</value>
+    </labels>
+    <labels>
         <fullName>Participants_Referred_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20797,6 +20811,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Email Error</shortDescription>
         <value>Enter a valid email format</value>
+    </labels>
+    <labels>
+        <fullName>PP_Required_Field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Required Field</shortDescription>
+        <value>Required Field</value>
     </labels>
     <labels>
         <fullName>Pswd_ValidationMsg8</fullName>
@@ -27560,7 +27581,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_CountryConstent</shortDescription>
-        <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records will not be added.</value>
+        <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records may not be added.</value>
     </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
@@ -27669,7 +27690,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Deactivated</shortDescription>
-        <value>Delegates was successfully deactivated</value>
+        <value>Delegate was successfully deactivated</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Activated</fullName>
@@ -27677,7 +27698,7 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>flase</protected>
         <shortDescription>PP Delegate Activated</shortDescription>
-        <value>Delegates was successfully activated</value>
+        <value>Delegate was successfully activated</value>
     </labels>
     <labels>
         <fullName>You_are_not_enrolled_in_any_program_at_the_moment</fullName>
@@ -27685,15 +27706,15 @@ Please contact the Study Team for further updates or please login for additiona
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You_are_not_enrolled_in_any_program_at_the_moment</shortDescription>
-        <value>You are not enrolled in any program at them moment</value>
+        <value>You are not enrolled in any program at the moment</value>
     </labels>
     <labels>
-        <fullName>When_a_program_is_active_you_will_find_a_brief_overview_of_it_here</fullName>
+        <fullName>When_a_program_is_active_you_will_find_a_brief_overview_about_it_here</fullName>
         <categories></categories>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>When_a_program_is_active_you_will_find_a_brief_overview_of_it_here</shortDescription>
-        <value>When a program is active you will find a brief overview of it here</value>
+        <shortDescription>When_a_program_is_active_you_will_find_a_brief_overview_about_it_here</shortDescription>
+        <value>When a program is active you will find a brief overview about it here</value>
     </labels>
     <labels>
         <fullName>No_active_program</fullName>
