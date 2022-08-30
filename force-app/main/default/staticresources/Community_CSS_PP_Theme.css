@@ -8,6 +8,14 @@
         width: 95% !important;
     }
 }
+.rr-width-limiter-pp{
+    max-width:1140px;
+    margin:auto;
+}
+.menu-block {
+    display: inline-block;
+    position: absolute !important;    
+}
 
 /* Community_CSS_PP_Theme */
 
@@ -86,6 +94,12 @@
     .rr-width-limiter .side-padding {
         padding-left: 0rem !important;
         padding-right: 0rem !important;
+    }
+    .menu-block {
+        position: relative !important;    
+    }
+    .logo-container-pp {
+        margin: 15px 0 0 55px !important;
     }
 }
 
@@ -288,13 +302,7 @@ color: #0768fd!important;
 
 
 .logo-container-pp {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    margin-right: 52px;
-    margin-left: -62px;
-    flex-shrink: 0;
-    width: 165px;
+    margin: 15px 45px 0 0;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action{
