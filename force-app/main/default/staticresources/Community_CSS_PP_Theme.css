@@ -388,3 +388,16 @@ color: #0768fd!important;
     padding-left: 15px;
     padding-right: 20%;
 }
+
+.highlight-error button{
+    border: 1px solid red;
+}
+
+.highlight-error .slds-combobox__input:focus{
+    border-color: red;
+    box-shadow: none;
+}
+
+.fadePlaceholder button span{
+    opacity: 0.7;
+}
