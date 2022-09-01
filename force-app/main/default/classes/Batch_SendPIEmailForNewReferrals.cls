@@ -6,7 +6,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
         if(!test.isRunningTest())
         	timestarted = DateTime.now();
         else{
-            timestarted = DateTime.newInstance(2021,10,23,20,10,0);
+            timestarted = DateTime.newInstance(2022,10,23,09,0,0);
         }
         system.debug('^' + UserInfo.getUserId());
         return Database.getQueryLocator(
@@ -73,6 +73,10 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             Integer minutes = 0;
             Boolean isQualified = false; 
             DateTime currentTime = DateTime.now();
+            System.debug('user time zone'+userlocaltime.hourgmt());
+            System.debug('user time zone'+userlocaltime);
+            System.debug('user time zone'+currentTime);
+       
             if (
                 ((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt() <= 45) ||
                 userlocaltime.hourgmt() == 6) &&
@@ -84,6 +88,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
                 //u.TimeOfRun__c = 'AM';
                 offset = tz.getOffset(currentTime);
                 DateTime currentLocalTime = currentTime.addSeconds(offset / 1000);
+                system.debug('currentLocalTime'+currentLocalTime);
                 if (
                     (currentLocalTime.hourgmt() == 7 && currentLocalTime.minutegmt() < 40) ||
                     currentLocalTime.hourgmt() < 7
