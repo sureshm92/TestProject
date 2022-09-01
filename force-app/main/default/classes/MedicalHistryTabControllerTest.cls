@@ -207,11 +207,8 @@ public with sharing class MedicalHistryTabControllerTest {
             ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c FROM Participant_Enrollment__c ];
 
         objPart[0].HighRisk_Indicator__c = 'yes';
-        List<Participant__c> partList = [SELECT Id,BMI__c FROM Participant__c WHERE Id =:objpart[0].Participant__c];
-        partList[0].BMI__c = 1.0;
         byPassTriggersMethod();
         update objPart;
-        update partList;
         Map<String,String> comMap = new Map<String,String>();
         List<Map<String,String>> comListMap = new List<Map<String,String>>();
         Map<String,String> comDelMap = new Map<String,String>();
@@ -245,7 +242,6 @@ public with sharing class MedicalHistryTabControllerTest {
         Test.setMock(HttpCalloutMock.class, new HumanAPIcontrollerMock());
         MedicalHistryTabController.medicalHistryWrapper wrapper = new MedicalHistryTabController.medicalHistryWrapper();
         wrapper = MedicalHistryTabController.getPEDetails(objpart[0].Id);
-        System.assertEquals(1.0,wrapper.BMI);
         MedicalHistryTabController.saveParticipantData('',false,true,comString,comDelString,objpart[0].Id);
         String survey = MedicalHistryTabController.getSurveyResponsecovid(objpart[0].Id);   
         System.assert(String.isNotBlank(survey));     
@@ -348,6 +344,12 @@ public with sharing class MedicalHistryTabControllerTest {
         );
         TriggerHandlerExecutor.bypassHandler(
             ContentDocumentLinkTriggerHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.changeUserEmailOnParticipantEmailChangehandlerType.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.UpdateNameOnPE.class
         );
     }
 }

@@ -468,7 +468,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS_RH_ROW_Consent_SMS</shortDescription>
-        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes</value>
+        <value>Your patient or patient's legal guardian also consents to be contacted by SMS/text for these purposes.</value>
     </labels>
     <labels>
         <fullName>Site_DB_Invited</fullName>
@@ -14030,6 +14030,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS F Zip Postal Code</shortDescription>
         <value>Zip/Postal Code</value>
+    </labels>
+     <labels>
+        <fullName>PP_AS_F_Zip_Postal_Code</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F Zip Postal Code</shortDescription>
+        <value>ZIP / Postal Code</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Change_Password</fullName>
