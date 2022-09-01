@@ -68,12 +68,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get marginForDOBEdit() {
-        if (this.isEditYOB) {
-            return 'mt-25';
-        }
-        if (this.isMatchUsernameEmail) {
-            return 'mt-15';
-        }
+        return (this.isEditYOB || this.isMatchUsernameEmail) ? 'fixed-height' : '';
     }
 
     get marginMatchEmailPass() {
@@ -103,6 +98,10 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     get isDisableSave() {
         return this.disableSave;
     }
+
+    get highlightErrorForYOBClass(){
+        return this.showMinorErrorMsg ? "highlight-error mt-5 fadePlaceholder" : "mt-5 fade fadePlaceholder";
+    }
     handleChangeSelection(event) {
         this.disableSave = true;
         this.selectedOption = event.detail.value;
@@ -125,6 +124,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 if (isAdult == 'true') {
                     this.showMinorErrorMsg = false;
                     this.disableSave = false;
+
                 } else if (isAdult == 'false') {
                     this.showMinorErrorMsg = this.selectedYOB == '' ? false : true;
                     this.disableSave = true;
