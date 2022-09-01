@@ -14031,6 +14031,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG AS F Zip Postal Code</shortDescription>
         <value>Zip/Postal Code</value>
     </labels>
+     <labels>
+        <fullName>PP_AS_F_Zip_Postal_Code</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP AS F Zip Postal Code</shortDescription>
+        <value>ZIP / Postal Code</value>
+    </labels>
     <labels>
         <fullName>PG_AS_H_Change_Password</fullName>
         <language>en_US</language>
