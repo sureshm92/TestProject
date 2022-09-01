@@ -149,7 +149,7 @@ public without sharing class UserContext {
     }
 
     private static void setUser(Id userId) {
-        user = [SELECT Id, ContactId FROM User WHERE Id = :userId];
+        user = [SELECT Id, ContactId, FullPhotoUrl FROM User WHERE Id = :userId];
         if (user == null || user.ContactId == null) {
             isDummy = true;
         } else {
