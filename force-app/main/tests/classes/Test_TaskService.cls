@@ -22,6 +22,40 @@ private class Test_TaskService {
 
     @IsTest
     static void getTasksTest() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
         TestData.loadTestData();
         TestData testData = new TestData();
         Task task = new Task();
@@ -72,7 +106,7 @@ private class Test_TaskService {
 
         Task ignoreTask = [SELECT Id, Status FROM Task WHERE Id = :taskIgnore.Id];
         System.assertEquals(TaskService.TASK_STATUS_IGNORED, ignoreTask.Status);
-        
+
         Test.stopTest();
         Task cypTask = [
             SELECT Id, Status
