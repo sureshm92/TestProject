@@ -109,8 +109,8 @@ public without sharing class PIR_HomePageControllerTest {
         ssIdList.add(ssList[0].Id);
         Test.startTest();
         Participant_Enrollment__c partEnroll = [
-            SELECT Id, Participant__c, Show_Referring_Provider__c
-            FROM Participant_Enrollment__c
+            SELECT Id, Participant__c, Participant__r.First_Name__c,Show_Referring_Provider__c
+            FROM Participant_Enrollment__c where Participant__r.First_Name__c!=null
             LIMIT 1
         ]; 
         partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
@@ -137,7 +137,7 @@ public without sharing class PIR_HomePageControllerTest {
             
             PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1);
             PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,'test','',1);
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,partEnroll.Participant__r.First_Name__c,'',1);
             
         }
        
@@ -1037,6 +1037,146 @@ public without sharing class PIR_HomePageControllerTest {
         }
         Test.stopTest();
     }
+	@isTest
+    static void testupdateParticipantStatus_new() {
+        TestData testData = new TestData();
+        List<Participant_Enrollment__c> pe = [SELECT Id,Participant_Contact__c FROM Participant_Enrollment__c WHERE Patient_ID__c=:'SomePatientId2'];
+        List<Id> peList = new List<Id>{ pe[0].id };
+            Set<Id> ctpIds = new Set<Id>();
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id FROM Clinical_Trial_Profile__c limit 1];
+        Study_Site__c studySite = [
+            SELECT Id, Clinical_Trial_Profile__c
+            FROM Study_Site__c
+            
+            LIMIT 1
+        ];
+        Incentive_Plan__c plan = new Incentive_Plan__c();
+        plan.Plan_Name__c = 'Test IP1';
+        plan.Clinical_Trial_Profile__c = studySite.Clinical_Trial_Profile__c;
+        insert plan;
+        Incentive_Plan_Task__c task = new Incentive_Plan_Task__c();
+        task.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY;
+        task.Incentive_Plan__c = plan.Id;
+        task.Enabled__c = true;
+        task.IQVIA_Supported__c = true;
+        task.Points__c = 15;
+        insert task;
+        Study_Incentive_Plan__c sip = new Study_Incentive_Plan__c();
+        sip.Incentive_Plan__c = plan.Id;
+        sip.Study_Site__c = studySite.Id;
+        insert sip;
+        
+        
+        Test.startTest();
+        System.runAs(testData.piUser){
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT,
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Contact Attempted',
+                                                           True,
+                                                           True,date.today());
+            
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Sent to DCT',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Contact Attempted',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'In Wash Out Period',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Contact Attempted',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Declined Consent',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Declined Consent',
+                                                           True,
+                                                           True,date.today());
+            
+            
+            
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void testupdateParticipantStatus_new2() {
+        TestData testData = new TestData();
+        List<Participant_Enrollment__c> pe = [SELECT Id,Participant_Contact__c FROM Participant_Enrollment__c WHERE Patient_ID__c=:'SomePatientId2'];
+        List<Id> peList = new List<Id>{ pe[0].id };
+            Set<Id> ctpIds = new Set<Id>();
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id FROM Clinical_Trial_Profile__c limit 1];
+        Study_Site__c studySite = [
+            SELECT Id, Clinical_Trial_Profile__c
+            FROM Study_Site__c
+            
+            LIMIT 1
+        ];
+        Incentive_Plan__c plan = new Incentive_Plan__c();
+        plan.Plan_Name__c = 'Test IP1';
+        plan.Clinical_Trial_Profile__c = studySite.Clinical_Trial_Profile__c;
+        insert plan;
+        Incentive_Plan_Task__c task = new Incentive_Plan_Task__c();
+        task.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY;
+        task.Incentive_Plan__c = plan.Id;
+        task.Enabled__c = true;
+        task.IQVIA_Supported__c = true;
+        task.Points__c = 15;
+        insert task;
+        Study_Incentive_Plan__c sip = new Study_Incentive_Plan__c();
+        sip.Incentive_Plan__c = plan.Id;
+        sip.Study_Site__c = studySite.Id;
+        insert sip;
+        
+        
+        Test.startTest();
+        System.runAs(testData.piUser){
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Screening In Progress',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Ready To Screen',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Contact Attempted',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Received',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Unable to Screen',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Received',
+                                                           True,
+                                                           True,date.today());
+            PIR_HomepageController.updateParticipantStatus(peList,
+                                                           'Enrollment Success',
+                                                           'Test Notes',
+                                                           'Other',
+                                                           ctpList[0].Id,
+                                                           'Unable to Screen',
+                                                           True,
+                                                           True,date.today());
+            
+        }
+        Test.stopTest();
+    }
+	
     @isTest
     static void testfetchPreset() {
         TestData testData = new TestData();
@@ -1069,7 +1209,41 @@ public without sharing class PIR_HomePageControllerTest {
         }
         Test.stopTest();
     }
-    
+    @isTest
+    static void testfetchPreset_new() {
+        TestData testData = new TestData();
+        Test.startTest();
+        Set<Id> ctpIds = new Set<Id>();
+        
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        List<Study_Site__c> ssList = [SELECT Id FROM Study_Site__c limit 1];
+        
+        System.runAs(testData.piUser){
+            PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
+            PermissionSetAssignment perms = new PermissionSetAssignment();
+            perms.AssigneeId = testData.piUser.Id;
+            perms.PermissionSetId = permissionLST.PermissionSetId;
+            insert perms;
+            Preset_Filter__c presetFilter = new Preset_Filter__c(
+                User_Preset__c = testData.piUser.id,
+                Source__c='test',
+                Status__c='test;test2;test3',
+                Ethnicity__c='test,test',
+                StudyId__c=ctpList[0].id,
+                Study_Site_Id__c=ssList[0].id,
+                Default_Preset__c=true,
+                Community_Name__c='Default',
+                StudyActive__c='Active'
+            );
+            
+            insert presetFilter;
+            PIR_HomepageController.fetchPreset();
+            presetFilter.StudyActive__c='Inactive';
+            update presetFilter;
+            PIR_HomepageController.fetchPreset();
+        }
+        Test.stopTest();
+    }
     @isTest
     static void testcreatePreset() {
         TestData testData = new TestData();
