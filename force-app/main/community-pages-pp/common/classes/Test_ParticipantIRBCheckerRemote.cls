@@ -13,9 +13,9 @@ public class Test_ParticipantIRBCheckerRemote {
 
     @IsTest
     static void testCheckLanguagePermissions() {
+        Test.startTest();
         TestData testData = new TestData();
 
-        Test.startTest();
         System.runAs(testData.participantUser) {
             ParticipantIRBCheckerRemote.checkLanguagePermissions(testData.pe.Id);
         }
