@@ -106,3 +106,8 @@
     line-height: 24px;
     opacity: 0.8;
 }
+
+.fixed-height{
+    height: 70px;
+    max-height: 70px;
+}
