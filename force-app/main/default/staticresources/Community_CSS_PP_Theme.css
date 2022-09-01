@@ -99,7 +99,7 @@
         position: relative !important;    
     }
     .logo-container-pp {
-        margin: 15px 0 0 55px !important;
+        margin: 0 0 0 55px !important;
     }
 }
 
@@ -139,7 +139,9 @@
     top: auto;
     border-color: transparent;
 }
-
+.participant-tooltip lightning-primitive-icon{
+    visibility: hidden !important;
+}
 .toastContainer .toastClose lightning-primitive-icon {
     color: #ffffff!important;
 }
@@ -302,7 +304,7 @@ color: #0768fd!important;
 
 
 .logo-container-pp {
-    margin: 15px 45px 0 0;
+    margin: 0 45px 0 0;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action{

@@ -20,6 +20,7 @@
     border-radius: 4px;
     background-color: #ffffff;
     cursor: pointer;
+    margin-bottom: 5px;
 }
 .participant-delegate-email {
     color: #999999;
@@ -68,4 +69,34 @@
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+.participant-overflow-scroll {
+    overflow-y: auto;
+    max-height: 177px;
+    overflow-x: hidden;
+}
+.helptext-pos {
+    position: relative;
+    margin-right: -20px;
+}
+@media all and (max-width: 500px) {
+    .participant-overflow-scroll {
+        max-height: 310px;
+    }
+}
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
 }

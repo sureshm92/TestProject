@@ -7,12 +7,12 @@ private class Test_StudySiteVisitConfigRemote {
     @IsTest
     static void testBehavior() {
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
 
         Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
         insert visitPlan;
 
-        Test.startTest();
         StudySiteVisitConfigRemote.InitData initData = StudySiteVisitConfigRemote.getInitData(
             testData.ctp.Id
         );
