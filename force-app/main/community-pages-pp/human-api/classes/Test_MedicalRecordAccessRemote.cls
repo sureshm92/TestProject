@@ -11,9 +11,9 @@ public class Test_MedicalRecordAccessRemote {
     @IsTest
     static void testMethod1() {
         
+        Test.startTest(); 
          TestData td = new TestData();
         
-         Test.startTest(); 
         
           System.runAs(td.participantUser) {
                 Test.setMock(HttpCalloutMock.class, new Test_HumanAPIMultipleCallout()); 
@@ -30,9 +30,10 @@ public class Test_MedicalRecordAccessRemote {
     @IsTest
     static void testMethod2() {
         
+        Test.startTest(); 
+
          TestData td = new TestData();
         
-         Test.startTest(); 
         
           System.runAs(td.participantUser) {
                 Test.setMock(HttpCalloutMock.class, new Test_HumanAPIMultipleCallout()); 
@@ -48,9 +49,11 @@ public class Test_MedicalRecordAccessRemote {
     
     @IsTest
     static void testMethod3() {
+
+        Test.startTest(); 
+
         TestData td = new TestData();
         
-         Test.startTest(); 
         
           System.runAs(td.participantUser) {
               Test.setMock(HttpCalloutMock.class, new Test_HumanAPIMultipleCallout()); 
@@ -62,9 +65,11 @@ public class Test_MedicalRecordAccessRemote {
     
      @IsTest
     static void testMethod4() {
+        
+        Test.startTest(); 
+
         TestData td = new TestData();
         
-         Test.startTest(); 
         
           System.runAs(td.participantUser) {
                             Test.setMock(HttpCalloutMock.class, new Test_HumanAPIMultipleCallout()); 

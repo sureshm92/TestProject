@@ -139,7 +139,9 @@
     top: auto;
     border-color: transparent;
 }
-
+.participant-tooltip lightning-primitive-icon{
+    visibility: hidden !important;
+}
 .toastContainer .toastClose lightning-primitive-icon {
     color: #ffffff!important;
 }
