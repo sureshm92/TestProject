@@ -647,8 +647,7 @@ public class TestData {
         update contactForUpdate;
     }
 
-    @IsTest
-    static void runAllTriggers() {
+    public static void runAllTriggers() {
         if (necessaryTriggersForLoadTestData.isEmpty())
             prepareTriggersLists();
 
