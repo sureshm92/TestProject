@@ -68,12 +68,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get marginForDOBEdit() {
-        if (this.isEditYOB) {
-            return 'mt-25';
-        }
-        if (this.isMatchUsernameEmail) {
-            return 'mt-15';
-        }
+        return (this.isEditYOB || this.isMatchUsernameEmail) ? 'fixed-height' : '';
     }
 
     get marginMatchEmailPass() {
