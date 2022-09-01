@@ -2,13 +2,50 @@
 public class Test_ProfilePictureController {
     @IsTest(seeAllData=true)
     public static void runTest() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
 
         Test.startTest();
 
         System.runAs(testDataInstance.participantUser) {
-            ProfilePictureController.getProfilePicture(UserInfo.getUserId(),CommunityService.USER_MODE_PARTICIPANT);
+            ProfilePictureController.getProfilePicture(
+                UserInfo.getUserId(),
+                CommunityService.USER_MODE_PARTICIPANT
+            );
             ProfilePictureController.saveAttachment(
                 UserInfo.getUserId(),
                 'some.jpg',
