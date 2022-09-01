@@ -71,16 +71,19 @@
     visibility: visible;
 }
 .participant-overflow-scroll {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 177px;
     overflow-x: hidden;
+}
+.helptext-pos {
+    position: relative;
+    margin-right: -20px;
 }
 @media all and (max-width: 500px) {
     .participant-overflow-scroll {
         max-height: 310px;
     }
 }
-
 /* Scroll bar custom */
 ::-webkit-scrollbar {
     width: 5px;

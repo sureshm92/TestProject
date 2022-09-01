@@ -288,6 +288,7 @@ public class Test_Batch_SendPIEmailForNewReferrals {
                 )
             );
         }
+        //inse resource shares
         insert shares;
 
         List<Resource_Action__c> resourceActions = new List<Resource_Action__c>();

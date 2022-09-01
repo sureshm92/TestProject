@@ -6,8 +6,8 @@ private class Test_SMSOptOutService {
     }
     @IsTest
     static void testProcessOptOUTForSMS() {
-        TestData testData = new TestData();
         Test.startTest();
+        TestData testData = new TestData();
         Set<String> messageIdSet = new Set<String>();
         Set<Id> notificationIdSet = new Set<Id>();
         Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
