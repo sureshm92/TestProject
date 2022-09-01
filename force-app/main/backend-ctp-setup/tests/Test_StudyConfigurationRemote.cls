@@ -11,9 +11,10 @@ private with sharing class Test_StudyConfigurationRemote {
 
     @IsTest
     static void saveChanges(){
-        TestData td = new TestData();
 
         Test.startTest();
+        TestData td = new TestData();
+
         StudyConfigurationRemote.InitData initData = StudyConfigurationRemote.getInitData(td.ctp.Id);
         initData.ctp.Relevant_Links_Are_Available__c = true;
         StudyConfigurationRemote.saveChanges(initData.ctp);

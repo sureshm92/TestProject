@@ -7,6 +7,7 @@ private without sharing class Test_TokenService {
 
     @IsTest
     static void tokenServiceTest() {
+        Test.startTest();
        TestData testData = new TestData();
          List<Token__c> tokenData = new List<Token__c> ();
          String expiresIn = '3600';
@@ -23,7 +24,6 @@ private without sharing class Test_TokenService {
          atoken.Token_Value__c = 'tokenVa893e93hdyuy7';  
          atoken.Expiration_Date__c = System.now().addSeconds(Integer.valueOf(expiresIn));
          tokenData.add(atoken);
-        Test.startTest();
          insert tokenData;
         System.runAs(testData.participantUser) {
             TokenService.storeToken(testData.pe.Id,'session','7847hfdffhdf','hvdhg','3600');
