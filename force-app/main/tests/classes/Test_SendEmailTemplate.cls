@@ -6,8 +6,8 @@ private class Test_SendEmailTemplate {
     }
     @IsTest
     static void testSendEmailNotification() {
-        TestData testData = new TestData();
         Test.startTest();
+        TestData testData = new TestData();
         Id whatId;
         Id fromId;
         String templateName;
