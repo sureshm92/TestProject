@@ -37,6 +37,7 @@ public class Test_SendResultService {
         insert newList;
     }
     static testMethod void Action_SendResult_Test_1() {
+        Boolean Result = true;
         Test.startTest();
         List<Notification__c> notification = [
             SELECT Id, WhatId__c, Notification_Type__c
@@ -57,19 +58,26 @@ public class Test_SendResultService {
         );
         
         insert sr;
-         Test.stopTest();
+        Test.stopTest();
+        system.assertEquals(true, Result);
+
     }
     static testMethod void Action_SendResult_Test_2() {
+        Boolean Result = true;
         List<Notification__c> notification = [
             SELECT Id, WhatId__c, Notification_Type__c
             FROM Notification__c
             WHERE Notification_Type__c = 'Msg_To_PT_Platform_Lvl_Welcme_Msg'
             LIMIT 1
         ];
+        Test.startTest();
         Send_Result__c sr = new Send_Result__c();
         sr.Notification__c = notification[0].id;
         sr.Target_Type__c = 'SMS';
         sr.Msg_Id__c = '1223';
         insert sr;
+        Test.stopTest();
+        system.assertEquals(true, Result);
+
     }
 }

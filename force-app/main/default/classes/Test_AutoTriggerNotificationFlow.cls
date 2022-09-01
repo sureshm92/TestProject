@@ -7,6 +7,7 @@ public class Test_AutoTriggerNotificationFlow {
 
     @isTest
     public static void testMethod1() {
+        Test.startTest();
         TestData td = new TestData();
         Notification__c notObj = new Notification__c();
         notObj.Recipient__c = td.pe.Participant_Contact__c;
@@ -21,10 +22,13 @@ public class Test_AutoTriggerNotificationFlow {
         // srObj.Target_Type__c='Push';
         srObj.Notification_Type__c = 'Message_To_PI_Contact_Participant_Type';
         insert srObj;
+        Test.stopTest();
+
     }
 
     @isTest
     public static void testMethod2() {
+        Test.startTest();
         TestData td = new TestData();
         Notification__c notObj = new Notification__c();
         notObj.Recipient__c = td.pe.Participant_Contact__c;
@@ -39,10 +43,13 @@ public class Test_AutoTriggerNotificationFlow {
         //  srObj.Target_Type__c='Push';
         srObj.Notification_Type__c = 'Message_to_PT_StdDoc_Certificate_Type';
         insert srObj;
+        Test.stopTest();
+
     }
 
     @isTest
     public static void testMethod3() {
+        Test.startTest();
         TestData td = new TestData();
         Notification__c notObj = new Notification__c();
         notObj.Recipient__c = td.pe.Participant_Contact__c;
@@ -57,11 +64,12 @@ public class Test_AutoTriggerNotificationFlow {
         //  srObj.Target_Type__c='Push';
         srObj.Notification_Type__c = 'Message_to_PT_has_not_Logged_In_Type';
         insert srObj;
+        Test.stopTest();
     }
     @isTest
     public static void testMethod4() {
-        TestData td = new TestData();
         Test.startTest();
+        TestData td = new TestData();
         Task task = new Task(
             Subject = 'Other',
             Priority = 'Normal',
@@ -88,6 +96,7 @@ public class Test_AutoTriggerNotificationFlow {
     }
     @isTest
     public static void testMethod5() {
+        Test.startTest();
         TestData td = new TestData();
         Notification__c notObj = new Notification__c();
         notObj.Recipient__c = td.pe.Participant_Contact__c;
@@ -102,5 +111,7 @@ public class Test_AutoTriggerNotificationFlow {
         //  srObj.Target_Type__c='Push';
         srObj.Notification_Type__c = 'Message_to_PT_Data_Available_Type';
         insert srObj;
+        Test.stopTest();
+
     }
 }
