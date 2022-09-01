@@ -72,13 +72,7 @@ private class Test_Batch_PSECreateInvitation {
         Test.startTest();
         TestData.loadTestData();
         Trial_Survey__c tsAllSee1 = new Trial_Survey__c();
-      //  tsAllSee1.Next_Task_Due_Date__c = date.today()+2;
-        //tsAllSee1.Survey_end_date__c = date.today();
-        //tsAllSee1.Recurrence_Frequency__c = 'Daily';
-        //tsAllSee1.Survey__c = survey[0].id;
-       // tsAllSee1.Clinical_Trial_Profile__c = testData.ctp.Id;
         
-      //  insert tsAllSee1;
         Batch_PSECreateInvitation bpi = new Batch_PSECreateInvitation();
         bpi.updateTrialSurvey(tsAllSee1);
         Test.stopTest();
@@ -99,7 +93,7 @@ private class Test_Batch_PSECreateInvitation {
             Survey_end_date__c = date.today().addDays(5),
             Is_Recurrence_Survey__c = true,
             Next_Task_Due_Date__c = date.today()+3,
-            
+            Last_Occurrence_Date__c = date.today()-2,
             Recurrence_Frequency__c = 'Weekly',
             Reminder_in_days_before_the_end_date__c = 2,
             Next_Occurrence_Date__c = date.today() ,
