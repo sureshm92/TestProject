@@ -18,10 +18,11 @@ private class Test_TranslationExportImportRemote {
     @IsTest
     static void test_exportTranslationForStudy() {
         TestData.loadTestData();
+        Test.startTest();
+
         TestData td = new TestData();
         String translationText;
 
-        Test.startTest();
         translationText = TranslationExportImportRemote.export(
             td.ctp.Id,
             'RU',

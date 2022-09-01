@@ -113,8 +113,14 @@
                                             >
                                                 <lightning-input
                                                     type="toggle"
-                                                    class="ah-toggle"
-                                                    name="input1"
+                                                    label=""
+                                                    data-id="PPLang"
+                                                    messagetoggleactive={label.BTN_On}
+                                                    variant="label-hidden"
+                                                    messagetoggleinactive={label.BTN_Off}
+                                                    class="slds-col ah-toggle cookie-toggle"
+                                                    checked={contact.RRLanguageAllowedCookie__c}
+                                                    onchange={doSwitchOptInCookies}
                                                 ></lightning-input>
                                             </div>
                                         </div>
@@ -243,18 +249,6 @@
                                                     onchange={doSwitchOptInCookies}
                                                 >
                                                 </lightning-input>
-                                                <!--<lightning-input
-                                                    type="toggle"
-                                                    label=""
-                                                    data-id="PPCookie"
-                                                    messagetoggleactive={label.BTN_On}
-                                                    variant="label-hidden"
-                                                    messagetoggleinactive={label.BTN_Off}
-                                                    class="slds-col ah-toggle"
-                                                    checked={contact.RRCookiesAllowedCookie__c}
-                                                    onchange={doSwitchOptInCookies}
-                                                >
-                                                </lightning-input>-->
                                             </div>
                                         </div>
                                         <div
@@ -275,8 +269,14 @@
                                             >
                                                 <lightning-input
                                                     type="toggle"
-                                                    class="ah-toggle"
-                                                    name="input1"
+                                                    label=""
+                                                    data-id="PPLang"
+                                                    messagetoggleactive={label.BTN_On}
+                                                    variant="label-hidden"
+                                                    messagetoggleinactive={label.BTN_Off}
+                                                    class="slds-col ah-toggle cookie-toggle"
+                                                    checked={contact.RRLanguageAllowedCookie__c}
+                                                    onchange={doSwitchOptInCookies}
                                                 ></lightning-input>
                                             </div>
                                         </div>
