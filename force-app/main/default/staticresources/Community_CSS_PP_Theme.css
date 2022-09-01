@@ -178,10 +178,6 @@
     padding-bottom: 35px !important;
 }
 
-.support-combobox button{
-    border-radius: 20px;
-}
-
 .label-email-pass-match .slds-form-element__label{
     height: 48px;
     color: #000000;
@@ -224,19 +220,85 @@ color: #0768fd!important;
    fill: #297dfd !important;   
 }
 
+.support-combobox button{
+    border-radius: 20px;
+}
+
 .support-combobox lightning-base-combobox-item{
     height: 30px;
     padding: 5px;
     margin-left: -28px;
 }
 
-.support-combobox lightning-primitive-icon{
+.support-combobox .slds-input-has-icon .slds-input__icon svg{
+    fill: #595959;
+    height: 13px;
+}
+
+.support-combobox lightning-base-combobox-item lightning-primitive-icon{
    display: none;
+}
+
+.support-combobox .slds-media__body .slds-truncate{
+    opacity: 1;
 }
 
 .support-combobox .slds-truncate{
     font-size: 15px;
+    padding-left: 5px;
+    opacity: 1;
 }
+
+.support-combobox.opacity .slds-truncate{
+    opacity: 0.5;
+}
+.support-combobox.opacity .slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+/* getSupport Year css */
+
+.support-year button{
+    border-radius: 20px;
+}
+
+.support-year lightning-icon, .support-combobox lightning-icon {
+   margin-right: 10px;
+}
+
+.support-year lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-year .slds-input-has-icon .slds-input__icon svg{
+    fill: #595959;
+    height: 13px
+}
+
+.support-year lightning-base-combobox-item lightning-primitive-icon{
+   display: none;
+}
+
+.support-year.slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+.support-year .slds-truncate{
+    font-size: 15px;
+    padding-left: 5px;
+    opacity: 1;
+}
+
+.support-year.opacity .slds-truncate{
+    opacity: 0.5;
+}
+.support-year.opacity .slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+
 
 .slds-popover_tooltip,
 .slds-popover--tooltip ::after {    
@@ -261,6 +323,18 @@ color: #0768fd!important;
     border-radius: 1.25rem !important;
     background-color: #FFFFFF !important;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0) !important;
+}
+
+.help-topics .dropdown[c-ppWebSelect_ppWebSelect]:after {
+    content: '';
+    background: url(/resource/1657782419000/SelectMenuTriangleDownGray);
+    position: absolute;
+    top: 7px;
+    right: 17px;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
 }
 
 .help-topics .dropdown:hover{
