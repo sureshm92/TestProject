@@ -186,7 +186,13 @@
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="footer">
                     <div class="rr-width-limiter" style="padding: 0 15px">
-                        <c:CommunityFooter />
+                        <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
+                            <!--new pp footer-->
+                            <c:ppCommunityFooter />
+                            <aura:set attribute="else">
+                                <c:CommunityFooter />
+                            </aura:set>
+                        </aura:if>
                     </div>
                 </div>
                 <aura:if isTrue="{!not(v.isDummy)}">
