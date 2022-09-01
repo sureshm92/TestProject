@@ -67,31 +67,35 @@
                                 </div>
                             </div>
                             <template if:true={currentMode.isDelegate}>
-                                <div
-                                    class="slds-grid delegate-item slds-p-around_x-small slds-m-bottom_small"
-                                >
+                                <div class="participant-overflow-scroll">
                                     <div
-                                        class="slds-col slds-size_10-of-12 participant-delegate-title"
+                                        class="slds-grid delegate-item slds-p-around_x-small slds-m-bottom_small"
                                     >
-                                        {currentMode.title}
-                                        <div class="slds-col slds-grid slds-size_1-of-1">
-                                            <div
-                                                class="slds-col slds-size_1-of-1 participant-delegate-email"
-                                            >
-                                                {label.partipantsDelegate}
+                                        <div
+                                            class="slds-col slds-size_10-of-12 participant-delegate-title"
+                                        >
+                                            {currentMode.title}
+                                            <div class="slds-col slds-grid slds-size_1-of-1">
+                                                <div
+                                                    class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                                >
+                                                    {label.partipantsDelegate}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
-                                    >
-                                        <img
-                                            src={icon_url}
-                                            onclick={handleNavigation}
-                                            data-id={currentMode.title}
-                                        /><span class="tooltiptext"
-                                            >{label.participantSettings}</span
+                                        <div
+                                            class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small participant-tooltip"
                                         >
+                                            <img
+                                                class="helptext-pos"
+                                                src={icon_url}
+                                                onclick={handleNavigation}
+                                                data-id={currentMode.title}
+                                            /><lightning-helptext
+                                                content={label.participantSettings}
+                                            >
+                                            </lightning-helptext>
+                                        </div>
                                     </div>
                                 </div>
                             </template>
