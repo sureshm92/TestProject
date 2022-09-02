@@ -63,7 +63,7 @@
 }
 .participant-overflow-scroll {
     overflow-y: auto;
-    max-height: 177px;
+    max-height: 235px;
     overflow-x: hidden;
 }
 .helptext-pos {
@@ -72,7 +72,7 @@
 }
 @media all and (max-width: 500px) {
     .participant-overflow-scroll {
-        max-height: 310px;
+        max-height: 303px;
     }
 }
 /* Scroll bar custom */
