@@ -29,7 +29,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         PP_ManageDelegates,
         PP_Account_Settings
     };
-    icon_url = pp_icons + '/user_delegate_avatar.svg';
+    icon_url = pp_icons + '/switcher-avatar-delegate-icon.svg';
 
     @track contactDetails;
     @track error;
