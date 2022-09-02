@@ -2,6 +2,7 @@
 public with sharing class Test_HumanAPIcontroller {
   @TestSetup
   static void init(){
+     
       TestData.loadTestData(); 
   }
 
@@ -22,13 +23,13 @@ public with sharing class Test_HumanAPIcontroller {
     testData.pe.Email__c = null;
     testData.pe.Permit_Mail_Email_contact_for_this_study__c = true;
     update testData.pe;
-    testData.participant.Adult__c = false;
+   /* testData.participant.Adult__c = false;
     testData.participant.Email__c = null;
-    update testData.participant;
+    update testData.participant; */
     //Participant__c par = [SELECT Id,Adult__c,Email__c FROM Participant__c WHERE Id=:testData.participant.Id];
     System.debug('per:'+testData.pe.Participant__c);
     System.debug('par:'+testData.participant.Id);
-    Contact delegate = new Contact(
+   /* Contact delegate = new Contact(
         FirstName = 'Patient',
         LastName = 'Delegate',
         Email = 'delegate@somemail.com',
@@ -57,8 +58,24 @@ public with sharing class Test_HumanAPIcontroller {
         Participant_Delegate__r = p
     );
     
-    insert patientDelegate;
+    insert patientDelegate; */ 
     Test.startTest();
+    Test.setMock(HttpCalloutMock.class, new HumanAPIcontrollerMock());
+    String strMessage = HumanAPIcontroller.requestMedicalRecords(testData.pe.Id,testData.pe.Participant__c);
+    System.assertEquals('true',strMessage);
+    Test.stopTest();
+
+  }
+    
+    @IsTest
+  public static void testRequestMedicalReocrds_ExistingHumanId() {
+    TestData testData = new TestData();
+    byPassTriggersMethod();
+    testData.pe.Email__c = null;
+    testData.pe.Permit_Mail_Email_contact_for_this_study__c = true;
+      testData.pe.Human_Id__c = 'Heighy9877129lkj';
+    update testData.pe;
+       Test.startTest();
     Test.setMock(HttpCalloutMock.class, new HumanAPIcontrollerMock());
     String strMessage = HumanAPIcontroller.requestMedicalRecords(testData.pe.Id,testData.pe.Participant__c);
     System.assertEquals('true',strMessage);
