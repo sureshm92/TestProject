@@ -50,7 +50,7 @@ private class Test_ParticipantInformationRemote {
                 null
             );
             ParticipantInformationRemote.checkPILevelI(objstudy.ID);
-             ParticipantInformationRemote.getPESH(testData.pe.id);
+            // ParticipantInformationRemote.getPESH(testData.pe.id);
             
         }
         Test.stopTest();
@@ -67,7 +67,7 @@ private class Test_ParticipantInformationRemote {
         insert pesh;
           Test.startTest();
         System.runAs(testData.piUser) {
-            ParticipantInformationRemote.getPESH(testData.pe.id);
+           // ParticipantInformationRemote.getPESH(testData.pe.id);
               ParticipantInformationRemote.getPrintInformation(
                 testData.pe.Id, 
                 CommunityService.USER_MODE_PI,
