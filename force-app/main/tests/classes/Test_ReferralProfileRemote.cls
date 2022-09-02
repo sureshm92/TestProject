@@ -7,9 +7,9 @@ private class Test_ReferralProfileRemote {
     @IsTest
     static void testSetMRRStatus() {
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
         String srcstr = 'testdata';
-         Test.startTest();
         Participant_Enrollment__c part = [
             SELECT
             Id,
@@ -112,6 +112,7 @@ private class Test_ReferralProfileRemote {
     @isTest
     private static void newScreeningId_Test(){
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
         String srcstr = 'testdata';
         Participant_Enrollment__c part1 = [
@@ -124,7 +125,6 @@ private class Test_ReferralProfileRemote {
             FROM Participant_Enrollment__c
             LIMIT 1
         ];
-         Test.startTest();
         
         Account SiteAccount = new Account(
             Name = 'Study Site Account',
@@ -218,9 +218,9 @@ private class Test_ReferralProfileRemote {
     private static void contentDoc(){
         
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
         String srcstr = 'testdata';
-        Test.startTest();
         Participant_Enrollment__c part = [
             SELECT
             Id,

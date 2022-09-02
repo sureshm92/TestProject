@@ -54,6 +54,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     selectedYOB;
     placeholder = select_Support_Topic;
     doMatchUsernameEmail;
+    YOBSelected = false;
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
@@ -73,6 +74,14 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
 
     get marginMatchEmailPass() {
         return this.isMatchUsernameEmail ? 'mb-10' : '';
+    }
+
+    get dropDownOpacityClass(){
+        return (this.isEditYOB || this.isMatchUsernameEmail) ? "mb-15 support-combobox" : "mb-15 support-combobox opacity"
+    }
+
+    get YOBOpacityClass(){
+        return (this.YOBSelected) ? "support-year" : "support-year opacity"
     }
 
     get options() {
@@ -114,6 +123,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         }
     }
     doCheckYearOfBith(event) {
+
+        this.YOBSelected = true;
         this.selectedYOB = event.detail.value;
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
