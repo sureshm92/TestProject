@@ -307,6 +307,7 @@ private class Test_ParticipantInformationRemote {
                 true,
                 null,false,false
             );
+           // ParticipantInformationRemote.updatePatientStatusHelper(JSON.serialize(testData.pe),JSON.serialize(path),true,true,null,true,true);
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';
             ParticipantInformationRemote.updateNotes(path, testData.pe, null, false);
@@ -438,13 +439,47 @@ private class Test_ParticipantInformationRemote {
         participantDel1.Phone_Type__c = 'Home';
         insert participantDel1;
         
-       
+        /*
+        Participant__c participant2 = new Participant__c();
+        participant.Email__c = 'Test02@mail.ru';
+        participant.First_Name__c = 'testName2';
+        participant.Last_Name__c = 'testLastName2';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        insert participant2;
+        
+        Participant__c participantDel2 = new Participant__c();
+        participantDel.Email__c = 'Test02@mail.ru';
+        participantDel.First_Name__c = 'testName2';
+        participantDel.Last_Name__c = 'testLastName2';
+        participantDel.Phone__c = '141241';
+        participantDel.Phone_Type__c = 'Home';
+        
+        Participant__c participantDel3 = new Participant__c();
+        participantDel1.Email__c = 'Test02@mail.ru';
+        participantDel1.First_Name__c = 'testName2';
+        participantDel1.Last_Name__c = 'testLastName2';
+        participantDel1.Phone__c = '141241';
+        participantDel1.Phone_Type__c = 'Home';
+        */
         ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
                                                              JSON.serialize(participantDel),
                                                              st.id,
                                                              true,
                                                              JSON.serialize(participantDel1),
-          } 
+                                                             true);
+        //ParticipantInformationRemote.checkPILevelI(st.id);                                                     
+                                                             
+        /*
+        ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant2),
+                                                             JSON.serialize(participantDel2),
+                                                             st.id,
+                                                             false,
+                                                             JSON.serialize(participantDel3),
+                                                             true);
+        */
+       //ParticipantInformationRemote.checkPILevelI(st.id); 
+    } 
     
    @isTest
     static void testupdatePatientInfoAndStatusWithDelegateCC(){
