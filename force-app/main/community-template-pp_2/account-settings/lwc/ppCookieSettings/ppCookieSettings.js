@@ -113,7 +113,7 @@ export default class PpCookieSettings extends LightningElement {
          })
         .then((returnValue) => {
             communityService.showToast(
-                'success',
+                '',
                 'success',
                 this.label.PP_Profile_Update_Success,
                 100

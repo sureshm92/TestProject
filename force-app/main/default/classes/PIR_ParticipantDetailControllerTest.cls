@@ -4,7 +4,58 @@ public with sharing class PIR_ParticipantDetailControllerTest {
     static void init(){
         TestData.loadTestData(); 
     }
-
+    @isTest
+    static void testgetVisitPlansLVList(){
+        Test.startTest();
+        
+        TestData testData = new TestData();
+        byPassTriggersMethod();
+        Contact delegate = new Contact(
+            FirstName = 'Patient',
+            LastName = 'Delegate',
+            Email = 'delegate@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegate;  
+        List<Clinical_Trial_Profile__c> clinicalTrialProfiles = new List<Clinical_Trial_Profile__c>();
+        clinicalTrialProfiles.add(
+            (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+                Clinical_Trial_Profile__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Study_Title__c' => 'CTP 1',
+                        'Protocol_ID__c' => 'CTP 1',
+                        'Study_Code_Name__c' => 'CTP 1',
+                        'NCT_Number__c' => 'NCT00000001',
+                        
+                        'Synch_with_TMDH__c' => true
+                        }
+            )
+        ); 
+        insert clinicalTrialProfiles;
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
+        insert vp;
+        
+        Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        insert singleAccount;
+        Study_Site__c ss = new Study_Site__c();
+        ss.Name = 'Sample';
+        ss.Principal_Investigator__c = delegate.Id;
+        ss.Clinical_Trial_Profile__c = clinicalTrialProfiles[0].Id;
+        ss.Site__c = singleAccount.Id;
+        ss.Study_Site_Key__c = 'sample';
+        insert ss;
+        StudySiteVisitPlan__c studyVisitPlan = new StudySiteVisitPlan__c();
+        studyVisitPlan.Study_Site__c = ss.Id;
+        studyVisitPlan.Visit_Plan__c = vp.Id;
+        insert studyVIsitPlan;
+        PIR_ParticipantDetailController.getVisitPlansLVList(ss.Id);
+        Test.stopTest();
+    }
+    
     @isTest
     static void testGetParticipantData(){
         TestData testData = new TestData();
@@ -21,36 +72,36 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         //System.assertEquals(true,isSavePrDetails);
         Test.stopTest();
     }
-
+    
     @isTest
     static void testDoSaveParticipantDetails_peUpdated(){
         TestData testData = new TestData();
         Participant_Enrollment__c perRec = [
             SELECT
-                Id,
-                Name,
-                External_Key__c,
-                Participant_Contact__c,
-                Participant_Status__c,
-                Participant_Contact__r.Visit_Results_OptIn__c,
-                Initial_visit_scheduled_date__c,
-                Initial_visit_occurred_date__c,
-                Initial_visit_scheduled_time__c,
-                Initial_visit_occurred_flag__c,
-                Initial_visit_scheduled_flag__c,
-                Screening_ID__c,
-                Participant__c,
-                Medical_Record_Review_Completed_Date__c,
-                Study_Site__r.Principal_Investigator__c,
-                Study_Site__r.Principal_Investigator__r.Name,
-                Study_Site__r.Principal_Investigator__r.Title,
-                Permit_Mail_Email_contact_for_this_study__c,
-                Permit_SMS_Text_for_this_study__c,
-                Permit_Voice_Text_contact_for_this_study__c,
-                MRN_Id__c,
-                Participant__r.Email__c,
-                Participant__r.First_Name__c,
-                Participant__r.Last_Name__c
+            Id,
+            Name,
+            External_Key__c,
+            Participant_Contact__c,
+            Participant_Status__c,
+            Participant_Contact__r.Visit_Results_OptIn__c,
+            Initial_visit_scheduled_date__c,
+            Initial_visit_occurred_date__c,
+            Initial_visit_scheduled_time__c,
+            Initial_visit_occurred_flag__c,
+            Initial_visit_scheduled_flag__c,
+            Screening_ID__c,
+            Participant__c,
+            Medical_Record_Review_Completed_Date__c,
+            Study_Site__r.Principal_Investigator__c,
+            Study_Site__r.Principal_Investigator__r.Name,
+            Study_Site__r.Principal_Investigator__r.Title,
+            Permit_Mail_Email_contact_for_this_study__c,
+            Permit_SMS_Text_for_this_study__c,
+            Permit_Voice_Text_contact_for_this_study__c,
+            MRN_Id__c,
+            Participant__r.Email__c,
+            Participant__r.First_Name__c,
+            Participant__r.Last_Name__c
             FROM Participant_Enrollment__c
             WHERE Id = :testData.pe.Id
         ];
@@ -62,7 +113,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         System.assertEquals(true,isSavePrDetails);
         Test.stopTest();
     }
-
+    
     @isTest
     static void testDoSaveParticipantDetails() {
         TestData testData = new TestData();
@@ -85,7 +136,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Contact__c = delegate.Id
         );
         insert p;
-
+        
         Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
             Contact__c = delegate.Id,
             Contact__r = delegate,
@@ -108,7 +159,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         PIR_ParticipantDetailController.doSaveParticipantDetails(testData.pe,delegateDeleteString,false, false,true,false,'','');
         Test.stopTest();
     }
-
+    
     static void byPassTriggersMethod() {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.class
@@ -202,6 +253,9 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         );
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
         );
     }
 }

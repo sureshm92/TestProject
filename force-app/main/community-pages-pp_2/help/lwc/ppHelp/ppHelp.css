@@ -162,6 +162,7 @@
 .acc-settings-link {
     color: #0f6efd;
     font-size: 15px;
+    font-weight: 600;
 }
 
 .acc-settings-link:hover {
@@ -176,6 +177,7 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    padding: 2px;
 }
 
 .pad10 {

@@ -11,34 +11,33 @@ private with sharing class Test_PaymentVendorPanelRemote {
 
     @IsTest
     static void getItems_test(){
-        TestData td = new TestData();
-
+        Clinical_Trial_Profile__c ctp=[Select Id from Clinical_Trial_Profile__c limit 1];
         Test.startTest();
-        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(td.ctp.Id);
+        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(ctp.Id);
         PaymentVendorPanelRemote.getItems(JSON.serialize(initData.searchResponse.studySiteItems), JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)));
         Test.stopTest();
     }
 
     @IsTest
     static void selectAllInColumn_test(){
-        TestData td = new TestData();
+        Clinical_Trial_Profile__c ctp=[Select Id from Clinical_Trial_Profile__c limit 1];
         Payment_Vendor__c paymentVendor = new Payment_Vendor__c(Name = 'Qiwi', Link_Vendor__c = 'link 1');
         insert paymentVendor;
 
         Test.startTest();
-        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(td.ctp.Id);
+        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(ctp.Id);
         PaymentVendorPanelRemote.selectAllInColumn(paymentVendor.Id, true, JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)), JSON.serialize(initData.searchResponse.studySiteItems));
         Test.stopTest();
     }
 
     @IsTest
     static void clearAllInColumn_test(){
-        TestData td = new TestData();
+        Clinical_Trial_Profile__c ctp=[Select Id from Clinical_Trial_Profile__c limit 1];
         Payment_Vendor__c paymentVendor = new Payment_Vendor__c(Name = 'Qiwi', Link_Vendor__c = 'link 1');
         insert paymentVendor;
 
         Test.startTest();
-        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(td.ctp.Id);
+        PaymentVendorPanelRemote.InitData initData = PaymentVendorPanelRemote.getInitData(ctp.Id);
         System.debug(JSON.serializePretty(initData.searchResponse.studySiteItems));
         PaymentVendorPanelRemote.selectAllInColumn(paymentVendor.Id, false, JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)), JSON.serialize(initData.searchResponse.studySiteItems));
         Test.stopTest();

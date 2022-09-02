@@ -13,36 +13,34 @@
                     </div>
                 </template>
                 <template if:true={item.isDelegate}>
-                    <div class="participant-overflow-scroll">
-                        <div class="slds-grid delegate-item slds-p-around_x-small">
-                            <div
-                                class="slds-col slds-size_10-of-12 delegate-details title-overflow-ellipsis"
-                                data-id={item.title}
-                                data-value={item.programList}
-                                onclick={handleListDisplay}
-                            >
-                                {item.title}
-                                <template if:true={item.isDelegate}>
-                                    <div class="slds-col slds-grid slds-size_1-of-1">
-                                        <div
-                                            class="slds-col slds-size_1-of-1 participant-delegate-email"
-                                        >
-                                            {label.partipantsDelegate}
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
+                    <div class="slds-grid delegate-item slds-p-around_x-small">
+                        <div
+                            class="slds-col slds-size_10-of-12 delegate-details title-overflow-ellipsis"
+                            data-id={item.title}
+                            data-value={item.programList}
+                            onclick={handleListDisplay}
+                        >
+                            {item.title}
                             <template if:true={item.isDelegate}>
-                                <div
-                                    class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
-                                    onclick={handleNavigation}
-                                    data-id={item.title}
-                                >
-                                    <img src={icon_url} />
-                                    <span class="tooltiptext">{label.participantSettings}</span>
-                                </div></template
-                            >
+                                <div class="slds-col slds-grid slds-size_1-of-1">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                    >
+                                        {label.partipantsDelegate}
+                                    </div>
+                                </div>
+                            </template>
                         </div>
+                        <template if:true={item.isDelegate}>
+                            <div
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small participant-tooltip"
+                                onclick={handleNavigation}
+                                data-id={item.title}
+                            >
+                                <img class="helptext-pos" src={icon_url} />
+                                <lightning-helptext content={label.participantSettings}>
+                                </lightning-helptext></div
+                        ></template>
                     </div>
                 </template>
             </template>
@@ -58,36 +56,34 @@
                     </div>
                 </template>
                 <template if:true={item.isDelegate}>
-                    <div class="participant-overflow-scroll">
-                        <div class="slds-grid delegate-item slds-p-around_x-small">
-                            <div
-                                class="slds-col slds-size_10-of-12 title-overflow-ellipsis"
-                                data-id={item.title}
-                                data-value={item.programList}
-                                onclick={handleListDisplay}
-                            >
-                                {item.title}
-                                <template if:true={item.isDelegate}>
-                                    <div class="slds-col slds-grid slds-size_1-of-1">
-                                        <div
-                                            class="slds-col slds-size_1-of-1 participant-delegate-email"
-                                        >
-                                            {label.partipantsDelegate}
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
+                    <div class="slds-grid delegate-item slds-p-around_x-small">
+                        <div
+                            class="slds-col slds-size_10-of-12 title-overflow-ellipsis"
+                            data-id={item.title}
+                            data-value={item.programList}
+                            onclick={handleListDisplay}
+                        >
+                            {item.title}
                             <template if:true={item.isDelegate}>
-                                <div
-                                    class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small tooltip"
-                                    onclick={handleNavigation}
-                                    data-id={item.title}
-                                >
-                                    <img src={icon_url} />
-                                    <span class="tooltiptext">{label.participantSettings}</span>
-                                </div></template
-                            >
+                                <div class="slds-col slds-grid slds-size_1-of-1">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 participant-delegate-email"
+                                    >
+                                        {label.partipantsDelegate}
+                                    </div>
+                                </div>
+                            </template>
                         </div>
+                        <template if:true={item.isDelegate}>
+                            <div
+                                class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small participant-tooltip"
+                                onclick={handleNavigation}
+                                data-id={item.title}
+                            >
+                                <img class="helptext-pos" src={icon_url} />
+                                <lightning-helptext content={label.participantSettings}>
+                                </lightning-helptext></div
+                        ></template>
                     </div>
                 </template>
             </template>
