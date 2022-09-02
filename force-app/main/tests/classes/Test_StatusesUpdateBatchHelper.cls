@@ -6,9 +6,9 @@ private class Test_StatusesUpdateBatchHelper {
     }
     @IsTest
     static void testGetUpdateFromMap() {
+        Test.startTest();
         TestData testData = new TestData();
 
-        Test.startTest();
         String status;
         String reason;
         StatusesUpdateBatchHelper.getUpdatedStatus(status, reason);

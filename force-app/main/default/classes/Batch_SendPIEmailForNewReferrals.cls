@@ -6,7 +6,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
         if(!test.isRunningTest())
         	timestarted = DateTime.now();
         else{
-            timestarted = DateTime.newInstance(2021,10,23,20,10,0);
+            timestarted = DateTime.newInstance(2022,10,23,09,0,0);
         }
         system.debug('^' + UserInfo.getUserId());
         return Database.getQueryLocator(
