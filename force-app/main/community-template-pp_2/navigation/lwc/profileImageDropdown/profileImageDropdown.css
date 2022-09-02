@@ -8,6 +8,11 @@
     height: 30px;
     width: 30px;
 }
+.avatar-delegate-size {
+    width: 32px;
+    height: 32px;
+    margin: 4px 0 0 -4px;
+}
 .down-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
 }

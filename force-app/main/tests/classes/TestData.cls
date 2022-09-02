@@ -25,6 +25,7 @@ public class TestData {
     private static List<String> necessaryTriggersForMostTests = new List<String>(); // these triggers are necessary for correct work of almost all tests
 
     public TestData() {
+        
         participant = [
             SELECT
                 Id,
@@ -145,7 +146,6 @@ public class TestData {
                 piDelegateContact = con;
             }
         }
-        
     }
 
     public User createPatientDelegate() {
@@ -246,416 +246,416 @@ public class TestData {
     }
 
     public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
-       if (bypass)
-            bypassTriggers(externalExecuteTriggerNames);
-        
-        List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
-        Terms_And_Conditions__c ppTc = new Terms_And_Conditions__c(
-            Active__c = true,
-            Community_Name__c = 'IQVIA Referral Hub',
-            Language__c = 'en_US',
-            Last_Updated_on__c = 'July 10, 2020',
-            Policy_Headers__c = 'Test Header 1',
-            T_C_Text__c = '<p><b style="font-size: 12pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0);">PRIVACY POLICY</b></p>',
-            T_C_Type__c = 'Privacy Policy'
-        );
-        tcList.add(ppTc);
-		
-        studyTC = new Terms_And_Conditions__c();
-        tcList.add(studyTC);
-        insert tcList;
-
-        List<Account> accounts = new List<Account>();
-        Account participantsAccount = new Account(
-            Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-        );
-        accounts.add(participantsAccount);
-
-        Account piAccount = new Account(Name = 'PI Account', BillingCountry = 'United States');
-        accounts.add(piAccount);
-
-        Account hcpAccount = new Account(Name = 'HCP Account');
-        accounts.add(hcpAccount);
-
-        Account delegateAccount = new Account(
-            Name = CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME
-        );
-        accounts.add(delegateAccount);
-
-        Account studySiteAccount = new Account(
-            Name = 'Study Site Account',
-            BillingLatitude = 41.766594,
-            BillingLongitude = -74.991509,
-            BillingCountry = 'United States'
-        );
-        accounts.add(studySiteAccount);
-        insert accounts;
-
-        List<Contact> contacts = new List<Contact>();
-        Contact piContact = new Contact(
-            FirstName = 'PITD',
-            LastName = 'PITD',
-            Email = 'pi@emil.com',
-            MailingCountry = 'United States',
-            AccountId = piAccount.Id,
-            userCommunytyType__c = 'PI'
-        );
-        contacts.add(piContact);
-
-        Contact piDelegateContact = new Contact(
-            FirstName = 'PIDelTD',
-            LastName = 'PIDelTD',
-            Email = 'pi_delegate@emil.com',
-            AccountId = piAccount.Id,
-            userCommunityMode__c = 'PI'
-        );
-        contacts.add(piDelegateContact);
-
-        hcpContact = new Contact(
-            FirstName = 'HCPTD',
-            LastName = 'HCPTD',
-            Email = 'hcp@emil.com',
-            AccountId = hcpAccount.Id,
-            MailingLatitude = 40.766594,
-            MailingLongitude = -73.991509,
-            userCommunytyType__c = CommunityService.USER_MODE_HCP,
-            userCommunityMode__c = CommunityService.USER_MODE_HCP
-        );
-        contacts.add(hcpContact);
-
-        Contact hcpDelegateContact = new Contact(
-            FirstName = 'HCPDelTD',
-            LastName = 'HCPDelTD',
-            Email = 'hcp_delegate@emil.com',
-            AccountId = hcpAccount.Id
-        );
-        contacts.add(hcpDelegateContact);
-        
-        Contact ccContact = new Contact(
-            FirstName = 'CCTD',
-            LastName = 'CCTD',
-            Email = 'cc@emil.com',
-            AccountId = hcpAccount.Id,
-            userCommunytyType__c = CommunityService.USER_MODE_CC,
-            userCommunityMode__c = CommunityService.USER_MODE_CC
-        );
-
-        contacts.add(ccContact);
-        insert contacts;
-
-        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
-        insert area;
-
-        Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
-            Protocol_ID__c = 'CTP1',
-            Override_Recruitment_Status__c = 'Actively Enrolling',
-            NCT_Number__c = 'NCT99999999',
-            Link_to_Pre_screening__c = 'some link',
-            Terms_And_Conditions_ID__c = studyTC.Id,
-            Study_Title__c = 'Some Title',
-            Study_Code_Name__c = 'Some Code Name',
-            Suppress_Participant_Emails__c = false,
-            Therapeutic_Area__c = area.Id,
-            Synch_with_TMDH__c = true,
-            Include_in_RP_trial_search__c = true,
-            Patient_Portal_Enabled__c = true,
-            Shareback_Settings_On_Participant_Level__c = true,
-            Shareback_Availability_Timing__c = 1,
-            Visit_Data_Shareback__c = true,
-            Visit_Schedule_Is_Available__c = true,
-            Tasks_Are_Available__c = true,
-            Study_Documents_Are_Available__c = true,
-            Video_And_Articles_Are_Available__c = true,
-            Travel_Vendor_Is_Available__c = true,
-            Relevant_Links_Are_Available__c = true,
-            Sponsor_Pays_for_Referral_Activity__c = 'Yes',
-            CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT,
-            Logged_Out_Days_Notification__c = 1,
-            Enable_for_Call_Center_Support__c = true
-        );
-        insert study;
-
-        List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
-        String langCode;
-        for (PicklistEntry ple : pleList) {
-            langCode = ple.getValue();
-            if (TranslateHelper.isLanguageSupported(ple.getValue()))
-                break;
+        if (bypass)
+            bypassTriggersNew(externalExecuteTriggerNames);
+            
+            List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
+            Terms_And_Conditions__c ppTc = new Terms_And_Conditions__c(
+                Active__c = true,
+                Community_Name__c = 'IQVIA Referral Hub',
+                Language__c = 'en_US',
+                Last_Updated_on__c = 'July 10, 2020',
+                Policy_Headers__c = 'Test Header 1',
+                T_C_Text__c = '<p><b style="font-size: 12pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0);">PRIVACY POLICY</b></p>',
+                T_C_Type__c = 'Privacy Policy'
+            );
+            tcList.add(ppTc);
+            
+            studyTC = new Terms_And_Conditions__c();
+            tcList.add(studyTC);
+            insert tcList;
+            
+            List<Account> accounts = new List<Account>();
+            Account participantsAccount = new Account(
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+            );
+            accounts.add(participantsAccount);
+            
+            Account piAccount = new Account(Name = 'PI Account', BillingCountry = 'United States');
+            accounts.add(piAccount);
+            
+            Account hcpAccount = new Account(Name = 'HCP Account');
+            accounts.add(hcpAccount);
+            
+            Account delegateAccount = new Account(
+                Name = CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME
+            );
+            accounts.add(delegateAccount);
+            
+            Account studySiteAccount = new Account(
+                Name = 'Study Site Account',
+                BillingLatitude = 41.766594,
+                BillingLongitude = -74.991509,
+                BillingCountry = 'United States'
+            );
+            accounts.add(studySiteAccount);
+            insert accounts;
+            
+            List<Contact> contacts = new List<Contact>();
+            Contact piContact = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                Email = 'pi@emil.com',
+                MailingCountry = 'United States',
+                AccountId = piAccount.Id,
+                userCommunytyType__c = 'PI'
+            );
+            contacts.add(piContact);
+            
+            Contact piDelegateContact = new Contact(
+                FirstName = 'PIDelTD',
+                LastName = 'PIDelTD',
+                Email = 'pi_delegate@emil.com',
+                AccountId = piAccount.Id,
+                userCommunityMode__c = 'PI'
+            );
+            contacts.add(piDelegateContact);
+            
+            hcpContact = new Contact(
+                FirstName = 'HCPTD',
+                LastName = 'HCPTD',
+                Email = 'hcp@emil.com',
+                AccountId = hcpAccount.Id,
+                MailingLatitude = 40.766594,
+                MailingLongitude = -73.991509,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP,
+                userCommunityMode__c = CommunityService.USER_MODE_HCP
+            );
+            contacts.add(hcpContact);
+            
+            Contact hcpDelegateContact = new Contact(
+                FirstName = 'HCPDelTD',
+                LastName = 'HCPDelTD',
+                Email = 'hcp_delegate@emil.com',
+                AccountId = hcpAccount.Id
+            );
+            contacts.add(hcpDelegateContact);
+            
+            Contact ccContact = new Contact(
+                FirstName = 'CCTD',
+                LastName = 'CCTD',
+                Email = 'cc@emil.com',
+                AccountId = hcpAccount.Id,
+                userCommunytyType__c = CommunityService.USER_MODE_CC,
+                userCommunityMode__c = CommunityService.USER_MODE_CC
+            );
+            
+            contacts.add(ccContact);
+            insert contacts;
+            
+            Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
+            insert area;
+            
+            Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'CTP1',
+                Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT99999999',
+                Link_to_Pre_screening__c = 'some link',
+                Terms_And_Conditions_ID__c = studyTC.Id,
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                Therapeutic_Area__c = area.Id,
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Patient_Portal_Enabled__c = true,
+                Shareback_Settings_On_Participant_Level__c = true,
+                Shareback_Availability_Timing__c = 1,
+                Visit_Data_Shareback__c = true,
+                Visit_Schedule_Is_Available__c = true,
+                Tasks_Are_Available__c = true,
+                Study_Documents_Are_Available__c = true,
+                Video_And_Articles_Are_Available__c = true,
+                Travel_Vendor_Is_Available__c = true,
+                Relevant_Links_Are_Available__c = true,
+                Sponsor_Pays_for_Referral_Activity__c = 'Yes',
+                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT,
+                Logged_Out_Days_Notification__c = 1,
+                Enable_for_Call_Center_Support__c = true
+            );
+            insert study;
+            
+            List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
+            String langCode;
+            for (PicklistEntry ple : pleList) {
+                langCode = ple.getValue();
+                if (TranslateHelper.isLanguageSupported(ple.getValue()))
+                    break;
+            }
+            Translation__c studyTranslation = new Translation__c(
+                Language__c = langCode,
+                Record_Id__c = study.Id,
+                Field_Name__c = 'Study_Title__c',
+                Value__c = 'Some translated value'
+            );
+            insert studyTranslation;
+            
+            Study_Site__c studySite = new Study_Site__c(
+                Principal_Investigator__c = piContact.Id,
+                Clinical_Trial_Profile__c = study.Id,
+                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
+                Site__c = studySiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false,
+                Study_Site_Number__c = 'SS1',
+                Billable_Code_CRM_Number__c = 'Test_Billable_Code',
+                Enable_for_Call_Center_Support__c = true
+            );
+            insert studySite;
+            studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
+            update studySite;
+            
+            HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
+                Study_Site__c = studySite.Id,
+                HCP_Contact__c = hcpContact.Id,
+                Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT
+            );
+            insert hcpEnrollment;
+            hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            update hcpEnrollment;
+            
+            Site_Staff__c siteStaff = new Site_Staff__c(
+                Site_Contact__c = piDelegateContact.Id,
+                Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Study_Site__c = studySite.Id
+            );
+            insert siteStaff;
+            
+            RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
+                Referring_Provider__c = hcpDelegateContact.Id,
+                Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Delegate__c = hcpContact.Id
+            );
+            insert rpDelegate;
+            
+            List<Participant__c> partList = new List<Participant__c>();
+            List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+            
+            Participant__c participant = new Participant__c(
+                First_Name__c = 'ParticipantTD',
+                Last_Name__c = 'ParticipantTD',
+                Phone__c = '55313535',
+                Email__c = 'part1@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            Participant__c participant2 = new Participant__c(
+                First_Name__c = 'ParticipantTD1',
+                Last_Name__c = 'ParticipantTD1',
+                Phone__c = '55313538',
+                Email__c = 'part2@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            
+            Participant__c participant3 = new Participant__c(
+                First_Name__c = 'ParticipantTD3',
+                Last_Name__c = 'ParticipantTD3',
+                Phone__c = '55313530',
+                Email__c = 'part3@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            
+            Participant__c participant4 = new Participant__c(
+                First_Name__c = 'ParticipantTD4',
+                Last_Name__c = 'ParticipantTD4',
+                Phone__c = '55313538',
+                Email__c = 'part4@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            
+            Participant__c participant5 = new Participant__c(
+                First_Name__c = 'ParticipantTD5',
+                Last_Name__c = 'ParticipantTD5',
+                Phone__c = '55313535',
+                Email__c = 'part5@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            
+            Participant__c participant6 = new Participant__c(
+                First_Name__c = 'ParticipantTD6',
+                Last_Name__c = 'ParticipantTD6',
+                Phone__c = '55313536',
+                Email__c = 'part6@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true,
+                Site__c = piAccount.Id
+            );
+            
+            partList.add(participant);
+            partList.add(participant2);
+            partList.add(participant3);
+            partList.add(participant4);
+            partList.add(participant5);
+            partList.add(participant6);
+            
+            insert (partList);
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                HCP__c = hcpEnrollment.Id,
+                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId1',
+                Referral_Source__c = 'HCP',
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
+                Participant__c = participant.Id,
+                Screening_ID__c = 'PESCR1',
+                Invited_To_PP_Date__c = system.now(),
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            
+            peList.add(pe);
+            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+                //HCP__c = hcpEnrollment.Id,
+                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId2',
+                Referral_Source__c = 'PI',
+                Initial_visit_scheduled_date__c = Date.today(),
+                //Initial_visit_occurred_flag__c = true,
+                Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
+                Participant__c = participant2.Id,
+                Screening_ID__c = 'PESCR2',
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            
+            peList.add(pe2);
+            
+            Participant_Enrollment__c pe3 = new Participant_Enrollment__c(
+                //HCP__c = hcpEnrollment.Id,
+                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId3',
+                Referral_Source__c = 'PI',
+                //Initial_visit_scheduled_date__c = Date.today()+1,
+                Initial_visit_occurred_flag__c = true,
+                Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
+                Participant__c = participant3.Id,
+                Screening_ID__c = 'PESCR3',
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            
+            peList.add(pe3);
+            
+            Participant_Enrollment__c pe4 = new Participant_Enrollment__c(
+                //HCP__c = hcpEnrollment.Id,
+                //Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                //Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId4',
+                Referral_Source__c = 'PI',
+                //Initial_visit_scheduled_date__c = Date.today()-1,
+                //Initial_visit_occurred_flag__c = true,
+                Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
+                Participant__c = participant4.Id,
+                Screening_ID__c = 'PESCR4',
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            peList.add(pe4);
+            
+            Participant_Enrollment__c pe5 = new Participant_Enrollment__c(
+                //HCP__c = hcpEnrollment.Id,
+                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId5',
+                Referral_Source__c = 'PI',
+                Initial_visit_scheduled_date__c = Date.today() - 1,
+                Initial_visit_occurred_flag__c = true,
+                Participant_Status__c = DashboardRemoteNew.STATUS_UNABLE_TO_SCREEN,
+                Participant__c = participant5.Id,
+                Screening_ID__c = 'PESCR5',
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            peList.add(pe5);
+            
+            Participant_Enrollment__c pe6 = new Participant_Enrollment__c(
+                //HCP__c = hcpEnrollment.Id,
+                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+                PI_Contact__c = piContact.Id,
+                Study_Site__c = studySite.Id,
+                Patient_ID__c = 'SomePatientId6',
+                Referral_Source__c = 'PI',
+                Initial_visit_scheduled_date__c = Date.today(),
+                Initial_visit_occurred_flag__c = true,
+                Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_PASSED,
+                Participant__c = participant6.Id,
+                Screening_ID__c = 'PESCR6',
+                Participant_Status_Last_Changed_Date__c=system.now()
+            );
+            peList.add(pe6);
+            insert peList;
+            
+            Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+            pesh.Date__c = Datetime.now();
+            pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+            pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
+            pesh.ParticipantEnrollment__c = peList[0].Id;
+            insert pesh;
+            
+            Referral_Network__c referralNetwork = new Referral_Network__c(
+                Name = 'Test Referral Network'
+            );
+            insert referralNetwork;
+            
+            Contact_Referral_Network__c contactReferralNetwork = new Contact_Referral_Network__c(
+                ContactId__c = hcpContact.Id,
+                ReferralNetworkId__c = referralNetwork.Id
+            );
+            insert contactReferralNetwork;
+            
+            Contact_Therapeutic_Area__c contactTherapeuticArea = new Contact_Therapeutic_Area__c(
+                ContactId__c = hcpContact.Id,
+                TherapeuticAreaId__c = area.Id
+            );
+            insert contactTherapeuticArea;
+            
+            Participant_Enrollment__c peForContactUpdate = [
+                SELECT Id, Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id = :pe.Id
+            ];
+            Contact contactForUpdate = [
+                SELECT Id, Current_Participant_Enrollment__c
+                FROM Contact
+                WHERE Id = :peForContactUpdate.Participant_Contact__c
+            ];
+            contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
+            contactForUpdate.Next_Notify_Date__c = Datetime.now().dateGmt();
+            update contactForUpdate;
         }
-        Translation__c studyTranslation = new Translation__c(
-            Language__c = langCode,
-            Record_Id__c = study.Id,
-            Field_Name__c = 'Study_Title__c',
-            Value__c = 'Some translated value'
-        );
-        insert studyTranslation;
-
-        Study_Site__c studySite = new Study_Site__c(
-            Principal_Investigator__c = piContact.Id,
-            Clinical_Trial_Profile__c = study.Id,
-            Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
-            Site__c = studySiteAccount.Id,
-            Study_Site_Type__c = 'Traditional',
-            Suppress_Participant_Emails__c = false,
-            Study_Site_Number__c = 'SS1',
-            Billable_Code_CRM_Number__c = 'Test_Billable_Code',
-            Enable_for_Call_Center_Support__c = true
-        );
-        insert studySite;
-        studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
-        update studySite;
-
-        HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
-            Study_Site__c = studySite.Id,
-            HCP_Contact__c = hcpContact.Id,
-            Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT
-        );
-        insert hcpEnrollment;
-        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpEnrollment;
-
-        Site_Staff__c siteStaff = new Site_Staff__c(
-            Site_Contact__c = piDelegateContact.Id,
-            Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
-            Study_Site__c = studySite.Id
-        );
-        insert siteStaff;
-
-        RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
-            Referring_Provider__c = hcpDelegateContact.Id,
-            Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
-            Delegate__c = hcpContact.Id
-        );
-        insert rpDelegate;
-
-        List<Participant__c> partList = new List<Participant__c>();
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-
-        Participant__c participant = new Participant__c(
-            First_Name__c = 'ParticipantTD',
-            Last_Name__c = 'ParticipantTD',
-            Phone__c = '55313535',
-            Email__c = 'part1@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-        Participant__c participant2 = new Participant__c(
-            First_Name__c = 'ParticipantTD1',
-            Last_Name__c = 'ParticipantTD1',
-            Phone__c = '55313538',
-            Email__c = 'part2@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-
-        Participant__c participant3 = new Participant__c(
-            First_Name__c = 'ParticipantTD3',
-            Last_Name__c = 'ParticipantTD3',
-            Phone__c = '55313530',
-            Email__c = 'part3@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-
-        Participant__c participant4 = new Participant__c(
-            First_Name__c = 'ParticipantTD4',
-            Last_Name__c = 'ParticipantTD4',
-            Phone__c = '55313538',
-            Email__c = 'part4@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-
-        Participant__c participant5 = new Participant__c(
-            First_Name__c = 'ParticipantTD5',
-            Last_Name__c = 'ParticipantTD5',
-            Phone__c = '55313535',
-            Email__c = 'part5@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-
-        Participant__c participant6 = new Participant__c(
-            First_Name__c = 'ParticipantTD6',
-            Last_Name__c = 'ParticipantTD6',
-            Phone__c = '55313536',
-            Email__c = 'part6@email.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = piAccount.Id
-        );
-
-        partList.add(participant);
-        partList.add(participant2);
-        partList.add(participant3);
-        partList.add(participant4);
-        partList.add(participant5);
-        partList.add(participant6);
-
-        insert (partList);
-        Participant_Enrollment__c pe = new Participant_Enrollment__c(
-            HCP__c = hcpEnrollment.Id,
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId1',
-            Referral_Source__c = 'HCP',
-            Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
-            Participant__c = participant.Id,
-            Screening_ID__c = 'PESCR1',
-            Invited_To_PP_Date__c = system.now(),
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-
-        peList.add(pe);
-        Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
-            //HCP__c = hcpEnrollment.Id,
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId2',
-            Referral_Source__c = 'PI',
-            Initial_visit_scheduled_date__c = Date.today(),
-            //Initial_visit_occurred_flag__c = true,
-            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
-            Participant__c = participant2.Id,
-            Screening_ID__c = 'PESCR2',
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-
-        peList.add(pe2);
-
-        Participant_Enrollment__c pe3 = new Participant_Enrollment__c(
-            //HCP__c = hcpEnrollment.Id,
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId3',
-            Referral_Source__c = 'PI',
-            //Initial_visit_scheduled_date__c = Date.today()+1,
-            Initial_visit_occurred_flag__c = true,
-            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
-            Participant__c = participant3.Id,
-            Screening_ID__c = 'PESCR3',
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-
-        peList.add(pe3);
-
-        Participant_Enrollment__c pe4 = new Participant_Enrollment__c(
-            //HCP__c = hcpEnrollment.Id,
-            //Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            //Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId4',
-            Referral_Source__c = 'PI',
-            //Initial_visit_scheduled_date__c = Date.today()-1,
-            //Initial_visit_occurred_flag__c = true,
-            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
-            Participant__c = participant4.Id,
-            Screening_ID__c = 'PESCR4',
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-        peList.add(pe4);
-
-        Participant_Enrollment__c pe5 = new Participant_Enrollment__c(
-            //HCP__c = hcpEnrollment.Id,
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId5',
-            Referral_Source__c = 'PI',
-            Initial_visit_scheduled_date__c = Date.today() - 1,
-            Initial_visit_occurred_flag__c = true,
-            Participant_Status__c = DashboardRemoteNew.STATUS_UNABLE_TO_SCREEN,
-            Participant__c = participant5.Id,
-            Screening_ID__c = 'PESCR5',
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-        peList.add(pe5);
-
-        Participant_Enrollment__c pe6 = new Participant_Enrollment__c(
-            //HCP__c = hcpEnrollment.Id,
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            PI_Contact__c = piContact.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId6',
-            Referral_Source__c = 'PI',
-            Initial_visit_scheduled_date__c = Date.today(),
-            Initial_visit_occurred_flag__c = true,
-            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_PASSED,
-            Participant__c = participant6.Id,
-            Screening_ID__c = 'PESCR6',
-            Participant_Status_Last_Changed_Date__c=system.now()
-        );
-        peList.add(pe6);
-        insert peList;
         
-        Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
-        pesh.Date__c = Datetime.now();
-        pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
-        pesh.Notes__c = peList[0].Last_Status_Changed_Notes__c;
-        pesh.ParticipantEnrollment__c = peList[0].Id;
-        insert pesh;
-        
-        Referral_Network__c referralNetwork = new Referral_Network__c(
-            Name = 'Test Referral Network'
-        );
-        insert referralNetwork;
-
-        Contact_Referral_Network__c contactReferralNetwork = new Contact_Referral_Network__c(
-            ContactId__c = hcpContact.Id,
-            ReferralNetworkId__c = referralNetwork.Id
-        );
-        insert contactReferralNetwork;
-
-        Contact_Therapeutic_Area__c contactTherapeuticArea = new Contact_Therapeutic_Area__c(
-            ContactId__c = hcpContact.Id,
-            TherapeuticAreaId__c = area.Id
-        );
-        insert contactTherapeuticArea;
-        
-        Participant_Enrollment__c peForContactUpdate = [
-            SELECT Id, Participant_Contact__c
-            FROM Participant_Enrollment__c
-            WHERE Id = :pe.Id
-        ];
-        Contact contactForUpdate = [
-            SELECT Id, Current_Participant_Enrollment__c
-            FROM Contact
-            WHERE Id = :peForContactUpdate.Participant_Contact__c
-        ];
-        contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
-        contactForUpdate.Next_Notify_Date__c = Datetime.now().dateGmt();
-        update contactForUpdate;
-    }
-
-    public static void runAllTriggers() {
-        if (necessaryTriggersForLoadTestData.isEmpty())
-            prepareTriggersLists();
-
-        for (String name : necessaryTriggersForMostTests)
-            TriggerHandlerExecutor.bypassHandler(Type.forName(name)); // bypass triggers that work in loadTestData()
-
-        loadTestData(false, null);
-    }
+        public static void runAllTriggers() {
+            if (necessaryTriggersForLoadTestData.isEmpty())
+                prepareTriggersLists();
+            
+            for (String name : necessaryTriggersForMostTests)
+                TriggerHandlerExecutor.bypassHandler(Type.forName(name)); // bypass triggers that work in loadTestData()
+            
+            loadTestData(false, null);
+        }
 
     private static void prepareTriggersLists() {
         necessaryTriggersForLoadTestData.add(
@@ -689,7 +689,138 @@ public class TestData {
             'ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler'
         );
     }
-
+    private static void bypassTriggersNew(List<String> externalExecuteTriggerNames) {
+        TriggerHandlerExecutor.bypassHandler(AlertTriggerHandler.ValidateFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(CCStaffTriggerHandler.UpdateContactOnStatusChange.class);
+        TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class);
+        TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.manageBypassedFieldsForTMDH.class);
+        TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.createNotificationsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForDelegateContactHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.ParticipantConsentUpdate.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.bypassHandler(ContentDocumentLinkTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContentDocumentTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(CTCTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(EcoaTaskConfigTriggerHandler.MarkEcoaTaskCompleted.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.SwitchContactUserModeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateRecruitingHCPStaffModeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.SendNotificationForActivatedHCPEHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.SendNotificationForDeclinedHCPEHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationPatientTriggerHandler.UpdatePatientsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationPatientReferralTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationSiteStaffTriggerHandler.CheckRequiredFieldsAndUpsertSiteStaff.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationTrialMatchTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationVisitResultTriggerHandler.CheckProcessedRecordsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(IntegrationVisitTriggerHandler.CheckProcessedRecordsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(LLRHeventTriggerHandler.SendFOVtoAPI.class);
+        TriggerHandlerExecutor.bypassHandler(MessageTriggerHandler.SendEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(NationalIdTriggerHandler.PrepareCityStateFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.CheckFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePERReEngaged.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdateLastChangedAdditionalNotes.class);
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.createNotifications.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantStudyEnrollmentTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.SetDefaultFieldsBeforeUpsertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.ProcessStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.DeactivateDeceasedUsersHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.SendDropOutEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateStatusBasedInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.HideSurveyTasks.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckDuplicatesHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateParticipantAge.class);
+        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.SetDefaultPatientDelegateStatusHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
+        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class);
+        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreateReactivatedNotification.class);
+        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreatePrimaryDelegateForMinor.class);
+        TriggerHandlerExecutor.bypassHandler(PatientVisitTriggerHandler.updateEcoaEvents.class);
+        TriggerHandlerExecutor.bypassHandler(PSEStatusHistoryTriggerHandler.UpdatePSEStatusOnHistoryChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(RecurringTaskTriggerHandler.UpdateRecurringTaskonEndDateChange.class);
+        TriggerHandlerExecutor.bypassHandler(ResourceTriggerHandler.ArticleResourceProcessor.class);
+        TriggerHandlerExecutor.bypassHandler(ResStudyTriggerHandler.PlatformEventProcessor.class);
+        TriggerHandlerExecutor.bypassHandler(ResStudyTriggerHandler.CertificateResourceProcessor.class);
+        TriggerHandlerExecutor.bypassHandler(RPDelegateRelationshipTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SendResultTriggerHandler.updatewelcomeMsgflagsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SiteStaffTriggerHandler.DuplicateSiteStaffHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SiteStaffTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SiteStaffTriggerHandler.RemoveConversationSharesHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SiteStaffTriggerHandler.AssignCommunitymodeAndTypeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(SMSDeliveryStatusTriggerHandler.processDeliveryReciptforSMS.class);
+        TriggerHandlerExecutor.bypassHandler(SMSOptOutTriggerHandler.optOutSMS.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.PrepareAdditionalFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateHCPEnrollmentsForRPInWhiteListHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class);
+        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.CheckTaskFieldsWithTaskCodeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitAttendeeTriggerHandler.ManageAttendees.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitAttendeeTriggerHandler.TelevisitEventTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.NotifyAttendees.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.TelevisitEventTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.TelevisitRescheduleTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TherapeuticAreaAssignmentTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TherapeuticAreaPatientTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TherapeuticAreaTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TranslationTriggerHandler.CheckFieldsConsistencyHandler.class);
+        TriggerHandlerExecutor.bypassHandler(TravelVendorSettingsTriggerHandler.CreatePreEnrollmentVisits.class);
+        TriggerHandlerExecutor.bypassHandler(TrialSurveyTriggerHandler.ExpireSurveyTaskAndInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(TrialSurveyTriggerHandler.UpdateTrialSurveyAndInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(ECOASubjectsEventTriggerHandler.ECOACreateEvent.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignPendingTasksHandler.class);
+        TriggerHandlerExecutor.bypassHandler(VisitTriggerHandler.DeletePatientVisitOnVisitDeletionHandler.class);
+        TriggerHandlerExecutor.bypassHandler(VisitTriggerHandler.InsertPatientVisitOnVisitInsertionHandler.class);
+        TriggerHandlerExecutor.bypassHandler(VisitTriggerHandler.UpdateExistingPatientVisits.class);
+    }
     private static void bypassTriggers(List<String> externalExecuteTriggerNames) {
         List<ApexTrigger> triggers = [SELECT Id, Name, Body FROM ApexTrigger];
         List<String> bypassTriggerNames = new List<String>();
@@ -720,7 +851,7 @@ public class TestData {
             }
         }
         try {
-            for (String name : bypassTriggerNames) {
+            for (String name : bypassTriggerNames) {            
                 TriggerHandlerExecutor.bypassHandler(Type.forName(name));
             }
         } catch (Exception e) {
