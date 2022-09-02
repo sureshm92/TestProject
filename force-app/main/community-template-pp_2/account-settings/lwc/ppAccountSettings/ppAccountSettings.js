@@ -240,7 +240,9 @@ export default class PpAccountSettings extends LightningElement {
     }
 
     handleSelectedHeader(event) {
-        let selectedHeader = event.target.dataset.header;
+        let selectedHeader = event.target.dataset.header
+            ? event.target.dataset.header
+            : event.currentTarget.dataset.header;
         this.showMobileNavComponent = false;
         this.setComponentId(selectedHeader);
     }
