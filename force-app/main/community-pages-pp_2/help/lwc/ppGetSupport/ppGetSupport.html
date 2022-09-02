@@ -11,7 +11,7 @@
                         <div class="as-title">{label.getSupport}</div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="12" class="mb-15 support-combobox">
+                    <lightning-layout-item size="12" class={dropDownOpacityClass}>
                         <lightning-combobox
                             value={selectedOption}
                             placeholder={placeholder}
@@ -42,7 +42,7 @@
                                     <lightning-layout-item size="2">
                                         <span class="to">{label.ppTo}</span>
                                     </lightning-layout-item>
-                                    <lightning-layout-item size="10" class="support-combobox">
+                                    <lightning-layout-item size="10" class={YOBOpacityClass}>
                                         <lightning-combobox
                                             value={selectedYOB}
                                             placeholder={label.selectYear}

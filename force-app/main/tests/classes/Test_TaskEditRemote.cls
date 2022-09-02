@@ -11,12 +11,51 @@ private class Test_TaskEditRemote {
     }
     @IsTest
     static void getInitTaskEditDataWrapper() {
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.SetShowTourDefaultHandler.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.PopulateOverrideFields.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.CreateUserForCCContactHandler.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.UpdateConsentTimeStamps.class
+        	);
+        TriggerHandlerExecutor.bypassHandler(
+            	ContactTriggerHandler.ParticipantConsentUpdate.class
+        	);
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
         Test.startTest();
 
         System.runAs(testData.participantUser) {
+            TriggerHandlerExecutor.bypassHandler(
+            	UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
+        	);
+            TriggerHandlerExecutor.bypassHandler(
+            	UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class
+        	);
+            TriggerHandlerExecutor.bypassHandler(
+            	UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class
+        	);
+            TriggerHandlerExecutor.bypassHandler(
+            	UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
+        	);
+            TriggerHandlerExecutor.bypassHandler(
+            	TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class
+        	);
+            TriggerHandlerExecutor.bypassHandler(
+            	TaskTriggerHandler.CheckTaskFieldsWithTaskCodeHandler.class
+        	);
             List<Task> tasks = new List<Task>();
             Task task = new Task();
             task.Subject = 'test';
@@ -88,6 +127,7 @@ private class Test_TaskEditRemote {
             taskWrapper3.reminderOption = '1 Week before';
             taskWrapper3.activityDate = dateNow.addDays(10);
             TaskEditRemote.upsertTask(JSON.serialize(taskWrapper3), JSON.serialize(task5));
+            Test.stopTest();
             TaskEditRemote.markAsCompleted(task.Id);
             TaskEditRemote.deleteTask(task2);
         }
@@ -96,7 +136,7 @@ private class Test_TaskEditRemote {
             FROM Task
             WHERE Subject = 'test'
         ];
-        Test.stopTest();
+        
 
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
@@ -106,6 +146,7 @@ private class Test_TaskEditRemote {
 
     @IsTest
     static void updatePatientVisitTest() {
+        Test.startTest();
         Patient_Visit__c pv = new Patient_Visit__c();
         pv.Planned_Date__c = datetime.now();
         insert pv;
@@ -116,6 +157,7 @@ private class Test_TaskEditRemote {
         } catch (Exception e) {
             e.getMessage();
         }
+        Test.stopTest();
     }
 
     @IsTest
@@ -189,6 +231,7 @@ private class Test_TaskEditRemote {
             taskWrapper2.planDate = task2.Reminder_Date__c.addDays(1);
             taskWrapper2.reminderOption = '1 hour before';
             TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper2), JSON.serialize(task2));
+            Test.stopTest();
             TaskEditRemote.getTaskEditData(task3.Id);
             task3.Reminder_Date__c = task3.Reminder_Date__c.addDays(1);
             task3.ReminderDateTime = task3.Reminder_Date__c.addDays(1);
@@ -219,7 +262,7 @@ private class Test_TaskEditRemote {
             FROM Task
             WHERE Subject = 'test'
         ];
-        Test.stopTest();
+        
 
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);

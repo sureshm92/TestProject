@@ -241,7 +241,7 @@
                 }
             } else {
                 if (!$A.util.isUndefinedOrNull(reminderOptionValid)) {
-                    reminderOptionValid.setCustomValidity(' ');
+                    reminderOptionValid.setCustomValidity('');
                     reminderOptionValid.reportValidity();
                     if (isReminderOnly && !component.get('v.initData.createdByAdmin')) {
                         if (helper.doValidateReminder(component) === true) {

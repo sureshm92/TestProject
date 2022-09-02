@@ -2,7 +2,11 @@
     display: inline-flex;
 }
 .caret-icon {
-    margin: 5px 0px 0px 10px;
+    margin: 3px 0px 0px 5px;
+}
+.small-avatar {
+    height: 30px;
+    width: 30px;
 }
 .down-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
