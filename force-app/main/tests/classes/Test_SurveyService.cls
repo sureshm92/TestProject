@@ -22,7 +22,9 @@ private class Test_SurveyService {
         insert schedule;
 
         TestData testData = new TestData();
-
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
         ts = new Trial_Survey__c(
             Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
             Clinical_Trial_Profile__c = testData.ctp.Id,
