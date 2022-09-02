@@ -274,7 +274,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     initializeLabels() {
         this.commPrefMessage = this.labels.EMAIL_PREF.replace(
             '##COMM_PREF_LINK',
-            `<a href="./account-settings?communication-preferences" style="font-weight:600;" target="_blank">${this.labels.COMM_PREF}</a>`
+            `<a href="./account-settings?communication-preferences" style="font-weight:600;">${this.labels.COMM_PREF}</a>`
         );
         let warningText = this.labels.WARNING.replace(
             this.labels.WARNING,
