@@ -4,11 +4,20 @@
 
 @IsTest
 private class Test_UploadParticipantsBatchHelper {
-    @IsTest
-    static void testBehavior() {
+    @TestSetup
+    static void init() {
         Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testBehavior() {
+        
+        
+        Test.startTest();
         TestData td = new TestData();
+        
         TriggerHandlerExecutor.bypassHandler(
             ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
         );
@@ -17,8 +26,10 @@ private class Test_UploadParticipantsBatchHelper {
         //update td.participant;
         //UploadParticipantsBatchHelper ba= new UploadParticipantsBatchHelper();
         List<Id> peidlist = new List<Id>();
+        
+        Participant_Enrollment__c perec = new Participant_Enrollment__c();
         peidlist.add(td.pe.Id);
         Id jobid = Database.executeBatch(new UploadParticipantsBatchHelper(peidlist), 5);
-        Test.stopTest();
+        
     }
 }

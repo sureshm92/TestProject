@@ -3,11 +3,12 @@ public class Test_StudySiteItemRemote {
     @isTest
     private static void totalPEs_getRec(){
         TestData.loadTestData();
+        Test.startTest();
+
         TestData testData = new TestData();
         Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
         insert visitPlan;
         Integer count = 0;
-        Test.startTest();
         List<Participant_Enrollment__c> peList = [SELECT Id,Study_Site__c,Clinical_Trial_Profile__c,
                                                   Participant_Status__c FROM Participant_Enrollment__c];
         if(!peList.isEmpty()){
@@ -26,11 +27,12 @@ public class Test_StudySiteItemRemote {
     @isTest
     private static void getLatestBatchStatusForStudySite_gettrue(){
         TestData.loadTestData();
+        Test.startTest();
+
         TestData testData = new TestData();
         Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
         insert visitPlan;
         Boolean present = false;
-        Test.startTest();
         List<Participant_Enrollment__c> peList = [SELECT Id,Study_Site__c,Clinical_Trial_Profile__c,
                                                   Participant_Status__c FROM Participant_Enrollment__c];
         if(!peList.isEmpty()){

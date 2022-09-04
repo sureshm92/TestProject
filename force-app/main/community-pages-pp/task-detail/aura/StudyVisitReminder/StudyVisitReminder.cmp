@@ -26,7 +26,7 @@
     <aura:attribute name="visitData" type="Object" description="Wrapper from c:StudyVisits" />
     <aura:attribute name="taskData" type="Object" description="Wrapper from c:TasksTab" />
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
-    <!--<aura:attribute name="PatientVisit" type="Patient_Visit__c" />--> 
+    <!--<aura:attribute name="PatientVisit" type="Patient_Visit__c" />-->
     <aura:attribute name="reRender" default="true" type="boolean" />
     <aura:attribute name="isUpcomingVisits" type="boolean" />
     <aura:attribute name="isUpcoming" type="boolean" />
@@ -108,7 +108,9 @@
                             >
                                 <div class="label">
                                     {!$Label.c.Task_Name}
-                                    <abbr title="{!$Label.c.PP_required}" class="slds-required">*</abbr>
+                                    <abbr title="{!$Label.c.PP_required}" class="slds-required"
+                                        >*</abbr
+                                    >
                                 </div>
                                 <lightning:input
                                     aura:id="taskName"
@@ -137,7 +139,9 @@
                                             {!$Label.c.PP_DueDateandTime}
                                         </aura:set>
                                     </aura:if>
-                                    <abbr title="{!$Label.c.PP_required}" class="slds-required">*</abbr>
+                                    <abbr title="{!$Label.c.PP_required}" class="slds-required"
+                                        >*</abbr
+                                    >
                                 </div>
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
                                     <lightning:input
