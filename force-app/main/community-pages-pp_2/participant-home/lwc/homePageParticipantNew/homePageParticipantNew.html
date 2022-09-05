@@ -1,52 +1,56 @@
 <template>
-    <template if:true={desktop}>
-       <!--<template if:true={clinicalrecord}>--> 
-        <template if:true={showProgramOverview}> 
-            <div class="po-container">
-                <lightning-layout multiple-rows="true">
-                    <lightning-layout-item padding="around-small" size="12">
-                        <lightning-layout>
-                            <lightning-layout-item padding="around-small" size="3">
-                                <div class="page-right">
-                                    <!--<img src={w3webSlider1}>-->
-                                </div>
-                            </lightning-layout-item>
-                            <lightning-layout-item padding="around-small" size="9">
-                                <h2 class="po-fontsize">{userName}</h2>
-                                <!--<template if:true={clinicalrecord}>--> 
-                                <template if:true={showProgramOverview}> 
-                                    <c-program-overview
-                                        clinicalrecord={clinicalrecord}
-                                    ></c-program-overview>
-                                </template>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </lightning-layout-item>
-                </lightning-layout>
-            </div>
+    <!-- Loading Spinner-->
+    <c-web-spinner fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <template if:true={desktop}>
+            <!--<template if:true={clinicalrecord}>-->
+            <template if:true={showProgramOverview}>
+                <div class="po-container">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12">
+                            <lightning-layout>
+                                <lightning-layout-item padding="around-small" size="3">
+                                    <div class="page-right">
+                                        <!--<img src={w3webSlider1}>-->
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="9">
+                                    <h2 class="po-fontsize">{userName}</h2>
+                                    <!--<template if:true={clinicalrecord}>-->
+                                    <template if:true={showProgramOverview}>
+                                        <c-program-overview
+                                            clinicalrecord={clinicalrecord}
+                                        ></c-program-overview>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
         </template>
-    </template>
-    <template if:false={desktop}>
-        <!--<template if:true={clinicalrecord}>--> 
-            <template if:true={showProgramOverview}> 
-            <div>
-                <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="6">    
-                        <img src=""/>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="6" class="margin-top-bottom-20">    
-                        <h2 class="po-fontsize">{userName}</h2>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="12"> 
-                        <!--<template if:true={clinicalrecord}>--> 
-                        <template if:true={showProgramOverview}> 
-                            <c-program-overview
-                                clinicalrecord={clinicalrecord}
-                            ></c-program-overview>
-                        </template>                           
-                    </lightning-layout-item>
-                </lightning-layout>
-            </div>
+        <template if:false={desktop}>
+            <!--<template if:true={clinicalrecord}>-->
+            <template if:true={showProgramOverview}>
+                <div>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6">
+                            <img src="" />
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="margin-top-bottom-20">
+                            <h2 class="po-fontsize">{userName}</h2>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12">
+                            <!--<template if:true={clinicalrecord}>-->
+                            <template if:true={showProgramOverview}>
+                                <c-program-overview
+                                    clinicalrecord={clinicalrecord}
+                                ></c-program-overview>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
         </template>
     </template>
 </template>
