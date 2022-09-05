@@ -15,7 +15,7 @@
             <template if:false={hasProfilePic}>
                 <div title={fullName}>
                     <template if:true={isDelegate}>
-                        <span><img src={icon_url} /></span>
+                        <div class="avatar-delegate-size"><img src={icon_url} /></div>
                     </template>
                     <template if:false={isDelegate}>
                         <c-web-icon
