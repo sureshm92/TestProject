@@ -346,12 +346,12 @@ export default class VisitsPath extends LightningElement {
                 this.template.querySelector('lightning-combobox').reportValidity();
                 // this.disableSave = true;
             } else {
-                this.template.querySelector('lightning-combobox').setCustomValidity(' ');
+                this.template.querySelector('lightning-combobox').setCustomValidity('');
                 this.template.querySelector('lightning-combobox').reportValidity();
                 //this.disableSave = false;
             }
         } else {
-            this.template.querySelector('lightning-combobox').setCustomValidity(' ');
+            this.template.querySelector('lightning-combobox').setCustomValidity('');
             this.template.querySelector('lightning-combobox').reportValidity();
         }
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(

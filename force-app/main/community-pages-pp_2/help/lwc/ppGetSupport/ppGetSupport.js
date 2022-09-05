@@ -11,9 +11,6 @@ import submitButton from '@salesforce/label/c.PP_Submit_Button';
 import minorMessage from '@salesforce/label/c.PP_MinorMessage';
 import requestSubmitted from '@salesforce/label/c.PP_Request_Submitted_Success_Message';
 import matchUsernameEmail from '@salesforce/label/c.PP_Username_And_Email_Change_GetSupport';
-import helpResponse from '@salesforce/label/c.PP_HelpResponse';
-import accountSettings from '@salesforce/label/c.PP_Account_Settings';
-import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import validateAgeOfMajority from '@salesforce/apex/ApplicationHelpRemote.validateAgeOfMajority';
 import createYOBCase from '@salesforce/apex/ApplicationHelpRemote.createYOBCase';
@@ -51,15 +48,13 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         submitButton,
         minorMessage,
         requestSubmitted,
-        matchUsernameEmail,
-        helpResponse,
-        updateProfileResponse,
-        accountSettings
+        matchUsernameEmail
     };
     selectedOption;
     selectedYOB;
     placeholder = select_Support_Topic;
     doMatchUsernameEmail;
+    YOBSelected = false;
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
@@ -74,16 +69,19 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get marginForDOBEdit() {
-        if (this.isEditYOB) {
-            return 'mt-25';
-        }
-        if (this.isMatchUsernameEmail) {
-            return 'mt-15';
-        }
+        return (this.isEditYOB || this.isMatchUsernameEmail) ? 'fixed-height' : '';
     }
 
     get marginMatchEmailPass() {
         return this.isMatchUsernameEmail ? 'mb-10' : '';
+    }
+
+    get dropDownOpacityClass(){
+        return (this.isEditYOB || this.isMatchUsernameEmail) ? "mb-15 support-combobox" : "mb-15 support-combobox opacity"
+    }
+
+    get YOBOpacityClass(){
+        return (this.YOBSelected) ? "support-year" : "support-year opacity"
     }
 
     get options() {
@@ -109,6 +107,10 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     get isDisableSave() {
         return this.disableSave;
     }
+
+    get highlightErrorForYOBClass(){
+        return this.showMinorErrorMsg ? "highlight-error mt-5 fadePlaceholder" : "mt-5 fade fadePlaceholder";
+    }
     handleChangeSelection(event) {
         this.disableSave = true;
         this.selectedOption = event.detail.value;
@@ -121,6 +123,8 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         }
     }
     doCheckYearOfBith(event) {
+
+        this.YOBSelected = true;
         this.selectedYOB = event.detail.value;
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
@@ -131,6 +135,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
                 if (isAdult == 'true') {
                     this.showMinorErrorMsg = false;
                     this.disableSave = false;
+
                 } else if (isAdult == 'false') {
                     this.showMinorErrorMsg = this.selectedYOB == '' ? false : true;
                     this.disableSave = true;

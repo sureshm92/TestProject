@@ -4,7 +4,7 @@
 
 @isTest
 public with sharing class Batch_ContentVersionDel_SchedulerTest {
-    public static String CRON_EXP = '0 0 0 10 2 ? 2022';
+    public static String CRON_EXP = '0 0 0 29 9 ? 2025';
     @TestSetup
     static void setup() {
         List<Bulk_Import_History__c> bulkImportList = new List<Bulk_Import_History__c>();
@@ -55,9 +55,9 @@ public with sharing class Batch_ContentVersionDel_SchedulerTest {
     }
 
     public static testMethod void deletionSuccess(){
-        Batch_ContentVersionDeletion_Scheduler csSch = new Batch_ContentVersionDeletion_Scheduler();
-        System.schedule('Sample_heading',CRON_EXP,csSch);
         Test.startTest();
+            Batch_ContentVersionDeletion_Scheduler csSch = new Batch_ContentVersionDeletion_Scheduler();
+            System.schedule('Sample_heading',CRON_EXP,csSch);
             Batch_ContentVersionDeletion myBatcObj = new Batch_ContentVersionDeletion();
             Database.executeBatch(myBatcObj,200);
         Test.StopTest();
