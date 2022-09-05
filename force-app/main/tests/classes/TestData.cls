@@ -811,7 +811,7 @@ public class TestData {
         TriggerHandlerExecutor.bypassHandler(TravelVendorSettingsTriggerHandler.CreatePreEnrollmentVisits.class);
         TriggerHandlerExecutor.bypassHandler(TrialSurveyTriggerHandler.ExpireSurveyTaskAndInvitations.class);
         TriggerHandlerExecutor.bypassHandler(TrialSurveyTriggerHandler.UpdateTrialSurveyAndInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(ECOASubjectsEventTriggerHandler.ECOACreateEvent.class);
+        //TriggerHandlerExecutor.bypassHandler(ECOASubjectsEventTriggerHandler.ECOACreateEvent.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class);
