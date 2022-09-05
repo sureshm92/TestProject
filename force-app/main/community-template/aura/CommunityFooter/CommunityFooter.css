@@ -35,6 +35,15 @@
     text-align: center;
 }
 
+.THIS .cf-copyright-pp-right {
+    display: inline-block;
+    white-space: nowrap;
+    color: #6b6b6b;
+    font-size: .8rem;
+    padding: 10px;
+    text-align: right;
+}
+
 .THIS .cf-links {
     margin: -5px -10px;
 }

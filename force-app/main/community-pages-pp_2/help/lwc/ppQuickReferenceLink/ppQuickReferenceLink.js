@@ -21,11 +21,9 @@ export default class PpQuickReferenceLink extends LightningElement {
     currentContactEmail;
     isDuplicate;
     showUserMatch;
-    showGetSupport;
+    @api showGetSupport;
     renderedCallback() {}
     connectedCallback() {
-        let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
-        this.showGetSupport = currentDelgId == null ? true : false;
         this.initializeData();
     }
     initializeData() {
@@ -50,10 +48,13 @@ export default class PpQuickReferenceLink extends LightningElement {
     openQuickReference() {
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
-        getResourceURL({ resourceName: this.quickReference }).then((result) => {            
+        getResourceURL({ resourceName: this.quickReference }).then((result) => {
             setTimeout(() => {
-                window.open(webViewer + '?file=' + result + '&fileName=' + quickRefernceCard, '_blank');
-            })
+                window.open(
+                    webViewer + '?file=' + result + '&fileName=' + quickRefernceCard,
+                    '_blank'
+                );
+            });
         });
     }
 }

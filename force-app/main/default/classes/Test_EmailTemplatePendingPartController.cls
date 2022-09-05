@@ -2,8 +2,9 @@
 public class Test_EmailTemplatePendingPartController {
     @isTest
     private static void participants() {
+        Test.startTest();
         TestData.loadTestData();
-
+        Test.stopTest();
         EmailTemplatePendingPartController etppc = new EmailTemplatePendingPartController();
         Contact pi = [
             SELECT Id, UserCommunityIsDelegate__c
