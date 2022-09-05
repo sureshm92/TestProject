@@ -86,11 +86,11 @@
                                     </div>
                                     <div
                                         class="slds-col slds-size_2-of-12 slds-m-top_small slds-m-left_small participant-tooltip"
+                                        onclick={handleNavigation}
                                     >
                                         <img
                                             class="helptext-pos"
                                             src={icon_url}
-                                            onclick={handleNavigation}
                                             data-id={currentMode.title}
                                         /><lightning-helptext content={label.participantSettings}>
                                         </lightning-helptext>

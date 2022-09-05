@@ -1,0 +1,71 @@
+<svg id="switcher-avatar-delegate" width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Avatar Delegate</title>
+    <defs>
+        <circle id="path-1" cx="13" cy="13" r="13"></circle>
+        <path d="M5.90582634,7.46321966 C7.90132601,7.46321966 9.51899811,5.79252103 9.51899811,3.73160983 C9.51899811,1.67069863 7.90132601,0 5.90582634,0 C3.91032668,0 2.29265458,1.67069863 2.29265458,3.73160983 C2.29265458,5.79252103 3.91032668,7.46321966 5.90582634,7.46321966 Z M5.92116306,8.02323704 C3.19095414,7.90824267 0.743547843,9.75006351 0.0131004826,12.4694105 C-0.0388705515,12.750045 0.0662295359,13.0370363 0.285013724,13.2119097 C0.544565,13.4282247 0.86981175,13.542798 1.20325478,13.5353746 L10.640495,13.5353746 C10.973938,13.542798 11.2991847,13.4282247 11.558736,13.2119097 C11.7775202,13.0370363 11.8826203,12.750045 11.8306493,12.4694105 C11.1000819,9.74950953 8.65189373,7.90754412 5.92116306,8.02323704 L5.92116306,8.02323704 Z" id="path-3"></path>
+        <filter x="-52.5%" y="-52.5%" width="205.0%" height="205.0%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="2" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <circle id="path-6" cx="10" cy="10" r="10"></circle>
+        <path d="M4.24194513,5.36056539 C5.67524161,5.36056539 6.83715798,4.16056195 6.83715798,2.68028269 C6.83715798,1.20000344 5.67524161,0 4.24194513,0 C2.80864866,0 1.64673229,1.20000344 1.64673229,2.68028269 C1.64673229,4.16056195 2.80864866,5.36056539 4.24194513,5.36056539 Z M4.25296095,5.76280597 C2.29194893,5.6802096 0.534063986,7.00312404 0.00940961096,8.95633429 C-0.0279193354,9.15790412 0.0475703214,9.36403976 0.204715227,9.48964507 C0.391141682,9.64501648 0.624754861,9.72731043 0.864255134,9.72197848 L7.64268931,9.72197848 C7.88218958,9.72731043 8.11580276,9.64501648 8.30222922,9.48964507 C8.45937412,9.36403976 8.53486378,9.15790412 8.49753483,8.95633429 C7.97279427,7.00272614 6.21434772,5.67970786 4.25296095,5.76280597 L4.25296095,5.76280597 Z" id="path-8"></path>
+    </defs>
+    <g id="---↳--Account-Switcher" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PP-Lite---Account-Settings---Desktop-4" transform="translate(-1056.000000, -171.000000)">
+            <g id="menu/basic/small/simple-copy-8" transform="translate(1032.000000, 139.000000)">
+                <g id="Avatar-Delegate" transform="translate(32.000000, 32.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="32" height="32"></rect>
+                    <g id="avatar-copy" transform="translate(6.000000, 0.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="container"></g>
+                        <g id="color" mask="url(#mask-2)" fill="#FFFFFF">
+                            <rect id="Rectangle" x="0" y="0" width="26" height="26"></rect>
+                        </g>
+                        <g id="icon" mask="url(#mask-2)">
+                            <g transform="translate(7.000000, 6.000000)">
+                                <mask id="mask-4" fill="white">
+                                    <use xlink:href="#path-3"></use>
+                                </mask>
+                                <use id="Mask" stroke="none" fill="#595959" fill-rule="nonzero" xlink:href="#path-3"></use>
+                                <g id="color" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" mask="url(#mask-4)">
+                                    <g transform="translate(-0.845982, 0.000000)" fill="#005587" id="Rectangle">
+                                        <rect x="0" y="0" width="13.535714" height="13.535714"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="avatar-copy" filter="url(#filter-5)" transform="translate(0.000000, 12.000000)">
+                        <mask id="mask-7" fill="white">
+                            <use xlink:href="#path-6"></use>
+                        </mask>
+                        <g id="container"></g>
+                        <g id="color" mask="url(#mask-7)" fill="#FFFFFF">
+                            <rect id="Rectangle" x="0" y="0" width="20" height="20"></rect>
+                        </g>
+                        <g id="icon" mask="url(#mask-7)">
+                            <g transform="translate(5.722222, 5.111111)">
+                                <mask id="mask-9" fill="white">
+                                    <use xlink:href="#path-8"></use>
+                                </mask>
+                                <use id="Mask" stroke="none" fill="#595959" fill-rule="nonzero" xlink:href="#path-8"></use>
+                                <g id="color" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" mask="url(#mask-9)">
+                                    <g transform="translate(-0.607639, 0.000000)" fill="#005587" id="Rectangle">
+                                        <rect x="0" y="0" width="9.72222222" height="9.72222222"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
