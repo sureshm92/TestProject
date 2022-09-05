@@ -282,14 +282,22 @@
                 delegateParticipant.Last_Name__c
             );
         }
-        
+        let dateToday = new Date();
+        let bDay = component.get('v.pday');
+        let bMonth = component.get('v.pmonth');
+        let bYear = component.get('v.pyear');
+        let dobFormat = component.get('v.studySiteFormat');
+        let participantDOB = new Date(bYear+"-"+bMonth+"-"+bDay);
+        let selectedParticipantAge = component.get('v.selectedAge');
+        let isDobValid = (dobFormat == 'DD-MM-YYYY' && participantDOB <= dateToday) || (!dobFormat != 'DD-MM-YYYY' && selectedParticipantAge!='');
         let isValid = false;
         isValid =
             isValid ||
             (participant.First_Name__c &&
              participant.Last_Name__c &&
-             participant.Date_of_Birth__c &&
-             participant.Date_of_Birth__c <= component.get('v.todayDate') &&
+             //participant.Date_of_Birth__c &&
+             //participant.Date_of_Birth__c <= component.get('v.todayDate') &&
+             isDobValid &&
              (needsDelegate || participant.Email__c) &&
              (needsDelegate || emailVaild) &&
              (needsDelegate || emailRepeatValid) &&
@@ -332,8 +340,9 @@
                agreePolicy && attestAge &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Mailing_Zip_Postal_Code__c &&
               selectedCountry &&
               (selectedState || states.length === 0))
@@ -353,8 +362,9 @@
                agreePolicy && attestAge &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Email__c &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
@@ -368,8 +378,9 @@
                agreePolicy &&
                participant.First_Name__c &&
                participant.Last_Name__c &&
-               participant.Date_of_Birth__c &&
-               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               //participant.Date_of_Birth__c &&
+               //participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               isDobValid &&
                participant.Email__c &&
                participant.Email__c == emailRepeat &&
                participant.Phone__c &&
@@ -389,7 +400,9 @@
             if(!(isAdultDel && attestAge))
                 isValid = false;
         }
-        
+        if(selectedParticipantAge == "null" && selectedParticipantAge == undefined && selectedParticipantAge == ''){
+            isValid = false; 
+        }
         if(isValid == undefined){
             component.set('v.allRequiredCompleted', false);
         }else{
@@ -532,6 +545,7 @@
             component.set('v.participantToInsert', participant); 
         }
         var participantToInsert = component.get('v.participantToInsert');
+        helper.doParticipantAge(component);  
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
@@ -682,5 +696,56 @@
             });
         }
         return markers;
+    },
+    //dob changes
+    doParticipantAge: function (component) {
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        let studyDobFormat = component.get('v.studySiteFormat');
+        if(studyDobFormat == "DD-MM-YYYY" && pyear && pmonth && pday){
+            let dateToday = new Date();
+            var dob = new Date(pyear+"-"+pmonth+"-"+pday);
+            //calculate month difference from current date in time
+            var month_diff = Date.now() - dob.getTime();
+            //convert the calculated difference in date format
+            var age_dt = new Date(month_diff); 
+            //extract year from date    
+            var year = age_dt.getUTCFullYear();
+            //now calculate the age of the user
+            var age = ((year - 1970) >=0 ? (year - 1970) : 0);
+            if(dob > dateToday){
+                age = '';
+            }
+            component.set('v.selectedAge',age);
     }
+    },
+    //dob changes
+    generateAgeOptions: function (component) {
+        var opt = [];
+        let todayDate = new Date();
+        let cMonth = todayDate.getMonth()+1;
+        let cDay = todayDate.getDate();
+        let cYear = parseInt(todayDate.getUTCFullYear());
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
+        let lowerAge = Number(higherAge)-1;
+        let studyDobFormat = component.get('v.studySiteFormat');
+        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth >= cMonth ) 
+        || (this.studyDobFormat == 'DD-MM-YYYY' && pmonth && pday && (pmonth > cMonth || (pmonth == cMonth && pday > cDay)))) 
+        && pyear && pyear!=cYear){
+            console.log('lower age');
+            opt.push({label: lowerAge, value: lowerAge });
+        }
+        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth ) 
+        || (studyDobFormat == 'DD-MM-YYYY' && pmonth && pday && (pmonth < cMonth || (pmonth == cMonth && pday <= cDay)))){
+            console.log('higher age');
+            opt.push({label: higherAge, value: higherAge });
+        }
+        
+        component.set('v.ageOptions', opt);
+    }
+
 });

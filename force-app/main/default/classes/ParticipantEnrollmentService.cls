@@ -743,6 +743,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.SMS_Are_Available__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c',
         'Study_Site__r.Suppress_Participant_Emails__c',
+        'Study_Site__r.Participant_DOB_format__c',
         'Screening_ID__c',
         'Washout_Run_In_Applies__c',
         'Final_Consent_Date__c',

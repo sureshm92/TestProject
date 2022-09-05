@@ -64,6 +64,8 @@
                     component.set('v.accessUserLevel', initData.delegateAccessLevel);
                     component.set('v.authRequired',initData.trial.Patient_Auth_Upload_Required__c);
                     component.set('v.contentDoc',JSON.parse(initData.contentDoc));
+                    let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+                    component.set('v.studySiteFormat',dobFormat);
                     if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
@@ -119,7 +121,6 @@
                         }
                     }
                     //component.set('v.actions', initData.actions);
-                    if(component.get('v.patientVeiwRedirection')){
                         var dayList = [];
                         var obj = {};
                         for (var i = 1; i <= 31; i++) {
@@ -160,6 +161,9 @@
                         }
                         component.set('v.years', yearList);
                         component.set('v.pday',null);
+                    component.set('v.pyear',null);
+                    component.set('v.pmonth',null);
+                    if(component.get('v.patientVeiwRedirection')){
                         var penrollment = component.get('v.pEnrollment');
                         //let participant = component.get('v.participant');
                         if(component.get('v.primaryDelegateFirstname') != null){
@@ -251,8 +255,10 @@
         let trial = component.get('v.trial');
         let hcpeId = event.target.dataset.hcpeId;
         let siteId = event.target.dataset.siteId;
+        let ssFormat = event.target.dataset.ssFormat;
         component.set('v.siteId', siteId);
         component.set('v.hcpeId', hcpeId);
+        component.set('v.studySiteFormat', ssFormat);
         if (trial.Link_to_Pre_screening__c) {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
@@ -310,6 +316,8 @@
             let pe = pendingList[i];
             if (pe.Id === peId) {
                 component.set('v.pEnrollment', pe);
+                let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+                component.set('v.studySiteFormat',dobFormat);
                 helper.setParticipant(component, pe);
                 helper.checkSites(component);
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Discussion'));
@@ -335,20 +343,47 @@
         }
     },
     
+    doDayChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        var pday = component.get('v.pday');
+        if(pday){
+            component.set('v.participant.Birth_Day__c',pday);
+            component.checkdobMethod();
+        }
+    },
+    doMonthChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        var pmonth = component.get('v.pmonth');
+        if(pmonth){
+            component.set('v.participant.Birth_Month__c',pmonth);
+            component.checkdobMethod();
+        }
+    },
+    doYearChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        var pyear = component.get('v.pyear');
+        if(pyear){
+            component.set('v.participant.Birth_Year__c',pyear);
+            component.checkdobMethod();
+        }
+    },
+
+    doAgeChange: function (component, event, helper) {
+        component.set('v.participant.Age__c',component.get('v.selectedAge'));
+        helper.checkFields(component, event, helper);
+    },
+
     doCheckDateOfBith: function (component, event, helper) {
-        console.log('dob'+component.get('v.participant.Date_of_Birth__c'));
         var pday = component.get('v.pday');
         var pmonth = component.get('v.pmonth');
         var pyear = component.get('v.pyear');
-        if(component.get('v.patientVeiwRedirection')){
-            if((pday && pmonth && pyear) != null){
-               helper.checkParticipantNeedsGuardian(component, event, helper);
-            }
-        }else{
+        let dobFormat = component.get('v.studySiteFormat');
+        if(dobFormat && pyear && 
+            (dobFormat == 'YYYY' || (pmonth && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
            helper.checkParticipantNeedsGuardian(component, event, helper);
         }
         //helper.checkFields(component, event, helper); REF-3070
- 
+        helper.generateAgeOptions(component);
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -501,6 +536,8 @@
         if (component.get('v.mrrResult') === 'Start Pre-Screening') {
             let searchResult = component.get('v.searchResult');
             component.set('v.pEnrollment', searchResult.pe);
+            let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
+            component.set('v.studySiteFormat',dobFormat);
             helper.checkSites(component);
             component.set('v.participant', {
                 sobjectType: 'Participant__c',
