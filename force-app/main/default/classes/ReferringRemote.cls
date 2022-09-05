@@ -141,7 +141,7 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             participantJSON,
             Participant__c.class
         );
-        if (!String.isEmpty(participant.Birth_Year__c)) {
+        if (!String.isEmpty(participant.Date_of_Birth__c)) {
             List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
                 FROM Age_of_Majority__mdt
@@ -155,13 +155,11 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     );
                 }
             }
-            //Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
-            String dd = !String.isBlank(participant.Birth_Day__c) ? participant.Birth_Day__c : String.valueOf(Date.today().day());
-            String mm = !String.isBlank(participant.Birth_Month__c) ? participant.Birth_Month__c : String.valueOf(Date.today().month());
-            Integer participantAge = Date.newInstance(2000, Integer.valueOf(mm), Integer.valueOf(dd)) <=
+            Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
+            Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
-                ? Date.today().year() - Integer.valueOf(participant.Birth_Year__c)
-                : Date.today().year() - Integer.valueOf(participant.Birth_Year__c) - 1;
+                ? Date.today().year() - birthDate.year()
+                : Date.today().year() - birthDate.year() - 1;
 
             if (
                 ageByCountryCode.get(
