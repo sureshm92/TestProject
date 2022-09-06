@@ -1,17 +1,112 @@
 <template>
-    <article class="slds-card">
-        <div class="slds-card__body slds-card__body_inner">
-            <!--<div class="c-container">-->
-            <lightning-layout vertical-align="stretch" multiple-rows="true" class="x-large">
-                <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
-                </lightning-layout-item>
-                <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
-                    <c-pp-Study-Visit-What-To-Expect visitid={visitid}>
-                    </c-pp-Study-Visit-What-To-Expect>
-                </lightning-layout-item>
-                <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
-                </lightning-layout-item>
-            </lightning-layout>
+    <div class="slds-grid slds-gutters slds-p-horizontal_x-large">
+        <div class="slds-col slds-size_4-of-12">
+            <h1 class="slds-p-vertical_x-large visit3"><b>My Visits</b></h1>
+            <lightning-button
+                class="button"
+                variant={upcomingVariantValue}
+                label="Upcoming"
+                onclick={onUpcomingClick}
+            ></lightning-button>
+            <lightning-button
+                class="button"
+                variant={pastVariantValue}
+                label="Past"
+                onclick={onPastClick}
+            ></lightning-button>
+
+            <div class="slds-scrollable_y scrollar">
+                <template if:true={showUpcomingVisits}>
+                    <template for:each={upcomingVisits} for:item="item" for:index="index">
+                        <div key={item}>
+                            <br />
+                            <div
+                                class="slds-box boxStyle"
+                                onclick={onVisitSelect}
+                                data-value={index}
+                            >
+                                <b
+                                    ><lightning-formatted-text
+                                        class={nameStyle}
+                                        value={item.visit.Name}
+                                    ></lightning-formatted-text
+                                ></b>
+                                <br />
+                                <template if:true={item.noVisitDate}>
+                                    {label.noVisitsLabel}
+                                </template>
+                                <template if:false={item.noVisitDate}>
+                                    <lightning-formatted-date-time
+                                        value={item.visit.Planned_Date__c}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                    ></lightning-formatted-date-time>
+                                    -
+                                    <lightning-formatted-date-time
+                                        value={item.visit.Planned_Date__c}
+                                        hour="2-digit"
+                                        minute="2-digit"
+                                    ></lightning-formatted-date-time>
+                                </template>
+                                <!--<lightning-icon
+                                    icon-name="utility:notification"
+                                    size="small"
+                                    class="icon-Style"
+                                ></lightning-icon>-->
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <br />
+            <template if:false={showUpcomingVisits}>
+                <h1>Past visits coming soon...!</h1>
+            </template>
         </div>
-    </article>
+
+        <div class="slds-col slds-size_5-of-12">
+            <h1 class="slds-p-vertical_x-large visit3">
+                <b>{visitname}</b>
+                &nbsp;|&nbsp;
+                <lightning-formatted-date-time
+                    value={plannedDate}
+                    year="numeric"
+                    month="short"
+                    day="2-digit"
+                    time-zone={visittimezone}
+                ></lightning-formatted-date-time>
+                &nbsp;|&nbsp;<lightning-formatted-date-time
+                    value={plannedDate}
+                    hour="2-digit"
+                    minute="2-digit"
+                    time-zone={visittimezone}
+                ></lightning-formatted-date-time>
+            </h1>
+            <h1 class="what-to-expec">{labels.WTELabel}</h1>
+            <div class="icon-cont">
+                <div class="slds-clearfix">
+                    <div class="slds-float_left rem-border">
+                        <template if:false={isError}>
+                            <c-pp-R-R-Icon-Splitter icons={icondetails}></c-pp-R-R-Icon-Splitter>
+                        </template>
+                    </div>
+                </div>
+                <template if:true={isError}>
+                    <div>
+                        <lightning-layout vertical-align="center">
+                            <div class="slds-align_absolute-center">
+                                <span>
+                                    <span class="slds-align_absolute-center">
+                                        No Data is available for this visit
+                                    </span>
+                                    <br />
+                                </span>
+                            </div>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
 </template>

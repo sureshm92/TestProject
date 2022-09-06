@@ -1,35 +1,31 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 export default class PpRRIconSplitter extends LightningElement {
-    @api value = 'true';
-    @api cVal = '';
     @api icons = '';
     @api backgroundColor = 'White';
-    @api boolRTL = '';
     Label = '';
     Description = '';
-    Name = '';
+    Index = '';
     @api iconColour = '#b2b2b2';
+    @track classListArry = [];
+    @track testArray = [];
 
-    connectedCallback() {
-        var value = this.value;
-    }
-
-    get bgColour() {
-        return this.backgroundColor ? 'background-color:' + this.backgroundColor : '';
-    }
-
-    get iconItemClass() {
-        return this.cVal ? 'icon-item' + this.cVal : '';
+    @api
+    resetValues() {
+        console.log('inside reset');
+        this.Name = '';
+        this.Description = '';
+        this.Label = '';
+        this.icons = '';
     }
 
     handleonclick(event) {
         this.Label = event.target.dataset.id;
         this.Description = event.target.dataset.description;
         this.Name = event.target.dataset.name;
-    }
+        this.Index = event.target.dataset.index;
 
-    get iconColour() {
-        return this.Label != '' ? '#00A3E0' : '#b2b2b2';
+        let webIcons = this.template.querySelectorAll('.icons-pad');
+        let firstItem = this.template.querySelector('.icons-pad:first-child');
     }
 }

@@ -1,123 +1,33 @@
 <template>
-    <lightning-card>
+    <div>
         <div>
-            <div>
-                <!--<template if:true={icon}>-->
-                <lightning-layout vertical-align="left">
-                    <template for:each={icons} for:item="icon">
-                        <template if:true={value}>
-                            <lightning-layout-item key={icon.Id} padding="around-small">
-                                <!--class="icon bgColour"  icon-color="#b2b2b2"-->
-                                <c-web-icon
-                                    icon-size="small"
-                                    icon-name={icon.Label__c}
-                                    icon-color={iconColour}
-                                    onclick={handleonclick}
-                                    data-id={icon.Label__c}
-                                    data-description={icon.Description__c}
-                                    data-name={icon.Name}
-                                >
-                                </c-web-icon>
-                            </lightning-layout-item>
-                        </template>
-                        <template if:false={value}>
-                            <div key={icon.Id}>
-                                <!--class="icon bgColour"-->
-                                <template if:true={icon.Label__c}>
-                                    <span>
-                                        <span> {icon.Name}</span>
-                                        <br />
-                                        {icon.Description__c}
-                                    </span>
-                                </template>
-                                <c-web-icon
-                                    icon-size="small"
-                                    icon-name={icon.Label__c}
-                                    icon-color="#b2b2b2"
-                                    onclick={sayHello}
-                                    data-id={icon.Label__c}
-                                    data-description={icon.Description__c}
-                                >
-                                </c-web-icon>
-                            </div>
-                        </template>
-                    </template>
-                </lightning-layout>
-                <div>
-                    <span>
-                        <span class="iconBold"> {Name}</span>
-                        <br />
-                        {Description}
-                    </span>
-                </div>
-                <!--</template>-->
-                <!--<template if:false={icons}>
-                    Inside false
-                    <div>
-                        <span>
-                            <span> No Data is available for this visit </span>
-                            <br />
-                            {Description}
-                        </span>
-                    </div>
-                </template>-->
-            </div>
-        </div>
-    </lightning-card>
-</template>
-
-<!--<template>
-    <lightning-card>
-        <div class="icons-container">
-            <table
-                class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_header-hidden"
-                style="max-width: 200px"
-            >
-                <thead>
-                    <tr>
-                        <template for:each={icons} for:item="icon">
-                            <template if:true={value}>
-                                <th key={icon.Id}>
-                                    <c-web-icon
-                                        icon-size="small"
-                                        icon-name={icon.Label__c}
-                                        icon-color="#666666"
-                                        onclick={sayHello}
-                                        data-id={icon.Label__c}
-                                        data-description={icon.Description__c}
-                                    >
-                                    </c-web-icon>
-                                </th>
-                            </template>
-                            <template if:false={value}>
-                                <div key={icon.Id}>
-                                    <template if:true={icon.Label__c}>
-                                        <span>
-                                            <span> {icon.Label__c}</span>
-                                            <br />
-                                            {icon.Description__c}
-                                        </span>
-                                    </template>
-                                    <c-web-icon
-                                        icon-size="small"
-                                        icon-name={icon.Label__c}
-                                        icon-color="#297dfd"
-                                    >
-                                    </c-web-icon>
-                                </div>
-                            </template>
-                        </template>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <lightning-layout vertical-align="left">
+                <template for:each={icons} for:item="icon" for:index="index">
+                    <lightning-layout-item
+                        key={icon.index}
+                        padding="around-small"
+                        class="icons-pad"
+                    >
+                        <c-web-icon
+                            icon-size="medium"
+                            icon-name={icon.Label__c}
+                            onclick={handleonclick}
+                            data-id={icon.Label__c}
+                            data-description={icon.Description__c}
+                            data-name={icon.Name}
+                            data-index={index}
+                        >
+                        </c-web-icon>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
             <div>
                 <span>
-                    <span> {Label}</span>
+                    <span class="iconBold"> {Name}</span>
                     <br />
-                    {Description}
                 </span>
+                <p class="before-your-visits">{Description}</p>
             </div>
         </div>
-    </lightning-card>
-</template>-->
+    </div>
+</template>

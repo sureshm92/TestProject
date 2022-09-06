@@ -252,7 +252,7 @@ public inherited sharing class PatientVisitService {
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
 		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Completed_Date__c,Visit__r.Icons__c from Patient_Visit__c where Id =:visitId];
-        for (Patient_Visit__c visit : visits) {
+         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId = visit.Visit__r.Visit_Plan__c;
                 break;
