@@ -101,7 +101,7 @@
                      </aura:if>
                     <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
                         <!--new pp navigation-->
-                        <c:ppCommunityNavigation communityServic="{!v.communityServ}" />
+                        <c:ppCommunityNavigation communityServic="{!v.communityServ}" aura:id="ppMenu"/>
                         <aura:set attribute="else">
                             <div class="navigation-block">
                                 <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"
@@ -188,7 +188,7 @@
                     <div class="rr-width-limiter" style="padding: 0 15px">
                         <aura:if isTrue="{!v.communityApiName == 'IQVIA_Patient_Portal1'}">
                             <!--new pp footer-->
-                            <c:ppCommunityFooter />
+                            <c:ppCommunityFooter  aura:id="ppFooter"/>
                             <aura:set attribute="else">
                                 <c:CommunityFooter />
                             </aura:set>
