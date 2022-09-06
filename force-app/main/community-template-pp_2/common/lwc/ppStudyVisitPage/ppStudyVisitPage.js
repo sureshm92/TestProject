@@ -1,5 +1,4 @@
 import { LightningElement, track, api } from 'lwc';
-import FORM_FACTOR from '@salesforce/client/formFactor';
 import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisits';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -34,16 +33,6 @@ export default class PpStudyVisitPage extends LightningElement {
     };
 
     connectedCallback() {
-        console.log('The device form factor is: ' + FORM_FACTOR);
-        switch (FORM_FACTOR) {
-            case 'Large':
-                return 'You are on desktop';
-
-            case 'Small':
-                return 'You are on mobile';
-            default:
-        }
-
         getParticipantVisits({
             visitMode: this.visitMode
         })
@@ -51,13 +40,14 @@ export default class PpStudyVisitPage extends LightningElement {
                 this.upcomingVariantValue = 'brand';
                 this.pastVariantValue = 'Neutral';
 
-                for (let i = 0; i < result.length; i++) {
-                    //set visitId on load of page
-                    this.visitid = result[0].visit.Id;
-                    this.initializeData(this.visitid);
-                    this.visitname = result[0].visit.Name;
-                    this.plannedDate = result[0].visit.Planned_Date__c;
+                //console.log('result::' + JSON.stringify(result));
+                //set visitId on load of page
+                this.visitid = result[0].visit.Id;
+                this.initializeData(this.visitid);
+                this.visitname = result[0].visit.Name;
+                this.plannedDate = result[0].visit.Planned_Date__c;
 
+                for (let i = 0; i < result.length; i++) {
                     if (
                         result[i].visit.Completed_Date__c == null &&
                         (result[i].visit.Status__c == 'Scheduled' ||
@@ -99,9 +89,13 @@ export default class PpStudyVisitPage extends LightningElement {
     onVisitSelect(event) {
         var index = event.target.dataset.value;
         this.visitid = this.upcomingVisits[index].visit.Id;
+        this.visitname = this.upcomingVisits[index].visit.Name;
+        this.plannedDate = this.upcomingVisits[index].visit.Planned_Date__c;
+        this.visittimezone = TIME_ZONE;
+        this.upcomingVisits[index].visittimezone = this.visittimezone;
         this.createEditTask(this.visitid);
 
-        const childCmp = this.template.querySelector('c-pp-R-R-Icon-Splitter');
+        const childCmp = this.template.querySelector('c-pp-r-r-icon-splitter');
         childCmp.resetValues();
 
         this.initializeData(this.visitid);
@@ -123,12 +117,6 @@ export default class PpStudyVisitPage extends LightningElement {
                 } else {
                     this.isError = false;
                 }
-                /*let iconNames = '';
-            for (let i = 0; i < result.length; i++) {
-                iconNames += result[i].icons + ';';
-            }
-            console.log('iconNames are ', this.iconNames);
-            */
             })
             .catch((error) => {
                 this.showErrorToast('error occured', error.message, 'error');
