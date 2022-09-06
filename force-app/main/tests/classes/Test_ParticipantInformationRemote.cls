@@ -749,5 +749,26 @@ private class Test_ParticipantInformationRemote {
     
     } 
 
-    
+    @isTest
+    static void testGetMasked(){
+        
+        TestData testData = new TestData();
+        
+        Test.startTest();
+            System.runAs(testData.piUser) {
+                
+                ParticipantInformationRemote.getMasked(
+                    true,
+                    'CC',
+                    'Test Name'
+                );
+                
+                ParticipantInformationRemote.getMasked(
+                    true,
+                    'PI',
+                    'Test Name'
+                );
+            }
+        Test.stopTest();
+    } 
 }
