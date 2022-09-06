@@ -155,7 +155,6 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
                     );
                 }
             }
-
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
