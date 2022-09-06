@@ -746,6 +746,9 @@ export default class Pir_participantDetail extends LightningElement {
             this.setVal(this.pd['delegate']['Participant_Delegate__r']['Birth_Year__c'], '3', 'dbyear');
         }
         this.isAdultCal();
+        this.setReqDelegate();
+        this.setReqEmail();      
+        this.setReqPhone();
         this.setState();
         this.toggleSave();
     }
@@ -756,6 +759,9 @@ export default class Pir_participantDetail extends LightningElement {
             this.setVal(this.pd['delegate']['Participant_Delegate__r']['Birth_Year__c'], '3', 'dbyear');
         }
         this.isAdultCal();
+        this.setReqDelegate();
+        this.setReqEmail();      
+        this.setReqPhone();
         this.toggleSave();
     }
     stateReq = false;
