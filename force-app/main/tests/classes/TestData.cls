@@ -236,11 +236,11 @@ public class TestData {
     }
 
     /**
-	   loadTestData() is suitable for most cases (almost all triggers are off)
+       loadTestData() is suitable for most cases (almost all triggers are off)
 
-	   @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
+       @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
 
-	 */
+     */
     public static void loadTestData() {
         loadTestData(true, null);
     }
@@ -793,7 +793,7 @@ public class TestData {
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateHCPEnrollmentsForRPInWhiteListHandler.class);
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class);
+        //TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class);
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class);
         TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.CheckTaskFieldsWithTaskCodeHandler.class);
         TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class);
