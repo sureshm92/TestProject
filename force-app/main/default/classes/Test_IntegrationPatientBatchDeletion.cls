@@ -19,7 +19,7 @@ public class Test_IntegrationPatientBatchDeletion {
         }
         insert intPatLst;
         Test.startTest();
-		Database.executeBatch(new IntegrationPatientBatchDeletion(testStudySites[0].Clinical_Trial_Profile__c),5);
+		Database.executeBatch(new IntegrationPatientBatchDeletion(testStudySites[0].Clinical_Trial_Profile__c));
         Test.stopTest();
         List<Integration_Patient__c> intParLst=[Select Id,Name FROM Integration_Patient__c where STUDYID__c=:testStudySites[0].Clinical_Trial_Profile__c];
         System.assertEquals(0,intParLst.size());
