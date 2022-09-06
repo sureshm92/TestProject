@@ -249,4 +249,35 @@ private class Test_CommunityModeSwitcherRemote {
             result.communityModes.rhModeItems[0].title
         );
     }
+    
+    @IsTest
+    static void testChangeMode() {
+        TestData testData = new TestData();
+        Contact hcpContact = [
+            SELECT
+                Id,
+                Current_Participant_Enrollment__c,
+                userCommunityMode__c,
+                userCommunityDelegateId__c,
+                Current_Sponsor_Name__c,
+                userCommunytyType__c
+            FROM Contact
+            WHERE Id = :testData.hcpUser.ContactId
+        ];
+
+        System.runAs(testData.hcpUser) {
+            
+            String initData = CommunityModeSwitcherRemote.getSwitcherInitData();
+            CommunityModeSwitcherRemote.CommunityModesWrapper result = 
+                (CommunityModeSwitcherRemote.CommunityModesWrapper) 
+                JSON.deserialize(initData, CommunityModeSwitcherRemote.CommunityModesWrapper.class);
+            CommunityModeSwitcherRemote.changeMode(
+                hcpContact.userCommunityMode__c, 
+                hcpContact.userCommunityDelegateId__c, 
+                hcpContact.Current_Participant_Enrollment__c, 
+                JSON.serialize(result.communityModes), 
+                hcpContact.Current_Sponsor_Name__c
+            );
+        }
+    }
 }
