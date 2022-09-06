@@ -150,10 +150,10 @@
                         }
                         component.set('v.months', monthList);
                         var yearNow = $A.localizationService.formatDateTime(new Date(), "YYYY");
-                        var oldyear = yearNow - 121;
+                    var oldyear = yearNow - 122;
                         var yearList = [];
                         var obj = {};
-                        for (var i = oldyear; i <= yearNow; i++) {
+                    for (var i = yearNow; i >= oldyear; i--) {
                             obj.label = i;
                             obj.value = i;
                             yearList.push(obj);
@@ -343,47 +343,40 @@
         }
     },
     
-    doDayChange: function (component, event, helper) {
+    doDOBChange: function (component, event, helper) {
         component.set('v.selectedAge','');
-        var pday = component.get('v.pday');
-        if(pday){
-            component.set('v.participant.Birth_Day__c',pday);
+        component.set('v.participant.Birth_Day__c',component.get('v.pday'));
+        component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
+        component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
             component.checkdobMethod();
-        }
+        helper.generateAgeOptions(component);
     },
-    doMonthChange: function (component, event, helper) {
-        component.set('v.selectedAge','');
-        var pmonth = component.get('v.pmonth');
-        if(pmonth){
-            component.set('v.participant.Birth_Month__c',pmonth);
-            component.checkdobMethod();
-        }
-    },
-    doYearChange: function (component, event, helper) {
-        component.set('v.selectedAge','');
-        var pyear = component.get('v.pyear');
-        if(pyear){
-            component.set('v.participant.Birth_Year__c',pyear);
-            component.checkdobMethod();
-        }
-    },
-
     doAgeChange: function (component, event, helper) {
         component.set('v.participant.Age__c',component.get('v.selectedAge'));
+        component.checkdobMethod();
         helper.checkFields(component, event, helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
+        helper.doParticipantAge(component);
         var pday = component.get('v.pday');
         var pmonth = component.get('v.pmonth');
         var pyear = component.get('v.pyear');
+        let todayDate = new Date();
+        let partAge = component.get('v.selectedAge');
         let dobFormat = component.get('v.studySiteFormat');
         if(dobFormat && pyear && 
-            (dobFormat == 'YYYY' || (pmonth && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+            (dobFormat == 'YYYY' || (pmonth && partAge && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+                let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
+                let endOfMonth = new Date(todayDate.getUTCFullYear(), todayDate.getMonth()+1, 0);
+                let dd = ((pday) ?   pday : ( higherAge == partAge ? 1 : (dobFormat == 'YYYY' ? 31 : endOfMonth.getDate() ) )  );
+                
+                let mm = (pmonth) ? pmonth : ( ( higherAge == partAge) ? 1 : 12 );
+                component.set('v.participant.Date_of_Birth__c',pyear+'-'+mm+'-'+dd);
+                
            helper.checkParticipantNeedsGuardian(component, event, helper);
         }
         //helper.checkFields(component, event, helper); REF-3070
-        helper.generateAgeOptions(component);
     },
     
     doCheckYearOfBith: function (component, event, helper) {
