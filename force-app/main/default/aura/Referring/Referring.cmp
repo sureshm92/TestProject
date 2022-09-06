@@ -777,9 +777,9 @@
                                                             <c:rrSelect
                                                                 options="{!v.months}"
                                                                 value="{!v.pmonth}"
-                                                                placeholder="MM"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doMonthChange}"
+                                                                onchange="{!c.doDOBChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -797,9 +797,9 @@
                                                             <c:rrSelect
                                                                 options="{!v.days}"
                                                                 value="{!v.pday}"
-                                                                placeholder="DD"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDayChange}"
+                                                                onchange="{!c.doDOBChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -816,9 +816,9 @@
                                                         <c:rrSelect
                                                             options="{!v.years}"
                                                             value="{!v.pyear}"
-                                                            placeholder="YYYY"
+                                                            placeholder="{!$Label.c.PG_AC_Select}"
                                                             useSentenceFont="false"
-                                                            onchange="{!c.doYearChange}"
+                                                            onchange="{!c.doDOBChange}"
                                                         />
                                                     </div>
                                                 </div>
@@ -835,7 +835,7 @@
                                                             <c:rrSelect
                                                                 options="{!v.ageOptions}"
                                                                 value="{!v.selectedAge}"
-                                                                placeholder="Age"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doAgeChange}"
                                                             />
@@ -1403,9 +1403,9 @@
                                                             <c:rrSelect
                                                                 options="{!v.months}"
                                                                 value="{!v.pmonth}"
-                                                                placeholder="MM"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doMonthChange}"
+                                                                onchange="{!c.doDOBChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -1423,9 +1423,9 @@
                                                             <c:rrSelect
                                                                 options="{!v.days}"
                                                                 value="{!v.pday}"
-                                                                placeholder="DD"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDayChange}"
+                                                                onchange="{!c.doDOBChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -1442,9 +1442,9 @@
                                                         <c:rrSelect
                                                             options="{!v.years}"
                                                             value="{!v.pyear}"
-                                                            placeholder="YYYY"
+                                                            placeholder="{!$Label.c.PG_AC_Select}"
                                                             useSentenceFont="false"
-                                                            onchange="{!c.doYearChange}"
+                                                            onchange="{!c.doDOBChange}"
                                                         />
                                                     </div>
                                                 </div>
@@ -1461,7 +1461,7 @@
                                                             <c:rrSelect
                                                                 options="{!v.ageOptions}"
                                                                 value="{!v.selectedAge}"
-                                                                placeholder="Age"
+                                                                placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doAgeChange}"
                                                             />
