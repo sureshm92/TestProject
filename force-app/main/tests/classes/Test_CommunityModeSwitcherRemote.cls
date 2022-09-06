@@ -208,11 +208,6 @@ private class Test_CommunityModeSwitcherRemote {
         update janssenStudySite;
 
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             initData = CommunityModeSwitcherRemote.getSwitcherInitData();
         }
         CommunityModeSwitcherRemote.CommunityModesWrapper result = (CommunityModeSwitcherRemote.CommunityModesWrapper) JSON.deserializeStrict(
