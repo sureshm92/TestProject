@@ -142,6 +142,9 @@
 .participant-tooltip lightning-primitive-icon{
     visibility: hidden !important;
 }
+.participant-tooltip lightning-primitive-icon:hover::after{
+    pointer-events: none !important;
+}
 .toastContainer .toastClose lightning-primitive-icon {
     color: #ffffff!important;
 }
