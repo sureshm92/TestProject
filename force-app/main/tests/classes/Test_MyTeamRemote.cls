@@ -150,17 +150,12 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New HCP Delegate', testHcpRelationship.Delegate__r.LastName);
     }
 
-@IsTest
+    @IsTest
     static void piDelegateTest() {
         TestData testData = new TestData();
         Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         System.runAs(testData.piUser) {
-         PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -232,11 +227,7 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
+            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -296,7 +287,7 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.FirstName);
         System.assertEquals('Test New PI Delegate', testPiDel.Site_Contact__r.LastName);
     }
-
+    
     @IsTest
     static void getInitDataNegativeTest() {
         TestData testData = new TestData();
@@ -323,11 +314,7 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
-        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
+            
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(

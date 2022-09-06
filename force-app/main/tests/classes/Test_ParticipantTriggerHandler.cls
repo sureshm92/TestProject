@@ -3,9 +3,12 @@ Test class for ParticipantTriggerHandler
 */
 @IsTest
 public class Test_ParticipantTriggerHandler {
+    @TestSetup
+    static void init(){
+        TestData.loadTestData();
+    }
     @isTest
     private static void test() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         Test.startTest();
         List<Participant__c> participants = [

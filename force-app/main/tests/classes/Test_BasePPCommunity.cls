@@ -20,8 +20,12 @@ private class Test_BasePPCommunity {
         AddPatientByPIRemote.FormData initData = new AddPatientByPIRemote.FormData();
         Test.startTest();
         TestData testDataInstance = new TestData();
-        System.runAs(testDataInstance.piUser) {
-            initData = AddPatientByPIRemote.getInitData(testDataInstance.ss.Id);
+        try {
+            System.runAs(testDataInstance.piUser) {
+                initData = AddPatientByPIRemote.getInitData(testDataInstance.ss.Id);
+            }
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e.getMessage());
         }
         Test.stopTest();
         Boolean checkInitData = initData != null ? true : false;
@@ -45,10 +49,10 @@ private class Test_BasePPCommunity {
             );
             Participant__c participantDel = new Participant__c();
             participantDel.Email__c = 'Test01@mail.ru';
-        	participantDel.First_Name__c = 'testName';
-        	participantDel.Last_Name__c = 'testLastName';
-        	participantDel.Phone__c = '141241';
-        	participantDel.Phone_Type__c = 'Home';
+            participantDel.First_Name__c = 'testName';
+            participantDel.Last_Name__c = 'testLastName';
+            participantDel.Phone__c = '141241';
+            participantDel.Phone_Type__c = 'Home';
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 Study_Site__c = testDataInstance.ss.Id,
                 Patient_ID__c = '12345678',
@@ -62,7 +66,10 @@ private class Test_BasePPCommunity {
                     'lastName',
                     null
                 );
-                AddPatientByPIRemote.assignParticipantPermissions(testDataInstance.ss.Id,testDataInstance.piContact.Id);
+                AddPatientByPIRemote.assignParticipantPermissions(
+                    testDataInstance.ss.Id,
+                    testDataInstance.piContact.Id
+                );
                 //RH-6742 -- Extra parameters related to IQVIA outreach consenting has been added
                 AddPatientByPIRemote.saveParticipant(
                     JSON.serialize(participant),
@@ -80,7 +87,7 @@ private class Test_BasePPCommunity {
                     null,
                     false
                 );
-                
+
                 for (Participant_Enrollment__c pe2 : [
                     SELECT Name, Referral_ID__c, Participant_Key__c
                     FROM Participant_Enrollment__c
@@ -180,7 +187,17 @@ private class Test_BasePPCommunity {
             LanguageSwitcherRemote.getInitData();
             PP_LanguageSwitcherRemote.getInitData();
             LanguageSwitcherRemote.changeLanguage('en_US', '', '', 'en_US', 'Asia/Kathmandu');
-            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','en_US','Asia/Kathmandu',true);  
+            PP_LanguageSwitcherRemote.changeLanguage(
+                'en_US',
+                '',
+                '',
+                '',
+                '',
+                '',
+                'en_US',
+                'Asia/Kathmandu',
+                true
+            );
         }
         Test.stopTest();
         User user = [
@@ -193,15 +210,19 @@ private class Test_BasePPCommunity {
         System.assertEquals('Asia/Kathmandu', user.Timezonesidkey);
     }
     @IsTest
-    static void test_LanguageSwitcherForMinor(){
+    static void test_LanguageSwitcherForMinor() {
         Test.startTest();
         TestData testDataInstance = new TestData();
-        List<Participant__c> participantList = [Select Id,Adult__c from Participant__c where Contact__c = :testDataInstance.participantUser.ContactId];
+        List<Participant__c> participantList = [
+            SELECT Id, Adult__c
+            FROM Participant__c
+            WHERE Contact__c = :testDataInstance.participantUser.ContactId
+        ];
         participantList[0].Adult__c = false;
         update participantList;
         System.runAs(testDataInstance.participantUser) {
             PP_LanguageSwitcherRemote.getInitData();
-            //PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','en_US','Asia/Kathmandu',true);  
+            //PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','en_US','Asia/Kathmandu',true);
         }
         Test.stopTest();
         User user = [
