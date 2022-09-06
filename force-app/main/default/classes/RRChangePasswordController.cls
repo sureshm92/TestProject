@@ -1159,14 +1159,11 @@ public without sharing class RRChangePasswordController {
             isAttested &&
             isAdult
         ) {
-            isSaveButtonDisabled = true;
+            isSaveButtonDisabled = false;
         } else {
-           // isSaveButtonDisabled = true;
-            isSaveButtonDisabled=!passwordValidation;
-            System.debug('passwordValidation::::'+passwordValidation);
+            isSaveButtonDisabled = true;
         }
     }
-
     public void ppValidateSaveButton()
     {
         if (String.isBlank(participant.Birth_Year__c) || !isAttested || passwordValidation) {
