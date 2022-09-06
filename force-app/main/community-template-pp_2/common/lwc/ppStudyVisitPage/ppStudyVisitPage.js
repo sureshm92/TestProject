@@ -50,7 +50,7 @@ export default class PpStudyVisitPage extends LightningElement {
             .then((result) => {
                 this.upcomingVariantValue = 'brand';
                 this.pastVariantValue = 'Neutral';
-                console.log('result.length is ', result.length);
+
                 for (let i = 0; i < result.length; i++) {
                     //set visitId on load of page
                     this.visitid = result[0].visit.Id;
