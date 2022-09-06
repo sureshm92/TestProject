@@ -67,7 +67,7 @@ private class Test_ParticipantInformationRemote {
         insert pesh;
           Test.startTest();
         System.runAs(testData.piUser) {
-           // ParticipantInformationRemote.getPESH(testData.pe.id); 
+           // ParticipantInformationRemote.getPESH(testData.pe.id);
               ParticipantInformationRemote.getPrintInformation(
                 testData.pe.Id, 
                 CommunityService.USER_MODE_PI,
@@ -749,5 +749,26 @@ private class Test_ParticipantInformationRemote {
     
     } 
 
-    
+    @isTest
+    static void testGetMasked(){
+        
+        TestData testData = new TestData();
+        
+        Test.startTest();
+            System.runAs(testData.piUser) {
+                
+                ParticipantInformationRemote.getMasked(
+                    true,
+                    'CC',
+                    'Test Name'
+                );
+                
+                ParticipantInformationRemote.getMasked(
+                    true,
+                    'PI',
+                    'Test Name'
+                );
+            }
+        Test.stopTest();
+    } 
 }
