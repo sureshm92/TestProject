@@ -1,5 +1,5 @@
 //Created by Chetna Chauhan
-import { api, LightningElement } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import getInitData from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -10,16 +10,17 @@ import TERMS_OF_USE from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
 import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+
 export default class PpCommunityFooter extends LightningElement {
     //String var
     sponser;
     retUrl = '';
     communityType;
-    @api tcLink = '';
-    @api ctpId;
-    @api privacyLabel;
-    @api privacyLink;
-    @api termsOfUseLabel;
+    tcLink = '';
+    ctpId;
+    privacyLabel;
+    privacyLink;
+    termsOfUseLabel;
 
     //Boolean var
     defaultTC = false;
@@ -73,7 +74,6 @@ export default class PpCommunityFooter extends LightningElement {
         getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
-                this.initialized = true;
                 if (ps.ctp != null) {
                     if (ps.ctp.Terms_And_Conditions_ID__c != null) {
                         this.ctpId = ps.ctp.Id;
@@ -111,6 +111,7 @@ export default class PpCommunityFooter extends LightningElement {
                         ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
                         : 'privacy-policy?ret=' + this.retUrl;
                 }
+                this.initialized = true;
             })
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
@@ -133,6 +134,10 @@ export default class PpCommunityFooter extends LightningElement {
                 variant: variantType
             })
         );
+    }
+    @api forceRefresh() {
+        this.initialized = false;
+        this.initializeData();
     }
     get footerClass() {
         return this.isRTL ? 'rrc-footer rtl' : 'rrc-footer';
