@@ -33,7 +33,7 @@ private class Test_MessagePageRemote {
     static void getInitDataPITest() {
         TestData testData = new TestData();
         Test.startTest();
-		List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
         Conversation__c conversation = new Conversation__c(
@@ -52,11 +52,6 @@ private class Test_MessagePageRemote {
 
         
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             MessagePageRemote.getInitData('Large', false);
         }
         Test.stopTest();
@@ -78,15 +73,10 @@ private class Test_MessagePageRemote {
         TestData testData = new TestData();
 
         Test.startTest();
-		 List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+         List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
             MessagePageRemote.sendMultipleMessage(
                 new List<String>{ testData.pe.Id },
