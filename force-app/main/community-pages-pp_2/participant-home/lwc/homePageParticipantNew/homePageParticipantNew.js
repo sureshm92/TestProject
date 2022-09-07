@@ -66,9 +66,9 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                     //For Delegate Self view
                     this.isDelegateSelfview =
-                        this.participantState.value == 'ALUMNI' &&
-                        this.participantState.hasPatientDelegates &&
-                        !this.participantState.isDelegate;
+                        this.participantState.value == 'ALUMNI' ||
+                        (this.participantState.hasPatientDelegates &&
+                            !this.participantState.isDelegate);
                 }
                 this.spinner.hide();
             })
