@@ -172,7 +172,6 @@ public class Test_ResourceService {
     }
 
     private static void initData() {
-        Test.startTest();
         delete [SELECT Id FROM Participant__c];
         delete [SELECT Id FROM Resource__c];
         delete [SELECT Id FROM Resource_Action__c];
@@ -327,6 +326,7 @@ public class Test_ResourceService {
             new Map<String, Object>{ 'Therapeutic_Area__c' => tAsByNames.get('TA 1').Id }
         );
         insert clinicalTrialProfile;
+        Test.startTest();
 
         Study_Site__c studySite = (Study_Site__c) TestDataFactory.getSObject(
             Study_Site__c.getSObjectType(),
@@ -354,6 +354,7 @@ public class Test_ResourceService {
             }
         );
         insert enrollment;
+        Test.stopTest();
 
         List<Therapeutic_Area_Assignment__c> assignments = new List<Therapeutic_Area_Assignment__c>();
         assignments.add(
@@ -430,6 +431,5 @@ public class Test_ResourceService {
         );
         insert resourceActions;
 
-        Test.stopTest();
     }
 }
