@@ -17,16 +17,22 @@ private class Test_BasePPCommunity {
 
     @IsTest
     static void test_AddPatientByPIRemote_getInitData() {
-        AddPatientByPIRemote.FormData initData = new AddPatientByPIRemote.FormData();
-        Test.startTest();
         TestData testDataInstance = new TestData();
-        try {
-            System.runAs(testDataInstance.piUser) {
-                initData = AddPatientByPIRemote.getInitData(testDataInstance.ss.Id);
-            }
-        } catch (Exception e) {
-            System.debug('ERROR: ' + e.getMessage());
+        Test.startTest();
+        AddPatientByPIRemote.FormData initData = new AddPatientByPIRemote.FormData();
+
+        Site_Staff__c siteStaff = new Site_Staff__c(
+            Site_Contact__c = testDataInstance.piUser.ContactId,
+            Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
+            Study_Site__c = testDataInstance.ss.Id,
+            is_Invited__c = true
+        );
+        insert siteStaff;
+
+        System.runAs(testDataInstance.piUser) {
+            initData = AddPatientByPIRemote.getInitData(testDataInstance.ss.Id);
         }
+
         Test.stopTest();
         Boolean checkInitData = initData != null ? true : false;
         System.assertEquals(true, checkInitData);
@@ -37,7 +43,15 @@ private class Test_BasePPCommunity {
         Boolean isExceptionThrown = false;
         Test.startTest();
         TestData testDataInstance = new TestData();
+        AddPatientByPIRemote.FormData initData = new AddPatientByPIRemote.FormData();
+
         System.runAs(testDataInstance.piUser) {
+            Contact piContact = [
+                SELECT Id, Email, Language__c, Phone
+                FROM Contact
+                WHERE Id = :testDataInstance.pe.Participant_Contact__c
+            ];
+
             String userLanguage = 'ru';
             Participant__c participant = new Participant__c(
                 First_Name__c = 'NewP',
@@ -45,7 +59,8 @@ private class Test_BasePPCommunity {
                 Phone__c = '11213232',
                 Email__c = 'NewP@email.com',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'NY'
+                Mailing_State_Code__c = 'NY',
+                Contact__c = piContact.Id
             );
             Participant__c participantDel = new Participant__c();
             participantDel.Email__c = 'Test01@mail.ru';
@@ -84,7 +99,7 @@ private class Test_BasePPCommunity {
                     false,
                     false,
                     false,
-                    null,
+                    JSON.serialize(piContact),
                     false
                 );
 
