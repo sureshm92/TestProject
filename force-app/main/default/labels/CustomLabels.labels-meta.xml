@@ -27745,4 +27745,18 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Navigation About the study</shortDescription>
         <value>About the Study</value>
     </labels>
+    <labels>
+        <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Visit_No_Date_Or_Time_Entered</shortDescription>
+        <value>No Date Or Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_WhToEx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>What to Expect</value>
+    </labels>
 </CustomLabels>

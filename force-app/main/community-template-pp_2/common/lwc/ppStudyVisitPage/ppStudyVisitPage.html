@@ -1,0 +1,100 @@
+<template>
+    <div class="slds-grid slds-gutters slds-p-horizontal_x-large">
+        <div class="slds-col slds-size_4-of-12">
+            <h1 class="slds-p-vertical_x-large visit3"><b>My Visits</b></h1>
+            <lightning-button
+                class="button"
+                variant={upcomingVariantValue}
+                label="Upcoming"
+                onclick={onUpcomingClick}
+            ></lightning-button>
+            <lightning-button
+                class="button"
+                variant={pastVariantValue}
+                label="Past"
+                onclick={onPastClick}
+            ></lightning-button>
+
+            <div class="slds-scrollable_y" style="height: 20rem">
+                <template if:true={showUpcomingVisits}>
+                    <template for:each={upcomingVisits} for:item="item" for:index="index">
+                        <div key={item}>
+                            <br />
+                            <div
+                                class="slds-box"
+                                style="border-radius: 1rem"
+                                onclick={onVisitSelect}
+                                data-value={index}
+                            >
+                                <b
+                                    ><lightning-formatted-text
+                                        class="nameStyle"
+                                        value={item.visit.Name}
+                                    ></lightning-formatted-text
+                                ></b>
+                                <br />
+                                <template if:true={item.noVisitDate}>
+                                    {label.noVisitsLabel}
+                                </template>
+                                <template if:false={item.noVisitDate}>
+                                    <lightning-formatted-date-time
+                                        value={item.visit.Planned_Date__c}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                    ></lightning-formatted-date-time>
+                                    -
+                                    <lightning-formatted-date-time
+                                        value={item.visit.Planned_Date__c}
+                                        hour="2-digit"
+                                        minute="2-digit"
+                                    ></lightning-formatted-date-time>
+                                </template>
+                                <lightning-icon
+                                    icon-name="utility:notification"
+                                    style="float: right; padding-right: 1rem"
+                                    size="small"
+                                ></lightning-icon>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <br />
+            <template if:false={showUpcomingVisits}>
+                <h1>Past visits coming soon...!</h1>
+            </template>
+        </div>
+
+        <div class="slds-col slds-size_5-of-12">
+            <h1 class="slds-p-vertical_x-large visit3"><b>Visit 3 </b>| Jan 21, 2022 | 9:00AM</h1>
+            <h1 class="what-to-expec">What to Expect</h1>
+            <div class="icon-cont">
+                <div class="slds-clearfix">
+                    <div class="slds-float_left rem-border">
+                        <template if:false={isError}>
+                            <c-pp-R-R-Icon-Splitter icons={icondetails}></c-pp-R-R-Icon-Splitter>
+                        </template>
+                    </div>
+                </div>
+                <template if:true={isError}>
+                    <div>
+                        <lightning-layout vertical-align="center">
+                            <div class="slds-align_absolute-center">
+                                <span>
+                                    <span class="slds-align_absolute-center">
+                                        No Data is available for this visit
+                                    </span>
+                                    <br />
+                                </span>
+                            </div>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="slds-col slds-size_4-of-12">
+            <!-- <span>Result Section</span> -->
+        </div>
+    </div>
+</template>
