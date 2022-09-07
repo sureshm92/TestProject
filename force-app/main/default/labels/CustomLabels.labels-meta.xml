@@ -27717,4 +27717,25 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
     </labels>
+    <labels>
+        <fullName>Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Month_and_Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month and Year of Birth</shortDescription>
+        <value>Month/Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year of Birth</shortDescription>
+        <value>Year of Birth</value>
+    </labels>
 </CustomLabels>
