@@ -989,7 +989,7 @@ return String.join(addressList, ', ');
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
             }
-            
+            participant.Date_of_Birth__c = null;
             return ParticipantService.createParticipantAndUpdatePES(
                 participant,
                 participantDelegate,

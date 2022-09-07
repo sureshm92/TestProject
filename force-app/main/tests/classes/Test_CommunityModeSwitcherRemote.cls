@@ -208,11 +208,6 @@ private class Test_CommunityModeSwitcherRemote {
         update janssenStudySite;
 
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             initData = CommunityModeSwitcherRemote.getSwitcherInitData();
         }
         CommunityModeSwitcherRemote.CommunityModesWrapper result = (CommunityModeSwitcherRemote.CommunityModesWrapper) JSON.deserializeStrict(
@@ -253,5 +248,36 @@ private class Test_CommunityModeSwitcherRemote {
             Label.HCP_Mode,
             result.communityModes.rhModeItems[0].title
         );
+    }
+    
+    @IsTest
+    static void testChangeMode() {
+        TestData testData = new TestData();
+        Contact hcpContact = [
+            SELECT
+                Id,
+                Current_Participant_Enrollment__c,
+                userCommunityMode__c,
+                userCommunityDelegateId__c,
+                Current_Sponsor_Name__c,
+                userCommunytyType__c
+            FROM Contact
+            WHERE Id = :testData.hcpUser.ContactId
+        ];
+
+        System.runAs(testData.hcpUser) {
+            
+            String initData = CommunityModeSwitcherRemote.getSwitcherInitData();
+            CommunityModeSwitcherRemote.CommunityModesWrapper result = 
+                (CommunityModeSwitcherRemote.CommunityModesWrapper) 
+                JSON.deserialize(initData, CommunityModeSwitcherRemote.CommunityModesWrapper.class);
+            CommunityModeSwitcherRemote.changeMode(
+                hcpContact.userCommunityMode__c, 
+                hcpContact.userCommunityDelegateId__c, 
+                hcpContact.Current_Participant_Enrollment__c, 
+                JSON.serialize(result.communityModes), 
+                hcpContact.Current_Sponsor_Name__c
+            );
+        }
     }
 }

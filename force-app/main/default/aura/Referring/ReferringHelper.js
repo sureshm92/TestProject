@@ -545,7 +545,7 @@
             component.set('v.participantToInsert', participant); 
         }
         var participantToInsert = component.get('v.participantToInsert');
-        helper.doParticipantAge(component);  
+          
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
@@ -718,6 +718,7 @@
                 age = '';
             }
             component.set('v.selectedAge',age);
+            component.set('v.participant.Age__c',age);
     }
     },
     //dob changes
@@ -733,14 +734,11 @@
         let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
         let lowerAge = Number(higherAge)-1;
         let studyDobFormat = component.get('v.studySiteFormat');
-        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth >= cMonth ) 
-        || (this.studyDobFormat == 'DD-MM-YYYY' && pmonth && pday && (pmonth > cMonth || (pmonth == cMonth && pday > cDay)))) 
-        && pyear && pyear!=cYear){
+        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth >= cMonth )) && pyear && pyear!=cYear){
             console.log('lower age');
             opt.push({label: lowerAge, value: lowerAge });
         }
-        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth ) 
-        || (studyDobFormat == 'DD-MM-YYYY' && pmonth && pday && (pmonth < cMonth || (pmonth == cMonth && pday <= cDay)))){
+        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth )){
             console.log('higher age');
             opt.push({label: higherAge, value: higherAge });
         }

@@ -9,13 +9,17 @@ import PP_Account_Settings from '@salesforce/label/c.PP_Account_Settings';
 import { NavigationMixin } from 'lightning/navigation';
 import getContact from '@salesforce/apex/ContactService.getContact';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import getSwitcherInitData from '@salesforce/apex/CommunityModeSwitcherRemote.getSwitcherInitData';
+import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+//import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 
 export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElement) {
     @api user;
     @api currentMode;
     @api hasProfilePic;
     @api isRTL;
-    @api communityModes;
+    //@api communityModes;
+    comModes;
     fullName;
     reset = true;
     viewMode = '';
@@ -30,6 +34,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         PP_Account_Settings
     };
     icon_url = pp_icons + '/switcher-avatar-delegate-icon.svg';
+    spinner;
 
     @track contactDetails;
     @track error;
@@ -98,8 +103,9 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
             this.fullName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
             this.contactId = this.user.ContactId;
         }
-        this.userCommModeLength = this.communityModes.ppModeItems.length;
         this.getContactData();
+        this.getCommModes();
+
         this.reset = true;
         let currentMode = this.currentMode;
         let mode = '';
@@ -126,7 +132,17 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
                 this.error = error;
             });
     }
-
+    getCommModes() {
+        getSwitcherInitData()
+            .then((result) => {
+                let userData = JSON.parse(result);
+                this.comModes = userData.communityModes;
+                this.userCommModeLength = this.comModes.ppModeItems.length;
+            })
+            .catch((error) => {
+                console.log('headre -------------------error', error);
+            });
+    }
     doManageDelegates() {
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -138,7 +154,7 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
     }
     doNavigateToAccountSettings() {
         let item;
-        let commModes = this.communityModes.ppModeItems;
+        let commModes = this.comModes.ppModeItems;
         for (let i = 0; i < commModes.length; i++) {
             for (let j = 0; j < commModes[i].subItems.length; j++) {
                 if (this.fullName == commModes[i].subItems[j].title) {
