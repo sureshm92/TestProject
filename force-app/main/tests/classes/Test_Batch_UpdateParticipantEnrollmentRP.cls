@@ -26,6 +26,6 @@ private class Test_Batch_UpdateParticipantEnrollmentRP {
             FROM Participant_Enrollment__c
             WHERE Id = : testData.pe.Id
         ];
-       system.assertEquals(false, result.Show_Referring_Provider__c);
+       system.assertEquals(true, result.Show_Referring_Provider__c);
     }
 }
