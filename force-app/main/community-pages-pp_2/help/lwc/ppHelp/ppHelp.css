@@ -6,6 +6,7 @@
     padding: 1.5rem;
     padding-bottom: 0px;
     margin-top: -15px;
+    padding-right: 5px;
 }
 
 .header-panel-mobile {
@@ -74,6 +75,7 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
+    margin-bottom: 8px;
 }
 
 .mb-15 {
@@ -89,7 +91,11 @@
 }
 
 .pt-4 {
-    padding-top: 4px;
+    padding-top: 2px;    
+}
+
+.ml-12{
+    margin-left: -12px;
 }
 
 .mt-20 {
@@ -124,9 +130,13 @@
 }
 
 .exclamation_green {
-    fill: green;
-    height: 30px;
-    width: 30px;
+    height: 100%;
+    width: 50%;
+}
+
+.exclamation_mobile {
+    height: 100%;
+    width: 100%;
 }
 
 .center-align {
@@ -151,6 +161,8 @@
 
 .acc-settings-link {
     color: #0f6efd;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .acc-settings-link:hover {
@@ -161,14 +173,13 @@
     height: 48px;
     color: #595959;
     font-family: 'Proxima Nova';
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    padding: 2px;
 }
 
 .pad10 {
-    padding: 10px;
     text-align: center;
-    margin-top: -10px;
 }

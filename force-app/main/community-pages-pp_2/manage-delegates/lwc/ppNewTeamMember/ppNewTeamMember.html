@@ -15,7 +15,7 @@
             <div class="profile-information slds-m-bottom_medium">{label.Profile_Information}</div>
 
             <div class="slds-grid slds-gutters slds-wrap">
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7 profile-info-input">
                     <label class="slds-form-element__label" for="userName"
                         >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required"
                             >*
@@ -24,18 +24,19 @@
                     <div class="slds-form-element__control">
                         <lightning-input
                             onchange={handleDateChange}
-                            class="validate profile-info-input"
+                            class="validate"
                             type="email"
                             required
                             data-id="emailInput"
                             variant="label-hidden"
                             label={label.PG_AS_F_Email_address}
                             value={delegate.delegateContact.Email}
+                            message-when-value-missing={label.PP_Required_Field}
                             onblur={doSearchContact}
                         ></lightning-input>
                     </div>
                 </div>
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
                     <label class="slds-form-element__label" for="userName"
                         >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required"
                             >*
@@ -44,7 +45,7 @@
                     <div class="slds-form-element__control1">
                         <lightning-input
                             onchange={handleDateChange}
-                            class="validate profile-info-input"
+                            class="validate"
                             variant="label-hidden"
                             data-id="firstNameInput"
                             label={label.PG_AS_F_First_name}
@@ -52,10 +53,11 @@
                             value={delegate.delegateContact.FirstName}
                             maxlength={maxLengthData.FirstName}
                             required
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
                     <label class="slds-form-element__label" for="userName"
                         >{label.PG_AS_F_Last_name}
                         <abbr class="slds-required" title="required">* </abbr></label
@@ -64,13 +66,14 @@
                         <lightning-input
                             data-id="lastNameInput"
                             onchange={handleDateChange}
-                            class="validate profile-info-input"
+                            class="validate"
                             variant="label-hidden"
                             label={label.PG_AS_F_Last_name}
                             disabled={lastNameDisabledCheck}
                             value={delegate.delegateContact.LastName}
                             maxlength={maxLengthData.LastName}
                             required
+                            onblur={doValidateField}
                         ></lightning-input>
                     </div>
                 </div>
@@ -78,16 +81,17 @@
             <div class="checkbox-container slds-m-vertical_large">
                 <lightning-input
                     data-id="consentcheck"
-                    class="taps validate"
+                    class="taps mob-checkbox-txt validate"
                     type="checkbox"
-                    label="I attest to this delegate being of legal age in their locale."
+                    label={label.PP_Attestation_Confirmation_Message_For_Teams}
                     checked={isAttested}
                     onchange={handleDateChange}
                 ></lightning-input>
             </div>
-            <div class="slds-col slds-size_1-of-1">
+            <!--<div class="slds-col slds-size_1-of-1">
                 <div>{delexistingmsg}</div>
-            </div>
+                </div>
+            -->
             <lightning-button
                 variant="brand"
                 class={saveButtonClass}

@@ -6,6 +6,7 @@ import PP_Patient_Delegate_Deactivate_Mess from '@salesforce/label/c.PP_Patient_
 import pgPstLDelegatesRemoveDelegate from '@salesforce/label/c.PG_PST_L_Delegates_Remove_Delegate';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import PP_Delegate_Activated from '@salesforce/label/c.PP_Delegate_Activated';
+import PP_Delegate_Deactivated from '@salesforce/label/c.PP_Delegate_Deactivated';
 
 export default class PpPatientDelegateItem extends LightningElement {
     showpopup = false;
@@ -25,7 +26,8 @@ export default class PpPatientDelegateItem extends LightningElement {
         btnDectivate,
         PP_Patient_Delegate_Deactivate_Mess,
         pgPstLDelegatesRemoveDelegate,
-        PP_Delegate_Activated
+        PP_Delegate_Activated,
+        PP_Delegate_Deactivated
     };
 
     handleClick(event) {
@@ -110,6 +112,7 @@ export default class PpPatientDelegateItem extends LightningElement {
             isActive: false
         })
             .then((result) => {
+                communityService.showToast('', 'success', this.label.PP_Delegate_Deactivated, 300);
                 const selectedEvent = new CustomEvent('rerenderteampage', {
                     detail: {
                         contact: contactobj.Id,

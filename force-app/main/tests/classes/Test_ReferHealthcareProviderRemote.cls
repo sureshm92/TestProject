@@ -34,8 +34,9 @@ private class Test_ReferHealthcareProviderRemote {
             LIMIT 1
         ];
         ReferHealthcareProviderRemote.InitData result;
-TestData testData = new TestData();
         Test.startTest();
+        
+        TestData testData = new TestData();
         System.runAs(testData.participantUser) {
         Contact parDelegateContact = new Contact(
             FirstName = 'PADelTD',

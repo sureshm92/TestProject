@@ -8,6 +8,10 @@
     background-color: #ecf3ff;
     margin: 16px 0 0 0;
 }
+.single {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 .icon-radius {
     height: 32px;
     width: 32px;
@@ -16,8 +20,11 @@
 }
 
 .header-setting-txt {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 24px;
-    width: 230px;
+    width: 200px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -30,7 +37,7 @@
     white-space: nowrap;
     overflow: hidden;
     height: 17px;
-    width: 208px;
+    width: 200px;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -63,6 +70,7 @@
     cursor: pointer;
     background-color: #fff;
 }
+
 @media screen and (max-width: 768px) {
     /* .header-setting-email {
         width: 215px;

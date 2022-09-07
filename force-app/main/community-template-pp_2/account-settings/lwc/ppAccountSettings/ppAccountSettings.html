@@ -39,7 +39,12 @@
                             <div class="slds-col slds-size_12-of-12">
                                 <ul class="slds-border_top nav-container-mobile">
                                     <template for:each={navHeadersList} for:item="navHeader">
-                                        <div class="slds-grid slds-wrap" key={navHeader.value}>
+                                        <div
+                                            class="slds-grid slds-wrap"
+                                            key={navHeader.value}
+                                            data-header={navHeader.value}
+                                            onclick={handleSelectedHeader}
+                                        >
                                             <div
                                                 class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-vertical_medium slds-var-p-left_large slds-p-right_large"
                                             >

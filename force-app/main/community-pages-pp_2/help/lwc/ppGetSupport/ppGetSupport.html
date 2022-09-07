@@ -1,9 +1,9 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isParticipant}>
+        <div class="support-container">
+            <!-- DESKTOP VIEW -->
 
-    <div class="support-container">
-        <!-- DESKTOP VIEW -->
-        <template if:true={isParticipant}>
             <div class={cardRTL}>
                 <!-- Lable and Initial Combobox -->
                 <lightning-layout multiple-rows="true">
@@ -11,7 +11,7 @@
                         <div class="as-title">{label.getSupport}</div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="12" class="mb-15 support-combobox">
+                    <lightning-layout-item size="12" class={dropDownOpacityClass}>
                         <lightning-combobox
                             value={selectedOption}
                             placeholder={placeholder}
@@ -22,10 +22,9 @@
                         ></lightning-combobox>
                     </lightning-layout-item>
                 </lightning-layout>
-
+                <div class={marginForDOBEdit}>
                 <!-- Edit Year of Birth Elements  -->
-                <lightning-layout multiple-rows="true">
-                    <template if:true={isParticipant}>
+                    <lightning-layout multiple-rows="true">
                         <template if:true={isEditYOB}>
                             <lightning-layout-item size="5" class="mt-10">
                                 <lightning-layout multiple-rows="true" class="">
@@ -33,7 +32,7 @@
                                         <span class="from">{label.ppFrom}</span>
                                     </lightning-layout-item>
                                     <lightning-layout-item size="7">
-                                        <span class="from-date">{currentYOB}</span>
+                                        <div class="from-date">{currentYOB}</div>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
@@ -43,7 +42,7 @@
                                     <lightning-layout-item size="2">
                                         <span class="to">{label.ppTo}</span>
                                     </lightning-layout-item>
-                                    <lightning-layout-item size="10" class="support-combobox">
+                                    <lightning-layout-item size="10" class={YOBOpacityClass}>
                                         <lightning-combobox
                                             value={selectedYOB}
                                             placeholder={label.selectYear}
@@ -51,7 +50,7 @@
                                             onchange={doCheckYearOfBith}
                                             label="YOB"
                                             variant="label-hidden"
-                                            class="mt-5"
+                                            class={highlightErrorForYOBClass}
                                         ></lightning-combobox>
                                     </lightning-layout-item>
                                     <lightning-layout-item size="2"> </lightning-layout-item>
@@ -65,55 +64,68 @@
                                 </lightning-layout>
                             </lightning-layout-item>
                         </template>
-                    </template>
-                </lightning-layout>
+                    </lightning-layout>
 
-                <!-- User name and password Match elements -->
-                <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="12" class={marginMatchEmailPass}>
-                        <template if:true={isMatchUsernameEmail}>
-                            <template if:false={isShowUserMatch}>
-                                <lightning-input
-                                    type="checkbox"
-                                    label={label.matchUsernameEmail}
-                                    value={chngUsernameEmailValue}
-                                    onchange={doChangeUsernameEmail}
-                                    class="label-email-pass-match"
-                                ></lightning-input>
+                    <!-- User name and password Match elements -->
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="1" class={marginMatchEmailPass}>
+                            <template if:true={isMatchUsernameEmail}>
+                                <template if:false={isShowUserMatch}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={label.matchUsernameEmail}
+                                        variant="label-hidden"
+                                        value={chngUsernameEmailValue}
+                                        onchange={doChangeUsernameEmail}
+                                        class="label-email-pass-match"
+                                    ></lightning-input>
+                                </template>
+                                <template if:true={isShowUserMatch}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={label.matchUsernameEmail}
+                                        variant="label-hidden"
+                                        name="input3"
+                                        class="label-email-pass-match"
+                                        checked
+                                        disabled
+                                    ></lightning-input>
+                                </template>
                             </template>
-                            <template if:true={isShowUserMatch}>
-                                <lightning-input
-                                    type="checkbox"
-                                    label={label.matchUsernameEmail}
-                                    name="input3"
-                                    class="label-email-pass-match"
-                                    checked
-                                    disabled
-                                ></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="11">
+                            <template if:true={isMatchUsernameEmail}>
+                                <span class="matchEmailText">{label.matchUsernameEmail}</span>
                             </template>
-                        </template>
-                    </lightning-layout-item>
-                </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
             </div>
-        </template>
 
-        <lightning-layout multiple-rows="true" class={marginForDOBEdit}>
-            <lightning-layout-item size="12">
-                <template if:true={isParticipant}>
+            <lightning-layout multiple-rows="true" class="">
+                <lightning-layout-item size="12">
                     <!--Disabled Button-->
                     <template if:true={isDisableSave}>
-                        <button onclick={doCreateYOBCase} disabled={disableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile disabled"
+                        >
                             {label.submitButton}
                         </button>
                     </template>
                     <!--Enabled Button-->
                     <template if:false={isDisableSave}>
-                        <button onclick={doCreateYOBCase} disabled={disableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile"
+                        >
                             {label.submitButton}
                         </button>
                     </template>
-                </template>
-            </lightning-layout-item>
-        </lightning-layout>
-    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
 </template>

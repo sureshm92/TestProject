@@ -12,9 +12,10 @@
                         <lightning-layout-item size="12" class="mb-15">
                             <label
                                 class="slds-form-element__label field-title"
-                                for="customize-desc"
+                                for="customize-desc bold"
                             >
-                                {label.PP_Customize_Exp_Description}
+                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
@@ -25,7 +26,7 @@
                                 Conditions
                             </label>
                         </lightning-layout-item>
-                        <lightning-layout-item size="5">
+                        <lightning-layout-item size="6">
                             <div class="slds-form-element__control slds-p-top_xx-small">
                                 <lightning-input
                                     label="Customize Experience"
@@ -34,7 +35,7 @@
                                     onchange={bulkSearch}
                                     type="search"
                                     name="search"
-                                    class="profile-info-input"
+                                    class="profile-info-input customize-exp"
                                     value={searchInput}
                                 ></lightning-input>
                             </div>
@@ -89,7 +90,7 @@
                             <template for:each={conditionsOfInterestTemp} for:item="showCoi">
                                 <div
                                     key={showCoi.coi.Therapeutic_Area__r.Name}
-                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap mr-8"
                                 >
                                     <!-- Custom Pill -->
                                     <div class="slds-form-element">
@@ -183,7 +184,8 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-desc"
                             >
-                                {label.PP_Customize_Exp_Description}
+                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
@@ -203,7 +205,7 @@
                                     onchange={bulkSearch}
                                     type="search"
                                     name="search"
-                                    class="profile-info-input"
+                                    class="profile-info-input customize-exp"
                                     value={searchInput}
                                 ></lightning-input>
                             </div>
@@ -258,7 +260,7 @@
                             <template for:each={conditionsOfInterestTemp} for:item="showCoi">
                                 <div
                                     key={showCoi.coi.Therapeutic_Area__r.Name}
-                                    class="slds-badge__icon slds-badge__icon_right slds-wrap"
+                                    class="slds-badge__icon slds-badge__icon_right slds-wrap mr-8"
                                 >
                                     <!-- Custom Pill -->
                                     <div class="slds-form-element">

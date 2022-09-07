@@ -14,7 +14,7 @@ import PG_AS_F_Locale_For_Date_Format from '@salesforce/label/c.PG_AS_F_Locale_F
 import PG_Login_H_Residence_Region from '@salesforce/label/c.PG_Login_H_Residence_Region';
 import PE_Country from '@salesforce/label/c.PE_Country';
 import PE_State from '@salesforce/label/c.PE_State';
-import PG_AS_F_Zip_Postal_Code from '@salesforce/label/c.PG_AS_F_Zip_Postal_Code';
+import PP_AS_F_Zip_Postal_Code from '@salesforce/label/c.PP_AS_F_Zip_Postal_Code';
 import PG_AC_Select from '@salesforce/label/c.PG_AC_Select';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 import PP_Preferred_Time_Zone from '@salesforce/label/c.PP_Preferred_Time_Zone';
@@ -73,6 +73,8 @@ export default class PpLanguageSwitcher extends LightningElement {
     
     stateComboboxEle;
 
+    flagChangeInForm = false;
+
     label = {
         PG_Login_H_Language_Options,
         PP_Language_and_Location,
@@ -86,7 +88,7 @@ export default class PpLanguageSwitcher extends LightningElement {
         PG_Login_H_Residence_Region,
         PE_Country,
         PE_State,
-        PG_AS_F_Zip_Postal_Code,
+        PP_AS_F_Zip_Postal_Code,
         PG_AC_Select,
         PP_Third_Language,
         PP_Second_Language,
@@ -114,7 +116,7 @@ export default class PpLanguageSwitcher extends LightningElement {
 
     renderedCallback(){
         this.saveButton = this.template.querySelector('button[data-id=saveBtn]');
-        this.saveButton ? this.isInputValid(): "";
+       // this.saveButton ? this.isInputValid(): "";
         if(this.isInitialized){
             if(this.statesLVList && this.statesLVList.length == 0){
                 this.stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
@@ -200,7 +202,8 @@ export default class PpLanguageSwitcher extends LightningElement {
         this.statesLVList.length == 0 ? this.stateComboboxEle.disabled = true : this.stateComboboxEle.disabled = false;
     }
 
-    doCheckFieldsValidity(event){      
+    doCheckFieldsValidity(event){    
+        this.flagChangeInForm = true;  
         this.personWrapper.mailingCC = event.target.value;
         this.selectedCountry = this.personWrapper.mailingCC;
         this.selectedState = "";
@@ -224,34 +227,44 @@ export default class PpLanguageSwitcher extends LightningElement {
 
     doPrefLangChange(event){
         this.languageKey = event.target.value;
+        this.flagChangeInForm = true; 
         this.isInputValid();
     }
 
     doSecondLangChange(event){
+        this.flagChangeInForm = true; 
         this.secondLangKey = event.target.value;
+        this.isInputValid();
     }
 
     doThirdLangChange(event){
+        this.flagChangeInForm = true; 
         this.thirdLangKey = event.target.value;
+        this.isInputValid();
     }
 
     doPrefTimeZoneChange(event){
+        this.flagChangeInForm = true; 
         this.timezoneKey = event.target.value;
         this.isInputValid();
     }
 
     doLocaleChange(event){
+        this.flagChangeInForm = true; 
         this.localeKey = event.target.value;
         this.isInputValid();
     }
 
     doStateChange(event){
+        this.flagChangeInForm = true; 
         this.selectedState = event.target.value;
         this.isInputValid();
     }
 
     doZipChange(event){
+        this.flagChangeInForm = true; 
         this.selectedZip = event.target.value;
+        this.isInputValid();
     }
 
     // Helper Functions
@@ -376,6 +389,7 @@ export default class PpLanguageSwitcher extends LightningElement {
             country.length == 0) ||
             (statesLVList.length != 0 && 
                 statevalue == "")
+            || !this.flagChangeInForm
         ) 
         {
             this.disableSaveButton();

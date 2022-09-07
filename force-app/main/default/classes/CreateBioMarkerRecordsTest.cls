@@ -41,7 +41,9 @@ public with sharing class CreateBioMarkerRecordsTest {
         objpart[1].Referral_ID__c = '3456-34';
 
         byPassTriggersMethod();
+        Test.StartTest();
         update objpart;
+        
         
         List<Integration_Biomarker__c> biomarkRecList = new List<Integration_Biomarker__c>();
         Datetime myDate = Datetime.newInstance(2022, 12, 1, 12, 30, 2);
@@ -85,14 +87,15 @@ public with sharing class CreateBioMarkerRecordsTest {
         
         insert contentDocList;
 
-        Test.StartTest();
+        
         CreateBiomarkerRecords rec = new CreateBiomarkerRecords();
         CreateBiomarkerRecords.saveBiomarkerRecords(biomarkRecList);
         List<RH_Biomarker__c> biomarkerList = [SELECT Id FROM RH_Biomarker__c];
-        List<Biomarker_Result__c> biomarkerResultList = [SELECT Id FROM Biomarker_Result__c	];
+        Test.StopTest();
+        List<Biomarker_Result__c> biomarkerResultList = [SELECT Id FROM Biomarker_Result__c ];
         System.assertEquals(1,biomarkerList.size());
         System.assertEquals(4,biomarkerResultList.size());
-        Test.StopTest();
+       
     }
 
     @istest

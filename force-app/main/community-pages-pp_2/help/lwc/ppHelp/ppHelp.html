@@ -18,7 +18,7 @@
                                             <lightning-layout-item size="1" class="center-align">
                                                 <img
                                                     style={errorIconPosition}
-                                                    src={exclamation_green}
+                                                    src={exclamation}
                                                     class="pad-r-10 exclamation_green"
                                                 />
                                                 <!-- <svg
@@ -28,7 +28,7 @@
                                                     <use xlink:href={exclamation}></use>
                                                 </svg> -->
                                             </lightning-layout-item>
-                                            <lightning-layout-item size="11" class="pt-4">
+                                            <lightning-layout-item size="11" class="pt-4 ml-12">
                                                 <span class="static-msg">
                                                     If you have a medical emergency, please contact
                                                     your local emergency medical services.
@@ -64,22 +64,26 @@
                                         <c-pp-quick-reference-link
                                             user-mode={userMode}
                                             is-delegate={isDelegate}
+                                            show-get-support={showGetSupport}
                                         ></c-pp-quick-reference-link>
                                     </lightning-layout-item>
                                     <!-- quick ref car will hold get support -->
-                                    <lightning-layout-item size="12" class="mb-15 pad10">
-                                        <span class="to-update-all-other">
-                                            To update all other information, please go to your&nbsp;
-                                        </span>
-                                        <span
-                                            class="acc-settings-link"
-                                            onclick={navigateToAccSettings}
-                                            >Account Settings&nbsp;
-                                        </span>
-                                        <span class="to-update-all-other"
-                                            >> Profile Information > Save</span
-                                        >
-                                    </lightning-layout-item>
+                                    <template if:true={showGetSupport}>
+                                        <lightning-layout-item size="12" class="pad10">
+                                            <span class="to-update-all-other">
+                                                {label.helpResponse}&nbsp;
+                                            </span>
+                                            <span
+                                                class="acc-settings-link"
+                                                onclick={navigateToAccSettings}
+                                                >{label.accountSettings}&nbsp;
+                                            </span>
+                                            <span class="to-update-all-other"
+                                                >{label.updateProfileResponse}</span
+                                            >
+                                        </lightning-layout-item>
+                                    </template>
+
                                     <lightning-layout-item size="12" class="place-at-bottom">
                                         <img src={help_section_icon} class="img-size" />
                                     </lightning-layout-item>
@@ -114,19 +118,22 @@
                                 ></lightning-formatted-text>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item size="12" class="border-right min-height">
-                            <lightning-layout class={leftColPadding} multiple-rows="true">
-                                <lightning-layout-item size="12" class="mb-20">
+                        <lightning-layout-item size="12" class="min-height">
+                            <lightning-layout class="mb-15" multiple-rows="true">
+                                <lightning-layout-item size="12" class="mb-15">
                                     <div class="as-title">Help</div>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="12" class="mb-20">
                                     <div class="rectangle">
-                                        <lightning-layout multiple-rows="true">
+                                        <lightning-layout
+                                            multiple-rows="true"
+                                            vertical-align="center"
+                                        >
                                             <lightning-layout-item size="1" class="center-align">
                                                 <img
                                                     style={errorIconPosition}
-                                                    src={exclamation_green}
-                                                    class="pad-r-10 exclamation_green"
+                                                    src={exclamation}
+                                                    class="pad-r-10 exclamation_mobile"
                                                 />
                                                 <!-- <div>
                                                     <svg
@@ -167,22 +174,26 @@
                                         <c-pp-quick-reference-link
                                             user-mode={userMode}
                                             is-delegate={isDelegate}
+                                            show-get-support={showGetSupport}
                                         ></c-pp-quick-reference-link>
                                     </lightning-layout-item>
                                     <!-- Get support moved to Quick Ref Link -->
-                                    <lightning-layout-item size="12" class="mb-15 pad10">
-                                        <span class="to-update-all-other">
-                                            To update all other information, please go to your&nbsp;
-                                        </span>
-                                        <span
-                                            class="acc-settings-link"
-                                            onclick={navigateToAccSettings}
-                                            >Account Settings&nbsp;
-                                        </span>
-                                        <span class="to-update-all-other"
-                                            >> Profile Information > Save</span
-                                        >
-                                    </lightning-layout-item>
+                                    <template if:true={showGetSupport}>
+                                        <lightning-layout-item size="12" class="pad10">
+                                            <span class="to-update-all-other">
+                                                {label.helpResponse}&nbsp;
+                                            </span>
+                                            <span
+                                                class="acc-settings-link"
+                                                onclick={navigateToAccSettings}
+                                                >{label.accountSettings}&nbsp;
+                                            </span>
+                                            <span class="to-update-all-other"
+                                                >{label.updateProfileResponse}</span
+                                            >
+                                        </lightning-layout-item>
+                                    </template>
+
                                     <lightning-layout-item size="12" class="place-at-bottom">
                                         <img src={help_section_icon} class="img-size" />
                                     </lightning-layout-item>

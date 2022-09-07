@@ -15,6 +15,7 @@ import BTN_Off from '@salesforce/label/c.BTN_Off';
 import AccountSettings_Cookies_RRLanguage from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage';
 import AccountSettings_Cookies_RRLanguage_Description from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
+import BACK from '@salesforce/label/c.Back';
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 import changeOptInCookies from '@salesforce/apex/AccountSettingsController.changeOptInCookies';
@@ -48,7 +49,8 @@ export default class PpCookieSettings extends LightningElement {
         BTN_Off,
         AccountSettings_Cookies_RRLanguage,
         AccountSettings_Cookies_RRLanguage_Description,
-        PP_Profile_Update_Success
+        PP_Profile_Update_Success,
+        BACK
     };
 
     connectedCallback(){
@@ -111,7 +113,7 @@ export default class PpCookieSettings extends LightningElement {
          })
         .then((returnValue) => {
             communityService.showToast(
-                'success',
+                '',
                 'success',
                 this.label.PP_Profile_Update_Success,
                 100
@@ -122,6 +124,23 @@ export default class PpCookieSettings extends LightningElement {
             communityService.showToast('', 'error', 'Failed To read the Data...', 100);
             this.spinner.hide();
         });
+    }
+    // Getter for back icon
+    get iconChevron() {
+        return 'icon-chevron-left';
+    }
+    
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.isInitialized = false;
+        }
     }
     
 }

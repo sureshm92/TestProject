@@ -8,6 +8,14 @@
         width: 95% !important;
     }
 }
+.rr-width-limiter-pp{
+    max-width:1140px;
+    margin:auto;
+}
+.menu-block {
+    display: inline-block;
+    position: absolute !important;    
+}
 
 /* Community_CSS_PP_Theme */
 
@@ -87,6 +95,12 @@
         padding-left: 0rem !important;
         padding-right: 0rem !important;
     }
+    .menu-block {
+        position: relative !important;    
+    }
+    .logo-container-pp {
+        margin: 0 0 0 55px !important;
+    }
 }
 
 /**Toast Container CSS*/
@@ -97,7 +111,7 @@
 }
 
 .toastContainer > .forceToastMessage {
-    width: 40%;
+    width: fit-content;
     max-width: 1424px;
     min-height: 40px;
     min-width: 40%;
@@ -108,20 +122,26 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.3);
 }
 
+.toastContainer > .forceToastMessage .toastContent.slds-notify__content{
+    padding-left: 0.5rem;
+}
+
 .toastContainer .toastTitle, .toastContainer .toastIcon {
     display: contents;
 }
 
 .toastMessage.forceActionsText {
     font-family: "Proxima Nova"!important;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 
 .toastContainer .toastClose {
     top: auto;
     border-color: transparent;
 }
-
+.participant-tooltip lightning-primitive-icon{
+    visibility: hidden !important;
+}
 .toastContainer .toastClose lightning-primitive-icon {
     color: #ffffff!important;
 }
@@ -143,6 +163,10 @@
     border-radius: 20px !important;
 }
 
+.change-password input{
+    padding-right: 12%;
+}
+
 .anchor-container a{
     text-decoration: none !important;
 }
@@ -154,10 +178,6 @@
 .rr-min-body-height .rr-min-body-height {
     min-height: auto !important;
     padding-bottom: 35px !important;
-}
-
-.support-combobox button{
-    border-radius: 20px;
 }
 
 .label-email-pass-match .slds-form-element__label{
@@ -191,5 +211,276 @@ color: #0768fd!important;
 }
 .slds-accordion__content {
     overflow-x: scroll;
-    max-height: 200px;
+    /* max-height: 200px; commented because to see 5 val scrollable  */
+}
+.cookie-accordion-border .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none !important;
+    box-shadow: none;
+
+}
+.cookie-accordion-border lightning-primitive-icon svg {
+   fill: #297dfd !important;   
+}
+
+.support-combobox button{
+    border-radius: 20px;
+}
+
+.support-combobox lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-combobox .slds-input-has-icon .slds-input__icon svg{
+    fill: #595959;
+    height: 13px;
+}
+
+.support-combobox lightning-base-combobox-item lightning-primitive-icon{
+   display: none;
+}
+
+.support-combobox .slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+.support-combobox .slds-truncate{
+    font-size: 15px;
+    padding-left: 5px;
+    opacity: 1;
+}
+
+.support-combobox.opacity .slds-truncate{
+    opacity: 0.5;
+}
+.support-combobox.opacity .slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+/* getSupport Year css */
+
+.support-year button{
+    border-radius: 20px;
+}
+
+.support-year lightning-icon, .support-combobox lightning-icon {
+   margin-right: 10px;
+}
+
+.support-year lightning-base-combobox-item{
+    height: 30px;
+    padding: 5px;
+    margin-left: -28px;
+}
+
+.support-year .slds-input-has-icon .slds-input__icon svg{
+    fill: #595959;
+    height: 13px
+}
+
+.support-year lightning-base-combobox-item lightning-primitive-icon{
+   display: none;
+}
+
+.support-year.slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+.support-year .slds-truncate{
+    font-size: 15px;
+    padding-left: 5px;
+    opacity: 1;
+}
+
+.support-year.opacity .slds-truncate{
+    opacity: 0.5;
+}
+.support-year.opacity .slds-media__body .slds-truncate{
+    opacity: 1;
+}
+
+
+
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {    
+    background-color: #444444;
+}
+
+/**help topics specific dropdown CSS*/
+.help-topics .dropdown {
+    display: flex !important;
+    position: relative !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: auto !important;
+    color: #444444 !important;
+    border: 1px solid #d9d9d9 !important;
+    padding: 0 0.5rem 0 0.25rem !important;
+    background: #ffffff !important;
+    font-size: 14px !important;
+    letter-spacing: 0 !important;
+    box-sizing: border-box !important;
+    height: 40px !important;   
+    border-radius: 1.25rem !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0) !important;
+}
+
+.help-topics .dropdown[c-ppWebSelect_ppWebSelect]:after {
+    content: '';
+    background: url(/resource/1657782419000/SelectMenuTriangleDownGray);
+    position: absolute;
+    top: 7px;
+    right: 17px;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.help-topics .dropdown:hover{
+    border: 1px solid #0768FD !important;
+}
+
+.help-topics .dropdown:after {
+    top: 11px !important;
+}
+
+.help-topics .dropdown-menu {
+    height: 250px !important;
+    overflow-y: auto !important;
+    top: 2.6rem !important;
+    box-sizing: border-box !important;
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF !important;
+    box-shadow: 0 8px 20px 0 rgb(0 0 0 / 8%) !important;
+    z-index: 10001 !important;
+}
+
+.help-topics .dropdown-menu li {
+    padding: 0.3rem 0.4rem !important;
+}
+
+.help-topics .dropdown-span {
+    height: 1.5rem !important;
+    padding: 0px !important;
+    width: 90% !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 1rem !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5rem !important;
+    padding-left: 1rem !important;
+    font-weight: 600 !important;
+}
+
+
+.logo-container-pp {
+    margin: 0 45px 0 0;
+}
+
+.cookie-accordion-border .slds-accordion__summary-action{
+    padding-left: 16px;
+}
+.cookie-accordion-border .slds-accordion__summary-action-icon{
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    height: 15px;
+    width: 15px;
+    fill: #0768fd;
+}
+.slds-accordion__section .slds-is-open .slds-accordion__summary-content::after{
+    text-decoration: none !important;
+}
+.cookie-accordion-paragraph{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.slds-accordion__summary-content {
+    color: #0768fd!important;
+    font-size: 18px;
+    font-weight: 600;
+    }
+    .slds-accordion__content {
+        overflow-x: scroll;
+    }
+    .slds-accordion__summary{
+        border-bottom: 1px solid #D9D9D9;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .slds-accordion__summary-heading .slds-button:focus {
+        text-decoration: none;
+    }
+    .ah-toggle .slds-checkbox_toggle{
+        justify-content: end;
+    }
+    .slds-accordion__content{
+        margin: 0 -12px;
+    }
+    
+    .cookie-accordion-border .ah-item-panel {
+        border: none;
+        border-bottom: 1px solid #e9e9e9;
+        background-color: #ffffff;
+        padding: 12px 12px 12px 16px;
+    }
+    .cookie-accordion-border .ah-item-panel:last-child {        
+        border-bottom: none;
+    }
+    .cookie-spacing{
+        padding: 0 13px;
+    }
+    
+    .slds-checkbox_toggle .slds-checkbox_faux, .slds-checkbox_toggle .slds-checkbox--faux, .slds-checkbox--toggle .slds-checkbox_faux, .slds-checkbox--toggle .slds-checkbox--faux {
+        background-color: #D9D9D9 !important;
+        border: 1px solid #D9D9D9 !important;
+        height: 32px;
+        outline: none;
+        width: 56px;
+    }
+    .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux{
+        background-color: #00C221 !important;
+        border: 1px solid #00C221 !important;
+    }
+    
+.customize-exp lightning-primitive-icon{
+    position: absolute;
+    top: 13px;
+    right: 45px;
+}
+
+.customize-exp button lightning-primitive-icon{
+    position: absolute;
+    top: -3px;
+    right: 39px;
+}
+
+.customize-exp lightning-primitive-icon svg{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.customize-exp .slds-input{
+    padding-left: 15px;
+    padding-right: 20%;
+}
+
+.highlight-error button{
+    border: 1px solid red;
+}
+
+.highlight-error .slds-combobox__input:focus{
+    border-color: red;
+    box-shadow: none;
+}
+
+.fadePlaceholder button span{
+    opacity: 0.7;
 }

@@ -13,6 +13,8 @@
     <aura:attribute name="defaultTC" type="Boolean" default="false" />
     <aura:attribute name="isGsk" type="Boolean" default="false" />
     <aura:attribute name="communityType" type="String" />
+    <aura:attribute name="isPatientPortal" type="Boolean" default="false" /> 
+    <aura:attribute name="mobile" type="Boolean" default="false" />
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}" />
 
@@ -47,7 +49,21 @@
                     />
                 </div>
             </div>
-            <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div>
+            <!-- <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div> -->
+
+            <aura:if isTrue="{!v.isPatientPortal}">
+
+                <aura:if isTrue="{!v.mobile}">
+                    <div class="cf-copyright-pp">{!$Label.c.Footer_T_Copyright}</div>
+                    <aura:set attribute="else">
+                        <div class="cf-copyright-pp-right">{!$Label.c.Footer_T_Copyright}</div>
+                    </aura:set>
+                </aura:if>
+                <aura:set attribute="else">
+                    <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div>
+                </aura:set>
+            </aura:if>
+
         </div>
     </div>
 </aura:component>

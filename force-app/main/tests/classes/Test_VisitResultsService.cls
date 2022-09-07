@@ -385,6 +385,27 @@ private class Test_VisitResultsService {
 
     @IsTest
     private static void getVisitResultsContainer_test() {
+        TriggerHandlerExecutor.bypassHandler(
+            ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;

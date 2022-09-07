@@ -47,13 +47,13 @@ export default class PpCommunityNavigation extends LightningElement {
             getTrialDetail({ trialId: recId, userMode: userMode })
                 .then((result) => {
                     let td = JSON.parse(result);
-                    this.showVisits = td.tabs.some(
+                    this.showVisits = td.tabs?.some(
                         (studyTab) => studyTab.title == navigationVisits
                     );
-                    this.showResults = td.tabs.some(
+                    this.showResults = td.tabs?.some(
                         (resultTab) => resultTab.title == navigationResults
                     );
-                    this.showAboutProgram = td.pe.Clinical_Trial_Profile__r.Is_Program__c;
+                    this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
                     this.showAboutStudy = !this.showAboutProgram;
                     this.populateNavigationItems();
                     this.isInitialized = true;
@@ -231,5 +231,9 @@ export default class PpCommunityNavigation extends LightningElement {
                 variant: variantType
             })
         );
+    }
+    @api forceRefresh() {
+        this.isInitialized = false;
+        this.initializeData();
     }
 }

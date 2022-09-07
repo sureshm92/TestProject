@@ -13,7 +13,7 @@ private class Test_ParticipantVisitsRemote {
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
         vp = [SELECT Id FROM Visit_Plan__c];
- 
+
         Visit__c visit = new Visit__c(
             Name = 'TestVisit' + 1,
             Visit_Schedule__c = 'Week ' + 1,
@@ -43,23 +43,42 @@ private class Test_ParticipantVisitsRemote {
             Visit_Plan__c = vp.Id
         );
         insert icon;
-         Test.stopTest();
+        Test.stopTest();
     }
 
     @IsTest
     static void test() {
-        TestData testData = new TestData();
-
         Test.startTest();
+        Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
         Boolean ssHasVisit;
         List<PatientVisitService.VisitWrapper> visitsPreview;
         List<PatientVisitService.VisitWrapper> participantVisits;
         List<Patient_Visit__c> cardPatientVisits;
-        System.runAs(testData.participantUser) {
+        System.runAs(participantUser) {
             ssHasVisit = ParticipantVisitsRemote.isStudySiteHasVisits();
             visitsPreview = ParticipantVisitsRemote.getVisitsPreview();
-           // participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
-           // cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
+            // participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+            // cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
         System.assert(ssHasVisit);
@@ -70,32 +89,69 @@ private class Test_ParticipantVisitsRemote {
 
     @IsTest
     static void test1() {
-        TestData testData = new TestData();
-
+        Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
         Test.startTest();
         List<PatientVisitService.VisitWrapper> participantVisits;
         List<Patient_Visit__c> cardPatientVisits;
-        System.runAs(testData.participantUser) {
-           participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
-           cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
+        System.runAs(participantUser) {
+            participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+            cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
         System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
         System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
     }
 
-
-    
-   @IsTest static void updatePatientVisitTest() {
-        TestData testData = new TestData();
-
+    @IsTest
+    static void updatePatientVisitTest() {
+        Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
         Test.startTest();
         Patient_Visit__c patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
         //Datetime newPlannedDate = Date.newInstance(2020, 3, 17);
         Date myDate = Date.newInstance(2020, 3, 18);
         Time myTime = Time.newInstance(3, 3, 3, 0);
         Datetime newPlannedDate = DateTime.newInstance(myDate, myTime);
-        System.runAs(testData.participantUser) {
+        System.runAs(participantUser) {
             patientVisit.Planned_Date__c = newPlannedDate;
             ParticipantVisitsRemote.updatePatientVisit(JSON.serialize(patientVisit));
         }
@@ -106,11 +162,31 @@ private class Test_ParticipantVisitsRemote {
 
     @IsTest
     static void getVisitsLegendTest() {
-        TestData testData = new TestData();
+        Participant__c participant = [
+            SELECT
+                Id,
+                Name,
+                First_Name__c,
+                Last_Name__c,
+                Email__c,
+                Status__c,
+                Balance__c,
+                Contact__c,
+                Mailing_Country_Code__c,
+                Mailing_Country__c,
+                Contact__r.AccountId
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        User participantUser = [
+            SELECT Id, ContactId, LastName
+            FROM User
+            WHERE LastName = :participant.Name
+        ];
 
         Test.startTest();
         String legend;
-        System.runAs(testData.participantUser) {
+        System.runAs(participantUser) {
             legend = ParticipantVisitsRemote.getVisitsLegend('ICON');
         }
         Test.stopTest();
@@ -175,11 +251,11 @@ private class Test_ParticipantVisitsRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
-    
-     @IsTest
+
+    @IsTest
     static void getParticipantVisitsDetailsWithException_test() {
         Boolean isExceptionThrown = false;
-        Patient_Visit__c pv = [Select Id from Patient_Visit__c LIMIT 1];
+        Patient_Visit__c pv = [SELECT Id FROM Patient_Visit__c LIMIT 1];
         Test.startTest();
         try {
             ParticipantVisitsRemote.getParticipantVisitsDetails(pv.Id);
@@ -190,7 +266,7 @@ private class Test_ParticipantVisitsRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
-    
+
     @IsTest
     static void getIsVisitPathEnabledWithException_test() {
         Boolean isExceptionThrown = false;
@@ -204,8 +280,8 @@ private class Test_ParticipantVisitsRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
-    
-     @IsTest
+
+    @IsTest
     static void getIsRTLWithException_test() {
         Boolean isExceptionThrown = false;
         Test.startTest();
