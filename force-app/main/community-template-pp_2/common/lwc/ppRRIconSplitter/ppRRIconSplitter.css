@@ -1,0 +1,119 @@
+.icons-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+.icons-row .icon:last-child .dots {
+    display: none;
+}
+
+.icon {
+    position: relative;
+    display: flex;
+    overflow: visible;
+}
+
+.iconBold {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+    padding: 15px 0 0 24px;
+}
+
+.icon-item {
+    padding-left: 10px;
+    fill: #999 !important;
+}
+
+.dots {
+    padding-left: 2px;
+    padding-top: 13px;
+    font-weight: bold;
+    position: absolute;
+    left: 32px;
+}
+
+.icon-item:hover {
+    fill: #595959 !important;
+}
+
+.icons-row .icon .svl-icon {
+    cursor: default;
+}
+
+.free-space {
+    flex-shrink: 0;
+    width: 32px;
+}
+
+.icon:hover .tooltiptext {
+    visibility: visible;
+}
+
+.icon .tooltiptitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rtl {
+    right: 0 !important;
+}
+
+@media (max-width: 468px) {
+    .icons-container .icons-row .icon {
+        position: static;
+    }
+
+    .icon .tooltiptext {
+        left: 0;
+    }
+}
+.icon-cont {
+    box-sizing: border-box;
+    height: 185px;
+    width: 442px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+
+.rem-border {
+    border: 0 !important;
+}
+.rr-icon_small[c-webIcon_webIcon] {
+    height: 24px !important;
+    width: 24px !important;
+}
+
+.rr-icon_medium svg[c-webIcon_webIcon] {
+    fill: #b2b2b2;
+}
+.before-your-visits {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 24px;
+    margin-top: 9px;
+}
+.icons-pad {
+    padding-left: 24px;
+    padding-top: 15px;
+}
+.slds-p-around_medium,
+.slds-p-around--medium {
+    padding-left: 25px;
+    padding-top: 15px;
+}
+
+.active[c-webIcon_webIcon] {
+    fill: blue;
+}
+.xyzcss svg {
+    fill: yellow;
+}

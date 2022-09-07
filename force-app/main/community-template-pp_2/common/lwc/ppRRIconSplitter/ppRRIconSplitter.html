@@ -1,0 +1,33 @@
+<template>
+    <div>
+        <div>
+            <lightning-layout vertical-align="left">
+                <template for:each={icons} for:item="icon" for:index="index">
+                    <lightning-layout-item
+                        key={icon.index}
+                        padding="around-small"
+                        class="icons-pad"
+                    >
+                        <c-web-icon
+                            icon-size="medium"
+                            icon-name={icon.Label__c}
+                            onclick={handleonclick}
+                            data-id={icon.Label__c}
+                            data-description={icon.Description__c}
+                            data-name={icon.Name}
+                            data-index={index}
+                        >
+                        </c-web-icon>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <div>
+                <span>
+                    <span class="iconBold"> {Name}</span>
+                    <br />
+                </span>
+                <p class="before-your-visits">{Description}</p>
+            </div>
+        </div>
+    </div>
+</template>

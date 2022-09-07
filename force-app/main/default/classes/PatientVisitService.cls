@@ -265,7 +265,7 @@ public inherited sharing class PatientVisitService {
                 if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
                     iconNames = visits[0].Visit__r.Icons__c.split(';');
          }
-        iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
+        iconDetails = [SELECT Id, Name, Label__c, Description__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }
