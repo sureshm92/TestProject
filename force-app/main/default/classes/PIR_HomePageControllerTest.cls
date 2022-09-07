@@ -477,11 +477,6 @@ public without sharing class PIR_HomePageControllerTest {
         update ctpList;
         
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getStudyAccessLevel();
         }
         
@@ -528,11 +523,6 @@ public without sharing class PIR_HomePageControllerTest {
         update ctpList;
         
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getPEData(partEnroll.id);
         }
         
@@ -562,11 +552,6 @@ public without sharing class PIR_HomePageControllerTest {
         insert s;
         
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getStudyStudySiteDetails();
             PIR_HomepageController.saveTheChunkFile('test','test','test','test');
             PIR_HomepageController.LabelValueItemISO la= new PIR_HomepageController.LabelValueItemISO('IND','IND');
@@ -587,11 +572,6 @@ public without sharing class PIR_HomePageControllerTest {
         cv.versiondata=EncodingUtil.base64Decode('Test Data');
         insert cv;
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.deleteFile(cv.Id);
         }
         
@@ -893,11 +873,6 @@ public without sharing class PIR_HomePageControllerTest {
         update ctpList;
         
         System.runAs(testData.piUser){
-	    PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getStudyStudySite();
             PIR_HomepageController.fetchPreset();
             PIR_HomepageController.getStudyStudySite();
@@ -910,11 +885,6 @@ public without sharing class PIR_HomePageControllerTest {
         Test.startTest();
         
         System.runAs(testData.piUser){
-        PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getStudyStudySite();
         }
         Test.stopTest();
@@ -945,11 +915,6 @@ public without sharing class PIR_HomePageControllerTest {
         FROM List_View_Status__mdt ];
        
         System.runAs(testData.piUser){
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.getAvailableStatuses('Received',ctpList[0].Id,ssListID);
             PIR_HomepageController.getStudyStudySite();
             PIR_HomepageController.getStudyStudySiteDetails();
@@ -1187,11 +1152,6 @@ public without sharing class PIR_HomePageControllerTest {
         List<Study_Site__c> ssList = [SELECT Id FROM Study_Site__c limit 1];
         
         System.runAs(testData.piUser){
-            PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-            PermissionSetAssignment perms = new PermissionSetAssignment();
-            perms.AssigneeId = testData.piUser.Id;
-            perms.PermissionSetId = permissionLST.PermissionSetId;
-            insert perms;
             Preset_Filter__c presetFilter = new Preset_Filter__c(
                 User_Preset__c = testData.piUser.id,
                 Source__c='test',
@@ -1219,11 +1179,6 @@ public without sharing class PIR_HomePageControllerTest {
         List<Study_Site__c> ssList = [SELECT Id FROM Study_Site__c limit 1];
         
         System.runAs(testData.piUser){
-            PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-            PermissionSetAssignment perms = new PermissionSetAssignment();
-            perms.AssigneeId = testData.piUser.Id;
-            perms.PermissionSetId = permissionLST.PermissionSetId;
-            insert perms;
             Preset_Filter__c presetFilter = new Preset_Filter__c(
                 User_Preset__c = testData.piUser.id,
                 Source__c='test',
@@ -1279,11 +1234,6 @@ public without sharing class PIR_HomePageControllerTest {
         
         
         System.runAs(testData.piUser){ 
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             string cretePre= PIR_HomepageController.createPreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"'+presetFilter.id+'","presetName":"test","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}',true);
             PIR_HomepageController.createPreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"testnew","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}',false);
             string deletepre =PIR_HomepageController.deletePreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":true,"presetId":"'+presetFilter.id+'","presetName":"test","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}');
@@ -1364,11 +1314,6 @@ public without sharing class PIR_HomePageControllerTest {
         update ctpList;
         
         System.runAs(testData.piUser){
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.createPreset('{"ethnicityList":[],"highPriority":false,"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"testnew","siteList":[""],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Pre-review Failed","Unable to Reach","Contacted - Not Suitable","Eligibility Failed","Declined Consent","Unable to Screen","Withdrew Consent","Screening Failed","Withdrew Consent After Screening","Enrollment Failed","Randomization Failed","Declined Final Consent"],"studyList":[""],"activeInactive":"Inactive"}',false);
             
         }
@@ -1409,11 +1354,6 @@ public without sharing class PIR_HomePageControllerTest {
         update ctpList;
         
         System.runAs(testData.piUser){
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             PIR_HomepageController.setselectedFilterasDefault(presetFilter1.id);
             PIR_HomepageController.setselectedFilterasDefault('no preset');
             PIR_HomepageController.fetchPreset();
