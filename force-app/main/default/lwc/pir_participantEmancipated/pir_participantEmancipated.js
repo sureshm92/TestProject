@@ -26,10 +26,20 @@ import September from '@salesforce/label/c.September'
 import October from '@salesforce/label/c.October'
 import November from '@salesforce/label/c.November'
 import December from '@salesforce/label/c.December'
+import Dateofbirth from '@salesforce/label/c.Date_of_Birth';
+import Monthyearofbirth from '@salesforce/label/c.Month_and_Year_of_Birth';
+import Yearofbirth from '@salesforce/label/c.Year_of_Birth';
+import AgeUI from '@salesforce/label/c.Age';
 export default class Pir_participantEmancipated extends LightningElement {
     DOB = RH_DOB;
     YOB = RH_YOB;
     MOB = RH_MOB;
+    labels = {
+        Dateofbirth,
+        Monthyearofbirth,
+        Yearofbirth,
+        AgeUI
+    };
     Age = Age;
     @api openModal = false;
     @api currentTab = "0";
@@ -73,7 +83,12 @@ export default class Pir_participantEmancipated extends LightningElement {
     //DOB
     isDayMandate = false;
     isMonthMandate = false;
-    
+    monthName;
+    monthmap = new Map([
+        ["01" ,"Junuary"],["02", "February"], ["03", "March"],["04" ,"April"],
+        ["05", "May"], ["06", "June"],["07" ,"July"],["08", "August"],
+        ["09", "September"], ["10", "October"],["11", "November"], ["12", "December"]
+    ]);
     @api maindivcls;
     
     label = {
@@ -225,6 +240,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                 }
                 if(participant.Birth_Month__c){
                 console.log("participant.Birth_Month__c"+participant.Birth_Month__c);
+                    this.monthName = this.monthmap.get(this.participant.Birth_Month__c);
                     this.valueMM = participant.Birth_Month__c.toString();
                 }
                 this.valueYYYY = participant.Birth_Year__c;
@@ -1036,6 +1052,7 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.participant.Birth_Month__c = event.detail.value;  
         var maxDayMonths = ['01','03','05','07','08','10','12'];
         var minDayMonths = ['04','06','09','11'];
+        this.monthName = this.monthmap.get(this.participant.Birth_Month__c);
         if(maxDayMonths.includes(this.valueMM)){
             this.lastDay = 31;
         }
