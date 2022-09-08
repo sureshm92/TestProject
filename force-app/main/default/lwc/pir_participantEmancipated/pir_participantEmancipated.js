@@ -29,7 +29,6 @@ import December from '@salesforce/label/c.December'
 import Dateofbirth from '@salesforce/label/c.Date_of_Birth';
 import Monthyearofbirth from '@salesforce/label/c.Month_and_Year_of_Birth';
 import Yearofbirth from '@salesforce/label/c.Year_of_Birth';
-import AgeUI from '@salesforce/label/c.Age';
 export default class Pir_participantEmancipated extends LightningElement {
     DOB = RH_DOB;
     YOB = RH_YOB;
@@ -37,8 +36,7 @@ export default class Pir_participantEmancipated extends LightningElement {
     labels = {
         Dateofbirth,
         Monthyearofbirth,
-        Yearofbirth,
-        AgeUI
+        Yearofbirth
     };
     Age = Age;
     @api openModal = false;
@@ -85,9 +83,9 @@ export default class Pir_participantEmancipated extends LightningElement {
     isMonthMandate = false;
     monthName;
     monthmap = new Map([
-        ["01" ,"Junuary"],["02", "February"], ["03", "March"],["04" ,"April"],
-        ["05", "May"], ["06", "June"],["07" ,"July"],["08", "August"],
-        ["09", "September"], ["10", "October"],["11", "November"], ["12", "December"]
+        ["01" ,January],["02", February], ["03", March],["04" ,April],
+        ["05", May], ["06", June],["07" ,July],["08", August],
+        ["09", September], ["10", October],["11", November], ["12", December]
     ]);
     @api maindivcls;
     
