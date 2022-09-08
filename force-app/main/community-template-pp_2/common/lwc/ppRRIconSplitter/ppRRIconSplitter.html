@@ -1,18 +1,18 @@
 <template>
     <div>
         <div>
-            <lightning-layout vertical-align="left">
+            <lightning-layout
+                vertical-align="left"
+                class="slds-p-horizontal_large slds-p-vertical_medium"
+            >
                 <template for:each={icons} for:item="icon" for:index="index">
-                    <lightning-layout-item
-                        key={icon.index}
-                        padding="around-small"
-                        class="icons-pad"
-                    >
+                    <lightning-layout-item key={icon.index} class="slds-p-right_small">
+                        <!--padding="around-small"-->
                         <c-web-icon
                             icon-size="medium"
-                            icon-name={icon.Label__c}
+                            icon-name={icon.Name}
                             onclick={handleonclick}
-                            data-id={icon.Label__c}
+                            data-label={icon.Label__c}
                             data-description={icon.Description__c}
                             data-name={icon.Name}
                             data-index={index}
@@ -23,10 +23,10 @@
             </lightning-layout>
             <div>
                 <span>
-                    <span class="iconBold"> {Name}</span>
+                    <span class="iconBold"> {label}</span>
                     <br />
                 </span>
-                <p class="before-your-visits">{Description}</p>
+                <p class="before-your-visits">{description}</p>
             </div>
         </div>
     </div>
