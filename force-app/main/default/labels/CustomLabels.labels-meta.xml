@@ -27746,6 +27746,27 @@ Please contact the Study Team for further updates or please login for additiona
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Upcoming_Visit_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What you can Expect:</shortDescription>
+        <value>What you can Expect:</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Visit Details</shortDescription>
+        <value>View Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Visit expectations</shortDescription>
+        <value>There are no expectations for this visit</value>
+    </labels>
+    <labels>
         <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27759,4 +27780,54 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Column header</shortDescription>
         <value>What to Expect</value>
     </labels>
+    <labels>
+        <fullName>Visit_My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit My Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Visits_No_Data_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits No Data Available</shortDescription>
+        <value>No Data is available for this visit</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Upcoming</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Upcoming</shortDescription>
+        <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Past</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Past</shortDescription>
+        <value>Past</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Check_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Check Result</shortDescription>
+        <value>Check for results once your visit has occurred.</value>
+    </labels>    
+    <labels>
+        <fullName>Visits_View_All_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits View All Results</shortDescription>
+        <value>View All Results</value>
+    </labels>
+    
 </CustomLabels>

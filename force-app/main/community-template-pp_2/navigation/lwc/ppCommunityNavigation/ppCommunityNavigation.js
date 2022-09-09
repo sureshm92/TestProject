@@ -234,6 +234,7 @@ export default class PpCommunityNavigation extends LightningElement {
     }
     @api forceRefresh() {
         this.isInitialized = false;
+        this.participantTabs=[];
         this.initializeData();
     }
 }
