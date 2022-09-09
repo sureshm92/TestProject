@@ -37,6 +37,9 @@ public inherited sharing class PatientVisitService {
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
             'Planned_Date__c',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.BillingAddress',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.Name',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.Phone',
             'Visit_Number__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
@@ -265,7 +268,7 @@ public inherited sharing class PatientVisitService {
                 if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
                     iconNames = visits[0].Visit__r.Icons__c.split(';');
          }
-        iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
+        iconDetails = [SELECT Id, Name, Label__c,Description__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }

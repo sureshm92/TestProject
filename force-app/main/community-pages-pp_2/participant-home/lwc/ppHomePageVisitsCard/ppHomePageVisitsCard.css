@@ -1,0 +1,143 @@
+/*Created by Chetna Chauhan Sep 9,2022*/
+.headercard {
+    background-blend-mode: color;
+    background-color: transparent;
+    border-style: none;
+    padding: 0;
+}
+.container-card {
+    background-color: transparent;
+    border-top-color: #00a3e0;
+    border-top-width: 8px;
+    padding: 0;
+}
+.upcoming {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+hr {
+    margin: 0;
+}
+.more {
+    height: 2.36%;
+    width: 14.64%;
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
+}
+.visitText {
+    height: 2.36%;
+    /*width: 20.89%;*/
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+.location {
+    height: 2.06%;
+    /*width: 19.11%;*/
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+.iconName {
+    height: 2.36%;
+    /*width: 7.47%;*/
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.icon {
+    height: 1.57%;
+}
+.expectIcon {
+    height: 2.32%;
+}
+.expectText {
+    height: 2.36%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.visitTitle {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.noExpect {
+    height: 4.71%;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    word-wrap: normal;
+    padding: 20%;
+}
+.content1 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0;
+}
+.content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 15px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.cardwrap {
+    padding: 0;
+}
+.iconbox {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.visitcard {
+    padding-top: 10px;
+    padding-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.label {
+    height: 24px;
+    width: 108px;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.iconCard {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
