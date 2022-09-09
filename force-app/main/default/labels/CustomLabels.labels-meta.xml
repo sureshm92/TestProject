@@ -27746,6 +27746,27 @@ Please contact the Study Team for further updates or please login for additiona
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Upcoming_Visit_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What you can Expect:</shortDescription>
+        <value>What you can Expect:</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Visit Details</shortDescription>
+        <value>View Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Visit expectations</shortDescription>
+        <value>There are no expectations for this visit</value>
+    </labels>
+    <labels>
         <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
         <language>en_US</language>
         <protected>false</protected>

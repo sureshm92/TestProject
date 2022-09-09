@@ -37,6 +37,9 @@ public inherited sharing class PatientVisitService {
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
             'Planned_Date__c',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.BillingAddress',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.Name',
+            'Participant_Enrollment__r.Study_Site__r.Site__r.Phone',
             'Visit_Number__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
