@@ -287,6 +287,17 @@ export default class Pir_participantDetail extends LightningElement {
                 console.error('Error:', error);
             });
     }
+
+    renderedCallback() {
+        const style = document.createElement('style'); 
+        style.innerText = ".yob-selectbox .slds-dropdown{min-width:auto;}";  
+        const selector =  this.template.querySelector('.yob-selectbox');
+        if(selector != null){
+            this.template.querySelector('.yob-selectbox').appendChild(style);
+        }                  
+    }
+
+
     get isvisitplanreadonly() {
         if (this.visitplanoptions.length <= 1) {
             return true;
