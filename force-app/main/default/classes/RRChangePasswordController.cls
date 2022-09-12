@@ -82,9 +82,10 @@ public without sharing class RRChangePasswordController {
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
 
-    public String maskUserName { get; set; }
-    public String maskLastName { get; set; }
-    public String maskDaytimephone { get; set; }
+    public String maskUserName {get;set;}
+    public String maskLastName {get;set;}
+    public String maskDaytimephone {get;set;}
+    public String addPhotoLabel {get;set;}
 
     public Boolean mainPortal {
         get {
@@ -193,6 +194,7 @@ public without sharing class RRChangePasswordController {
         maskUserName = userVal.Username.substring(0, 3) + '************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
+        addPhotoLabel=hasProfilePic?System.Label.PP_AddProfilePhoto:System.Label.PP_AddPhoto;
 
         previousLanguage = contact.Language__c;
 
@@ -309,7 +311,8 @@ public without sharing class RRChangePasswordController {
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
             
                 List<Participant_Enrollment__c> loginUserPEs = [
-                    SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,
+                    Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                 ];
@@ -324,7 +327,8 @@ public without sharing class RRChangePasswordController {
                    if(delegatesPDList.size()>0)
                    {
                     List<Participant_Enrollment__c> delegateContactUserPEs = [
-                        SELECT Id,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c 
+                        SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,
+                        Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :delegatesPDList[0].Participant__r.Contact__c AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                     ];

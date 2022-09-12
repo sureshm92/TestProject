@@ -6,23 +6,27 @@
 private class Test_TravelSupportRemote {
     @IsTest
     static void test_getAvailableVendorsForSS() {
-        TestData.loadTestData();
-        TestData tData = new TestData();
         Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+        TestData tData = new TestData();
+        //Test.startTest();
         System.runAs(tData.participantUser) {
             TravelSupportRemote.getAvailableVendorsForSS();
             TravelSupportRemote.getTravelVendors('1234', '1234', false);
             TravelSupportRemote.getCommunityName();
             TravelSupportRemote.getisTravelSupportEnabled();
         }
-        Test.stopTest();
+        //Test.stopTest();
     }
 
     @IsTest
     static void test_getTravelWrappersRemotely() {
-        TestData.loadTestData();
-        TestData tData = new TestData();
         Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+        TestData tData = new TestData();
+        //Test.startTest();
         System.runAs(tData.participantUser) {
             String responses =
                 '{ "code": 200, "response": [ ' +
@@ -45,6 +49,6 @@ private class Test_TravelSupportRemote {
             System.debug(JSON.serializePretty(travelBookingResponse));
             travelSupportRemote.getTravelWrappersRemotely(travelBookingResponse, true);
         }
-        Test.stopTest();
+        //Test.stopTest();
     }
 }

@@ -11,8 +11,8 @@
                             class="com-icon pointer">
                     <use xlink:href={homeSvg} onclick={handleHomePage}></use>
                     </svg>
-                    <lightning-formatted-text class="slds-form-element__label slds-col" value=">"></lightning-formatted-text>
-                            <lightning-formatted-text class="slds-form-element__label slds-col po-program-home-text pointer"  value={programname} onclick={handleHomePage}></lightning-formatted-text>
+                    <lightning-formatted-text class="slds-form-element__label slds-col gray-arrow" value=">"></lightning-formatted-text>
+                            <lightning-formatted-text class="slds-form-element__label slds-col po-program-home-text"  value={programname}></lightning-formatted-text>
                         </div>
                     </lightning-layout-item>
 
@@ -21,7 +21,7 @@
                     </lightning-layout-item>
 
                     <lightning-layout-item size="12" class="po-mt-10">
-                        <lightning-tabset  active-tab-value={activeTab}  class="tab-style">
+                        <lightning-tabset  active-tab-value={activeTab}  class="tab-style anchor-container">
                             <lightning-tab label={label.PPOVERVIEW} onactive={handleActive} value="overview" style={handleDynamicCSS}> 
                                 <div class="po-tab-overview"> 
                                     <p class="po-pb-10"><lightning-formatted-text value={label.PPOBJECTIVE} class="po-tab-header"></lightning-formatted-text></p>   

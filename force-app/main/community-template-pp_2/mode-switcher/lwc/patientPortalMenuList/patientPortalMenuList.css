@@ -3,6 +3,7 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 .curr-mode-self-title {
     height: 40px;
@@ -18,13 +19,22 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
-}
-.participant-delegate-title {
-    color: #444444;
-    font-size: 16px;
-    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 5px;
 }
 .participant-delegate-email {
     color: #999999;
     font-size: 14px;
+}
+.delegate-details {
+    font-weight: bold;
+}
+.title-overflow-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.helptext-pos {
+    position: relative;
+    margin-right: -20px;
 }

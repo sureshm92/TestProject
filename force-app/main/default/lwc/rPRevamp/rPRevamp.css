@@ -153,6 +153,7 @@
     background-color: #f2f2f2;
     position: absolute;
     pointer-events: none;
+    padding-left: 7px;
 }
 .fileHolder {
     min-height: 130px;
@@ -396,4 +397,8 @@
     .uploadLabel {
         word-break: break-word;
     }
+}
+
+.enforce-temp-title{
+    width: auto;
 }

@@ -1,0 +1,209 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isInitialized}>
+        <div class={headerPanelClass}>
+            <!-- DESKTOP VIEW -->
+            <template if:false={isMobile}>
+                <div class={cardRTL}>
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <!-- Left Column -->
+                        <lightning-layout-item size="8" class="min-height">
+                            <lightning-layout class={leftColPadding} multiple-rows="true">
+                                <lightning-layout-item size="12" class="mb-20">
+                                    <div class="as-title">Help</div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="mb-20">
+                                    <div class="rectangle">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="1" class="center-align">
+                                                <img
+                                                    style={errorIconPosition}
+                                                    src={exclamation}
+                                                    class="pad-r-10 exclamation_green"
+                                                />
+                                                <!-- <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="com-icon"
+                                                >
+                                                    <use xlink:href={exclamation}></use>
+                                                </svg> -->
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11" class="pt-4 ml-12">
+                                                <span class="static-msg">
+                                                    If you have a medical emergency, please contact
+                                                    your local emergency medical services.
+                                                </span>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <div class="frequently-asked-que">
+                                        Frequently Asked Questions
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="mb-20">
+                                    <div class="faq-input">
+                                        <c-pp-help-topics
+                                            user-mode={userMode}
+                                            help-topic-options={helpTopicOptions}
+                                            help-topic-settings={helpTopicSettings}
+                                            community-template={communityTemplate}
+                                            is-r-t-l={isRTL}
+                                        ></c-pp-help-topics>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Right Column -->
+                        <lightning-layout-item size="4" class="border-left">
+                            <div class={headerPanelClass}>
+                                <lightning-layout multiple-rows="true" class="mb-15">
+                                    <lightning-layout-item size="12">
+                                        <c-pp-quick-reference-link
+                                            user-mode={userMode}
+                                            is-delegate={isDelegate}
+                                            show-get-support={showGetSupport}
+                                        ></c-pp-quick-reference-link>
+                                    </lightning-layout-item>
+                                    <!-- quick ref car will hold get support -->
+                                    <template if:true={showGetSupport}>
+                                        <lightning-layout-item size="12" class="pad10">
+                                            <span class="to-update-all-other">
+                                                {label.helpResponse}&nbsp;
+                                            </span>
+                                            <span
+                                                class="acc-settings-link"
+                                                onclick={navigateToAccSettings}
+                                                >{label.accountSettings}&nbsp;
+                                            </span>
+                                            <span class="to-update-all-other"
+                                                >{label.updateProfileResponse}</span
+                                            >
+                                        </lightning-layout-item>
+                                    </template>
+
+                                    <lightning-layout-item size="12" class="place-at-bottom">
+                                        <img src={help_section_icon} class="img-size" />
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+
+            <!-- MOBILE VIEW -->
+            <template if:true={isMobile}>
+                <div class={cardRTL}>
+                    <lightning-layout multiple-rows="true" class="mb-15">
+                        <!-- One Column -->
+                        <lightning-layout-item size="12" class={breadCrumMobile}>
+                            <div
+                                id="variants"
+                                class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="com-icon pointer">
+                                    <use xlink:href={homeSvg} onclick={handleHomePage}></use>
+                                </svg>
+                                <lightning-formatted-text
+                                    class="slds-form-element__label gray-arrow"
+                                    value=">"
+                                ></lightning-formatted-text>
+                                <lightning-formatted-text
+                                    class="slds-form-element__label home-text pointer"
+                                    value="Help"
+                                    onclick={handleHomePage}
+                                ></lightning-formatted-text>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="min-height">
+                            <lightning-layout class="mb-15" multiple-rows="true">
+                                <lightning-layout-item size="12" class="mb-15">
+                                    <div class="as-title">Help</div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="mb-20">
+                                    <div class="rectangle">
+                                        <lightning-layout
+                                            multiple-rows="true"
+                                            vertical-align="center"
+                                        >
+                                            <lightning-layout-item size="1" class="center-align">
+                                                <img
+                                                    style={errorIconPosition}
+                                                    src={exclamation}
+                                                    class="pad-r-10 exclamation_mobile"
+                                                />
+                                                <!-- <div>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="pad-r-10 exclamation_green"
+                                                    >
+                                                        <use xlink:href={exclamation_green}></use>
+                                                    </svg>
+                                                </div> -->
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11" class="pt-4">
+                                                <span class="static-msg">
+                                                    If you have a medical emergency, please contact
+                                                    your local emergency medical services.
+                                                </span>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <div class="frequently-asked-que">
+                                        Frequently Asked Questions
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="mb-20">
+                                    <div class="faq-input">
+                                        <c-pp-help-topics
+                                            user-mode={userMode}
+                                            help-topic-options={helpTopicOptions}
+                                            help-topic-settings={helpTopicSettings}
+                                            community-template={communityTemplate}
+                                            is-r-t-l={isRTL}
+                                        ></c-pp-help-topics>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout multiple-rows="true" class="mb-15">
+                                    <lightning-layout-item size="12" class="mb-15">
+                                        <c-pp-quick-reference-link
+                                            user-mode={userMode}
+                                            is-delegate={isDelegate}
+                                            show-get-support={showGetSupport}
+                                        ></c-pp-quick-reference-link>
+                                    </lightning-layout-item>
+                                    <!-- Get support moved to Quick Ref Link -->
+                                    <template if:true={showGetSupport}>
+                                        <lightning-layout-item size="12" class="pad10">
+                                            <span class="to-update-all-other">
+                                                {label.helpResponse}&nbsp;
+                                            </span>
+                                            <span
+                                                class="acc-settings-link"
+                                                onclick={navigateToAccSettings}
+                                                >{label.accountSettings}&nbsp;
+                                            </span>
+                                            <span class="to-update-all-other"
+                                                >{label.updateProfileResponse}</span
+                                            >
+                                        </lightning-layout-item>
+                                    </template>
+
+                                    <lightning-layout-item size="12" class="place-at-bottom">
+                                        <img src={help_section_icon} class="img-size" />
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </template>
+    <c-builder-stub></c-builder-stub>
+</template>

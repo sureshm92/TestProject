@@ -1,0 +1,131 @@
+<template>
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <template if:true={isParticipant}>
+        <div class="support-container">
+            <!-- DESKTOP VIEW -->
+
+            <div class={cardRTL}>
+                <!-- Lable and Initial Combobox -->
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12">
+                        <div class="as-title">{label.getSupport}</div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" class={dropDownOpacityClass}>
+                        <lightning-combobox
+                            value={selectedOption}
+                            placeholder={placeholder}
+                            options={options}
+                            onchange={handleChangeSelection}
+                            label={label.getSupport}
+                            variant="label-hidden"
+                        ></lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <div class={marginForDOBEdit}>
+                <!-- Edit Year of Birth Elements  -->
+                    <lightning-layout multiple-rows="true">
+                        <template if:true={isEditYOB}>
+                            <lightning-layout-item size="5" class="mt-10">
+                                <lightning-layout multiple-rows="true" class="">
+                                    <lightning-layout-item size="5">
+                                        <span class="from">{label.ppFrom}</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="7">
+                                        <div class="from-date">{currentYOB}</div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="7" class="mt-10">
+                                <lightning-layout multiple-rows="true" class="">
+                                    <lightning-layout-item size="2">
+                                        <span class="to">{label.ppTo}</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="10" class={YOBOpacityClass}>
+                                        <lightning-combobox
+                                            value={selectedYOB}
+                                            placeholder={label.selectYear}
+                                            options={yearOptions}
+                                            onchange={doCheckYearOfBith}
+                                            label="YOB"
+                                            variant="label-hidden"
+                                            class={highlightErrorForYOBClass}
+                                        ></lightning-combobox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2"> </lightning-layout-item>
+                                    <lightning-layout-item size="10">
+                                        <template if:true={showMinorErrorMsg}>
+                                            <span class="place-error-message"
+                                                >{label.minorMessage}
+                                            </span>
+                                        </template>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+
+                    <!-- User name and password Match elements -->
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="1" class={marginMatchEmailPass}>
+                            <template if:true={isMatchUsernameEmail}>
+                                <template if:false={isShowUserMatch}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={label.matchUsernameEmail}
+                                        variant="label-hidden"
+                                        value={chngUsernameEmailValue}
+                                        onchange={doChangeUsernameEmail}
+                                        class="label-email-pass-match"
+                                    ></lightning-input>
+                                </template>
+                                <template if:true={isShowUserMatch}>
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={label.matchUsernameEmail}
+                                        variant="label-hidden"
+                                        name="input3"
+                                        class="label-email-pass-match"
+                                        checked
+                                        disabled
+                                    ></lightning-input>
+                                </template>
+                            </template>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="11">
+                            <template if:true={isMatchUsernameEmail}>
+                                <span class="matchEmailText">{label.matchUsernameEmail}</span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+
+            <lightning-layout multiple-rows="true" class="">
+                <lightning-layout-item size="12">
+                    <!--Disabled Button-->
+                    <template if:true={isDisableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile disabled"
+                        >
+                            {label.submitButton}
+                        </button>
+                    </template>
+                    <!--Enabled Button-->
+                    <template if:false={isDisableSave}>
+                        <button
+                            onclick={doCreateYOBCase}
+                            disabled={disableSave}
+                            class="updateButtonMobile"
+                        >
+                            {label.submitButton}
+                        </button>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+</template>

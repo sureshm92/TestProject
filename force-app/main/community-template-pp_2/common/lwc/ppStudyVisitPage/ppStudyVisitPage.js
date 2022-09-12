@@ -1,16 +1,33 @@
-import { LightningElement,track,api} from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisits';
-import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
-import communicationPreference from '@salesforce/label/c.Communication_Preference';
-import TIME_ZONE from '@salesforce/i18n/timeZone';
-import getIcon from '@salesforce/apex/PatientVisitService.getVisitIcons';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails'; 
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress'; 
 import basePathName from '@salesforce/community/basePath';
+import communicationPreference from '@salesforce/label/c.Communication_Preference';
+import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
+import getIcon from '@salesforce/apex/PatientVisitService.getVisitIconsbyName';
+import WTELabel from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
+import myVisits from '@salesforce/label/c.Visit_My_Visits';
+import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
+import upcoming from '@salesforce/label/c.Visits_Upcoming';
+import past from '@salesforce/label/c.Visits_Past';
+import results from '@salesforce/label/c.Visit_Result';
+import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
+import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpStudyVisitPage extends LightningElement {
     label = {
-        noVisitsLabel
+        noVisitsLabel,
+        myVisits,
+        WTELabel,
+        noDataAvailable,
+        upcoming,
+        past,
+        results,
+        resultsCheck,
+        viewAllResults
     };
     @track visitMode = 'All';
     @track upcomingVisits = [];
@@ -45,8 +62,25 @@ export default class PpStudyVisitPage extends LightningElement {
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-    
+    initialized = '';
+    @api icondetails = [];
+    isError = false;
+    dateloaded = false;
+    @track buttonClicked = false;
+    cbload = false;
+    @api cblabel = '';
+    @api cbdescription = '';
+    @track customBoxclass = 'slds-box';
+    @track noVisitDate = false;
+    @track visitTimezone = [];
+    @track showUpcomingVisits = true;
+    @track upcomingVariantValue = 'Neutral';
+    @track pastVariantValue = 'Neutral';
+    @track onVisitSelection = false;
+    visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
+    visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
     callParticipantVisit(){
+        this.cbload = true;
         getParticipantVisits({
             visitMode: this.visitMode
         })
@@ -234,19 +268,21 @@ export default class PpStudyVisitPage extends LightningElement {
 
     initializeData(visitid) {
         this.initialized = 'false';
+
         getIcon({
-            visitId: visitid 
+            visitId: visitid
         })
             .then((result) => {
+                // result returns list of Icon Detail Records based on Patient Visit Id
                 this.icondetails = result;
-                if (result.length === 0) {
+                if (result.length === 0 || result == null || result == '') {
                     this.isError = true;
                 } else {
                     this.isError = false;
                 }
-                let iconNames = '';
-                for (let i = 0; i < result.length; i++) {
-                    iconNames += result[i].icons + ';';
+                if (this.cbload == true) {
+                    this.cblabel = this.icondetails[0].Label__c;
+                    this.cbdescription = this.icondetails[0].Description__c;
                 }
             })
             .catch((error) => {

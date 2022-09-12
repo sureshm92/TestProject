@@ -244,14 +244,22 @@
     font-size: 16px;
     font-weight: 500;
   }
+  
   .custom-breadcrum {
   }
+
   .com-icon {
     height: 16px;
     color: grey;
     width: 16px;
     margin-right: 8px;
+    fill: #999999;
   }
+
+  .gray-arrow{
+    color: #999999;
+  }
+
   .slds-tabs_default__item .slds-tabs_default_link:focus {
     text-decoration-line: none !important;
   }

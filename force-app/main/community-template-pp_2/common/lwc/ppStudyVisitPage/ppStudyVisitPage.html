@@ -175,7 +175,7 @@
                             <div class="slds-align_absolute-center">
                                 <span>
                                     <span class="slds-align_absolute-center">
-                                        No Data available
+                                        {label.noDataAvailable}
                                     </span>
                                     <br />
                                 </span>
@@ -185,13 +185,17 @@
                 </template>
             </div>
         </div>
-        <div class="slds-col slds-size_1-of-1 slds-small-size_3-of-12 slds-p-vertical_x-large col3">
-            <h1 class="what-to-expec">Results</h1>
-            <div class="icon-cont1">
-                <div class="center vertical">
-                    Check for results once your visit has occurred.
-                    <br />
-                    <div class="view-result">View All Results</div>
+        <div class="slds-col slds-size_3-of-12">
+            <img src={visitimage2} class="image-result-visit" />
+            <br /><br />
+            <h1 class="what-to-expec">{label.results}</h1>
+            <div class="icon-cont1 slds-align_absolute-center">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col center slds-p-bottom_large">
+                        <img src={visitimage1} class="image-result" />
+                    </div>
+                    <div class="slds-col center slds-p-bottom_large">{label.resultsCheck}</div>
+                    <div class="slds-col center view-result">{label.viewAllResults}</div>
                 </div>
             </div>
             <!-- <span>3</span> -->

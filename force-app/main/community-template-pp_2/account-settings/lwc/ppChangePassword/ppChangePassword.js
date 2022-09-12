@@ -5,10 +5,11 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 
-import TST_Your_password_has_been_changed_successfully from '@salesforce/label/c.TST_Your_password_has_been_changed_successfully';
+import TST_password_updated_successfully from '@salesforce/label/c.TST_password_updated_successfully';
+import TST_Your_current_password_is_invalid from '@salesforce/label/c.TST_Your_current_password_is_invalid';
 import PG_AS_F_Current_Password from '@salesforce/label/c.PG_AS_F_Current_Password';
 import PG_AS_F_New_password from '@salesforce/label/c.PG_AS_F_New_password';
-import PG_AS_F_Re_enter_new_password from '@salesforce/label/c.PG_AS_F_Re_enter_new_password';
+import PP_AS_F_Re_enter_new_password from '@salesforce/label/c.PP_AS_F_Re_enter_new_password';
 import Pswd_Your_Pswd_Include from '@salesforce/label/c.Pswd_Your_Pswd_Include';
 import Pswd_8_Characters from '@salesforce/label/c.Pswd_8_Characters';
 import Pswd_Include_Any_3 from '@salesforce/label/c.Pswd_Include_Any_3';
@@ -17,6 +18,11 @@ import Pswd_Uppercase from '@salesforce/label/c.Pswd_Uppercase';
 import Pswd_Lowercase from '@salesforce/label/c.Pswd_Lowercase';
 import Pswd_Special_Characters from '@salesforce/label/c.Pswd_Special_Characters';
 import PG_AS_F_Update_Password from '@salesforce/label/c.PG_AS_F_Update_Password';
+import PP_Password_Management from '@salesforce/label/c.PP_Password_Management';
+import PP_Incorrect_password from '@salesforce/label/c.PP_Incorrect_password';
+import PP_Password_does_not_fit_criteria from '@salesforce/label/c.PP_Password_does_not_fit_criteria';
+import PP_Password_does_not_match from '@salesforce/label/c.PP_Password_does_not_match';
+import PP_Password_Requirements from '@salesforce/label/c.PP_Password_Requirements';
 import BACK from '@salesforce/label/c.Back';
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
@@ -59,10 +65,16 @@ export default class PpChangePassword extends LightningElement {
     showReNewPassword = false;
 
     label = {
-        TST_Your_password_has_been_changed_successfully,
+        TST_password_updated_successfully,
+        TST_Your_current_password_is_invalid,
+        PP_Password_Management,
+        PP_Incorrect_password,
+        PP_Password_does_not_fit_criteria,
+        PP_Password_does_not_match,
         PG_AS_F_Current_Password,
         PG_AS_F_New_password,
-        PG_AS_F_Re_enter_new_password,
+        PP_Password_Requirements,
+        PP_AS_F_Re_enter_new_password,
         Pswd_Your_Pswd_Include,
         Pswd_8_Characters,
         Pswd_Include_Any_3,
@@ -99,28 +111,28 @@ export default class PpChangePassword extends LightningElement {
 
     // Getters for Input Type Masked
     get currentPasswordCssClass(){
-        return this.showCurrentPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showCurrentPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get newPasswordCssClass(){
-        return this.showNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     get reNewPasswordCssClass(){
-        return this.showReNewPassword ? 'profile-info-input' : 'profile-info-input masked';
+        return this.showReNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
     }
 
     // Getters For Icon color Change
     get toggleCurrentPasswordMaskIcon(){
-        return this.showCurrentPassword ? '#297DFD' : '#999999';
+        return this.showCurrentPassword ? '#297DFD' : '#595959';
     }
 
     get toggleNewPasswordMaskIcon(){
-        return this.showNewPassword ? '#297DFD' : '#999999';
+        return this.showNewPassword ? '#297DFD' : '#595959';
     }
 
     get toggleReNewPasswordMaskIcon(){
-        return this.showReNewPassword ? '#297DFD' : '#999999';
+        return this.showReNewPassword ? '#297DFD' : '#595959';
     }
 
     // getRTL
@@ -175,7 +187,7 @@ export default class PpChangePassword extends LightningElement {
                 });
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', error.message, 100);
+            communityService.showToast('', 'error', error.message, 100);
         });
 
         communityService.getCurrentCommunityMode().currentDelegateId ? this.isDelegate = true : this.isDelegate = false;
@@ -204,7 +216,7 @@ export default class PpChangePassword extends LightningElement {
 
         })
         .catch((error) => {
-            communityService.showToast('error', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
             this.spinner.hide();
         });
     }
@@ -248,25 +260,7 @@ export default class PpChangePassword extends LightningElement {
         if(oldpassword == null || oldpassword == "" || oldpassword == undefined){
             this.incorrectOldPassword = false;
             this.validateOldPassword();
-        }
-
-        // Handle Update button visibility
-        if( this.isDelegate ||
-            password == null ||
-            password == undefined ||
-            password.length == 0  ||
-            renewpassword == null ||
-            renewpassword == undefined ||
-            renewpassword.length == 0)
-        {
-            this.disableUpdateButton();
-        }else if(password != renewpassword){
-            this.disableUpdateButton();
-        }else if(oldpassword.length == 0){
-            this.disableUpdateButton();
-        }else{
-            this.enableUpdateButton();
-        }
+        }        
 
          //Password Strength Check
          let strengthValue = {
@@ -316,6 +310,27 @@ export default class PpChangePassword extends LightningElement {
             ((this.caps + this.small + this.numbers + this.special) < 3) ? this.passwordDoNotMatchCriterion = true : this.passwordDoNotMatchCriterion = false;
         }
 
+        // Handle Update button visibility
+        if( this.isDelegate ||
+            password == null ||
+            password == undefined ||
+            password.length == 0  ||
+            renewpassword == null ||
+            renewpassword == undefined ||
+            renewpassword.length == 0)
+        {
+            this.disableUpdateButton();
+        }else if(password != renewpassword){
+            this.disableUpdateButton();
+        }else if(password == renewpassword && this.passwordDoNotMatchCriterion){
+            this.disableUpdateButton();
+        }        
+        else if(oldpassword.length == 0){
+            this.disableUpdateButton();
+        }else{
+            this.enableUpdateButton();
+        }
+
         let newPassEle = this.template.querySelector('lightning-input[data-id=newe-password]');        
         this.passwordDoNotMatchCriterion ? newPassEle.classList.add("profile-info-error-input") : newPassEle.classList.remove("profile-info-error-input");
     }
@@ -343,9 +358,9 @@ export default class PpChangePassword extends LightningElement {
          })
         .then((returnValue) => {
             communityService.showToast(
+                '',
                 'success',
-                'success',
-                this.label.TST_Your_password_has_been_changed_successfully,
+                this.label.TST_password_updated_successfully,
                 100
             );
             communityService.navigateToPage('account-settings?password-change');
@@ -356,9 +371,10 @@ export default class PpChangePassword extends LightningElement {
             };          
         })
         .catch((error) => {
-            let errorMessage = error.body.message;
-            errorMessage ? this.incorrectOldPassword = true : this.incorrectOldPassword = false;           
-            communityService.showToast('error', 'error', "Your current password is invalid", 100);       
+            let errorMessage = error.body.message.split('\n')[0];
+            (errorMessage == 'Error: Your old password is invalid.') ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
+
+            communityService.showToast('', 'error', errorMessage, 100);
             this.validateOldPassword();
             this.spinner.hide();
         });

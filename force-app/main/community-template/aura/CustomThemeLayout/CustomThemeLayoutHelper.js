@@ -22,6 +22,7 @@
         component.set('v.template', communityService.getCurrentCommunityTemplateName());
         component.set('v.urlPathPrefix', communityService.getCommunityURLPathPrefix());
         component.set('v.communityName', communityService.getCurrentCommunityName());
+        component.set('v.communityApiName', communityService.getCommunityName());
 
         /*communityService.executeAction(component, 'isCurrentSessionMobileApp', null,
             function (returnValue) {

@@ -12,6 +12,8 @@ private class Test_IntegrationPatientTriggerHandler {
 		TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
 		TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class);
+        
 
 		Test.startTest();
 		Account acc = new Account();
@@ -31,17 +33,23 @@ private class Test_IntegrationPatientTriggerHandler {
 
 		Test.startTest();
 		insert externalPatient;
+       	externalPatient.IsDeletedInSDH__c = 'Y';
+        update externalPatient;
 		System.assertEquals('Participation Complete', getPEStatus());
 		Test.stopTest();
 	}
+    
 
 	private static String getPEStatus(){
+        
 		Participant_Enrollment__c pe = [
 			SELECT Id,
 			Participant_Status__c
 			FROM Participant_Enrollment__c
 			WHERE External_Key__c = '1~2~3'
 		];
+        
 		return pe.Participant_Status__c;
+        
 	}
 }

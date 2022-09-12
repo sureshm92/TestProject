@@ -5,7 +5,6 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: #ecf3ff;
-    margin-top: 1px;
 }
 .curr-mode-title {
     border-radius: 4px;
@@ -15,6 +14,7 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 .self {
     height: 40px;
@@ -27,18 +27,24 @@
     width: 265px;
     border-radius: 4px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 .participant-delegate-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     color: #444444;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
 }
 .participant-delegate-email {
     color: #999999;
     font-size: 14px;
 }
-.my-icon {
+.chevron-icon {
     --sds-c-icon-color-foreground-default: #0768fd;
+    cursor: pointer;
 }
 .participant-label {
     height: 24px;
@@ -54,4 +60,34 @@
 }
 .title-delg-grid {
     width: 313px;
+}
+.participant-overflow-scroll {
+    overflow-y: auto;
+    max-height: 235px;
+    overflow-x: hidden;
+}
+.helptext-pos {
+    position: relative;
+    margin-right: -20px;
+}
+@media all and (max-width: 500px) {
+    .participant-overflow-scroll {
+        max-height: 303px;
+    }
+}
+/* Scroll bar custom */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #999999;
 }

@@ -460,6 +460,7 @@ private class Test_ManualCreationPanelRemote {
         );
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
         ManualCreationPanelRemote.searchReminderSchedule('RS', '');
+        ManualCreationPanelRemote.searchReminderSchedule('', '');
         Test.stopTest();
     }
 

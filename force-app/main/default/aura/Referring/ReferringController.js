@@ -436,28 +436,61 @@
         if (!$A.util.isUndefinedOrNull(JSON.stringify(pEnrollment.HCP__r))) {
             pEnrollment.HCP__r.Study__c="";
         }
+        var delID = communityService.getDelegateId();
         spinner.show();
-        communityService.executeAction(
-            component,
-            'saveParticipant',
-            {
+        let action = component.get("c.saveParticipantV2");
+        action.setParams({
                 hcpeId: hcpeId,
                 pEnrollmentJSON: JSON.stringify(pEnrollment),
                 participantJSON: JSON.stringify(participant),
                 participantDelegateJSON: JSON.stringify(delegateParticipant),
-                delegateId: communityService.getDelegateId(),
+                delegateId: delID,
                 ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
                 contentDocId:contentDocId
-            },
-            function (returnValue) {
-                component.set('v.currentState', 'Refer Success');
-            },
-            null,
-            function () {
-                window.scrollTo(0, 0);
-                spinner.hide();
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+                participant.Id = response.getReturnValue();
+                var action2 = component.get("c.saveParticipantEnrollment");
+                action2.setParams({
+                    hcpeId: hcpeId,
+                    pEnrollmentJSON: JSON.stringify(pEnrollment),
+                    participantJSON: JSON.stringify(participant),
+                    participantDelegateJSON: JSON.stringify(delegateParticipant),
+                    delegateId: delID,
+                    ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
+                    contentDocId:contentDocId
+        		});
+                action2.setCallback(this, function(response){ 
+                    var state = response.getState();
+                    if (state === "SUCCESS") { 
+                        if(response.getReturnValue()!=null){
+                            participant.Id = null;
+                            var toastEvent = $A.get("e.force:showToast");
+                            toastEvent.setParams({
+                                mode: 'dismissible',
+                                message: response.getReturnValue(),
+                                type : 'error'
+                            });
+                            toastEvent.fire();
+                        }
+                        else{
+                            component.set('v.currentState', 'Refer Success');
+                        }
+                       spinner.hide();
+                    }
+                    else {
+                        console.log("Error in operation");
+                    }
+                });
+                $A.enqueueAction(action2); 
+            }	
+            else {
+                console.log(action.getError());
             }
-        );
+        });
+        $A.enqueueAction(action);
     },
     
     doFrameLoaded: function (component, event, helper) {

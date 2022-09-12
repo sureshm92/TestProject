@@ -1,4 +1,9 @@
 public without sharing class ParticipantService {
+    public static final List<Age_of_Majority__mdt> Age_Of_Majorities = [
+        SELECT Country_Code__c, State_Code__c, Age__c
+        FROM Age_of_Majority__mdt
+        ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
+    ];
     public class ParticipantServiceException extends Exception {
     }
 
@@ -205,7 +210,7 @@ public without sharing class ParticipantService {
         }
         participantState.welcomeMessage = getWelcomeMessage();
         participantState.communityName = UserContext.getCurrentCommunityName();
-        participantState.loggedInUserName=getLoggedInUserName();
+        participantState.loggedInUserName = getLoggedInUserName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -293,7 +298,7 @@ public without sharing class ParticipantService {
                         FROM Televisit_Attendee__c
                         WHERE Contact__c = :participantState.pe.Participant__r.Contact__c
                     )
-                    AND Participant_Enrollment__c =: participantState.pe.Id
+                    AND Participant_Enrollment__c = :participantState.pe.Id
             ];
             return (!tvList.isEmpty());
         }
@@ -324,12 +329,12 @@ public without sharing class ParticipantService {
     }
 
     @TestVisible
-    private String getLoggedInUserName(){
+    private String getLoggedInUserName() {
         String userName;
         List<Participant__c> participants = new List<Participant__c>();
         if (String.isNotBlank(CommunityService.getInstance().getCurrentContactId())) {
             participants = [
-                SELECT Full_Name__c
+                SELECT First_Name__c
                 FROM Participant__c
                 WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
             ];
@@ -337,7 +342,7 @@ public without sharing class ParticipantService {
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
         } else {
-            userName = participants[0].Full_Name__c;
+            userName = participants[0].First_Name__c;
         }
         return userName;
     }
@@ -435,6 +440,54 @@ public without sharing class ParticipantService {
         }
     }
 
+    public static String createParticipantAndUpdatePEImpls(
+        Participant__c participant,
+        Participant__c participantDelegate,
+        Participant_Enrollment__c pe,
+        String userLanguage
+    ) {
+        try {
+            participant.Preferred_Language__c = userLanguage;
+            ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+            participantWithDelegate.participant = participant;
+            participantWithDelegate.delegate = participantDelegate;
+            ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
+                participantWithDelegate
+            );
+            String ParticipantID = '';
+            Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
+            if (participantFromDatabase != null) {
+                AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+                participant = participantFromDatabase;
+                ParticipantID = participant.Id;
+            } else {
+                //check contact duplicate:
+                if (duplicateService.findDuplicateContact(participant) != null) {
+                    Contact existingContact = duplicateService.findDuplicateContact(participant);
+                    participant.Contact__c = existingContact.Id;
+                    if ('Home' == participant.Phone_Type__c) {
+                        existingContact.HomePhone = participant.Phone__c;
+                    }
+                    if ('Mobile' == participant.Phone_Type__c) {
+                        existingContact.MobilePhone = participant.Phone__c;
+                    } else {
+                        existingContact.Phone = participant.Phone__c;
+                    }
+                    update existingContact;
+                }
+                system.debug('>>beforeInsertPart>' + limits.getQueries());
+                insert participant;
+                system.debug('>>AfterInsertPart>' + limits.getQueries());
+                ParticipantID = participant.Id;
+            }
+            return ParticipantID;
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e);
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
     // Static facade: --------------------------------------------------------------------------------------------------
 
     public static ParticipantState getParticipantState() {
@@ -449,6 +502,20 @@ public without sharing class ParticipantService {
     ) {
         getInstance()
             .createParticipantAndUpdatePEImpl(participant, participantDelegate, pe, userLanguage);
+    }
+    public static String createParticipantAndUpdatePES(
+        Participant__c participant,
+        Participant__c participantDelegate,
+        Participant_Enrollment__c pe,
+        String userLanguage
+    ) {
+        string partID = createParticipantAndUpdatePEImpls(
+            participant,
+            participantDelegate,
+            pe,
+            userLanguage
+        );
+        return partID;
     }
 
     public static List<LabelValueItem> getGenderLVList() {
@@ -538,11 +605,7 @@ public without sharing class ParticipantService {
     public static List<Participant__c> checkParticipantsAgeOfMajority(
         List<Participant__c> participants
     ) {
-        List<Age_of_Majority__mdt> ageOfMajorities = [
-            SELECT Country_Code__c, State_Code__c, Age__c
-            FROM Age_of_Majority__mdt
-            ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
-        ];
+        List<Age_of_Majority__mdt> ageOfMajorities = Age_Of_Majorities;
 
         for (Participant__c prt : participants) {
             if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c))

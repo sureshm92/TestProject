@@ -1,39 +1,40 @@
-.slds-modal__container {
-    width: 28%;
+.spins::after {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
 }
-.unable-login-card-top {
-    height: 16px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
+
+.body-container {
+    color: #444444;
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    width: 95%;
 }
-.btn-cancel {
-    transform: rotate(-360deg);
+
+.button-cancel {
     color: #0768fd;
-    font-size: 14px;
+    height: 2rem;
+    font-size: 0.875rem;
     font-weight: 500;
+    border-color: transparent;
+    line-height: 1.3125rem;
+    text-align: center;
 }
-.btn-confirm {
+
+.button-confirm {
     justify-content: center;
     width: 107px;
+    height: 2rem;
     color: #ffffff;
-    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
     background-color: #0768fd;
     box-shadow: 0 4px 8px 0 rgb(7 104 253 / 25%);
-}
-.deactivate-delegate-title {
-    color: #000000;
-    font-size: 20px;
-    font-weight: 600;
-}
-.slds-modal__content {
-    border: 1px solid #d9d9d9;
-    border-bottom-left-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
-    background-color: #ffffff;
-}
-@media all and (max-width: 768px) {
-    .slds-modal__container {
-        width: 83%;
-    }
 }

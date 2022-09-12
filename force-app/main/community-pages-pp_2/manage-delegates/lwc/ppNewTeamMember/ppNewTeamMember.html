@@ -1,56 +1,105 @@
 <template>
-    <div class="profile-information-rectangle slds-p-around_medium slds-m-bottom_small">
-        <div class="profile-information slds-m-bottom_medium">Profile Information</div>
-
-        <div class="slds-grid slds-gutters slds-wrap">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7">
-                <label class="slds-form-element__label" for="userName"
-                    >Email Address<abbr class="slds-required" title="required">* </abbr></label
-                >
-                <div class="slds-form-element__control">
-                    <input
-                        type="text"
-                        class="slds-input input-field-container"
-                        data-id="Email"
-                        onclick={handleClick}
-                    />
-                </div>
-            </div>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
-                <label class="slds-form-element__label" for="userName"
-                    >First Name<abbr class="slds-required" title="required">* </abbr></label
-                >
-                <div class="slds-form-element__control1">
-                    <input
-                        type="text"
-                        class="slds-input input-field-container"
-                        data-id="firstName"
-                        onclick={handleClick}
-                    />
-                </div>
-            </div>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7">
-                <label class="slds-form-element__label" for="userName"
-                    >Last Name <abbr class="slds-required" title="required">* </abbr></label
-                >
-                <div class="slds-form-element__control">
-                    <input
-                        type="text"
-                        class="slds-input input-field-container"
-                        data-id="lastName"
-                        onclick={handleClick}
-                    />
-                </div>
-            </div>
-        </div>
-        <div class="checkbox-container">
-            <lightning-input
-                class="taps"
-                type="checkbox"
-                label="I attest to this delegate being of legal age in their locale."
-                onchange={clickhandle}
-            ></lightning-input>
-        </div>
-        <button class="slds-button btn-save" onclick={handleSave}>Save</button>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
     </div>
+    <template if:true={cmpinitialized}>
+        <div class="profile-information-rectangle slds-p-around_medium slds-m-bottom_small">
+            <div class="profile-information slds-m-bottom_medium">{label.Profile_Information}</div>
+
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Email_address}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            type="email"
+                            required
+                            data-id="emailInput"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Email_address}
+                            value={delegate.delegateContact.Email}
+                            message-when-value-missing={label.PP_Required_Field}
+                            onblur={doSearchContact}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_First_name}<abbr class="slds-required" title="required"
+                            >*
+                        </abbr></label
+                    >
+                    <div class="slds-form-element__control1">
+                        <lightning-input
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            data-id="firstNameInput"
+                            label={label.PG_AS_F_First_name}
+                            disabled={firstNameDisabledCheck}
+                            value={delegate.delegateContact.FirstName}
+                            maxlength={maxLengthData.FirstName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-7 profile-info-input">
+                    <label class="slds-form-element__label" for="userName"
+                        >{label.PG_AS_F_Last_name}
+                        <abbr class="slds-required" title="required">* </abbr></label
+                    >
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            data-id="lastNameInput"
+                            onchange={handleDateChange}
+                            class="validate"
+                            variant="label-hidden"
+                            label={label.PG_AS_F_Last_name}
+                            disabled={lastNameDisabledCheck}
+                            value={delegate.delegateContact.LastName}
+                            maxlength={maxLengthData.LastName}
+                            required
+                            onblur={doValidateField}
+                        ></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <div class="checkbox-container slds-m-vertical_large">
+                <lightning-input
+                    data-id="consentcheck"
+                    class="taps mob-checkbox-txt validate"
+                    type="checkbox"
+                    label={label.PP_Attestation_Confirmation_Message_For_Teams}
+                    checked={isAttested}
+                    onchange={handleDateChange}
+                ></lightning-input>
+            </div>
+            <!--<div class="slds-col slds-size_1-of-1">
+                <div>{delexistingmsg}</div>
+                </div>
+            -->
+            <lightning-button
+                variant="brand"
+                class={saveButtonClass}
+                label="Save"
+                title="Save"
+                onclick={doSaveChanges}
+                disabled={validateData}
+            ></lightning-button>
+        </div>
+    </template>
 </template>

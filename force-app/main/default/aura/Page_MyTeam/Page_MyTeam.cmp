@@ -10,11 +10,13 @@
 
     <!-- attributes: -->
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
+    <aura:attribute name="communityName" type="String" />
+
     <aura:attribute
         name="userMode"
         type="String"
         description="HCP / PI / Participant"
-        access="private"
+        access="public"
     />
 
     <!-- handlers: -->
@@ -24,8 +26,13 @@
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
-            <div class="ps-body">
-                <c:MyTeam userMode="{!v.userMode}" />
+            <div class="{!v.communityName == 'IQVIA Patient Portal' ? 'ps-body-pp' : 'ps-body'}">
+                <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
+                    <c:ppMyTeam usermode="{!v.userMode}" />
+                    <aura:set attribute="else">
+                        <c:MyTeam userMode="{!v.userMode}" />
+                    </aura:set>
+                </aura:if>
             </div>
         </div>
     </aura:if>

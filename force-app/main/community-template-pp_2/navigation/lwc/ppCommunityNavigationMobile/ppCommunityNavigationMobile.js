@@ -8,9 +8,15 @@ import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 
 export default class PpCommunityNavigationMobile extends LightningElement {
-    @api communityServic;    
+    @api communityServic; 
+    @api showSideMenu;
+
     participantTabs = [];
     currentPageName;
+
+    menuCss = "phone-menu-background nav-menu slds-border_top slds-p-vertical_large ";
+
+    
     connectedCallback() {
         this.populateNavigationItems();
     }
@@ -59,24 +65,37 @@ export default class PpCommunityNavigationMobile extends LightningElement {
         };
         this.participantTabs.push(allPagesMap['participant-home']);
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['my-study']);
+            }
         } else {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['resources']);
         }
-        if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
+        }
+        if (this.communityServic.getCurrentCommunityMode().hasPastStudies) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['past-studies']);
+            }
+        }
         if (this.communityServic.getEDiaryVisible()) {
             if (this.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                 this.participantTabs.push(allPagesMap['e-diaries']);
             }
         }
+        }
         if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
             this.participantTabs.push(allPagesMap['messages']);
+        }
         }
         if (this.communityServic.getTrialMatchVisible()) {
             if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
                 this.participantTabs.push(allPagesMap['trial-match']);
             }
+        }
         }
         this.participantTabs.push(allPagesMap['help']);
     }
@@ -86,6 +105,8 @@ export default class PpCommunityNavigationMobile extends LightningElement {
             this.updateCurrentPage(this.currentPageName);
         }
         try{
+            //this.menuCss += "toggleClass";
+            !this.showSideMenu ? this.menuCss += "toggleClass" : "";
             this.communityServic.navigateToPage(event.currentTarget.dataset.pageName);
             currentPageName = this.communityServic.getPageName();
         }catch (e) {

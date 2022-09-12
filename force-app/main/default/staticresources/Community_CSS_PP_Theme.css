@@ -631,3 +631,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 
 }
+.fadePlaceholder button span{
+    opacity: 0.7;
+}

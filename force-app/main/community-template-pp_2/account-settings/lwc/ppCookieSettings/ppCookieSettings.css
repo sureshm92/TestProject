@@ -1,0 +1,327 @@
+.paddingbase {
+    padding: 1.5rem;
+}
+
+.as-container .rr-white-panel {
+    padding: 0;
+}
+
+.as-container .as-password .rr-form-element + .rr-form-element {
+    margin-top: 0;
+}
+
+.as-container .as-email,
+.as-container .as-password {
+}
+
+.cardRTL {
+    direction: rtl;
+}
+
+.back-button {
+    color: #0768fd;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 2rem;
+    margin-bottom: 8px;
+    margin-left: -3px;
+}
+
+.as-title {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-top: 10px;
+}
+
+.as-container .as-email-preference {
+}
+
+.collapse-section.slds-m-top--large:last-child {
+    margin-top: 0;
+}
+
+.as-container .as-info,
+.as-container .as-language-switcher {
+}
+
+.as-info > .rr-form-element {
+}
+
+.as-container .as-privacy {
+    margin-bottom: 10px;
+}
+
+.as-container .as-email-preference {
+    width: 90%;
+}
+
+.as-container .as-sub-title.cookieDesc {
+    color: #444;
+    font-size: 1rem;
+    line-height: 24px;
+    width: 80%;
+    margin-bottom: 30px;
+    margin-top: 1rem;
+}
+
+.ah-toggle-container {
+    margin-top: 10px;
+}
+
+.as-container .as-password .as-password-button {
+}
+
+.as-email-input.slds-gutters,
+.as-password-input {
+    margin: -20px 0 0;
+}
+
+.slds-gutters.as-email-input .slds-col,
+.slds-gutters.as-password-input .slds-col {
+    padding-left: 0;
+    padding-right: 1.5rem;
+}
+
+.as-email-input > *,
+.as-password-input > * {
+}
+
+.collapse-section.slds-m-top_large,
+.collapse-section.slds-m-top--large {
+}
+
+.rr-link {
+    color: #297dfd;
+    display: inline-flex;
+    align-items: center;
+}
+
+.as-privacy-form textarea {
+    height: 200px;
+}
+.ah-toggle {
+    flex: inherit;
+}
+
+.ah-main-container {
+    padding: 10px;
+}
+
+.ah-main-panel {
+    background-color: #ffffff;
+}
+
+.ah-item-label {
+    color: #6f6f6f;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+}
+
+.ah-item-sublabel {
+    color: #646464;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 30px;
+}
+
+.ah-item-panel {
+    border: none;
+    border-bottom: 1px solid #e9e9e9;
+    background-color: #ffffff;
+    padding: 12px 0 12px 30px;
+}
+
+.ah-section-title {
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.as-buttons-footer {
+    display: flex;
+    justify-content: flex-start;
+    padding: 12px;
+    margin-top: 20px;
+}
+
+.opt-in-popup-button {
+    width: 130px;
+}
+
+.opt-in-popup-button + .opt-in-popup-button {
+    margin-left: 30px;
+}
+
+.cRRCollapse.rr-collapse-panel.collapsed {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.cRRCollapse.rr-collapse-panel:not(.collapsed) .label-block {
+    color: #000;
+}
+
+.rr-collapse-panel .label-block {
+    font-size: 1rem;
+    height: 49px;
+    display: inline-flex;
+    align-items: center;
+    color: #595959;
+}
+
+.rr-collapse-panel .label-block .label {
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    margin-left: 11px;
+    color: #0768fd;
+}
+
+.rr-collapse-panel .label-block .rr-icon-default {
+    fill: black;
+    width: 14px;
+    height: 14px;
+    transform-origin: center;
+    transition: 0.25s ease-out;
+    transform: rotate(90deg);
+    position: relative;
+    top: -1px;
+    margin-right: 10px;
+}
+
+.rr-collapse-panel.collapsed .label-block .rr-icon-default {
+    transform: rotate(0deg);
+}
+
+.rr-collapse-panel.collapsed {
+    background-color: #f8f9fb;
+    color: #595959;
+    transition: background-color 0.5s;
+    height: 49px;
+}
+
+.rr-collapse-panel .body {
+    overflow: hidden;
+    max-height: 3000px;
+}
+
+.rr-collapse-panel.collapsed .body {
+    max-height: 0;
+    opacity: 0;
+}
+
+.as-title {
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #444444;
+    line-height: 24px;
+    margin-bottom: 24px;
+    margin-top: 3px;
+}
+.cookie-accordion-paragraph span {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 16px;
+}
+
+.cookie-accordion-label {
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 500;
+}
+.ah-toggle {
+    border: 0px;
+}
+.cookie-scroll-height {
+    overflow-y: auto;
+    max-height: 200px;
+}
+.cookie-toggle {
+    color: #d9d9d9;
+}
+
+.cookie-accordion-border {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    margin-bottom: 16px;
+    overflow: auto;
+}
+.cookie-accordion-label {
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 500;
+}
+.ah-toggle {
+    border: 0px;
+}
+.cookie-toggle {
+    color: #d9d9d9;
+}
+/* Scroll bar custom */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff;
+
+    -webkit-border-radius: 10px;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+
+    border-radius: 10px;
+
+    background: #999999;
+}
+.cookie-line-height {
+    line-height: 22px;
+}
+.cookie-accordion-height {
+    overflow: hidden;
+    max-height: 420px;
+}
+.cookie-scroll-height {
+    overflow-y: scroll;
+    max-height: 472px;
+}
+.cookie-accordion-mobile {
+    overflow: hidden;
+}
+.cookie-accordion-border .cookie-mobile-toggle {
+    justify-content: end;
+}
+.cookie-accordion-mobile1 {
+    overflow: hidden;
+    max-height: 560px;
+}
+.cookie-mobile-togg {
+    align-self: center;
+}
+.cookie-description-lineheight {
+    line-height: 24px;
+}

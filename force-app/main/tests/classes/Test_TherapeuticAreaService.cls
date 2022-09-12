@@ -62,8 +62,8 @@ public with sharing class Test_TherapeuticAreaService {
     @IsTest
     public static void getCOIWrappers_Test() {
         TestData.loadTestData();
-        TestData testData = new TestData();
         Test.startTest();
+        TestData testData = new TestData();
         List<TherapeuticAreaService.CAWrapper> caWrappers;
         List<Therapeutic_Area__c> areaList = [
             SELECT Id
