@@ -4,7 +4,6 @@ import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Enter
 import communicationPreference from '@salesforce/label/c.Communication_Preference';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import getIcon from '@salesforce/apex/PatientVisitService.getVisitIcons';
-import WTELabel from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails'; 
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress'; 
 import basePathName from '@salesforce/community/basePath';
@@ -46,11 +45,7 @@ export default class PpStudyVisitPage extends LightningElement {
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
-
-    labels = {
-        WTELabel
-    };
-
+    
     callParticipantVisit(){
         getParticipantVisits({
             visitMode: this.visitMode
