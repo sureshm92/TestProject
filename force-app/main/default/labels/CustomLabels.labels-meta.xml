@@ -27415,4 +27415,19 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Successfully Re-Engaged</shortDescription>
         <value>Successfully Re-Engaged</value>
     </labels>
+    <labels>
+        <fullName>Communication_Preferences</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Communication Preferences</shortDescription>
+        <value>Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Visit No Date Or Time Entered</shortDescription>
+        <value>No date or time entered</value>
+    </labels>
 </CustomLabels>

@@ -7,6 +7,7 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_SCHEDULED = 'Scheduled';
     public static final String VISIT_MODE_COMPLETED = 'Completed';
     public static final String VISIT_MODE_MISSED = 'Missed';
+    public static final String VISIT_MODE_UPCOMING = 'Upcoming';
     private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
@@ -19,6 +20,7 @@ public inherited sharing class PatientVisitService {
 
     @TestVisible
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
+        system.debug('visitMode'+visitMode);
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
             ))
@@ -40,13 +42,6 @@ public inherited sharing class PatientVisitService {
             'Visit_Number__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
-       /* if (visitMode != VISIT_MODE_ALL) {
-            filter +=
-                'AND' +
-                (VISIT_MODE_CURRENT == visitMode
-                    ? DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING)
-                    : DatabaseService.fieldNotEqual('Status__c', VISIT_STATUS_PENDING));
-        }*/
         if (visitMode != VISIT_MODE_ALL){   
              if(visitMode == VISIT_MODE_SCHEDULED){
             filter +=
@@ -86,6 +81,7 @@ public inherited sharing class PatientVisitService {
             visits,
             IRBParticipantService.getSuitableLanguageForIRBTranslation(pState.pe.Id)
         );
+        
         return visits;
     }
 
@@ -166,6 +162,7 @@ public inherited sharing class PatientVisitService {
                 );
             }
         }
+        system.debug('Visit Wrappers'+visitWrappers);
         return visitWrappers;
     }
 

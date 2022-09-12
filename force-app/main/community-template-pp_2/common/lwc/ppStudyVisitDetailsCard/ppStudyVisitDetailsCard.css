@@ -1,0 +1,140 @@
+.divStyle{
+    height:auto !important;
+}
+
+.slds-grid {
+    margin-bottom: 1rem;
+    padding: 0 1.5rem;
+}
+
+.slds-card__header {
+    display: none;
+}
+
+.locationTitle {
+    padding: 0 1.5rem 1rem;
+}
+
+.siteName {
+    padding: 0 .5rem;
+}
+
+.address{
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.addressSection {
+    padding: 0 1.5rem .5rem;
+    display: flex;
+}
+
+.siteAddress{
+    padding: 0 3.5rem;    
+}
+
+.sitePhone{
+    padding: 0 3.5rem .5rem;    
+}
+
+.addressMarker {
+    width: 25px;
+}
+
+.addressMarker svg {
+    fill: #00a3e0;
+}
+
+.curveInput {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    border-radius: 1rem;
+    border: 1px solid #d9d9d9;
+    padding-left: 35px;
+    background-color: #f2f2f2;
+}
+
+.curveInput input[type=date] {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    font-size: .875rem;
+    border-radius: 1rem;
+    border: none;
+    background: #fff;
+    color: #595959;
+    text-align: left;
+}
+
+.curveInput input[type=date]:disabled {
+    background: #f2f2f2;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+.curveInput .slds-input__icon-group_right {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 100%;
+    opacity: 0;
+}
+
+.curveInput .svgIcon {
+	position: absolute;
+	top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+	left: 20px;
+	fill: #00a3e0;
+}
+
+.commChecks {
+    margin-top: 22px;
+    padding-left: 1.5rem;
+}
+
+.commChecks > div {
+    display: flex;
+}
+
+.commLink {
+    font-size: 13px;
+    display: inline-block;
+    margin-top: .5rem;
+    text-decoration: underline;
+}
+
+.btnFooter {
+    padding: 1rem 1.5rem 0;
+    border-top: 1px solid #d9d9d9;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media all and (max-width: 786px) {
+   input::-webkit-date-and-time-value {
+        text-align: left;
+    }
+
+    .comboBoxTime {
+        text-align: left;
+    }
+}
+
+@media all and (max-width: 486px) {
+
+    .curveInput {
+        margin-bottom: 1rem;
+    }
+
+    .commChecks {
+        margin-top: .5rem;
+    }
+
+    .commChecks > div,
+    .commChecks > a {
+        padding-left: .875rem;
+    }
+}
