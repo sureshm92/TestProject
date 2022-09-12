@@ -1462,7 +1462,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
-        <value>I attest to this delegate being of legal age in their locale.</value>
+        <value>By checking this box, you confirm that your delegate or chosen care partner is a legal adult in their country.</value>
     </labels>
     <labels>
         <fullName>August</fullName>
