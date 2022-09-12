@@ -46,10 +46,10 @@
     margin-top: 10px;
 }
 .vertical-scroll::-webkit-scrollbar {
-    width: 1px;
+    width: 0px;
 }
 .vertical-scroll::-webkit-scrollbar-thumb {
-    background: #fff;   
+    background: #fff !important;   
 }
 /* Scrollbar Code */
 ::-webkit-scrollbar {
@@ -331,7 +331,7 @@ textdecoration {
 }
 
 /* iphones */
-/* @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
+@media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
     only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2),
@@ -340,17 +340,21 @@ textdecoration {
     only screen and (min-device-width: 390px) and (max-device-height: 844px) and (-webkit-device-pixel-ratio: 3),
     only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 2),
     only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 3),
-    only screen and (min-device-width: 428px) and (max-device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-    .hideDesktopView {
-        display: block;
+    only screen and (min-device-width: 428px) and (max-device-height: 926px) and (-webkit-device-pixel-ratio: 3),
+    only screen and (-webkit-min-device-pixel-ratio: 3) {
+        .vertical-scroll::-webkit-scrollbar {
+           display: none !important;
     }
-} */
+       
+}
+
+
 
 @media all and (max-width: 767px) {
     .televisit {
         float: none;
         margin-left: 0;
-        margin-top: -2px;
+        margin-top: -2px ;
         display: grid;
         width: 100%;
     }
