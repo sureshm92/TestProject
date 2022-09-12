@@ -266,6 +266,8 @@ public without sharing class PIR_ParticipantDetailController {
         if(delegateCriteria == 'insertDelegate'){
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
+          piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+          piToInsertDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
            piToInsertDelegate.id=null;
           insert piToInsertDelegate;
           List<Participant__c> parti = [SELECT Id, Contact__c FROM Participant__c WHERE Id = : piToInsertDelegate.Id];
