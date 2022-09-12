@@ -87,7 +87,10 @@
                                     title="Month of Birth"
                                     placeholder="MM"
                                     options={optionsMM}
-                                    onchange={handleMMChange} required=""></lightning-combobox>
+                                    onchange={handleMMChange} required=""
+                                    class="dob-selectbox"
+                                    >
+                              </lightning-combobox>
                                                 </div>
                         <div if:true={isDayMandate} class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-p-right_none slds-m-bottom_medium ltl-r-none rtl-r-none lpad-none">
                               <lightning-combobox
@@ -97,7 +100,10 @@
                                     title={DOB}
                                     placeholder="DD"
                                     options={optionsDD}
-                                    onchange={handleDDChange} required=""></lightning-combobox>
+                                    onchange={handleDDChange} required=""
+                                    class="dob-selectbox"
+                                    >
+                              </lightning-combobox>
                                           </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none ">
                               <lightning-combobox
@@ -108,7 +114,7 @@
                                     placeholder="YYYY"
                                     options={optionsYYYY}
                                     onchange={handleYYYYChange} required=""
-                                    class="yob-selectbox">
+                                    class="dob-selectbox">
                                                 </lightning-combobox>
                                           </div>
                         <div if:false={ageInputDisabled} class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none ">
@@ -119,6 +125,7 @@
                                           onchange={handleAgeChange} 
                                           required=""
                                           disabled={ageInputDisabled}
+                                          class="dob-selectbox"
                                           >
                                                 </lightning-combobox>
                                           </div>
