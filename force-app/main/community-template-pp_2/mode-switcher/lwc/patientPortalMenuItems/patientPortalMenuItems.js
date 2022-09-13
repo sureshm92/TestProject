@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import partipantsDelegate from '@salesforce/label/c.Participant_s_Delegate';
 import noActiveStudies from '@salesforce/label/c.No_active_studies';
 import noActivePrograms from '@salesforce/label/c.No_Active_Programs';
@@ -9,7 +10,7 @@ import study from '@salesforce/label/c.CC_Study';
 import program from '@salesforce/label/c.PP_Program';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
-export default class PatientPortalMenuItems extends LightningElement {
+export default class PatientPortalMenuItems extends NavigationMixin(LightningElement) {
     @api allModes;
     @api user;
     @api pickListOptions = [];
@@ -197,6 +198,15 @@ export default class PatientPortalMenuItems extends LightningElement {
     handleClick() {
         this.isToggle = !this.isToggle;
         this.showAllModes = !this.showAllModes;
+    }
+
+    navigateToHome() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'home'
+            }
+        });
     }
     get svgClass() {
         return '';

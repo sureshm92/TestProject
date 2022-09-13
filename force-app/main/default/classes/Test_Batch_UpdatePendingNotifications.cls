@@ -2,9 +2,9 @@
 private class Test_Batch_UpdatePendingNotifications {
     @IsTest
     static void testBehavior() {
-        Test.startTest();
+        //Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
+        //Test.stopTest();
         Contact contactIns = [
             SELECT Id, Email, Language__c, Phone
             FROM Contact

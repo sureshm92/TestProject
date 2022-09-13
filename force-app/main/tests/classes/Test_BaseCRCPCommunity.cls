@@ -403,15 +403,10 @@ private class Test_BaseCRCPCommunity {
     static void slideTour() {
         TestData testData = new TestData();
         Test.startTest();
-		List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
         System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
             OnboardingSlideTourRemote.switchShowOnLogin(CommunityService.USER_MODE_PI, true);
             OnboardingSlideTourRemote.getSlides(CommunityService.USER_MODE_PI, 'DESKTOP', false);
         }
@@ -451,17 +446,14 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void basePITest1() {
         TestData testData = new TestData();
+        
         Account hcpAccount = [SELECT Id FROM Account WHERE Name = 'HCP Account'];
-        Test.startTest();
-		List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
-        System.runAs(testData.piUser) {
-		PermissionSetAssignment permissionLST = [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME LIMIT 1];
-        PermissionSetAssignment perms = new PermissionSetAssignment();
-        perms.AssigneeId = testData.piUser.Id;
-        perms.PermissionSetId = permissionLST.PermissionSetId;
-        insert perms;
+        System.runAs(testData.piUser) { 
+            Test.startTest();
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(
                 testData.ctp.Id,

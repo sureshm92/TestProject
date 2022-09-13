@@ -57,6 +57,6 @@ private class Test_PatientVisitSchedule {
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :testDataInstance.pe.Id
         ];
-        System.assertEquals(4, patientVisits.size());
+        System.assertEquals(2, patientVisits.size());
     }
 }

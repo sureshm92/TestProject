@@ -5,7 +5,7 @@ export default class ProfileImageDropdown extends LightningElement {
     @api isDelegate;
     @api hasProfilePic;
     @api user;
-    icon_url = pp_icons + '/user_delegate_avatar.svg';
+    icon_url = pp_icons + '/avatar-delegate-icon.svg';
 
     get fullName() {
         let user = this.user;
