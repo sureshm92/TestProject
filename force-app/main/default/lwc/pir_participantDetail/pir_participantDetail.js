@@ -290,10 +290,10 @@ export default class Pir_participantDetail extends LightningElement {
 
     renderedCallback() {
         const style = document.createElement('style'); 
-        style.innerText = ".yob-selectbox .slds-dropdown{min-width:auto;}";  
-        const selector =  this.template.querySelector('.yob-selectbox');
+        style.innerText = ".dob-selectbox .slds-dropdown{min-width:auto;}";  
+        const selector =  this.template.querySelector('.dob-selectbox');
         if(selector != null){
-            this.template.querySelector('.yob-selectbox').appendChild(style);
+            this.template.querySelector('.dob-selectbox').appendChild(style);
         }                  
     }
 
