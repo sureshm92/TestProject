@@ -203,7 +203,13 @@
                         }
                     }
                 });
-                $A.enqueueAction(action2);
+                window.setTimeout(
+                    $A.getCallback(function() {
+                        $A.enqueueAction(action2);
+                
+                    }), 2000
+                );
+                //$A.enqueueAction(action2);
     },
     doSaveAndExitHelper: function (component) {
         if(component.get('v.doSaveNew')){
