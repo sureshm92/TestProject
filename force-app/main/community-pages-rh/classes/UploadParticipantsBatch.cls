@@ -601,21 +601,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 }
                             }
                             
-                            // //future date check
-                            // date dobCheck;
-                            // if(resultDate){
-                            //     if(month==null){
-                            //         month = 1;
-                            //     }
-                            //     if(day==null){
-                            //         day = 1;
-                            //     }
-                            //     dobCheck = Date.newInstance(year, month, day);
-                            //     if(!(dobCheck<= system.today())){
-                            //          resultDate = false;
-                            //     }
-                            // }
-
                             //possible age values
                             boolean ageErr = false;
                             list<integer> possibleAges =  new list<integer>();
