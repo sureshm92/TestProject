@@ -278,9 +278,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String Sex = '';
                 String YearofBirth = '';
                 String MonthofBirth = '';
+                String Age = '';
                 String strDate = '';
                 String DateofBirthError = '';
-                String DateOfBirth = '';
+                Date DateofBirthTemp ;
                 String EmailAddress = '';
                 String Phone = '';
                 String PhoneType = '';
@@ -338,27 +339,31 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT MONTH OF BIRTH')].trim()
                     : null;
+                Age = headerIndexes.get('PARTICIPANT AGE') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT AGE')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT AGE')].trim()
+                    : null;
                 strDate = headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')].trim()
                     : null;
-                if (
-                    String.isNotBlank(YearofBirth) &&
-                    String.isNotBlank(MonthofBirth) &&
-                    String.isNotBlank(strDate)
-                ) {
+                if (String.isNotBlank(YearofBirth)) {
                     DateofBirthError = YearofBirth.length() != 4
                         ? 'yearError'
-                        : MonthofBirth.length() > 2
-                              ? 'MonthError'
-                              : strDate.length() > 2 ? 'DateError' : 'NoError';
+                        : (String.isNotBlank(MonthofBirth) && MonthofBirth.length() > 2)
+                                ? 'MonthError'
+                                : (String.isNotBlank(strDate) && strDate.length() > 2) ? 'DateError' : 'NoError';
                     if (DateofBirthError == 'NoError') {
                         //in csv format, 0 is not considered before any number so making the month and date as two digit (RH-8056)
-                        MonthofBirth = MonthofBirth.length() == 2
+                        if(String.isNotBlank(MonthofBirth)){
+                            MonthofBirth = MonthofBirth.length() == 2
                             ? MonthofBirth
                             : '0' + MonthofBirth;
-                        strDate = strDate.length() == 2 ? strDate : '0' + strDate;
-                        DateOfBirth = YearofBirth + '-' + MonthofBirth + '-' + strDate;
+                        }
+                        
+                        if(String.isNotBlank(strDate)){
+                            strDate = strDate.length() == 2 ? strDate : '0' + strDate;
+                        }
                     }
                 }
 
@@ -444,7 +449,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                 //Participant row check in same sheet
                 //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
-                String duplicateKey = FirstName + LastName + DateOfBirth + Phone + PostalCode;
+                String duplicateKey = FirstName + LastName + YearofBirth + Phone + PostalCode;
                 if (!duplicateRowCheckSet.contains(duplicateKey)) {
                     duplicateRowCheckSet.add(duplicateKey);
                 } else {
@@ -562,56 +567,163 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     );
                 }
                 try {
-                    Date resultDate = null;
-                    if (!String.isBlank(DateOfBirth)) {
+                    boolean resultDate = true;
+                    if (!String.isBlank(YearofBirth)) {
                         try {
                             Integer year;
                             Integer month;
                             Integer day;
-                            if (DateOfBirth.contains('.')) {
-                                List<String> vals = DateOfBirth.split('.');
-                                DateOfBirth = vals[2] + '-' + vals[1] + '-' + vals[0];
-                                year = Integer.valueOf(vals[2]);
-                                month = Integer.valueOf(vals[1]);
-                                day = Integer.valueOf(vals[0]);
-                            } else if (DateOfBirth.contains('/')) {
-                                List<String> vals = DateOfBirth.split('/');
-                                year = Integer.valueOf(vals[0]);
-                                if (vals[1] > '12') {
-                                    DateOfBirth = vals[0] + '-' + vals[2] + '-' + vals[1];
-                                    month = Integer.valueOf(vals[2]);
-                                    day = Integer.valueOf(vals[1]);
-                                } else {
-                                    DateOfBirth = vals[0] + '-' + vals[1] + '-' + vals[2];
-                                    month = Integer.valueOf(vals[1]);
-                                    day = Integer.valueOf(vals[2]);
+                            Integer lastDay = 31;
+                            list<String> minDayMonths = new list<String>{'04','06','09','11'};
+                           
+                            year = Integer.valueOf(YearofBirth);
+                            //month valid
+                            if(String.isNotBlank(MonthofBirth)){
+                                month = Integer.valueOf(MonthofBirth);
+                                if(month>12){
+                                    resultDate = false;
                                 }
-                            } else if (DateOfBirth.contains('-')) {
-                                List<String> vals = DateOfBirth.split('-');
-                                year = Integer.valueOf(vals[0]);
-                                month = Integer.valueOf(vals[1]);
-                                day = Integer.valueOf(vals[2]);
+                                else if(minDayMonths.contains(MonthofBirth)){
+                                    lastDay = 30;
+                                }
+                                else if(MonthofBirth == '02'){
+                                    lastDay = 28;
+                                    if(Date.isLeapYear(year)){
+                                        lastDay = 29;
+                                    }
+                                }
                             }
-                            Date daysInMonth = Date.newInstance(year, month + 1, 1);
-                            daysInMonth = daysInMonth.addDays(-1);
-                            if (daysInMonth.day() < day) {
-                                resultDate = null;
-                                DateOfBirth = null;
-                            } else {
-                                resultDate = Date.valueOf(DateOfBirth);
+                            //day valid
+                            if(String.isNotBlank(strDate)){
+                                day = Integer.valueOf(strDate);
+                                if(day>lastDay){
+                                    resultDate = false;
+                                }
                             }
+                            
+                            // //future date check
+                            // date dobCheck;
+                            // if(resultDate){
+                            //     if(month==null){
+                            //         month = 1;
+                            //     }
+                            //     if(day==null){
+                            //         day = 1;
+                            //     }
+                            //     dobCheck = Date.newInstance(year, month, day);
+                            //     if(!(dobCheck<= system.today())){
+                            //          resultDate = false;
+                            //     }
+                            // }
+
+                            //possible age values
+                            boolean ageErr = false;
+                            list<integer> possibleAges =  new list<integer>();
+                            integer higherAge = System.Today().year() - year;
+                            integer lowerAge =higherAge-1;
+                            if(String.isBlank(Age)){
+                                hasErrors = true;
+                                ageErr = true;
+                                listOfFailedRecordsWithMsg.add(
+                                    '' +
+                                    totalRecordCount +
+                                    ', ' +
+                                    'Age value is missing'
+                                );
+                            }
+                            if(resultDate){
+                                
+                                if(String.isNotBlank(strDate)){
+                                    if(String.isNotBlank(MonthofBirth)){
+                                        Integer participantAge = Date.newInstance(
+                                                                    2000,
+                                                                    month,
+                                                                    day
+                                                                ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                                                                ? higherAge
+                                                                : lowerAge;
+                                        possibleAges.add(participantAge);
+                                    }
+                                }
+                                else if(String.isNotBlank(MonthofBirth)){
+                                    if(month < Date.today().month()){
+                                        possibleAges.add(higherAge);
+                                    }
+                                    else if(month > Date.today().month()){
+                                        possibleAges.add(lowerAge);
+                                    }
+                                    else{
+                                        possibleAges.add(lowerAge);
+                                        possibleAges.add(higherAge);
+                                    }
+                                }
+                                else{
+                                    possibleAges.add(lowerAge);
+                                    possibleAges.add(higherAge);
+                                }
+                                if(!String.isBlank(Age)){
+                                    if(Age.isNumeric()){
+                                        if(!possibleAges.contains(Integer.valueOf(Age))){
+                                            ageErr = true;
+                                            hasErrors = true;
+                                            listOfFailedRecordsWithMsg.add(
+                                            '' +
+                                            totalRecordCount +
+                                            ', ' +
+                                            'Age value is invalid'
+                                            );
+                                        }
+                                    }
+                                    else{
+                                        ageErr = true;
+                                        hasErrors = true;
+                                        listOfFailedRecordsWithMsg.add(
+                                            '' +
+                                            totalRecordCount +
+                                            ', ' +
+                                            'Age value is invalid'
+                                        );
+                                    }
+                                }
+                            }
+                            //future date check
+                            date dobCheck;
+                            if(resultDate){
+                                if(month==null){
+                                    month = 1;
+                                    if(!ageErr){
+                                        if(lowerAge == Integer.valueOf(Age)){
+                                            month = 12;
+                                        }
+                                    }
+                                }
+                                if(day==null){
+                                    day = 1;
+                                    if(month == Date.today().month() && !ageErr){
+                                        if(lowerAge == Integer.valueOf(Age)){
+                                            day = Date.daysInMonth(year, month);
+                                        }
+                                    }
+                                }
+                                
+                                dobCheck = Date.newInstance(year, month, day);
+                                if(!(dobCheck<= system.today())){
+                                     resultDate = false;
+                                }
+                                else{
+                                    DateofBirthTemp = dobCheck;
+                                }
+                            }    
+
                         } catch (Exception exp) {
-                            resultDate = null;
-                            DateOfBirth = null;
+                            resultDate = false;
                         }
                     }
-                    if (
-                        resultDate == null ||
-                        String.isBlank(DateOfBirth) ||
-                        resultDate > System.today()
-                    ) {
+                    else{
+                         resultDate = false;
+                    }
+                    if (!resultDate) {
                         hasErrors = true;
-
                         listOfFailedRecordsWithMsg.add(
                             '' +
                             totalRecordCount +
@@ -628,6 +740,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         'Date of Birth, Incorrect value'
                     );
                 }
+                
                 /*if (
                     !String.isBlank(Language) &&
                     String.isBlank(uploadUser.Contact.Language__c) &&
@@ -863,7 +976,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         LastName = LastName,
                         AccountId = tempAccount.Id,
                         MiddleName = MiddleName,
-                        Birthdate = Date.valueOf(DateOfBirth),
                         Email = EmailAddress,
                         Phone = Phone,
                         MobilePhone = Phone2,
@@ -901,7 +1013,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Middle_Name__c = MiddleName,
                         Nickname__c = Nickname,
                         Gender__c = Sex,
-                        Date_of_Birth__c = DateOfBirth,
+                        Birth_Year__c=YearofBirth,
+                        Birth_Month__c =MonthofBirth,
+                        Birth_Day__c =strDate,
+                        Age__c =Integer.valueOf(age),
                         Email__c = EmailAddress,
                         Phone__c = Phone,
                         Phone_Type__c = PhoneType,
@@ -918,9 +1033,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Mailing_Country_Code__c = cc,
                         Mailing_State_Code__c = sc
                     );
+                    participant.Date_of_Birth__c = String.valueOf(DateofBirthTemp);
                     participant.Adult__c =
                         ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
                     //This intiation done for delegate age Check
+                    participant.Date_of_Birth__c=null;
                     Participant__c participantDelegate = new Participant__c(
                         First_Name__c = DelegateFirstName,
                         Last_Name__c = DelegateLastName,
@@ -1232,9 +1349,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 }
                                 if (String.isNotBlank(Sex)) {
                                     participantDuplicate.Gender__c = Sex;
-                                }
-                                if (String.isNotBlank(DateOfBirth)) {
-                                    participantDuplicate.Date_of_Birth__c = DateOfBirth;
+                                }                                
+                                if (String.isNotBlank(YearofBirth)) {
+                                    participantDuplicate.Birth_Year__c =YearofBirth ;
+                                }                                
+                                if (String.isNotBlank(MonthofBirth)) {
+                                    participantDuplicate.Birth_Month__c =MonthofBirth ;
+                                }                                
+                                if (String.isNotBlank(strDate)) {
+                                    participantDuplicate.Birth_Day__c =strDate ;
                                 }
                                 if (String.isNotBlank(PhoneType) && participantDuplicate.Adult__c) {
                                     participantDuplicate.Phone_Type__c = PhoneType;
