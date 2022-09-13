@@ -207,7 +207,7 @@
                     $A.getCallback(function() {
                         $A.enqueueAction(action2);
                 
-                    }), 5000
+                    }), 2000
                 );
                 //$A.enqueueAction(action2);
     },
