@@ -27229,6 +27229,41 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Last Updated on:</value>
     </labels>
     <labels>
+        <fullName>PP_StudyPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note1</shortDescription>
+        <value>Your privacy is important to us. By clicking “Save &amp; Continue”, you confirm via your electronic signature that you have read and agree to our </value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note2</shortDescription>
+        <value>and acknowledge our</value>
+    </labels>
+    <labels>
+        <fullName>PP_StudyPrivacyPolicyNote3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage privacy note3</shortDescription>
+        <value>, and that you consent to share your information with a study team, and to be contacted at the telephone number(s) and/or email you have provided, to keep you updated with important study or program related information and activities, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note1</shortDescription>
+        <value>By checking these boxes, you also consent to the processing of your personal data by IQVIA for the purposes of sending you updates about new clinical trial opportunities according to the terms of IQVIA's</value>
+    </labels>
+    <labels>
+        <fullName>PP_PlatformPrivacyPolicyNote2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registerpage platform privacy note2</shortDescription>
+        <value>, using the telephone number(s) and/or email you have provided, by the following means:s</value>
+    </labels>
+    <labels>
         <fullName>Communication_Preferences</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -27716,9 +27751,107 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>true</protected>
         <shortDescription>No_active_program</shortDescription>
         <value>No active program</value>
+     </labels>
+     <labels>
+        <fullName>Navigation_AboutProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the Program</shortDescription>
+        <value>About the Program</value>
     </labels>
     <labels>
-        <fullName>Date_of_Birth</fullName>
+        <fullName>Navigation_AboutStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation About the study</shortDescription>
+        <value>About the Study</value>
+    </labels>
+    <labels>
+        <fullName>Upcoming_Visit_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What you can Expect:</shortDescription>
+        <value>What you can Expect:</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Visit Details</shortDescription>
+        <value>View Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Visit expectations</shortDescription>
+        <value>There are no expectations for this visit</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Visit_No_Date_Or_Time_Entered</shortDescription>
+        <value>No Date Or Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_WhToEx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>What to Expect</value>
+    </labels>
+    <labels>
+        <fullName>Visit_My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit My Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Visits_No_Data_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits No Data Available</shortDescription>
+        <value>No Data is available for this visit</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Upcoming</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Upcoming</shortDescription>
+        <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Past</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits Past</shortDescription>
+        <value>Past</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Check_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Check Result</shortDescription>
+        <value>Check for results once your visit has occurred.</value>
+    </labels>    
+    <labels>
+        <fullName>Visits_View_All_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits View All Results</shortDescription>
+        <value>View All Results</value>
+    </labels>
+  	<labels>
+  		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Date of Birth</shortDescription>

@@ -28,6 +28,11 @@
             component.find('navigationMobile').refresh();
             component.find('alerts').refresh();
         }
+        else{
+            component.find('ppMenu').forceRefresh();
+            component.find('ppFooter').forceRefresh();
+            
+        }
     },
 
     switchSideMenu: function (component) {
