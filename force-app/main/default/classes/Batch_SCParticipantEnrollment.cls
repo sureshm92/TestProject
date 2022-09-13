@@ -501,12 +501,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
     public static String constructFileData(Set<Id> recordIds) {
     
         String concantenatedStr = 'Id'+ '\n';
-        Integer i = 0, rowListSize = recordIds.size();
-        
-        for(Id row :recordIds){
-            i++;
-            concantenatedStr += (String)row + ((i != rowListSize) ? '\n' : '');
-        }
+        concantenatedStr += String.join(new List<Id>(recordIds), '\n');
         return concantenatedStr;
     }
     
