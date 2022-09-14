@@ -281,6 +281,7 @@ public without sharing class HCPEnrollmentService {
         'Study_Site__r.Principal_Investigator__r.MailingAddress',
         'Study_Site__r.Is_Virtual_Study_Site__c',
         'Study_Site__r.Study_Site_Type__c',
+        'Study_Site__r.Participant_DOB_format__c',
         'Override_PI_Status__c',
         'Orientation_Date__c',
         'Completed_Orientation__c'

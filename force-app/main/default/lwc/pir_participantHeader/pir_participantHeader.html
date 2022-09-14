@@ -118,8 +118,10 @@
                         <template if:true={checkAction}>
                             <template if:true={showAction}>
                                 <template if:false={showActiondt}>
-                                    <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" title={label.inviteToPP}  onclick={doAction}> {label.inviteToPP} </button> 
-                                </template> 
+                                    <template if:false={showActionbtnDisabled}>
+                                        <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small" title={label.inviteToPP}  onclick={doAction}> {label.inviteToPP} </button> 
+                                    </template>
+                                </template>
                             </template>
                         </template>
                     </div>
@@ -174,8 +176,10 @@
                     <template if:true={checkAction}>
                         <template if:true={showAction}>                            
                             <template if:false={showActiondt}>
-                                <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {label.inviteToPP} </button> 
-                            </template> 
+                                <template if:false={showActionbtnDisabled}>
+                                    <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {label.inviteToPP} </button> 
+                                </template>
+                            </template>
                         </template>
                     </template>
                 </div>

@@ -48,7 +48,7 @@
                             horizontal-align="center"
                             class="po-custom-card"
                         >
-                            <lightning-layout-item size="3" class={borderPOHome}>
+                            <lightning-layout-item size="4" class={borderPOHome}>
                                     <div class="po-center">
                                         <template if:true={isIqviaLogo}>
                                             <img src={iqviaLogoUrl} class="po-logo" />
@@ -81,7 +81,7 @@
                             <lightning-layout-item size="5" class={borderPOHome}>
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
                                     <div class="po-center">
-                                        <img src={clinicalrecord.Profile_Picture__c} class="po-logo-mobile" />
+                                        <img src={clinicalrecord.Profile_Picture__c} />
                                     </div>
                                 </template>
                             </lightning-layout-item>   
@@ -112,7 +112,7 @@
                         horizontal-align="center"
                         class="po-custom-card"
                     >
-                        <lightning-layout-item size="3" class={borderPOHome}>
+                        <lightning-layout-item size="4" class={borderPOHome}>
                                 <div class="po-center">
                                     <template if:true={isIqviaLogo}>
                                         <img src={iqviaLogoUrl} class="po-logo" />

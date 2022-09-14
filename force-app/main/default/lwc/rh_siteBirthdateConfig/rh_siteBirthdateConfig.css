@@ -1,0 +1,17 @@
+.cursor-default{
+    cursor: default;
+}
+
+.checkbox-header{
+    color: rgb(1, 118, 211);
+    text-align: center;
+    font-size: 12px;
+}
+
+.align-text-center{
+    text-align: center;
+}
+
+.select-all{
+    font-weight: 490;
+}
