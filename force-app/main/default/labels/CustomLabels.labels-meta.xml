@@ -27605,14 +27605,6 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Successfully Re-Engaged</value>
     </labels>
     <labels>
-        <fullName>Communication_Preferences</fullName>
-        <categories>PPAccountSettings</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Communication Preferences</shortDescription>
-        <value>Communication Preferences</value>
-    </labels>
-    <labels>
         <fullName>RH_CountryConstent</fullName>
         <language>en_US</language>
         <protected>false</protected>
