@@ -771,7 +771,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Month}
+                                                            >{!$Label.c.RH_MOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -791,7 +791,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Day}
+                                                            >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -810,7 +810,7 @@
                                                             title="required"
                                                             class="slds-required"
                                                             >*</abbr
-                                                        >{!$Label.c.RH_RP_Birth_Year}
+                                                        >{!$Label.c.RH_YearofBirth}
                                                     </div>
                                                     <div>
                                                         <c:rrSelect
@@ -1397,7 +1397,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Month}
+                                                            >{!$Label.c.RH_MOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -1417,7 +1417,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Day}
+                                                            >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -1436,7 +1436,7 @@
                                                             title="required"
                                                             class="slds-required"
                                                             >*</abbr
-                                                        >{!$Label.c.RH_RP_Birth_Year}
+                                                        >{!$Label.c.RH_YearofBirth}
                                                     </div>
                                                     <div>
                                                         <c:rrSelect
