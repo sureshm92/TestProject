@@ -592,7 +592,7 @@ export default class Pir_participantDetail extends LightningElement {
         if (maxDayMonths.includes(this.valueMM)) {
             this.lastDay = 31;
         }
-        else if (maxDayMonths.includes(this.valueMM)) {
+        else if (minDayMonths.includes(this.valueMM)) {
             this.lastDay = 30;
         }
         else if (this.valueMM == '02') {
