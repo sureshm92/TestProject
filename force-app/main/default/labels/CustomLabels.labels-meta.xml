@@ -27897,8 +27897,10 @@ Please contact the Study Team for further updates or please login for additiona
         <fullName>Visit_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Visit_Details</shortDescription>
+        <shortDescription>Visit Details</shortDescription>
         <value>Visit Details</value>
+    </labels>
+    <labels>
         <fullName>Edit_Visit_Event_Legend</fullName>
         <categories>Edit Visit/Event Legend</categories>
         <language>en_US</language>
@@ -27906,7 +27908,6 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Edit Visit/Event Legend</shortDescription>
         <value>Edit Visit/Event Legend</value>
     </labels>
-    
   	<labels>
   		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>
@@ -27927,5 +27928,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Year of Birth</shortDescription>
         <value>Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preference_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Communication Preferences Url</shortDescription>
+        <value>/account-settings?communication-preferences</value>
     </labels>
 </CustomLabels>

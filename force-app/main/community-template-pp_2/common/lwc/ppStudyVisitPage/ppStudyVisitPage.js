@@ -3,7 +3,7 @@ import getParticipantVisits from '@salesforce/apex/ParticipantVisitsRemote.getPa
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
 import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddress';
 import basePathName from '@salesforce/community/basePath';
-import communicationPreference from '@salesforce/label/c.Communication_Preference';
+import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 import getIcon from '@salesforce/apex/PatientVisitService.getVisitIconsbyName';
 import WTELabel from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
