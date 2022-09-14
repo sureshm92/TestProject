@@ -116,6 +116,7 @@
     <aura:attribute name="mrrExist" type="Boolean" default="false" />
     <aura:attribute name="myStudies" type="Boolean" default="false" />
     <aura:attribute name="PeID" type="string" />
+    <aura:attribute name="toggleAge" type="Boolean" default="true" />
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -795,6 +796,7 @@
                                                             >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
+                                                            <aura:if isTrue="{!v.toggleAge}">
                                                             <c:rrSelect
                                                                 options="{!v.days}"
                                                                 value="{!v.pday}"
@@ -802,6 +804,7 @@
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDayChange}"
                                                             />
+                                                        </aura:if>
                                                         </div>
                                                     </div>
                                                 </aura:if>
@@ -1421,6 +1424,7 @@
                                                             >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
+                                                            <aura:if isTrue="{!v.toggleAge}">
                                                             <c:rrSelect
                                                                 options="{!v.days}"
                                                                 value="{!v.pday}"
@@ -1428,6 +1432,7 @@
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDayChange}"
                                                             />
+                                                            </aura:if>
                                                         </div>
                                                     </div>
                                                 </aura:if>

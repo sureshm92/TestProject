@@ -102,9 +102,7 @@
                             component.set('v.currentState', 'No Active Sites');
                         }
                         if(initData.participantEnrollment.YOB__c) {component.set('v.pyear',initData.participantEnrollment.YOB__c);}
-                        
                         if(initData.participantEnrollment.Birth_Month__c) {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
-                        
                         component.dobChangeMethod();
                     } else {
                         component.set('v.currentState', 'Select Source');
@@ -380,6 +378,7 @@
         component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
         component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
         let formatSS = component.get('v.studySiteFormat');
+        if(formatSS == 'DD-MM-YYYY'){helper.doMonthPLVChange(component, event, helper);}
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
         if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
