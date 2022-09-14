@@ -124,6 +124,7 @@
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
     <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}" />
     <aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}" />
+    <aura:method name="dobChangeMethod" action="{!c.doDOBChange}" />
     <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}" />
     <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
@@ -799,7 +800,7 @@
                                                                 value="{!v.pday}"
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDOBChange}"
+                                                                onchange="{!c.doDayChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -1425,7 +1426,7 @@
                                                                 value="{!v.pday}"
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDOBChange}"
+                                                                onchange="{!c.doDayChange}"
                                                             />
                                                         </div>
                                                     </div>

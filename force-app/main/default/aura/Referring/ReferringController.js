@@ -133,8 +133,8 @@
                         var obj = {};
                         for (var i = 1; i <= 31; i++) {
                             if(i >= 10){
-                                obj.label = i;
-                                obj.value = i;
+                                obj.label = ''+i;
+                                obj.value = ''+i;
                             }else{
                                 obj.label = '0'+i;
                                 obj.value = '0'+i;
@@ -362,13 +362,28 @@
         }
     },
     
+    doDayChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        component.set('v.participant.Birth_Day__c',component.get('v.pday'));
+        component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
+        component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
+        let formatSS = component.get('v.studySiteFormat');
+        //component.checkdobMethod();
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+    },
+
     doDOBChange: function (component, event, helper) {
         component.set('v.selectedAge','');
         component.set('v.participant.Birth_Day__c',component.get('v.pday'));
         component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
         component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
-            component.checkdobMethod();
-        helper.generateAgeOptions(component);
+        let formatSS = component.get('v.studySiteFormat');
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        //component.checkdobMethod();
     },
     doAgeChange: function (component, event, helper) {
         component.set('v.participant.Age__c',component.get('v.selectedAge'));
