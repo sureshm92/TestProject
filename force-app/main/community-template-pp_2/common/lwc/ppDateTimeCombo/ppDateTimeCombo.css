@@ -10,19 +10,19 @@
 }
 
 .curve-input .svg-icon {
-	position: absolute;
-	top: 50%;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%) translateX(-50%);
-	left: 20px;
-	fill: #00a3e0;
+    left: 20px;
+    fill: #00a3e0;
 }
 
-.curve-input input[type=date] {
+.curve-input input[type='date'] {
     width: 300px;
     display: flex;
     align-items: center;
     max-width: 100%;
-    font-size: .875rem;
+    font-size: 0.875rem;
     border-radius: 1rem;
     border: none;
     background: #fff;
@@ -30,11 +30,11 @@
     text-align: left;
 }
 
-.curve-input input[type=date]:disabled {
+.curve-input input[type='date']:disabled {
     background: #f2f2f2;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator,
+input[type='date']::-webkit-calendar-picker-indicator,
 .curve-input .slds-input__icon-group_right {
     position: absolute;
     left: 0;

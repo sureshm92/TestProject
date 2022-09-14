@@ -1,20 +1,49 @@
 <template>
     <div>
-        <div class="slds-grid slds-wrap" style="padding-left: 24px; padding-right: 24px;">
+        <div class="slds-grid slds-wrap" style="padding-left: 24px; padding-right: 24px">
             <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-left_none">
                 <label>{label.date}</label>
                 <div class="curve-input">
-                    <c-web-icon class="svg-icon" icon-size="medium" icon-name="calendar" data-id="date" icon-color="#00A3E0">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size="medium"
+                        icon-name="calendar"
+                        data-id="date"
+                        icon-color="#00A3E0"
+                    >
                     </c-web-icon>
-                    <input type="date" id="date" value={dbDate} min={mindate} max={maxdate} onchange={handleDate}>
+                    <input
+                        type="date"
+                        id="date"
+                        value={dbDate}
+                        min={mindate}
+                        max={maxdate}
+                        onchange={handleDate}
+                    />
                 </div>
             </div>
-            <div if:false={past} class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-right_none">
+            <div
+                if:false={past}
+                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-p-right_none"
+            >
                 <label>{label.time}</label>
-                <div  class="curve-input">
-                    <c-web-icon class="svg-icon" icon-size="medium" icon-name="time_clock" data-id="time" icon-color="#00A3E0">
+                <div class="curve-input">
+                    <c-web-icon
+                        class="svg-icon"
+                        icon-size="medium"
+                        icon-name="time_clock"
+                        data-id="time"
+                        icon-color="#00A3E0"
+                    >
                     </c-web-icon>
-                    <lightning-input type="time" value={dbTime} min={mintime} max={maxtime} onchange={handleTime}></lightning-input>
+                    <lightning-input
+                        type="time"
+                        value={dbTime}
+                        min={mintime}
+                        max={maxtime}
+                        onchange={handleTime}
+                    >
+                    </lightning-input>
                 </div>
             </div>
         </div>

@@ -1,9 +1,9 @@
-import { LightningElement,api,track,wire } from 'lwc';
-import moment from '@salesforce/resourceUrl/moment_js'; 
+import { LightningElement, api, track, wire } from 'lwc';
+import moment from '@salesforce/resourceUrl/moment_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
-import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits'; 
-import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData'; 
+import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
+import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import date from '@salesforce/label/c.TV_TH_Date';
@@ -61,7 +61,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track emailOptIn = false;
     @track smsOptIn = false;
     @track email;
-    @track sms;    
+    @track sms;
     @track date;
     @track reminderDateChanged = false;
     @track visitDateChanged = false;
@@ -69,161 +69,178 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track reminderOptions = [];
     @track visitDateTime;
     @track disableButtonSaveCancel = true;
-    @track showreminderdatepicker =false;
-    
+    @track showreminderdatepicker = false;
+
     async connectedCallback() {
         await loadScript(this, moment);
     }
 
     @wire(checkSmsOptIn)
-    returneddata({error,data}){
-        if(data){
+    returneddata({ error, data }) {
+        if (data) {
             this.smsOptIn = data[0].Permit_SMS_Text_for_this_study__c;
             this.emailOptIn = data[0].Permit_Mail_Email_contact_for_this_study__c;
-        }else if (error) {
+        } else if (error) {
             this.showErrorToast('Error occured', error.message, 'error');
         }
     }
 
     @api
-    callFromParent(){
-        this.visitDate='';
-        this.visitTime='';
-        this.visitDateTime='';
-        this.remindmepub='';
+    callFromParent() {
+        this.visitDate = '';
+        this.visitTime = '';
+        this.visitDateTime = '';
+        this.remindmepub = '';
         this.showreminderdatepicker = false;
-        this.visitDateChanged=false;
+        this.visitDateChanged = false;
         this.template.querySelector('[data-id="visitDateTime"]').callFromParent();
         this.template.querySelector('[data-id="reminderDateTime"]').callFromParent();
     }
 
-    get dbreminderdate(){
-        if(this.visitdata.task.Reminder_Date__c && !this.visitDateChanged && !this.reminderDateChanged){
+    get dbreminderdate() {
+        if (
+            this.visitdata.task.Reminder_Date__c &&
+            !this.visitDateChanged &&
+            !this.reminderDateChanged
+        ) {
             this.selectedReminderDateTime = this.visitdata.task.Reminder_Date__c;
             var reminderDate = this.visitdata.task.Reminder_Date__c;
             return reminderDate;
-        }else if(this.selectedReminderDateTime){
+        } else if (this.selectedReminderDateTime) {
             return this.selectedReminderDateTime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    get dbremindertime(){
-        if(this.visitdata.task.Reminder_Date__c && !this.visitDateChanged && !this.reminderDateChanged){
+    get dbremindertime() {
+        if (
+            this.visitdata.task.Reminder_Date__c &&
+            !this.visitDateChanged &&
+            !this.reminderDateChanged
+        ) {
             var reminderTime = this.visitdata.task.Reminder_Date__c;
             return reminderTime;
-        }else if(this.selectedReminderDateTime){
+        } else if (this.selectedReminderDateTime) {
             return this.selectedReminderDateTime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    get compDate(){
-        if(this.visitdata.visitDate && !this.visitDateChanged){
+    get compDate() {
+        if (this.visitdata.visitDate && !this.visitDateChanged) {
             this.visitDateTime = this.visitdata.visitDate;
             var visitDate = this.visitdata.visitDate;
             return visitDate;
-        }else if(this.visitDateTime){
+        } else if (this.visitDateTime) {
             return this.visitDateTime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    get compTime(){
-        if(this.visitdata.visitDate){
+    get compTime() {
+        if (this.visitdata.visitDate) {
             var visitTime = this.visitdata.visitDate;
             return visitTime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    handleInitialDateLoad(event){
+    handleInitialDateLoad(event) {
         this.visitDate = event.detail.compdate;
     }
 
-    handleInitialTimeLoad(event){
+    handleInitialTimeLoad(event) {
         this.visitTime = event.detail.comptime;
     }
 
-    handleInitialReminderDateLoad(event){
+    handleInitialReminderDateLoad(event) {
         this.selectedReminderDate = event.detail.compdate;
     }
 
-    handleInitialReminderTimeLoad(event){
+    handleInitialReminderTimeLoad(event) {
         this.selectedReminderTime = event.detail.comptime;
     }
 
-    get dbCompletedDate(){
-        if(this.visitdata.visitStatus == 'Missed'){
+    get dbCompletedDate() {
+        if (this.visitdata.visitStatus == 'Missed') {
             return null;
-        }else if(this.visitdata.visit.Completed_Date__c){
+        } else if (this.visitdata.visit.Completed_Date__c) {
             var completedDate, completedTime;
             var dbvisitDate = new Date(this.visitdata.visit.Completed_Date__c);
-            var localtimezonedate = dbvisitDate.toLocaleString('en-US', {timeZone: TIME_ZONE});
+            var localtimezonedate = dbvisitDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
             var processlocaltimezonedate = new Date(localtimezonedate);
-            var hh = String((processlocaltimezonedate.getHours()<10?'0':'') + processlocaltimezonedate.getHours());
-            var mm = String((processlocaltimezonedate.getMinutes()<10?'0':'') + processlocaltimezonedate.getMinutes());
-            var ss = String((processlocaltimezonedate.getSeconds()<10?'0':'') + processlocaltimezonedate.getSeconds());
+            var hh = String(
+                (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getHours()
+            );
+            var mm = String(
+                (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getMinutes()
+            );
+            var ss = String(
+                (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getSeconds()
+            );
             completedTime = hh + ':' + mm + ':' + ss;
             var dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
             var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
             var yyyy = processlocaltimezonedate.getFullYear();
-            completedDate = yyyy + '-' + mm + '-' + dd ;
+            completedDate = yyyy + '-' + mm + '-' + dd;
             return completedDate;
-        }else{
+        } else {
             return null;
         }
     }
 
-    get showReminders(){
-        if(this.visitdata.visitDate || this.visitDateTime){
+    get showReminders() {
+        if (this.visitdata.visitDate || this.visitDateTime) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
-    get maxReminderTime(){
-        if(this.selectedReminderDate == this.visitDate){
-            if(this.visitTime){
+    get maxReminderTime() {
+        if (this.selectedReminderDate == this.visitDate) {
+            if (this.visitTime) {
                 return this.visitTime;
-            }else{
+            } else {
                 return null;
             }
-        }else{
+        } else {
             return null;
         }
     }
 
-    get minReminderTime(){
-        if(this.todaydate == this.selectedReminderDate){
+    get minReminderTime() {
+        if (this.todaydate == this.selectedReminderDate) {
             return this.todaytime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    get showEmailSms(){
-        if(this.remindmepub){
+    get showEmailSms() {
+        if (this.remindmepub) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    get dbReminderOption(){
-        if(this.remindmepub){
-            if(this.remindmepub == this.label.custom){
+    get dbReminderOption() {
+        if (this.remindmepub) {
+            if (this.remindmepub == this.label.custom) {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
-        }else if(this.visitdata.task.Remind_Me__c){
+        } else if (this.visitdata.task.Remind_Me__c) {
             this.remindmepub = this.visitdata.task.Remind_Me__c;
-            if(this.remindmepub == this.label.custom){
+            if (this.remindmepub == this.label.custom) {
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
@@ -232,51 +249,51 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get reminderFrequencyList() {
         this.reminderOptions = [];
-        if(this.visitDateTime){
-            var dateTime = new Date(this.visitDateTime)
-            var currentDateTime = new Date();    
-            var differenceTimeHours = (dateTime - currentDateTime)/3600000;
-            if(differenceTimeHours > 1){
+        if (this.visitDateTime) {
+            var dateTime = new Date(this.visitDateTime);
+            var currentDateTime = new Date();
+            var differenceTimeHours = (dateTime - currentDateTime) / 3600000;
+            if (differenceTimeHours > 1) {
                 const option = {
                     label: this.label.onehour,
                     value: this.label.onehour
                 };
-                this.reminderOptions = [ ...this.reminderOptions, option ];
+                this.reminderOptions = [...this.reminderOptions, option];
             }
-            if(differenceTimeHours > 4){
+            if (differenceTimeHours > 4) {
                 const option = {
                     label: this.label.fourhour,
                     value: this.label.fourhour
                 };
-                this.reminderOptions = [ ...this.reminderOptions, option ];
+                this.reminderOptions = [...this.reminderOptions, option];
             }
-            if(differenceTimeHours > 24){
+            if (differenceTimeHours > 24) {
                 const option = {
                     label: this.label.oneday,
                     value: this.label.oneday
                 };
-                this.reminderOptions = [ ...this.reminderOptions, option ];
+                this.reminderOptions = [...this.reminderOptions, option];
             }
-            if(differenceTimeHours > 168){
+            if (differenceTimeHours > 168) {
                 const option = {
                     label: this.label.oneweek,
                     value: this.label.oneweek
                 };
-                this.reminderOptions = [ ...this.reminderOptions, option ];
+                this.reminderOptions = [...this.reminderOptions, option];
             }
             const option = {
                 label: this.label.custom,
                 value: this.label.custom
             };
-            this.reminderOptions = [ ...this.reminderOptions, option ];
+            this.reminderOptions = [...this.reminderOptions, option];
         }
         return this.reminderOptions;
     }
 
-    get disablereminder(){
-        if(this.visitDate){
+    get disablereminder() {
+        if (this.visitDate) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -286,44 +303,48 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var dd = String(currentDate.getDate()).padStart(2, '0');
         var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
         var yyyy = currentDate.getFullYear();
-        var today = yyyy + '-' + mm + '-' + dd ;
+        var today = yyyy + '-' + mm + '-' + dd;
         this.todaydate = today;
         this.calculatedDate = today;
         return today;
     }
 
-    get currentTime(){
+    get currentTime() {
         var currentDateTime = new Date();
-        var hh = String((currentDateTime.getHours()<10?'0':'') + currentDateTime.getHours());
-        var mm = String((currentDateTime.getMinutes()<10?'0':'') + currentDateTime.getMinutes());
-        var ss = String((currentDateTime.getSeconds()<10?'0':'') + currentDateTime.getSeconds());
+        var hh = String((currentDateTime.getHours() < 10 ? '0' : '') + currentDateTime.getHours());
+        var mm = String(
+            (currentDateTime.getMinutes() < 10 ? '0' : '') + currentDateTime.getMinutes()
+        );
+        var ss = String(
+            (currentDateTime.getSeconds() < 10 ? '0' : '') + currentDateTime.getSeconds()
+        );
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
-        if(this.calculatedDate == this.visitDate){
+        if (this.calculatedDate == this.visitDate) {
             return currentTime;
-        }else{
+        } else {
             return null;
         }
     }
 
-    setAttributeValueEmail(event){
+    setAttributeValueEmail(event) {
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
-        this.email = event.target.checked; 
+        this.email = event.target.checked;
     }
 
-    setAttributeValueSms(event){
+    setAttributeValueSms(event) {
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
-        this.sms = event.target.checked; 
+        this.sms = event.target.checked;
     }
 
-    doValidateFields(event){
+    doValidateFields(event) {
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
         this.remindmepub = event.target.value;
         var remindMe = event.target.value;
-        var today =  new Date(new Date() + 60 * 1000);
+        var today = new Date(new Date() + 60 * 1000);
         var dueDateOrplanDate = this.visitDateTime;
         if (remindMe !== this.label.custom) {
             this.showreminderdatepicker = false;
@@ -332,7 +353,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(7, 'days');
             } else if (remindMe === this.label.oneday) {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);
-                this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(1, 'days')
+                this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(1, 'days');
             } else if (remindMe === this.label.onehour) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
@@ -342,27 +363,27 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             }
             var date = new Date(this.selectedReminderDateTime);
             this.selectedReminderDateTime = date.toISOString();
-        }else{
+        } else {
             this.showreminderdatepicker = true;
-        } 
+        }
     }
 
-    handleOnlyDate(event){
+    handleOnlyDate(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
         this.selectedReminderDate = event.detail.compdate;
-        this.minReminderTime();        
+        this.minReminderTime();
     }
 
-    handleOnlyTime(event){
+    handleOnlyTime(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
         this.selectedReminderDate = event.detail.comptime;
     }
 
-    handleReminderDate(event){
+    handleReminderDate(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
@@ -371,7 +392,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.minReminderTime();
     }
 
-    handleReminderTime(event){
+    handleReminderTime(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
@@ -379,7 +400,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDateTime = event.detail.compdatetime;
     }
 
-    handleTime(event){
+    handleTime(event) {
         this.disableButtonSaveCancel = false;
         this.visitDateChanged = true;
         this.reminderDateChanged = true;
@@ -392,7 +413,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderFrequencyList();
     }
 
-    handleDate(event){
+    handleDate(event) {
         this.disableButtonSaveCancel = false;
         this.visitDateChanged = true;
         this.reminderDateChanged = true;
@@ -405,13 +426,13 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.reminderFrequencyList();
     }
 
-    doSave(){
+    doSave() {
         this.disableButtonSaveCancel = true;
         var errorInDml = false;
         var reminderDate;
-        if(!this.reminderDateChanged){
-            reminderDate =  this.visitdata.task.Reminder_Date__c;
-        }else{
+        if (!this.reminderDateChanged) {
+            reminderDate = this.visitdata.task.Reminder_Date__c;
+        } else {
             reminderDate = this.selectedReminderDateTime;
         }
         var patientVisit = {
@@ -421,7 +442,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             Status__c: 'Scheduled'
         };
         var visitTask;
-        if(this.taskid){
+        if (this.taskid) {
             visitTask = {
                 Id: this.taskid,
                 Subject: this.tasksubject,
@@ -433,7 +454,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 Is_Reminder_Sent__c: false,
                 Task_Type__c: 'Visit'
             };
-        }else{
+        } else {
             visitTask = {
                 Subject: this.tasksubject,
                 Patient_Visit__c: this.visitid,
@@ -445,67 +466,67 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 Task_Type__c: 'Visit'
             };
         }
-        
-        if(this.visitDateChanged){
+
+        if (this.visitDateChanged) {
             updatePatientVisits({
                 visit: JSON.stringify(patientVisit)
             })
-            .then(result=>{
-                if(this.reminderChanged || this.reminderDateChanged){
-                    upsertTaskData({
-                        task : JSON.stringify(visitTask)
-                     })
-                     .then(result=>{ 
+                .then((result) => {
+                    if (this.reminderChanged || this.reminderDateChanged) {
+                        upsertTaskData({
+                            task: JSON.stringify(visitTask)
+                        })
+                            .then((result) => {
+                                const event = new ShowToastEvent({
+                                    message: this.label.visitdetailsupdated,
+                                    variant: 'success',
+                                    mode: 'dismissable'
+                                });
+                                this.dispatchEvent(event);
+                                const selectEvent = new CustomEvent('dataupdated');
+                                this.dispatchEvent(selectEvent);
+                            })
+                            .catch((error) => {
+                                this.showErrorToast('Error occured', error.message, 'error');
+                            });
+                    } else {
                         const event = new ShowToastEvent({
-                            message:this.label.visitdetailsupdated,
+                            message: this.label.visitdetailsupdated,
                             variant: 'success',
                             mode: 'dismissable'
                         });
-                        this.dispatchEvent(event);   
+                        this.dispatchEvent(event);
                         const selectEvent = new CustomEvent('dataupdated');
                         this.dispatchEvent(selectEvent);
-                     })
-                     .catch((error)=>{
-                        this.showErrorToast('Error occured', error.message, 'error');
-                     })       
-                }else{
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast('Error occured', error.message, 'error');
+                });
+        } else if (this.reminderChanged) {
+            upsertTaskData({
+                task: JSON.stringify(visitTask)
+            })
+                .then((result) => {
                     const event = new ShowToastEvent({
-                        message:this.label.visitdetailsupdated,
+                        message: this.label.visitdetailsupdated,
                         variant: 'success',
                         mode: 'dismissable'
                     });
-                    this.dispatchEvent(event);   
+                    this.dispatchEvent(event);
                     const selectEvent = new CustomEvent('dataupdated');
                     this.dispatchEvent(selectEvent);
-                }
-            })
-            .catch((error)=>{
-                this.showErrorToast('Error occured', error.message, 'error');
-            })    
-        }else if(this.reminderChanged){
-            upsertTaskData({
-                task : JSON.stringify(visitTask)
-             })
-             .then(result=>{ 
-                const event = new ShowToastEvent({
-                    message:this.label.visitdetailsupdated,
-                    variant: 'success',
-                    mode: 'dismissable'
+                })
+                .catch((error) => {
+                    this.showErrorToast('Error occured', error.message, 'error');
                 });
-                this.dispatchEvent(event);   
-                const selectEvent = new CustomEvent('dataupdated');
-                this.dispatchEvent(selectEvent);
-             })
-             .catch((error)=>{
-                this.showErrorToast('Error occured', error.message, 'error');
-             })  
-        }       
+        }
     }
 
-    doCancel(){
+    doCancel() {
         this.remindmepub = this.visitdata.task.Remind_Me__c;
         this.visitDate = '';
-        this.visitTime = ''; 
+        this.visitTime = '';
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
         this.email = this.visitdata.task.Remind_Using_Email__c;

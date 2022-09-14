@@ -1,9 +1,21 @@
 <template>
-    <div class="slds-grid  slds-wrap slds-gutters slds-p-horizontal_x-large">
+    <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
         <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col1">
             <h1 class="slds-p-vertical_x-large visit3"><b>{label.myvisits}</b></h1>
-            <button data-id="upcoming" class="slds-button slds-button_brand up-button active-button-background" onclick={onUpcomingClick}>{label.upcoming}</button>
-            <button data-id="past" class="slds-button slds-button_neutral past-button inactive-button-background" onclick={onPastClick}>{label.past}</button>
+            <button
+                data-id="upcoming"
+                class="slds-button slds-button_brand up-button active-button-background"
+                onclick={onUpcomingClick}
+            >
+                {label.upcoming}
+            </button>
+            <button
+                data-id="past"
+                class="slds-button slds-button_neutral past-button inactive-button-background"
+                onclick={onPastClick}
+            >
+                {label.past}
+            </button>
             <div class="slds-scrollable_y scrollar scroll-bar">
                 <template if:true={showUpcomingVisits}>
                     <template for:each={upcomingVisits} for:item="item" for:index="index">
@@ -13,7 +25,7 @@
                                 class="inactive-custom-box-class"
                                 onclick={onVisitSelect}
                                 data-index={index}
-                                data-past = "false"
+                                data-past="false"
                                 data-id={item.visit.Id}
                                 data-name={item.visit.Name}
                             >
@@ -25,17 +37,17 @@
                                     <div class="slds-col slds-size_4-of-6">
                                         <span>
                                             <b>
-                                            <lightning-formatted-text
-                                                class={namestyle}
-                                                value={item.visit.Name}
-                                            >
-                                            </lightning-formatted-text>
+                                                <lightning-formatted-text
+                                                    class={namestyle}
+                                                    value={item.visit.Name}
+                                                >
+                                                </lightning-formatted-text>
                                             </b>
                                             <br />
                                             <p class="no-date">
-                                            <template if:true={item.noVisitDate}>
-                                                {label.noVisitsLabel}
-                                            </template>
+                                                <template if:true={item.noVisitDate}>
+                                                    {label.noVisitsLabel}
+                                                </template>
                                             </p>
                                             <template if:false={item.noVisitDate}>
                                                 <lightning-formatted-date-time
@@ -57,11 +69,11 @@
                                         </span>
                                     </div>
                                     <div class="slds-col slds-size_1-of-6">
-                                    <lightning-icon
-                                        icon-name="utility:notification"
-                                        size="small"
-                                        class="icon-Style"
-                                    ></lightning-icon>
+                                        <lightning-icon
+                                            icon-name="utility:notification"
+                                            size="small"
+                                            class="icon-Style"
+                                        ></lightning-icon>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +88,7 @@
                                 class="inactive-custom-box-class"
                                 onclick={onVisitSelect}
                                 data-index={index}
-                                data-past = "true"
+                                data-past="true"
                                 data-id={item.visit.Id}
                             >
                                 <div class="slds-grid slds-wrap">
@@ -87,38 +99,37 @@
                                     <div class="slds-col slds-size_4-of-6">
                                         <span>
                                             <b>
-                                            <lightning-formatted-text
-                                                class={namestyle}
-                                                value={item.visit.Name} 
-                                            >
-                                            </lightning-formatted-text>
+                                                <lightning-formatted-text
+                                                    class={namestyle}
+                                                    value={item.visit.Name}
+                                                >
+                                                </lightning-formatted-text>
                                             </b>
                                             <br />
                                             <p class="no-date">
-                                            <template if:true={item.noVisitDate}>
-                                                {label.noVisitsLabel}
-                                            </template>
+                                                <template if:true={item.noVisitDate}>
+                                                    {label.noVisitsLabel}
+                                                </template>
                                             </p>
-                                                <lightning-formatted-date-time
-                                                    value={item.visit.Completed_Date__c}
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                    class="l-padding"
-                                                    time-zone={visitTimezone}
-                                                ></lightning-formatted-date-time>
-                                                <template if:false={past}>-</template>
-                                                <lightning-formatted-date-time 
-                                                    if:false={past}
-                                                    value={item.visit.Planned_Date__c}
-                                                    hour="2-digit"
-                                                    minute="2-digit"
-                                                    time-zone={visitTimezone}
-                                                ></lightning-formatted-date-time>
+                                            <lightning-formatted-date-time
+                                                value={item.visit.Completed_Date__c}
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                class="l-padding"
+                                                time-zone={visitTimezone}
+                                            ></lightning-formatted-date-time>
+                                            <template if:false={past}>-</template>
+                                            <lightning-formatted-date-time
+                                                if:false={past}
+                                                value={item.visit.Planned_Date__c}
+                                                hour="2-digit"
+                                                minute="2-digit"
+                                                time-zone={visitTimezone}
+                                            ></lightning-formatted-date-time>
                                         </span>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-6">
-                                    </div>
+                                    <div class="slds-col slds-size_1-of-6"></div>
                                 </div>
                             </div>
                         </div>
@@ -147,8 +158,7 @@
             </h1>
             <h1 if:true={past} class="slds-p-vertical_x-large visit3">
                 <b>{visitName}</b>
-                &nbsp;|&nbsp;
-                {visitStatus}
+                &nbsp;|&nbsp; {visitStatus}
             </h1>
             <div>
                 <h1 class="what-to-expect">{label.WTELabel}</h1>
@@ -156,25 +166,40 @@
                     <div class="slds-clearfix">
                         <div class="slds-float_left rem-border">
                             <template if:false={isError}>
-                                <c-pp-R-R-Icon-Splitter icons={icondetails} label={cblabel}
-                                description={cbdescription}></c-pp-R-R-Icon-Splitter>
+                                <c-pp-R-R-Icon-Splitter
+                                    icons={icondetails}
+                                    label={cblabel}
+                                    description={cbdescription}
+                                ></c-pp-R-R-Icon-Splitter>
                             </template>
                             <template if:true={isError}>
                                 <div>
                                     <span class="slds-align_absolute-center">
                                         {label.noDataAvailable}
-                                    </span>            
+                                    </span>
                                 </div>
                             </template>
                         </div>
-                        <br/>
+                        <br />
                     </div>
                 </div>
                 <h1 class="what-to-expect">{label.visitdetails}</h1>
                 <div>
                     <div class="slds-clearfix">
                         <div class="card-content">
-                            <c-pp-Study-Visit-Details-Card if:true={showChild} past={past} visitid={visitid} tasksubject={taskSubject} taskid={taskId} visitdata={visitdata} url={sfdcBaseURL} siteaddress={siteAddress} sitename={siteName} sitephone={sitePhoneNumber} ondataupdated={handleDataUpdate}>
+                            <c-pp-Study-Visit-Details-Card
+                                if:true={showChild}
+                                past={past}
+                                visitid={visitid}
+                                tasksubject={taskSubject}
+                                taskid={taskId}
+                                visitdata={visitdata}
+                                url={sfdcBaseURL}
+                                siteaddress={siteAddress}
+                                sitename={siteName}
+                                sitephone={sitePhoneNumber}
+                                ondataupdated={handleDataUpdate}
+                            >
                             </c-pp-Study-Visit-Details-Card>
                         </div>
                         <template if:false={contentLoaded}>

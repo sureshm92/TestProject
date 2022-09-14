@@ -9,7 +9,6 @@ public without sharing class TaskEditRemote {
     public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
         return CommunityService.getMaxLength(so, fieldNames);
     }
-
     public class TaskEditDataWrapper {
         @AuraEnabled
         public List<LabelValueItem> taskTypeList = new List<LabelValueItem>{
@@ -235,18 +234,15 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTaskData(String task){
-    	try {
-            Task patientVisitTask = (Task) JSON.deserialize(
-                task,
-                Task.class
-            );
+    public static void upsertTaskData(String task) {
+        try {
+            Task patientVisitTask = (Task) JSON.deserialize(task, Task.class);
             upsert patientVisitTask;
         } catch (Exception e) {
             AuraHelper.throwException(e);
-        }    
+        }
     }
-    
+
     @AuraEnabled
     public static void upsertTaskForVisit(String wrapper, String paramTask) {
         try {
@@ -369,9 +365,9 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
     }
-	
+
     @AuraEnabled(cacheable=true)
-    public static List<Participant_Enrollment__c> checkSmsOptIn(){
+    public static List<Participant_Enrollment__c> checkSmsOptIn() {
         List<Participant_Enrollment__c> availablePEs = new List<Participant_Enrollment__c>();
         try {
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
@@ -379,7 +375,7 @@ public without sharing class TaskEditRemote {
             List<Id> peIds = new List<Id>();
             peIds = PatientDelegateService.getAvailablePEIdsForContact(
                 participantState.participant.Contact__c
-            ); 
+            );
             availablePEs = [
                 SELECT
                     Id,
@@ -388,12 +384,12 @@ public without sharing class TaskEditRemote {
                 FROM Participant_Enrollment__c
                 WHERE Id = :peIds
             ];
-        }catch (Exception e) {
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return availablePEs;
     }
-    
+
     private static Boolean checkEmailPreferencesIsOn() {
         /*return (ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c ||
          ParticipantContext.getCurrentPE().Permit_Mail_Email_contact_for_this_study__c);*/
