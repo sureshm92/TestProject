@@ -66,6 +66,9 @@
                     component.set('v.contentDoc',JSON.parse(initData.contentDoc));
                     let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
                     component.set('v.studySiteFormat',dobFormat);
+                    component.set('v.pyear',null);
+                    component.set('v.pmonth',null);
+                    component.set('v.pday',null);
                     if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
@@ -98,6 +101,11 @@
                         } else {
                             component.set('v.currentState', 'No Active Sites');
                         }
+                        if(initData.participantEnrollment.YOB__c) {component.set('v.pyear',initData.participantEnrollment.YOB__c);}
+                        
+                        if(initData.participantEnrollment.Birth_Month__c) {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
+                        
+                        component.dobChangeMethod();
                     } else {
                         component.set('v.currentState', 'Select Source');
                     }
@@ -173,9 +181,7 @@
                             obj = {};
                         }
                         component.set('v.years', yearList);
-                        component.set('v.pday',null);
-                    component.set('v.pyear',null);
-                    component.set('v.pmonth',null);
+                    
                     if(component.get('v.patientVeiwRedirection')){
                         var penrollment = component.get('v.pEnrollment');
                         //let participant = component.get('v.participant');
