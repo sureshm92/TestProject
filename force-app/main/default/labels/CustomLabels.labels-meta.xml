@@ -5203,7 +5203,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Edit Visit Legend</shortDescription>
-        <value>Edit Visit Legend</value>
+        <value>Edit Visit/Event Legend</value>
     </labels>
     <labels>
         <fullName>Eligibility_Failed</fullName>
@@ -26107,7 +26107,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit b Add Visit</shortDescription>
-        <value>Add Visit</value>
+        <value>Add Visit/Event</value>
     </labels>
     <labels>
         <fullName>Visit_b_Close</fullName>
@@ -27850,6 +27850,15 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Visits View All Results</shortDescription>
         <value>View All Results</value>
     </labels>
+    <labels>
+        <fullName>Edit_Visit_Event_Legend</fullName>
+        <categories>Edit Visit/Event Legend</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Visit/Event Legend</shortDescription>
+        <value>Edit Visit/Event Legend</value>
+    </labels>
+    
   	<labels>
   		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>

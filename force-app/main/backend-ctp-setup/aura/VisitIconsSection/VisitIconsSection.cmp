@@ -11,7 +11,7 @@
     <aura:method name="reset" action="{!c.doInit}" access="public" />
 
     <div class="section">
-        <p style="padding: 10px">Visit Icons</p>
+        <p style="padding: 10px">Visit/Event Icons</p>
         <div class="icons-container">
             <aura:iteration items="{!v.icons}" var="icon">
                 <c:ToggleIcon
