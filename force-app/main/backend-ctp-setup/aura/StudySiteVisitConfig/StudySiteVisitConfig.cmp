@@ -17,18 +17,26 @@
     <aura:attribute name="haveEmptyAssigment" type="Boolean" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="scrollLeft" type="Integer" default="0" />
-    <aura:attribute name="vpId" type="String"/>
-    <aura:attribute name="isModalOpen" type="boolean" default="false"/> 
-    <aura:attribute name="isNotificationModalOpen" type="boolean" default="false"/>
-    <aura:attribute name="studySiteVisitPlan" type ="Object"/>
+    <aura:attribute name="vpId" type="String" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false" />
+    <aura:attribute name="isNotificationModalOpen" type="boolean" default="false" />
+    <aura:attribute name="studySiteVisitPlan" type="Object" />
     <aura:attribute name="enableOKButton" type="Boolean" default="false" />
-    <aura:attribute name="optionselected" type="String"/>
-    <aura:attribute name="state" type="Boolean"/>
-    <aura:attribute name="popupMessage" type="String" default="There are participants with no visit plan attached"/>
-    <aura:attribute name="options" type="List" default="[
+    <aura:attribute name="optionselected" type="String" />
+    <aura:attribute name="state" type="Boolean" />
+    <aura:attribute
+        name="popupMessage"
+        type="String"
+        default="There are participants with no visit plan attached"
+    />
+    <aura:attribute
+        name="options"
+        type="List"
+        default="[
     {'label': '  Proceed to select this visit plan to assign to all these participants', 'value': 'option1'},
     {'label': '  Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants)', 'value': 'option2'}
-    ]"/>    
+    ]"
+    />
     <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public" />
 
     <!-- component body: -->
@@ -65,7 +73,7 @@
                                     value="{!v.filter.pageFeatureIds}"
                                     isMultiEntry="true"
                                     onchange="{!c.doUpdate}"
-                                    placeholder="Select Visit Plan"
+                                    placeholder="Select Visit/Event Plan"
                                     placeholderSelected="Select another Visit Plan"
                                 />
                             </div>
@@ -88,7 +96,7 @@
                                     <div class="save-btn">
                                         <lightning:button
                                             variant="neutral"
-                                            label="Add Visit Plan"
+                                            label="Add Visit/Event Plan"
                                             onclick="{!c.doAddVP}"
                                         />
                                     </div>
@@ -159,8 +167,8 @@
                                             parent="{!this}"
                                             viewMode="{!v.viewModePage}"
                                             scrollLeft="{!v.scrollLeft}"
-                                            fromComponent ="StudySiteVisit"             
-                                            studySiteVisitPlan="{!v.studySiteVisitPlan}"              
+                                            fromComponent="StudySiteVisit"
+                                            studySiteVisitPlan="{!v.studySiteVisitPlan}"
                                         />
                                     </aura:iteration>
                                 </aura:if>
@@ -198,41 +206,57 @@
         <c:Action_EditVisitPlan aura:id="actionVP" />
     </aura:if>
     <aura:if isTrue="{!v.isModalOpen}">
-        <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="PopupModal" class="slds-modal slds-modal_large" disable="{!v.showSpinner}">
-            <div class="slds-modal__container " style="width: 35%;">
+        <div
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="header43"
+            aura:id="PopupModal"
+            class="slds-modal slds-modal_large"
+            disable="{!v.showSpinner}"
+        >
+            <div class="slds-modal__container" style="width: 35%">
                 <div class="slds-modal__header slds-box">
-                        <h3 style="font-size: 1rem;" title="">{!v.popupMessage}</h3>                    
+                    <h3 style="font-size: 1rem" title="">{!v.popupMessage}</h3>
                 </div>
                 <div class="slds-modal__content slds-p-around--medium slds-box visit-plan">
-                            
-                            <lightning:radioGroup name="radioGroup"
-                                                label=""
-                                                options="{! v.options }"
-                                                value="{! v.value }"
-                                                aura:id="currentItemOptions"                        
-                                                type="radio"
-                                                onchange="{!c.selectButton}" 
-                                                /> 
-                        
-                
+                    <lightning:radioGroup
+                        name="radioGroup"
+                        label=""
+                        options="{! v.options }"
+                        value="{! v.value }"
+                        aura:id="currentItemOptions"
+                        type="radio"
+                        onchange="{!c.selectButton}"
+                    />
                 </div>
                 <div class="slds-modal__footer slds-box">
-                    <lightning:button label="Ok" onclick="{!c.saveModal}" disabled = "{!!v.enableOKButton}"/>
-                    <lightning:button label="Cancel" onclick="{!c.cancelModal}"/>
+                    <lightning:button
+                        label="Ok"
+                        onclick="{!c.saveModal}"
+                        disabled="{!!v.enableOKButton}"
+                    />
+                    <lightning:button label="Cancel" onclick="{!c.cancelModal}" />
                 </div>
             </div>
-        </div> 
+        </div>
     </aura:if>
     <aura:if isTrue="{!v.isNotificationModalOpen}">
-        <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="NotificationPopupModal" class="slds-modal slds-modal_large" disable="{!v.showSpinner}">
-            <div class="slds-modal__container " style="width: 35%;">
+        <div
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="header43"
+            aura:id="NotificationPopupModal"
+            class="slds-modal slds-modal_large"
+            disable="{!v.showSpinner}"
+        >
+            <div class="slds-modal__container" style="width: 35%">
                 <div class="slds-modal__header slds-box">
-                    <h3 style="font-size: 1rem;" title="">{!$Label.c.BATCH_RUNNING}</h3>                    
+                    <h3 style="font-size: 1rem" title="">{!$Label.c.BATCH_RUNNING}</h3>
                 </div>
                 <div class="slds-modal__footer slds-box">
-                    <lightning:button label="Ok" onclick="{!c.exitNotificationModal}"/>
+                    <lightning:button label="Ok" onclick="{!c.exitNotificationModal}" />
                 </div>
             </div>
-        </div> 
-    </aura:if>    
+        </div>
+    </aura:if>
 </aura:component>
