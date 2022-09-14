@@ -726,9 +726,7 @@
         var opt = [];
         let todayDate = new Date();
         let cMonth = todayDate.getMonth()+1;
-        let cDay = todayDate.getDate();
         let cYear = parseInt(todayDate.getUTCFullYear());
-        var pday = component.get('v.pday');
         var pmonth = component.get('v.pmonth');
         var pyear = component.get('v.pyear');
         let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
@@ -738,7 +736,7 @@
             console.log('lower age');
             opt.push({label: lowerAge, value: lowerAge });
         }
-        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth )){
+        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth && pyear)){
             console.log('higher age');
             opt.push({label: higherAge, value: higherAge });
         }

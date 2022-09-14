@@ -124,6 +124,7 @@
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
     <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}" />
     <aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}" />
+    <aura:method name="dobChangeMethod" action="{!c.doDOBChange}" />
     <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}" />
     <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
@@ -771,7 +772,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Month}
+                                                            >{!$Label.c.RH_MOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -791,7 +792,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Day}
+                                                            >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -799,7 +800,7 @@
                                                                 value="{!v.pday}"
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDOBChange}"
+                                                                onchange="{!c.doDayChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -810,7 +811,7 @@
                                                             title="required"
                                                             class="slds-required"
                                                             >*</abbr
-                                                        >{!$Label.c.RH_RP_Birth_Year}
+                                                        >{!$Label.c.RH_YearofBirth}
                                                     </div>
                                                     <div>
                                                         <c:rrSelect
@@ -1397,7 +1398,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Month}
+                                                            >{!$Label.c.RH_MOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -1417,7 +1418,7 @@
                                                                 title="required"
                                                                 class="slds-required"
                                                                 >*</abbr
-                                                            >{!$Label.c.RH_RP_Birth_Day}
+                                                            >{!$Label.c.RH_DOB}
                                                         </div>
                                                         <div>
                                                             <c:rrSelect
@@ -1425,7 +1426,7 @@
                                                                 value="{!v.pday}"
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
-                                                                onchange="{!c.doDOBChange}"
+                                                                onchange="{!c.doDayChange}"
                                                             />
                                                         </div>
                                                     </div>
@@ -1436,7 +1437,7 @@
                                                             title="required"
                                                             class="slds-required"
                                                             >*</abbr
-                                                        >{!$Label.c.RH_RP_Birth_Year}
+                                                        >{!$Label.c.RH_YearofBirth}
                                                     </div>
                                                     <div>
                                                         <c:rrSelect
