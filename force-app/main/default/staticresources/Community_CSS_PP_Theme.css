@@ -511,14 +511,14 @@ color: #0768fd!important;
     font-weight: 500;
 }
 
-c-pp-study-visit-what-to-expect .slds-card {
+c-pp-Study-Visit-Details-Card .slds-card {
     width: 442px;
     padding: 0;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
 }
 
-c-pp-study-visit-what-to-expect .slds-card__header {
+c-pp-Study-Visit-Details-Card .slds-card__header {
     display: none;
 }
 
@@ -564,7 +564,7 @@ input::-webkit-datetime-edit {
     padding-left: 1rem;
  }
 
-c-pp-study-visit-what-to-expect .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
+c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
     margin-left: .5rem;
 }
 
@@ -623,11 +623,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 
 @media all and (max-width: 486px) {
-    c-pp-study-visit-what-to-expect .slds-card {
+    c-pp-Study-Visit-Details-Card .slds-card {
         width: 100%;
     }
 
-    c-pp-study-visit-what-to-expect .slds-grid .slds-col {
+    c-pp-Study-Visit-Details-Card .slds-grid .slds-col {
         padding-left: 0;
         padding-right: 0;
     }
