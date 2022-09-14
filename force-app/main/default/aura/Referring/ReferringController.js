@@ -137,6 +137,19 @@
                         component.set('v.days', dayList);
                         var monthList = [];
                         var obj = {};
+                        monthList.push({"value":'01',"label":"January"});
+                        monthList.push({"value":'02',"label":"February"});
+                        monthList.push({"value":'03',"label":"March"});
+                        monthList.push({"value":'04',"label":"April"});
+                        monthList.push({"value":'05',"label":"May"});
+                        monthList.push({"value":'06',"label":"June"});
+                        monthList.push({"value":'07',"label":"July"});
+                        monthList.push({"value":'08',"label":"August"});
+                        monthList.push({"value":'09',"label":"September"});
+                        monthList.push({"value":'10',"label":"October"});
+                        monthList.push({"value":'11',"label":"November"});
+                        monthList.push({"value":'12',"label":"December"});
+                       /*
                         for (var i = 1; i <= 12; i++) {
                             if(i >= 10){
                                 obj.label = i;
@@ -147,7 +160,7 @@
                             }
                             monthList.push(obj);
                             obj = {};
-                        }
+                        }*/
                         component.set('v.months', monthList);
                         var yearNow = $A.localizationService.formatDateTime(new Date(), "YYYY");
                     var oldyear = yearNow - 122;
@@ -366,7 +379,7 @@
         let partAge = component.get('v.selectedAge');
         let dobFormat = component.get('v.studySiteFormat');
         if(dobFormat && pyear && 
-            (dobFormat == 'YYYY' || (pmonth && partAge && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+            (dobFormat == 'YYYY' || (pmonth && partAge>=0 && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
                 let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
                 let endOfMonth = new Date(todayDate.getUTCFullYear(), todayDate.getMonth()+1, 0);
                 let dd = ((pday) ?   pday : ( higherAge == partAge ? 1 : (dobFormat == 'YYYY' ? 31 : endOfMonth.getDate() ) )  );

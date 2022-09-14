@@ -738,7 +738,7 @@
             console.log('lower age');
             opt.push({label: lowerAge, value: lowerAge });
         }
-        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth )){
+        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth && pyear)){
             console.log('higher age');
             opt.push({label: higherAge, value: higherAge });
         }
