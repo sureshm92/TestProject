@@ -141,6 +141,9 @@ public without sharing class ParticipantDuplicateService {
                 Email__c,
                 Phone__c,
                /* Day_of_Birth__c REF-3113*/
+                Age__c,
+                Birth_Day__c,
+                Birth_Month__c,
                 Birth_Year__c,
                 Date_of_Birth__c,
                 Secondary_Source__c,
@@ -176,7 +179,10 @@ public without sharing class ParticipantDuplicateService {
                     Last_Name__c,
                     Email__c,
                     Phone__c,
-                     /* Day_of_Birth__c REF-3113*/
+                    /* Day_of_Birth__c REF-3113*/
+                    Age__c,
+                    Birth_Day__c,
+                    Birth_Month__c,
                     Birth_Year__c,
                     Date_of_Birth__c,
                     Secondary_Source__c,
@@ -199,8 +205,9 @@ public without sharing class ParticipantDuplicateService {
         Map<String, Participant__c> participantsByEmailMap = new Map<String, Participant__c>();
         Map<String, Participant__c> participantsByPhoneMap = new Map<String, Participant__c>();
         Map<Date, List<Participant__c>> participantsByDoBMap = new Map<Date, List<Participant__c>>();
-        Map<String, List<Participant__c>> participantsByDoBStringsMap = new Map<String, List<Participant__c>>();
+        //Map<String, List<Participant__c>> participantsByDoBStringsMap = new Map<String, List<Participant__c>>();
         Map<String, List<Participant__c>> participantsByZipMap = new Map<String, List<Participant__c>>();
+        Map<String,Map<String,Map<String,list<Participant__c>>>> dobPartMap = new Map<String,Map<String,Map<String,list<Participant__c>>>>();
         for (Participant__c participant : existedParticipants) {
             if (!String.isBlank(participant.Email__c))
                 participantsByEmailMap.put(participant.Email__c.toLowerCase() + participant.First_Name__c + participant.Last_Name__c, participant);
@@ -225,14 +232,40 @@ public without sharing class ParticipantDuplicateService {
                 doBParticipants.add(participant);
                 participantsByDoBMap.put(participant.Day_of_Birth__c, doBParticipants);
             } REF-3113*/
-            if (!String.isBlank(participant.Date_of_Birth__c)) {
-                List<Participant__c> doBParticipants = participantsByDoBStringsMap.get(
-                    participant.Date_of_Birth__c
-                );
-                if (doBParticipants == null)
-                    doBParticipants = new List<Participant__c>();
-                doBParticipants.add(participant);
-                participantsByDoBStringsMap.put(participant.Date_of_Birth__c, doBParticipants);
+            // if (!String.isBlank(participant.Date_of_Birth__c)) {
+            //     List<Participant__c> doBParticipants = participantsByDoBStringsMap.get(
+            //         participant.Date_of_Birth__c
+            //     );
+            //     if (doBParticipants == null)
+            //         doBParticipants = new List<Participant__c>();
+            //     doBParticipants.add(participant);
+            //     participantsByDoBStringsMap.put(participant.Date_of_Birth__c, doBParticipants);
+            // }
+            //DOb Changes
+            if(!String.isBlank(participant.Birth_Year__c)){
+                String dd = '--';
+                String mm = '--';
+                String yyyy = participant.Birth_Year__c;
+                if(!String.isBlank(participant.Birth_Month__c)) mm = participant.Birth_Month__c;
+                if(!String.isBlank(participant.Birth_Day__c)) dd = participant.Birth_Day__c;
+                
+                // fetch existing part list 
+                if(dobPartMap.containsKey(yyyy)){
+                    if(dobPartMap.get(yyyy).containsKey(mm)){
+                        if(dobPartMap.get(yyyy).get(mm).containsKey(dd)){
+                            dobPartMap.get(yyyy).get(mm).get(dd).add(participant);
+                        }
+                        else{
+                            dobPartMap.get(yyyy).get(mm).put(dd, new list<Participant__c>{participant});
+                        }
+                    }
+                    else{
+                        dobPartMap.get(yyyy).put(mm, new Map<String,list<Participant__c>>{dd => new list<Participant__c>{participant}} );
+                    }
+                }        
+                else{
+                    dobPartMap.put(yyyy, new Map<String,Map<String,list<Participant__c>>>{mm => new Map<String,list<Participant__c>>{dd => new list<Participant__c>{participant}}});
+                }
             }
         }
 
@@ -331,6 +364,9 @@ public without sharing class ParticipantDuplicateService {
                 Email__c,
                 Phone__c,
                 //Day_of_Birth__c,
+                Age__c,
+                Birth_Day__c,
+                Birth_Month__c,
                 Birth_Year__c,
                 Date_of_Birth__c,
                 Secondary_Source__c,
@@ -420,13 +456,12 @@ public without sharing class ParticipantDuplicateService {
                 Integer birthYear = getYearOfBirthForParticipant(participant);
                 System.debug('>>> BY: ' + birthYear);
                 if (
-                    participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c) ||
+                    // participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c) ||
+                    dobPartMap.containsKey(participant.Birth_Year__c) ||
                     participant.Date_of_Birth__c != null &&
                     contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c))
                 ) {
-                    List<Participant__c> participantsByDoB = participantsByDoBStringsMap.get(
-                        participant.Date_of_Birth__c
-                    );
+                    List<Participant__c> participantsByDoB = getAllParticipantsByDOB(dobPartMap,participant);
                     List<Contact> contactsByDoB = participant.Date_of_Birth__c != null
                         ? contactsByDoBMap.get(Date.valueOf(participant.Date_of_Birth__c))
                         : new List<Contact>();
@@ -500,7 +535,9 @@ public without sharing class ParticipantDuplicateService {
                                         dupParticipant.First_Name__c != null &&
                                         dupParticipant.First_Name__c == participant.First_Name__c
                                     ) {
-                                        duplicate = new DuplicateContainer(dupParticipant);
+                                        if(dupParticipant.Age__c == participant.Age__c){
+                                            duplicate = new DuplicateContainer(dupParticipant);
+                                        }
                                     }
                                 }
                             }
@@ -643,5 +680,60 @@ public without sharing class ParticipantDuplicateService {
         //if (String.isNotBlank(newParticipant.Language_Preference_Code__c)) sourceParticipant.Language_Preference_Code__c = newParticipant.Language_Preference_Code__c;
         if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
         if (newParticipant.BMI__c != null) sourceParticipant.BMI__c = newParticipant.BMI__c;
+    }
+    public static List<Participant__c> getAllParticipantsByDOB(Map<String,Map<String,Map<String,list<Participant__c>>>> dobPartMap, Participant__c participant){
+        if(dobPartMap.containsKey(participant.Birth_Year__c)){
+            String dd = '--';
+            String mm = '--';
+            String yyyy = participant.Birth_Year__c;
+            if(!String.isBlank(participant.Birth_Month__c)) mm = participant.Birth_Month__c;
+            if(!String.isBlank(participant.Birth_Day__c)) dd = participant.Birth_Day__c; 
+            List<Participant__c> pList = new List<Participant__c>();  
+            if(mm!='--'){
+                if(dd!='--'){                    
+                    if(dobPartMap.get(yyyy).containsKey(mm)){
+                        // all part with new part full DOB
+                        if(dobPartMap.get(yyyy).get(mm).containsKey(dd)){
+                            pList.addAll(dobPartMap.get(yyyy).get(mm).get(dd)); 
+                        }
+                        //all part with new part month and year but empty day 
+                        if(dobPartMap.get(yyyy).get(mm).containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get(mm).get('--'));  
+                        }                        
+                    }   
+                    //all part with new part year but empty day and month
+                    if(dobPartMap.get(yyyy).containsKey('--')){
+                        if(dobPartMap.get(yyyy).get('--').containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
+                        }
+                    }         
+                }
+                else{
+                    //all part with new part month and year and all days 
+                    if(dobPartMap.get(yyyy).containsKey(mm)){
+                        for(List<Participant__c> pls: dobPartMap.get(yyyy).get(mm).values()){
+                            pList.addAll(pls);                    
+                        }
+                    }
+                    //all part with new part year but empty day and month
+                    if(dobPartMap.get(yyyy).containsKey('--')){
+                        if(dobPartMap.get(yyyy).get('--').containsKey('--')){
+                            pList.addAll(dobPartMap.get(yyyy).get('--').get('--'));  
+                        }
+                    }                       
+                }          
+            }
+            else{
+                //all part with new part year but all day and all months
+                for(Map<String,List<Participant__c>> day : dobPartMap.get(yyyy).values()){
+                    for(List<Participant__c> partList : day.values()){
+                        pList.addAll(partList);
+                    }
+                }
+            }
+            if(pList.size()>0)
+                return pList;
+        }
+        return null;                                                     
     }
 }

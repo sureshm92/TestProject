@@ -132,7 +132,35 @@ public without sharing class AddPatientByPIRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
+            //DOB changes start 
+            String studyConfig = [select Participant_DOB_format__c FROM Study_Site__c where id=:ssId].Participant_DOB_format__c;
+            if(studyConfig.contains('DD')){
+                participant.Birth_Day__c = participant.Date_of_Birth__c.substring(8,10);
+                Date birthDate = Date.newInstance(
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(0, 4)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(5, 7)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(8, 10))
+                );
 
+                Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                    ? Date.today().year() - birthDate.year()
+                    : Date.today().year() - birthDate.year() - 1;
+                
+                participant.Age__c = participantAge;
+            }
+            if(studyConfig.contains('MM')){
+                participant.Birth_Month__c = participant.Date_of_Birth__c.substring(5,7);
+            }
+            if(studyConfig.contains('YYYY')){
+                participant.Birth_Year__c = participant.Date_of_Birth__c.substring(0,4);
+            }
+            participant.Date_of_Birth__c = null;
+            system.debug('participant.Age__c'+participant.Age__c);
+            //DOB changes end
             ParticipantService.createParticipantAndUpdatePE(
                 participant,
                 participantDelegate,
@@ -279,6 +307,34 @@ public without sharing class AddPatientByPIRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
+            //DOB changes start 
+            String studyConfig = [select Participant_DOB_format__c FROM Study_Site__c where id=:ssId].Participant_DOB_format__c;
+            if(studyConfig.contains('DD')){
+                participant.Birth_Day__c = participant.Date_of_Birth__c.substring(8,10);
+                Date birthDate = Date.newInstance(
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(0, 4)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(5, 7)),
+                    Integer.valueOf(participant.Date_of_Birth__c.substring(8, 10))
+                );
+                Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                    ? Date.today().year() - birthDate.year()
+                    : Date.today().year() - birthDate.year() - 1;
+                
+                participant.Age__c = participantAge;
+            }
+            if(studyConfig.contains('MM')){
+                participant.Birth_Month__c = participant.Date_of_Birth__c.substring(5,7);
+            }
+            if(studyConfig.contains('YYYY')){
+                participant.Birth_Year__c = participant.Date_of_Birth__c.substring(0,4);
+            }
+            participant.Date_of_Birth__c = null;
+            system.debug('participant.Age__c'+participant.Age__c);
+            //DOB changes end
              String parID = 
             ParticipantService.createParticipantAndUpdatePES(
                 participant,
@@ -478,8 +534,8 @@ public without sharing class AddPatientByPIRemote {
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         if (
-            ((participant.Email__c != null ||
-            participant.Phone__c != null ||
+            ((participant.Email__c != null||
+            participant.Phone__c != Null ||
             !participant.Adult__c) ||
             (participant.Email__c != null ||
             participant.Phone__c != null ||
@@ -507,7 +563,7 @@ public without sharing class AddPatientByPIRemote {
                 FROM Participant__c
                 WHERE
                     (Email__c = :participant.Email__c
-                    OR Phone__c = :participant.Phone__c)
+                    OR Phone__c =: participant.Phone__c )
                     AND First_Name__c = :participant.First_Name__c
                     AND Last_Name__c = :participant.Last_Name__c
                 LIMIT :limitRows
@@ -530,9 +586,21 @@ public without sharing class AddPatientByPIRemote {
                     if (String.isNotBlank(participant.Nickname__c)) {
                         partici.Nickname__c = participant.Nickname__c;
                     }
-                    if (String.isNotBlank(participant.Date_of_Birth__c)) {
+                    /*if (String.isNotBlank(participant.Date_of_Birth__c)) {
                         partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   }*/
+                   if(String.isNotBlank(participant.Birth_Day__c)){
+                    partici.Birth_Day__c = participant.Birth_Day__c;
+                   }
+                   if (String.isNotBlank(participant.Birth_Month__c)) {
+                    partici.Birth_Month__c = participant.Birth_Month__c;
+                   }
+                   if(String.isNotBlank(participant.Birth_Year__c)) {
+                    partici.Birth_Year__c = participant.Birth_Year__c;
                     }
+                   if(participant.Age__c!=null){
+                    partici.Age__c = participant.Age__c;
+                   }
                     if (String.isNotBlank(participant.Gender__c)) {
                         partici.Gender__c = participant.Gender__c;
                     }

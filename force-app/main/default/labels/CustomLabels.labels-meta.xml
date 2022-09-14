@@ -1462,7 +1462,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
-        <value>I attest to this delegate being of legal age in their locale.</value>
+        <value>By checking this box, you confirm that your delegate or chosen care partner is a legal adult in their country.</value>
     </labels>
     <labels>
         <fullName>August</fullName>
@@ -21321,6 +21321,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
     </labels>
     <labels>
+        <fullName>RH_MOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_MOB</shortDescription>
+        <value>Month of Birth</value>
+    </labels>
+    <labels>
         <fullName>RH_RequestMedicalBtn</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27423,6 +27430,20 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Click &lt;b&gt;Import.&lt;/b&gt;</value>
     </labels>
     <labels>
+        <fullName>RH_DOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_DOB</shortDescription>
+        <value>Day of Birth</value>
+    </labels>
+    <labels>
+        <fullName>RH_Dob_Format_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_Dob_Format_Search</shortDescription>
+        <value>	Select DOB Format</value>
+    </labels>
+    <labels>
         <fullName>RH_DownloadIcon</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27746,6 +27767,27 @@ Please contact the Study Team for further updates or please login for additiona
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Upcoming_Visit_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What you can Expect:</shortDescription>
+        <value>What you can Expect:</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Visit Details</shortDescription>
+        <value>View Visit Details</value>
+    </labels>
+    <labels>
+        <fullName>Visit_No_Expect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NO Visit expectations</shortDescription>
+        <value>There are no expectations for this visit</value>
+    </labels>
+    <labels>
         <fullName>Study_Visit_No_Date_Or_Time_Entered</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27817,4 +27859,25 @@ Please contact the Study Team for further updates or please login for additiona
         <value>Edit Visit/Event Legend</value>
     </labels>
     
+  	<labels>
+  		<fullName>Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Month_and_Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month and Year of Birth</shortDescription>
+        <value>Month/Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Year_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year of Birth</shortDescription>
+        <value>Year of Birth</value>
+    </labels>
 </CustomLabels>

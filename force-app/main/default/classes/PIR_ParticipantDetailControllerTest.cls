@@ -82,6 +82,11 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Name,
             External_Key__c,
             Participant_Contact__c,
+            Participant_Contact__r.Id,
+            Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+            Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+            Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+            Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
             Participant_Status__c,
             Participant_Contact__r.Visit_Results_OptIn__c,
             Initial_visit_scheduled_date__c,
@@ -98,6 +103,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             Permit_Mail_Email_contact_for_this_study__c,
             Permit_SMS_Text_for_this_study__c,
             Permit_Voice_Text_contact_for_this_study__c,
+            Study_Direct_Mail_Consent__c,
             MRN_Id__c,
             Participant__r.Email__c,
             Participant__r.First_Name__c,
@@ -107,6 +113,8 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         ];
         perRec.Permit_Mail_Email_contact_for_this_study__c = true;
         perRec.Permit_SMS_Text_for_this_study__c = false;
+        perRec.MRN_Id__c = 'mrn123';
+        update perRec;
         String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
         Test.startTest();
         Boolean isSavePrDetails = PIR_ParticipantDetailController.doSaveParticipantDetails(perRec,delegateString,true, true,true,false,'insertDelegate','');

@@ -78,6 +78,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isStateRequired { get; set; }
     public Boolean isDisabled { get; set; }
     public Boolean isSaveButtonDisabled { get; set; }
+    public Boolean passwordValidation {get; set;}
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
@@ -100,6 +101,7 @@ public without sharing class RRChangePasswordController {
     private String oldAccountName;
 
     public RRChangePasswordController() {
+        passwordValidation=false;
         isRTL = false;
         onLoad = true;
         isMobileView = false;
@@ -311,8 +313,7 @@ public without sharing class RRChangePasswordController {
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
             
                 List<Participant_Enrollment__c> loginUserPEs = [
-                    SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,
-                    Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Contact__c = :contact.Id AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                 ];
@@ -327,8 +328,7 @@ public without sharing class RRChangePasswordController {
                    if(delegatesPDList.size()>0)
                    {
                     List<Participant_Enrollment__c> delegateContactUserPEs = [
-                        SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,
-                        Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                        SELECT Id,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c ,Permit_Voice_Text_contact_for_this_study__c,Study_Direct_Mail_Consent__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :delegatesPDList[0].Participant__r.Contact__c AND Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal'
                     ];
@@ -1160,7 +1160,12 @@ public without sharing class RRChangePasswordController {
             if (isAdult) {
                 showErrorMessage = false;
                 isDisabled = false;
-                validateSaveButton();
+                if(per!=null && per.Clinical_Trial_Profile__r.CommunityTemplate__c=='PatientPortal')
+                {
+                    ppValidateSaveButton();
+                }else{
+                    validateSaveButton();
+                }
             } else {
                 showErrorMessage = true;
                 isAttested = false;
@@ -1183,6 +1188,19 @@ public without sharing class RRChangePasswordController {
             isSaveButtonDisabled = false;
         } else {
             isSaveButtonDisabled = true;
+        }
+    }
+    public void ppValidateSaveButton()
+    {
+        if (String.isBlank(participant.Birth_Year__c) || !isAttested || passwordValidation) {
+            isSaveButtonDisabled = true;
+        }
+        else{
+          if(String.isNotBlank(participant.Birth_Year__c) && isAttested && !passwordValidation)
+          {
+            isSaveButtonDisabled = false;
+
+          }
         }
     }
 }

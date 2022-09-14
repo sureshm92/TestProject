@@ -54,6 +54,8 @@
     <aura:attribute name="errorMessage" type="String" default="" />
     <!--added by sumit -->
     <aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true" />
+    <!--DOB-->
+    <aura:attribute name="futureDate" type="Boolean" />
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
@@ -99,6 +101,8 @@
                     needsGuardian="{!v.needsGuardian}"
                     haveDelegate="{!v.isDelegateValid}"
                     parentComponent="{!this}"
+                    dobConfig="{!v.ss.Participant_DOB_format__c}"
+                    futureDate="{!v.futureDate}"
                 />
 
                 <div class="ap-section">
@@ -627,7 +631,7 @@
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <aura:if
-                    isTrue="{!or(!v.doContact,(!v.isValid || (v.needsGuardian &amp;&amp; !v.isDelegateValid || !v.useThisDelegate)))}"
+                    isTrue="{!or(or(!v.doContact,(!v.isValid || (v.needsGuardian &amp;&amp; !v.isDelegateValid || !v.useThisDelegate))),v.futureDate)}"
                 >
                     <button class="apollo-btn secondary" onclick="{!c.checkMandatory}">
                         {!$Label.c.BTN_Send_and_Add_Another}

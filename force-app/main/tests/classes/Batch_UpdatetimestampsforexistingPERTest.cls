@@ -1,4 +1,4 @@
-@isTest(seealldata = true)
+@isTest
 public with sharing class Batch_UpdatetimestampsforexistingPERTest {
     @isTest
     public static void test(){
@@ -16,7 +16,7 @@ public with sharing class Batch_UpdatetimestampsforexistingPERTest {
         pe.Study_PI_Storage_Consent_Time__c = null;
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class);
         update pe;
-        Participant_Enrollment__History[] ah =  [Select ParentId, Field, OldValue, NewValue from Participant_Enrollment__History where ParentId = :pe.Id];
+        Participant_Enrollment__History[] ah =  [Select ParentId, Field, OldValue, NewValue from Participant_Enrollment__History where ParentId = :pe.Id limit 200];
         system.debug('++++++++'+ah.size());
         Batch_UpdatetimestampsforexistingPER batch = new Batch_UpdatetimestampsforexistingPER();
         database.executeBatch(batch, 200);
