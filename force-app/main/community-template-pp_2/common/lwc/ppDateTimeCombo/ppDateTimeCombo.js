@@ -3,7 +3,8 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import moment from '@salesforce/resourceUrl/moment';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { loadScript } from 'lightning/platformResourceLoader';
-
+import date from '@salesforce/label/c.TV_TH_Date';
+import time from '@salesforce/label/c.TV_TH_Time';
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -16,10 +17,21 @@ export default class PpDateTimeCombo extends LightningElement {
     @track tm;
     @track diffInMinutes;
 
+    label = {
+        date,
+        time
+    };
+    
+    @api
+    callFromParent(){
+        this.dt = '';
+        this.tm = '';
+        this.compDateTime = '';
+    }
+
     connectedCallback() {
         loadScript(this, moment)
         .then(()=>{
-            console.log('Loaded Script');
              loadScript(this, momentTZ)
              .then(()=>{
                 var currentBrowserTime = window.moment();
@@ -27,7 +39,6 @@ export default class PpDateTimeCombo extends LightningElement {
                 var userTime = currentBrowserTime.tz(TIME_ZONE);
                 var centralOffset = userTime.utcOffset();
                 this.diffInMinutes = localOffset - centralOffset;
-                console.log('this.diffInMinutes'+this.diffInMinutes);  
              })
         })
     }
@@ -38,7 +49,6 @@ export default class PpDateTimeCombo extends LightningElement {
         }else if(this.dt){
             return this.dt;
         }else{
-            console.log('In else'+this.compdate);
             var compdate;
             var dbCompDate = new Date(this.compdate);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', {timeZone: TIME_ZONE});
@@ -64,7 +74,6 @@ export default class PpDateTimeCombo extends LightningElement {
         }else if(this.tm){
             return this.tm;
         }else{
-            console.log('In else-1'+this.comptime);
             var comptime;
             var dbCompDate = new Date(this.comptime);
             var localtimezonedate = dbCompDate.toLocaleString('en-US', {timeZone: TIME_ZONE});
@@ -93,7 +102,6 @@ export default class PpDateTimeCombo extends LightningElement {
             } 
         });
         this.dispatchEvent(dateOnly);
-        console.log('this.dt'+this.dt);
         }else if(this.tm){
             this.compDateTime = this.dt + 'T' + this.tm;
             var date = new Date(this.compDateTime);
@@ -109,7 +117,6 @@ export default class PpDateTimeCombo extends LightningElement {
                 } 
             });
             this.dispatchEvent(dateEvent);
-            console.log('Test');
         }
     }
 
@@ -139,4 +146,5 @@ export default class PpDateTimeCombo extends LightningElement {
             this.dispatchEvent(dateEvent);
         }
     }
+    
 }

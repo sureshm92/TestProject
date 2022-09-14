@@ -6,8 +6,40 @@ import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVi
 import upsertTaskData from '@salesforce/apex/TaskEditRemote.upsertTaskData'; 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
-
+import date from '@salesforce/label/c.TV_TH_Date';
+import location from '@salesforce/label/c.SS_Location';
+import reminder from '@salesforce/label/c.Home_Page_StudyVisit_Reminder';
+import notificationSettings from '@salesforce/label/c.Update_Notification_Settings';
+import saveChanges from '@salesforce/label/c.PG_AS_BTN_Save_Changes';
+import discard from '@salesforce/label/c.RH_TV_Discard';
+import selectreminder from '@salesforce/label/c.Select_reminder';
+import email from '@salesforce/label/c.Email';
+import sms from '@salesforce/label/c.PP_Remind_Using_SMS';
+import onehour from '@salesforce/label/c.PP_One_Hour_Before';
+import fourhour from '@salesforce/label/c.PP_Four_Hours_Before';
+import oneday from '@salesforce/label/c.One_day_before';
+import oneweek from '@salesforce/label/c.PP_One_Week_Before';
+import custom from '@salesforce/label/c.PP_Custom';
+import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
 export default class PpStudyVisitDetailsCard extends LightningElement {
+    label = {
+        date,
+        location,
+        reminder,
+        notificationSettings,
+        saveChanges,
+        discard,
+        selectreminder,
+        email,
+        sms,
+        onehour,
+        fourhour,
+        oneday,
+        oneweek,
+        custom,
+        visitdetailsupdated
+    };
+
     @api visitid;
     @api taskid;
     @api visitdata;
@@ -49,7 +81,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.smsOptIn = data[0].Permit_SMS_Text_for_this_study__c;
             this.emailOptIn = data[0].Permit_Mail_Email_contact_for_this_study__c;
         }else if (error) {
-            this.error = error;
+            this.showErrorToast('Error occured', error.message, 'error');
         }
     }
 
@@ -58,15 +90,17 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDate='';
         this.visitTime='';
         this.visitDateTime='';
-        this.showreminderdatepicker = false;
         this.remindmepub='';
+        this.showreminderdatepicker = false;
+        this.visitDateChanged=false;
+        this.template.querySelector('[data-id="visitDateTime"]').callFromParent();
+        this.template.querySelector('[data-id="reminderDateTime"]').callFromParent();
     }
 
     get dbreminderdate(){
         if(this.visitdata.task.Reminder_Date__c && !this.visitDateChanged && !this.reminderDateChanged){
             this.selectedReminderDateTime = this.visitdata.task.Reminder_Date__c;
             var reminderDate = this.visitdata.task.Reminder_Date__c;
-            console.log('this.reminderDate'+this.reminderDate);
             return reminderDate;
         }else if(this.selectedReminderDateTime){
             return this.selectedReminderDateTime;
@@ -76,12 +110,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get dbremindertime(){
-        if(this.visitdata.task.Reminder_Date__c && !this.visitDateChanged && !this.reminderChanged){
+        if(this.visitdata.task.Reminder_Date__c && !this.visitDateChanged && !this.reminderDateChanged){
             var reminderTime = this.visitdata.task.Reminder_Date__c;
-            console.log('this.reminderTIme'+this.reminderTime);
             return reminderTime;
         }else if(this.selectedReminderDateTime){
-            return this.selectedReminderTime;
+            return this.selectedReminderDateTime;
         }else{
             return null;
         }
@@ -109,12 +142,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     handleInitialDateLoad(event){
-        console.log('Initial date load');
         this.visitDate = event.detail.compdate;
     }
 
     handleInitialTimeLoad(event){
-        console.log('Initial time load');
         this.visitTime = event.detail.comptime;
     }
 
@@ -158,9 +189,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get maxReminderTime(){
         if(this.selectedReminderDate == this.visitDate){
-            console.log('maxRemindertime');
             if(this.visitTime){
-                console.log('--1--');
                 return this.visitTime;
             }else{
                 return null;
@@ -171,9 +200,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get minReminderTime(){
-        console.log('minremindertime');
         if(this.todaydate == this.selectedReminderDate){
-            console.log('minremindertime-1'+this.todaytime);
             return this.todaytime;
         }else{
             return null;
@@ -190,13 +217,13 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     get dbReminderOption(){
         if(this.remindmepub){
-            if(this.remindmepub == 'Custom'){
+            if(this.remindmepub == this.label.custom){
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
         }else if(this.visitdata.task.Remind_Me__c){
             this.remindmepub = this.visitdata.task.Remind_Me__c;
-            if(this.remindmepub == 'Custom'){
+            if(this.remindmepub == this.label.custom){
                 this.showreminderdatepicker = true;
             }
             return this.remindmepub;
@@ -204,44 +231,42 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get reminderFrequencyList() {
-        console.log('reminderFrequencyList');
         this.reminderOptions = [];
         if(this.visitDateTime){
             var dateTime = new Date(this.visitDateTime)
             var currentDateTime = new Date();    
             var differenceTimeHours = (dateTime - currentDateTime)/3600000;
-            console.log('dateTime'+dateTime);
             if(differenceTimeHours > 1){
                 const option = {
-                    label: '1 hour before',
-                    value: '1 hour before'
+                    label: this.label.onehour,
+                    value: this.label.onehour
                 };
                 this.reminderOptions = [ ...this.reminderOptions, option ];
             }
             if(differenceTimeHours > 4){
                 const option = {
-                    label: '4 hours before',
-                    value: '4 hours before'
+                    label: this.label.fourhour,
+                    value: this.label.fourhour
                 };
                 this.reminderOptions = [ ...this.reminderOptions, option ];
             }
             if(differenceTimeHours > 24){
                 const option = {
-                    label: '1 day before',
-                    value: '1 day before'
+                    label: this.label.oneday,
+                    value: this.label.oneday
                 };
                 this.reminderOptions = [ ...this.reminderOptions, option ];
             }
             if(differenceTimeHours > 168){
                 const option = {
-                    label: '1 week before',
-                    value: '1 week before'
+                    label: this.label.oneweek,
+                    value: this.label.oneweek
                 };
                 this.reminderOptions = [ ...this.reminderOptions, option ];
             }
             const option = {
-                label: 'Custom',
-                value: 'Custom'
+                label: this.label.custom,
+                value: this.label.custom
             };
             this.reminderOptions = [ ...this.reminderOptions, option ];
         }
@@ -263,7 +288,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var yyyy = currentDate.getFullYear();
         var today = yyyy + '-' + mm + '-' + dd ;
         this.todaydate = today;
-        console.log('Today date'+this.todaydate);
         this.calculatedDate = today;
         return today;
     }
@@ -275,7 +299,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var ss = String((currentDateTime.getSeconds()<10?'0':'') + currentDateTime.getSeconds());
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
-        console.log('Today'+this.todaytime);
         if(this.calculatedDate == this.visitDate){
             return currentTime;
         }else{
@@ -302,18 +325,18 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         var remindMe = event.target.value;
         var today =  new Date(new Date() + 60 * 1000);
         var dueDateOrplanDate = this.visitDateTime;
-        if (remindMe !== 'Custom') {
+        if (remindMe !== this.label.custom) {
             this.showreminderdatepicker = false;
-            if (remindMe === '1 Week before') {
+            if (remindMe === this.label.oneweek) {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today);
                 this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(7, 'days');
-            } else if (remindMe === '1 day before') {
+            } else if (remindMe === this.label.oneday) {
                 isGreaterThanToday = moment(dueDateOrplanDate).subtract(1, 'days').isBefore(today);
                 this.selectedReminderDateTime = moment(dueDateOrplanDate).subtract(1, 'days')
-            } else if (remindMe === '1 hour before') {
+            } else if (remindMe === this.label.onehour) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
-            } else if (remindMe === '4 hours before') {
+            } else if (remindMe === this.label.fourhour) {
                 this.selectedReminderDateTime = new Date(dueDateOrplanDate) - 4 * 3600 * 1000;
                 isGreaterThanToday = new Date() > new Date(reminderdate);
             }
@@ -340,13 +363,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     handleReminderDate(event){
-        console.log('dt change');
         this.reminderDateChanged = true;
         this.reminderChanged = true;
         this.disableButtonSaveCancel = false;
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdatetime;
-        console.log('this.selected'+this.selectedReminderDate+'=='+this.selectedReminderDateTime);
         this.minReminderTime();
     }
 
@@ -356,7 +377,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.disableButtonSaveCancel = false;
         this.selectedReminderTime = event.detail.comptime;
         this.selectedReminderDateTime = event.detail.compdatetime;
-        console.log('this.selected'+this.selectedReminderDate+this.selectedReminderDateTime);
     }
 
     handleTime(event){
@@ -369,13 +389,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitTime = event.detail.comptime;
         this.visitDate = event.detail.compdate;
-        console.log('this.visitDate'+this.visitDate);
-        console.log('handle time:'+this.visitDateTime);
         this.reminderFrequencyList();
     }
 
     handleDate(event){
-        console.log('handle date:');
         this.disableButtonSaveCancel = false;
         this.visitDateChanged = true;
         this.reminderDateChanged = true;
@@ -385,8 +402,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDateTime = event.detail.compdatetime;
         this.visitDate = event.detail.compdate;
         this.visitTime = event.detail.comptime;
-        console.log('this.visitDate'+this.visitDate);
-        console.log('handle date:'+this.visitDateTime);
         this.reminderFrequencyList();
     }
 
@@ -394,15 +409,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.disableButtonSaveCancel = true;
         var errorInDml = false;
         var reminderDate;
-        console.log('reminder date changed'+this.reminderChanged);
         if(!this.reminderDateChanged){
-            console.log('reminder date changed'+this.reminderChanged);
             reminderDate =  this.visitdata.task.Reminder_Date__c;
         }else{
-            console.log('reminder date changed'+this.reminderChanged);
             reminderDate = this.selectedReminderDateTime;
         }
-        console.log('Visit Id:'+this.visitid + this.visitDateTime);
         var patientVisit = {
             sobjectType: 'Patient_Visit__c',
             Id: this.visitid,
@@ -435,7 +446,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             };
         }
         
-        console.log('JSON:'+JSON.stringify(visitTask));
         if(this.visitDateChanged){
             updatePatientVisits({
                 visit: JSON.stringify(patientVisit)
@@ -447,7 +457,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                      })
                      .then(result=>{ 
                         const event = new ShowToastEvent({
-                            message:'Visit details updated successfully!',
+                            message:this.label.visitdetailsupdated,
                             variant: 'success',
                             mode: 'dismissable'
                         });
@@ -455,13 +465,12 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                         const selectEvent = new CustomEvent('dataupdated');
                         this.dispatchEvent(selectEvent);
                      })
-                     .catch(error=>{
-                         errorInDml = true;
-                         console.log('Error - task 0:'+JSON.stringify(error));
+                     .catch((error)=>{
+                        this.showErrorToast('Error occured', error.message, 'error');
                      })       
                 }else{
                     const event = new ShowToastEvent({
-                        message:'Visit details updated successfully!',
+                        message:this.label.visitdetailsupdated,
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -470,9 +479,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                     this.dispatchEvent(selectEvent);
                 }
             })
-            .catch(error=>{
-                errorInDml = true;
-                console.log('Error - task:'+JSON.stringify(error));
+            .catch((error)=>{
+                this.showErrorToast('Error occured', error.message, 'error');
             })    
         }else if(this.reminderChanged){
             upsertTaskData({
@@ -480,7 +488,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
              })
              .then(result=>{ 
                 const event = new ShowToastEvent({
-                    message:'Visit details updated successfully!',
+                    message:this.label.visitdetailsupdated,
                     variant: 'success',
                     mode: 'dismissable'
                 });
@@ -488,9 +496,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 const selectEvent = new CustomEvent('dataupdated');
                 this.dispatchEvent(selectEvent);
              })
-             .catch(error=>{
-                 errorInDml = true;
-                 console.log('Error - task 1:'+error);
+             .catch((error)=>{
+                this.showErrorToast('Error occured', error.message, 'error');
              })  
         }       
     }
@@ -504,5 +511,15 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.email = this.visitdata.task.Remind_Using_Email__c;
         this.sms = this.visitdata.task.Remind_Using_SMS__c;
         this.disableButtonSaveCancel = true;
+    }
+
+    showErrorToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: messageText,
+                variant: variantType
+            })
+        );
     }
 }

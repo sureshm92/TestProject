@@ -1,7 +1,3 @@
-.divStyle{
-    height:auto !important;
-}
-
 .slds-grid {
     margin-bottom: 1rem;
     padding: 0 1.5rem;
@@ -11,41 +7,41 @@
     display: none;
 }
 
-.locationTitle {
+.location-title {
     padding: 0 1.5rem 1rem;
 }
 
-.siteName {
+.site-name {
     padding: 0 .5rem;
 }
 
-.address{
+.address-section-outer{
     margin-bottom: 1rem;
     border-bottom: 1px solid #d9d9d9;
 }
 
-.addressSection {
+.address-section {
     padding: 0 1.5rem .5rem;
     display: flex;
 }
 
-.siteAddress{
+.site-address{
     padding: 0 3.5rem;    
 }
 
-.sitePhone{
+.site-phone{
     padding: 0 3.5rem .5rem;    
 }
 
-.addressMarker {
+.address-marker {
     width: 25px;
 }
 
-.addressMarker svg {
+.address-marker svg {
     fill: #00a3e0;
 }
 
-.curveInput {
+.curve-input {
     display: flex;
     position: relative;
     width: 100%;
@@ -56,7 +52,7 @@
     background-color: #f2f2f2;
 }
 
-.curveInput input[type=date] {
+.curve-input input[type=date] {
     width: 300px;
     display: flex;
     align-items: center;
@@ -69,12 +65,12 @@
     text-align: left;
 }
 
-.curveInput input[type=date]:disabled {
+.curve-input input[type=date]:disabled {
     background: #f2f2f2;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator,
-.curveInput .slds-input__icon-group_right {
+.curve-input .slds-input__icon-group_right {
     position: absolute;
     left: 0;
     height: 25px;
@@ -82,7 +78,7 @@ input[type="date"]::-webkit-calendar-picker-indicator,
     opacity: 0;
 }
 
-.curveInput .svgIcon {
+.curve-input .svg-icon {
 	position: absolute;
 	top: 50%;
     transform: translateY(-50%) translateX(-50%);
@@ -90,23 +86,23 @@ input[type="date"]::-webkit-calendar-picker-indicator,
 	fill: #00a3e0;
 }
 
-.commChecks {
+.comm-checks {
     margin-top: 22px;
     padding-left: 1.5rem;
 }
 
-.commChecks > div {
+.comm-checks > div {
     display: flex;
 }
 
-.commLink {
+.comm-link {
     font-size: 13px;
     display: inline-block;
     margin-top: .5rem;
     text-decoration: underline;
 }
 
-.btnFooter {
+.btn-footer {
     padding: 1rem 1.5rem 0;
     border-top: 1px solid #d9d9d9;
     display: flex;
@@ -125,16 +121,16 @@ input[type="date"]::-webkit-calendar-picker-indicator,
 
 @media all and (max-width: 486px) {
 
-    .curveInput {
+    .curve-input {
         margin-bottom: 1rem;
     }
 
-    .commChecks {
+    .comm-checks {
         margin-top: .5rem;
     }
 
-    .commChecks > div,
-    .commChecks > a {
+    .comm-checks > div,
+    .comm-checks > a {
         padding-left: .875rem;
     }
 }

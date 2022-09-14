@@ -27837,5 +27837,53 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Visits View All Results</shortDescription>
         <value>View All Results</value>
     </labels>
-    
+    <labels>
+        <fullName>Update_Notification_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Update_Notification_Settings</shortDescription>
+        <value>Update Notification Settings</value>
+    </labels>
+    <labels>
+        <fullName>Select_reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_reminder</shortDescription>
+        <value>Select reminder</value>
+    </labels>
+    <labels>
+        <fullName>Visit_details_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_details_updated_successfully</shortDescription>
+        <value>Visit details updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_Details</shortDescription>
+        <value>Visit Details</value>
+    </labels>
 </CustomLabels>

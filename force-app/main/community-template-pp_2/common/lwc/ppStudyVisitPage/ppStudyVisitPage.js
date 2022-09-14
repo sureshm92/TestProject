@@ -15,8 +15,11 @@ import past from '@salesforce/label/c.Visits_Past';
 import results from '@salesforce/label/c.Visit_Result';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
+import myvisits from '@salesforce/label/c.My_Visits';
+import loading from '@salesforce/label/c.Loading';
+import visitdetails from '@salesforce/label/c.Visit_Details';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
-
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class PpStudyVisitPage extends LightningElement {
     label = {
         noVisitsLabel,
@@ -27,16 +30,23 @@ export default class PpStudyVisitPage extends LightningElement {
         past,
         results,
         resultsCheck,
-        viewAllResults
+        viewAllResults,
+        myvisits,
+        loading,
+        visitdetails
     };
+    status = {
+        scheduled : 'Scheduled',
+        pending : 'Pending',
+        completed : 'Completed',
+        missed : 'Missed'
+    }
     @track visitMode = 'All';
     @track upcomingVisits = [];
     @track pastVisits = [];
     @track sitePhoneNumber;
     @track noVisitDate = false;
     @track showUpcomingVisits=true;
-    @track upcomingVariantValue = "Neutral";
-    @track pastVariantValue = "Neutral";
     @track onVisitSelection = false;
     @track contentLoaded = false;
     @track visitTimezone;
@@ -57,55 +67,51 @@ export default class PpStudyVisitPage extends LightningElement {
     @track pastVisitId;
     @track upcomingVisitId;
     @track selectedIndex = 0;
+    @track initialPageLoad = false;
     initialized = '';
-    visitMode = 'All';
     visitWrappers = [];
     @api icondetails = [];
     isError = false;
     initialized = '';
-    @api icondetails = [];
     isError = false;
     dateloaded = false;
     @track buttonClicked = false;
     cbload = false;
     @api cblabel = '';
     @api cbdescription = '';
-    @track customBoxclass = 'slds-box';
     @track noVisitDate = false;
     @track visitTimezone = [];
     @track showUpcomingVisits = true;
-    @track upcomingVariantValue = 'Neutral';
-    @track pastVariantValue = 'Neutral';
     @track onVisitSelection = false;
     visitimage1 = pp_icons + '/' + 'VisitPageResultImage.png';
     visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
+
     callParticipantVisit(){
         this.cbload = true;
+        this.initialPageLoad = true;
         getParticipantVisits({
             visitMode: this.visitMode
         })
             .then((result) => {
-                console.log('Result:'+JSON.stringify(result));
-                this.upcomingVariantValue = 'brand';
-                this.pastVariantValue = 'Neutral';
                 if(result.length>0){
                     this.visitid = result[0].visit.Id;
                     this.taskSubject = result[0].visit.Name;
                     for (let i = 0; i < result.length; i++) {
-                        //set visitId on load of page
                         if (
                             result[i].visit.Completed_Date__c == null &&
-                            (result[i].visit.Status__c == 'Scheduled' ||
-                                result[i].visit.Status__c == 'Pending')
+                            (result[i].visit.Status__c == this.status.scheduled ||
+                                result[i].visit.Status__c == this.status.pending)
                         ) {
                             if (result[i].visit.Planned_Date__c === undefined) {
                                 this.noVisitDate = true;
                                 result[i].noVisitDate = this.noVisitDate;
+                            }else{
+                                result[i].noVisitDate = false;
                             }
                             this.upcomingVisits.push(result[i]);
                         } else if (
-                            result[i].visit.Status__c == 'Completed' ||
-                                result[i].visit.Status__c == 'Missed'
+                            result[i].visit.Status__c == this.status.completed ||
+                                result[i].visit.Status__c == this.status.missed
                         ) {
                             if (result[i].visit.Completed_Date__c === undefined) {
                                 this.noVisitDate = true;
@@ -114,11 +120,9 @@ export default class PpStudyVisitPage extends LightningElement {
                             this.pastVisits.push(result[i]);
                         }
                         this.visitTimezone = TIME_ZONE;
-                        console.log('Time zone'+this.visitTimezone);
                         result[i].visitTimezone = this.visitTimezone;
                     }
                     if(!this.pastVisitId && this.pastVisits.length>0){
-                        console.log('In past visits');
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
                     }
@@ -127,7 +131,6 @@ export default class PpStudyVisitPage extends LightningElement {
                         this.visitName = this.upcomingVisits[0].visit.Name;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
-                    console.log('this.pastVisits:'+JSON.stringify(this.pastVisits));
                     this.initializeData(this.visitid);
                     this.createEditTask();
                 }else{
@@ -150,7 +153,7 @@ export default class PpStudyVisitPage extends LightningElement {
             this.sitePhoneNumber = data.accountPhone;
         })
         .catch(error=>{
-            console.log('Error- Address'+JSON.stringify(error));
+            this.showErrorToast('Error occured', error.message, 'error');
         })
     }
     
@@ -158,8 +161,7 @@ export default class PpStudyVisitPage extends LightningElement {
         this.showChild = false;
         if(this.visitid){
             const theDiv = this.template.querySelector('[data-id="' +this.visitid+ '"]');
-            console.log('theDiv'+theDiv);
-            theDiv.className='inactiveCustomBoxclass';
+            theDiv.className='inactive-custom-box-class';
         }
         this.template.querySelector('[data-id="upcoming"]').className = 'slds-button slds-button_brand up-button active-button-background';
         this.template.querySelector('[data-id="past"]').className = 'slds-button slds-button_neutral past-button inactive-button-background';
@@ -178,8 +180,7 @@ export default class PpStudyVisitPage extends LightningElement {
         this.showChild = false;
         if(this.visitid){
             const theDiv = this.template.querySelector('[data-id="' +this.visitid+ '"]');
-            console.log('theDiv'+theDiv);
-            theDiv.className='inactiveCustomBoxclass';
+            theDiv.className='inactive-custom-box-class';
         }
         this.template.querySelector('[data-id="past"]').className = 'slds-button slds-button_brand past-button active-button-background';
         this.template.querySelector('[data-id="upcoming"]').className = 'slds-button slds-button_neutral up-button inactive-button-background';
@@ -195,13 +196,11 @@ export default class PpStudyVisitPage extends LightningElement {
     }
 
     onVisitSelect(event){
+        this.initialPageLoad = false;
         var index = event.currentTarget.dataset.index;
-        console.log('Index:'+index);
         var past = event.currentTarget.dataset.past;
-        console.log('past'+past);
         const theDiv = this.template.querySelector('[data-id="' +this.visitid+ '"]');
-        console.log('theDiv'+theDiv);
-        theDiv.className='inactiveCustomBoxclass';
+        theDiv.className='inactive-custom-box-class';
         if(past=="true"){
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
@@ -209,7 +208,6 @@ export default class PpStudyVisitPage extends LightningElement {
             this.plannedDate = this.pastVisits[index].visit.Planned_Date__c;
             this.visitStatus = this.pastVisits[index].visit.Status__c;
         }else{
-            console.log('In else');
             this.visitid = this.upcomingVisits[index].visit.Id;
             this.visitName = this.upcomingVisits[index].visit.Name;
             this.selectedIndex = index;
@@ -219,11 +217,9 @@ export default class PpStudyVisitPage extends LightningElement {
         this.createEditTask();
         const objChild = this.template.querySelector('c-pp-R-R-Icon-Splitter');
         objChild.resetValues();
-        this.initializeData(this.visitid);
     }
 
     handleDataUpdate(){
-        console.log('handleDataupdate');
         this.createEditTask();
     }
 
@@ -235,7 +231,7 @@ export default class PpStudyVisitPage extends LightningElement {
                 visitId : this.visitid
             })
             .then(result=>{
-                var str = '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
+                const str = '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
                 const obj = JSON.parse(jsonstr);
                 if(typeof result[0].task === 'undefined'){
@@ -245,22 +241,25 @@ export default class PpStudyVisitPage extends LightningElement {
                     obj.visitDate = "";
                 }
                 this.visitdata = obj;
-                console.log('this.visitData'+JSON.stringify(this.visitdata));
                 this.taskId = this.visitdata.task.Id;
                 const theDiv = this.template.querySelector('[data-id="' +this.visitid+ '"]');
-                console.log('theDiv'+theDiv);
-                theDiv.className='activeCustomBoxclass';
+                theDiv.className='active-custom-box-class';
                 this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c = this.visitdata.visitDate;
                 this.upcomingVisits[this.selectedIndex].visit.Completed_Date__c = this.visitdata.visit.Completed_Date__c;
+                if(this.visitdata.visitDate){
+                    this.upcomingVisits[this.selectedIndex].noVisitDate = false;
+                }
                 this.plannedDate = this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
-                this.contentLoaded = true;
                 this.showChild = true;
-                console.log('Test');
-                this.template.querySelector('c-pp-Study-Visit-What-To-Expect').callFromParent();
-            })
-            .catch(error=>{
-                this.error = error;
-            })    
+                if(!this.initialPageLoad){
+                    this.initializeData(this.visitid);
+                    this.contentLoaded = true;
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                }else{
+                    this.initializeData(this.visitid);
+                    this.contentLoaded = true;
+                }
+            })  
         }else{
             this.contentLoaded = true;
         }    
@@ -268,25 +267,23 @@ export default class PpStudyVisitPage extends LightningElement {
 
     initializeData(visitid) {
         this.initialized = 'false';
-
         getIcon({
             visitId: visitid
         })
             .then((result) => {
-                // result returns list of Icon Detail Records based on Patient Visit Id
                 this.icondetails = result;
                 if (result.length === 0 || result == null || result == '') {
                     this.isError = true;
                 } else {
                     this.isError = false;
                 }
-                if (this.cbload == true) {
+                if (this.cbload == true && result.length!=0) {
                     this.cblabel = this.icondetails[0].Label__c;
                     this.cbdescription = this.icondetails[0].Description__c;
                 }
             })
             .catch((error) => {
-                this.showErrorToast('error occured', error.message, 'error');
+                this.showErrorToast('Error occured', error.message, 'error');
             });
     }
 

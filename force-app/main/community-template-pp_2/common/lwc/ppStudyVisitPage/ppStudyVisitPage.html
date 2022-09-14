@@ -1,16 +1,16 @@
 <template>
     <div class="slds-grid  slds-wrap slds-gutters slds-p-horizontal_x-large">
         <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col1">
-            <h1 class="slds-p-vertical_x-large visit3"><b>My Visits</b></h1>
-            <button data-id="upcoming" class="slds-button slds-button_brand up-button active-button-background" onclick={onUpcomingClick}>Upcoming</button>
-            <button data-id="past" class="slds-button slds-button_neutral past-button inactive-button-background" onclick={onPastClick}>Past</button>
-            <div>
+            <h1 class="slds-p-vertical_x-large visit3"><b>{label.myvisits}</b></h1>
+            <button data-id="upcoming" class="slds-button slds-button_brand up-button active-button-background" onclick={onUpcomingClick}>{label.upcoming}</button>
+            <button data-id="past" class="slds-button slds-button_neutral past-button inactive-button-background" onclick={onPastClick}>{label.past}</button>
+            <div class="slds-scrollable_y scrollar scroll-bar">
                 <template if:true={showUpcomingVisits}>
                     <template for:each={upcomingVisits} for:item="item" for:index="index">
                         <div key={item}>
                             <br />
                             <div
-                                class="inactiveCustomBoxclass"
+                                class="inactive-custom-box-class"
                                 onclick={onVisitSelect}
                                 data-index={index}
                                 data-past = "false"
@@ -25,17 +25,17 @@
                                     <div class="slds-col slds-size_4-of-6">
                                         <span>
                                             <b>
-                                                <lightning-formatted-text
-                                                    class={nameStyle}
-                                                    value={item.visit.Name}
-                                                >
-                                                </lightning-formatted-text>
+                                            <lightning-formatted-text
+                                                class={namestyle}
+                                                value={item.visit.Name}
+                                            >
+                                            </lightning-formatted-text>
                                             </b>
                                             <br />
                                             <p class="no-date">
-                                                <template if:true={item.noVisitDate}>
-                                                    {label.noVisitsLabel}
-                                                </template>
+                                            <template if:true={item.noVisitDate}>
+                                                {label.noVisitsLabel}
+                                            </template>
                                             </p>
                                             <template if:false={item.noVisitDate}>
                                                 <lightning-formatted-date-time
@@ -56,7 +56,6 @@
                                             </template>
                                         </span>
                                     </div>
-
                                     <div class="slds-col slds-size_1-of-6">
                                     <lightning-icon
                                         icon-name="utility:notification"
@@ -74,7 +73,7 @@
                         <div key={item}>
                             <br />
                             <div
-                                class="inactiveCustomBoxclass"
+                                class="inactive-custom-box-class"
                                 onclick={onVisitSelect}
                                 data-index={index}
                                 data-past = "true"
@@ -88,17 +87,17 @@
                                     <div class="slds-col slds-size_4-of-6">
                                         <span>
                                             <b>
-                                                <lightning-formatted-text
-                                                    class={nameStyle}
-                                                    value={item.visit.Name}
-                                                >
-                                                </lightning-formatted-text>
+                                            <lightning-formatted-text
+                                                class={namestyle}
+                                                value={item.visit.Name} 
+                                            >
+                                            </lightning-formatted-text>
                                             </b>
                                             <br />
                                             <p class="no-date">
-                                                <template if:true={item.noVisitDate}>
-                                                    {label.noVisitsLabel}
-                                                </template>
+                                            <template if:true={item.noVisitDate}>
+                                                {label.noVisitsLabel}
+                                            </template>
                                             </p>
                                                 <lightning-formatted-date-time
                                                     value={item.visit.Completed_Date__c}
@@ -118,7 +117,6 @@
                                                 ></lightning-formatted-date-time>
                                         </span>
                                     </div>
-
                                     <div class="slds-col slds-size_1-of-6">
                                     </div>
                                 </div>
@@ -152,43 +150,44 @@
                 &nbsp;|&nbsp;
                 {visitStatus}
             </h1>
-            <h1 class="what-to-expec">What to expect</h1>
             <div>
-                <div class="slds-clearfix">
-                    <div class="slds-float_left rem-border">
-                        <template if:false={isError}>
-                            <c-pp-R-R-Icon-Splitter icons={icondetails}></c-pp-R-R-Icon-Splitter>
-                        </template>
-                    </div>
-                    <br/>
-                    <div class="card-content">
-                        <c-pp-Study-Visit-Details-Card if:true={showChild} past={past} visitid={visitid} tasksubject={taskSubject} taskid={taskId} visitdata={visitdata} url={sfdcBaseURL} siteaddress={siteAddress} sitename={siteName} sitephone={sitePhoneNumber} ondataupdated={handleDataUpdate}>
-                        </c-pp-Study-Visit-Details-Card>
-                    </div>
-                    <template if:false={contentLoaded}>
-                        <lightning-spinner alternative-text="Loading"></lightning-spinner>
-                    </template>
-                </div>
-                <template if:true={isError}>
-                    <div>
-                        <lightning-layout vertical-align="center">
-                            <div class="slds-align_absolute-center">
-                                <span>
+                <h1 class="what-to-expect">{label.WTELabel}</h1>
+                <div class="icon-cont">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_left rem-border">
+                            <template if:false={isError}>
+                                <c-pp-R-R-Icon-Splitter icons={icondetails} label={cblabel}
+                                description={cbdescription}></c-pp-R-R-Icon-Splitter>
+                            </template>
+                            <template if:true={isError}>
+                                <div>
                                     <span class="slds-align_absolute-center">
                                         {label.noDataAvailable}
-                                    </span>
-                                    <br />
-                                </span>
-                            </div>
-                        </lightning-layout>
+                                    </span>            
+                                </div>
+                            </template>
+                        </div>
+                        <br/>
                     </div>
-                </template>
+                </div>
+                <h1 class="what-to-expect">{label.visitdetails}</h1>
+                <div>
+                    <div class="slds-clearfix">
+                        <div class="card-content">
+                            <c-pp-Study-Visit-Details-Card if:true={showChild} past={past} visitid={visitid} tasksubject={taskSubject} taskid={taskId} visitdata={visitdata} url={sfdcBaseURL} siteaddress={siteAddress} sitename={siteName} sitephone={sitePhoneNumber} ondataupdated={handleDataUpdate}>
+                            </c-pp-Study-Visit-Details-Card>
+                        </div>
+                        <template if:false={contentLoaded}>
+                            <lightning-spinner alternative-text={label.loading}></lightning-spinner>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="slds-col slds-size_3-of-12">
             <img src={visitimage2} class="image-result-visit" />
             <br /><br />
-            <h1 class="what-to-expec">{label.results}</h1>
+            <h1 class="what-to-expect">{label.results}</h1>
             <div class="icon-cont1 slds-align_absolute-center">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col center slds-p-bottom_large">
@@ -198,7 +197,6 @@
                     <div class="slds-col center view-result">{label.viewAllResults}</div>
                 </div>
             </div>
-            <!-- <span>3</span> -->
         </div>
     </div>
 </template>

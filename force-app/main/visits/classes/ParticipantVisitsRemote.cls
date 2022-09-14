@@ -84,6 +84,7 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
+    
     @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
         try {

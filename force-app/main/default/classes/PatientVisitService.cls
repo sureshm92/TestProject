@@ -20,7 +20,6 @@ public inherited sharing class PatientVisitService {
 
     @TestVisible
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
-        system.debug('visitMode'+visitMode);
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
                 ParticipantService.class
             ))
@@ -39,9 +38,6 @@ public inherited sharing class PatientVisitService {
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
             'Planned_Date__c',
-            'Participant_Enrollment__r.Study_Site__r.Site__r.BillingAddress',
-            'Participant_Enrollment__r.Study_Site__r.Site__r.Name',
-            'Participant_Enrollment__r.Study_Site__r.Site__r.Phone',
             'Visit_Number__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
@@ -88,6 +84,29 @@ public inherited sharing class PatientVisitService {
         return visits;
     }
 
+    @AuraEnabled
+    public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
+        Id visitPlanId;
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Completed_Date__c,Visit__r.Icons__c from Patient_Visit__c where Id =:visitId];
+        for (Patient_Visit__c visit : visits) {
+            if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
+                visitPlanId = visit.Visit__r.Visit_Plan__c;
+                break;
+            }
+        } 
+        String icons;
+        List<String> iconNames = new List<String>();
+         if (visits[0].Visit__c != null) {
+                icons = visits[0].Visit__r.Icons__c;
+                if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
+                    iconNames = visits[0].Visit__r.Icons__c.split(';'); 
+         }
+        iconDetails = [SELECT Id, Name, Label__c, Description__c FROM Icon_Details__c WHERE Name IN:iconNames AND Visit_Plan__c =:visitPlanId];
+        TranslateHelper.translate(iconDetails);
+        return iconDetails;
+    }
+    
     public static List<Patient_Visit__c> getPatientCardVisits(Id peId) {
         String filter =
             DatabaseService.fieldEqual('Participant_Enrollment__c', peId) +
@@ -165,7 +184,6 @@ public inherited sharing class PatientVisitService {
                 );
             }
         }
-        system.debug('Visit Wrappers'+visitWrappers);
         return visitWrappers;
     }
 
@@ -252,7 +270,7 @@ public inherited sharing class PatientVisitService {
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
 		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Completed_Date__c,Visit__r.Icons__c from Patient_Visit__c where Id =:visitId];
-        for (Patient_Visit__c visit : visits) {
+         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId = visit.Visit__r.Visit_Plan__c;
                 break;
@@ -263,32 +281,9 @@ public inherited sharing class PatientVisitService {
          if (visits[0].Visit__c != null) {
                 icons = visits[0].Visit__r.Icons__c;
                 if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
-                    iconNames = visits[0].Visit__r.Icons__c.split(';'); 
+                    iconNames = visits[0].Visit__r.Icons__c.split(';');
          }
-        iconDetails = [SELECT Id, Name, Label__c, Description__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
-        TranslateHelper.translate(iconDetails);
-        return iconDetails;
-    }
-    
-    @AuraEnabled
-    public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
-        Id visitPlanId;
-        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
-		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Completed_Date__c,Visit__r.Icons__c from Patient_Visit__c where Id =:visitId];
-        for (Patient_Visit__c visit : visits) {
-            if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanId = visit.Visit__r.Visit_Plan__c;
-                break;
-            }
-        } 
-        String icons;
-        List<String> iconNames = new List<String>();
-         if (visits[0].Visit__c != null) {
-                icons = visits[0].Visit__r.Icons__c;
-                if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
-                    iconNames = visits[0].Visit__r.Icons__c.split(';'); 
-         }
-        iconDetails = [SELECT Id, Name, Label__c, Description__c FROM Icon_Details__c WHERE Name IN:iconNames AND Visit_Plan__c =:visitPlanId];
+        iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Label__c IN:iconNames AND Visit_Plan__c =:visitPlanId];
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }

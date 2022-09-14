@@ -406,7 +406,7 @@ public without sharing class TaskEditRemote {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
             .getState();
         List<Id> peIds = new List<Id>();
-        peIds = PatientDelegateService.getAvailablePEIDsForAllContacts(
+        peIds = PatientDelegateService.getAvailablePEIdsForContact(
             participantState.participant.Contact__c
         );
         List<Participant_Enrollment__c> availablePEs = [
