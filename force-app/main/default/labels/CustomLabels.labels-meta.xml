@@ -27880,4 +27880,32 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Year of Birth</shortDescription>
         <value>Year of Birth</value>
     </labels>
+    <labels>
+        <fullName>PP_Resource_Engage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Engage</shortDescription>
+        <value>Engage</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Explore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Explore</shortDescription>
+        <value>Explore</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Documents</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Documents</shortDescription>
+        <value>Documents</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Answers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Find Answers</shortDescription>
+        <value>Find Answers</value>
+    </labels>
 </CustomLabels>
