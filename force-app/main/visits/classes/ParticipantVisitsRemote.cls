@@ -29,6 +29,54 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static String getSiteAddress() {
+        String accountData;
+        try {
+            Id userId = UserInfo.getUserId();
+            Id contactId = [SELECT Id, Contact.Id FROM User WHERE Id = :userId].Contact.Id;
+            List<Contact> siteData = [
+                SELECT
+                    Id,
+                    Account.Name,
+                    Account.Phone,
+                    Account.BillingStreet,
+                    Account.BillingCity,
+                    Account.Billingstate,
+                    Account.BillingCountry,
+                    Account.BillingPostalCode
+                FROM Contact
+                WHERE Id = :contactId
+            ];
+            String[] addr = new List<String>{
+                siteData[0].Account.BillingStreet,
+                siteData[0].Account.BillingCity,
+                siteData[0].Account.Billingstate,
+                siteData[0].Account.BillingCountry,
+                siteData[0].Account.BillingPostalCode
+            };
+            for (Integer i = 4; i >= 0; i--) {
+                if (addr[i] == null) {
+                    addr.remove(i);
+                }
+            }
+            AccountData acc = new AccountData();
+            acc.accountName = siteData[0].Account.Name;
+            acc.accountPhone = siteData[0].Account.Phone;
+            acc.accountAddress = String.join(addr, ',');
+            accountData = JSON.serializePretty(acc);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return accountData;
+    }
+
+    public class AccountData {
+        String accountName;
+        String accountAddress;
+        String accountPhone;
+    }
+
+    @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisits(String visitMode) {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
@@ -38,6 +86,7 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
+
     @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
         try {
@@ -58,9 +107,9 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
-    
+
     @AuraEnabled
-    public static Boolean getIsVisitPathEnabled(){
+    public static Boolean getIsVisitPathEnabled() {
         ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
         return state.isVisitPathEnabled;
     }
