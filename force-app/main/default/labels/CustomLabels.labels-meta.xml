@@ -27851,6 +27851,48 @@ Please contact the Study Team for further updates or please login for additiona
         <value>View All Results</value>
     </labels>
     <labels>
+        <fullName>Update_Notification_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Update_Notification_Settings</shortDescription>
+        <value>Update Notification Settings</value>
+    </labels>
+    <labels>
+        <fullName>Select_reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_reminder</shortDescription>
+        <value>Select reminder</value>
+    </labels>
+    <labels>
+        <fullName>Visit_details_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_details_updated_successfully</shortDescription>
+        <value>Visit details updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Details</shortDescription>
+        <value>Visit Details</value>
+    </labels>
+    <labels>
         <fullName>Edit_Visit_Event_Legend</fullName>
         <categories>Edit Visit/Event Legend</categories>
         <language>en_US</language>
@@ -27858,7 +27900,6 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Edit Visit/Event Legend</shortDescription>
         <value>Edit Visit/Event Legend</value>
     </labels>
-    
   	<labels>
   		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>
@@ -27879,6 +27920,13 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Year of Birth</shortDescription>
         <value>Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preference_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Communication Preferences Url</shortDescription>
+        <value>/account-settings?communication-preferences</value>
     </labels>
     <labels>
         <fullName>PP_Resource_Engage</fullName>
