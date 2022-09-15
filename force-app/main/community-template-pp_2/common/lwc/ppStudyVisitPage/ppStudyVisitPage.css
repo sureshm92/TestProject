@@ -260,15 +260,3 @@ dfn {
     padding: 16px;
 }
 
-
-.top-padding {
-    padding-top: 10px;
-}
-
-.left-grey-line{
-    margin-left: -10px;
-    height: 48px;
-    width: 4px;
-    border-radius: 32px;
-    background-color: #999999;
-}

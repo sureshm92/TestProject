@@ -499,19 +499,24 @@ public without sharing class ParticipantTriggerHandler {
         }
     }
 
+    public Static Boolean updatePartAge = false;
+    
     @TestVisible
     private static void updateAge(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
-        List<Participant__c> pList = new List<Participant__c>();
-
+        
+        //List<Participant__c> pList = new List<Participant__c>();
+        Date today = Date.today();
+        if(Test.isRunningTest()){
+            today = date.newinstance(2000, 12, 31);
+        }
         for (Participant__c p : newList) {
-            if (!String.isBlank(p.Date_of_Birth__c)) {
-                p.Birth_Month__c = p.Date_of_Birth__c.substring(5, 7);
-                p.Birth_Day__c = p.Date_of_Birth__c.substring(8, 10);
-                //p.Birth_Year__c = p.Date_of_Birth__c.substring(0, 4);
+            if (!String.isBlank(p.Birth_Year__c) && updatePartAge) {
+                String dd = !String.isBlank(p.Birth_Day__c) ? p.Birth_Day__c : String.valueOf(today.day());
+                String mm = !String.isBlank(p.Birth_Month__c) ? p.Birth_Month__c : String.valueOf(today.month());
                 Date birthDate = Date.newInstance(
-                    Integer.valueOf(p.Date_of_Birth__c.substring(0, 4)),
-                    Integer.valueOf(p.Date_of_Birth__c.substring(5, 7)),
-                    Integer.valueOf(p.Date_of_Birth__c.substring(8, 10))
+                    Integer.valueOf(p.Birth_Year__c),
+                    Integer.valueOf(mm),
+                    Integer.valueOf(dd)
                 );
 
                 Integer participantAge = Date.newInstance(
@@ -523,14 +528,15 @@ public without sharing class ParticipantTriggerHandler {
                     : Date.today().year() - birthDate.year() - 1;
                 
                 p.Age__c = participantAge;
-                if (p.Gender__c == 'Male')
-                    p.Gender_Technical__c = 'M';
-                else if (p.Gender__c == 'Female')
-                    p.Gender_Technical__c = 'F';
-                else
-                    p.Gender_Technical__c = '';
-                pList.add(p);
             }
+            if (p.Gender__c == 'Male')
+                p.Gender_Technical__c = 'M';
+            else if (p.Gender__c == 'Female')
+                p.Gender_Technical__c = 'F';
+            else
+                p.Gender_Technical__c = '';
+            //pList.add(p);
+            
         }
     }
 

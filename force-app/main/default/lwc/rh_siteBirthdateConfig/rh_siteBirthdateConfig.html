@@ -1,0 +1,109 @@
+<template>
+    <template if:true={isLoading}>
+      <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    
+    <div if:false={initialLoad} class="slds-grid slds-wrap slds-gutters slds-p-around_small">
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+        <c-multi-lookup  options={dobFormatOptions} place-holder={label.selectDobFormat} 
+                				onoptionchange={handleFormatChange}></c-multi-lookup>
+      </div>
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+        <c-multi-lookup options={countryOptions} place-holder={label.selectCountry} 
+                				onoptionchange={handleCountryChange}></c-multi-lookup>
+      </div>
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+        <c-multi-lookup options={studySiteOptions} place-holder={label.selectStudySite} 
+                				onoptionchange={handleSSChange}></c-multi-lookup>
+      </div>
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+      </div>
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-around_small">
+      
+        
+        <div class="slds-scrollable">
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered " aria-labelledby="element-with-table-label other-element-with-table-label">
+              <thead>
+                <tr class="slds-line-height_reset">
+                  <th class="" scope="col">
+                    <div class="slds-truncate sorted-column cursor-default" data-sortby="Country" title="Country" onclick={handleSort}>Country &nbsp;
+                      <lightning-icon  icon-name={sortIcon}  data-sortby="Country" size="xx-small" if:true={sortField.isCountry} variant="success"></lightning-icon>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="slds-truncate sorted-column cursor-default" data-sortby="SSName" title="Study Site" onclick={handleSort}>Study Site &nbsp;
+                      <lightning-icon  icon-name={sortIcon}  data-sortby="SSName" size="xx-small" if:true={sortField.isSSName} variant="success"></lightning-icon>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="slds-truncate sorted-column cursor-default" data-sortby="SSNumber" title="Study Site Number" onclick={handleSort}>Study Site Number &nbsp;
+                      <lightning-icon  icon-name={sortIcon}  data-sortby="SSNumber" size="xx-small" if:true={sortField.isSSNumber} variant="success"></lightning-icon>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="slds-truncate cursor-default checkbox-header" title="DD-MM-YYYY">DD-MM-YYYY</div>
+                    <div class="slds-truncate cursor-default checkbox-header" title="Select All"  >
+                      <a  class="select-all" data-label="DD-MM-YYYY" onclick={handleSelectAll} >
+                        {label.selectAll}
+                      </a>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="slds-truncate cursor-default checkbox-header" title="MM-YYYY">MM-YYYY</div>
+                    <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="MM-YYYY" >
+                      <a  class="select-all" data-label="MM-YYYY" onclick={handleSelectAll} >
+                        {label.selectAll}
+                      </a>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="slds-truncate cursor-default checkbox-header" title="YYYY">YYYY</div>
+                    <div class="slds-truncate cursor-default checkbox-header" title="Select All" data-label="YYYY">
+                      <a  class="select-all" data-label="YYYY" onclick={handleSelectAll} >
+                        {label.selectAll}
+                      </a>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                  <template if:true={studiesToDisplay} for:each={studiesToDisplay} for:item="site" for:index="index">
+                      <tr key={site.Id} class="slds-hint-parent">
+                          <td data-label="Country">
+                          <div class="slds-truncate" title={site.Site__r.BillingCountry}>{site.Site__r.BillingCountry}</div>
+                          </td>
+                          <th data-label="Study Site" scope="row">
+                              <div class="slds-truncate" title={site.Name}>
+                              <a data-siteid={site.Id} tabindex="-1" onclick={openSS}>{site.Name}</a>
+                              </div>
+                          </th>
+                          <td data-label="Study Site Number">
+                          <div class="slds-truncate" title={site.Study_Site_Number__c}>{site.Study_Site_Number__c}</div>
+                          </td>
+                          <td data-label="DD-MM-YYYY">
+                              <div class="slds-truncate align-text-center" >
+                                  <input type="radio" name={site.Id} data-site={site.Id} data-label="DD-MM-YYYY" checked={site.ddmmyyy} onclick={updateSite}>
+                              </div>
+                          </td>
+                          <td data-label="MM-YYYY">
+                              <div class="slds-truncate align-text-center" >
+                                  <input type="radio" name={site.Id} data-site={site.Id} data-label="MM-YYYY" checked={site.mmyyy} onclick={updateSite}>
+                              </div>
+                          </td>
+                          <td data-label="YYYY">
+                              <div class="slds-truncate align-text-center" >
+                                  <input type="radio" name={site.Id} data-site={site.Id} data-label="YYYY" checked={site.yyyy} onclick={updateSite}>
+                              </div>
+                          </td>
+                      </tr>
+                  </template>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <template if:true={showpagenation}>
+      <c-rppagination records={studySites} total-records={totalStudyCount}
+            show-search-box="false" onpaginatorchange={handlePaginatorChanges}></c-rppagination>
+    </template>
+</template>
