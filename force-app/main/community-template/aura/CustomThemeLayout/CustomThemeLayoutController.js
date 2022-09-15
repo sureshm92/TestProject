@@ -23,9 +23,16 @@
 
     doRefresh: function (component, event, helper) {
         helper.init(component);
-        component.find('navigation').refresh();
-        component.find('navigationMobile').refresh();
-        component.find('alerts').refresh();
+        if (component.get('v.communityName') !== 'IQVIA Patient Portal') {
+            component.find('navigation').refresh();
+            component.find('navigationMobile').refresh();
+            component.find('alerts').refresh();
+        }
+        else{
+            component.find('ppMenu').forceRefresh();
+            component.find('ppFooter').forceRefresh();
+            
+        }
     },
 
     switchSideMenu: function (component) {

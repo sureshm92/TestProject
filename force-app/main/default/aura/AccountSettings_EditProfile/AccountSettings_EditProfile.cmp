@@ -427,10 +427,17 @@
 								<aura:set attribute="else">  
 									<aura:if isTrue="{!v.userMode == 'Participant'}">
 										{!$Label.c.PP_Toggle_Information} 
-										<lightning:formattedUrl class="slds-p-left_xx-small"
+                                            <!-- <lightning:formattedUrl
+                                                class="slds-p-left_xx-small"
 											value="./account-settings?communication-preferences"
 											label="{!$Label.c.PP_Communication_Pref}"
-											target="_blank" />.
+                                            />. -->
+                                            <a
+                                                href="./account-settings?communication-preferences"
+                                                class="slds-p-left_xx-small"
+                                                target="_self"
+                                                >{!$Label.c.PP_Communication_Pref}</a
+                                            >.
 									<aura:set attribute="else"> 
 										{!$Label.c.PI_Toggle_Information}    
 									</aura:set>
