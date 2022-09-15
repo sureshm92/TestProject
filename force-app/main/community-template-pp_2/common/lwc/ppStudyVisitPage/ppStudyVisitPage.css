@@ -17,11 +17,11 @@
 .icon-cont {
     box-sizing: border-box;
     height: 185px;
-    width: 442px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
     padding-bottom: 20px;
+    width: 442px;
 }
 .icon-cont1 {
     box-sizing: border-box;
@@ -97,13 +97,13 @@
     padding: 80px;
 }
 
-.namestyle {
-    color: #595959;
-    font-family: 'Proxima Nova';
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 32px;
+.name-style {
+color: #595959;
+font-family: "Proxima Nova";
+font-size: 18px;
+font-weight: 600;
+letter-spacing: 0;
+line-height: 32px;
 }
 
 .scrollar {
