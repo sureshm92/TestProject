@@ -11,6 +11,11 @@
         component.set('v.isRTL', rtl_language.includes(paramLanguage));
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
+        var opt = [];
+        for (var i = parseInt(new Date().getFullYear()); i >= 1900; i--) {
+            opt.push({ label: i.toString(), value: i.toString() });
+        }
+        component.set('v.optionsYYYY', opt);
         var formData = component.get('v.formData');
         const val = [
             {
@@ -53,18 +58,14 @@
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
-            participant.Date_of_Birth__c &&
-            participant.Gender__c &&
-            participant.Phone__c &&
-            numbers.test(participant.Phone__c) &&
             participant.Email__c &&
-            participant.Mailing_Country_Code__c &&
             component.get('v.sendFor') !== '' &&
             component.find('emailInput').get('v.validity').valid;
+        console.log('VALIDITY' + isValid);
 
-        if (!participant.Mailing_State_Code__c && participant.Mailing_Country_Code__c == 'US') {
+        /* if (!participant.Mailing_State_Code__c && participant.Mailing_Country_Code__c == 'US') {
             isValid = false;
-        }
+        }*/
 
         if (isValid) {
             component.set('v.isValid', true);
@@ -127,12 +128,14 @@
         if (component.get('v.sendFor') === 'Me') {
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
+            console.log('copyParticipant::' + copyParticipant);
         } else {
             let participant = {
                 sobjectType: 'Participant__c',
                 First_Name__c: '',
                 Last_Name__c: '',
                 Date_of_Birth__c: '',
+                Birth_Year__c: '',
                 Gender__c: '',
                 Phone__c: '',
                 Phone_Type__c: '',
