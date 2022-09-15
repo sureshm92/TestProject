@@ -20,6 +20,7 @@ import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 export default class PpStudyVisitPage extends LightningElement {
     label = {
         noVisitsLabel,
