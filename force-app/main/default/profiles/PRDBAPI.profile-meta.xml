@@ -4532,11 +4532,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>PreScreener_Survey__c.Link_to_Pre_screening__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>PreScreener_Survey__c.MRR__c</field>
         <readable>true</readable>
     </fieldPermissions>

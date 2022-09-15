@@ -2826,13 +2826,7 @@
         <editable>false</editable>
         <field>Participant_PrescreenerResponse__c.Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PreScreener_Survey__c.Link_to_Pre_screening__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions> 
     <fieldPermissions>
         <editable>true</editable>
         <field>PreScreener_Survey__c.MRR__c</field>
