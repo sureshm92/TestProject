@@ -19,6 +19,11 @@ import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
+import myvisits from '@salesforce/label/c.My_Visits';
+import loading from '@salesforce/label/c.Loading';
+import visitdetails from '@salesforce/label/c.Visit_Details';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class PpStudyVisitPage extends LightningElement {
     label = {
         noVisitsLabel,
@@ -30,7 +35,16 @@ export default class PpStudyVisitPage extends LightningElement {
         results,
         resultsCheck,
         viewAllResults,
-        visitUnavailable
+        visitUnavailable,
+        myvisits,
+        loading,
+        visitdetails
+    };
+    status = {
+        scheduled: 'Scheduled',
+        pending: 'Pending',
+        completed: 'Completed',
+        missed: 'Missed'
     };
     @track visitMode = 'All';
     @track upcomingVisits = [];
@@ -68,19 +82,21 @@ export default class PpStudyVisitPage extends LightningElement {
 
 
     callParticipantVisit() {
+        this.cbload = true;
+        this.initialPageLoad = true;
         getParticipantVisits({
             visitMode: this.visitMode
         })
             .then((result) => {          
-                //set visitId on load of page
+                if (result.length > 0) {
                 this.visitid = result[0].visit.Id;
                 this.taskSubject = result[0].visit.Name;
 
                 for (let i = 0; i < result.length; i++) {
                     if (
                         result[i].visit.Completed_Date__c == null &&
-                        (result[i].visit.Status__c == 'Scheduled' ||
-                            result[i].visit.Status__c == 'Pending')
+                        (result[i].visit.Status__c == this.status.scheduled ||
+                            result[i].visit.Status__c == this.status.pending)
                     ) {
                         if (result[i].visit.Planned_Date__c === undefined) {
                             this.noVisitDate = true;
@@ -94,10 +110,10 @@ export default class PpStudyVisitPage extends LightningElement {
 
                         this.upcomingVisits.push(result[i]);
                     } else if (
-                        result[i].visit.Status__c == 'Completed' ||
-                        result[i].visit.Status__c == 'Missed'
+                        result[i].visit.Status__c == this.status.completed ||
+                        result[i].visit.Status__c == this.status.missed
                     ) {
-                        if(result[i].visit.Status__c === 'Missed'){
+                        if(result[i].visit.Status__c == this.status.missed){
                             this.missedVisit = true;
                         }else{
                             this.missedVisit = false;
@@ -108,16 +124,20 @@ export default class PpStudyVisitPage extends LightningElement {
                     this.visitTimezone = TIME_ZONE;
                     result[i].visitTimezone = this.visitTimezone;
                 }
-                this.pastVisits = this.pastVisits.reverse();
-                if (!this.pastVisitId) {
+                if (!this.pastVisitId && this.pastVisits.length > 0) {
+                    this.pastVisits = this.pastVisits.reverse();
                     this.pastVisitId = this.pastVisits[0].visit.Id;
                 }
-                if (!this.upcomingVisitId) {
+                if (!this.upcomingVisitId && this.upcomingVisits.length > 0) {
                     this.upcomingVisitId = this.upcomingVisits[0].visit.Id;
                     this.visitName = this.upcomingVisits[0].visit.Name;
                     this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                 }
-               
+                this.initializeData(this.visitid);
+                this.createEditTask();
+            } else {
+                this.contentLoaded = true;
+            }
             })
             .catch((error) => {
                 this.error = error;
@@ -135,51 +155,58 @@ export default class PpStudyVisitPage extends LightningElement {
                 this.sitePhoneNumber = data.accountPhone;
             })
             .catch((error) => {
+                this.showErrorToast('Error occured', error.message, 'error');
             });
     }
 
     onUpcomingClick(event) {
+        this.showChild = false;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactiveCustomBoxclass';
+            theDiv.className = 'inactive-custom-box-class';
         }
         this.template.querySelector('[data-id="upcoming"]').className =
             'slds-button slds-button_brand up-button active-button-background';
         this.template.querySelector('[data-id="past"]').className =
             'slds-button slds-button_neutral past-button inactive-button-background';
         this.showUpcomingVisits = true;
-        this.visitid = this.upcomingVisitId;
-        this.visitName = this.upcomingVisits[0].visit.Name;
-        this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
-        this.visitStatus = this.upcomingVisits[0].visit.Status__c;
-        this.past = false;
-        this.createEditTask();
+        if (this.upcomingVisits.length > 0) {
+            this.visitid = this.upcomingVisitId;
+            this.visitName = this.upcomingVisits[0].visit.Name;
+            this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
+            this.visitStatus = this.upcomingVisits[0].visit.Status__c;
+            this.past = false;
+            this.createEditTask();
+        }
     }
 
     onPastClick(event) {
+        this.showChild = false;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactiveCustomBoxclass';
+            theDiv.className = 'inactive-custom-box-class';
         }
         this.template.querySelector('[data-id="past"]').className =
             'slds-button slds-button_brand past-button active-button-background';
         this.template.querySelector('[data-id="upcoming"]').className =
             'slds-button slds-button_neutral up-button inactive-button-background';
         this.showUpcomingVisits = false;
-        this.visitid = this.pastVisitId;
-        this.visitName = this.pastVisits[0].visit.Name;
-        this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
-        this.visitStatus = this.pastVisits[0].visit.Status__c;
-
-        this.past = true;
-        this.createEditTask();
+        if (this.pastVisits) {
+            this.visitid = this.pastVisitId;
+            this.visitName = this.pastVisits[0].visit.Name;
+            this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
+            this.visitStatus = this.pastVisits[0].visit.Status__c;
+            this.past = true;
+            this.createEditTask();
+        }
     }
 
     onVisitSelect(event) {
+        this.initialPageLoad = false;
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-        theDiv.className = 'inactiveCustomBoxclass';
+        theDiv.className = 'inactive-custom-box-class';
         if (past == 'true') {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
@@ -194,15 +221,9 @@ export default class PpStudyVisitPage extends LightningElement {
         }
         this.taskSubject = event.currentTarget.dataset.name;
         this.createEditTask();
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Visit_Details_Mobile__c'
-            }
-        });
-        this.initializeData(this.visitid);
+        const objChild = this.template.querySelector('c-pp-R-R-Icon-Splitter');
+        objChild.resetValues();
     }
-
 
     handleDataUpdate() {
         this.createEditTask();
@@ -210,13 +231,12 @@ export default class PpStudyVisitPage extends LightningElement {
 
     createEditTask(index) {
         this.contentLoaded = false;
-        this.showChild = false;
         this.showreminderdatepicker = false;
-        getParticipantVisitsDetails({
-            visitId: this.visitid
-        })
-            .then((result) => {
-                var str =
+        if (this.visitid) {
+            getParticipantVisitsDetails({
+                visitId: this.visitid
+            }).then((result) => {
+                const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
                 const obj = JSON.parse(jsonstr);
@@ -229,20 +249,28 @@ export default class PpStudyVisitPage extends LightningElement {
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
                 const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-                theDiv.className = 'activeCustomBoxclass';
-                this.upcomingVisits[
-                    this.selectedIndex
-                ].visit.Planned_Date__c = this.visitdata.visitDate;
-                this.upcomingVisits[
-                    this.selectedIndex
-                ].visit.Completed_Date__c = this.visitdata.visit.Completed_Date__c;
+                theDiv.className = 'active-custom-box-class';
+                this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                    this.visitdata.visitDate;
+                this.upcomingVisits[this.selectedIndex].visit.Completed_Date__c =
+                    this.visitdata.visit.Completed_Date__c;
+                if (this.visitdata.visitDate) {
+                    this.upcomingVisits[this.selectedIndex].noVisitDate = false;
+                }
                 this.plannedDate = this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
-                this.contentLoaded = true;
-                this.showChild = true;                
-                           })
-            .catch((error) => {
-                this.error = error;
+                this.showChild = true;
+                if (!this.initialPageLoad) {
+                    this.initializeData(this.visitid);
+                    this.contentLoaded = true;
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                } else {
+                    this.initializeData(this.visitid);
+                    this.contentLoaded = true;
+                }
             });
+        } else {
+            this.contentLoaded = true;
+        }
     }
 
     initializeData(visitid) {
@@ -252,18 +280,18 @@ export default class PpStudyVisitPage extends LightningElement {
         })
             .then((result) => {
                 this.icondetails = result;
-                if (result.length === 0) {
+                if (result.length === 0 || result == null || result == '') {
                     this.isError = true;
                 } else {
                     this.isError = false;
                 }
-                let iconNames = '';
-                for (let i = 0; i < result.length; i++) {
-                    iconNames += result[i].icons + ';';
+                if (this.cbload == true && result.length != 0) {
+                    this.cblabel = this.icondetails[0].Label__c;
+                    this.cbdescription = this.icondetails[0].Description__c;
                 }
             })
             .catch((error) => {
-                this.showErrorToast('error occured', error.message, 'error');
+                this.showErrorToast('Error occured', error.message, 'error');
             });
     }
 

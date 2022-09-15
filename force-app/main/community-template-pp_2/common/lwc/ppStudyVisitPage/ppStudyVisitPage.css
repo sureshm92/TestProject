@@ -17,10 +17,10 @@
 .icon-cont {
     box-sizing: border-box;
     height: 185px;
-    width: 442px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+    padding-bottom: 20px;
 }
 .icon-cont1 {
     box-sizing: border-box;
@@ -41,7 +41,15 @@
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
+    padding: 22px;
 }
+
+.visit3 lightning-formatted-date-time {
+    font-size: 20px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+}
+
 .dt-fsize {
     color: #444444;
     font-family: 'Proxima Nova';
@@ -66,7 +74,6 @@
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
-    font-weight: 500;
     letter-spacing: 0;
     line-height: 32px;
 }
@@ -224,35 +231,35 @@ dfn {
     /*background-color: #FFFFFF;*/
 
     /*border: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,#0768FD);*/
+}
 
- }
-  
 @media all and (max-width: 486px) {
-    .col2, .col3 {
+    .col1,
+    .col3 {
         display: none;
     }
-
 }
 
-.activeCustomBoxclass {
+.active-custom-box-class {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
-    border: 1px solid #015FF1;
+    border: 1px solid #015ff1;
     border-radius: 16px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 16px;
 }
 
-.inactiveCustomBoxclass {
+.inactive-custom-box-class {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     border-radius: 16px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 16px;
 }
+
 
 .top-padding {
     padding-top: 10px;
@@ -265,4 +272,3 @@ dfn {
     border-radius: 32px;
     background-color: #999999;
 }
-
