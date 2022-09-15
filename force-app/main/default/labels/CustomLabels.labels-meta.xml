@@ -27956,4 +27956,11 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Find Answers</shortDescription>
         <value>Find Answers</value>
     </labels>
+    <labels>
+        <fullName>Reminder_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reminder Time</shortDescription>
+        <value>Reminder Time</value>
+    </labels>
 </CustomLabels>
