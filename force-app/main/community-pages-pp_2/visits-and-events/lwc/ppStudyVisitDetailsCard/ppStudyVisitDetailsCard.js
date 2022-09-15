@@ -1,5 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import moment from '@salesforce/resourceUrl/moment_js';
+import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { loadScript } from 'lightning/platformResourceLoader';
 import checkSmsOptIn from '@salesforce/apex/TaskEditRemote.checkSmsOptIn';
 import updatePatientVisits from '@salesforce/apex/TaskEditRemote.updatePatientVisits';
@@ -14,7 +15,7 @@ import saveChanges from '@salesforce/label/c.PG_AS_BTN_Save_Changes';
 import discard from '@salesforce/label/c.RH_TV_Discard';
 import selectreminder from '@salesforce/label/c.Select_reminder';
 import email from '@salesforce/label/c.Email';
-import sms from '@salesforce/label/c.PP_Remind_Using_SMS';
+import sms from '@salesforce/label/c.SMS_Text';
 import onehour from '@salesforce/label/c.PP_One_Hour_Before';
 import fourhour from '@salesforce/label/c.PP_Four_Hours_Before';
 import oneday from '@salesforce/label/c.One_day_before';
@@ -70,9 +71,20 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track visitDateTime;
     @track disableButtonSaveCancel = true;
     @track showreminderdatepicker = false;
-
-    async connectedCallback() {
-        await loadScript(this, moment);
+    @track diffInMinutes;
+    @track currentBrowserTime;
+    booleanFalse = false;
+    booleanTrue = true;
+    connectedCallback() {
+        loadScript(this, moment).then(() => {
+            loadScript(this, momentTZ).then(() => {
+                this.currentBrowserTime = window.moment();
+                var localOffset = this.currentBrowserTime.utcOffset();
+                var userTime = this.currentBrowserTime.tz(TIME_ZONE);
+                var centralOffset = userTime.utcOffset();
+                this.diffInMinutes = localOffset - centralOffset;
+            });
+        });
     }
 
     @wire(checkSmsOptIn)
@@ -299,7 +311,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get currentDate() {
-        var currentDate = new Date();
+        var currentDate;
+        if (this.diffInMinutes < 0) {
+            var currentDateTime = this.currentBrowserTime - this.diffInMinutes * 60 * 1000;
+            currentDate = new Date(currentDateTime);
+        } else {
+            var currentDateTime = this.currentBrowserTime + this.diffInMinutes * 60 * 1000;
+            currentDate = new Date(currentDateTime);
+        }
         var dd = String(currentDate.getDate()).padStart(2, '0');
         var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
         var yyyy = currentDate.getFullYear();
@@ -310,14 +329,17 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get currentTime() {
-        var currentDateTime = new Date();
-        var hh = String((currentDateTime.getHours() < 10 ? '0' : '') + currentDateTime.getHours());
-        var mm = String(
-            (currentDateTime.getMinutes() < 10 ? '0' : '') + currentDateTime.getMinutes()
-        );
-        var ss = String(
-            (currentDateTime.getSeconds() < 10 ? '0' : '') + currentDateTime.getSeconds()
-        );
+        var currentDate;
+        if (this.diffInMinutes < 0) {
+            var currentDateTime = this.currentBrowserTime - this.diffInMinutes * 60 * 1000;
+            currentDate = new Date(currentDateTime);
+        } else {
+            var currentDateTime = this.currentBrowserTime + this.diffInMinutes * 60 * 1000;
+            currentDate = new Date(currentDateTime);
+        }
+        var hh = String((currentDate.getHours() < 10 ? '0' : '') + currentDate.getHours());
+        var mm = String((currentDate.getMinutes() < 10 ? '0' : '') + currentDate.getMinutes());
+        var ss = String((currentDate.getSeconds() < 10 ? '0' : '') + currentDate.getSeconds());
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
         if (this.calculatedDate == this.visitDate) {
