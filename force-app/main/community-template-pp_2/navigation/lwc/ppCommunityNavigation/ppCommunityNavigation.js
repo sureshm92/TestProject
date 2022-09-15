@@ -80,7 +80,7 @@ export default class PpCommunityNavigation extends LightningElement {
             'participant-home': {
                 page: '',
                 label: navigationHome,
-                icon: 'icon-home-brand-new',
+                icon: 'icon-home-pplite-new',
                 displayIcon: true
             },
             'my-study': {
