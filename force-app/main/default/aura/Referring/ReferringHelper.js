@@ -726,9 +726,7 @@
         var opt = [];
         let todayDate = new Date();
         let cMonth = todayDate.getMonth()+1;
-        let cDay = todayDate.getDate();
         let cYear = parseInt(todayDate.getUTCFullYear());
-        var pday = component.get('v.pday');
         var pmonth = component.get('v.pmonth');
         var pyear = component.get('v.pyear');
         let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
@@ -738,12 +736,69 @@
             console.log('lower age');
             opt.push({label: lowerAge, value: lowerAge });
         }
-        if(studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth )){
+        if((studyDobFormat == 'YYYY' || (studyDobFormat == 'MM-YYYY' && pmonth && pmonth <= cMonth)) && pyear){
             console.log('higher age');
             opt.push({label: higherAge, value: higherAge });
         }
         
         component.set('v.ageOptions', opt);
+    },
+
+    checkForLeapYear : function (component, event, helper) {
+        let pYear = component.get('v.pyear');
+        if (parseInt(pYear) % 400 == 0) {
+            return true;
     }
+        if (parseInt(pYear) % 100 == 0) {
+            return false;
+        }
+        if (parseInt(pYear) % 4 == 0) {
+            return true;
+        }
+        return false;
+    },
+
+    doMonthPLVChange: function (component, event, helper) {
+        let maxDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
+        let minDayMonths = ['04', '06', '09', '11'];
+        let lastDay=30;
+        let pMonth = component.get('v.pmonth');
+        let pYear = component.get('v.pyear');
+        let pDay = component.get('v.pday');
+        if (maxDayMonths.includes(pMonth)) {
+            lastDay = 31;
+        }
+        else if (minDayMonths.includes(pMonth)) {
+            lastDay = 30;
+        }
+        else if (pMonth == '02') {
+            if (pYear == null || helper.checkForLeapYear(component, event, helper)) {
+                lastDay = 29;
+            }
+            else {
+                lastDay = 28;
+            }
+        }
+        var dayList = [];
+        var obj = {};
+        for (var i = 1; i <= lastDay; i++) {
+            if(i >= 10){
+                obj.label = ""+i;
+                obj.value = ""+i;
+            }else{
+                obj.label = "0"+i;
+                obj.value = "0"+i;
+            }
+            dayList.push(obj);
+            obj = {};
+        }
+        component.set('v.days', dayList);
+        component.set('v.toggleAge',false);
+        component.set('v.toggleAge',true);
+        
+        if (pDay && lastDay && (parseInt(pDay) > lastDay) ) {
+            component.set('v.pday',lastDay.toString());
+        }
+    },
 
 });
