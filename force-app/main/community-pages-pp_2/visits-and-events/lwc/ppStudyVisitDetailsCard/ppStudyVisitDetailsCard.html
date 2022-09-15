@@ -23,6 +23,7 @@
                 <c-pp-date-time-combo
                     data-id="visitDateTime"
                     if:false={past}
+                    reminder={booleanFalse}
                     compdate={compDate}
                     comptime={compTime}
                     mindate={currentDate}
@@ -113,6 +114,7 @@
                         data-id="reminderDateTime"
                         compdate={dbreminderdate}
                         comptime={dbremindertime}
+                        reminder={booleanTrue}
                         mindate={currentDate}
                         maxdate={visitDate}
                         mintime={minReminderTime}

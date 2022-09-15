@@ -18389,6 +18389,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_NewPwdCantCurrentPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdCantCurrentPwd</shortDescription>
+        <value>Your new password cannot be the same as your current password.</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27955,5 +27962,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Find Answers</shortDescription>
         <value>Find Answers</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reminder Time</shortDescription>
+        <value>Reminder Time</value>
     </labels>
 </CustomLabels>
