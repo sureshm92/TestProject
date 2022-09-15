@@ -7,6 +7,8 @@
 
         component.set('v.userMode', communityService.getUserMode());
         component.set('v.communityName', communityService.getCurrentCommunityName());
+        component.set('v.currentMode', communityService.getCurrentCommunityMode());
+
         if (!communityService.isDummy()) {
             component.set('v.initialized', true);
         } else {

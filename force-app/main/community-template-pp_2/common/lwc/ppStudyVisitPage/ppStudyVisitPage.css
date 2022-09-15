@@ -21,6 +21,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+    padding-bottom: 20px;
 }
 .icon-cont1 {
     box-sizing: border-box;
@@ -41,7 +42,15 @@
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
+    padding: 22px;
 }
+
+.visit3 lightning-formatted-date-time {
+    font-size: 20px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+}
+
 .dt-fsize {
     color: #444444;
     font-family: 'Proxima Nova';
@@ -66,9 +75,9 @@
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
-    font-weight: 500;
     letter-spacing: 0;
     line-height: 32px;
+    font-weight: 600;
 }
 .icon-siz {
     height: 32px !important;
@@ -88,48 +97,38 @@
     padding: 80px;
 }
 
-.nameStyle {
-height: 24px;
-width: 157px;
-color: #595959;
-font-family: "Proxima Nova";
-font-size: 18px;
-font-weight: 600;
-letter-spacing: 0;
-line-height: 32px;
+.namestyle {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
 }
 
 .scrollar {
     height: 20rem;
 }
 
-.boxStyle {
-    border-radius: 1rem;
-    margin-left: 20px;
-    margin-right: 30px;
-}
-
-.icon-Style {
+.icon-style {
     float: right;
     padding-right: 1rem;
 }
-a, 
+a,
 .slds-button {
-    /* color: #297dfd; */
-    height: 32px;
-    width: 109px;
-    border-radius: 16px 0 0 16px;
-    background-color: #015FF1;
+    background: #297dfd !important;
+    border-radius: 15px 0 0 15px;
+    color: white;
 }
 .up-button {
-  border-radius: 16px 0 0 16px;
-  border: 1px solid #d9d9d9 !important;
-  margin-left: 50px;
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    margin-left: 72px;
 }
 
 .active-button-background {
     color: white !important;
-    background-color: #015FF1;
+    background-color: #015ff1;
 }
 
 .inactive-button-background {
@@ -150,22 +149,19 @@ a,
     width: 109px;
 }
 .slds-button + .slds-button {
-    /* margin-left: var(--lwc-spacingXxSmall,0.25rem); */
     margin-left: -1px;
     margin-top: -1px;
 }
 .scroll-bar {
-    height: 20rem;
-    border-radius: 4px; 
-  }
-  .left-line {
-   /* border-left: 4px solid #00a3e0;
-    height: 40px;*/
+    height: 30rem;
+    border-radius: 4px;
+}
+.left-line {
     margin-left: -10px;
-        height: 48px;
-        width: 4px;
-        border-radius: 32px;
-        background-color: #009DD6;
+    height: 48px;
+    width: 4px;
+    border-radius: 32px;
+    background-color: #009dd6;
 }
 .l-padding {
     margin-left: -25px;
@@ -183,25 +179,21 @@ dfn {
     font-weight: var(--lwc-fontWeightBold, 700);
     margin-left: -25px !important;
 }
-/* scrollbar css */
-/* width */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
     border-radius: 8px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #999999;
     border-radius: 8px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #999999;
 }
@@ -215,42 +207,32 @@ dfn {
 .image-result-visit {
     height: 197px;
     width: 270px;
-}  
-
-.active {
-    /*box-sizing: border-box;*/
-    border: 1px solid #0768FD;
-    /*border-radius: 16px;
-    /*background-color: #FFFFFF;*/
-
-    /*border: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,#0768FD);*/
-
- }
-  
-@media all and (max-width: 486px) {
-    .col2, .col3 {
-        display: none;
-    }
-
 }
 
-.activeCustomBoxclass {
+@media all and (max-width: 486px) {
+    .col1,
+    .col3 {
+        display: none;
+    }
+}
+
+.active-custom-box-class {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
-    border: 1px solid #015FF1;
+    border: 1px solid #015ff1;
     border-radius: 16px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 16px;
 }
 
-.inactiveCustomBoxclass {
+.inactive-custom-box-class {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     border-radius: 16px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 16px;
 }
 
@@ -258,11 +240,10 @@ dfn {
     padding-top: 10px;
 }
 
-.left-grey-line{
+.left-grey-line {
     margin-left: -10px;
     height: 48px;
     width: 4px;
     border-radius: 32px;
     background-color: #999999;
 }
-

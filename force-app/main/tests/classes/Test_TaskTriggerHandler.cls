@@ -9,9 +9,7 @@ public class Test_TaskTriggerHandler {
 
         Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
         TestData testData = new TestData();
-        Test.startTest();
         testData.piContact.Participant_Opt_In_Status_Emails__c = true;
         update testData.piContact;
         user u = testData.createPatientDelegate();
@@ -66,13 +64,11 @@ public class Test_TaskTriggerHandler {
     }
     @IsTest
     static void test_checkTaskFields() {
-        Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
+        Test.startTest();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
-        Test.startTest();
         Contact delegate = new Contact(
             FirstName = 'Patient',
             LastName = 'Delegate',
@@ -209,11 +205,9 @@ public class Test_TaskTriggerHandler {
     static void test_checkTaskFieldsNegative() {
         Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
-        Test.startTest();
         Contact delegate = new Contact(
             FirstName = 'Patient',
             LastName = 'Delegate',
@@ -287,9 +281,7 @@ public class Test_TaskTriggerHandler {
 
         Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
         TestData testData = new TestData();
-        Test.startTest();
         testData.piContact.Participant_Opt_In_Status_Emails__c = true;
         update testData.piContact;
         user u = testData.createPatientDelegate();

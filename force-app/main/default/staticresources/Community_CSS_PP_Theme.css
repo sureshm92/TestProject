@@ -72,6 +72,8 @@
 }
 
 
+
+
 .cp-login-title{
     font-size: 60px;
     font-weight: 500;
@@ -141,6 +143,9 @@
 }
 .participant-tooltip lightning-primitive-icon{
     visibility: hidden !important;
+}
+.participant-tooltip lightning-primitive-icon:hover::after{
+    pointer-events: none !important;
 }
 .toastContainer .toastClose lightning-primitive-icon {
     color: #ffffff!important;
@@ -299,8 +304,6 @@ color: #0768fd!important;
 .support-year.opacity .slds-media__body .slds-truncate{
     opacity: 1;
 }
-
-
 
 .slds-popover_tooltip,
 .slds-popover--tooltip ::after {    
@@ -481,6 +484,156 @@ color: #0768fd!important;
     box-shadow: none;
 }
 
+:focus-visible {
+    outline: #0768fd auto 1px;
+}
+
+.fadePlaceholder button span{
+    opacity: 0.7;
+}
+
+.primaryBtn .slds-button {
+    border-radius: 1rem;
+    color: #ffffff;
+    background: #0768fd;
+    padding: 0 1rem;
+    border: none;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    margin-left: .5rem;
+    font-weight: 500;
+}
+
+.secondaryBtn .slds-button {
+    padding: 0 1rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    color: #0768fd;
+    font-weight: 500;
+}
+
+c-pp-Study-Visit-Details-Card .slds-card {
+    width: 442px;
+    padding: 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+}
+
+c-pp-Study-Visit-Details-Card .slds-card__header {
+    display: none;
+}
+
+.curveInput .slds-form-element__label,
+.cCustomThemeLayout .curveInput .slds-input-has-icon .slds-input__icon {
+    display: none;
+}
+
+[lightning-combobox_combobox-host],
+[lightning-input_input-host] {
+    width: 100%;
+}
+
+input[type="time" i]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.cCustomThemeLayout .curveInput .slds-input.slds-combobox__input,
+.cCustomThemeLayout .curveInput .slds-input_faux.slds-combobox__input,
+.cCustomThemeLayout .slds-input[type=time],
+[lightning-combobox_combobox-host], 
+[lightning-input_input-host],
+input::-webkit-datetime-edit {     
+    height: 30px!important;
+    width: 210px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    min-height: unset;
+    font-size: .875rem;
+    border-radius: 1rem;
+    background: #fff;
+    border: none;  
+    color: #595959;
+}
+
+ .cCustomThemeLayout .slds-input[type=time] {
+     padding-left: .5rem;
+ }
+
+ .cCustomThemeLayout .curveInput .slds-input.slds-combobox__input,
+ .cCustomThemeLayout .curveInput .slds-input_faux.slds-combobox__input {
+    padding-left: 1rem;
+ }
+
+c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
+    margin-left: .5rem;
+}
+
+.slds-checkbox .slds-checkbox__label {
+    display: flex;
+    align-items: center;
+}
+
+.slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: .875rem;
+}
+
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    position: relative;
+}
+
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    background-color: #00a3e0;
+    border-radius: 2px;
+    border: none;
+    top: 1px;
+}
+
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux:after {
+    color: #00a3e0;
+    position: absolute;
+    content: " ";
+    display: inline-block;
+    transform: rotate(34deg);
+    height: 10px;
+    width: 6px;
+    top: 1px;
+    left: 5px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-left: none;
+    border-radius: 0;
+}
+
+input:focus + .slds-checkbox__label > .slds-checkbox_faux {
+    box-shadow: none
+}
+
+@media all and (max-width: 768px) {
+    .cCustomThemeLayout .apollo-btn, 
+    .cCustomThemeLayout .slds-input, 
+    .cCustomThemeLayout .slds-button_neutral, 
+    .cCustomThemeLayout .cRrInput.rri-container input, 
+    .cCustomThemeLayout .cRrSelect.rrs-container select, 
+    .cCustomThemeLayout input[type=text], 
+    .cCustomThemeLayout input[type=password], 
+    .cCustomThemeLayout input[type=email] {
+        height: 32px!important;
+    }
+}
+
+
+@media all and (max-width: 486px) {
+    c-pp-Study-Visit-Details-Card .slds-card {
+        width: 100%;
+    }
+
+    c-pp-Study-Visit-Details-Card .slds-grid .slds-col {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+
+}
 .fadePlaceholder button span{
     opacity: 0.7;
 }

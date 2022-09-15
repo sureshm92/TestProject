@@ -1,8 +1,12 @@
 @isTest
 public class Test_SdhIntegrationService {
+@TestSetup
+    static void init(){
+        TestData.loadTestData();
+    }
     @isTest
     static void getPeList() {
-        TestData.loadTestData();
+       
         Test.startTest();
         TestData testData = new TestData();
 
