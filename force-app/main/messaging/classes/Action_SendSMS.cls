@@ -3,7 +3,7 @@
  * Refactored by Pijush Kar on 09/30/2021
  */
 
-public with sharing class Action_SendSMS implements Action {
+public without sharing class Action_SendSMS implements Action {
     private List<Id> notificationIds;
     private Map<Id, PinpointWrapper> pinPointWrapperMap;
     public static Map<String, String> studySiteToFromNoMap = new Map<String, String>();

@@ -18389,6 +18389,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_NewPwdCantCurrentPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdCantCurrentPwd</shortDescription>
+        <value>Your new password cannot be the same as your current password.</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -27851,6 +27858,48 @@ Please contact the Study Team for further updates or please login for additiona
         <value>View All Results</value>
     </labels>
     <labels>
+        <fullName>Update_Notification_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Update_Notification_Settings</shortDescription>
+        <value>Update Notification Settings</value>
+    </labels>
+    <labels>
+        <fullName>Select_reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select_reminder</shortDescription>
+        <value>Select reminder</value>
+    </labels>
+    <labels>
+        <fullName>Visit_details_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit_details_updated_successfully</shortDescription>
+        <value>Visit details updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>My_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My_Visits</shortDescription>
+        <value>My Visits</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Details</shortDescription>
+        <value>Visit Details</value>
+    </labels>
+    <labels>
         <fullName>Edit_Visit_Event_Legend</fullName>
         <categories>Edit Visit/Event Legend</categories>
         <language>en_US</language>
@@ -27858,7 +27907,6 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Edit Visit/Event Legend</shortDescription>
         <value>Edit Visit/Event Legend</value>
     </labels>
-    
   	<labels>
   		<fullName>Date_of_Birth</fullName>
         <language>en_US</language>
@@ -27879,5 +27927,47 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Year of Birth</shortDescription>
         <value>Year of Birth</value>
+    </labels>
+    <labels>
+        <fullName>Communication_Preference_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Communication Preferences Url</shortDescription>
+        <value>/account-settings?communication-preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Engage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Engage</shortDescription>
+        <value>Engage</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Explore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Explore</shortDescription>
+        <value>Explore</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Documents</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Documents</shortDescription>
+        <value>Documents</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Answers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Find Answers</shortDescription>
+        <value>Find Answers</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reminder Time</shortDescription>
+        <value>Reminder Time</value>
     </labels>
 </CustomLabels>
