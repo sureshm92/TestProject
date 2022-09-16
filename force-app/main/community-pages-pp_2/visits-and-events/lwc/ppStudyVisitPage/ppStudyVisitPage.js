@@ -87,6 +87,7 @@ export default class PpStudyVisitPage extends LightningElement {
     visitimage2 = pp_icons + '/' + 'VisitPage_1.png';
     @track isReminderDate = false;
     @track missedVisit = false;
+    @track showList = false;
 
     callParticipantVisit() {
         this.cbload = true;
@@ -123,6 +124,7 @@ export default class PpStudyVisitPage extends LightningElement {
                             if (result[i].visit.Completed_Date__c === undefined) {
                                 this.noVisitDate = true;
                                 result[i].noVisitDate = this.noVisitDate;
+                                result[i].visit.Completed_Date__c = '';
                             }
                             if (result[i].visit.Status__c === this.status.missed) {
                                 this.missedVisit = true;
@@ -130,7 +132,6 @@ export default class PpStudyVisitPage extends LightningElement {
                                 this.missedVisit = false;
                             }
                             result[i].missedVisit = this.missedVisit;
-
                             this.pastVisits.push(result[i]);
                         }
                         this.visitTimezone = TIME_ZONE;
@@ -145,6 +146,7 @@ export default class PpStudyVisitPage extends LightningElement {
                         this.visitName = this.upcomingVisits[0].visit.Name;
                         this.plannedDate = this.upcomingVisits[0].visit.Planned_Date__c;
                     }
+                    this.showList = true;
                     this.initializeData(this.visitid);
                     this.createEditTask();
                 } else {
@@ -171,7 +173,7 @@ export default class PpStudyVisitPage extends LightningElement {
             });
     }
 
-    onUpcomingClick(event) {
+    onUpcomingClick() {
         this.showChild = false;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
@@ -181,6 +183,7 @@ export default class PpStudyVisitPage extends LightningElement {
             'slds-button slds-button_brand up-button active-button-background';
         this.template.querySelector('[data-id="past"]').className =
             'slds-button slds-button_neutral past-button inactive-button-background';
+        this.showList = false;
         this.showUpcomingVisits = true;
         if (this.upcomingVisits.length > 0) {
             this.visitid = this.upcomingVisitId;
@@ -192,7 +195,7 @@ export default class PpStudyVisitPage extends LightningElement {
         }
     }
 
-    onPastClick(event) {
+    onPastClick() {
         this.showChild = false;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
@@ -202,8 +205,10 @@ export default class PpStudyVisitPage extends LightningElement {
             'slds-button slds-button_brand past-button active-button-background';
         this.template.querySelector('[data-id="upcoming"]').className =
             'slds-button slds-button_neutral up-button inactive-button-background';
+        this.showList = false;
         this.showUpcomingVisits = false;
         if (this.pastVisits) {
+            console.log('@@pastVisits' + this.pastVisits);
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
@@ -248,6 +253,7 @@ export default class PpStudyVisitPage extends LightningElement {
             getParticipantVisitsDetails({
                 visitId: this.visitid
             }).then((result) => {
+                this.showList = true;
                 const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
                 var jsonstr = JSON.stringify(result[0]);
@@ -260,17 +266,22 @@ export default class PpStudyVisitPage extends LightningElement {
                 }
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
-                const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-                theDiv.className = 'active-custom-box-class';
-                this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                    this.visitdata.visitDate;
-                this.upcomingVisits[this.selectedIndex].visit.Completed_Date__c =
-                    this.visitdata.visit.Completed_Date__c;
-                if (this.visitdata.visitDate) {
-                    this.upcomingVisits[this.selectedIndex].noVisitDate = false;
+                console.log('Result:' + JSON.stringify(this.visitdata) + this.showUpcomingVisits);
+                console.log('Upcoming Visits:' + JSON.stringify(this.upcomingVisits));
+                if (!this.past) {
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
-                this.plannedDate = this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                if (this.visitdata.visitDate && this.showUpcomingVisits) {
+                    this.upcomingVisits[this.selectedIndex].noVisitDate = false;
+                    this.plannedDate =
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
+                } else {
+                    this.upcomingVisits[this.selectedIndex].noVisitDate = true;
+                    this.plannedDate = '';
+                }
                 this.showChild = true;
+                this.handleVisitChange();
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
@@ -282,6 +293,14 @@ export default class PpStudyVisitPage extends LightningElement {
             });
         } else {
             this.contentLoaded = true;
+        }
+    }
+
+    async handleVisitChange() {
+        if (this.visitid) {
+            await this.template.querySelector('[data-id="' + this.visitid + '"]');
+            const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
+            theDiv.className = 'active-custom-box-class';
         }
     }
 
