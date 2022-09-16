@@ -9060,7 +9060,7 @@
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Participant_PrescreenerResponse__c</object>
@@ -9569,7 +9569,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant_PrescreenerResponse__c</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PreScreener_Survey__c</tab>
