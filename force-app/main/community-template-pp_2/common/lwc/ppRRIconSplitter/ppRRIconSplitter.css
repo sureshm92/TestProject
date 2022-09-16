@@ -63,6 +63,21 @@
     right: 0 !important;
 }
 
+.bio-icons {
+    position: relative;
+}
+
+.bio-icons:hover::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 5px;
+    border-radius: 3px;
+    background: #009dd6;
+    left: -6px;
+    bottom: -13px;
+} 
+
 @media (max-width: 468px) {
     .icons-container .icons-row .icon {
         position: static;
