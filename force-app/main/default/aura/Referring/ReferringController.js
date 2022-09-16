@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
@@ -66,6 +66,9 @@
                     component.set('v.contentDoc',JSON.parse(initData.contentDoc));
                     let dobFormat = (component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.pEnrollment.Study_Site__r.Participant_DOB_format__c') :  component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') ? component.get('v.hcpEnrollment.Study_Site__r.Participant_DOB_format__c') : null);
                     component.set('v.studySiteFormat',dobFormat);
+                    component.set('v.pyear',null);
+                    component.set('v.pmonth',null);
+                    component.set('v.pday',null);
                     if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
@@ -98,6 +101,9 @@
                         } else {
                             component.set('v.currentState', 'No Active Sites');
                         }
+                        if(initData.participantEnrollment.YOB__c) {component.set('v.pyear',initData.participantEnrollment.YOB__c);}
+                        if(initData.participantEnrollment.Birth_Month__c) {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
+                        component.dobChangeMethod();
                     } else {
                         component.set('v.currentState', 'Select Source');
                     }
@@ -125,8 +131,8 @@
                         var obj = {};
                         for (var i = 1; i <= 31; i++) {
                             if(i >= 10){
-                                obj.label = i;
-                                obj.value = i;
+                                obj.label = ''+i;
+                                obj.value = ''+i;
                             }else{
                                 obj.label = '0'+i;
                                 obj.value = '0'+i;
@@ -137,6 +143,19 @@
                         component.set('v.days', dayList);
                         var monthList = [];
                         var obj = {};
+                        monthList.push({"value":'01',"label":"January"});
+                        monthList.push({"value":'02',"label":"February"});
+                        monthList.push({"value":'03',"label":"March"});
+                        monthList.push({"value":'04',"label":"April"});
+                        monthList.push({"value":'05',"label":"May"});
+                        monthList.push({"value":'06',"label":"June"});
+                        monthList.push({"value":'07',"label":"July"});
+                        monthList.push({"value":'08',"label":"August"});
+                        monthList.push({"value":'09',"label":"September"});
+                        monthList.push({"value":'10',"label":"October"});
+                        monthList.push({"value":'11',"label":"November"});
+                        monthList.push({"value":'12',"label":"December"});
+                       /*
                         for (var i = 1; i <= 12; i++) {
                             if(i >= 10){
                                 obj.label = i;
@@ -147,7 +166,7 @@
                             }
                             monthList.push(obj);
                             obj = {};
-                        }
+                        }*/
                         component.set('v.months', monthList);
                         var yearNow = $A.localizationService.formatDateTime(new Date(), "YYYY");
                     var oldyear = yearNow - 122;
@@ -160,9 +179,7 @@
                             obj = {};
                         }
                         component.set('v.years', yearList);
-                        component.set('v.pday',null);
-                    component.set('v.pyear',null);
-                    component.set('v.pmonth',null);
+                    
                     if(component.get('v.patientVeiwRedirection')){
                         var penrollment = component.get('v.pEnrollment');
                         //let participant = component.get('v.participant');
@@ -343,13 +360,29 @@
         }
     },
     
+    doDayChange: function (component, event, helper) {
+        component.set('v.selectedAge','');
+        component.set('v.participant.Birth_Day__c',component.get('v.pday'));
+        component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
+        component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
+        let formatSS = component.get('v.studySiteFormat');
+        //component.checkdobMethod();
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+    },
+
     doDOBChange: function (component, event, helper) {
         component.set('v.selectedAge','');
         component.set('v.participant.Birth_Day__c',component.get('v.pday'));
         component.set('v.participant.Birth_Month__c',component.get('v.pmonth'));
         component.set('v.participant.Birth_Year__c',component.get('v.pyear'));
-            component.checkdobMethod();
-        helper.generateAgeOptions(component);
+        let formatSS = component.get('v.studySiteFormat');
+        if(formatSS == 'DD-MM-YYYY'){helper.doMonthPLVChange(component, event, helper);}
+        if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
+        if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
+        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        //component.checkdobMethod();
     },
     doAgeChange: function (component, event, helper) {
         component.set('v.participant.Age__c',component.get('v.selectedAge'));
@@ -366,7 +399,7 @@
         let partAge = component.get('v.selectedAge');
         let dobFormat = component.get('v.studySiteFormat');
         if(dobFormat && pyear && 
-            (dobFormat == 'YYYY' || (pmonth && partAge && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+            (dobFormat == 'YYYY' || (pmonth && partAge>=0 && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
                 let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
                 let endOfMonth = new Date(todayDate.getUTCFullYear(), todayDate.getMonth()+1, 0);
                 let dd = ((pday) ?   pday : ( higherAge == partAge ? 1 : (dobFormat == 'YYYY' ? 31 : endOfMonth.getDate() ) )  );
@@ -452,6 +485,9 @@
     }, 
    
     doSaveParticipant: function (component) {
+        if(component.get('v.studySiteFormat') == 'YYYY'){
+            component.set('v.participant.Birth_Month__c','');
+        }
         let participant = component.get('v.participant');
         console.log('part-->'+JSON.stringify(participant));
         let delegateParticipant = component.get('v.delegateParticipant');
