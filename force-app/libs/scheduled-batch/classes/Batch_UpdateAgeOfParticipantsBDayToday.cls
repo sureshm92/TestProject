@@ -6,6 +6,7 @@ public class Batch_UpdateAgeOfParticipantsBDayToday implements Database.Batchabl
     
 
     public DataBase.QueryLocator start (DataBase.BatchableContext bc){
+        Organization org = [select IsSandbox from Organization limit 1];
         Date today = Date.today();        
         if(Test.isRunningTest()){
             today = date.newinstance(2000, 12, 31);
@@ -29,11 +30,11 @@ public class Batch_UpdateAgeOfParticipantsBDayToday implements Database.Batchabl
         //birthday today
         qryStr = qryStr + '(Birth_Month__c =:monthToday AND Birth_Day__c  =:dayToday) ';
         //birthday this month and day not in system
-        if(isLastDateOfMonth){
+        if(isLastDateOfMonth || (System.Label.DOB_Batch_Label == 'true' && org.IsSandbox)){
             qryStr = qryStr + 'OR (Birth_Month__c =:monthToday AND Birth_Day__c  =null) ';
         }
         //birthday this year and month, day not in system
-        if(isLastDateOfYear){
+        if(isLastDateOfYear || (System.Label.DOB_Batch_Label == 'true' && org.IsSandbox)){
             qryStr = qryStr + 'OR (Birth_Month__c =null AND Birth_Day__c  =null) ';
         }
         return Database.getQueryLocator(qryStr);
@@ -43,6 +44,7 @@ public class Batch_UpdateAgeOfParticipantsBDayToday implements Database.Batchabl
         List<Participant__c> pList = new List<Participant__c>();
         //loop as placeholder to just execute update trigger to calculate age
         for (Participant__c p : participants) {
+            system.debug(p.id);
             pList.add(p);
         }
         //Bypass sub class PrepareCityStateFieldsHandler trigger handler on Participant Trigger

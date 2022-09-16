@@ -14,6 +14,7 @@
     <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public" />
     <aura:attribute name="ctp" type="Object" />
     <aura:attribute name="contactInfo" type="Contact" />
+    <aura:attribute name="optionsYYYY" type="List" />
     <aura:attribute name="preferenceData" type="AccountSettingsController.ConsentPreferenceData" />
     <!-- private attributes: -->
     <aura:attribute name="todayDate" type="Date" access="private" />
@@ -92,15 +93,14 @@
                         onchange="{!c.changeFor}"
                     />
                 </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_First_name}
-                    </div>
+                <div
+                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+                >
+                    <div class="label">{!$Label.c.PG_AS_F_First_name}</div>
                     <lightning:input
                         type="text"
                         value="{!v.participantInfo.First_Name__c}"
-                        required="true"
+                        required="false"
                         onblur="{!c.doCheckFields}"
                         messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
@@ -110,41 +110,33 @@
                 <!--                    <lightning:input type="text" value="{!v.participantInfo.Middle_Name__c}"-->
                 <!--                                     onblur="{!c.doCheckFields}"/>-->
                 <!--                </div>-->
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_Last_name}
-                    </div>
+                <div
+                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+                >
+                    <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
                     <lightning:input
                         type="text"
                         value="{!v.participantInfo.Last_Name__c}"
-                        required="true"
+                        required="false"
                         onblur="{!c.doCheckFields}"
                         messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
                 </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.PG_AS_F_Date_of_Birth}
-                    </div>
-                    <lightning:input
-                        max="{!v.todayDate}"
-                        type="date"
-                        value="{!v.participantInfo.Date_of_Birth__c}"
-                        class="{!if(v.isRTL, 'rightAlign', '')}"
-                        onblur="{!c.doCheckfields}"
-                        required="true"
-                        onchange="{!c.doCheckFields}"
-                        dateStyle="medium"
-                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
+                <div
+                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+                >
+                    <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
+                    <c:rrSelect
+                        options="{!v.optionsYYYY}"
+                        value="{!v.participantInfo.Birth_Year__c}"
+                        required="false"
+                        useSentenceFont="false"
                     />
                 </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.cont_study_gender}
-                    </div>
+                <div
+                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+                >
+                    <div class="label">{!$Label.c.cont_study_gender}</div>
                     <c:rrSelect
                         options="{!v.formData.genderLVList}"
                         placeholder="{!$Label.c.PG_AC_Select}"
@@ -157,20 +149,21 @@
 
         <!-- contact information: -->
         <div class="slds-grid slds-gutters slds-wrap">
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr
-                    >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                </div>
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
+                <div class="label">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
                 <lightning:input
                     type="text"
                     value="{!v.participantInfo.Phone__c}"
-                    required="true"
+                    required="false"
                     onblur="{!c.doCheckFields}"
                     aura:id="pField2"
                 />
             </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
                 <div class="label">{!$Label.c.PG_AP_F_Phone_Type}</div>
                 <c:rrSelect
                     options="{!v.formData.phoneTypeLVList}"
@@ -178,24 +171,23 @@
                     value="{!v.participantInfo.Phone_Type__c}"
                 />
             </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr
-                    >{!$Label.c.PG_AS_F_Email_address}
-                </div>
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
+                <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                 <lightning:input
                     aura:id="emailInput"
                     type="email"
                     value="{!v.participantInfo.Email__c}"
-                    required="true"
+                    required="false"
                     onblur="{!c.doCheckFields}"
                     messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                 />
             </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">
-                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
-                </div>
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
+                <div class="label">{!$Label.c.PE_Country}</div>
                 <!--                <c:webSelect options="{!v.formData.countriesLVList}"-->
                 <!--                             placeholder="{!$Label.c.PG_AC_Select}"-->
                 <!--                             value="{!v.participantInfo.Mailing_Country_Code__c}"-->
@@ -203,25 +195,27 @@
                 <c:rrSelect
                     options="{!v.formData.countriesLVList}"
                     placeholder="{!$Label.c.PG_AC_Select}"
-                    required="true"
+                    required="false"
                     value="{!v.participantInfo.Mailing_Country_Code__c}"
                     useSentenceFont="false"
                     onchange="{!c.doCheckFields}"
                 />
             </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
                 <div class="label">
                     <aura:if
                         isTrue="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}"
                     >
-                        <abbr title="required" class="slds-required">*</abbr> </aura:if
+                    </aura:if
                     >{!$Label.c.PE_State}
                 </div>
                 <c:rrSelect
                     options="{!v.statesLVList}"
                     placeholder="{!$Label.c.PG_AC_Select}"
                     disabled="{!or(empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c != 'US')}"
-                    required="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}"
+                    required="false"
                     value="{!v.participantInfo.Mailing_State_Code__c}"
                     setValueAsSelected="true"
                     useSentenceFont="false"
@@ -229,7 +223,9 @@
                     aura:id="pField3"
                 />
             </div>
-            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+            <div
+                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+            >
                 <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
                 <lightning:input
                     type="text"
