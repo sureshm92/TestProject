@@ -10,6 +10,8 @@ import SS_RH_ROW_Consent_Email from '@salesforce/label/c.SS_RH_ROW_Consent_Em
 import SS_RH_ROW_Consent_SMS from '@salesforce/label/c.SS_RH_ROW_Consent_SMS';
 import IQ_RH_US_Consent from '@salesforce/label/c.IQ_RH_US_Consent';
 import IQ_RH_ROW_Consent from '@salesforce/label/c.IQ_RH_ROW_Consent';
+import RP_Community_CSS from '@salesforce/resourceUrl/RP_Community_CSS';
+import { loadStyle } from 'lightning/platformResourceLoader';
 
 import REQUIRED_ERROR_MSG from '@salesforce/label/c.PP_RequiredErrorMessage';
 import EMAIL from '@salesforce/label/c.Email';
@@ -73,10 +75,12 @@ export default class ConsentManager extends LightningElement {
     studySite;
     @api isaccesslevelthree = false;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
+    @api isStudyConsentRequired = false;
 
     constructor(){
         super();
         this.clearConsents();
+        loadStyle(this, RP_Community_CSS);
     }
     @api
     get callSource() {
@@ -132,7 +136,7 @@ export default class ConsentManager extends LightningElement {
         }
         
     }
-
+   
     get ClassName(){
          if(this._callSource == "addParticipant"){
             return "addParticipantClass"
@@ -144,10 +148,20 @@ export default class ConsentManager extends LightningElement {
             return "importParticipantClass"
         }
         else{
-            return "addParticipantClass"
+            if(this.isStudyConsentRequired){
+                return "addParticipantClassreq"
+            }else{
+              return "addParticipantClass"
+            }
         }
     }
-
+    get studyconsentcheck(){
+        if(this.isStudyConsentRequired){
+            return true;
+        }else{
+          return false;
+        }
+    }
     get ClassNameforLabel(){
         if(this._callSource == "importParticipant"){
             return 'slds-form-element__label-for-checkbox bulkimportFont';
