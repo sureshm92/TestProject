@@ -4659,8 +4659,8 @@ By using our website, you are accepting our use of cookies.</value>
         <fullName>RH_future_date_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Value must be ##todaysDate or earlier.</shortDescription>
-        <value>Direct Mail</value>
+        <shortDescription>RH_future_date_error</shortDescription>
+        <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
