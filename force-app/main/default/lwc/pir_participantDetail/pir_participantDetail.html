@@ -91,6 +91,7 @@
                                     class="dob-selectbox"
                                     >
                               </lightning-combobox>
+                              <div class="errmsg" if:true={invalidDOB}>{convertedStringToDate}</div>
                                                 </div>
                         <div if:true={isDayMandate} class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-p-right_none slds-m-bottom_medium ltl-r-none rtl-r-none lpad-none">
                               <lightning-combobox

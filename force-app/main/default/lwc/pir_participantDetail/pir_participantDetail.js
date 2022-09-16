@@ -1,4 +1,4 @@
-import { api, LightningElement, wire } from 'lwc';
+import { api, LightningElement, wire,track } from 'lwc';
 import pirResources from '@salesforce/resourceUrl/pirResources';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import ethinicity_field from '@salesforce/schema/Participant__c.Ethnicity__c';
@@ -29,6 +29,7 @@ import PG_Ref_L_Primary_daytime_telephone_number from '@salesforce/label/c.PG_Re
 import RH_YearofBirth from '@salesforce/label/c.RH_YearofBirth';
 import RH_DelegateAttestation from '@salesforce/label/c.RH_DelegateAttestation';
 import RH_MinorDelegateErrMsg from '@salesforce/label/c.RH_MinorDelegateErrMsg';
+import RH_future_date_error from '@salesforce/label/c.RH_future_date_error';
 import PG_AP_F_Phone_Type from '@salesforce/label/c.PG_AP_F_Phone_Type';
 import PE_Country from '@salesforce/label/c.PE_Country';
 import PE_State from '@salesforce/label/c.PE_State';
@@ -93,6 +94,9 @@ export default class Pir_participantDetail extends LightningElement {
     noYOB = false;
     saveoffCount = 100;
     isOutreachUpdated = false;
+    @track invalidDOB = false;
+    showPresentDate = RH_future_date_error;
+    convertedStringToDate;
     //DOB Variables
     participantSelectedAge = null;
     isMonthMandate = false;
@@ -192,7 +196,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.isMonthMandate = (this.studyDobFormat == 'DD-MM-YYYY' || this.studyDobFormat == 'MM-YYYY');
                 this.isDayMandate = (this.studyDobFormat == 'DD-MM-YYYY');
                 this.ageInputDisabled = (this.studyDobFormat == 'DD-MM-YYYY');
-                
+                this.getErrorMessage();
                 this.valueDD = (this.pd['pe']['Participant__r']['Birth_Day__c'] ? this.pd['pe']['Participant__r']['Birth_Day__c'] : null);
                 
                 if(this.valueMM = this.pd['pe']['Participant__r']['Birth_Month__c']){
@@ -628,7 +632,45 @@ export default class Pir_participantDetail extends LightningElement {
         }
         this.handleDateChange();
     }
+    getErrorMessage(){
+        let rightNow = new Date();
+        rightNow.setMinutes(
+        new Date().getMinutes() - new Date().getTimezoneOffset());
+        let yyyyMmDd = rightNow.toISOString().slice(0,10);
+        let b = yyyyMmDd.split('-');
+        var month = [January, February, March, April, May, June,
+        July, August, September, October, November, December][b[1]-1];
+        let str='';
+        if (this.isDayMandate){
+            str = month + ' '+ b[2]+' ,'+ b[0]; 
+        }else if(this.isMonthMandate){
+        str = month + ' ,'+ b[0]; 
+        }
+        let textConvert = this.showPresentDate;
+        this.convertedStringToDate = textConvert.replace("##todaysDate", str);
+    }
     handleDateChange() {
+       if(this.isDayMandate||this.isMonthMandate ){ 
+           let dt ;
+           if(this.isDayMandate){
+        dt= this.valueYYYY + '-' + this.valueMM + '-' + this.valueDD;
+           }else {
+               dt=this.valueYYYY + '-' + this.valueMM + '01';
+           }
+        var today = new Date();
+        var dd= 1;
+        if(this.isDayMandate) { 
+        dd=String(today.getDate()).padStart(2, "0");
+        }
+        var mm = String(today.getMonth() + 1).padStart(2, "0");
+        var yyyy = today.getFullYear();
+        today = yyyy + "-" + mm + "-" + dd;
+        if(dt>=today){
+            this.invalidDOB=true;
+        }else{
+            this.invalidDOB = false;
+        }
+    }
         this.isAdultCal();
         this.setReqEmail();
         this.setReqPhone();
@@ -1017,6 +1059,8 @@ export default class Pir_participantDetail extends LightningElement {
             return false;
         } else if (this.delegateMinor && this.noYOB) {
             return false;
+        }else if (this.invalidDOB== true){
+            return false;
         }
         var inp = this.template.querySelectorAll("lightning-input");
         var inp2 = this.template.querySelectorAll("lightning-combobox");
@@ -1203,6 +1247,7 @@ export default class Pir_participantDetail extends LightningElement {
     RH_YearofBirth = RH_YearofBirth;
     RH_DelegateAttestation = RH_DelegateAttestation;
     RH_MinorDelegateErrMsg = RH_MinorDelegateErrMsg;
+    RH_future_date_error = RH_future_date_error;
     PG_AP_F_Phone_Type = PG_AP_F_Phone_Type;
     PE_Country = PE_Country;
     PE_State = PE_State;
