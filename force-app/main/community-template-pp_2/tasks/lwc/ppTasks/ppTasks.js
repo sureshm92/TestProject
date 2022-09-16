@@ -14,6 +14,7 @@ export default class PpTasks extends LightningElement {
     label = {
         createNewTask
     };
+
     isCreateTask = false;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
@@ -43,6 +44,6 @@ export default class PpTasks extends LightningElement {
         }
     }
     doCreateTask() {
-        this.isCreateTask = true;
+        this.isCreateTask = !this.isCreateTask;
     }
 }
