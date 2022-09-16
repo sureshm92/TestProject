@@ -667,7 +667,6 @@ export default class Pir_participantDetail extends LightningElement {
         today = yyyy + "-" + mm + "-" + dd;
         if(dt>=today){
             this.invalidDOB=true;
-           //   this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: true }));
         }else{
             this.invalidDOB = false;
         }
