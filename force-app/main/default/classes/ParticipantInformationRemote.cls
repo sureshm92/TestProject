@@ -629,6 +629,7 @@ public without sharing class ParticipantInformationRemote {
 
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
+                isConnectedRes.delegateId = patientDelegatesToInsert!=null && patientDelegatesToInsert.size()>0?patientDelegatesToInsert[0].Id:null;
             }
             if (String.isBlank(ddi.contactId) && NoInvite == false) {
                 createCommunityUser(toCreateUser, userNotExists);
@@ -638,6 +639,22 @@ public without sharing class ParticipantInformationRemote {
         }
 
         return isConnectedRes;
+    }
+
+    @AuraEnabled
+    public static String disconnectDelegateToPatient(
+        String delegateId
+    ) {
+        try {
+            Patient_Delegate__c pd = new Patient_Delegate__c();
+            pd.Id = delegateId;
+            pd.Status__c = 'Disconnected';
+            update pd;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+
+        return delegateId;
     }
 
     @Future
@@ -2063,6 +2080,8 @@ public without sharing class ParticipantInformationRemote {
         public Id participantId { get; set; }
         @AuraEnabled
         public Id contactId { get; set; }
+        @AuraEnabled
+        public Id delegateId {get; set; }
     }
 
     public class PIDelegateLevelInfo {

@@ -252,7 +252,16 @@
                                                                     email-address ={delegatenew.em}
                                                                     first-name ={delegatenew.fn}
                                                                     last-name ={delegatenew.ln}
+                                                                    birth-year ={delegatenew.by}
+                                                                    check-box ={delegatenew.cb}
+                                                                    is-valid ={delegatenew.val}
+                                                                    is-display={delegatenew.disp}
+                                                                    is-adult-delegate={delegatenew.isadultdel}
+                                                                    using-duplicate-delegate={delegatenew.usingdupdel}
+                                                                    delegate-id={delegatenew.delegateId}
+                                                                    is-connected-once={delegatenew.isConnectedOnce}
                                                                     is-connected ={delegatenew.isConnected}
+                                                                    is-disconnected ={delegatenew.isDisconnected}
                                                                     onprogressvaluechange={hanldeProgressValueChangeDelegates}
                                                                      > </c-pir_participant-emancipated-delegate>
                         </template>
@@ -446,28 +455,29 @@
                                             </div>
                                         </template>
                                         <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
-                                            <template if:true={delegatenew.isConnected}>
-                                                    <div key={delegatenew} class="slds-grid slds-wrap slds-gutters">
-                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
-                                                                    <div class="model-body-content slds-m-top_medium">
-                                                                        {delegatenew.continueDelegatenewMsg}
-                                                                    </div>
-                                                                    <div class="model-body-content slds-m-top_small">
-                                                                            {utilLabels.Continue}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
-                                                                    <div class="participant-subtext slds-m-bottom_x-smal">
-                                                                        {utilLabels.PG_L_Name}: {delegatenew.fn}&nbsp;{delegatenew.ln}
-                                                                    </div>
-                                                                </div> 
-                                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
-                                                                    <div class="participant-subtext slds-m-bottom_x-smal">
-                                                                        {utilLabels.PG_AS_F_Email_address}: {delegatenew.em}
-                                                                    </div>
-                                                                </div> 
-                                                        </div>
-                                                </template>
+                                            <div key={delegatenew} class="slds-grid slds-wrap slds-gutters">
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                                                    <div class="model-body-content slds-m-top_medium">
+                                                        {delegatenew.continueDelegatenewMsg}
+                                                    </div>
+                                                    <div if:true ={delegatenew.isConnected} class="model-body-content slds-m-top_small">
+                                                            {utilLabels.Continue}
+                                                    </div>
+                                                    <div if:true ={delegatenew.isDisconnected} class="model-body-content slds-m-top_small">
+                                                        {utilLabels.Do_Not_Continue}
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
+                                                    <div class="participant-subtext slds-m-bottom_x-smal">
+                                                        {utilLabels.PG_L_Name}: {delegatenew.fn}&nbsp;{delegatenew.ln}
+                                                    </div>
+                                                </div> 
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
+                                                    <div class="participant-subtext slds-m-bottom_x-smal">
+                                                        {utilLabels.PG_AS_F_Email_address}: {delegatenew.em}
+                                                    </div>
+                                                </div> 
+                                            </div>
                                         </template>
                                     </div>
                                 </div> <!-- bg-Participant  -->  
@@ -490,7 +500,7 @@
                  </div>
                  <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                      <template if:false={isLastTab}>
-                        <button title={utilLabels.BTN_Next} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small slds-float_right next-btn" onclick={handleNext} disabled={isValid}> {utilLabels.BTN_Next} </button>  
+                        <button title={utilLabels.BTN_Next} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small slds-float_right next-btn" onclick={handleNext} disabled={isValidCheck}> {utilLabels.BTN_Next} </button>  
                      </template>
                      <template if:true={isLastTab}> 
                         <button title={utilLabels.BTN_Save} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small slds-float_right next-btn" disabled={isAgreed} onclick={handleSave}>{utilLabels.BTN_Save} </button> 
