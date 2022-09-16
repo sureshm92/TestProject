@@ -370,6 +370,9 @@
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
         if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        if(formatSS != 'YYYY'){
+            helper.validateDOB(component, event, helper);
+        }
     },
 
     doDOBChange: function (component, event, helper) {
@@ -382,6 +385,9 @@
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
         if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        if(formatSS != 'YYYY'){
+            helper.validateDOB(component, event, helper);
+        }
         //component.checkdobMethod();
     },
     doAgeChange: function (component, event, helper) {
