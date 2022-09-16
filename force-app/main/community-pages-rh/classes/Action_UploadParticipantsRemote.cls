@@ -12,6 +12,7 @@ public without sharing class Action_UploadParticipantsRemote {
         'PARTICIPANT DATE OF BIRTH',
         'PARTICIPANT MONTH OF BIRTH',
         'PARTICIPANT YEAR OF BIRTH',
+        'PARTICIPANT AGE',
         'PARTICIPANT EMAIL ADDRESS',
         'PARTICIPANT PHONE',
         'PARTICIPANT PHONE TYPE',

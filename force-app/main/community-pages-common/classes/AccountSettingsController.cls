@@ -361,7 +361,11 @@ public without sharing class AccountSettingsController {
             } else if (ex.getMessage().contains(errorMsg3)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
             } else {
-                throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal){
+                    throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
+                }else{
+                    throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                }
             }
         }
     }

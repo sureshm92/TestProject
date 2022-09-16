@@ -16,7 +16,7 @@
 .THIS .toolbar .btns {
     flex-shrink: 0;
     margin-left: 20px;
-    min-width: 133px;
+    min-width: 165px;
 }
 
 .THIS .toolbar .toolbar-btn + .toolbar-btn {
@@ -34,6 +34,6 @@
 }
 
 .THIS .slds-form-element__label {
-    min-width: 100px;
+    min-width: 124px;
     text-align: center;
 }

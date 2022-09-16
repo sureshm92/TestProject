@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_Batch_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB Batch Label</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
         <fullName>ReEngage_Dashboard</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4647,6 +4654,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>RH_Direct_Mail</shortDescription>
         <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>RH_future_date_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_future_date_error</shortDescription>
+        <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
@@ -18389,6 +18403,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You cannot reuse this old password.</value>
     </labels>
     <labels>
+        <fullName>PP_NewPwdCantCurrentPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdCantCurrentPwd</shortDescription>
+        <value>Your new password cannot be the same as your current password.</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -24498,6 +24519,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Successfully Contacted</value>
     </labels>
     <labels>
+        <fullName>SurveyName_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SurveyName_Error</shortDescription>
+        <value>Survey Name Already Exist,Please Select A Different Name</value>
+    </labels>
+    <labels>
         <fullName>Suspicious_Activity</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26264,6 +26292,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Cannot create monthly survey for these days</value>
     </labels>
     <labels>
+        <fullName>MRR_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MRR_Error</shortDescription>
+        <value>MRR already exists and for a study you can create only 1 MRR</value>
+    </labels>
+    <labels>
         <fullName>of</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27955,5 +27990,12 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>Find Answers</shortDescription>
         <value>Find Answers</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reminder Time</shortDescription>
+        <value>Reminder Time</value>
     </labels>
 </CustomLabels>

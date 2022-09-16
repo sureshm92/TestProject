@@ -16,7 +16,7 @@
             >
                 {label.past}
             </button>
-            <div class="slds-scrollable_y scrollar scroll-bar">
+            <div class="slds-scrollable_y scrollar scroll-bar"> 
                 <template if:true={showUpcomingVisits}>
                     <template for:each={upcomingVisits} for:item="item" for:index="index">
                         <div key={item}>
@@ -38,7 +38,7 @@
                                         <span>
                                             <b>
                                                 <lightning-formatted-text
-                                                    class={namestyle}
+                                                    class="name-style"
                                                     value={item.visit.Name}
                                                 >
                                                 </lightning-formatted-text>
@@ -68,12 +68,20 @@
                                             </template>
                                         </span>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-6">
-                                        <lightning-icon
-                                            icon-name="utility:notification"
-                                            size="small"
-                                            class="icon-Style"
-                                        ></lightning-icon>
+                                    <div class="slds-col top-padding slds-size_1-of-6">
+                                        <template if:true={item.isReminderDate}>
+                                            <c-web-icon
+                                                icon-name="icon_bell"
+                                                icon-color="#009DD6"
+                                                icon-size="medium"
+                                            ></c-web-icon
+                                        ></template>
+                                        <template if:false={item.isReminderDate}>
+                                            <c-web-icon
+                                                icon-name="alarm_bell_off"
+                                                icon-size="medium"
+                                            ></c-web-icon
+                                        ></template>
                                     </div>
                                 </div>
                             </div>
@@ -93,41 +101,49 @@
                             >
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-6">
-                                        <span><div class="left-line"></div></span>
+                                        <template if:true={item.missedVisit}>
+                                            <span><div class="left-grey-line"></div></span>
+                                        </template>
+                                        <template if:false={item.missedVisit}>
+                                            <span><div class="left-line"></div></span>
+                                        </template>
                                     </div>
 
                                     <div class="slds-col slds-size_4-of-6">
-                                        <span>
+                                        <div>
                                             <b>
                                                 <lightning-formatted-text
-                                                    class={namestyle}
+                                                    class="name-style"
                                                     value={item.visit.Name}
                                                 >
                                                 </lightning-formatted-text>
                                             </b>
                                             <br />
+                                            <template if:true={item.missedVisit}>
+                                                <p class="no-date">{label.visitUnavailable}</p>
+                                            </template>
                                             <p class="no-date">
-                                                <template if:true={item.noVisitDate}>
-                                                    {label.noVisitsLabel}
+                                                <template if:false={item.missedVisit}>
+                                                    {item.visit.Status__c}:&nbsp;
+                                                    <lightning-formatted-date-time
+                                                        value={item.visit.Completed_Date__c}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        class="l-padding"
+                                                        time-zone={visitTimezone}
+                                                    ></lightning-formatted-date-time>
+                                                    <template if:false={past}>-</template>
+                                                    <lightning-formatted-date-time
+                                                        if:false={past}
+                                                        value={item.visit.Planned_Date__c}
+                                                        hour="2-digit"
+                                                        minute="2-digit"
+                                                        time-zone={visitTimezone}
+                                                    ></lightning-formatted-date-time>
                                                 </template>
                                             </p>
-                                            <lightning-formatted-date-time
-                                                value={item.visit.Completed_Date__c}
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                class="l-padding"
-                                                time-zone={visitTimezone}
-                                            ></lightning-formatted-date-time>
-                                            <template if:false={past}>-</template>
-                                            <lightning-formatted-date-time
-                                                if:false={past}
-                                                value={item.visit.Planned_Date__c}
-                                                hour="2-digit"
-                                                minute="2-digit"
-                                                time-zone={visitTimezone}
-                                            ></lightning-formatted-date-time>
-                                        </span>
+                                        </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-6"></div>
                                 </div>
