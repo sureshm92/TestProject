@@ -15,6 +15,7 @@ import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -31,10 +32,12 @@ export default class PpCommunityNavigation extends LightningElement {
     showAboutProgram = false;
     showAboutStudy = false;
     isInitialized = false;
+    desktop=false;
 
     connectedCallback() {
         this.baseLink = window.location.origin;
         this.initializeData();
+        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
     }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -77,7 +80,7 @@ export default class PpCommunityNavigation extends LightningElement {
             'participant-home': {
                 page: '',
                 label: navigationHome,
-                icon: 'icon-home-brand-new',
+                icon: 'icon-home-pplite-new',
                 displayIcon: true
             },
             'my-study': {

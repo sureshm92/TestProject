@@ -71,7 +71,7 @@
             <lightning:button
                 variant="brand"
                 type="button"
-                label="{!if(v.mode == 'new', 'Add Visit/Event Button', 'Save Visit')}"
+                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit')}"
                 disabled="{!v.isValid}"
                 onclick="{!c.saveVisit}"
             />
