@@ -369,6 +369,9 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       this.discardTab = false;
     }
   }
+  get disablecheck(){
+    return (this.disablebtn || this.disableDetailSaveButton);
+  }
   toggleDetailSave(event){
     this.disableDetailSaveButton = !event.detail;
   }
