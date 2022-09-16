@@ -24505,6 +24505,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Successfully Contacted</value>
     </labels>
     <labels>
+        <fullName>SurveyName_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SurveyName_Error</shortDescription>
+        <value>Survey Name Already Exist,Please Select A Different Name</value>
+    </labels>
+    <labels>
         <fullName>Suspicious_Activity</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26269,6 +26276,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>monthly survey error</shortDescription>
         <value>Cannot create monthly survey for these days</value>
+    </labels>
+    <labels>
+        <fullName>MRR_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MRR_Error</shortDescription>
+        <value>MRR already exists and for a study you can create only 1 MRR</value>
     </labels>
     <labels>
         <fullName>of</fullName>
