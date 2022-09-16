@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MRR_cannot_be_prescreener</fullName>
+    <active>true</active>
+    <description>MRR and prescrenner checkbox cannot be checked toghther</description>
+    <errorConditionFormula>MRR__c  &amp;&amp;  Prescreener__c</errorConditionFormula>
+    <errorMessage>A MRR cannot be a Prescreener and vice-versa</errorMessage>
+</ValidationRule>
