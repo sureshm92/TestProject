@@ -181,6 +181,11 @@
 }
 .errmsg{
     color: rgb(234, 0, 30);
+    font-size: 12px;
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap
 }
 /* RTL start */
 .rtl .vertical-scroll{

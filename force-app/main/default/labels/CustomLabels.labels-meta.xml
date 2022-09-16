@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>DOB_Batch_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOB Batch Label</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
         <fullName>ReEngage_Dashboard</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4647,6 +4654,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>RH_Direct_Mail</shortDescription>
         <value>Direct Mail</value>
+    </labels>
+    <labels>
+        <fullName>RH_future_date_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_future_date_error</shortDescription>
+        <value>Value must be ##todaysDate or earlier.</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_patient</fullName>
