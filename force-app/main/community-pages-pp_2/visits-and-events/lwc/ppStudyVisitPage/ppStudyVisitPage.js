@@ -208,7 +208,6 @@ export default class PpStudyVisitPage extends LightningElement {
         this.showList = false;
         this.showUpcomingVisits = false;
         if (this.pastVisits) {
-            console.log('@@pastVisits' + this.pastVisits);
             this.visitid = this.pastVisitId;
             this.visitName = this.pastVisits[0].visit.Name;
             this.plannedDate = this.pastVisits[0].visit.Planned_Date__c;
@@ -266,8 +265,6 @@ export default class PpStudyVisitPage extends LightningElement {
                 }
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
-                console.log('Result:' + JSON.stringify(this.visitdata) + this.showUpcomingVisits);
-                console.log('Upcoming Visits:' + JSON.stringify(this.upcomingVisits));
                 if (!this.past) {
                     this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
                         this.visitdata.visitDate;
