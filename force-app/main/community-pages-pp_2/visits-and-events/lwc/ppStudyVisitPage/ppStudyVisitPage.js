@@ -262,12 +262,10 @@ export default class PpStudyVisitPage extends LightningElement {
                 this.taskId = this.visitdata.task.Id;
                 const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
                 theDiv.className = 'active-custom-box-class';
-                this.upcomingVisits[
-                    this.selectedIndex
-                ].visit.Planned_Date__c = this.visitdata.visitDate;
-                this.upcomingVisits[
-                    this.selectedIndex
-                ].visit.Completed_Date__c = this.visitdata.visit.Completed_Date__c;
+                this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                    this.visitdata.visitDate;
+                this.upcomingVisits[this.selectedIndex].visit.Completed_Date__c =
+                    this.visitdata.visit.Completed_Date__c;
                 if (this.visitdata.visitDate) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
                 }

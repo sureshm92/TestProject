@@ -511,19 +511,26 @@ color: #0768fd!important;
     font-weight: 500;
 }
 
-c-pp-Study-Visit-Details-Card .slds-card {
-    width: 442px;
+c-pp-study-visit-details-card .slds-card {
+    width: 100%;
     padding: 0;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
 }
 
-c-pp-Study-Visit-Details-Card .slds-card__header {
+c-pp-study-visit-details-card .slds-card__header {
     display: none;
 }
 
-.curveInput .slds-form-element__label,
-.cCustomThemeLayout .curveInput .slds-input-has-icon .slds-input__icon {
+/* VISITS PAGE - WHAT TO EXPECT ICON HOVER */
+.bio-icons:hover svg.rr-icon_medium {
+    fill: #009dd6;
+}
+
+
+/* CURVED INPUTS */
+
+.cCustomThemeLayout .slds-form-element__label:empty {
     display: none;
 }
 
@@ -532,18 +539,24 @@ c-pp-Study-Visit-Details-Card .slds-card__header {
     width: 100%;
 }
 
-input[type="time" i]::-webkit-calendar-picker-indicator {
+.curve-input .svg-icon svg.rr-icon-medium {
+    height: 1rem;
+    width: 1rem;
+}
+
+.slds-input.slds-combobox__input + .slds-input__icon-group_right,
+.slds-input[type="time"]::-webkit-calendar-picker-indicator  {
     display: none;
 }
 
-.cCustomThemeLayout .curveInput .slds-input.slds-combobox__input,
-.cCustomThemeLayout .curveInput .slds-input_faux.slds-combobox__input,
-.cCustomThemeLayout .slds-input[type=time],
+.cCustomThemeLayout .slds-input[type="time"],
+.cCustomThemeLayout .slds-input_faux.slds-combobox__input,
+.cCustomThemeLayout .slds-combobox__input.slds-input,
 [lightning-combobox_combobox-host], 
 [lightning-input_input-host],
 input::-webkit-datetime-edit {     
     height: 30px!important;
-    width: 210px;
+    width: 300px;
     display: flex;
     align-items: center;
     max-width: 100%;
@@ -555,13 +568,8 @@ input::-webkit-datetime-edit {
     color: #595959;
 }
 
- .cCustomThemeLayout .slds-input[type=time] {
-     padding-left: .5rem;
- }
-
- .cCustomThemeLayout .curveInput .slds-input.slds-combobox__input,
- .cCustomThemeLayout .curveInput .slds-input_faux.slds-combobox__input {
-    padding-left: 1rem;
+ .cCustomThemeLayout .slds-combobox__input {
+     padding-left: 1rem;
  }
 
 c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .slds-checkbox__label {
@@ -608,6 +616,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     box-shadow: none
 }
 
+.fadePlaceholder button span{
+    opacity: 0.7;
+}
+
+
 @media all and (max-width: 768px) {
     .cCustomThemeLayout .apollo-btn, 
     .cCustomThemeLayout .slds-input, 
@@ -631,9 +644,4 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         padding-left: 0;
         padding-right: 0;
     }
-
-
-}
-.fadePlaceholder button span{
-    opacity: 0.7;
 }

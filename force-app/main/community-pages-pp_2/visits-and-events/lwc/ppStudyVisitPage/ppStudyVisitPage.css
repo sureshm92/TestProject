@@ -98,12 +98,12 @@
 }
 
 .name-style {
-color: #595959;
-font-family: "Proxima Nova";
-font-size: 18px;
-font-weight: 600;
-letter-spacing: 0;
-line-height: 32px;
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
 }
 
 .scrollar {
