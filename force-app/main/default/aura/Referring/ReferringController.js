@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
@@ -485,6 +485,9 @@
     }, 
    
     doSaveParticipant: function (component) {
+        if(component.get('v.studySiteFormat') == 'YYYY'){
+            component.set('v.participant.Birth_Month__c','');
+        }
         let participant = component.get('v.participant');
         console.log('part-->'+JSON.stringify(participant));
         let delegateParticipant = component.get('v.delegateParticipant');
