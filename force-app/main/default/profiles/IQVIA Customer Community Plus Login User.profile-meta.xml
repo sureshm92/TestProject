@@ -8734,6 +8734,17 @@
         <layout>Provider_Payment__c-Provider Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PreScreener_Survey__c-General Screener Layout</layout>
+        <recordType>PreScreener_Survey__c.General</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
+        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

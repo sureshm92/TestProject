@@ -9,7 +9,14 @@
 .THIS .rr-form-element {
     margin-bottom: 10px;
 }
-
+.THIS .disablediv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.THIS .enableDiv {
+    pointer-events: visible !important;
+    opacity: 1 !important;
+}
 .THIS .ap-section-title {
     text-align: left;
     font-size: 20px;

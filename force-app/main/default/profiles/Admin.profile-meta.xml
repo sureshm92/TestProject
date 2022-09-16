@@ -9868,6 +9868,17 @@
         <layout>Payment_Vendor__c-Payment Vendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PreScreener_Survey__c-General Screener Layout</layout>
+        <recordType>PreScreener_Survey__c.General</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
+        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

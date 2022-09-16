@@ -3,8 +3,9 @@
     <fullName>Participant_enrollment__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Participant_enrollment</label>
+    <label>Participant Enrollment</label>
     <referenceTo>Participant_Enrollment__c</referenceTo>
+    <relationshipLabel>Participant Prescreener Responses</relationshipLabel>
     <relationshipName>Participant_PrescreenerResponses</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
