@@ -47,7 +47,7 @@
                                                         </lightning-formatted-text>
                                                     </b>
                                                     <br />
-                                                    <p class="no-date">
+                                                    <p class="no-date no-visit-date">
                                                         <template if:true={item.noVisitDate}>
                                                             {label.noVisitsLabel}
                                                         </template>
@@ -59,7 +59,7 @@
                                                             year="numeric"
                                                             month="short"
                                                             day="2-digit"
-                                                            class="l-padding"
+                                                            class="l-padding date-style"
                                                             time-zone={visitTimezone}
                                                         ></lightning-formatted-date-time>
                                                         -
@@ -68,6 +68,7 @@
                                                             value={item.visit.Planned_Date__c}
                                                             hour="2-digit"
                                                             minute="2-digit"
+                                                            class="date-style"
                                                             time-zone={visitTimezone}
                                                         ></lightning-formatted-date-time>
                                                     </template>
@@ -125,12 +126,12 @@
                                                     </b>
                                                     <br />
                                                     <template if:true={item.missedVisit}>
-                                                        <p class="no-date">
+                                                        <p class="no-date unavailable-style">
                                                             {label.visitUnavailable}
                                                         </p>
                                                     </template>
                                                     <template if:false={item.missedVisit}>
-                                                        <p class="no-date">
+                                                        <p class="no-date date-style">
                                                             {item.visit.Status__c}:&nbsp;
                                                             <lightning-formatted-date-time
                                                                 value={item.visitDate}
