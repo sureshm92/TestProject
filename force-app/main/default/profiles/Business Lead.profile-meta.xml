@@ -3240,6 +3240,17 @@
         <field>Study_Site__c.Banner_Dispose_Offset_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-General Screener Layout</layout>
+        <recordType>PreScreener_Survey__c.General</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PreScreener_Survey__c-Study Specific Screener</layout>
+        <recordType>PreScreener_Survey__c.Study_Specific</recordType>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
