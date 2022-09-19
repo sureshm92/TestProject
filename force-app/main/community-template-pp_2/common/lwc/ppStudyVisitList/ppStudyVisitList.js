@@ -8,7 +8,7 @@ import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddr
 import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 
-import communicationPreference from '@salesforce/label/c.Communication_Preference';
+import communicationPreference from '@salesforce/label/c.Communication_Preferences';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 import myVisits from '@salesforce/label/c.Visit_My_Visits';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
