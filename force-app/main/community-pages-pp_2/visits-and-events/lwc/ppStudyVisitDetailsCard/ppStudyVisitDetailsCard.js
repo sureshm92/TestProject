@@ -75,6 +75,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track currentBrowserTime;
     booleanFalse = false;
     booleanTrue = true;
+
     connectedCallback() {
         loadScript(this, moment).then(() => {
             loadScript(this, momentTZ).then(() => {

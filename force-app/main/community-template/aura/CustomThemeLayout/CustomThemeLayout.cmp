@@ -36,9 +36,13 @@
  <aura:attribute name="urlPathPrefix" type="String" />
  <aura:attribute name="isPPonPhone" type="Boolean" default="false" />
  <aura:attribute name="communityServ" type="Object" />
+ <aura:attribute name="isSitecal" type="Boolean" default="false"/>
+ <aura:attribute name="isIconVisible" type="Boolean" default="false"/>
+ <aura:attribute name="notVisibleOnBlur" type="Boolean" default="false"/>
 
  <!-- events: -->
  <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+ <aura:handler name="onBlurOverlayEvent" event="c:uiEvent" action="{!c.handleComponentEvent}"/>
 
  <!-- methods: -->
  <aura:method name="init" action="{!c.doInit}" access="public" />
@@ -119,6 +123,36 @@
                              </aura:if>
                              <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
                              <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
+                                 <!--Site Calendar Start-->
+                                 <aura:if isTrue="{!not(v.reset)}">
+                                    <c:overLayForCalendar class="menu-block menuheight">
+                                         <aura:set attribute="title">
+                                             <div
+                                                 onclick="{!c.onClickSite}"
+                                                 class="calendarNavigationCss "
+                                                 title="Calendar"
+                                                 onblur = "{!c.onBlurSite}"
+                                                 
+                                             >
+                                                 <aura:if isTrue="{!v.isIconVisible}">
+                                                 <c:RRIcon iconName="site-calendar-close" printMode="true"/>
+                                                 </aura:if>
+                                                 <aura:if isTrue="{!not(v.isIconVisible)}">
+                                                 <c:RRIcon iconName="site-calendar-open" printMode="true"/>
+                                                 </aura:if>
+                                             </div>
+                                         </aura:set>
+                                         <aura:if isTrue="{!v.isSitecal}">
+                                             <c:site_Calender aura:id="site_Calender" ></c:site_Calender> 
+                                             
+                                         </aura:if>
+                                          <aura:if isTrue="{!not(v.isSitecal)}">
+                                             <c:site_Calender aura:id="site_Calender" ></c:site_Calender> 
+                                             
+                                         </aura:if>
+                                     </c:overLayForCalendar>
+                                </aura:if>
+                                 <!--Site Calendar End-->
                                  <div
                                      onclick="{!c.onClickHelp}"
                                      class="helpNavigationCSS"
