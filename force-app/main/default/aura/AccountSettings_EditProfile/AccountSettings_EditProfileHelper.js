@@ -20,6 +20,9 @@
         if (!personWrapper.nickname) personWrapper.nickname = '';
         if (!personWrapper.phoneType) personWrapper.phoneType = '';
         if (!personWrapper.prefix) personWrapper.prefix = '';
+        if (!personWrapper.birthDay) personWrapper.birthDay = '';
+        if (!personWrapper.birthMonth) personWrapper.birthMonth = '';
+        if (!personWrapper.birthYear) personWrapper.birthYear = '';
         if (!personWrapper.age) personWrapper.age = '';
         
         
@@ -77,10 +80,17 @@
         component.set("v.valueAge",null);
         //helper.setDD(component, event, helper);
         helper.setLastDay(component, event, helper); 
+        var studyDobFormat = component.get('v.dobConfig');
+
+        if(studyDobFormat  == 'DD-MM-YYYY'){
+            helper.participantAge(component, event, helper);            
+        }
+        else{
+            helper.setMinMaxAge(component, event, helper);
+        }
         helper.validateDOB(component, event, helper);
-        helper.setMinMaxAge(component, event, helper);
         helper.doCheckDOB(component,event,helper);
-        helper.setPlaceHolder(component,event,helper);
+        //helper.setPlaceHolder(component,event,helper);
         
     },
     isLeapYear: function (component, event, helper){
@@ -114,10 +124,17 @@
         }
         //helper.setDD(component, event, helper);
         helper.setLastDay(component, event, helper);  
+        var studyDobFormat = component.get('v.dobConfig');
+
+        if(studyDobFormat  == 'DD-MM-YYYY'){
+            helper.participantAge(component, event, helper);            
+        }
+        else{
+            helper.setMinMaxAge(component, event, helper);
+        }
         helper.validateDOB(component, event, helper);
-        helper.setMinMaxAge(component, event, helper);
         helper.doCheckDOB(component,event,helper);
-        helper.setPlaceHolder(component,event,helper);
+        //helper.setPlaceHolder(component,event,helper);
         
     },
     DDChange: function (component, event, helper){
@@ -191,7 +208,7 @@
         var age = component.get("v.valueAge");
         component.set("v.valueAge",age);
         helper.getCountryStateCode(component,event,helper);
-        helper.setPlaceHolder(component,event,helper);
+        //helper.setPlaceHolder(component,event,helper);
         var num = parseFloat(age).toFixed(2);
         var personWrapper = component.get('v.personWrapper');
         personWrapper.age = num;
@@ -418,10 +435,12 @@
     //dob changes
     participantAge : function (component,event,helper){
         var studyDobFormat = component.get('v.dobConfig');
-        var personWrapper = component.get('v.personWrapper');
-        if(studyDobFormat  == 'DD-MM-YYYY' && personWrapper.birthYear!='----' && personWrapper.birthYear!='--' && personWrapper.birthDay !='--'
-           && personWrapper.birthYear !=undefined && personWrapper.birthMonth !=undefined && personWrapper.birthDay !=undefined){
-            var dob = new Date(personWrapper.birthYear+"-"+personWrapper.birthMonth+"-"+personWrapper.birthDay);
+        var personWrapperDob = component.get('v.personWrapper');
+        alert(personWrapperDob.birthYear+"-"+personWrapperDob.birthMonth+"-"+personWrapperDob.birthDay);
+        if(studyDobFormat  == 'DD-MM-YYYY'  
+           && personWrapperDob.birthYear !=undefined && personWrapperDob.birthYear !=null && personWrapperDob.birthYear !='' && personWrapperDob.birthMonth !=undefined && personWrapperDob.birthMonth !=null && personWrapperDob.birthMonth !='' && personWrapperDob.birthDay !=undefined
+          && personWrapperDob.birthDay != null && personWrapperDob.birthDay != ''){
+            var dob = new Date(personWrapperDob.birthYear+"-"+personWrapperDob.birthMonth+"-"+personWrapperDob.birthDay);
             //calculate month difference from current date in time
             var month_diff = Date.now() - dob.getTime();
             //convert the calculated difference in date format
@@ -430,11 +449,16 @@
             var year = age_dt.getUTCFullYear();
             //now calculate the age of the user
             var age = Math.abs(year - 1970);
+            var num = parseFloat(age).toFixed(2);
+            personWrapperDob.age  = num;
             component.set('v.valueAge',age.toString());
-            personWrapper.age  = age;
-            component.set('v.personWrapper',personWrapper);
-            
-        }else
+            component.set('v.personWrapper',personWrapperDob);
+        }
+        else{
             component.set('v.valueAge',null);
+        personWrapperDob.age = null;
+        component.set('v.personWrapper',personWrapperDob);
+        }
+
     }
 });

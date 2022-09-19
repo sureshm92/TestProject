@@ -360,7 +360,7 @@
                                 <!-- Added by Anitha-->
                                 <aura:if isTrue="{!(v.showDay)}">
                                     <div
-                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                          >  
                                         
                                         <div class="label">
@@ -368,7 +368,7 @@
                                         </div>
                                         <c:rrSelect
                                                     options="{!v.optionsDD}"
-                                                    placeholder="{!v.placeHolder}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
                                                     value="{!v.personWrapper.birthDay}"
                                                     required="true"
                                                     useSentenceFont="false"
@@ -382,7 +382,7 @@
                                 <!-- Added by Anitha-->
                                 <aura:if isTrue="{!(v.showDay)}">
                                     <div
-                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                          >  
                                         
                                         <div class="label">
@@ -391,7 +391,7 @@
                                         
                                         <c:rrSelect
                                                     options="{!v.optionsDD}"
-                                                    placeholder="{!v.placeHolder}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
                                                     value="{!v.personWrapper.birthDay}"
                                                     required="true"
                                                     useSentenceFont="false"
@@ -410,14 +410,14 @@
                                 <!-- Added by Anitha-->
                                 <aura:if isTrue="{!(v.showMonth)}">
                                     <div
-                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                          >
                                         <div class="label">
                                             <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
                                         </div>
                                         <c:rrSelect
                                                     options="{!v.optionsMM}"
-                                                    placeholder="{!v.placeHolder}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
                                                     value="{!v.personWrapper.birthMonth}"
                                                     required="true"
                                                     useSentenceFont="false"
@@ -431,14 +431,14 @@
                                 <!-- Added by Anitha-->
                                 <aura:if isTrue="{!(v.showMonth)}">
                                     <div
-                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                          >
                                         <div class="label">
                                             <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
                                         </div>
                                         <c:rrSelect
                                                     options="{!v.optionsMM}"
-                                                    placeholder="{!v.placeHolder}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
                                                     value="{!v.personWrapper.birthMonth}"
                                                     required="true"
                                                     useSentenceFont="false"
@@ -450,7 +450,7 @@
                             </aura:if>
                             <!--- Year-->
                             <div
-                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                  >   
                                 <aura:if
                                          isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
@@ -461,7 +461,7 @@
                                     </div>
                                     <c:rrSelect
                                                 options="{!v.optionsYYYY}"
-                                                placeholder="{!v.placeHolder}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
                                                 value="{!v.personWrapper.birthYear}" 
                                                 required="true"
                                                 useSentenceFont="false"
@@ -475,7 +475,7 @@
                                     </div>
                                     <c:rrSelect
                                                 options="{!v.optionsYYYY}"
-                                                placeholder="{!v.placeHolder}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
                                                 value="{!v.personWrapper.birthYear}"
                                                 required="true"
                                                 useSentenceFont="false"
@@ -497,7 +497,7 @@
                                         </div>
                                         <div class="input-text">
 
-                                         {!valueAge}
+                                         {!v.valueAge}
                                         </div>
                                         
                                         
@@ -507,7 +507,7 @@
                                             </div>
                                             <c:rrSelect
                                                         options="{!v.ageOpt}"
-                                                        placeholder="{!v.placeHolder}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
                                                         value="{!v.valueAge}"
                                                         onchange="{!c.ageChange}"
                                                         required="true"
@@ -523,7 +523,7 @@
                                         <div class="label">
                                             <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
                                         </div>
-                                        {!v.personWrapper.age}
+                                        {!v.valueAge}
                                         <aura:set attribute="else">
                                             
                                             <div class="label">
@@ -531,7 +531,7 @@
                                             </div>
                                             <c:rrSelect
                                                         options="{!v.ageOpt}"
-                                                        placeholder="{!v.placeHolder}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
                                                         value="{!v.valueAge}"
                                                         onchange="{!c.ageChange}"
                                                         required="true" 
