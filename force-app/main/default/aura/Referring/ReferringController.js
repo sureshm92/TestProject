@@ -375,7 +375,7 @@
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
         component.checkdobMethod();
-        if(formatSS != 'YYYY'){
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
             helper.validateDOB(component, event, helper);
         }
     },
@@ -390,7 +390,7 @@
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
         component.checkdobMethod();
-        if(formatSS != 'YYYY'){
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
             helper.validateDOB(component, event, helper);
         }
         //component.checkdobMethod();
