@@ -3,6 +3,7 @@ public class TrialSurveyBatchDeletionTest {
     @IsTest
     public static void runTest() {
         Test.startTest();
+        TestData.loadTestData();
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         Trial_Survey__c ts = new Trial_Survey__c(
@@ -15,7 +16,9 @@ public class TrialSurveyBatchDeletionTest {
         );
         insert ts;
 
-        Database.executeBatch(new TrialSurveyBatchDeletion(clinical.Id));
+
+
+       Database.executeBatch(new TrialSurveyBatchDeletion(clinical.Id));
         Test.stopTest();
     }
 }
