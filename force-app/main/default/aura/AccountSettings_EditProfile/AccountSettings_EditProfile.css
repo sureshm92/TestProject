@@ -51,6 +51,12 @@
     display: inline-block;
     cursor: pointer;
 }
+.THIS.input-text{
+    padding-top: 3px;
+    /* font-weight: 600; */
+    font-size: 16px;
+    text-align: center;
+}
 .THIS .textoverlap
 {
     width: 18rem;

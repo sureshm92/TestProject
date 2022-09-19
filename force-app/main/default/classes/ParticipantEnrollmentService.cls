@@ -710,6 +710,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Override_PI_Referral_Status__c',
         'Study_Site__r.Clinical_Trial_Profile__c',
         'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Study_Site__r.Participant_DOB_format__c',    
         'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Override_Inclusion_Criteria__c',
