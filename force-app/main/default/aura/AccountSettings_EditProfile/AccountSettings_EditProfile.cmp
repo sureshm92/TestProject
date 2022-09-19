@@ -495,7 +495,7 @@
                                         <div class="label">
                                             <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
                                         </div>
-                                        <div class="input-text">
+                                        <div class="input-text alignAge">
 
                                          {!v.valueAge}
                                         </div>
