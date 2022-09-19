@@ -1,3 +1,8 @@
+.slds-card {
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+}
+
 .slds-grid {
     margin-bottom: 1rem;
     padding: 0 1.5rem;
@@ -102,6 +107,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
     text-decoration: underline;
 }
 
+.acc-pref {
+    margin-left: 163px;
+}
+
 .btn-footer {
     padding: 1rem 1.5rem 0;
     border-top: 1px solid #d9d9d9;
@@ -128,8 +137,11 @@ input[type='date']::-webkit-calendar-picker-indicator,
         margin-top: 0.5rem;
     }
 
-    .comm-checks > div,
-    .comm-checks > a {
+    .comm-checks > div {
         padding-left: 0.875rem;
+    }
+
+    .comm-checks > div:first-child {
+        width: 70%;
     }
 }
