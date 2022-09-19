@@ -336,10 +336,6 @@ public without sharing class AccountSettingsController {
         String verifyNewPassword,
         String oldPassword
     ) {
-        String errorMsg1 = 'The passwords do not match';
-        String errorMsg2 = 'The password you entered is too easy to guess. Enter a different one';
-        String errorMsg3 = 'Your password cannot be null';
-
         PageReference pr;
         try {
             pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
@@ -354,16 +350,26 @@ public without sharing class AccountSettingsController {
                     System.Label.Pswd_ValidationMsg3_2
                 );
             }
-            if (ex.getMessage().contains(errorMsg1)) {
+            if (ex.getMessage().contains(System.Label.Passwords_Do_Not_Match)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg5);
-            } else if (ex.getMessage().contains(errorMsg2)) {
+            } else if (ex.getMessage().contains(System.Label.Password_Easy_to_Guess)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg7);
-            } else if (ex.getMessage().contains(errorMsg3)) {
+            } else if (ex.getMessage().contains(System.Label.Password_Cannot_Be_Null)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
             } else {
                 if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal){
+                    if ((ex.getMessage() == System.Label.Cannot_Reuse_Old_Password) && (oldPassword ==  newPassword)){
                     throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
-                }else{
+                }
+                    else if (ex.getMessage() == System.Label.Old_Password_Invalid ){
+                    throw new AuraHandledException(System.Label.TST_Your_current_password_is_invalid);
+                }
+                     else if (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password ){
+                    throw new AuraHandledException(System.Label.PP_CantReuseOldPwd);
+                }
+                    else {
+                        throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                    }
                     throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
                 }
             }

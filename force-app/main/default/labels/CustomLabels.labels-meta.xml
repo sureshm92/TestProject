@@ -28005,4 +28005,39 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>Reminder Time</shortDescription>
         <value>Reminder Time</value>
     </labels>
+    <labels>
+        <fullName>Passwords_Do_Not_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>passwords do not match</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>Password_Easy_to_Guess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>password to guess</shortDescription>
+        <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>Password_Cannot_Be_Null</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>password cannot be null</shortDescription>
+        <value>Your password cannot be null</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Reuse_Old_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>cannot reuse Old Password </shortDescription>
+        <value>Error: You cannot reuse this old password.</value>
+    </labels>
+    <labels>
+        <fullName>Old_Password_Invalid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OldPassword Invalid</shortDescription>
+        <value>Error: Your old password is invalid.</value>
+    </labels>
 </CustomLabels>
