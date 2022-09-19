@@ -211,12 +211,22 @@
     display: flex;
 }
 
+.THIS .menuheight{height: 100%;}
+
 .THIS .helpNavigationCSS {
     height: 100%;
     display: inline-flex;
     align-items: center;
     padding: 0 5px;
-    margin-left: 11px;
+    margin-left: 4px;
+}
+
+.THIS .calendarNavigationCss{	
+    height: 100%;	
+    display: inline-flex;	
+    align-items: center;	
+    padding: 0 5px;	
+    margin-left: 4px;	
 }
 
 .THIS .helpNavigationCSS .cRRIcon.rr-icon-default {

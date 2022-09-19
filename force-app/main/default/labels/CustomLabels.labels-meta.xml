@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>RH_Televisit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Virtual Appointment</shortDescription>
+        <value>Virtual Appointment</value>
+    </labels>
+    <labels>
+        <fullName>RH_No_events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No events</shortDescription>
+        <value>No events</value>
+    </labels>
+    <labels>
+        <fullName>RH_registered_today</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>registered today</shortDescription>
+        <value>registered today</value>
+    </labels>
+    <labels>
+        <fullName>RH_Visit_in_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>In Person Appointment</shortDescription>
+        <value>In Person Appointment</value>
+    </labels>
+    <labels>
         <fullName>DOB_Batch_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
