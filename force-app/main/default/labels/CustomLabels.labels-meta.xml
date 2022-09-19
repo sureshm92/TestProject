@@ -4999,6 +4999,14 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Initial Visits Completed</value>
     </labels>
     <labels>
+        <fullName>Date_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date_Placeholder</shortDescription>
+        <value>DD</value>
+    </labels>
+   
+    <labels>
         <fullName>December</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10462,6 +10470,14 @@ The expected format is REF##### to REF########</value>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set monthly task for these dates.</value>
     </labels>
+    <labels>
+        <fullName>Month_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Month_Placeholder</shortDescription>
+        <value>MM</value>
+    </labels>
+   
     <labels>
         <fullName>MO_Active</fullName>
         <language>en_US</language>
@@ -26242,6 +26258,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Withdrew Consent After Screening</shortDescription>
         <value>Withdrew Consent After Screening</value>
     </labels>
+    <labels>
+        <fullName>Year_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year_Placeholder</shortDescription>
+        <value>YYYY</value>
+    </labels>
+   
     <labels>
         <fullName>yearly_task_error</fullName>
         <language>en_US</language>
