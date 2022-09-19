@@ -44,7 +44,7 @@
                         
                     }
                 }
-                helper.setPlaceHolder(component,event,helper);
+                //helper.setPlaceHolder(component,event,helper);
                 console.log('valueage::'+component.get('v.valueAge')); 
                 if (initData.contactSectionData.personWrapper) {
                     // split mailing street(address line1 and address line2)
