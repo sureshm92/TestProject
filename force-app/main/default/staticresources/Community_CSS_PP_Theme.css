@@ -566,6 +566,10 @@ input::-webkit-datetime-edit {
     background: #fff;
     border: none;  
     color: #595959;
+
+}
+.pp-change-pwd [lightning-input_input-host] {
+    width: 92% !important;
 }
 
  .cCustomThemeLayout .slds-combobox__input {
@@ -631,6 +635,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .cCustomThemeLayout input[type=password], 
     .cCustomThemeLayout input[type=email] {
         height: 32px!important;
+    }
+    .pp-change-pwd [lightning-input_input-host] {
+        width: 100% !important;
     }
 }
 
