@@ -339,6 +339,8 @@ public without sharing class AccountSettingsController {
         String errorMsg1 = 'The passwords do not match';
         String errorMsg2 = 'The password you entered is too easy to guess. Enter a different one';
         String errorMsg3 = 'Your password cannot be null';
+        string reuseOldPassword = 'Error: You cannot reuse this old password.';
+        string oldPasswordInvalid = 'Error: Your old password is invalid.';
 
         PageReference pr;
         try {
@@ -362,8 +364,18 @@ public without sharing class AccountSettingsController {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
             } else {
                 if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal){
+                    if (ex.getMessage() == reuseOldPassword && oldPassword ==  newPassword){
                     throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
-                }else{
+                }
+                    else if (ex.getMessage() == oldPasswordInvalid ){
+                    throw new AuraHandledException(System.Label.TST_Your_current_password_is_invalid);
+                }
+                     else if (ex.getMessage() == reuseOldPassword ){
+                    throw new AuraHandledException(System.Label.PP_CantReuseOldPwd);
+                }
+                    else {
+                        throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                    }
                     throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
                 }
             }
