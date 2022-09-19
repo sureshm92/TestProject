@@ -90,7 +90,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Study_Site_Type__c,
                 Suppress_Participant_Emails__c,
                 Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Participant_DOB_format__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -449,7 +450,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                 //Participant row check in same sheet
                 //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
-                String duplicateKey = FirstName + LastName + YearofBirth + Phone + PostalCode;
+                String duplicateKey = FirstName + LastName + YearofBirth + MonthofBirth + strDate + Phone + PostalCode;
                 if (!duplicateRowCheckSet.contains(duplicateKey)) {
                     duplicateRowCheckSet.add(duplicateKey);
                 } else {
@@ -999,8 +1000,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Nickname__c = Nickname,
                         Gender__c = Sex,
                         Birth_Year__c=YearofBirth,
-                        Birth_Month__c =MonthofBirth,
-                        Birth_Day__c =strDate,
                         Age__c =Integer.valueOf(age),
                         Email__c = EmailAddress,
                         Phone__c = Phone,
@@ -1018,6 +1017,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Mailing_Country_Code__c = cc,
                         Mailing_State_Code__c = sc
                     );
+                    if(studySiteDetails.Participant_DOB_format__c.contains('DD')){
+                        participant.Birth_Day__c=strDate;
+                    }
+                    if(studySiteDetails.Participant_DOB_format__c.contains('MM')){
+                        participant.Birth_Month__c=MonthofBirth;
+                    }
                     participant.Date_of_Birth__c = String.valueOf(DateofBirthTemp);
                     participant.Adult__c =
                         ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
