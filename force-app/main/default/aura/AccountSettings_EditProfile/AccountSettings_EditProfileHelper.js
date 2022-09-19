@@ -449,14 +449,16 @@
             var year = age_dt.getUTCFullYear();
             //now calculate the age of the user
             var age = Math.abs(year - 1970);
+            var num = parseFloat(age).toFixed(2);
+            personWrapperDob.age  = num;
             component.set('v.valueAge',age.toString());
-            personWrapperDob.age  = age;
             component.set('v.personWrapper',personWrapperDob);
-            
-        }else
+        }
+        else{
             component.set('v.valueAge',null);
         personWrapperDob.age = null;
         component.set('v.personWrapper',personWrapperDob);
+        }
 
     }
 });
