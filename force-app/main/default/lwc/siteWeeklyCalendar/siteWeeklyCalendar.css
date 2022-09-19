@@ -1,0 +1,137 @@
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+.month {
+  padding: 70px 25px;
+  width: 100%;
+  background: #1abc9c;
+  text-align: center;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+  padding-top: 10px;
+}
+
+.month .next {
+  float: right;
+  padding-top: 10px;
+}
+
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  /* background-color: #ddd; */
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  /* color: #666; */
+  text-align: center;
+}
+
+.days {
+  padding: 10px 0;
+  /* background: #eee; */
+  margin: 0;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  /* color: #777; */
+}
+
+.days li .active {
+  padding: 5px;
+  background: #1abc9c;
+  color: white !important
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+  .weekdays li, .days li {width: 12.5%;}
+  .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 12.2%;}
+}
+.listDisplay {
+    display: inline !important;
+}
+/* Calendar Start */
+.current-month{
+    font-size: 16px;
+    padding-left:15px;
+    margin-top:10px;
+    color: #000000;
+    line-height: 32px;
+    font-weight: 600;
+  }
+  .study-dropdown{
+    overflow-x: unset !important;
+    overflow-y: unset;
+  }
+  
+  .p-grid{
+    padding-right: var(--lwc-spacingSmall,0.75rem);
+    padding-left: var(--lwc-spacingSmall,0.75rem);
+  }
+  .custome-calender .slds-datepicker tbody>tr>td>.slds-day {
+    display: block;
+    position: relative;
+    border-radius: var(--lwc-borderRadiusCircle,50%);
+    margin: auto;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    line-height: 24px;
+  }
+  .custom-table-width{
+    table-layout: fixed;
+    width: 100%;
+    white-space: nowrap;
+  }
+  .slds-datepicker thead>tr>th {
+    color: #000000;
+    font-weight: 600;
+  }
+  .div-right{
+    position: absolute;
+    top: 83px;
+  }
+  .div-left{
+    position: absolute;
+    top: 83px;
+  }
+  .pre-week{
+  cursor: pointer;
+  }
+  .next-week{
+    cursor: pointer;
+    margin-left: -10px;
+  }
+  /* Calendar End */
