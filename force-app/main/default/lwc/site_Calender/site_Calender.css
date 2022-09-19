@@ -95,6 +95,7 @@ cursor: pointer;
 /* Visit Screening  Start*/
 .vertical-scroll{
     max-height:68vh;
+    height:68vh;
     overflow: auto;
     padding: 0px 0px 0px 0px;
     overflow-x: hidden;
