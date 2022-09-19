@@ -162,13 +162,13 @@ export default class PpChangePassword extends LightningElement {
     //icon_eye = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-eye'
 
     get currentPasswordEyeIcon() {
-        return this.showCurrentPassword ? 'utility:hide' : 'utility:preview';
+        return this.showCurrentPassword ? 'utility:preview' : 'utility:hide';
     }
     get newCurrentPasswordEyeIcon() {
-        return this.showNewPassword ? 'utility:hide' : 'utility:preview';
+        return this.showNewPassword ? 'utility:preview' : 'utility:hide';
     }
     get reNewCurrentPasswordEyeIcon() {
-        return this.showReNewPassword ? 'utility:hide' : 'utility:preview';
+        return this.showReNewPassword ? 'utility:preview' : 'utility:hide';
     }
 
     get checkIcon() {
@@ -203,7 +203,7 @@ export default class PpChangePassword extends LightningElement {
             ? (this.isDelegate = true)
             : (this.isDelegate = false);
         getInitData({
-            userMode: userMode
+            userMode: this.userMode
         })
             .then((returnValue) => {
                 this.isInitialized = true;
@@ -391,10 +391,8 @@ export default class PpChangePassword extends LightningElement {
             .catch((error) => {
                 let errorMessage = error.body.message.split('\n')[0];
                 console.log('error message' + error + errorMessage);
-                errorMessage == 'Error: Your old password is invalid .'
-                    ? (this.incorrectOldPassword = true)
-                    : (this.incorrectOldPassword = false);
-
+             errorMessage == TST_Your_current_password_is_invalid ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
+                   
                 communityService.showToast('', 'error', errorMessage, 100);
                 this.validateOldPassword();
                 this.spinner.hide();
