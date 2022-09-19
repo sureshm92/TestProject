@@ -5,7 +5,6 @@ import pirResources from "@salesforce/resourceUrl/pirResources";
 import SiteVisit from "@salesforce/resourceUrl/SiteVisit";
 import TeleVisit from "@salesforce/resourceUrl/TeleVisit";
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
-import noVisitsLabel from "@salesforce/label/c.NoVisits"; //added label for no visits for a date- remove coment
 import { NavigationMixin } from "lightning/navigation";
 import SiteCalCSS from "@salesforce/resourceUrl/SiteCalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -24,7 +23,6 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   checkIcon = pirResources + "/pirResources/icons/status-good.svg";
   SiteVisit = SiteVisit;
   TeleVisit = TeleVisit;
-  noVisitsForDate = noVisitsLabel; //added label for no visits-Remove comment later
   subscription;
   label = {
     Join,
