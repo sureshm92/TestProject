@@ -18783,6 +18783,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>What Can I See or Do?</value>
     </labels>
     <labels>
+        <fullName>PP_Delegate_Email_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Delegate_Email_Consent</shortDescription>
+        <value>By checking this box, you confirm that your delegate or chosen care partner agrees to share their information with IQVIA and to receive emails at the address provided with information and updates about this study.</value>
+    </labels>
+    <labels>
         <fullName>PP_Delegate_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
