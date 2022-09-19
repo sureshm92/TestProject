@@ -1,0 +1,45 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "1da0a8d6-d8de-44af-b078-3d7522acfe0a",
+  "label" : "Visit Detail Mobile",
+  "regions" : [ {
+    "id" : "86271532-d943-41e9-9cda-0b0b53b2c3d4",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppStudyVisitDetailsMobile",
+      "id" : "14814251-4f00-4abd-93cb-63cde37b6e17",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2a454cdf-9691-494d-a2ee-3f36894aa104",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "f358bf07-4a2a-408f-b20b-d1e7efd43dad",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Visit Detail Mobile"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c5a6a00c-3e16-4f5a-af08-b6a2566be981",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e1514395-0d0b-4f32-a378-acbfa61894bd",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-visit-detail-mobile"
+}

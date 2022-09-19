@@ -1,0 +1,75 @@
+.visit3-mobile {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.what-to-expect {
+    height: 32px;
+    width: 217px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.icon-cont-mobile {
+    box-sizing: border-box;
+    height: 209px;
+    width: 382px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.center {
+    text-align: center;
+}
+.icon-cont1-mobile {
+    box-sizing: border-box;
+    height: 300px;
+    width: 382px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.vertical-mobile {
+    padding: 180px 0;
+}
+.view-result {
+    color: #2e7cf3;
+}
+.icon-cont {
+    box-sizing: border-box;
+    height: 185px;
+    width: 442px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.icon-cont1 {
+    box-sizing: border-box;
+    height: 519px;
+    width: 310px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.visit3 {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 48px;
+}
+.image-result-mobile {
+    height: 92px;
+    width: 128px;
+}
+.image-vertical-mobile {
+    padding: 127px 0;
+}
+.image-padding-mobile {
+    padding: 127px 0;
+}
