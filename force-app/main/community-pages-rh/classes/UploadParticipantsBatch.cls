@@ -674,6 +674,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                       : lowerAge;
                     possibleAges.add(participantAge);
                   }
+                  else {
+                    possibleAges.add(lowerAge);
+                    possibleAges.add(higherAge);
+                  }
                 } else if (String.isNotBlank(MonthofBirth)) {
                   if (month < Date.today().month()) {
                     possibleAges.add(higherAge);
