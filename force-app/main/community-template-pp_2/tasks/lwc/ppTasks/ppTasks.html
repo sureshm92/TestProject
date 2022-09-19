@@ -19,12 +19,13 @@
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="12">
                     <lightning-button
+                        variant="base"
                         label={label.createNewTask}
                         icon-name="utility:add"
                         class="slds-m-left_x-small slds-align_absolute-center"
-                        variant="brand"
                         onclick={doCreateTask}
                     ></lightning-button>
+
                     <template if:true={isCreateTask}>
                         <c-pp-create-task></c-pp-create-task>
                     </template>

@@ -7,13 +7,18 @@ import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 
 export default class PpTasks extends LightningElement {
     initData;
-    isNewTask;
+    isNewTask = true;
     isRTL;
     taskId;
     task;
+    taskExisting;
     label = {
         createNewTask
     };
+    isEnrolled;
+    emailOptIn;
+    smsOptIn;
+    jsonState;
 
     isCreateTask = false;
     connectedCallback() {
@@ -28,20 +33,6 @@ export default class PpTasks extends LightningElement {
     }
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
-    }
-    initializeData() {
-        if (!communityService.isDummy()) {
-            this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
-            getTaskEditData({ taskId: this.taskId })
-                .then((result) => {
-                    console.log('result from help', result);
-                    this.initData = result;
-                })
-                .catch((error) => {
-                    console.log('error', error);
-                });
-        } else {
-        }
     }
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
