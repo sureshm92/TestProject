@@ -16,6 +16,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import basePathName from '@salesforce/community/basePath';
+import visitdetails from '@salesforce/label/c.Visit_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 
 export default class PpStudyVisitDetailsMobile extends NavigationMixin(LightningElement) {
@@ -28,7 +29,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         past,
         results,
         resultsCheck,
-        viewAllResults
+        viewAllResults,
+        visitdetails
     };
     status = {
         scheduled: 'Scheduled',
