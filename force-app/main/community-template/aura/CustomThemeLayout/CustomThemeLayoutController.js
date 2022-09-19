@@ -57,5 +57,29 @@
         } else {
             component.set('v.isPPonPhone', false);
         }
+    },
+    onClickSite: function(component, event) {
+        
+        if(!component.get('v.isSitecal')) {
+            component.set('v.isSitecal', true);
+        } else {
+            component.set('v.isSitecal', false);
+        }
+        if(!component.get('v.isIconVisible')) {
+            component.set('v.isIconVisible', true);
+        } else {
+            component.set('v.isIconVisible', false);
+             component.set('v.notVisibleOnBlur', true);
+        }
+    },
+     handleComponentEvent : function(component, event, helper) {
+         
+        if(!component.get('v.isIconVisible')) {
+            if(!component.get('v.notVisibleOnBlur'))
+                component.set('v.isIconVisible', true);
+        } else {
+             component.set('v.notVisibleOnBlur', false);
+            component.set('v.isIconVisible', false);
+        }
     }
 });
