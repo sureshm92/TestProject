@@ -1,26 +1,26 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
-  "id" : "7e248832-0863-4161-8385-094796756d48",
-  "label" : "visits",
+  "id" : "b1624d2b-5ff7-4b8b-9923-8d1f9e92ae79",
+  "label" : "Visit Details Mobile",
   "regions" : [ {
-    "id" : "9dc2a30f-c28b-440f-9d38-0158c87041df",
+    "id" : "13340983-20c1-47b7-be14-5398671a56b3",
     "regionName" : "header",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppStudyVisitPage",
-      "id" : "8c54c124-021e-4f19-b421-387b26000559",
+      "componentName" : "c:ppStudyVisitDetailsMobile",
+      "id" : "4146eada-3222-4711-9fcb-b67a6abca4f9",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "6c040509-26e6-40c1-b08f-88ed1f8be7d3",
+    "id" : "50aaec66-f1c1-4971-a5c7-cc1359671177",
     "regionName" : "content",
     "type" : "region"
   }, {
-    "id" : "8fb253f0-0350-4554-8adc-f4a6c36f5e01",
+    "id" : "b53ceaec-1ffe-4dcc-8bc3-ea198af51c21",
     "regionName" : "footer",
     "type" : "region"
   }, {
@@ -28,30 +28,30 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "visits"
+        "title" : "Visit Details Mobile"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "9834e19a-2fe3-4a58-bde0-792ca5001a52",
+      "id" : "cceb8f32-e1cd-4992-a5a4-4189cfff29cd",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "e4749f26-7234-4f5e-aace-9527195043c8",
+    "id" : "2f363ab3-720b-4f23-96be-2d0dfb2aaf68",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppStudyVisitPage",
-      "id" : "dcbf3688-eab6-45ae-9f37-ffbed65e221b",
+      "componentName" : "c:ppStudyVisitDetailsMobile",
+      "id" : "3f49f798-8ef8-4dcb-a7fb-6a228e9c7ee9",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "a2828436-01fe-41dc-9163-a87493f93e99",
+    "id" : "9d4b027e-94c0-4e8a-9614-5346c2883baa",
     "regionName" : "column1",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-visits"
+  "viewType" : "custom-visit-details-mobile"
 }
