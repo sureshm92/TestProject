@@ -325,7 +325,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
-                    this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
                 } else {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;

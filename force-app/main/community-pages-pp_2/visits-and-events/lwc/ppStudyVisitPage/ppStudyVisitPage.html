@@ -165,20 +165,22 @@
             <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col2">
                 <h1 if:false={past} class="slds-p-vertical_x-large visit3">
                     <b>{visitName}</b>
-                    &nbsp;|&nbsp;
-                    <lightning-formatted-date-time
-                        value={plannedDate}
-                        year="numeric"
-                        month="short"
-                        day="2-digit"
-                        time-zone={visitTimezone}
-                    ></lightning-formatted-date-time>
-                    &nbsp;|&nbsp;<lightning-formatted-date-time
-                        value={plannedDate}
-                        hour="2-digit"
-                        minute="2-digit"
-                        time-zone={visitTimezone}
-                    ></lightning-formatted-date-time>
+                    <template if:true={plannedDate}>
+                        &nbsp;|&nbsp;
+                        <lightning-formatted-date-time
+                            value={plannedDate}
+                            year="numeric"
+                            month="short"
+                            day="2-digit"
+                            time-zone={visitTimezone}
+                        ></lightning-formatted-date-time>
+                        &nbsp;|&nbsp;<lightning-formatted-date-time
+                            value={plannedDate}
+                            hour="2-digit"
+                            minute="2-digit"
+                            time-zone={visitTimezone}
+                        ></lightning-formatted-date-time>
+                    </template>
                 </h1>
                 <h1 if:true={past} class="slds-p-vertical_x-large visit3">
                     <b>{visitName}</b>
