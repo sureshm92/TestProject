@@ -81,6 +81,15 @@ public without sharing class ParticipantTriggerHandler {
         }
     }
 
+    public class UpdateDOBDetails extends TriggerHandler {
+        public override void beforeInsert(List<SObject> newList) {
+            updateDOBData(newList);
+        }
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateDOBData(newList);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -594,6 +603,21 @@ public without sharing class ParticipantTriggerHandler {
         }
         if (!patientDelegatesToUpdate.isEmpty()) {
             update patientDelegatesToUpdate;
+        }
+    }
+
+    @TestVisible
+    private static void updateDOBData(List<Participant__c> newList) {
+        for (Participant__c p : newList) {
+            if (!String.isBlank(p.Date_of_Birth__c) && (String.isEmpty(p.Birth_Day__c) || String.isBlank(p.Birth_Month__c) || String.isBlank(p.Birth_Year__c))) {
+                List<String> dateOfBirth = p.Date_of_Birth__c.split('-');
+                p.Birth_Day__c = dateOfBirth[0];
+                p.Birth_Month__c = dateOfBirth[1];
+                p.Birth_Year__c = dateOfBirth[2];
+            }//before Insert
+            if (String.isNotBlank(p.Birth_Day__c) && String.isNotBlank(p.Birth_Month__c) && String.isNotBlank(p.Birth_Year__c) ) {
+                p.Date_of_Birth__c = p.Birth_Day__c+'-'+p.Birth_Month__c+'-'+p.Birth_Year__c;
+            }
         }
     }
 }
