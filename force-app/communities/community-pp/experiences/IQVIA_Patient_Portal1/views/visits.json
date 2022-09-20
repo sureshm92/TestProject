@@ -1,19 +1,27 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
-  "id" : "af2bc897-442f-4e09-9577-46b9554c1609",
+  "id" : "7e248832-0863-4161-8385-094796756d48",
   "label" : "Visits",
   "regions" : [ {
+    "id" : "9dc2a30f-c28b-440f-9d38-0158c87041df",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
     "components" : [ {
       "componentAttributes" : { },
       "componentName" : "c:ppStudyVisitPage",
-      "id" : "ecaad6fa-bbaa-48ca-816f-b566267bf221",
+      "id" : "8c54c124-021e-4f19-b421-387b26000559",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "d4f678ea-052d-4eb8-972c-881a84253d96",
-    "regionName" : "column1",
+    "id" : "6c040509-26e6-40c1-b08f-88ed1f8be7d3",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "8fb253f0-0350-4554-8adc-f4a6c36f5e01",
+    "regionName" : "footer",
     "type" : "region"
   }, {
     "components" : [ {
@@ -23,12 +31,24 @@
         "title" : "Visits"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "d3aae153-6162-4c7b-93e1-8324a0e377ed",
+      "id" : "9834e19a-2fe3-4a58-bde0-792ca5001a52",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "39afe1b7-5d4b-4bb4-b9dc-c688c0a3b986",
+    "id" : "e4749f26-7234-4f5e-aace-9527195043c8",
     "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppStudyVisitPage",
+      "id" : "dcbf3688-eab6-45ae-9f37-ffbed65e221b",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a2828436-01fe-41dc-9163-a87493f93e99",
+    "regionName" : "column1",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
