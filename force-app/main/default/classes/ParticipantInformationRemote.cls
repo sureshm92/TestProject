@@ -623,6 +623,12 @@ public without sharing class ParticipantInformationRemote {
             }
             if (!String.isBlank(ddi.participantId)) {
                 delegateParticipant.Id = ddi.participantId;
+                if (delegateParticipant.Attestation__c !=true) {
+                    delegateParticipant.Attestation__c = true;
+                    delegateParticipant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
+                    delegateParticipant.Attested_by__c = CommunityService.getInstance()
+                        .getCurrentContactId();
+                }
             }else{
                 if (String.isNotBlank(delegateParticipant.Birth_Year__c)) {
                     delegateParticipant.Attestation__c = true;
