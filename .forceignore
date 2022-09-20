@@ -32,7 +32,7 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 
 #Ignore all onboarding slides, comment line for include
 #**/onboarding-tour/staticresources
-#force-app/unpackaged/main/default/staticresources/os_*
+#force-app/unpackaged/main/default/staticresources/os_***
 #force-app/main/onboarding-tour/staticresources/os_*
 #force-app/main/default/staticresources/Flags.svg
 #force-app/main/default/staticresources/Flags.resource-meta.xml
@@ -46,6 +46,4 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #force-app/main/default/profiles
 #force-app/communities
 #force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
-#force-app/main/onboarding-tour
-#force-app/main/default/staticresources
-    
+#force-app/main/default/profiles/PRDBAPI*
