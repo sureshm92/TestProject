@@ -7,6 +7,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import upsertTask from '@salesforce/apex/TaskEditRemote.upsertTask';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 
 export default class PpCreateTask extends LightningElement {
     task_icon = pp_icons + '/' + 'createTask_illustration.svg';
@@ -27,6 +28,13 @@ export default class PpCreateTask extends LightningElement {
     jsonState;
 
     connectedCallback() {
+        /*   loadScript(this, RR_COMMUNITY_JS)
+            .then(() => {
+                console.log('RR_COMMUNITY_JS loaded');
+            })
+            .catch((error) => {
+                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
+            });*/
         loadScript(this, moment).then(() => {
             loadScript(this, momentTZ).then(() => {
                 this.currentBrowserTime = window.moment();
@@ -101,7 +109,7 @@ export default class PpCreateTask extends LightningElement {
             paramTask: JSON.stringify(this.task)
         })
             .then((result) => {
-                console.log('successs---------' + result);
+                communityService.showToast('', 'success', 'Task added', 100);
             })
             .catch((error) => {
                 console.log(' error ', error);
