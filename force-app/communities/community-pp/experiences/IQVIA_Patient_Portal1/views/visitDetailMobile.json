@@ -41,5 +41,5 @@
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-visit-detail-mobile"
+  "viewType" : "custom-visit-detail"
 }
