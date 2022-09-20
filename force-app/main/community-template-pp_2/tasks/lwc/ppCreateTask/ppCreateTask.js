@@ -28,13 +28,13 @@ export default class PpCreateTask extends LightningElement {
     jsonState;
 
     connectedCallback() {
-        /*   loadScript(this, RR_COMMUNITY_JS)
+        loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
             })
             .catch((error) => {
                 console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
-            });*/
+            });
         loadScript(this, moment).then(() => {
             loadScript(this, momentTZ).then(() => {
                 this.currentBrowserTime = window.moment();
