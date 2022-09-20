@@ -1,0 +1,67 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "siteforce:dynamicLayout",
+  "id" : "0fab9bfc-8d71-463d-aa6a-a1c7ba4b67c8",
+  "label" : "Visits",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "background" : "background: rgba(0,0,0,0)",
+        "backgroundOverlay" : "rgba(0,0,0,0.5)",
+        "contentAreaWidth" : 100,
+        "sectionConfig" : {
+          "UUID" : "f802cf8c-47a3-45a4-a78e-3eb6dea165c3",
+          "columns" : [ {
+            "UUID" : "00961525-1e74-48a4-b7d3-3788d9cfcb90",
+            "columnKey" : "1",
+            "columnName" : "Column 1",
+            "columnWidth" : "12",
+            "seedComponents" : [ ]
+          } ]
+        },
+        "sectionHeight" : 300
+      },
+      "componentName" : "forceCommunity:section",
+      "id" : "f802cf8c-47a3-45a4-a78e-3eb6dea165c3",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : { },
+          "componentName" : "c:ppStudyVisitPage",
+          "id" : "4df5a28f-d427-4285-a223-dcbec1244cc7",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "00961525-1e74-48a4-b7d3-3788d9cfcb90",
+        "regionLabel" : "Column 1",
+        "regionName" : "1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "046f249a-74be-4116-9f25-123bf5010125",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Visits"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "426cd28a-1cdb-4412-867d-23615d6608bb",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "eaa607a9-a32f-4c77-aaf4-d2417c624c0a",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-visits"
+}

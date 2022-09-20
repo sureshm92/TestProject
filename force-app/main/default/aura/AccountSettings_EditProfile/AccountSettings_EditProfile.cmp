@@ -59,6 +59,7 @@
     <aura:attribute name="minorUserName" type="String" />
     <aura:attribute name="isRTL" type="Boolean" default="false" />
     <aura:attribute name="hideContactInformationForDel" type="Boolean" default="false"/>
+    <aura:attribute name="consentPreferenceData" type="Object" />
     <!--- YOB attributes-->
     <aura:attribute name="ageStart" type="String"  default="0"/>
     <aura:attribute name="ageEnd" type="String"  default="150"/>
@@ -75,7 +76,6 @@
     <aura:attribute name="futureDate" type="Boolean" />
     <aura:attribute name="futureDateDDErr" type="String" />
     <aura:attribute name="futureDateMMErr" type="String" />
-    
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     

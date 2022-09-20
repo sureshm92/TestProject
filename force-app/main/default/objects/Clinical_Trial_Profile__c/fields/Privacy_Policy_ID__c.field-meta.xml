@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Privacy_Policy_ID__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This looks up to the Privacy policy specific to CTP(Study) level.</description>
+    <externalId>false</externalId>
+    <label>Privacy Policy</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Terms_And_Conditions__c.T_C_Type__c</field>
+            <operation>equals</operation>
+            <value>Privacy Policy</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Terms_And_Conditions__c</referenceTo>
+    <relationshipLabel>Clinical Trial Profiles (Privacy Policy)</relationshipLabel>
+    <relationshipName>Clinical_Trial_Profiles1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

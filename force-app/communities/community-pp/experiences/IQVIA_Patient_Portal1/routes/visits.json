@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "0fab9bfc-8d71-463d-aa6a-a1c7ba4b67c8",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "1b6bf0c8-8f20-48c3-995d-b54486850ba8",
+  "label" : "Visits",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-visits",
+  "type" : "route",
+  "urlPrefix" : "visits"
+}

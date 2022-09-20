@@ -247,6 +247,7 @@
                                         '.'
                                 );
                                 component.set('v.isAttested', false);
+                                component.set('v.isEmailConsentChecked', false);
                                 component.refresh();
                             },
                             function () {
@@ -254,6 +255,7 @@
                                 component.find('firstNameInput').set('v.value', '');
                                 component.find('lastNameInput').set('v.value', '');
                                 component.set('v.isAttested', false);
+                                component.set('v.isEmailConsentChecked', false);
                                 component.find('mainSpinner').hide();
                             }
                         );

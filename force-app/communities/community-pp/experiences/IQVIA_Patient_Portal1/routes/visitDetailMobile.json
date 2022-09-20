@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "1da0a8d6-d8de-44af-b078-3d7522acfe0a",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "eb15ee20-6410-4313-a537-8e3d347c8363",
+  "label" : "Visit Detail Mobile",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-visit-detail-mobile",
+  "type" : "route",
+  "urlPrefix" : "visit-details-mobile"
+}

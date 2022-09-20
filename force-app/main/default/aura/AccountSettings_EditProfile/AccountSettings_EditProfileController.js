@@ -30,6 +30,7 @@
                 component.set('v.contactChanged', initData.contactChanged);
                 component.set('v.institute', initData.contactSectionData.institute);
                 component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+                component.set('v.consentPreferenceData', initData.consentPreferenceData);
                 var personWrapper = component.get('v.personWrapper');
 
                 var participantselectedage = personWrapper.age !=undefined ? ((personWrapper.age).toString()) : null;
@@ -45,7 +46,7 @@
                     }
                 }
                 //helper.setPlaceHolder(component,event,helper);
-                console.log('valueage::'+component.get('v.valueAge')); 
+                console.log('valueage::'+component.get('v.valueAge'));                
                 if (initData.contactSectionData.personWrapper) {
                     // split mailing street(address line1 and address line2)
                     if (initData.contactSectionData.personWrapper.mailingStreet)
@@ -386,13 +387,6 @@
             } else {
                 console.log('personWrapper.optInSMS' + personWrapper.optInSMS);
                 console.log('!personWrapper.mobilePhone' + !personWrapper.mobilePhone);
-                if (personWrapper.optInSMS && !personWrapper.mobilePhone) {
-                    console.log('inside optinsms--->');
-                    component.set('v.disableSave', true);
-                    console.log('inside optinsms--->');
-                } else {
-                    component.set('v.disableSave', false);
-                }
             }
         } else if (
             component.get('v.userMode') == 'HCP' ||
@@ -473,8 +467,7 @@
     navigateToHelpPage: function (component, event, helper) {
         communityService.navigateToPage('help');
     },
-    
-    doUpdatePerson: function (component, event, helper) {
+    doUpdatePerson: function (component, event, helper) {                    
         var per = component.get('v.personWrapper');
         var personWrapper = component.get('v.personWrapper');
         var addressLine1 = component.get('v.addressLine1');
@@ -543,9 +536,11 @@
                     console.log('saving::'+JSON.stringify(component.get('v.personWrapper')));
                     communityService.executeAction(
                         component,
-                        'updatePerson',
+                        'updatePersonMain',
                         {
-                            wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+                            wrapperJSON: JSON.stringify(component.get('v.personWrapper')),
+                            commPrefWrapperJSON: JSON.stringify(component.get('v.consentPreferenceData')),
+                            userMode: component.get('v.userMode')
                         },
                         function () {
                             component.find('spinner').hide();

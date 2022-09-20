@@ -28,7 +28,7 @@
         size="medium"
         headerText="{!if(v.mode == 'edit','Edit Visit Plan',
                                                                      if(v.mode == 'clone', 'Clone Visit Plan',
-                                                                     if(v.mode == 'view', 'View Visit Plan', 'Create Visit Plan')))}"
+                                                                     if(v.mode == 'view', 'View Visit Plan', 'Create Visit/Event Plan')))}"
     >
         <div class="edit-vp-container">
             <c:RRSpinner aura:id="spinner" />
@@ -37,7 +37,7 @@
                     <lightning:input
                         class="inline-input"
                         type="text"
-                        label="Visit Plan Name"
+                        label="Visit/Event Plan Name"
                         value="{!v.plan.Name}"
                         disabled="{!equals(v.mode,'view')}"
                     />
