@@ -1,7 +1,9 @@
 ({
     doInit: function (component, event, helper) {
         component.find('spinner').show();
+        console.log('communityService.getCurrentCommunityMode()'+JSON.stringify(communityService.getCurrentCommunityMode()));
         if (communityService.getCurrentCommunityMode().currentDelegateId) {
+            console.log('Deleagte true');
             component.set('v.isDelegate', true);
         } else {
             component.set('v.isDelegate', false);
@@ -21,7 +23,7 @@
                     new: '',
                     reNew: ''
                 };
-
+                
                 let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
                 component.set('v.todayDate', todayDate);
                 component.set('v.initData', initData);
@@ -29,6 +31,22 @@
                 component.set('v.institute', initData.contactSectionData.institute);
                 component.set('v.personWrapper', initData.contactSectionData.personWrapper);
                 component.set('v.consentPreferenceData', initData.consentPreferenceData);
+                var personWrapper = component.get('v.personWrapper');
+
+                var participantselectedage = personWrapper.age !=undefined ? ((personWrapper.age).toString()) : null;
+                component.set('v.dobConfig', initData.consentPreferenceData.studySiteYOBFormat);
+                component.set('v.valueAge', participantselectedage);
+                if(component.get('v.dobConfig') != undefined && component.get('v.dobConfig') != null && component.get('v.dobConfig') != ''){
+                    if(component.get('v.dobConfig') == 'DD-MM-YYYY'){
+                        component.set('v.ageInputDisabled',true);
+                    }
+                    else{
+                        component.set('v.ageInputDisabled',false);
+                        
+                    }
+                }
+                //helper.setPlaceHolder(component,event,helper);
+                console.log('valueage::'+component.get('v.valueAge'));                
                 if (initData.contactSectionData.personWrapper) {
                     // split mailing street(address line1 and address line2)
                     if (initData.contactSectionData.personWrapper.mailingStreet)
@@ -36,7 +54,7 @@
                             component,
                             initData.contactSectionData.personWrapper.mailingStreet
                         );
-
+                    
                     if (
                         initData.contactSectionData.personWrapper.mailingCC &&
                         initData.contactSectionData.statesByCountryMap
@@ -53,6 +71,13 @@
                 component.set('v.contact', initData.myContact);
                 component.set('v.delegateContact', initData.delegateContact);
                 component.set('v.hasProfilePic', initData.hasProfilePic);
+                component.set('v.participant', initData.participant);
+                component.set('v.lastDay', 31);
+                helper.setDD(component, event, helper);
+                helper.setMM(component, event, helper);
+                helper.setYYYY(component, event, helper);
+                
+                
                 if (
                     component.get('v.userMode') == 'HCP' ||
                     component.get('v.userMode') == 'PI' ||
@@ -64,7 +89,7 @@
                     component.set('v.isAdult', initData.participant.Adult__c);
                 }
                 console.log('v.isAdult' + component.get('v.isAdult'));
-
+                
                 if (communityService.getCurrentCommunityMode().currentDelegateId) {
                     component.set(
                         'v.userId',
@@ -100,7 +125,11 @@
                 if (component.get('v.contact.Email') == '') {
                     component.set('v.disableEmailToggle', true);
                 }
-
+                if (
+                    component.get('v.dobConfig') != null 
+                ) {
+                    helper.doCheckDOB(component,event,helper);
+                }
                 if (
                     component.get('v.personWrapper.mobilePhone') === null &&
                     component.get('v.optInSMS') === true
@@ -118,7 +147,7 @@
             }
         );
     },
-
+    
     doChangeEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
         let newEmail = initData.myContact.Email;
@@ -135,7 +164,7 @@
             communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
             return;
         }
-
+        
         component.set('v.showSpinner', true);
         communityService.executeAction(
             component,
@@ -158,11 +187,11 @@
             }
         );
     },
-
+    
     doChangePassword: function (component, event, helper) {
         component.set('v.showSpinner', true);
         let initData = component.get('v.initData');
-
+        
         communityService.executeAction(
             component,
             'changePassword',
@@ -190,7 +219,7 @@
             }
         );
     },
-
+    
     doSwitchOptInEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
         let optInEmail = component.get('v.optInEmail');
@@ -207,7 +236,7 @@
             function () {}
         );
     },
-
+    
     doSwitchOptInSMS: function (component, event, helper) {
         let optInSMS = component.get('v.optInSMS');
         communityService.executeAction(
@@ -225,7 +254,7 @@
                 component.set('v.reRender', false);
                 component.set('v.reRender', true);
                 let phone = personWrapper.homePhone;
-
+                
                 if (personWrapper.optInSMS && !personWrapper.mobilePhone) {
                     helper.setFieldsValidity(component);
                     component.set('v.disableToggle', true);
@@ -236,7 +265,7 @@
             }
         );
     },
-
+    
     doSwitchOptInCookies: function (component, event, helper) {
         let initData = component.get('v.initData');
         communityService.executeAction(
@@ -251,7 +280,7 @@
             }
         );
     },
-
+    
     doSubmitQuestion: function (component, event, helper) {
         let description = component.get('v.privacyFormText');
         if (!description) {
@@ -262,7 +291,7 @@
             );
             return;
         }
-
+        
         component.set('v.showSpinner', true);
         communityService.executeAction(
             component,
@@ -285,18 +314,18 @@
             }
         );
     },
-
+    
     checkUpdate: function (component, event, helper) {
         component.set('v.isUpdated', true);
     },
-
+    
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
         component.set('v.optInEmail', personWrapper.optInEmail);
         component.set('v.optInSMS', personWrapper.optInSMS);
         component.set('v.personWrapper', personWrapper);
     },
-
+    
     doCheckEmailFieldValidity: function (component, event, helper) {
         var emailField = component.find('emailInput');
         var emailValue = emailField ? emailField.get('v.value') : null;
@@ -307,11 +336,11 @@
     doCheckFieldsValidity: function (component, event, helper) {
         console.log('coming inside field check>>');
         event.preventDefault();
-
+        
         var numbers = /^[0-9]*$/;
         let personWrapper = component.get('v.personWrapper');
         var homephoneField = component.find('pField2');
-
+        
         var phoneField = component.find('pField1');
         if (personWrapper.mobilePhone) {
             if (!numbers.test(personWrapper.mobilePhone)) {
@@ -327,12 +356,12 @@
             phoneField.setCustomValidity('');
         }
         phoneField.reportValidity();
-
+        
         if (component.get('v.userMode') == 'Participant') {
             let mobilePhoneValid =
                 personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
             let homePhoneValid = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
-
+            
             if (!numbers.test(personWrapper.homePhone) || !personWrapper.homePhone) {
                 if (!personWrapper.homePhone) {
                     homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Mandatory'));
@@ -401,11 +430,11 @@
             component.set('v.previousCC', personWrapper.mailingCC);
             personWrapper.mailingSC = null;
             component.set('v.personWrapper', personWrapper);
-
+            
             component.set('v.reRender', false);
             component.set('v.reRender', true);
         }
-
+        
         helper.setFieldsValidity(component);
     },
     doShowHelpMessageIfInvalid: function (component) {
@@ -438,7 +467,6 @@
     navigateToHelpPage: function (component, event, helper) {
         communityService.navigateToPage('help');
     },
-
     doUpdatePerson: function (component, event, helper) {                    
         var per = component.get('v.personWrapper');
         var personWrapper = component.get('v.personWrapper');
@@ -472,7 +500,7 @@
             let initData = component.get('v.initData');
             let isUserDelegate = component.get('v.isDelegate');
             let newEmail = initData.myContact.Email;
-
+            
             if (!isUserDelegate) {
                 if (!newEmail) {
                     communityService.showToast(
@@ -481,7 +509,7 @@
                         $A.get('$Label.c.TST_Email_can_t_be_empty')
                     );
                     component.set('v.showSpinner', false);
-
+                    
                     return;
                 }
                 let oldEmail = component.get('v.currentEmail');
@@ -505,6 +533,7 @@
                 },
                 function (returnValue) {
                     component.set('v.currentEmail', newEmail);
+                    console.log('saving::'+JSON.stringify(component.get('v.personWrapper')));
                     communityService.executeAction(
                         component,
                         'updatePersonMain',
@@ -533,11 +562,11 @@
                     component.set('v.showSpinner', false);
                 }
             );
-
+            
             var inst = component.get('v.institute');
             console.log(inst.Name);
             // console.log(v.institute.Name)
-
+            
             communityService.executeAction(
                 component,
                 'updateAccount',
@@ -596,21 +625,37 @@
         }
         phoneField.reportValidity();
     },
-
+    
     doStateChanged: function (component, event, helper) {
         let snapShot = component.get('v.personSnapshot');
         let personWrapper = component.get('v.personWrapper');
         let currentState = JSON.stringify(personWrapper);
         let isStateChanged = snapShot !== currentState;
         component.set('v.isStateChanged', isStateChanged);
-
+        
         if (isStateChanged && personWrapper.mailingCC !== component.get('v.previousCC')) {
             setTimeout(function () {
                 component.getEvent('onEdit').fire();
             }, 50);
         }
     },
-
+    // DOB
+    YYYYChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.YYYYChange(component, event, helper), 50);
+    },
+    MMChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.MMChange(component, event, helper), 50);
+    },
+    DDChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.DDChange(component, event, helper), 50);
+    },
+    ageChange: function (component, event, helper){
+        const myTimeout = setTimeout(helper.ageChange(component, event, helper), 50);
+    },
+    validateDOB: function (component, event, helper){
+        helper.validateDOB(component, event, helper);
+    },
+    
     onChangeInput: function (component, event, helper) {
         component.set('v.disableSave', false);
     }
