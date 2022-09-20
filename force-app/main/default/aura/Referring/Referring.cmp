@@ -128,6 +128,10 @@
     <aura:method name="dobChangeMethod" action="{!c.doDOBChange}" />
     <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}" />
     <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
+
+    <aura:attribute name="futureDate" type="Boolean" />
+    <aura:attribute name="futureDateDDErr" type="String" />
+    <aura:attribute name="futureDateMMErr" type="String" />
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
     <aura:if isTrue="{!!empty(v.trial)}">
@@ -782,6 +786,8 @@
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDOBChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateMMErr}"
                                                             />
                                                         </div>
                                                     </div>
@@ -803,6 +809,8 @@
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDayChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateDDErr}"
                                                             />
                                                         </aura:if>
                                                         </div>
@@ -820,6 +828,7 @@
                                                         <c:rrSelect
                                                             options="{!v.years}"
                                                             value="{!v.pyear}"
+                                                            required="true"
                                                             placeholder="{!$Label.c.PG_AC_Select}"
                                                             useSentenceFont="false"
                                                             onchange="{!c.doDOBChange}"
@@ -1410,6 +1419,8 @@
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDOBChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateMMErr}"
                                                             />
                                                         </div>
                                                     </div>
@@ -1431,6 +1442,8 @@
                                                                 placeholder="{!$Label.c.PG_AC_Select}"
                                                                 useSentenceFont="false"
                                                                 onchange="{!c.doDayChange}"
+                                                                required="true"
+                                                                errorMessage="{!v.futureDateDDErr}"
                                                             />
                                                             </aura:if>
                                                         </div>
