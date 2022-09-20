@@ -19,7 +19,7 @@
                         {label.past}
                     </button>
 
-                    <div class="slds-scrollable_y scrollar scroll-bar">
+                    <div class="slds-scrollable_y scroll-bar">
                         <template if:true={showList}>
                             <template if:true={showUpcomingVisits}>
                                 <template
@@ -277,7 +277,7 @@
                 </button>
                 <div>
                     <template if:true={showUpcomingVisits}>
-                        <div class="slds-scrollable_y scrollar scroll-bar">
+                        <div class="slds-scrollable_y scroll-bar">
                             <template for:each={upcomingVisits} for:item="item" for:index="index">
                                 <div key={item}>
                                     <br />
@@ -338,7 +338,7 @@
                     </template>
                     <!--PAST VISITS-->
                     <template if:false={showUpcomingVisits}>
-                        <div class="slds-scrollable_y scrollar scroll-bar">
+                        <div class="slds-scrollable_y scroll-bar">
                             <template for:each={pastVisits} for:item="item" for:index="index">
                                 <div key={item}>
                                     <br />
