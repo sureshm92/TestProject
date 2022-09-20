@@ -1,0 +1,40 @@
+import { LightningElement } from 'lwc';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
+import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
+
+export default class PpTasks extends LightningElement {
+    initData;
+    isNewTask = true;
+    isRTL;
+    taskId;
+    task;
+    taskExisting;
+    label = {
+        createNewTask
+    };
+    isEnrolled;
+    emailOptIn;
+    smsOptIn;
+    jsonState;
+
+    isCreateTask = false;
+    connectedCallback() {
+        loadScript(this, RR_COMMUNITY_JS)
+            .then(() => {
+                console.log('NEW RR_COMMUNITY_JS loaded');
+                this.initializeData();
+            })
+            .catch((error) => {
+                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
+            });
+    }
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';
+    }
+    doCreateTask() {
+        this.isCreateTask = !this.isCreateTask;
+    }
+}
