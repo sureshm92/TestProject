@@ -5,7 +5,7 @@
   "id" : "eb15ee20-6410-4313-a537-8e3d347c8363",
   "label" : "Visit Detail Mobile",
   "pageAccess" : "UseParent",
-  "routeType" : "custom-visit-detail-mobile",
+  "routeType" : "custom-visit-detail",
   "type" : "route",
-  "urlPrefix" : "visit-details-mobile"
+  "urlPrefix" : "visit-details"
 }
