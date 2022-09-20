@@ -76,6 +76,9 @@ public class Batch_UpdateAgeOfParticipantsBDayToday implements Database.Batchabl
         //Bypass sub class CreateContactsForParticipantsHandler trigger handler on Participant Trigger
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
         
+        //Bypass sub class UpdateDOBDetails trigger handler on Participant Trigger
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateDOBDetails.class);
+        
         //Only allow UpdateParticipantAge.class on ParticipantTriggerHandler
         ParticipantTriggerHandler.updatePartAge = true;
         Database.update(pList, false);
