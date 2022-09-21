@@ -26,3 +26,20 @@
     letter-spacing: 0;
     line-height: 1.5rem;
 }
+.create-task {
+    border-radius: 2rem 2rem 2rem 2rem;
+    color: #ffffff;
+    width: 510px;
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+}
+.before-create-task {
+    --slds-c-button-brand-color-background: rgba(7, 104, 253, 1);
+}
+.after-create-task {
+    --slds-c-button-brand-color-background: rgba(7, 104, 253, 1);
+    opacity: 0.4;
+}

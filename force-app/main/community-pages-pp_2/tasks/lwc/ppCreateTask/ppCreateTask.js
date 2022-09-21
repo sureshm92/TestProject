@@ -8,6 +8,7 @@ import upsertTask from '@salesforce/apex/TaskEditRemote.upsertTask';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
 
 export default class PpCreateTask extends LightningElement {
     task_icon = pp_icons + '/' + 'createTask_illustration.svg';
@@ -109,7 +110,7 @@ export default class PpCreateTask extends LightningElement {
             paramTask: JSON.stringify(this.task)
         })
             .then((result) => {
-                communityService.showToast('', 'success', 'Task added', 100);
+                communityService.showToast('', 'success', taskCreationSuccess, 100);
             })
             .catch((error) => {
                 console.log(' error ', error);
