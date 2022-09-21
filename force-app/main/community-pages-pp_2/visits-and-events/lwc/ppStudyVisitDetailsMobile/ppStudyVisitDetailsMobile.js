@@ -143,7 +143,9 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
                 this.showChild = true;
-                this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
+                if (this.template.querySelector('c-pp-Study-Visit-Details-Card')) {
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                }
             });
         } else {
             this.contentLoaded = true;
