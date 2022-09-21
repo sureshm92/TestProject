@@ -1,4 +1,5 @@
 public without sharing class SiteCalendarController {
+  private static final String CANCELLED = 'Cancelled';
   @AuraEnabled
   public static List<visitDataWrapper> recordsOfTeleAndInitialVisit(
     String filterData
@@ -38,8 +39,9 @@ public without sharing class SiteCalendarController {
         FROM Televisit__c
         WHERE
           Visit_Date__c = :filterDetails.calendarDate
+          AND Status__c != :CANCELLED
           AND Participant_Enrollment__r.Study_Site__c IN :filterDetails.studySite
-          AND Participant_Enrollment__r.Clinical_Trial_Profile__c IN :filterDetails.study
+          AND Participant_Enrollment__r.Clinical_Trial_Profile__c IN :filterDetails.study          
         ORDER BY Visit_Date_Time__c DESC
       ];
 
@@ -76,7 +78,8 @@ public without sharing class SiteCalendarController {
             visitData.Participant_Enrollment__r.Name,
             completeName,
             isJoin,
-            visitData.Meeting_URL__c
+            visitData.Meeting_URL__c,
+            visitData.Visit_Date_Time__c
           )
         );
       }
@@ -124,7 +127,8 @@ public without sharing class SiteCalendarController {
             visitData.Name,
             completeName,
             false,
-            ''
+            '',
+            visitData.Initial_visit_scheduled_date__c
           )
         );
       }
@@ -197,6 +201,8 @@ public without sharing class SiteCalendarController {
     public Boolean isJoin { get; set; }
     @AuraEnabled
     public String meetingURL { get; set; }
+    @AuraEnabled
+    public Datetime visitDateTime {get; set;}
 
     public visitDataWrapper(
       String boxVisitCSS,
@@ -208,7 +214,8 @@ public without sharing class SiteCalendarController {
       String refIdName,
       String fullName,
       Boolean isJoin,
-      String meetingURL
+      String meetingURL,
+      DateTime visitDateTime
     ) {
       this.boxVisitCSS = boxVisitCSS;
       this.visitId = visitId;
@@ -220,6 +227,7 @@ public without sharing class SiteCalendarController {
       this.fullName = fullName;
       this.isJoin = isJoin;
       this.meetingURL = meetingURL;
+      this.visitDateTime = visitDateTime;
     }
   }
 
