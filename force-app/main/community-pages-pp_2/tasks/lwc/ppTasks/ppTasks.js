@@ -1,9 +1,8 @@
 import { LightningElement } from 'lwc';
-import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import tasksHeader from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 
 export default class PpTasks extends LightningElement {
     initData;
@@ -13,7 +12,8 @@ export default class PpTasks extends LightningElement {
     task;
     taskExisting;
     label = {
-        createNewTask
+        createNewTask,
+        tasksHeader
     };
     isEnrolled;
     emailOptIn;
@@ -41,5 +41,8 @@ export default class PpTasks extends LightningElement {
         return this.isCreateTask
             ? 'slds-button slds-button_brand create-task after-create-task'
             : 'slds-button slds-button_brand create-task before-create-task';
+    }
+    handleTaskCancel(event) {
+        this.isCreateTask = event.detail.isCreate;
     }
 }

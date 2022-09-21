@@ -3,9 +3,7 @@
         <div>
             <lightning-layout multiple-rows="true">
                 <lightning-layout-item padding="around-small" size="12">
-                    <div class="page-header">
-                        <h2>Tasks</h2>
-                    </div>
+                    <div>{label.tasksHeader}</div>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="12">
                     <div class="page-section page-header">
@@ -19,13 +17,22 @@
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="12">
                     <div class="slds-align_absolute-center">
+                        <lightning-button
+                            variant="brand"
+                            label={label.createNewTask}
+                            title={label.createNewTask}
+                            icon-name="utility:add"
+                            class="slds-m-left_x-small"
+                            onclick={doCreateTask}
+                        ></lightning-button>
+
                         <button class={taskButtonClass} onclick={doCreateTask}>
                             {label.createNewTask}
                         </button>
                     </div>
 
                     <template if:true={isCreateTask}>
-                        <c-pp-create-task></c-pp-create-task>
+                        <c-pp-create-task ontaskcancel={handleTaskCancel}></c-pp-create-task>
                     </template>
                 </lightning-layout-item>
             </lightning-layout>

@@ -9,25 +9,37 @@ import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
+import taskName from '@salesforce/label/c.Task_Name';
+import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
+import cancel from '@salesforce/label/c.BTN_Cancel';
+import save from '@salesforce/label/c.BTN_Save';
 
 export default class PpCreateTask extends LightningElement {
     task_icon = pp_icons + '/' + 'createTask_illustration.svg';
-    taskNamelength;
+    taskNameLeng = 0;
     currentBrowserTime;
     diffInMinutes;
     todaydate;
     past = false;
     task;
     calculatedDate;
-    booleanFalse = false;
+    notReminder = false;
     todaytime;
     taskDateTime;
     taskTime;
-    taskDate;
+    taskDueDate;
     initData;
     subject;
     jsonState;
-
+    label = {
+        taskCreationSuccess,
+        taskName,
+        enterTaskName,
+        cancel,
+        save
+    };
+    enableSave = false;
+    createTask = true;
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
@@ -65,13 +77,23 @@ export default class PpCreateTask extends LightningElement {
         } else {
         }
     }
+    get taskNameLength() {
+        return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
+    }
     handleuserNameChange(event) {
         var val = event.target.value;
-        this.taskNamelength = val.length;
+        this.taskNameLeng = val.length;
         this.subject = event.target.value;
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="taskName"]').value = event.target.value;
         }
+    }
+    handleInitialDateLoad(event) {
+        this.taskDueDate = event.detail.compdate;
+    }
+
+    handleInitialTimeLoad(event) {
+        this.taskTime = event.detail.comptime;
     }
     get currentDate() {
         var currentDate;
@@ -93,13 +115,17 @@ export default class PpCreateTask extends LightningElement {
     handleTime(event) {
         this.taskDateTime = event.detail.compdatetime;
         this.taskTime = event.detail.comptime;
-        this.taskDate = event.detail.compdate;
+        this.taskDueDate = event.detail.compdate;
         this.initData.activityDate = this.taskDateTime;
+        this.enableSave = true;
     }
 
+    get saveLogic() {
+        return this.enableSave;
+    }
     handleDate(event) {
         this.taskDateTime = event.detail.compdatetime;
-        this.taskDate = event.detail.compdate;
+        this.taskDueDate = event.detail.compdate;
         this.taskTime = event.detail.comptime;
         this.initData.activityDate = this.taskDateTime;
     }
@@ -110,11 +136,20 @@ export default class PpCreateTask extends LightningElement {
             paramTask: JSON.stringify(this.task)
         })
             .then((result) => {
+                this.enableSave = false;
                 communityService.showToast('', 'success', taskCreationSuccess, 100);
             })
             .catch((error) => {
                 console.log(' error ', error);
             });
+    }
+    handleCancelTask() {
+        const dateEvent = new CustomEvent('taskcancel', {
+            detail: {
+                isCreate: false
+            }
+        });
+        this.dispatchEvent(dateEvent);
     }
 
     get currentTime() {
@@ -131,6 +166,6 @@ export default class PpCreateTask extends LightningElement {
         var ss = String((currentDate.getSeconds() < 10 ? '0' : '') + currentDate.getSeconds());
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
-        return currentTime;
+        return this.taskDueDate == this.todaydate ? currentTime : null;
     }
 }
