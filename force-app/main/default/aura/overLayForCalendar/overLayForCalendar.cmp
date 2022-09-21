@@ -11,6 +11,7 @@
   <aura:attribute name="title" type="Aura.Component[]" />
   <aura:attribute name="isOpened" type="Boolean" default="false" />
   <aura:attribute name="class" type="String" />
+  <aura:attribute name="isIncentive" type="Boolean" default="false"/>
 
   <!-- methods: -->
   <aura:method name="close" action="{!c.doClose}" access="public" />
@@ -26,7 +27,7 @@
       {!v.title}
     </ui:menuTriggerLink>
     <ui:menuList
-      class="{!if(v.isRTL, 'menu-popup-panel rtl ', 'menu-popup-panel ')}"
+      class="{!if(v.isRTL, if(v.isIncentive,'menu-popup-panel starincentive rtl','menu-popup-panel rtl'), if(v.isIncentive,'menu-popup-panel starincentive','menu-popup-panel '))}"
       menuExpand="{!c.doMenuExpand}"
       menuCollapse="{!c.doMenuCollapse}"
       visible="false"

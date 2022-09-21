@@ -39,6 +39,7 @@
  <aura:attribute name="isSitecal" type="Boolean" default="false"/>
  <aura:attribute name="isIconVisible" type="Boolean" default="false"/>
  <aura:attribute name="notVisibleOnBlur" type="Boolean" default="false"/>
+ <aura:attribute name="isIncentive" type="Boolean" default="false"/>
 
  <!-- events: -->
  <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -125,7 +126,7 @@
                              <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
                                  <!--Site Calendar Start-->
                                  <aura:if isTrue="{!not(v.reset)}">
-                                    <c:overLayForCalendar class="menu-block menuheight">
+                                    <c:overLayForCalendar class="menu-block menuheight" isIncentive="{!v.isIncentive}">
                                          <aura:set attribute="title">
                                              <div
                                                  onclick="{!c.onClickSite}"
@@ -175,7 +176,7 @@
                                      src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}"
                                  />
                              </aura:if>
-                         </aura:if>
+                         </aura:if>                         
                          <c:CommunityModeSwitcherMenu
                              currentMode="{!v.currentMode}"
                              onModeChange="{!c.doRefresh}"
@@ -187,6 +188,7 @@
                              <c:navIncentiveCounter
                                  onnavigatetoincentives="{!c.doNavigate}"
                                  currentPage="{!v.currentPage}"
+                                 onnotifypartofincentive="{!c.verifyIncentive}"
                              />
                          </aura:if>
                      </div>

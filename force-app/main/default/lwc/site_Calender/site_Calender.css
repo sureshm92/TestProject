@@ -127,6 +127,9 @@ cursor: pointer;
     font-weight: 600;
     line-height: 23px;
 }
+.box-visit-screen .step-minutes{
+    font-weight: 500;
+}
 .box-visit-screen .step-status{
     color: #000000;
     font-size: 14px;
