@@ -67,8 +67,12 @@
     position: relative;
 }
 
-.bio-icons:hover::after {
-    content: "";
+.bio-icons:hover {
+    cursor: pointer;
+}
+
+.bio-icons.active::after {
+    content: '';
     position: absolute;
     width: 30px;
     height: 5px;
@@ -76,7 +80,7 @@
     background: #009dd6;
     left: -6px;
     bottom: -13px;
-} 
+}
 
 @media (max-width: 468px) {
     .icons-container .icons-row .icon {
@@ -111,7 +115,11 @@
     color: #595959;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    padding:0 15px 0 24px;
+    text-align: justify;
+    margin: 0 16px 16px 24px;
+    overflow-y: auto;
+    height: 72px;
+    padding-right: 8px;
 }
 .icons-pad {
     padding-left: 24px;

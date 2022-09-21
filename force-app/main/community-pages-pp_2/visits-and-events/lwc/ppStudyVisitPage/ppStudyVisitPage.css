@@ -28,7 +28,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
-    padding-bottom: 20px;
+    margin-bottom: 16px;
     width: 100%;
 }
 
@@ -213,25 +213,6 @@ dfn {
     font-weight: var(--lwc-fontWeightBold, 700);
     margin-left: -25px !important;
 }
-
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #999999;
-    border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #999999;
-}
-
 .no-date {
     margin-left: -25px !important;
 }
@@ -264,6 +245,11 @@ dfn {
     border-radius: 16px;
     background-color: #ffffff;
     padding: 16px;
+}
+
+.inactive-custom-box-class:hover,
+.active-custom-box-class:hover {
+    cursor: pointer;
 }
 
 .top-padding {
