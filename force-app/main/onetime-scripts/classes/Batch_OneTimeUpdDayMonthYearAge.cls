@@ -52,7 +52,6 @@ public class Batch_OneTimeUpdDayMonthYearAge implements Database.Batchable<SObje
             );
             TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
             //TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateParticipantAge.class);
-            TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateDOBDetails.class);
             Database.SaveResult[] srList = DataBase.update(updateParticipants,false);       
             
         }
