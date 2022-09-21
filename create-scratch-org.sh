@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#v2.8 PP-R12.0 RH-14.0
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
@@ -7,7 +7,7 @@ echo "Modifying files for scratch org"
 echo "Step 1 - Move current files to scratch-org-files/original-files"
 sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
 sed -i 's/#force-app\/main\/default\/flows/force-app\/main\/default\/flows/g' '.forceignore'
-sed -i 's/#force-app\/unpackaged\/main\/default\/staticresources\/os_*/force-app\/unpackaged\/main\/default\/staticresources\/os_*/' '.forceignore'
+sed -i 's/#force-app\/main\/default\/profiles\/PRDBAPI/force-app\/main\/default\/profiles\/PRDBAPI/g' '.forceignore'
 
 if [ "$(ls -A ./scratch-org-files/original-files)" ]
 then
@@ -48,69 +48,66 @@ sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
 echo "Creating OrgWideEmailSddresses..."
 sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 
-echo "Pushing project in progress..."
-sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 #Reduce component size
-echo "Deploy static files"
-sfdx force:source:deploy -p force-app/main/onboarding-tour
+echo "Deploying static files..."
+sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
+sfdx force:source:deploy -p "force-app/main/onboarding-tour, force-app/main/default/staticresources, force-app/unpackaged/main/default/staticresources, force-app/main/default/namedCredentials, force-app/main/default/remoteSiteSettings, force-app/main/default/cspTrustedSites, force-app/main/default/labels" --tracksource
+
 if [ $? = 0 ]; 
 then
-    sfdx force:source:deploy -p force-app/main/default/staticresources
+    echo "Pushing project in progress..."
+    sfdx force:source:push -f -w 100
+
     if [ $? = 0 ]; 
     then
-        sed -i 's/#force-app\/main\/default\/staticresources/force-app\/main\/default\/staticresources/g' '.forceignore'
-        sed -i 's/#force-app\/main\/onboarding-tour/force-app\/main\/onboarding-tour/g' '.forceignore'
+        echo "Return communities"
+        mv ./communities ./force-app/
+        
+        echo "Post setup in progress..."
+        
         sfdx force:source:push -f -w 100
 
-        if [ $? = 0 ]; 
-        then
-            echo "Return communities"
-            mv ./communities ./force-app/
-            
-            echo "Post setup in progress..."
-            
-            sfdx force:source:push -f -w 100
+        sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
-            sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
+        sfdx force:data:tree:import -p data/import-plan.json
 
-            sfdx force:data:tree:import -p data/import-plan.json
+        sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateSSAndHCPEStatuses.apex
 
-            sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateSSAndHCPEStatuses.apex
+        sfdx force:apex:execute -f scripts/apex/PostSetupBatches.apex
 
-            sfdx force:apex:execute -f scripts/apex/PostSetupBatches.apex
+    #    echo "Publish communities..."
+    #    sfdx force:community:publish --name "IQVIA Referral Hub"
+    #    sfdx force:community:publish --name "GSK Community"
 
-        #    echo "Publish communities..."
-        #    sfdx force:community:publish --name "IQVIA Referral Hub"
-        #    sfdx force:community:publish --name "GSK Community"
+        echo "Assign permissions to admin user..."
+        sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
+        sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
+        sfdx force:user:permset:assign --permsetname PP_CTP_Edit
+        sfdx force:user:permset:assign --permsetname PP_Manual_Creation_Panel
+        sfdx force:user:permset:assign --permsetname PP_Message_Configuration_Edit
+        sfdx force:user:permset:assign --permsetname PP_Motivational_Messages_Edit
+        sfdx force:user:permset:assign --permsetname PP_Participant_BL
+        sfdx force:user:permset:assign --permsetname PP_Participant_Non_PIII_View
+        sfdx force:user:permset:assign --permsetname PP_Participant_PII_Edit
+        sfdx force:user:permset:assign --permsetname PP_Participant_PII_On_Cases_View
+        sfdx force:user:permset:assign --permsetname PP_Payment_Vendors_Edit
+        sfdx force:user:permset:assign --permsetname PP_StudySite_Edit
+        sfdx force:user:permset:assign --permsetname PP_Study_Resources_Edit
+        sfdx force:user:permset:assign --permsetname PP_Toggle_Feature_Delta_Edit
+        sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_Edit
+        sfdx force:user:permset:assign --permsetname PP_Trial_Surveys_Edit
+        sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_Edit
+        sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_Edit
+        sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings
+        sfdx force:user:permset:assign --permsetname SurveyCreator
 
-            echo "Assign permissions to admin user..."
-            sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
-            sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
-            sfdx force:user:permset:assign --permsetname PP_CTP_Edit
-            sfdx force:user:permset:assign --permsetname PP_Manual_Creation_Panel
-            sfdx force:user:permset:assign --permsetname PP_Message_Configuration_Edit
-            sfdx force:user:permset:assign --permsetname PP_Motivational_Messages_Edit
-            sfdx force:user:permset:assign --permsetname PP_Participant_BL
-            sfdx force:user:permset:assign --permsetname PP_Participant_Non_PIII_View
-            sfdx force:user:permset:assign --permsetname PP_Participant_PII_Edit
-            sfdx force:user:permset:assign --permsetname PP_Participant_PII_On_Cases_View
-            sfdx force:user:permset:assign --permsetname PP_Payment_Vendors_Edit
-            sfdx force:user:permset:assign --permsetname PP_StudySite_Edit
-            sfdx force:user:permset:assign --permsetname PP_Study_Resources_Edit
-            sfdx force:user:permset:assign --permsetname PP_Toggle_Feature_Delta_Edit
-            sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_Edit
-            sfdx force:user:permset:assign --permsetname PP_Trial_Surveys_Edit
-            sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_Edit
-            sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_Edit
-            sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings
-            sfdx force:user:permset:assign --permsetname SurveyCreator
-
-            echo "Push completed successfully, discard all the file changes!"
-        else
-            echo "Return communities"
-            mv ./communities ./force-app/
-            
-            echo "Push not completed properly, check logs and try again"
-        fi
+        echo "Push completed successfully, discard all the file changes!"
+    else
+        echo "Return communities"
+        mv ./communities ./force-app/
+        
+        echo "Push not completed properly, check logs and try again"
     fi
+else
+    echo "Error in deploying static files, resolve deployment errors and try again!"
 fi
