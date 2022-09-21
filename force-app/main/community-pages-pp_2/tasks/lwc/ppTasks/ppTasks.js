@@ -37,4 +37,9 @@ export default class PpTasks extends LightningElement {
     doCreateTask() {
         this.isCreateTask = !this.isCreateTask;
     }
+    get taskButtonClass() {
+        return this.isCreateTask
+            ? 'slds-button slds-button_brand create-task after-create-task'
+            : 'slds-button slds-button_brand create-task before-create-task';
+    }
 }
