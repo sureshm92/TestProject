@@ -96,7 +96,7 @@ public inherited sharing class PatientVisitService {
         return visits;
     }
 
-    @AuraEnabled
+    
     public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
