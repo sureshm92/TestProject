@@ -24,6 +24,7 @@ public without sharing class Batch_UpdateDOBFieldsParticipants implements Databa
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateParticipantAge.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateDOBDetails.class);
         Database.update(pList, false);
       }
   

@@ -616,7 +616,7 @@ public without sharing class ParticipantTriggerHandler {
                 p.Birth_Year__c = dateOfBirth[2];
             }//before Insert
             if (String.isNotBlank(p.Birth_Day__c) && String.isNotBlank(p.Birth_Month__c) && String.isNotBlank(p.Birth_Year__c) ) {
-                p.Date_of_Birth__c = p.Birth_Day__c+'-'+p.Birth_Month__c+'-'+p.Birth_Year__c;
+                p.Date_of_Birth__c = p.Birth_Year__c+'-'+p.Birth_Month__c+'-'+p.Birth_Day__c;
             }
         }
     }
