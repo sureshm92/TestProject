@@ -46,6 +46,10 @@
         var page = event.getParam('page');
         communityService.navigateToPage(page);
     },
+    verifyIncentive: function (component, event) {
+        let isPartOfincentive = event.getParam('parOfIncentiveProgram');
+        component.set('v.isIncentive',isPartOfincentive);
+    },
     //Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP
     onClickHelp: function () {
         communityService.navigateToPage('help');
