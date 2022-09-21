@@ -9,12 +9,8 @@
     }
 }
 .rr-width-limiter-pp{
-    max-width:1260px !important;
+    max-width:1336px !important;
     margin:auto;
-}
-.menu-block {
-    display: inline-block;
-    position: absolute !important;    
 }
 
 /* Community_CSS_PP_Theme */
@@ -377,7 +373,12 @@ color: #0768fd!important;
 
 
 .logo-container-pp {
-    margin: 0 45px 0 0;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 165px;
+    margin: 0 44px 0 44px;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action{
