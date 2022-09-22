@@ -18,7 +18,7 @@ import FOUR_HOUR from '@salesforce/label/c.PP_Four_Hours_Before';
 import ONE_DAY from '@salesforce/label/c.One_day_before';
 import ONE_WEEK from '@salesforce/label/c.PP_One_Week_Before';
 import CUSTOM from '@salesforce/label/c.PP_Custom';
-import NONE from '@salesforce/label/c.None';
+import PP_NO_REMINDER from '@salesforce/label/c.PP_NO_REMINDER';
 import REMIND_USING from '@salesforce/label/c.PP_Remind_Using';
 import EMAIL from '@salesforce/label/c.Email';
 import SMS_TEXT_MESSAGE from '@salesforce/label/c.PP_SMSTexMessage';
@@ -58,13 +58,14 @@ export default class PpCreateTaskReminder extends LightningElement {
         ONE_DAY,
         ONE_WEEK,
         CUSTOM,
-        NONE,
+        PP_NO_REMINDER,
         REMIND_USING,
         EMAIL,
         SMS_TEXT_MESSAGE,
         PP_TASK_COMM_PREF
     };
     @track initialReminderOptions = [
+        { label: this.labels.PP_NO_REMINDER, value: 'No reminder', itemClass: 'dropdown-li' },
         {
             label: this.labels.ONE_HOUR,
             value: '1 hour before',
@@ -85,8 +86,7 @@ export default class PpCreateTaskReminder extends LightningElement {
             value: '1 week before',
             itemClass: 'dropdown-li li-item-disabled'
         },
-        { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' },
-        { label: this.labels.NONE, value: 'None', itemClass: 'dropdown-li' }
+        { label: this.labels.CUSTOM, value: 'Custom', itemClass: 'dropdown-li' }
     ];
 
     connectedCallback() {
@@ -119,24 +119,24 @@ export default class PpCreateTaskReminder extends LightningElement {
     get reminderOptions() {
         let differenceTimeHours = this.calculateTimezoneDifference();
         if (differenceTimeHours > 1) {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li';
-        } else {
-            this.initialReminderOptions[0].itemClass = 'dropdown-li li-item-disabled';
-        }
-        if (differenceTimeHours > 4) {
             this.initialReminderOptions[1].itemClass = 'dropdown-li';
         } else {
-            this.initialReminderOptions[1].itemClass = 'dropdown-li li-item-disabled';
+            this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 24) {
+        if (differenceTimeHours > 4) {
             this.initialReminderOptions[2].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[2].itemClass = 'dropdown-li li-item-disabled';
         }
-        if (differenceTimeHours > 168) {
+        if (differenceTimeHours > 24) {
             this.initialReminderOptions[3].itemClass = 'dropdown-li';
         } else {
             this.initialReminderOptions[3].itemClass = 'dropdown-li li-item-disabled';
+        }
+        if (differenceTimeHours > 168) {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li';
+        } else {
+            this.initialReminderOptions[4].itemClass = 'dropdown-li li-item-disabled';
         }
         return this.initialReminderOptions;
     }
@@ -168,7 +168,9 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get isReminderOptionSelected() {
-        return !this.selectedReminderOption || this.selectedReminderOption == 'None' ? false : true;
+        return !this.selectedReminderOption || this.selectedReminderOption == 'No reminder'
+            ? false
+            : true;
     }
 
     get isCustomReminderOptionSelected() {
@@ -226,7 +228,7 @@ export default class PpCreateTaskReminder extends LightningElement {
 
     handleReminderOptionChange(event) {
         this.selectedReminderOption = event.detail;
-        if (this.selectedReminderOption == 'None') {
+        if (this.selectedReminderOption == 'No reminder') {
             this.selectedReminderDateTime = '';
             this.smsReminderOptIn = false;
             this.emailReminderOptIn = false;

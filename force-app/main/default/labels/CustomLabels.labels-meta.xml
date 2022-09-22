@@ -28109,4 +28109,12 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>PP_SELECT_REMINDER</shortDescription>
         <value>Select Reminder</value>
     </labels>
+    <labels>
+        <fullName>PP_NO_REMINDER</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_NO_REMINDER</shortDescription>
+        <value>No reminder</value>
+    </labels>
 </CustomLabels>
