@@ -3,9 +3,9 @@
     <fullName>Study__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Study</label>
+    <label>Clinical Trial Profile</label>
     <referenceTo>Clinical_Trial_Profile__c</referenceTo>
-    <relationshipLabel>PreScreener Surveys</relationshipLabel>
+    <relationshipLabel>Screeners</relationshipLabel>
     <relationshipName>PreScreener_Surveys</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -4,6 +4,8 @@
     <columns>NAME</columns>
     <columns>Survey_Name__c</columns>
     <columns>Primary__c</columns>
+    <columns>MRR__c</columns>
+    <columns>Prescreener__c</columns>
     <columns>Study__c</columns>
     <columns>Link_to_Pre_screening__c</columns>
     <columns>CREATED_DATE</columns>
