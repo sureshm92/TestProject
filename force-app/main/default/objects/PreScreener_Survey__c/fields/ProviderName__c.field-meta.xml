@@ -12,7 +12,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>surveygizmo</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>surveygizmo</label>
             </value>
         </valueSetDefinition>

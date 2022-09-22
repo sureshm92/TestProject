@@ -3,8 +3,8 @@
     <fullName>Survey_Name__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>Survey Name</label>
-    <length>50</length>
+    <label>Screener Name</label>
+    <length>40</length>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>

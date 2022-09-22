@@ -26739,6 +26739,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Save Preset</value>
     </labels>
     <labels>
+        <fullName>PreScreener_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreScreener_Error</shortDescription>
+        <value>Prescreener already exists and for a study you can create only 1 Prescreener.
+        </value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
         <language>en_US</language>
         <protected>true</protected>
