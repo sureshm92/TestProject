@@ -40,7 +40,7 @@
 }
 .icon-cont1-mobile {
     box-sizing: border-box;
-    height: 300px;
+    height: auto;
     width: 382px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
