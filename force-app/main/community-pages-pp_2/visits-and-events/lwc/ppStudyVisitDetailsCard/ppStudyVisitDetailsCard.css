@@ -108,7 +108,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
 }
 
 .acc-pref {
-    margin-left: 163px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .btn-footer {
@@ -117,6 +118,29 @@ input[type='date']::-webkit-calendar-picker-indicator,
     display: flex;
     justify-content: flex-end;
 }
+
+@media all and (min-width: 768px) and (max-width: 870px) {
+
+    .slds-small-size_1-of-2.slds-p-left_none {
+        min-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .slds-small-size_1-of-2.comm-checks {
+        min-width: 50%;
+        margin-bottom: unset;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .acc-pref {
+        justify-content: flex-start;
+    }
+    
+}
+
 
 @media all and (max-width: 786px) {
     input::-webkit-date-and-time-value {

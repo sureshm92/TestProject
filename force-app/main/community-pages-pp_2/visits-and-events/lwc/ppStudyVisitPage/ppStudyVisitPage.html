@@ -2,23 +2,24 @@
     <template if:false={isMobile}>
         <h1 class="my-visits">{label.myVisits}</h1>
         <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
-            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col1">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1">
                 <div class="slds-border_right">
-                    <button
-                        data-id="upcoming"
-                        class="slds-button slds-button_brand up-button active-button-background"
-                        onclick={onUpcomingClick}
-                    >
-                        {label.upcoming}
-                    </button>
-                    <button
-                        data-id="past"
-                        class="slds-button slds-button_neutral past-button inactive-button-background"
-                        onclick={onPastClick}
-                    >
-                        {label.past}
-                    </button>
-
+                    <div class="upcomingButton">
+                        <button
+                            data-id="upcoming"
+                            class="slds-button slds-button_brand up-button active-button-background"
+                            onclick={onUpcomingClick}
+                        >
+                            {label.upcoming}
+                        </button>
+                        <button
+                            data-id="past"
+                            class="slds-button slds-button_neutral past-button inactive-button-background"
+                            onclick={onPastClick}
+                        >
+                            {label.past}
+                        </button>
+                    </div>
                     <div class="slds-scrollable_y scroll-bar">
                         <template if:true={showList}>
                             <template if:true={showUpcomingVisits}>
@@ -28,7 +29,6 @@
                                     for:index="index"
                                 >
                                     <div key={item}>
-                                        <br />
                                         <div
                                             class="inactive-custom-box"
                                             onclick={onVisitSelect}
@@ -50,7 +50,6 @@
                                                         >
                                                         </lightning-formatted-text>
 
-                                                        <br />
                                                         <p class="no-date no-visit-date">
                                                             <template if:true={item.noVisitDate}>
                                                                 {label.noVisitsLabel}
@@ -78,7 +77,7 @@
                                                         </template>
                                                     </div>
                                                 </div>
-                                                <div class="slds-col top-padding slds-size_1-of-6">
+                                                <div class="slds-col slds-size_1-of-6">
                                                     <template if:true={item.isReminderDate}>
                                                         <c-web-icon
                                                             icon-name="icon_bell"
@@ -101,7 +100,6 @@
                             <template if:false={showUpcomingVisits}>
                                 <template for:each={pastVisits} for:item="item" for:index="index">
                                     <div key={item}>
-                                        <br />
                                         <div
                                             class="inactive-custom-box"
                                             onclick={onVisitSelect}
@@ -130,7 +128,6 @@
                                                             >
                                                             </lightning-formatted-text>
                                                         </b>
-                                                        <br />
                                                         <template if:true={item.missedVisit}>
                                                             <p class="no-date unavailable-style">
                                                                 {label.visitUnavailable}
@@ -161,29 +158,30 @@
                 </div>
             </div>
 
-            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col2">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2">
                 <h1 if:false={past} class="visit3">
-                    {visitName}
-                    <template if:true={plannedDate}>
-                        &nbsp;|&nbsp;
-                        <lightning-formatted-date-time
-                            value={plannedDate}
-                            year="numeric"
-                            month="short"
-                            day="2-digit"
-                            time-zone={visitTimezone}
-                        ></lightning-formatted-date-time>
-                        &nbsp;|&nbsp;<lightning-formatted-date-time
-                            value={plannedDate}
-                            hour="2-digit"
-                            minute="2-digit"
-                            time-zone={visitTimezone}
-                        ></lightning-formatted-date-time>
-                    </template>
+                    <div class="visitColumnTitle">{visitName}</div>
+                    <div class="visitDateTime">
+                        <template if:true={plannedDate}>
+                            <lightning-formatted-date-time
+                                value={plannedDate}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                            &nbsp;|&nbsp;<lightning-formatted-date-time
+                                value={plannedDate}
+                                hour="2-digit"
+                                minute="2-digit"
+                                time-zone={visitTimezone}
+                            ></lightning-formatted-date-time>
+                        </template>
+                    </div>
                 </h1>
                 <h1 if:true={past} class="visit3">
-                    <b>{visitName}</b>
-                    &nbsp;|&nbsp; {visitStatus}
+                    <div class="visitColumnTitle">{visitName}</div>
+                    {visitStatus}
                 </h1>
                 <div>
                     <h1 class="what-to-expect">{label.WTELabel}</h1>
@@ -210,7 +208,6 @@
                                     </div>
                                 </div>
                             </template>
-                            <br />
                         </div>
                     </div>
                     <h1 class="what-to-expect">{label.visitdetails}</h1>
@@ -241,7 +238,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col3">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3">
                 <img src={visitimage2} class="image-result-visit" />
 
                 <h1 class="what-to-expect">{label.results}</h1>
@@ -283,7 +280,6 @@
                         <div>
                             <template for:each={upcomingVisits} for:item="item" for:index="index">
                                 <div key={item}>
-                                    <br />
                                     <div
                                         class="inactive-custom-box"
                                         onclick={onVisitSelect}
@@ -305,7 +301,7 @@
                                                         >
                                                         </lightning-formatted-text>
                                                     </b>
-                                                    <br />
+                                                    
                                                     <p class="no-date">
                                                         <template if:true={item.noVisitDate}>
                                                             {label.noVisitsLabel}
@@ -344,7 +340,6 @@
                         <div>
                             <template for:each={pastVisits} for:item="item" for:index="index">
                                 <div key={item}>
-                                    <br />
                                     <div
                                         class="inactive-custom-box"
                                         onclick={onVisitSelect}
@@ -371,7 +366,7 @@
                                                         >
                                                         </lightning-formatted-text>
                                                     </b>
-                                                    <br /><template if:true={item.missedVisit}>
+                                                   <template if:true={item.missedVisit}>
                                                         <p class="no-date">
                                                             {label.visitUnavailable}
                                                         </p>
