@@ -3,7 +3,7 @@
     width: 334px;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
-    padding-left: 35px;
+    padding-left: 16px;
     background-color: #f2f2f2;
 }
 .task-length {
@@ -18,4 +18,9 @@
 .card-style {
     height: 273px;
     width: 334px;
+}
+
+.task-card {
+    width: 510px;
+    height: 316px;
 }

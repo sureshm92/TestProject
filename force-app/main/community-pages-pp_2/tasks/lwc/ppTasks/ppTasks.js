@@ -3,6 +3,7 @@ import tasksHeader from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import createNewTask from '@salesforce/label/c.BTN_Create_New_Task';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import getParticipantTasks from '@salesforce/apex/TasksRemote.getParticipantTasks';
 
 export default class PpTasks extends LightningElement {
     initData;
@@ -19,6 +20,9 @@ export default class PpTasks extends LightningElement {
     emailOptIn;
     smsOptIn;
     jsonState;
+    showCreateTaskButton;
+    openTasks;
+    completedTasks;
 
     isCreateTask = false;
     connectedCallback() {
@@ -31,6 +35,17 @@ export default class PpTasks extends LightningElement {
                 console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
             });
     }
+    initializeData() {
+        getParticipantTasks()
+            .then((participantTasks) => {
+                this.showCreateTaskButton = participantTasks.showCreateTaskButton;
+                this.openTasks = participantTasks.openTasksWrapper;
+                this.completedTasks = participantTasks.completedTasks;
+            })
+            .catch((error) => {
+                console.log('error in ppTasks ', error);
+            });
+    }
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
     }
@@ -39,8 +54,8 @@ export default class PpTasks extends LightningElement {
     }
     get taskButtonClass() {
         return this.isCreateTask
-            ? 'slds-button slds-button_brand create-task after-create-task'
-            : 'slds-button slds-button_brand create-task before-create-task';
+            ? 'create-task after-create-task'
+            : 'create-task before-create-task';
     }
     handleTaskCancel(event) {
         this.isCreateTask = event.detail.isCreate;
