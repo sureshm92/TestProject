@@ -160,7 +160,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (this.communityServic.getCurrentCommunityMode().hasPastStudies)
             this.participantTabs.push(this.allPagesMap['past-studies']);
         if (this.communityServic.getEDiaryVisible()) {
-            if (this.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+            if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 this.participantTabs.push(this.allPagesMap['e-diaries']);
             }
         }
@@ -172,8 +172,8 @@ export default class PpCommunityNavigation extends LightningElement {
                 this.participantTabs.push(this.allPagesMap['trial-match']);
             }
         }
-        this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['tasks']);
+        this.participantTabs.push(this.allPagesMap['resources']);
         this.participantTabs.push(this.allPagesMap['help']);
         this.submenu = Object.keys(this.allPagesSubMenu).map((key) => ({
             key: key,
