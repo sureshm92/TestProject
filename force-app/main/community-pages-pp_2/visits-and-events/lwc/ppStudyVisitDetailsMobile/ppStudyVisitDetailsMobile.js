@@ -7,6 +7,7 @@ import myVisits from '@salesforce/label/c.Visit_My_Visits';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
 import past from '@salesforce/label/c.Visits_Past';
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 import results from '@salesforce/label/c.Visit_Result';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
@@ -30,7 +31,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         results,
         resultsCheck,
         viewAllResults,
-        visitdetails
+        visitdetails,
+        BTN_Back
     };
     status = {
         scheduled: 'Scheduled',
