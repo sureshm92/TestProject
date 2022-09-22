@@ -608,7 +608,7 @@
     checkGuardianAge: function (component, event, helper) {
         //let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
         let frmpatientVeiw =  component.get('v.patientVeiwRedirection');
-        if(component.get('v.attestAge'))
+        if(component.get('v.attestAge') && component.find('checkBoxAttestation')!=undefined)
         {
             var attestCheckbox = component.find('checkBoxAttestation');
             attestCheckbox.setCustomValidity('');

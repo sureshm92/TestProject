@@ -5,7 +5,7 @@ import getSiteAddress from '@salesforce/apex/ParticipantVisitsRemote.getSiteAddr
 import basePathName from '@salesforce/community/basePath';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
-import getIcon from '@salesforce/apex/PatientVisitService.getVisitIconsbyName';
+import getIcon from '@salesforce/apex/ParticipantVisitsRemote.getVisitIconsbyName';
 import WTELabel from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';

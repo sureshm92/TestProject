@@ -5,7 +5,6 @@ export default class PpRRIconSplitter extends LightningElement {
     @api backgroundColor = 'White';
     @api label = '';
     @api description = '';
-    Index = '';
     @api iconColour = '#b2b2b2';
     @track classListArry = [];
     @track testArray = [];
@@ -23,10 +22,11 @@ export default class PpRRIconSplitter extends LightningElement {
     handleonclick(event) {
         this.label = event.target.dataset.label;
         this.description = event.target.dataset.description;
-        this.name = event.target.dataset.name;
-        this.Index = event.target.dataset.index;
-
-        let webIcons = this.template.querySelectorAll('.icons-pad');
-        let firstItem = this.template.querySelector('.icons-pad:first-child');
+        let index = event.target.dataset.index;
+        let webIcons = this.template.querySelectorAll('.bio-icons');
+        webIcons.forEach((ele) => {
+            ele.classList.remove('active');
+        });
+        webIcons[index].classList.add('active');
     }
 }

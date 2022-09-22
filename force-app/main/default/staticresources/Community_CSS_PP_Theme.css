@@ -9,12 +9,8 @@
     }
 }
 .rr-width-limiter-pp{
-    max-width:1260px !important;
+    max-width:1336px !important;
     margin:auto;
-}
-.menu-block {
-    display: inline-block;
-    position: absolute !important;    
 }
 
 /* Community_CSS_PP_Theme */
@@ -70,9 +66,6 @@
 .round-combobox .slds-dropdown_fluid{
     min-width: 10rem !important;
 }
-
-
-
 
 .cp-login-title{
     font-size: 60px;
@@ -380,7 +373,12 @@ color: #0768fd!important;
 
 
 .logo-container-pp {
-    margin: 0 45px 0 0;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 165px;
+    margin: 0 44px 0 44px;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action{
@@ -501,6 +499,7 @@ color: #0768fd!important;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
     margin-left: .5rem;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .secondaryBtn .slds-button {
@@ -509,6 +508,7 @@ color: #0768fd!important;
     border-radius: 1rem;
     color: #0768fd;
     font-weight: 500;
+    cursor: pointer;
 }
 
 c-pp-study-visit-details-card .slds-card {
@@ -523,7 +523,7 @@ c-pp-study-visit-details-card .slds-card__header {
 }
 
 /* VISITS PAGE - WHAT TO EXPECT ICON HOVER */
-.bio-icons:hover svg.rr-icon_medium {
+.bio-icons.active svg.rr-icon_medium {
     fill: #009dd6;
 }
 
@@ -566,8 +566,9 @@ input::-webkit-datetime-edit {
     background: #fff;
     border: none;  
     color: #595959;
-
+    text-overflow: ellipsis;
 }
+
 .pp-change-pwd [lightning-input_input-host] {
     width: 92% !important;
 }
@@ -651,4 +652,22 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999999;
 }
