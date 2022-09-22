@@ -14,11 +14,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Link_to_Pre_screening__c</field>
+                <field>Survey_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Survey_Name__c</field>
+                <field>Link_to_Pre_screening__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
