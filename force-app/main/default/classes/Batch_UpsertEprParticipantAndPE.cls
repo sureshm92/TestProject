@@ -29,6 +29,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
     
 	public void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> initialScope) {
         eprBatchRunning = true;
+        ParticipantTriggerHandler.updatePartAge = true;
         Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
         Map<String, Integration_Patient_Referral__c> newMap = new Map<String, Integration_Patient_Referral__c>();
