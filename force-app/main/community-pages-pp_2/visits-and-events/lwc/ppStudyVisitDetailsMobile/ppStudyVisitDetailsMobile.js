@@ -97,7 +97,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Visit_List_Mobile__c'
+                name: 'Visit__c'
             }
         });
     }
