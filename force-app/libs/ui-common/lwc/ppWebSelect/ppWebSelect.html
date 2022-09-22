@@ -21,19 +21,38 @@
             </template>
 
             <ul class="dropdown-menu" data-id="dropdown-menu">
-                <template for:each={options} for:item="option">
-                    <li
-                        key={option.value}
-                        class="dropdown-li"
-                        value={option.value}
-                        data-value={option.value}
-                        data-label={option.label}
-                        onclick={handleOptionSelect}
-                    >
-                        <lightning-formatted-rich-text
-                            value={option.label}
-                        ></lightning-formatted-rich-text>
-                    </li>
+                <template if:false={isDisabledOptions}>
+                    <template for:each={options} for:item="option">
+                        <li
+                            key={option.value}
+                            class="dropdown-li"
+                            value={option.value}
+                            data-value={option.value}
+                            data-label={option.label}
+                            onclick={handleOptionSelect}
+                        >
+                            <lightning-formatted-rich-text
+                                value={option.label}
+                            ></lightning-formatted-rich-text>
+                        </li>
+                    </template>
+                </template>
+
+                <template if:true={isDisabledOptions}>
+                    <template for:each={options} for:item="option">
+                        <li
+                            key={option.value}
+                            class={option.itemClass}
+                            value={option.value}
+                            data-value={option.value}
+                            data-label={option.label}
+                            onclick={handleOptionSelect}
+                        >
+                            <lightning-formatted-rich-text
+                                value={option.label}
+                            ></lightning-formatted-rich-text>
+                        </li>
+                    </template>
                 </template>
             </ul>
         </div>

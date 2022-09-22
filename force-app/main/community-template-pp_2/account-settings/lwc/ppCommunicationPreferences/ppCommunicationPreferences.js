@@ -41,6 +41,8 @@ import updateParticipantMobileNumber from '@salesforce/apex/PreferenceManagement
 
 import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
+import createCommPrefEvent from '@salesforce/apex/PreferenceManagementController.createCommPrefEvent';
+
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
@@ -535,6 +537,11 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             .then((result) => {
                 this.spinner = false;
                 this.showCustomToast('', this.label.PP_Profile_Update_Success, 'success');
+                createCommPrefEvent()
+                    .then((responseSuccess) => {})
+                    .catch((responseFailure) => {
+                        this.showCustomToast('', 'Failed to publish Platfrom Event', 'error');
+                    });
                 this.currentPERId = '';
                 conObj = {};
             })

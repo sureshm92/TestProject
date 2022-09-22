@@ -28085,4 +28085,20 @@ Please contact the Study Team for further updates or please login for additiona
         <shortDescription>OldPassword Invalid</shortDescription>
         <value>Error: Your old password is invalid.</value>
     </labels>
+    <labels>
+        <fullName>PP_TASK_COMM_PREF</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_TASK_COMM_PREF</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_SELECT_REMINDER</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_SELECT_REMINDER</shortDescription>
+        <value>Select Reminder</value>
+    </labels>
 </CustomLabels>
