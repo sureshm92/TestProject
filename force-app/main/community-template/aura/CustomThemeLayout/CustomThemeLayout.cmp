@@ -58,7 +58,7 @@
             >
                 <aura:if isTrue="{!v.isInitialized}">
                     <div
-                        class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', 'rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
+                        class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                     >
                         <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                             <aura:if

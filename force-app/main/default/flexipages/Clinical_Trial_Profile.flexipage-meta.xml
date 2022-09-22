@@ -310,7 +310,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Visit Results Sharing</value>
+                    <value>Results Sharing</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab2</identifier>
@@ -324,7 +324,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Visits configuration</value>
+                    <value>Visits/Events Configuration</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab3</identifier>
@@ -492,7 +492,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Prescreener Survey</value>
+                    <value>Screeners</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>

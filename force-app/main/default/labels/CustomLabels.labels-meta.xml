@@ -26739,6 +26739,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Save Preset</value>
     </labels>
     <labels>
+        <fullName>PreScreener_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreScreener_Error</shortDescription>
+        <value>Prescreener already exists and for a study you can create only 1 Prescreener.
+        </value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Removed_as_Televisit_Attendee</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -28084,5 +28092,21 @@ Please contact the Study Team for further updates or please login for additiona
         <protected>false</protected>
         <shortDescription>OldPassword Invalid</shortDescription>
         <value>Error: Your old password is invalid.</value>
+    </labels>
+    <labels>
+        <fullName>PP_TASK_COMM_PREF</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_TASK_COMM_PREF</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+    <labels>
+        <fullName>PP_SELECT_REMINDER</fullName>
+        <categories>PPCreateTask</categories>
+        <language>en_US</language>
+        <protected>flase</protected>
+        <shortDescription>PP_SELECT_REMINDER</shortDescription>
+        <value>Select Reminder</value>
     </labels>
 </CustomLabels>

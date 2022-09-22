@@ -1,5 +1,6 @@
 .header-combobox {
     position: relative;
+    cursor: pointer;
 }
 .sub-header {
     color: #444444;
@@ -59,6 +60,14 @@
     background-size: 16px 16px;
     width: 16px;
     height: 16px;
+}
+
+.custom-no-border .dropdown:after {
+    background: transparent;
+}
+
+.custom-no-border .dropdown-span {
+    width: 95%;
 }
 
 .dropdown-rtl:after {
@@ -152,6 +161,30 @@
     color: rgb(116, 116, 116);
     pointer-events: none;
     cursor: not-allowed;
+}
+
+.dropdown-menu li.li-item-disabled:hover {
+    background: hsl(0, 0%, 94%);
+    cursor: not-allowed !important;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.li-item-disabled {
+    background: hsl(0, 0%, 94%);
+    cursor: not-allowed !important;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.custom-no-border {
+    border: none !important;
+    height: 30px;
+}
+
+.custom-no-border .dropdown-span {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 /* custom scrollbar */

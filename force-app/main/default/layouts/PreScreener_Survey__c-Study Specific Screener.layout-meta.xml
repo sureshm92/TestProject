@@ -9,8 +9,8 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Link_to_Pre_screening__c</field>
+                <behavior>Readonly</behavior>
+                <field>Name</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -18,11 +18,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Study__c</field>
+                <field>Link_to_Pre_screening__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ProviderName__c</field>
+                <behavior>Required</behavior>
+                <field>Study__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -74,10 +74,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Participant_PrescreenerResponse__c.PreScreener_Survey__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
