@@ -179,6 +179,8 @@ public without sharing class TaskEditRemote {
             } else {
                 if (taskWrapper.reminderDate != null) {
                     newReminderDate = taskWrapper.reminderDate;
+                } else {
+                    newReminderDate = taskWrapper.reminderDate;
                 }
             }
 
