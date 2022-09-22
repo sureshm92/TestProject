@@ -352,6 +352,9 @@ public without sharing class RRChangePasswordController {
             }
             isSaveButtonDisabled = true;
         }
+        else if(isParticipant){
+            birthYear = participant.Birth_Year__c;
+        }
         if (!String.isBlank(country)) {
             updateStatesAction();
         }
@@ -564,6 +567,7 @@ public without sharing class RRChangePasswordController {
             if (isParticipant) {
                 participant.Mailing_Country_Code__c = country;
                 participant.Mailing_State_Code__c = state;
+                participant.Birth_Year__c = birthYear;
                 Boolean noCountry =
                     participant.Mailing_Country_Code__c == '--None--' ||
                     String.isBlank(participant.Mailing_Country_Code__c);
@@ -579,9 +583,7 @@ public without sharing class RRChangePasswordController {
                     ? null
                     : countryCodeByStateCodeByNameMap.get(participant.Mailing_Country_Code__c)
                           .get(participant.Mailing_State_Code__c));
-                if (isDelegate) {
-                    participant.Birth_Year__c = birthYear;
-                }
+
                 contact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contact.MailingStateCode = participant.Mailing_State_Code__c;
                 // for country or states values update by code
