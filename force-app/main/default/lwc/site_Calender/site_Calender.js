@@ -4,17 +4,18 @@ import Id from "@salesforce/user/Id";
 import pirResources from "@salesforce/resourceUrl/pirResources";
 import SiteVisit from "@salesforce/resourceUrl/SiteVisit";
 import TeleVisit from "@salesforce/resourceUrl/TeleVisit";
+import NoVisitIcon from "@salesforce/resourceUrl/NoVisitIcon";
 import getStudyStudySiteDetails from "@salesforce/apex/PIR_BulkImportController.getStudyStudySiteDetails";
 import { NavigationMixin } from "lightning/navigation";
 import SiteCalCSS from "@salesforce/resourceUrl/SiteCalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
 import TIME_ZONE from "@salesforce/i18n/timeZone";
 import LOCALE from "@salesforce/i18n/locale";
-import Join from '@salesforce/label/c.WelcomeModal_Join';
-import Televisit from '@salesforce/label/c.RH_Televisit';
-import VisitInSite from '@salesforce/label/c.RH_Visit_in_Site';
-import NoEvents from '@salesforce/label/c.RH_No_events';
-import RegisterToday from '@salesforce/label/c.RH_registered_today';
+import Join from "@salesforce/label/c.WelcomeModal_Join";
+import Televisit from "@salesforce/label/c.RH_Televisit";
+import VisitInSite from "@salesforce/label/c.RH_Visit_in_Site";
+import NoVisits from "@salesforce/label/c.RH_No_Visits";
+
 const timeZone = TIME_ZONE;
 const locale = LOCALE;
 
@@ -23,13 +24,14 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   checkIcon = pirResources + "/pirResources/icons/status-good.svg";
   SiteVisit = SiteVisit;
   TeleVisit = TeleVisit;
+  NoVisitDataIcon = NoVisitIcon;
   subscription;
+  userTimeZone = timeZone;
   label = {
     Join,
     Televisit,
-    VisitInSite,
-    NoEvents,
-    RegisterToday
+    VisitInSite,    
+    NoVisits
   };
   //Accordian
   toggleAccordian(event) {
@@ -59,6 +61,7 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   refIdName;
   fullname;
   studySiteDetails = [];
+  isStudyDetailsFilled;
 
   connectedCallback() {
     loadStyle(this, SiteCalCSS);
@@ -66,9 +69,11 @@ export default class Sitecalender extends NavigationMixin(LightningElement) {
   }
 
   studySiteData() {
+    this.isStudyDetailsFilled = false;
     getStudyStudySiteDetails()
       .then((result) => {
         this.studySiteDetails = result;
+        this.isStudyDetailsFilled = true;
         for (var key in result.ctpMap) {
           this.studyValues.push(result.ctpMap[key]);
         }

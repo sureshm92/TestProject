@@ -1,4 +1,6 @@
 <template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <lightning-layout multiple-rows="true">
         <lightning-layout-item padding="around-small" size="12">
             <div class="slds-align_absolute-center">
@@ -40,6 +42,20 @@
                                         oninitialdateload={handleInitialDateLoad}
                                         oninitialtimeload={handleInitialTimeLoad}
                                     ></c-pp-date-time-combo>
+                                    <!--Task Reminder Section-->
+                                    <template if:true={initData}
+                                        ><c-pp-create-task-reminder
+                                            init-data={initData}
+                                            current-date={currentDate}
+                                            current-time={currentTime}
+                                            task-due-date-time={taskDateTime}
+                                            task-due-date={taskDate}
+                                            task-due-time={taskTime}
+                                            is-task-due-date-time-selected={isDueDateTimeSelected}
+                                            oncustomreminderdata={handleCustomReminder}
+                                            onreminderdata={handleReminder}
+                                        ></c-pp-create-task-reminder
+                                    ></template>
                                 </lightning-layout>
                             </lightning-layout-item>
                         </lightning-layout-item>

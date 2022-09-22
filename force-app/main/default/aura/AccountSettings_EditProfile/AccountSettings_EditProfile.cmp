@@ -672,7 +672,6 @@
                                                      type="tel"
                                                      label="{!$Label.c.Mob_Phone_Field}"
                                                      value="{!v.personWrapper.mobilePhone}"
-                                                     required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                                      disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
                                                      onblur="{!c.doCheckFieldsValidity}"
                                                      class="{!v.isRTL?'rightAlign':''}"

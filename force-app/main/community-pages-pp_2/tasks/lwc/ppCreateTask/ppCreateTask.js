@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
@@ -9,6 +9,7 @@ import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
+import REMIND_USING_REQUIRED from '@salesforce/label/c.PP_Remind_Using_Required';
 import taskName from '@salesforce/label/c.Task_Name';
 import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
 import cancel from '@salesforce/label/c.BTN_Cancel';
@@ -28,9 +29,13 @@ export default class PpCreateTask extends LightningElement {
     taskDateTime;
     taskTime;
     taskDueDate;
-    initData;
+    @track initData;
     subject;
     jsonState;
+    isReminderSelected = false;
+    spinner;
+
+    labels = { REMIND_USING_REQUIRED };
     label = {
         taskCreationSuccess,
         taskName,
@@ -44,6 +49,7 @@ export default class PpCreateTask extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
+                this.spinner = this.template.querySelector('c-web-spinner');
             })
             .catch((error) => {
                 console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
@@ -60,11 +66,13 @@ export default class PpCreateTask extends LightningElement {
         });
     }
     initializeData() {
+        this.spinner.show();
         if (!communityService.isDummy()) {
             this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
             getTaskEditData({ taskId: this.taskId })
                 .then((wrapper) => {
                     this.initData = wrapper;
+                    this.spinner.hide();
                     var task = wrapper.task;
                     task.Status = 'Open';
                     task.Task_Type__c = 'Not Selected';
@@ -75,7 +83,11 @@ export default class PpCreateTask extends LightningElement {
                     console.log('error', error);
                 });
         } else {
+            this.spinner.hide();
         }
+    }
+    get taskNameLength() {
+        return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
     }
     get taskNameLength() {
         return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
@@ -117,6 +129,11 @@ export default class PpCreateTask extends LightningElement {
         this.taskTime = event.detail.comptime;
         this.taskDueDate = event.detail.compdate;
         this.initData.activityDate = this.taskDateTime;
+        /**Reset Reminder Values */
+        console.log('date change', this.taskDateTime, this.taskTime, this.taskDate);
+        if (this.isDueDateTimeSelected) {
+            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+        }
         this.enableSave = true;
     }
 
@@ -128,20 +145,32 @@ export default class PpCreateTask extends LightningElement {
         this.taskDueDate = event.detail.compdate;
         this.taskTime = event.detail.comptime;
         this.initData.activityDate = this.taskDateTime;
+        /**Reset Reminder Values */
+        console.log('date change', this.taskDateTime, this.taskTime, this.taskDate);
+        if (this.isDueDateTimeSelected) {
+            this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
+        }
     }
     doCreateTask() {
-        this.task.Subject = this.subject;
-        upsertTask({
-            wrapper: JSON.stringify(this.initData),
-            paramTask: JSON.stringify(this.task)
-        })
-            .then((result) => {
-                this.enableSave = false;
-                communityService.showToast('', 'success', taskCreationSuccess, 100);
+        if (
+            this.isReminderSelected &&
+            (this.task.Remind_Using_Email__c || this.task.Remind_Using_SMS__c)
+        ) {
+            this.task.Subject = this.subject;
+            upsertTask({
+                wrapper: JSON.stringify(this.initData),
+                paramTask: JSON.stringify(this.task)
             })
-            .catch((error) => {
-                console.log(' error ', error);
-            });
+                .then((result) => {
+                    this.enableSave = false;
+                    communityService.showToast('', 'success', taskCreationSuccess, 100);
+                })
+                .catch((error) => {
+                    console.log(' error ', error);
+                });
+        } else {
+            communityService.showToast('', 'error', this.labels.REMIND_USING_REQUIRED, 100);
+        }
     }
     handleCancelTask() {
         const dateEvent = new CustomEvent('taskcancel', {

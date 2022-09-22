@@ -39,6 +39,7 @@
     <aura:attribute name="isSitecal" type="Boolean" default="false" />
     <aura:attribute name="isIconVisible" type="Boolean" default="false" />
     <aura:attribute name="notVisibleOnBlur" type="Boolean" default="false" />
+    <aura:attribute name="isIncentive" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -57,15 +58,8 @@
             >
                 <aura:if isTrue="{!v.isInitialized}">
                     <div
-                        class="{!'layout-header' + ' rr-width-limiter' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
+                        class="{!'layout-header' + if(v.template == 'PatientPortal', ' rr-width-limiter-pp', ' rr-width-limiter') + ' side-padding' + if(v.isRTL, ' rtl', '')}"
                     >
-                        <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                            <img
-                                src="{!$Resource.icon_hamburgerMenu}"
-                                class="chevron"
-                                style="height: 32px; width: 32px"
-                            />
-                        </div>
                         <aura:if isTrue="{!$Browser.formFactor == 'PHONE'}">
                             <aura:if
                                 isTrue="{!and(v.template == 'PatientPortal',v.currentMode.userMode == 'Participant')}"
@@ -134,7 +128,10 @@
                                 <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
                                     <!--Site Calendar Start-->
                                     <aura:if isTrue="{!not(v.reset)}">
-                                        <c:overLayForCalendar class="menu-block menuheight">
+                                        <c:overLayForCalendar
+                                            class="menu-block menuheight"
+                                            isIncentive="{!v.isIncentive}"
+                                        >
                                             <aura:set attribute="title">
                                                 <div
                                                     onclick="{!c.onClickSite}"
@@ -203,6 +200,7 @@
                                 <c:navIncentiveCounter
                                     onnavigatetoincentives="{!c.doNavigate}"
                                     currentPage="{!v.currentPage}"
+                                    onnotifypartofincentive="{!c.verifyIncentive}"
                                 />
                             </aura:if>
                         </div>

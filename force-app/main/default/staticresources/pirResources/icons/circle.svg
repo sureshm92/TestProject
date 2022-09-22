@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>circle</title>
+    <defs>
+        <circle fill="#B5B5B5" id="path-1" cx="12" cy="12" r="12"></circle>
+    </defs>
+    <g id="SH38311-Study-Files/Nurse-Credentials" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/status-dot" transform="translate(0.500000, 0.500000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="circle" fill="#000000" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>
