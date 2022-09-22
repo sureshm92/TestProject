@@ -15,7 +15,7 @@ import results from '@salesforce/label/c.Visit_Result';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
 import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
-import myvisits from '@salesforce/label/c.My_Visits';
+import myVisits from '@salesforce/label/c.My_Visits';
 import loading from '@salesforce/label/c.Loading';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -33,7 +33,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         resultsCheck,
         viewAllResults,
         visitUnavailable,
-        myvisits,
+        myVisits,
         loading,
         visitdetails
     };
@@ -186,7 +186,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         this.cbload = true;
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactive-custom-box-class';
+            theDiv.className = 'inactive-custom-box';
         }
         this.template.querySelector('[data-id="upcoming"]').className =
             'slds-button slds-button_brand up-button active-button-background';
@@ -212,7 +212,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'inactive-custom-box-class';
+            theDiv.className = 'inactive-custom-box';
         }
         this.template.querySelector('[data-id="past"]').className =
             'slds-button slds-button_brand past-button active-button-background';
@@ -237,7 +237,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-        theDiv.className = 'inactive-custom-box-class';
+        theDiv.className = 'inactive-custom-box';
         if (past == 'true') {
             this.past = true;
             this.visitid = this.pastVisits[index].visit.Id;
@@ -265,7 +265,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
     redirectPage(visitid) {
         this.visitdetailurl =
-            window.location.origin + basePathName + '/visit-details-mobile' + '?visitid=' + visitid;
+            window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
 
         console.log('visitdetailurl:: ', this.visitdetailurl);
 
@@ -307,15 +307,13 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
                 if (!this.past) {
-                    this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c = this.visitdata.visitDate;
+                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
+                        this.visitdata.visitDate;
                 }
                 if (this.visitdata.visitDate && this.showUpcomingVisits) {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = false;
-                    this.plannedDate = this.upcomingVisits[
-                        this.selectedIndex
-                    ].visit.Planned_Date__c;
+                    this.plannedDate =
+                        this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c;
                 } else {
                     this.upcomingVisits[this.selectedIndex].noVisitDate = true;
                     this.plannedDate = '';
@@ -340,7 +338,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         if (this.visitid) {
             await this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-            theDiv.className = 'active-custom-box-class';
+            theDiv.className = 'active-custom-box';
         }
     }
 

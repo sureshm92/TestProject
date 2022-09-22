@@ -53,22 +53,31 @@
     color: #999999;
 }
 
+.my-visits,
 .visit3 {
     color: #444444;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
-    line-height: 48px;
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
-    padding: 22px;
+    text-align: justify;
+}
+.my-visits {
+    margin: 2px 0 32px 32px;
+    line-height: 48px;
+}
+
+.visit3 {
+    line-height: 32px;
+    margin-bottom: 16px;
 }
 
 .visit3 lightning-formatted-date-time {
     font-size: 20px;
     color: #444444;
     font-family: 'Proxima Nova';
-    font-weight: 500px;
+    font-weight: 500;
 }
 
 .dt-fsize {
@@ -133,6 +142,7 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
+    margin-left: -25px;
 }
 
 .icon-style {
@@ -207,14 +217,8 @@ a,
     top: 170px;
 }
 
-b,
-strong,
-dfn {
-    font-weight: var(--lwc-fontWeightBold, 700);
-    margin-left: -25px !important;
-}
 .no-date {
-    margin-left: -25px !important;
+    margin-left: -25px;
 }
 
 .image-result {
@@ -227,7 +231,7 @@ dfn {
     width: 270px;
 }
 
-.active-custom-box-class {
+.active-custom-box {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
@@ -236,8 +240,12 @@ dfn {
     background-color: #ffffff;
     padding: 16px;
 }
+.list-align-mob {
+    display: flex;
+    justify-content: center;
+}
 
-.inactive-custom-box-class {
+.inactive-custom-box {
     box-sizing: border-box;
     height: 80px;
     width: 313px;
@@ -247,8 +255,8 @@ dfn {
     padding: 16px;
 }
 
-.inactive-custom-box-class:hover,
-.active-custom-box-class:hover {
+.inactive-custom-box:hover,
+.active-custom-box:hover {
     cursor: pointer;
 }
 
@@ -287,6 +295,9 @@ dfn {
     .slds-grid.slds-p-horizontal_x-large {
         padding-left: unset;
         padding-right: unset;
+    }
+    .up-button {
+        margin-left: 0px;
     }
 }
 
