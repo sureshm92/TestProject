@@ -153,13 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>PreScreener Survey</label>
+    <label>Screeners</label>
     <nameField>
-        <displayFormat>PS-{0}</displayFormat>
-        <label>PreScreener Survey Name</label>
+        <displayFormat>S-{0}</displayFormat>
+        <label>Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>PreScreener Surveys</pluralLabel>
+    <pluralLabel>Screeners</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

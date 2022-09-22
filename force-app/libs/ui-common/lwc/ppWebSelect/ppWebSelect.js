@@ -11,6 +11,7 @@ export default class PpWebSelect extends LightningElement {
     @api customClass = '';
     @api hasError = false;
     @api isDisabled = false;
+    @api isDisabledOptions = false;
 
     get comboboxClass() {
         return this.isRTL
