@@ -49,6 +49,26 @@
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
 }
 
+.time-input .slds-input{
+    height: 2rem !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 15px !important;
+    cursor: pointer !important;
+}
+
+.time-input .slds-input:hover{
+    border-color: #d9d9d9 !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.time-input input::-webkit-input-placeholder{
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    line-height: 21px;
+}
+
 .profile-info-btn .slds-button{
     color:#ffffff;
     height: 2rem !important;
@@ -66,6 +86,12 @@
 .round-combobox .slds-dropdown_fluid{
     min-width: 10rem !important;
 }
+
+.task-reminder .slds-combobox__input.slds-input{
+    width: 100% !important;
+}
+
+
 
 .cp-login-title{
     font-size: 60px;
@@ -544,6 +570,11 @@ c-pp-study-visit-details-card .slds-card__header {
     width: 1rem;
 }
 
+/**Hiding Time Icon*/
+.date-time-picker .slds-input__icon-group_right{
+    display: none;
+}
+
 .slds-input.slds-combobox__input + .slds-input__icon-group_right,
 .slds-input[type="time"]::-webkit-calendar-picker-indicator  {
     display: none;
@@ -596,6 +627,13 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
 
 .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
     background-color: #00a3e0;
+    border-radius: 2px;
+    border: none;
+    top: 1px;
+}
+
+.task-comm-pref .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    background-color: #0768FD;
     border-radius: 2px;
     border: none;
     top: 1px;
