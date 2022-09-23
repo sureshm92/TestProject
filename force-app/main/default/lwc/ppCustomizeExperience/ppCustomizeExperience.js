@@ -33,6 +33,7 @@ export default class PpCustomizeExperience extends LightningElement {
 
     spinner;
     isInitialized = false;
+    isValueChanged =  false;
 
     label = {
         PP_Condition_of_Interest_title,
@@ -81,6 +82,17 @@ export default class PpCustomizeExperience extends LightningElement {
     get iconChevron() {
         return 'icon-chevron-left';
     }
+
+    get isSaveDisabled() {
+        if (
+            this.isValueChanged
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     renderedCallback() {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -187,6 +199,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let removedPill = event.currentTarget.getAttribute('data-name');
         //alert(removedPill);
         this.handleClearPill(removedPill);
+        this.isValueChanged = true;
     }
 
     handleClearPill(removedPill) {
@@ -240,6 +253,7 @@ export default class PpCustomizeExperience extends LightningElement {
             event.target.checked = false;
         }
         this.conditionsOfInterestTemp = taList;
+        this.isValueChanged = true;
     }
 
     showMenuBar(event) {
@@ -254,6 +268,7 @@ export default class PpCustomizeExperience extends LightningElement {
             this.isInitialized = false;
         }
     }
+
     saveElement() {
         const deleteCOI = this.conditionOfInterestList;
         this.conditionsOfInterestTemp.sort(function (a, b) {

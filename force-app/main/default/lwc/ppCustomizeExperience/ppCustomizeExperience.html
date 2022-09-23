@@ -14,7 +14,10 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-desc bold"
                             >
-                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <span class="bold"
+                                    >Select medical conditions related to your diagnosis, to help us
+                                    prioritize the content that we display to you.</span
+                                >
                                 <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
@@ -115,8 +118,8 @@
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 class="com-icon"
                                                             >
-                                                            <use xlink:href={closeIcon}></use>
-                                                        </svg>
+                                                                <use xlink:href={closeIcon}></use>
+                                                            </svg>
                                                         </span>
                                                     </span>
                                                 </button>
@@ -136,6 +139,7 @@
                                 class="slds-button saveButton slds-button_brand apollo-btn primary"
                                 data-id="saveBtn"
                                 onclick={saveElement}
+                                disabled={isSaveDisabled}
                             >
                                 {label.BTN_Save}
                             </button>
@@ -184,7 +188,10 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-desc"
                             >
-                            <span class="bold">Select medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</span>
+                                <span class="bold"
+                                    >Select medical conditions related to your diagnosis, to help us
+                                    prioritize the content that we display to you.</span
+                                >
                                 <!-- {label.PP_Customize_Exp_Description} -->
                             </label>
                         </lightning-layout-item>
@@ -305,6 +312,7 @@
                                 class="slds-button saveButtonMobile slds-button_brand apollo-btn primary"
                                 data-id="saveBtn"
                                 onclick={saveElement}
+                                disabled={isSaveDisabled}
                             >
                                 {label.BTN_Save}
                             </button>
