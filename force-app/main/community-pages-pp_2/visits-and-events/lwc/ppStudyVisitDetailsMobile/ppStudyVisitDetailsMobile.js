@@ -7,10 +7,11 @@ import myVisits from '@salesforce/label/c.Visit_My_Visits';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
 import past from '@salesforce/label/c.Visits_Past';
+import BTN_Back from '@salesforce/label/c.BTN_Back';
 import results from '@salesforce/label/c.Visit_Result';
 import resultsCheck from '@salesforce/label/c.Visit_Check_Result';
 import viewAllResults from '@salesforce/label/c.Visits_View_All_Results';
-import getIcon from '@salesforce/apex/PatientVisitService.getVisitIconsbyName';
+import getIcon from '@salesforce/apex/ParticipantVisitsRemote.getVisitIconsbyName';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -30,7 +31,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         results,
         resultsCheck,
         viewAllResults,
-        visitdetails
+        visitdetails,
+        BTN_Back
     };
     status = {
         scheduled: 'Scheduled',
@@ -97,7 +99,7 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Visit_List_Mobile__c'
+                name: 'Visit__c'
             }
         });
     }
@@ -143,7 +145,9 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 this.taskSubject = this.visitdata.visit.Name;
                 this.contentLoaded = true;
                 this.showChild = true;
-                this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                if (this.template.querySelector('c-pp-Study-Visit-Details-Card')) {
+                    this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                }
             });
         } else {
             this.contentLoaded = true;

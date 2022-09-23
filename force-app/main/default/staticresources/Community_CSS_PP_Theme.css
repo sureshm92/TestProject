@@ -9,12 +9,8 @@
     }
 }
 .rr-width-limiter-pp{
-    max-width:1260px !important;
+    max-width:1336px !important;
     margin:auto;
-}
-.menu-block {
-    display: inline-block;
-    position: absolute !important;    
 }
 
 /* Community_CSS_PP_Theme */
@@ -53,6 +49,26 @@
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
 }
 
+.time-input .slds-input{
+    height: 2rem !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 15px !important;
+    cursor: pointer !important;
+}
+
+.time-input .slds-input:hover{
+    border-color: #d9d9d9 !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.time-input input::-webkit-input-placeholder{
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    line-height: 21px;
+}
+
 .profile-info-btn .slds-button{
     color:#ffffff;
     height: 2rem !important;
@@ -71,6 +87,9 @@
     min-width: 10rem !important;
 }
 
+.task-reminder .slds-combobox__input.slds-input{
+    width: 100% !important;
+}
 
 
 
@@ -380,7 +399,12 @@ color: #0768fd!important;
 
 
 .logo-container-pp {
-    margin: 0 45px 0 0;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 165px;
+    margin: 0 44px 0 44px;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action{
@@ -501,6 +525,7 @@ color: #0768fd!important;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
     margin-left: .5rem;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .secondaryBtn .slds-button {
@@ -509,6 +534,7 @@ color: #0768fd!important;
     border-radius: 1rem;
     color: #0768fd;
     font-weight: 500;
+    cursor: pointer;
 }
 
 c-pp-study-visit-details-card .slds-card {
@@ -523,7 +549,7 @@ c-pp-study-visit-details-card .slds-card__header {
 }
 
 /* VISITS PAGE - WHAT TO EXPECT ICON HOVER */
-.bio-icons:hover svg.rr-icon_medium {
+.bio-icons.active svg.rr-icon_medium {
     fill: #009dd6;
 }
 
@@ -542,6 +568,11 @@ c-pp-study-visit-details-card .slds-card__header {
 .curve-input .svg-icon svg.rr-icon-medium {
     height: 1rem;
     width: 1rem;
+}
+
+/**Hiding Time Icon*/
+.date-time-picker .slds-input__icon-group_right{
+    display: none;
 }
 
 .slds-input.slds-combobox__input + .slds-input__icon-group_right,
@@ -566,8 +597,9 @@ input::-webkit-datetime-edit {
     background: #fff;
     border: none;  
     color: #595959;
-
+    text-overflow: ellipsis;
 }
+
 .pp-change-pwd [lightning-input_input-host] {
     width: 92% !important;
 }
@@ -595,6 +627,13 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
 
 .slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
     background-color: #00a3e0;
+    border-radius: 2px;
+    border: none;
+    top: 1px;
+}
+
+.task-comm-pref .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    background-color: #0768FD;
     border-radius: 2px;
     border: none;
     top: 1px;
@@ -651,4 +690,22 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999999;
 }
