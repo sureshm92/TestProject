@@ -492,7 +492,7 @@
                                          > 
                                     <!-- Added by Anitha-->
                                     <aura:if isTrue="{!v.ageInputDisabled}">
-                                        <div class="label">
+                                        <div class="input-label">
                                             <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
                                         </div>
                                         <div class="input-text alignAge">
@@ -520,10 +520,12 @@
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <!-- Added by Anitha-->
                                     <aura:if isTrue="{!v.ageInputDisabled}">
-                                        <div class="input-text alignAge">
+                                        <div class="input-label">
                                             <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
                                         </div>
+                                        <div class="input-text alignAge">
                                         {!v.valueAge}
+                                        </div>
                                         <aura:set attribute="else">
                                             
                                             <div class="label">
