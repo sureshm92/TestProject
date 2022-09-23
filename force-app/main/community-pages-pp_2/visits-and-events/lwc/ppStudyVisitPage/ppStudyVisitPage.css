@@ -329,6 +329,11 @@ a,
     letter-spacing: 0;
 }
 
+.visitDateTime {
+    display: flex;
+    margin-top: .5rem;
+}
+
 @media all and (max-width: 1200px) {
     .col3 {
         min-width: 50%;
