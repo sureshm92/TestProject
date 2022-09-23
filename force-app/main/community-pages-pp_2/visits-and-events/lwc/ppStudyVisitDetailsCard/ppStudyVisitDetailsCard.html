@@ -106,7 +106,7 @@
                 <div class="slds-grid slds-wrap acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
                         <a class="comm-link" href={url}>
-                            <span>{label.notificationSettings}</span>
+                            <span>{label.PREFERENCES}</span>
                         </a>
                     </div>
                 </div>
@@ -131,9 +131,9 @@
                 </div>
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
-                <button class="slds-button slds-button_neutral discard-button" disabled={disableButtonSaveCancel} type="button"
+                <button class=" secondaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
                     onclick={doCancel}>{label.discard}</button>
-                <button class="slds-button slds-button_neutral save-button" disabled={disableButtonSaveCancel} type="button"
+                <button class="primaryBtn slds-button " disabled={disableButtonSaveCancel} type="button"
                     onclick={doSave}>{label.saveChanges}</button>
             </div>
         </div>
