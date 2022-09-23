@@ -1,8 +1,8 @@
 <template>
     <template if:false={isMobile}>
+        <h1 class="my-visits">{label.myVisits}</h1>
         <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
             <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col1">
-                <h1 class="slds-p-vertical_x-large visit3"><b>{label.myvisits}</b></h1>
                 <div class="slds-border_right">
                     <button
                         data-id="upcoming"
@@ -30,7 +30,7 @@
                                     <div key={item}>
                                         <br />
                                         <div
-                                            class="inactive-custom-box-class"
+                                            class="inactive-custom-box"
                                             onclick={onVisitSelect}
                                             data-index={index}
                                             data-past="false"
@@ -44,13 +44,12 @@
 
                                                 <div class="slds-col slds-size_4-of-6">
                                                     <div>
-                                                        <b>
-                                                            <lightning-formatted-text
-                                                                class="name-style"
-                                                                value={item.visit.Name}
-                                                            >
-                                                            </lightning-formatted-text>
-                                                        </b>
+                                                        <lightning-formatted-text
+                                                            class="name-style"
+                                                            value={item.visit.Name}
+                                                        >
+                                                        </lightning-formatted-text>
+
                                                         <br />
                                                         <p class="no-date no-visit-date">
                                                             <template if:true={item.noVisitDate}>
@@ -104,7 +103,7 @@
                                     <div key={item}>
                                         <br />
                                         <div
-                                            class="inactive-custom-box-class"
+                                            class="inactive-custom-box"
                                             onclick={onVisitSelect}
                                             data-index={index}
                                             data-past="true"
@@ -163,8 +162,8 @@
             </div>
 
             <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12 col2">
-                <h1 if:false={past} class="slds-p-vertical_x-large visit3">
-                    <b>{visitName}</b>
+                <h1 if:false={past} class="visit3">
+                    {visitName}
                     <template if:true={plannedDate}>
                         &nbsp;|&nbsp;
                         <lightning-formatted-date-time
@@ -182,7 +181,7 @@
                         ></lightning-formatted-date-time>
                     </template>
                 </h1>
-                <h1 if:true={past} class="slds-p-vertical_x-large visit3">
+                <h1 if:true={past} class="visit3">
                     <b>{visitName}</b>
                     &nbsp;|&nbsp; {visitStatus}
                 </h1>
@@ -262,29 +261,31 @@
         <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
             <!--MY VISITS SECTION-->
             <div class="slds-col slds-size_1-of-1">
-                <h1 class="slds-p-vertical_x-large visit3"><b>{label.myVisits}</b></h1>
-                <button
-                    data-id="upcoming"
-                    class="slds-button slds-button_brand up-button active-button-background"
-                    onclick={onUpcomingClick}
-                >
-                    {label.upcoming}
-                </button>
-                <button
-                    data-id="past"
-                    class="slds-button slds-button_neutral past-button inactive-button-background"
-                    onclick={onPastClick}
-                >
-                    {label.past}
-                </button>
-                <div>
+                <h1 class="my-visits">{label.myVisits}</h1>
+                <div class="list-align-mob">
+                    <button
+                        data-id="upcoming"
+                        class="slds-button slds-button_brand up-button active-button-background"
+                        onclick={onUpcomingClick}
+                    >
+                        {label.upcoming}
+                    </button>
+                    <button
+                        data-id="past"
+                        class="slds-button slds-button_neutral past-button inactive-button-background"
+                        onclick={onPastClick}
+                    >
+                        {label.past}
+                    </button>
+                </div>
+                <div class="list-align-mob">
                     <template if:true={showUpcomingVisits}>
-                        <div class="slds-scrollable_y scroll-bar">
+                        <div>
                             <template for:each={upcomingVisits} for:item="item" for:index="index">
                                 <div key={item}>
                                     <br />
                                     <div
-                                        class="inactiveCustomBoxclass"
+                                        class="inactive-custom-box"
                                         onclick={onVisitSelect}
                                         data-index={index}
                                         data-past="false"
@@ -340,12 +341,12 @@
                     </template>
                     <!--PAST VISITS-->
                     <template if:false={showUpcomingVisits}>
-                        <div class="slds-scrollable_y scroll-bar">
+                        <div>
                             <template for:each={pastVisits} for:item="item" for:index="index">
                                 <div key={item}>
                                     <br />
                                     <div
-                                        class="inactiveCustomBoxclass"
+                                        class="inactive-custom-box"
                                         onclick={onVisitSelect}
                                         data-index={index}
                                         data-past="true"
