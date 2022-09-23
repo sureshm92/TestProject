@@ -11,8 +11,8 @@
         <fullName>RH_No_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>No appointments scheduled today for the selected study site</shortDescription>
-        <value>No appointments scheduled today for the selected study site</value>
+        <shortDescription>No appointments scheduled for the selected date and study site</shortDescription>
+        <value>No appointments scheduled for the selected date and study site</value>
     </labels>    
     <labels>
         <fullName>RH_Visit_in_Site</fullName>
