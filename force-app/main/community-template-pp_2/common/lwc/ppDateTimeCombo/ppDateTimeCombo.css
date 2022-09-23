@@ -9,9 +9,8 @@
     height: 2rem;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
-    padding-left: 35px;
     background-color: #f2f2f2;
-    padding-left: 1rem;
+    padding-left: 2.25rem;
 }
 
 .curve-input .svg-icon {
@@ -56,5 +55,4 @@ input[type='date']::-webkit-calendar-picker-indicator,
         padding-right: 0;
         margin-bottom: 1rem;
     }
-
 }
