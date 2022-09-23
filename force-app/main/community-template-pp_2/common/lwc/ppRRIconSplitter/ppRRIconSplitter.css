@@ -71,6 +71,7 @@
     cursor: pointer;
 }
 
+.bio-icons:hover::after,
 .bio-icons.active::after {
     content: '';
     position: absolute;
@@ -81,6 +82,7 @@
     left: -6px;
     bottom: -13px;
 }
+
 
 @media (max-width: 468px) {
     .icons-container .icons-row .icon {

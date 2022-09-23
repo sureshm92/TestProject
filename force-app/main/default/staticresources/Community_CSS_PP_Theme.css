@@ -549,10 +549,16 @@ c-pp-study-visit-details-card .slds-card__header {
 }
 
 /* VISITS PAGE - WHAT TO EXPECT ICON HOVER */
+.bio-icons:hover svg.rr-icon_medium,
 .bio-icons.active svg.rr-icon_medium {
     fill: #009dd6;
 }
 
+.active-custom-box .rr-icon_medium,
+.inactive-custom-box .rr-icon_medium {
+    height: 26px!important;
+    width: 26px!important;
+}
 
 /* CURVED INPUTS */
 

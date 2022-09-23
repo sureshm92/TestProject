@@ -85,7 +85,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .curve-input .svg-icon {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%) translateX(-50%);
     left: 20px;
     fill: #00a3e0;
