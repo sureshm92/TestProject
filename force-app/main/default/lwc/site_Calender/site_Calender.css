@@ -127,6 +127,9 @@ cursor: pointer;
     font-weight: 600;
     line-height: 23px;
 }
+.box-visit-screen .step-minutes{
+    font-weight: 500;
+}
 .box-visit-screen .step-status{
     color: #000000;
     font-size: 14px;
@@ -270,3 +273,14 @@ cursor: pointer;
     color: #858383;
 }
 /* No Event End */
+@media only screen and (min-device-width: 1080px) and (max-device-width: 1920px) {
+    .vertical-scroll{
+        height:66vh;
+    }    
+}
+@media only screen and (min-device-width: 864px) and (max-device-width: 1536px) {
+    /* insert styles here */
+    .vertical-scroll{
+        height:66vh;
+    }
+}

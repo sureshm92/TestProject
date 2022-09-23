@@ -11,24 +11,36 @@
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
-    font-weight: 500;
+    margin-top: 18px;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
 }
 .icon-cont-mobile {
     box-sizing: border-box;
-    height: 209px;
+    height: auto;
     width: 382px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.check-for-results-on {
+    height: 32px;
+    width: 348px;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+    text-align: center;
 }
 .center {
     text-align: center;
 }
 .icon-cont1-mobile {
     box-sizing: border-box;
-    height: 300px;
+    height: auto;
     width: 382px;
     border: 1px solid #d9d9d9;
     border-radius: 16px;
@@ -39,6 +51,7 @@
 }
 .view-result {
     color: #2e7cf3;
+    margin-bottom: 2rem;
 }
 .icon-cont {
     box-sizing: border-box;
@@ -66,10 +79,5 @@
 .image-result-mobile {
     height: 92px;
     width: 128px;
-}
-.image-vertical-mobile {
-    padding: 127px 0;
-}
-.image-padding-mobile {
-    padding: 127px 0;
+    margin: 1rem 1rem 0 1rem;
 }

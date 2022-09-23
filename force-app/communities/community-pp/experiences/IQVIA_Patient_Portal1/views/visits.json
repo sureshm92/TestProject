@@ -1,49 +1,27 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "siteforce:dynamicLayout",
-  "id" : "0fab9bfc-8d71-463d-aa6a-a1c7ba4b67c8",
+  "componentName" : "c:PPOneColumnLayout",
+  "id" : "7e248832-0863-4161-8385-094796756d48",
   "label" : "Visits",
   "regions" : [ {
+    "id" : "9dc2a30f-c28b-440f-9d38-0158c87041df",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
     "components" : [ {
-      "componentAttributes" : {
-        "background" : "background: rgba(0,0,0,0)",
-        "backgroundOverlay" : "rgba(0,0,0,0.5)",
-        "contentAreaWidth" : 100,
-        "sectionConfig" : {
-          "UUID" : "f802cf8c-47a3-45a4-a78e-3eb6dea165c3",
-          "columns" : [ {
-            "UUID" : "00961525-1e74-48a4-b7d3-3788d9cfcb90",
-            "columnKey" : "1",
-            "columnName" : "Column 1",
-            "columnWidth" : "12",
-            "seedComponents" : [ ]
-          } ]
-        },
-        "sectionHeight" : 300
-      },
-      "componentName" : "forceCommunity:section",
-      "id" : "f802cf8c-47a3-45a4-a78e-3eb6dea165c3",
-      "regions" : [ {
-        "components" : [ {
-          "componentAttributes" : { },
-          "componentName" : "c:ppStudyVisitPage",
-          "id" : "4df5a28f-d427-4285-a223-dcbec1244cc7",
-          "renderPriority" : "NEUTRAL",
-          "renditionMap" : { },
-          "type" : "component"
-        } ],
-        "id" : "00961525-1e74-48a4-b7d3-3788d9cfcb90",
-        "regionLabel" : "Column 1",
-        "regionName" : "1",
-        "renditionMap" : { },
-        "type" : "region"
-      } ],
+      "componentAttributes" : { },
+      "componentName" : "c:ppStudyVisitPage",
+      "id" : "8c54c124-021e-4f19-b421-387b26000559",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "046f249a-74be-4116-9f25-123bf5010125",
+    "id" : "6c040509-26e6-40c1-b08f-88ed1f8be7d3",
     "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "8fb253f0-0350-4554-8adc-f4a6c36f5e01",
+    "regionName" : "footer",
     "type" : "region"
   }, {
     "components" : [ {
@@ -53,12 +31,24 @@
         "title" : "Visits"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "426cd28a-1cdb-4412-867d-23615d6608bb",
+      "id" : "9834e19a-2fe3-4a58-bde0-792ca5001a52",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "eaa607a9-a32f-4c77-aaf4-d2417c624c0a",
+    "id" : "e4749f26-7234-4f5e-aace-9527195043c8",
     "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppStudyVisitPage",
+      "id" : "dcbf3688-eab6-45ae-9f37-ffbed65e221b",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a2828436-01fe-41dc-9163-a87493f93e99",
+    "regionName" : "column1",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",

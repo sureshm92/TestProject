@@ -26,6 +26,17 @@ public without sharing class PreferenceManagementController {
         }
     }
 
+    @AuraEnabled
+    public static Boolean createCommPrefEvent() {
+        try {
+            Communication_Preference_Change__e commPrefEvent = new Communication_Preference_Change__e();
+            EventBus.publish(commPrefEvent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     /**
      * @description: This Method will save the Study Consent data checked/uncheck by participant/Patient delegate.
      * @author: Krishna Mahto

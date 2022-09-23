@@ -665,7 +665,7 @@ export default class Pir_participantDetail extends LightningElement {
         var mm = String(today.getMonth() + 1).padStart(2, "0");
         var yyyy = today.getFullYear();
         today = yyyy + "-" + mm + "-" + dd;
-        if(dt>=today){
+        if(dt>today){
             this.invalidDOB=true;
         }else{
             this.invalidDOB = false;

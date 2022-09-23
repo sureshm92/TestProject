@@ -100,8 +100,15 @@
         left: -109px;
         left: -155px;
     }
+    .THIS .menu-popup-panel.starincentive{
+        left: -109px;        
+    }
 }
-
+@media all and (max-width: 76.25em) {
+    .THIS .menu-popup-panel.starincentive {
+        left: -161px;
+    }
+}
 
 .THIS .menu-popup-panel.popupTargetContainer.visible {
     display: block;

@@ -101,8 +101,11 @@
                         } else {
                             component.set('v.currentState', 'No Active Sites');
                         }
+                        component.set('v.pyear',null);
+                        component.set('v.pmonth',null);
+                        component.set('v.pday',null);
                         if(initData.participantEnrollment.YOB__c) {component.set('v.pyear',initData.participantEnrollment.YOB__c);}
-                        if(initData.participantEnrollment.Birth_Month__c) {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
+                        if(initData.participantEnrollment.Birth_Month__c && dobFormat!='YYYY') {component.set('v.pmonth',initData.participantEnrollment.Birth_Month__c);}
                         component.dobChangeMethod();
                     } else {
                         component.set('v.currentState', 'Select Source');
@@ -283,6 +286,8 @@
         } else { 
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
         }
+        if(ssFormat=='YYYY') {component.set('v.pmonth',null);}
+        component.dobChangeMethod();
         window.scrollTo(0, 0);
     },
     
@@ -369,7 +374,10 @@
         //component.checkdobMethod();
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
-        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        component.checkdobMethod();
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
+            helper.validateDOB(component, event, helper);
+        }
     },
 
     doDOBChange: function (component, event, helper) {
@@ -381,7 +389,10 @@
         if(formatSS == 'DD-MM-YYYY'){helper.doMonthPLVChange(component, event, helper);}
         if(formatSS == 'DD-MM-YYYY'){helper.doParticipantAge(component);}
         if(formatSS != 'DD-MM-YYYY'){helper.generateAgeOptions(component);}
-        if(formatSS == 'DD-MM-YYYY'){component.checkdobMethod();}
+        component.checkdobMethod();
+        if(formatSS != 'YYYY' && formatSS != undefined && formatSS != null){
+            helper.validateDOB(component, event, helper);
+        }
         //component.checkdobMethod();
     },
     doAgeChange: function (component, event, helper) {
@@ -399,9 +410,9 @@
         let partAge = component.get('v.selectedAge');
         let dobFormat = component.get('v.studySiteFormat');
         if(dobFormat && pyear && 
-            (dobFormat == 'YYYY' || (pmonth && partAge>=0 && (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
+            (dobFormat == 'YYYY' || (pmonth &&  (dobFormat == 'MM-YYYY' || (dobFormat == 'DD-MM-YYYY'  && pday))) )){
                 let higherAge = Number(todayDate.getUTCFullYear())-Number(pyear);
-                let endOfMonth = new Date(todayDate.getUTCFullYear(), todayDate.getMonth()+1, 0);
+                let endOfMonth = new Date(pyear, pmonth, 0);
                 let dd = ((pday) ?   pday : ( higherAge == partAge ? 1 : (dobFormat == 'YYYY' ? 31 : endOfMonth.getDate() ) )  );
                 
                 let mm = (pmonth) ? pmonth : ( ( higherAge == partAge) ? 1 : 12 );

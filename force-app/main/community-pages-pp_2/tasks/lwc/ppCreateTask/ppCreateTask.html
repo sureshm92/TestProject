@@ -1,0 +1,51 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12">
+            <div class="slds-align_absolute-center">
+                <lightning-card title="Tasks">
+                    <lightning-layout>
+                        <lightning-layout-item padding="around-small" size="4">
+                            <img src={task_icon} />
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="8">
+                            <input type="text" data-id="taskName" onkeyup={handleuserNameChange} />
+                            {taskNamelength}/30
+                            <c-pp-date-time-combo
+                                reminder={booleanFalse}
+                                mindate={currentDate}
+                                mintime={currentTime}
+                                ondatechange={handleDate}
+                                ontimechange={handleTime}
+                            ></c-pp-date-time-combo>
+                            <!--Task Reminder Section-->
+                            <template if:true={initData}
+                                ><c-pp-create-task-reminder
+                                    init-data={initData}
+                                    current-date={currentDate}
+                                    current-time={currentTime}
+                                    task-due-date-time={taskDateTime}
+                                    task-due-date={taskDate}
+                                    task-due-time={taskTime}
+                                    is-task-due-date-time-selected={isDueDateTimeSelected}
+                                    oncustomreminderdata={handleCustomReminder}
+                                    onreminderdata={handleReminder}
+                                ></c-pp-create-task-reminder
+                            ></template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <p slot="footer">
+                        <lightning-button
+                            variant="base"
+                            label="Save"
+                            class="slds-m-left_x-small slds-align_absolute-center"
+                            onclick={doCreateTask}
+                        ></lightning-button>
+                    </p>
+                </lightning-card>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

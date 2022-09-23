@@ -1,26 +1,29 @@
 <!--Created by Deeksha on 27.05.2020-->
 <aura:component
-    controller="AccountSettingsController"
-    description="AccountSettings"
-    extends="c:CommunityContext"
->
+                controller="AccountSettingsController"
+                description="AccountSettings"
+                extends="c:CommunityContext"
+                >
     <!-- attributes:  -->
     <aura:attribute name="initData" type="Object" access="private" />
     <aura:attribute name="userMode" type="String" required="true" />
     <aura:attribute name="isDelegate" type="Boolean" />
     <aura:attribute name="disableToggle" type="Boolean" />
     <aura:attribute name="disableEmailToggle" type="Boolean" />
-
+    <aura:attribute name="placeHolder" type="String" />
+    
     <aura:attribute name="delegateContact" type="Contact" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
-    <aura:attribute name="institute" type="Object" />
-    <aura:attribute name="previousCC" type="String" />
 
+    <aura:attribute name="institute" type="Object" />
+    <aura:attribute name="participant" type="Object" />
+    <aura:attribute name="previousCC" type="String" />
+    
     <aura:attribute name="personSnapshot" type="String" />
     <aura:attribute name="isStateChanged" type="Boolean" />
     <aura:attribute name="isAllFieldsValid" type="Boolean" />
     <aura:attribute name="participantHasUpdateTasks" type="Boolean" />
-
+    
     <aura:attribute name="todayDate" type="Date" />
     <aura:attribute name="gendersLVList" type="List" />
     <aura:attribute name="countriesLVList" type="LabelValueItem[]" />
@@ -30,16 +33,20 @@
     <aura:attribute name="phonePlaceholder" type="String" />
     <aura:attribute name="reRender" type="Boolean" default="true" />
     <aura:attribute name="disableSave" type="Boolean" default="false" />
-
+    <aura:attribute name="ageInputDisabled" type="Boolean" default="false" />
+    
+    
     <aura:attribute name="contactSectionData" type="Object" />
     <aura:attribute name="addressLine2" type="String" default="" />
     <aura:attribute name="addressLine1" type="String" default="" />
     <aura:attribute name="personWrapper" type="Object" />
+    <aura:attribute name="contObj" type="Object" />
+    
     <aura:attribute name="contact" type="Contact" />
     <aura:attribute name="optInEmail" type="Boolean" />
     <aura:attribute name="optInSMS" type="Boolean" />
     <aura:attribute name="phoneTypeList" type="List" />
-
+    
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
     <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private" />
     <aura:attribute name="privacyFormText" type="String" access="private" />
@@ -53,53 +60,68 @@
     <aura:attribute name="isRTL" type="Boolean" default="false" />
     <aura:attribute name="hideContactInformationForDel" type="Boolean" default="false"/>
     <aura:attribute name="consentPreferenceData" type="Object" />
-
+    <!--- YOB attributes-->
+    <aura:attribute name="ageStart" type="String"  default="0"/>
+    <aura:attribute name="ageEnd" type="String"  default="150"/>
+    <aura:attribute name="valueAge" type="String" />
+    <aura:attribute name="ageOpt" type="List"/>
+    <aura:attribute name="optionsDD" type="List" />
+    <aura:attribute name="optionsMM" type="List"/>
+    <aura:attribute name="optionsYYYY" type="List" />
+    <aura:attribute name="dobConfig" type="String" default=""/>
+    <aura:attribute name="lastDay" type="Integer" />
+    <aura:attribute name="showDate" type="Boolean" />
+    <aura:attribute name="showDay" type="Boolean" />
+    <aura:attribute name="showMonth" type="Boolean" />
+    <aura:attribute name="futureDate" type="Boolean" />
+    <aura:attribute name="futureDateDDErr" type="String" />
+    <aura:attribute name="futureDateMMErr" type="String" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-
+    
     <!-- Methods: -->
     <aura:method name="scrollOnMobileField" action="{!c.doScrollInto}" access="public">
         <aura:attribute name="smsOptIn" type="Boolean" />
     </aura:method>
     <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}" />
-
+    
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div>
         <div class="as-container">
             <c:RRSpinner
-                aura:id="spinner"
-                size="medium"
-                showSpinner="{!v.showSpinner}"
-                fixed="true"
-            />
+                         aura:id="spinner"
+                         size="medium"
+                         showSpinner="{!v.showSpinner}"
+                         fixed="true"
+                         />
             <c:Action_RemoveDelegate aura:id="actionRemoveDelegate" />
-
+            
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="rr-white-panel">
                     <div class="as-title">{!$Label.c.PP_General_Info}</div>
-
+                    
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid">
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <aura:if isTrue="{!and(v.isAdult, v.userEmail)}">
                                         <c:Action_AddProfilePhoto
-                                            username="{!v.userEmail}"
-                                            recordId="{!v.userId}"
-                                            isDelegate="{!v.isDelegate}"
-                                            hasProfilePic="{!v.hasProfilePic}"
-                                            isRTLLanguage="{!v.isRTL}"
-                                            userMode="{!v.userMode}"
-                                        ></c:Action_AddProfilePhoto>
+                                                                  username="{!v.userEmail}"
+                                                                  recordId="{!v.userId}"
+                                                                  isDelegate="{!v.isDelegate}"
+                                                                  hasProfilePic="{!v.hasProfilePic}"
+                                                                  isRTLLanguage="{!v.isRTL}"
+                                                                  userMode="{!v.userMode}"
+                                                                  ></c:Action_AddProfilePhoto>
                                         <aura:set attribute="else">
                                             <div class="slds-grid profileImg">
                                                 <div class="avatar-icon-minor">
                                                     <c:RRIcon
-                                                        color="white"
-                                                        class="single-avatar-minor"
-                                                        iconName="single-neutral"
-                                                    />
+                                                              color="white"
+                                                              class="single-avatar-minor"
+                                                              iconName="single-neutral"
+                                                              />
                                                 </div>
                                                 <div class="profileEmail">{!v.minorUserName}</div>
                                             </div>
@@ -108,255 +130,419 @@
                                 </aura:if>
                                 <aura:if isTrue="{!v.userMode != 'Participant'}">
                                     <c:Action_AddProfilePhoto
-                                        username="{!v.userEmail}"
-                                        recordId="{!v.userId}"
-                                        isDelegate="{!v.isDelegate}"
-                                        hasProfilePic="{!v.hasProfilePic}"
-                                        userMode="{!v.userMode}"
-                                    ></c:Action_AddProfilePhoto>
+                                                              username="{!v.userEmail}"
+                                                              recordId="{!v.userId}"
+                                                              isDelegate="{!v.isDelegate}"
+                                                              hasProfilePic="{!v.hasProfilePic}"
+                                                              userMode="{!v.userMode}"
+                                                              ></c:Action_AddProfilePhoto>
                                 </aura:if>
                             </div>
                             <div
-                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"
-                            ></div>
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"
+                                 ></div>
                         </div>
                     </div>
-
+                    
                     <!-- <aura:if isTrue="{!equals(v.userMode, 'Participant')}"> -->
                     <!-- Name Section -->
                     <div
-                        class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
-                    >
+                         class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                         >
                         <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
-                        >
+                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
+                             >
                             <aura:if isTrue="{!(v.isDelegate)}">
                                 <div class="label username_title">{!$Label.c.PP_Prefix}</div>
                                 <c:rrSelect
-                                    options="{!v.contactSectionData.prefixList}"
-                                    value="{!v.personWrapper.prefix}"
-                                    placeholder="{!$Label.c.PG_AC_Select}"
-                                    disabled="true"
-                                />
+                                            options="{!v.contactSectionData.prefixList}"
+                                            value="{!v.personWrapper.prefix}"
+                                            placeholder="{!$Label.c.PG_AC_Select}"
+                                            disabled="true"
+                                            />
                             </aura:if>
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <div class="label username_title">{!$Label.c.PP_Prefix}</div>
                                 <aura:if isTrue="{!v.userMode != 'Participant'}">
                                     <c:rrSelect
-                                        options="{!v.contactSectionData.prefixList}"
-                                        value="{!v.personWrapper.prefix}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        isValueChanged="{!v.disableSave}"
-                                    />
+                                                options="{!v.contactSectionData.prefixList}"
+                                                value="{!v.personWrapper.prefix}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                isValueChanged="{!v.disableSave}"
+                                                />
                                 </aura:if>
-
+                                
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <c:rrSelect
-                                        options="{!v.contactSectionData.prefixList}"
-                                        value="{!v.personWrapper.prefix}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                    />
+                                                options="{!v.contactSectionData.prefixList}"
+                                                value="{!v.personWrapper.prefix}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                />
                                 </aura:if>
                             </aura:if>
                         </div>
                         <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName"
-                        >
+                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName"
+                             >
                             <aura:if isTrue="{!(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_First_name}"
-                                    value="{!v.personWrapper.firstName}"
-                                    required="true"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    disabled="true"
-                                    class="mar"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_First_name}"
+                                                 value="{!v.personWrapper.firstName}"
+                                                 required="true"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 disabled="true"
+                                                 class="mar"
+                                                 />
                             </aura:if>
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_First_name}"
-                                    value="{!v.personWrapper.firstName}"
-                                    required="true"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    class="mar"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_First_name}"
+                                                 value="{!v.personWrapper.firstName}"
+                                                 required="true"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 class="mar"
+                                                 />
                             </aura:if>
                         </div>
                         <div
-                            class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
-                        >
+                             class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
+                             >
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Middle_name}"
-                                    value="{!v.personWrapper.middleName}"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Middle_name}"
+                                                 value="{!v.personWrapper.middleName}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 />
                             </aura:if>
-
+                            
                             <aura:if isTrue="{!(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Middle_name}"
-                                    value="{!v.personWrapper.middleName}"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    disabled="true"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Middle_name}"
+                                                 value="{!v.personWrapper.middleName}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 disabled="true"
+                                                 />
                             </aura:if>
                         </div>
                     </div>
                     <aura:if isTrue="{!v.isDelegate}">
                         <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"
-                        ></div>
+                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"
+                             ></div>
                     </aura:if>
-
+                    
                     <div
-                        class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
-                    >
+                         class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                         >
                         <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName"
-                        >
+                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName"
+                             >
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Last_name}"
-                                    value="{!v.personWrapper.lastName}"
-                                    required="true"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Last_name}"
+                                                 value="{!v.personWrapper.lastName}"
+                                                 required="true"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 />
                             </aura:if>
-
+                            
                             <aura:if isTrue="{!(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Last_name}"
-                                    value="{!v.personWrapper.lastName}"
-                                    required="true"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    disabled="true"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Last_name}"
+                                                 value="{!v.personWrapper.lastName}"
+                                                 required="true"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 disabled="true"
+                                                 />
                             </aura:if>
                         </div>
                         <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
-                        >
+                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
+                             >
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Suffix}"
-                                    value="{!v.personWrapper.suffix}"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    class="suffix"
-                            /></aura:if>
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Suffix}"
+                                                 value="{!v.personWrapper.suffix}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 class="suffix"
+                                                 /></aura:if>
                             <aura:if isTrue="{!(v.isDelegate)}">
                                 <lightning:input
-                                    aura:id="pField"
-                                    type="text"
-                                    label="{!$Label.c.PG_AS_F_Suffix}"
-                                    value="{!v.personWrapper.suffix}"
-                                    onblur="{!c.doCheckFieldsValidity}"
-                                    disabled="true"
-                                    class="suffix"
-                                />
+                                                 aura:id="pField"
+                                                 type="text"
+                                                 label="{!$Label.c.PG_AS_F_Suffix}"
+                                                 value="{!v.personWrapper.suffix}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 disabled="true"
+                                                 class="suffix"
+                                                 />
                             </aura:if>
                         </div>
                     </div>
                     <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
                         <!-- Date of Birth and Sex Section -->
                         <div
-                            class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
-                        >
+                             class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                             >
                             <div
-                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname"
-                            >
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname"
+                                 >
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     <lightning:input
-                                        aura:id="pField"
-                                        type="text"
-                                        label="{!$Label.c.PG_AS_NickName}"
-                                        value="{!v.personWrapper.nickname}"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                /></aura:if>
-
+                                                     aura:id="pField"
+                                                     type="text"
+                                                     label="{!$Label.c.PG_AS_NickName}"
+                                                     value="{!v.personWrapper.nickname}"
+                                                     onblur="{!c.doCheckFieldsValidity}"
+                                                     /></aura:if>
+                                
                                 <aura:if isTrue="{!v.isDelegate}">
                                     <lightning:input
-                                        class="dob"
-                                        aura:id="pField"
-                                        type="text"
-                                        label="{!$Label.c.PG_AS_NickName}"
-                                        value="{!v.personWrapper.nickname}"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                        disabled="true"
-                                    />
+                                                     class="dob"
+                                                     aura:id="pField"
+                                                     type="text"
+                                                     label="{!$Label.c.PG_AS_NickName}"
+                                                     value="{!v.personWrapper.nickname}"
+                                                     onblur="{!c.doCheckFieldsValidity}"
+                                                     disabled="true"
+                                                     />
                                 </aura:if>
                             </div>
                             <div
-                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
-                            >
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
+                                 >
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     <div class="label rr-sentence-font">
                                         {!$Label.c.PG_AS_F_Gender}
                                     </div>
-
+                                    
                                     <c:rrSelect
-                                        options="{!v.contactSectionData.gendersLVList}"
-                                        value="{!v.personWrapper.gender}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                    />
+                                                options="{!v.contactSectionData.gendersLVList}"
+                                                value="{!v.personWrapper.gender}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                />
                                 </aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <div class="label rr-sentence-font">
                                         {!$Label.c.PG_AS_F_Gender}
                                     </div>
-
+                                    
                                     <c:rrSelect
-                                        options="{!v.contactSectionData.gendersLVList}"
-                                        value="{!v.personWrapper.gender}"
-                                        placeholder="{!$Label.c.PG_AC_Select}"
-                                        disabled="true"
-                                    />
+                                                options="{!v.contactSectionData.gendersLVList}"
+                                                value="{!v.personWrapper.gender}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                disabled="true"
+                                                />
                                 </aura:if>
                             </div>
+                        </div>
+                        <div
+                             class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                             >
+                            
+                            <aura:if
+                                     isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                     >   
+                                <!-- Added by Anitha-->
+                                <aura:if isTrue="{!(v.showDay)}">
+                                    <div
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                         >  
+                                        
+                                        <div class="label">
+                                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_DOB}
+                                        </div>
+                                        <c:rrSelect
+                                                    options="{!v.optionsDD}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
+                                                    value="{!v.personWrapper.birthDay}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.DDChange}"
+                                                    errorMessage="{!v.futureDateDDErr}"
+                                                    />
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.isDelegate)}">
+                                <!-- Added by Anitha-->
+                                <aura:if isTrue="{!(v.showDay)}">
+                                    <div
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                         >  
+                                        
+                                        <div class="label">
+                                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_DOB}
+                                        </div>
+                                        
+                                        <c:rrSelect
+                                                    options="{!v.optionsDD}"
+                                                    placeholder="{!$Label.c.Date_Placeholder}"
+                                                    value="{!v.personWrapper.birthDay}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.DDChange}"
+                                                    errorMessage="{!v.futureDateDDErr}" disabled="true"
+                                                    
+                                                    />
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <!--- Month-->
+                            
+                            <aura:if
+                                     isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                     > 
+                                <!-- Added by Anitha-->
+                                <aura:if isTrue="{!(v.showMonth)}">
+                                    <div
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                         >
+                                        <div class="label">
+                                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
+                                        </div>
+                                        <c:rrSelect
+                                                    options="{!v.optionsMM}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
+                                                    value="{!v.personWrapper.birthMonth}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.MMChange}"
+                                                    errorMessage="{!v.futureDateMMErr}"
+                                                    />
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.isDelegate)}">
+                                <!-- Added by Anitha-->
+                                <aura:if isTrue="{!(v.showMonth)}">
+                                    <div
+                                         class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                         >
+                                        <div class="label">
+                                            <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
+                                        </div>
+                                        <c:rrSelect
+                                                    options="{!v.optionsMM}"
+                                                    placeholder="{!$Label.c.Month_Placeholder}"
+                                                    value="{!v.personWrapper.birthMonth}"
+                                                    required="true"
+                                                    useSentenceFont="false"
+                                                    onchange="{!c.MMChange}" disabled="true"
+                                                    errorMessage="{!v.futureDateMMErr}"
+                                                    />
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <!--- Year-->
                             <div
-                                class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
-                            >
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                 >   
                                 <aura:if
-                                    isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
-                                >
-                                    <lightning:input
-                                        aura:id="pField"
-                                        type="date"
-                                        label="{!$Label.c.PG_AS_F_Date_of_Birth}"
-                                        max="{!v.todayDate}"
-                                        value="{!v.personWrapper.dateBirth}"
-                                        required="true"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                        class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"
-                                        dateStyle="medium"
-                                /></aura:if>
+                                         isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                         > 
+                                    <!-- Added by Anitha-->
+                                    <div class="label">
+                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Year_of_Birth}
+                                    </div>
+                                    <c:rrSelect
+                                                options="{!v.optionsYYYY}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
+                                                value="{!v.personWrapper.birthYear}" 
+                                                required="true"
+                                                useSentenceFont="false"
+                                                onchange="{!c.YYYYChange}"
+                                                />
+                                </aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
-                                    <lightning:input
-                                        aura:id="pField"
-                                        type="date"
-                                        label="{!$Label.c.PG_AS_F_Date_of_Birth}"
-                                        max="{!v.todayDate}"
-                                        value="{!v.personWrapper.dateBirth}"
-                                        required="true"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                        disabled="true"
-                                        class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"
-                                        dateStyle="medium"
-                                    />
+                                    <!-- Added by Anitha-->
+                                    <div class="label">
+                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Year_of_Birth}
+                                    </div>
+                                    <c:rrSelect
+                                                options="{!v.optionsYYYY}"
+                                                placeholder="{!$Label.c.Year_Placeholder}"
+                                                value="{!v.personWrapper.birthYear}"
+                                                required="true"
+                                                useSentenceFont="false"
+                                                onchange="{!c.YYYYChange}" disabled="true"
+                                                />
+                                </aura:if>
+                            </div>
+                            <!--- Age-->
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
+                                 >   
+                                <aura:if
+                                         isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                         > 
+                                    <!-- Added by Anitha-->
+                                    <aura:if isTrue="{!v.ageInputDisabled}">
+                                        <div class="input-label">
+                                            <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
+                                        </div>
+                                        <div class="input-text alignAge">
+
+                                         {!v.valueAge}
+                                        </div>
+                                        
+                                        
+                                        <aura:set attribute="else">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Age}
+                                            </div>
+                                            <c:rrSelect
+                                                        options="{!v.ageOpt}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                                        value="{!v.valueAge}"
+                                                        onchange="{!c.ageChange}"
+                                                        required="true"
+                                                        useSentenceFont="false"/>
+                                        </aura:set>
+                                        
+                                    </aura:if>
+                                    
+                                </aura:if>
+                                <aura:if isTrue="{!(v.isDelegate)}">
+                                    <!-- Added by Anitha-->
+                                    <aura:if isTrue="{!v.ageInputDisabled}">
+                                        <div class="input-label">
+                                            <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
+                                        </div>
+                                        <div class="input-text alignAge">
+                                        {!v.valueAge}
+                                        </div>
+                                        <aura:set attribute="else">
+                                            
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Age}
+                                            </div>
+                                            <c:rrSelect
+                                                        options="{!v.ageOpt}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                                        value="{!v.valueAge}"
+                                                        onchange="{!c.ageChange}"
+                                                        required="true" 
+                                                        useSentenceFont="false" disabled="true"/>
+                                            
+                                        </aura:set> 
+                                    </aura:if>
+                                    
+                                    
                                 </aura:if>
                             </div>
                         </div>
@@ -365,314 +551,295 @@
                             <div class="as-info">
                                 <div class="as-title">{!$Label.c.AccountSetting_Date_Of_Birth}</div>
                                 <div
-                                    class="{! 'rr-form-element slds-grid slds-wrap slds-gutters delegate-birthDate'}"
-                                >
+                                     class="{! 'rr-form-element slds-grid slds-wrap slds-gutters delegate-birthDate'}"
+                                     >
                                     <div
-                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
-                                    >
+                                         class="rr-form-element slds-col slds-size_1-of-2"
+                                         >           
                                         <lightning:input
-                                            type="text"
-                                            label="{!$Label.c.AccountSetting_Birth_Day}"
-                                            disabled="true"
-                                            value="{!v.personWrapper.birthDay}"
-                                        />
-                                    </div>
-                                    <div
-                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
-                                    >
-                                        <lightning:input
-                                            type="text"
-                                            label="{!$Label.c.AccountSetting_Birth_Month}"
-                                            disabled="true"
-                                            value="{!v.personWrapper.birthMonth}"
-                                        />
-                                    </div>
-                                    <div
-                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
-                                    >
-                                        <lightning:input
-                                            type="text"
-                                            label="{!$Label.c.AccountSetting_Birth_Year}"
-                                            disabled="true"
-                                            value="{!v.personWrapper.birthYear}"
-                                        />
+                                                         type="text"
+                                                         label="{!$Label.c.Year_of_Birth}"
+                                                         disabled="true" required="true"
+                                                         value="{!v.personWrapper.birthYear}"
+                                                         />
+                                        
                                     </div>
                                 </div>
                             </div>
                         </aura:if>
                     </aura:if>
-
+                    
                     <!--    </aura:if>  -->
-
+                    
                     <div style="height: 30px"></div>
-
+                    
                     <aura:if isTrue="{!v.isDelegate}">
                         <div class="delegateInfo">
                             <c:DelegateInformation
-                                contact="{!v.delegateContact}"
-                                parentComponent="{!this}"
-                                userMode="Participant"
-                            />
+                                                   contact="{!v.delegateContact}"
+                                                   parentComponent="{!this}"
+                                                   userMode="Participant"
+                                                   />
                         </div>
                         <div style="height: 30px"></div>
                     </aura:if>
-
+                    
                     <!--  <aura:if isTrue="{!v.userMode != 'PI'}">  -->
                     <div class="as-email-preference">
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
-						<aura:if isTrue="{!(!v.hideContactInformationForDel)}">
-							<div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
-							<div class="contactDesc">
-								<aura:if isTrue="{!v.userMode == 'CC'}">
-									{!$Label.c.CC_Toggle_Information}
-								<aura:set attribute="else">  
-									<aura:if isTrue="{!v.userMode == 'Participant'}">
-										{!$Label.c.PP_Toggle_Information} 
+                        <aura:if isTrue="{!(!v.hideContactInformationForDel)}">
+                            <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
+                            <div class="contactDesc">
+                                <aura:if isTrue="{!v.userMode == 'CC'}">
+                                    {!$Label.c.CC_Toggle_Information}
+                                    <aura:set attribute="else">  
+                                        <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                            {!$Label.c.PP_Toggle_Information} 
                                             <!-- <lightning:formattedUrl
                                                 class="slds-p-left_xx-small"
-											value="./account-settings?communication-preferences"
-											label="{!$Label.c.PP_Communication_Pref}"
+           value="./account-settings?communication-preferences"
+           label="{!$Label.c.PP_Communication_Pref}"
                                             />. -->
                                             <a
-                                                href="./account-settings?communication-preferences"
-                                                class="slds-p-left_xx-small"
-                                                target="_self"
-                                                >{!$Label.c.PP_Communication_Pref}</a
-                                            >.
-									<aura:set attribute="else"> 
-										{!$Label.c.PI_Toggle_Information}    
-									</aura:set>
-									</aura:if>
-								</aura:set>  
-								</aura:if>
-							</div>
-							<div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-								<div
-									class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2"
-								>
-									<aura:if isTrue="{!not(v.isDelegate)}">
-										<!-- <div class="label">{!$Label.c.PG_AS_F_Email_address}</div> -->
-
-										<lightning:input
-											aura:id="emailInput"
-											type="text"
-											label="{!$Label.c.PG_AS_F_Email_address}"
-											value="{!v.contact.Email}"
-											onblur="{!c.doCheckEmailFieldValidity}"
-											messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-											disabled="{!v.userMode == 'CC' ? true : false}"
-										/>
-
-										<!-- <c:rrInput valueString="{!v.contact.Email}"
-												   placeholder="{!$Label.c.PG_AS_F_Email_address}" isSaveBtnDisable="{!v.disableSave}"/> -->
-									</aura:if>
-
-									<aura:if isTrue="{!(v.isDelegate)}">
-										<lightning:input
-											aura:id="emailInput1"
-											type="text"
-											label="{!$Label.c.PG_AS_F_Email_address}"
-											value="{!v.contact.Email}"
-											onblur="{!c.doCheckEmailFieldValidity}"
-											disabled="true"
-										/>
-										<!-- <c:rrInput valueString="{!v.contact.Email}"
-												   placeholder="{!$Label.c.PG_AS_F_Email_address}" 
-												   onblur="{!c.doCheckFieldsValidity}"
-												   disabled="true"/> -->
-									</aura:if>
-								</div>
-							</div>
-							<aura:if isTrue="{!!v.isDelegate}">
-								<div
-									class="{!if(v.userMode != 'Participant','slds-p-top_x-small','slds-p-top_xx-small')}"
-								>
-									<span style="color: #e20000; font-weight: bold"
-										>{!$Label.c.PP_Warning}&nbsp;</span
-									>{!$Label.c.EmailWarningMessage}<a
-										onclick="{!c.navigateToHelpPage}"
-										style="font-weight: bold"
-										>&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a
-									>{!$Label.c.PP_Page}
-								</div>
-							</aura:if>
-							<!-- Toggle for SMS -->
-
-							<div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-								<div
-									class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
-								>
-									<lightning:input
-										aura:id="pField1"
-										type="tel"
-										label="{!$Label.c.Mob_Phone_Field}"
-										value="{!v.personWrapper.mobilePhone}"
-										disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-										onblur="{!c.doCheckFieldsValidity}"
-										class="{!v.isRTL?'rightAlign':''}"
-									/>
-								</div>
-							</div>
-
-							<!--<aura:if isTrue="{!v.userMode == 'Participant'}">  -->
-							<div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-								<div
-									class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
-								>
-									<aura:if isTrue="{!v.userMode == 'Participant'}">
-										<lightning:input
-											aura:id="pField2"
-											type="tel"
-											label="{!$Label.c.PG_AS_F_Phone_number}"
-											value="{!v.personWrapper.homePhone}"
-											onblur="{!c.doCheckFieldsValidity}"
-											required="true"
-											class="{!v.isRTL?'rightAlign':''}"
-										/>
-									</aura:if>
-									<aura:if isTrue="{!v.userMode != 'Participant'}">
-										<lightning:input
-											aura:id="pField2"
-											class="{!v.isRTL? 'rightAlign':''}"
-											type="tel"
-											label="{!$Label.c.PG_AS_F_Phone_number}"
-											value="{!v.personWrapper.homePhone}"
-											onblur="{!c.doCheckFieldsValidity}"
-										/>
-									</aura:if>
-								</div>
-								<div
-									class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
-								>
-									<div class="label rr-sentence-font mar_top">
-										{!$Label.c.Phone_Type}
-									</div>
-
-									<aura:if isTrue="{!v.userMode != 'Participant'}">
-										<c:rrSelect
-											options="{!v.contactSectionData.phoneTypeList}"
-											value="{!v.personWrapper.phoneType}"
-											placeholder="{!$Label.c.PG_AC_Select}"
-											isValueChanged="{!v.disableSave}"
-										/>
-									</aura:if>
-									<aura:if isTrue="{!v.userMode == 'Participant'}">
-										<c:rrSelect
-											options="{!v.contactSectionData.phoneTypeList}"
-											value="{!v.personWrapper.phoneType}"
-											placeholder="{!$Label.c.PG_AC_Select}"
-										/>
-									</aura:if>
-								</div>
-							</div>
-						</aura:if>
+                                               href="./account-settings?communication-preferences"
+                                               class="slds-p-left_xx-small"
+                                               target="_self"
+                                               >{!$Label.c.PP_Communication_Pref}</a
+                                                >.
+                                            <aura:set attribute="else"> 
+                                                {!$Label.c.PI_Toggle_Information}    
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>  
+                                </aura:if>
+                            </div>
+                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                <div
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2"
+                                     >
+                                    <aura:if isTrue="{!not(v.isDelegate)}">
+                                        <!-- <div class="label">{!$Label.c.PG_AS_F_Email_address}</div> -->
+                                        
+                                        <lightning:input
+                                                         aura:id="emailInput"
+                                                         type="text"
+                                                         label="{!$Label.c.PG_AS_F_Email_address}"
+                                                         value="{!v.contact.Email}"
+                                                         onblur="{!c.doCheckEmailFieldValidity}"
+                                                         messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                         disabled="{!v.userMode == 'CC' ? true : false}"
+                                                         />
+                                        
+                                        <!-- <c:rrInput valueString="{!v.contact.Email}"
+               placeholder="{!$Label.c.PG_AS_F_Email_address}" isSaveBtnDisable="{!v.disableSave}"/> -->
+                                    </aura:if>
+                                    
+                                    <aura:if isTrue="{!(v.isDelegate)}">
+                                        <lightning:input
+                                                         aura:id="emailInput1"
+                                                         type="text"
+                                                         label="{!$Label.c.PG_AS_F_Email_address}"
+                                                         value="{!v.contact.Email}"
+                                                         onblur="{!c.doCheckEmailFieldValidity}"
+                                                         disabled="true"
+                                                         />
+                                        <!-- <c:rrInput valueString="{!v.contact.Email}"
+               placeholder="{!$Label.c.PG_AS_F_Email_address}" 
+               onblur="{!c.doCheckFieldsValidity}"
+               disabled="true"/> -->
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <aura:if isTrue="{!!v.isDelegate}">
+                                <div
+                                     class="{!if(v.userMode != 'Participant','slds-p-top_x-small','slds-p-top_xx-small')}"
+                                     >
+                                    <span style="color: #e20000; font-weight: bold"
+                                          >{!$Label.c.PP_Warning}&nbsp;</span
+                                        >{!$Label.c.EmailWarningMessage}<a
+                                                                           onclick="{!c.navigateToHelpPage}"
+                                                                           style="font-weight: bold"
+                                                                           >&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a
+                                    >{!$Label.c.PP_Page}
+                                </div>
+                            </aura:if>
+                            <!-- Toggle for SMS -->
+                            
+                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                <div
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
+                                     >
+                                    <lightning:input
+                                                     aura:id="pField1"
+                                                     type="tel"
+                                                     label="{!$Label.c.Mob_Phone_Field}"
+                                                     value="{!v.personWrapper.mobilePhone}"
+                                                     disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
+                                                     onblur="{!c.doCheckFieldsValidity}"
+                                                     class="{!v.isRTL?'rightAlign':''}"
+                                                     />
+                                </div>
+                            </div>
+                            
+                            <!--<aura:if isTrue="{!v.userMode == 'Participant'}">  -->
+                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                <div
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
+                                     >
+                                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                        <lightning:input
+                                                         aura:id="pField2"
+                                                         type="tel"
+                                                         label="{!$Label.c.PG_AS_F_Phone_number}"
+                                                         value="{!v.personWrapper.homePhone}"
+                                                         onblur="{!c.doCheckFieldsValidity}"
+                                                         required="true"
+                                                         class="{!v.isRTL?'rightAlign':''}"
+                                                         />
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                                        <lightning:input
+                                                         aura:id="pField2"
+                                                         class="{!v.isRTL? 'rightAlign':''}"
+                                                         type="tel"
+                                                         label="{!$Label.c.PG_AS_F_Phone_number}"
+                                                         value="{!v.personWrapper.homePhone}"
+                                                         onblur="{!c.doCheckFieldsValidity}"
+                                                         />
+                                    </aura:if>
+                                </div>
+                                <div
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
+                                     >
+                                    <div class="label rr-sentence-font mar_top">
+                                        {!$Label.c.Phone_Type}
+                                    </div>
+                                    
+                                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                                        <c:rrSelect
+                                                    options="{!v.contactSectionData.phoneTypeList}"
+                                                    value="{!v.personWrapper.phoneType}"
+                                                    placeholder="{!$Label.c.PG_AC_Select}"
+                                                    isValueChanged="{!v.disableSave}"
+                                                    />
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                        <c:rrSelect
+                                                    options="{!v.contactSectionData.phoneTypeList}"
+                                                    value="{!v.personWrapper.phoneType}"
+                                                    placeholder="{!$Label.c.PG_AC_Select}"
+                                                    />
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </aura:if>
                         <!--  </aura:if>  -->
                         <aura:if isTrue="{!v.userMode != 'Participant'}">
                             <div style="height: 45px"></div>
                             <!--  Bussines Address -->
-
+                            
                             <div class="as-title">{!$Label.c.RH_Business_Address}</div>
-
+                            
                             <div
-                                class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start business-info"
-                            >
+                                 class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start business-info"
+                                 >
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
+                                     >
                                     <lightning:input
-                                        type="text"
-                                        label="{!$Label.c.RH_HCP_Name}"
-                                        value="{!v.institute.Name}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                        onchange="{!c.onChangeInput}"
-                                    />
+                                                     type="text"
+                                                     label="{!$Label.c.RH_HCP_Name}"
+                                                     value="{!v.institute.Name}"
+                                                     disabled="{!v.userMode == 'CC' ? true : false}"
+                                                     onchange="{!c.onChangeInput}"
+                                                     />
                                 </div>
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
+                                     >
                                     <lightning:input
-                                        type="text"
-                                        label="{!$Label.c.RH_Address_Line_1}"
-                                        value="{!v.addressLine1}"
-                                        onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                    />
+                                                     type="text"
+                                                     label="{!$Label.c.RH_Address_Line_1}"
+                                                     value="{!v.addressLine1}"
+                                                     onchange="{!c.onChangeInput}"
+                                                     disabled="{!v.userMode == 'CC' ? true : false}"
+                                                     />
                                 </div>
-
+                                
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive"
+                                     >
                                     <lightning:input
-                                        type="text"
-                                        label="{!$Label.c.RH_Address_Line_2}"
-                                        value="{!v.addressLine2}"
-                                        onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                    />
+                                                     type="text"
+                                                     label="{!$Label.c.RH_Address_Line_2}"
+                                                     value="{!v.addressLine2}"
+                                                     onchange="{!c.onChangeInput}"
+                                                     disabled="{!v.userMode == 'CC' ? true : false}"
+                                                     />
                                 </div>
-
+                                
                                 <!--<div
                                  class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                 <div class="label rr-sentence-font">Country</div>
                                 <c:rrSelect options="[]" value="{!v.personWrapper.mailingCountry}" />
                             </div> -->
-
+                                
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive state-input"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive state-input"
+                                     >
                                     <div class="label rr-sentence-font stateCss">
                                         {!$Label.c.SS_State}
                                     </div>
                                     <c:rrSelect
-                                        options="{!v.statesLVList}"
-                                        value="{!v.personWrapper.mailingSC}"
-                                        useSentenceFont="{!false}"
-                                        isValueChanged="{!v.disableSave}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                    />
+                                                options="{!v.statesLVList}"
+                                                value="{!v.personWrapper.mailingSC}"
+                                                useSentenceFont="{!false}"
+                                                isValueChanged="{!v.disableSave}"
+                                                disabled="{!v.userMode == 'CC' ? true : false}"
+                                                />
                                 </div>
-
+                                
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-small-size_2-of-3 slds-media--responsive"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-small-size_2-of-3 slds-media--responsive"
+                                     >
                                     <lightning:input
-                                        type="text"
-                                        label="{!$Label.c.SS_City}"
-                                        value="{!v.personWrapper.mailingCity}"
-                                        onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                    />
+                                                     type="text"
+                                                     label="{!$Label.c.SS_City}"
+                                                     value="{!v.personWrapper.mailingCity}"
+                                                     onchange="{!c.onChangeInput}"
+                                                     disabled="{!v.userMode == 'CC' ? true : false}"
+                                                     />
                                 </div>
                                 <div
-                                    class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-small-size_2-of-3 slds-media--responsive"
-                                >
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-small-size_2-of-3 slds-media--responsive"
+                                     >
                                     <lightning:input
-                                        type="text"
-                                        label="{!$Label.c.SS_Postal_Code}"
-                                        value="{!v.personWrapper.zip}"
-                                        onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
-                                    />
+                                                     type="text"
+                                                     label="{!$Label.c.SS_Postal_Code}"
+                                                     value="{!v.personWrapper.zip}"
+                                                     onchange="{!c.onChangeInput}"
+                                                     disabled="{!v.userMode == 'CC' ? true : false}"
+                                                     />
                                 </div>
                             </div>
                         </aura:if>
-
+                        
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
                             <lightning:button
-                                variant="brand"
-                                label="{!$Label.c.PP_Save_Changes}"
-                                title=""
-                                onclick="{! c.doUpdatePerson }"
-                                class="slds-button slds-button_brand apollo-btn primary"
-                                disabled="{!v.disableSave}"
-                            />
+                                              variant="brand"
+                                              label="{!$Label.c.PP_Save_Changes}"
+                                              title=""
+                                              onclick="{! c.doUpdatePerson }"
+                                              class="slds-button slds-button_brand apollo-btn primary"
+                                              disabled="{!v.disableSave}"
+                                              />
                         </div>
-
+                        
                         <!--  </aura:if>  -->
                     </div>
                     <!--  </aura:if>  -->
                     <div style="height: 45px"></div>
-
+                    
                     <div style="height: 65px"></div>
                 </div>
             </aura:if>

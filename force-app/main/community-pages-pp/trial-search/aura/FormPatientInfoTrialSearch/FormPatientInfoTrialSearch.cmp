@@ -128,6 +128,7 @@
                     <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
                     <c:rrSelect
                         options="{!v.optionsYYYY}"
+                        placeholder="{!$Label.c.PG_AC_Select}"
                         value="{!v.participantInfo.Birth_Year__c}"
                         required="false"
                         useSentenceFont="false"
