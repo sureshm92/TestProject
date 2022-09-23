@@ -148,8 +148,7 @@
     padding-right: 1rem;
 }
 
-a,
-.slds-button {
+a {
     background: #015ff1 !important;
     border-radius: 15px 0 0 15px;
     color: white;
@@ -158,7 +157,6 @@ a,
 .up-button {
     border-radius: 16px 0 0 16px;
     border: 1px solid #d9d9d9 !important;
-    margin-left: 72px;
 }
 
 .active-button-background {
@@ -182,18 +180,13 @@ a,
     text-align: center;
     height: 32px;
     width: 109px;
-}
-
-.slds-button + .slds-button {
     margin-left: -1px;
-    margin-top: -1px;
 }
 
 .scroll-bar {
     height: 39rem;
     border-radius: 4px;
     margin-right: 1rem;
-    margin-top: 1rem;
 }
 
 .left-line {
@@ -244,12 +237,17 @@ a,
     border: 1px solid #015ff1;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: .75rem 1rem;
-    margin-bottom: .5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
 }
+.list-selection,
 .list-align-mob {
     display: flex;
     justify-content: center;
+}
+
+.list-selection {
+    margin-bottom: 1.5rem;
 }
 
 .inactive-custom-box {
@@ -259,8 +257,8 @@ a,
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: .75rem 1rem;
-    margin-bottom: .5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .inactive-custom-box:hover,
@@ -355,7 +353,7 @@ a,
         margin-left: unset;
     }
 
-    .slds-border_right, 
+    .slds-border_right,
     .slds-border--right {
         border-right: unset;
     }
@@ -366,7 +364,8 @@ a,
 }
 
 @media all and (min-width: 1024px) and (max-width: 1200px) {
-    .col1, .col2 {
+    .col1,
+    .col2 {
         min-width: 50%;
     }
 }
@@ -375,10 +374,9 @@ a,
     .col2 {
         max-width: 45%;
     }
-    
 }
 
-@media all and (min-width: 468px) and (max-width: 768px)  {
+@media all and (min-width: 468px) and (max-width: 768px) {
     .active-custom-box-class,
     .inactive-custom-box-class {
         min-width: 100%;
@@ -389,7 +387,6 @@ a,
     .image-result-visit {
         display: none;
     }
-
 }
 
 @media all and (max-width: 486px) {
@@ -403,4 +400,3 @@ a,
         padding-right: unset;
     }
 }
-

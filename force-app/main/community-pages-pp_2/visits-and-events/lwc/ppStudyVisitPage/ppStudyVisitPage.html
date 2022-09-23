@@ -2,9 +2,11 @@
     <template if:false={isMobile}>
         <h1 class="my-visits">{label.myVisits}</h1>
         <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_x-large">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
+            >
                 <div class="slds-border_right">
-                    <div class="upcomingButton">
+                    <div class="list-selection">
                         <button
                             data-id="upcoming"
                             class="slds-button slds-button_brand up-button active-button-background"
@@ -157,7 +159,9 @@
                 </div>
             </div>
 
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2"
+            >
                 <h1 if:false={past} class="visit3">
                     <div class="visitColumnTitle">{visitName}</div>
                     <div class="visitDateTime">
@@ -237,7 +241,9 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3"
+            >
                 <img src={visitimage2} class="image-result-visit" />
 
                 <h1 class="what-to-expect">{label.results}</h1>
@@ -258,7 +264,7 @@
             <!--MY VISITS SECTION-->
             <div class="slds-col slds-size_1-of-1">
                 <h1 class="my-visits">{label.myVisits}</h1>
-                <div class="list-align-mob">
+                <div class="list-selection">
                     <button
                         data-id="upcoming"
                         class="slds-button slds-button_brand up-button active-button-background"
@@ -300,7 +306,7 @@
                                                         >
                                                         </lightning-formatted-text>
                                                     </b>
-                                                    
+
                                                     <p class="no-date">
                                                         <template if:true={item.noVisitDate}>
                                                             {label.noVisitsLabel}
@@ -365,7 +371,7 @@
                                                         >
                                                         </lightning-formatted-text>
                                                     </b>
-                                                   <template if:true={item.missedVisit}>
+                                                    <template if:true={item.missedVisit}>
                                                         <p class="no-date">
                                                             {label.visitUnavailable}
                                                         </p>
