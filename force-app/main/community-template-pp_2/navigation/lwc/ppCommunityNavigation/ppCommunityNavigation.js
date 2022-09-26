@@ -13,6 +13,7 @@ import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
 import navigationStudy from '@salesforce/label/c.Navigation_AboutStudy';
 import navigationTasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
@@ -102,7 +103,7 @@ export default class PpCommunityNavigation extends LightningElement {
             },
             'past-studies': {
                 page: 'past-studies',
-                label: navigationHelp,
+                label: navigationPastStudy,
                 icon: 'plan-check-in-square'
             },
             messages: {
