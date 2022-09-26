@@ -60,6 +60,7 @@
     <aura:attribute name="isRTL" type="Boolean" default="false" />
     <aura:attribute name="hideContactInformationForDel" type="Boolean" default="false"/>
     <!--- YOB attributes-->
+    <aura:attribute name="invalidDOB" type="Boolean" />
     <aura:attribute name="ageStart" type="String"  default="0"/>
     <aura:attribute name="ageEnd" type="String"  default="150"/>
     <aura:attribute name="valueAge" type="String" />
@@ -73,8 +74,8 @@
     <aura:attribute name="showDay" type="Boolean" />
     <aura:attribute name="showMonth" type="Boolean" />
     <aura:attribute name="futureDate" type="Boolean" />
-    <aura:attribute name="futureDateDDErr" type="String" />
-    <aura:attribute name="futureDateMMErr" type="String" />
+    <aura:attribute name="futureDateDDErr" type="String" default=""/>
+    <aura:attribute name="futureDateMMErr" type="String"  default=""/>
     
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
