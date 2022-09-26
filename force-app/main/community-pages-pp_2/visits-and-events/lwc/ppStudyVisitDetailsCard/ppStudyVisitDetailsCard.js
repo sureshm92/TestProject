@@ -91,8 +91,16 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @wire(checkSmsOptIn)
     returneddata({ error, data }) {
         if (data) {
-            this.smsOptIn = data[0].Permit_SMS_Text_for_this_study__c;
-            this.emailOptIn = data[0].Permit_Mail_Email_contact_for_this_study__c;
+            if (data[0].Permit_SMS_Text_for_this_study__c) {
+                this.smsOptIn = false;
+            } else {
+                this.smsOptIn = true;
+            }
+            if (data[0].Permit_Mail_Email_contact_for_this_study__c) {
+                this.emailOptIn = false;
+            } else {
+                this.emailOptIn = true;
+            }
         } else if (error) {
             this.showErrorToast('Error occured', error.message, 'error');
         }
