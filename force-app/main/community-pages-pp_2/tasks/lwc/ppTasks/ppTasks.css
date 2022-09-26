@@ -41,6 +41,7 @@
 }
 .plus-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
+    padding-right: 16px;
 }
 .before-create-task {
     background: rgba(7, 104, 253, 1);

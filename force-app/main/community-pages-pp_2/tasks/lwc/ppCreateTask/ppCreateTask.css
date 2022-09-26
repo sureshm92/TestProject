@@ -24,3 +24,38 @@
     width: 510px;
     height: 316px;
 }
+.task-cancel-btn {
+    box-sizing: border-box;
+    height: 32px;
+    width: 88px;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.task-save-btn {
+    box-sizing: border-box;
+    height: 32px;
+    width: 96px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.task-save-btn-opacity {
+    opacity: 0.5;
+    box-sizing: border-box;
+    height: 32px;
+    width: 96px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    background-color: #0768fd;
+    color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+
+.pad-right {
+    padding-right: 16px;
+}

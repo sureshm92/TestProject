@@ -31,19 +31,25 @@ force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.x
 force-app/main/default/workflows/Case.workflow-meta.xml
 
 #Ignore all onboarding slides, comment line for include
-#**/onboarding-tour/staticresources
-#force-app/unpackaged/main/default/staticresources/os_***
-#force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
-#force-app/main/tools/staticresources/*
+**/onboarding-tour/staticresources
+force-app/unpackaged/main/default/staticresources/os_***
+force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources
+/Flags.resource-meta.xml
+force-app/main/tools/statiforce-app/main/default/staticresourcescresources/*
 
 #Uncomment during full package deployment
 #force-app/main/default/staticresources/WalkMeCommunity*
 
 #Ignore State globalValueSet
 #force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
-#force-app/main/default/profiles
-#force-app/communities
+force-app/main/default/profiles
+force-app/communities
 #force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
 #force-app/main/default/profiles/PRDBAPI*
+force-app/main/community-pages-pp_2/visits-and-events
+force-app/main/default/lwc/site_Calender
+force-app/main/default/lwc/siteWeeklyCalendar
+force-app/main/default/lwc/consentManager
+force-app/main/community-template/aura/CustomThemeLayout

@@ -16,21 +16,6 @@
                 <lightning-layout-item padding="around-small" size="12">
                     <template if:true={showCreateTaskButton}>
                         <div class="slds-align_absolute-center">
-                            <!-- <lightning-button
-                            variant="base"
-                            label={label.createNewTask}
-                            onclick={doCreateTask}
-                            icon-name="utility:add"
-                            class="slds-p-around_x-small create-task"
-                        >
-                        </lightning-button> -->
-                            <!-- <lightning-button
-                            title={label.createNewTask}
-                            class={taskButtonClass}
-                            onclick={doCreateTask}
-                            ><span style="color: #fff">Create New Task</span></lightning-button
-                        > -->
-
                             <button class={taskButtonClass} onclick={doCreateTask}>
                                 <span
                                     ><lightning-icon
