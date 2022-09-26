@@ -57,7 +57,7 @@ export default class DashboardParticipantCount extends LightningElement {
         PPLoginStatusTitle,
         SendInviteSuccessMsg,
         LoginModalTitle,
-        InviteModalTitle
+        InviteModalTitle,
         SelectAll,
         Cancel,
         InviteSelected
