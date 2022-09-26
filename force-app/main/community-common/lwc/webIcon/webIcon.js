@@ -38,8 +38,10 @@ export default class WebIcon extends LightningElement {
 
         new SvgLoader().getIconBody(ppIcons + '/icons.svg', this.iconName, function (symbol) {
             try {
-                svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
-                context.cloneNodes(symbol, svgElement);
+                if (symbol) {
+                    svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
+                    context.cloneNodes(symbol, svgElement);
+                }
             } catch (e) {
                 console.error(e);
             }
@@ -47,8 +49,10 @@ export default class WebIcon extends LightningElement {
 
         new SvgLoader().getIconBody(rrIcons + '/icons.svg', this.iconName, function (symbol) {
             try {
-                svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
-                context.cloneNodes(symbol, svgElement);
+                if (symbol) {
+                    svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
+                    context.cloneNodes(symbol, svgElement);
+                }
             } catch (e) {
                 console.error(e);
             }

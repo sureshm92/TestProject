@@ -9,7 +9,9 @@ public without sharing class AccountSettingsController {
     public static Boolean isDelegateSelfView = false;
     public static Boolean isIQIVAOutrechToggleOnAtCTP = false;
     public static Boolean isPrimaryDelegate = false;
+    public static Boolean isPrimaryDelegateWithMultiRole = false;
     public static Boolean isDelegateAlsoAParticipant = false;
+    public static Boolean isParticipantLoggedIn = true;
     public static Id currentParticipantId = null;
     public static Participant__c delegateParticipant = new Participant__c();
     public static Contact delegateContact = new Contact();
@@ -32,7 +34,8 @@ public without sharing class AccountSettingsController {
                 loggedInUserMode != USER_MODE_HCP &&
                 initData.myContact.userCommunityDelegateId__c != null
             ) {
-                currentParticipantId = ParticipantContext.getCurrentParticipantId();
+                //Get the Current Participant Id where Delegate is switched. 
+                currentParticipantId = ParticipantContext.getCurrentParticipantId(); 
                 //Check if Patient Delegate is a Primary delegate if Patient Delegate clicks account setting of participant
                 initData.consentPreferenceData.isPrimaryDelegate = PatientDelegateService.isPrimaryDelegate(
                     initData.myContact.Id,
@@ -240,6 +243,61 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static void updatePersonMain(String wrapperJSON,String commPrefWrapperJSON, String userMode ) {
+        updatePerson(wrapperJSON);
+        //If loggied in user is Participant or Patient Delegate.
+        if(userMode=='Participant'){
+            //Pefrorm SMS opt out if mobilePhone is deleted from Patient Portal profile information.
+            try {
+                ConsentPreferenceData commWrapper = (ConsentPreferenceData) JSON.deserialize(
+                    commPrefWrapperJSON,
+                    ConsentPreferenceData.class
+                );
+                
+                //Populte Account Setting switcher variables.
+                isAdultParticipant = commWrapper.isAdultParticipant;
+                isDelegateSelfView = commWrapper.isDelegateSelfView;
+                isPrimaryDelegate = commWrapper.isPrimaryDelegate;
+                isDelegateAlsoAParticipant = commWrapper.isDelegateAlsoAParticipant;
+                isParticipantLoggedIn = commWrapper.isParticipantLoggedIn;
+                isPrimaryDelegateWithMultiRole = commWrapper.isPrimaryDelegateWithMultiRole;
+
+                //Check if mobilePhone is deleted
+                Boolean isMobilePhoneDeleted = checkIfMobilePhoneIsdeleted(commWrapper.myContact.Id, commWrapper.LoggedInUserParticipantId);
+                //if Mobile Phone is not available
+                if(!isMobilePhoneDeleted){ 
+                  PreferenceManagementController.optOutSMSWhenMobileIsDeleted(commWrapper.perList, commWrapper.myContact.Id);
+                }
+            } catch (Exception e) {
+                AuraHelper.throwException(e);
+            }
+        }
+    }
+    
+     /**
+    * @description: This Method will check if MobilePhone is deleted, if yes then process SMS opt out. 
+    * @author: Krishna Mahto
+    * @param: contId
+    * @param: ParticipantId
+    * @return: Boolean
+    **/
+    public static Boolean checkIfMobilePhoneIsdeleted(Id contId, Id ParticipantId){
+        Contact contact = [select Id, 
+                        MobilePhone 
+                        from contact 
+                        Where Id =:contId][0];
+        
+        Participant__c participant = [select Id,
+                              Alternative_Phone_Type__c, 
+                              Alternative_Phone_Number__c, 
+                              Phone_Type__c,Phone__c 
+                              from Participant__c 
+                              Where Id =:ParticipantId][0];
+
+        return checkMobilePhoneIsAvailable(contact, participant);      
+    }
+
+    @AuraEnabled
     public static void updatePerson(String wrapperJSON) {
         try {
             PersonWrapper wrapper = (PersonWrapper) JSON.deserialize(
@@ -285,10 +343,6 @@ public without sharing class AccountSettingsController {
         String verifyNewPassword,
         String oldPassword
     ) {
-        String errorMsg1 = 'The passwords do not match';
-        String errorMsg2 = 'The password you entered is too easy to guess. Enter a different one';
-        String errorMsg3 = 'Your password cannot be null';
-
         PageReference pr;
         try {
             pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
@@ -303,14 +357,28 @@ public without sharing class AccountSettingsController {
                     System.Label.Pswd_ValidationMsg3_2
                 );
             }
-            if (ex.getMessage().contains(errorMsg1)) {
+            if (ex.getMessage().contains(System.Label.Passwords_Do_Not_Match)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg5);
-            } else if (ex.getMessage().contains(errorMsg2)) {
+            } else if (ex.getMessage().contains(System.Label.Password_Easy_to_Guess)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg7);
-            } else if (ex.getMessage().contains(errorMsg3)) {
+            } else if (ex.getMessage().contains(System.Label.Password_Cannot_Be_Null)) {
                 throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
             } else {
-                throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal){
+                    if ((ex.getMessage() == System.Label.Cannot_Reuse_Old_Password) && (oldPassword ==  newPassword)){
+                    throw new AuraHandledException(System.Label.PP_NewPwdCantCurrentPwd);
+                }
+                    else if (ex.getMessage() == System.Label.Old_Password_Invalid ){
+                    throw new AuraHandledException(System.Label.TST_Your_current_password_is_invalid);
+                }
+                     else if (ex.getMessage() == System.Label.Cannot_Reuse_Old_Password ){
+                    throw new AuraHandledException(System.Label.PP_CantReuseOldPwd);
+                }
+                    else {
+                        throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                    }
+                    throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+                }
             }
         }
     }
@@ -690,6 +758,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean isMobilePhoneNumberAvailable = false;
         @AuraEnabled
         public Boolean isSelfAccountSettingWarningMessage = false;
+        @AuraEnabled
+        public Boolean isDelegateAlsoAParticipant = false;
+        @AuraEnabled
+        public Boolean isPrimaryDelegateWithMultiRole = false;
     }
 
     
@@ -844,9 +916,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
             personContact.MobilePhone = mobilePhone;
-
+            
             if (isParticipant)
-                return personContact;
+                return personContact;               
 
             personContact.FirstName = firstName;
             personContact.MiddleName = MiddleName;
@@ -981,9 +1053,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             //As Patient delegate switched to his own Account setting so set isParticipantLoggedIn to false.
             //But if patient Delegate is also acting as Participant then set  isParticipantLoggedIn to true and make Primary delegate to false and isDelegateSelfView to false.
             if (isDelegateAlsoAParticipant) {
+                if(isPrimaryDelegate){
+                    initData.consentPreferenceData.isPrimaryDelegateWithMultiRole = true;
+                }
                 initData.consentPreferenceData.isParticipantLoggedIn = true;
                 initData.consentPreferenceData.isPrimaryDelegate = false;
                 initData.consentPreferenceData.isDelegateSelfView = false;
+                initData.consentPreferenceData.isDelegateAlsoAParticipant = true; 
                 if (perListforCommPref != null) {
                     initData.consentPreferenceData.perList.addAll(perListforCommPref);
                 }
@@ -994,6 +1070,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
             }
         } else {
+            //Participant Logged In or Delegate switched to participant View.
             initData.consentPreferenceData.perList.addAll(participantEnrollments);
         }
         if(initData.consentPreferenceData.perList != null && initData.consentPreferenceData.perList.size()>0){
@@ -1203,6 +1280,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             SELECT
                 Id,
                 Participant__c,
+                Participant_Contact__c,
             	Participant__r.Birth_Year__c,
             	Participant__r.Birth_Month__c,
                 Participant__r.Birth_Day__c,

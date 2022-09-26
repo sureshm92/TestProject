@@ -1,4 +1,4 @@
-import { LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -29,7 +29,6 @@ import getInitData from '@salesforce/apex/AccountSettingsController.getInitData'
 import changePassword from '@salesforce/apex/AccountSettingsController.changePassword';
 
 export default class PpChangePassword extends LightningElement {
-
     initData;
     contactChanged;
     personWrapper;
@@ -41,7 +40,7 @@ export default class PpChangePassword extends LightningElement {
     currentEmail;
     isInitialized = false;
     spinner;
-    
+
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
@@ -92,16 +91,16 @@ export default class PpChangePassword extends LightningElement {
     }
 
     // Getters to set input values on load
-    get currentPassword(){
+    get currentPassword() {
         return this.initData.password.old;
     }
 
-    get newPassword(){
+    get newPassword() {
         return this.initData.password.new;
     }
 
-    get reNewPassword(){
-        return this.initData.password.reNew
+    get reNewPassword() {
+        return this.initData.password.reNew;
     }
 
     // Component padding
@@ -110,131 +109,142 @@ export default class PpChangePassword extends LightningElement {
     }
 
     // Getters for Input Type Masked
-    get currentPasswordCssClass(){
-        return this.showCurrentPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
+    get currentPasswordCssClass() {
+        return this.showCurrentPassword
+            ? 'profile-info-input change-password'
+            : 'profile-info-input masked change-password';
     }
 
-    get newPasswordCssClass(){
-        return this.showNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
+    get newPasswordCssClass() {
+        return this.showNewPassword
+            ? 'profile-info-input change-password'
+            : 'profile-info-input masked change-password';
     }
 
-    get reNewPasswordCssClass(){
-        return this.showReNewPassword ? 'profile-info-input change-password' : 'profile-info-input masked change-password';
+    get reNewPasswordCssClass() {
+        return this.showReNewPassword
+            ? 'profile-info-input change-password'
+            : 'profile-info-input masked change-password';
     }
 
     // Getters For Icon color Change
-    get toggleCurrentPasswordMaskIcon(){
-        return this.showCurrentPassword ? '#297DFD' : '#595959';
+    get toggleCurrentPasswordMaskIcon() {
+        return this.showCurrentPassword ? 'utility:hide' : 'utility:preview';
     }
 
-    get toggleNewPasswordMaskIcon(){
-        return this.showNewPassword ? '#297DFD' : '#595959';
+    get toggleNewPasswordMaskIcon() {
+        return this.showNewPassword ? 'utility:hide' : 'utility:preview';
     }
 
-    get toggleReNewPasswordMaskIcon(){
-        return this.showReNewPassword ? '#297DFD' : '#595959';
+    get toggleReNewPasswordMaskIcon() {
+        return this.showReNewPassword ? 'utility:hide' : 'utility:preview';
     }
 
     // getRTL
     get cardRTL() {
-        return this.isRTL ? 'cardRTL' : '';     
+        return this.isRTL ? 'cardRTL' : '';
     }
 
-    get iconEye(){
-        return this.isRTL ? 'icon-eye-rtl' : 'icon-eye';       
+    get iconEye() {
+        return this.isRTL ? 'icon-eye-rtl' : 'icon-eye';
     }
 
-    get iconEyeMobile(){
+    get iconEyeMobile() {
         return this.isRTL ? 'icon-eye-mobile-rtl' : 'icon-eye-mobile';
     }
 
-    get reNewMargin(){
+    get reNewMargin() {
         return this.isRTL ? 'slds-form-element margin-lr-15Plus' : 'slds-form-element margin-lr-15';
     }
 
-    // Icons 
+    // Icons
     check = rr_community_icons + '/' + 'check.svg' + '#' + 'check';
     //icon_eye = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-eye'
 
-    get eyeIcon(){
-        return "icon-eye";
+    get currentPasswordEyeIcon() {
+        return this.showCurrentPassword ? 'utility:preview' : 'utility:hide';
+    }
+    get newCurrentPasswordEyeIcon() {
+        return this.showNewPassword ? 'utility:preview' : 'utility:hide';
+    }
+    get reNewCurrentPasswordEyeIcon() {
+        return this.showReNewPassword ? 'utility:preview' : 'utility:hide';
     }
 
-    get checkIcon(){
-        return "check";
+    get checkIcon() {
+        return 'check';
     }
 
-    get green(){
-        return "#2ac243";
+    get green() {
+        return '#2ac243';
     }
 
-    get gray(){
-        return "#7e7e7e";
+    get gray() {
+        return '#7e7e7e';
     }
-    renderedCallback(){
-        
-    }
-    connectedCallback(){
+    renderedCallback() {}
+    connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
-        .then(() => {
-            Promise.all([loadStyle(this, communityPPTheme)])
-                .then(() => {  
-                    this.spinner = this.template.querySelector('c-web-spinner');
-                    this.spinner ? this.spinner.show() : "";
-                })
-                .catch((error) => {
-                    console.log(error.body.message);
-                });
+            .then(() => {
+                Promise.all([loadStyle(this, communityPPTheme)])
+                    .then(() => {
+                        this.spinner = this.template.querySelector('c-web-spinner');
+                        this.spinner ? this.spinner.show() : '';
+                    })
+                    .catch((error) => {
+                        console.log(error.body.message);
+                    });
+            })
+            .catch((error) => {
+                communityService.showToast('', 'error', error.message, 100);
+            });
+
+        communityService.getCurrentCommunityMode().currentDelegateId
+            ? (this.isDelegate = true)
+            : (this.isDelegate = false);
+        getInitData({
+            userMode: this.userMode
         })
-        .catch((error) => {
-            communityService.showToast('', 'error', error.message, 100);
-        });
+            .then((returnValue) => {
+                this.isInitialized = true;
+                let initData = JSON.parse(returnValue);
+                initData.password = {
+                    old: '',
+                    new: '',
+                    reNew: ''
+                };
+                this.initData = initData;
+                this.contactChanged = initData.contactChanged;
+                this.personWrapper = initData.contactSectionData.personWrapper;
+                this.contactSectionData = initData.contactSectionData;
+                this.optInEmail = initData.contactSectionData.personWrapper.optInEmail;
+                this.optInSMS = initData.contactSectionData.personWrapper.optInSMS;
+                this.isDisabled = true;
+                this.contact = initData.myContact;
+                this.currentEmail = initData.myContact.Email;
 
-        communityService.getCurrentCommunityMode().currentDelegateId ? this.isDelegate = true : this.isDelegate = false;
-        getInitData({ 
-            userMode: userMode
-         })
-        .then((returnValue) => {
-            this.isInitialized = true;
-            let initData = JSON.parse(returnValue);
-            initData.password = {
-                old: '',
-                new: '',
-                reNew: ''
-            };
-            this.initData = initData;
-            this.contactChanged = initData.contactChanged;
-            this.personWrapper = initData.contactSectionData.personWrapper;
-            this.contactSectionData = initData.contactSectionData;
-            this.optInEmail = initData.contactSectionData.personWrapper.optInEmail;
-            this.optInSMS = initData.contactSectionData.personWrapper.optInSMS;
-            this.isDisabled = true;
-            this.contact = initData.myContact;
-            this.currentEmail = initData.myContact.Email;
-
-             this.spinner.hide();
-
-        })
-        .catch((error) => {
-            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
-            this.spinner.hide();
-        });
+                this.spinner.hide();
+            })
+            .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                this.spinner.hide();
+            });
     }
 
-    disableUpdateButton(){
+    disableUpdateButton() {
         let updateButton = this.template.querySelector('button[data-id=updateBtn]');
-        updateButton != null ? updateButton.disabled = true : "";      
+        updateButton != null ? (updateButton.disabled = true) : '';
     }
 
-    enableUpdateButton(){
-        let updateButton = this.template.querySelector('button[data-id=updateBtn]')
-        updateButton != null ? updateButton.removeAttribute("disabled") : "";
+    enableUpdateButton() {
+        let updateButton = this.template.querySelector('button[data-id=updateBtn]');
+        updateButton != null ? updateButton.removeAttribute('disabled') : '';
     }
-    
+
     onChangeInput(event) {
         this.isDisabled = true;
 
-        let key = event.target.getAttribute("data-label");
+        let key = event.target.getAttribute('data-label');
         let value = event.target.value;
 
         switch (key) {
@@ -247,23 +257,22 @@ export default class PpChangePassword extends LightningElement {
                 break;
             case 'renew':
                 this.initData.password.reNew = value;
-                this.checkPasswordMatch();                     
+                this.checkPasswordMatch();
                 break;
         }
-        
-     
+
         let password = this.initData.password.new;
         let oldpassword = this.initData.password.old;
         let renewpassword = this.initData.password.reNew;
 
         // Current Password Validation
-        if(oldpassword == null || oldpassword == "" || oldpassword == undefined){
+        if (oldpassword == null || oldpassword == '' || oldpassword == undefined) {
             this.incorrectOldPassword = false;
             this.validateOldPassword();
-        }        
+        }
 
-         //Password Strength Check
-         let strengthValue = {
+        //Password Strength Check
+        let strengthValue = {
             caps: false,
             length: false,
             special: false,
@@ -276,7 +285,7 @@ export default class PpChangePassword extends LightningElement {
             strengthValue.length = true;
             this.passwordDoNotMatchCriterion = false;
         }
-       
+
         //Calculate Password Strength
         for (let index = 0; index < password.length; index++) {
             let char = password.charCodeAt(index);
@@ -304,90 +313,104 @@ export default class PpChangePassword extends LightningElement {
         // New Password Do Not Match Criteria
         if (password.length == 0) {
             this.passwordDoNotMatchCriterion = false;
-        }else if (password.length > 0 && password.length < 8 ) {
+        } else if (password.length > 0 && password.length < 8) {
             this.passwordDoNotMatchCriterion = true;
-        }else{
-            ((this.caps + this.small + this.numbers + this.special) < 3) ? this.passwordDoNotMatchCriterion = true : this.passwordDoNotMatchCriterion = false;
+        } else {
+            this.caps + this.small + this.numbers + this.special < 3
+                ? (this.passwordDoNotMatchCriterion = true)
+                : (this.passwordDoNotMatchCriterion = false);
         }
 
         // Handle Update button visibility
-        if( this.isDelegate ||
+        if (
+            this.isDelegate ||
             password == null ||
             password == undefined ||
-            password.length == 0  ||
+            password.length == 0 ||
             renewpassword == null ||
             renewpassword == undefined ||
-            renewpassword.length == 0)
-        {
+            renewpassword.length == 0
+        ) {
             this.disableUpdateButton();
-        }else if(password != renewpassword){
+        } else if (password != renewpassword) {
             this.disableUpdateButton();
-        }else if(password == renewpassword && this.passwordDoNotMatchCriterion){
+        } else if (password == renewpassword && this.passwordDoNotMatchCriterion) {
             this.disableUpdateButton();
-        }        
-        else if(oldpassword.length == 0){
+        } else if (oldpassword.length == 0) {
             this.disableUpdateButton();
-        }else{
+        } else {
             this.enableUpdateButton();
         }
 
-        let newPassEle = this.template.querySelector('lightning-input[data-id=newe-password]');        
-        this.passwordDoNotMatchCriterion ? newPassEle.classList.add("profile-info-error-input") : newPassEle.classList.remove("profile-info-error-input");
+        let newPassEle = this.template.querySelector('lightning-input[data-id=newe-password]');
+        this.passwordDoNotMatchCriterion
+            ? newPassEle.classList.add('profile-info-error-input')
+            : newPassEle.classList.remove('profile-info-error-input');
     }
 
-    checkPasswordMatch(){
+    checkPasswordMatch() {
         let password = this.initData.password.new;
         let newPassword = this.initData.password.reNew;
-        if(password.length > 0 && newPassword.length > 0){
-            password != newPassword ? this.passwordDoNotMatch = true : this.passwordDoNotMatch = false;
-        }
-        else{
+        if (password.length > 0 && newPassword.length > 0) {
+            password != newPassword
+                ? (this.passwordDoNotMatch = true)
+                : (this.passwordDoNotMatch = false);
+        } else {
             this.passwordDoNotMatch = false;
-        }     
+        }
 
-        let reEnterPassEle = this.template.querySelector('lightning-input[data-id=reenter-password]');        
-        this.passwordDoNotMatch ? reEnterPassEle.classList.add("profile-info-error-input") : reEnterPassEle.classList.remove("profile-info-error-input");
+        let reEnterPassEle = this.template.querySelector(
+            'lightning-input[data-id=reenter-password]'
+        );
+        this.passwordDoNotMatch
+            ? reEnterPassEle.classList.add('profile-info-error-input')
+            : reEnterPassEle.classList.remove('profile-info-error-input');
     }
 
-    doChangePassword(){
+    doChangePassword() {
         this.spinner.show();
-        changePassword({ 
+        changePassword({
             newPassword: this.initData.password.new,
             verifyNewPassword: this.initData.password.reNew,
             oldPassword: this.initData.password.old
-         })
-        .then((returnValue) => {
-            communityService.showToast(
-                '',
-                'success',
-                this.label.TST_password_updated_successfully,
-                100
-            );
-            communityService.navigateToPage('account-settings?password-change');
-            this.initData.password = {
-                old: '',
-                new: '',
-                reNew: ''
-            };          
         })
-        .catch((error) => {
-            let errorMessage = error.body.message.split('\n')[0];
-            (errorMessage == 'Error: Your old password is invalid.') ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
-
-            communityService.showToast('', 'error', errorMessage, 100);
-            this.validateOldPassword();
-            this.spinner.hide();
-        });
+            .then((returnValue) => {
+                communityService.showToast(
+                    '',
+                    'success',
+                    this.label.TST_password_updated_successfully,
+                    100
+                );
+                communityService.navigateToPage('account-settings?password-change');
+                this.initData.password = {
+                    old: '',
+                    new: '',
+                    reNew: ''
+                };
+            })
+            .catch((error) => {
+                let errorMessage = error.body.message.split('\n')[0];
+                console.log('error message' + error + errorMessage);
+             errorMessage == TST_Your_current_password_is_invalid ?  this.incorrectOldPassword = true : this.incorrectOldPassword = false;
+                   
+                communityService.showToast('', 'error', errorMessage, 100);
+                this.validateOldPassword();
+                this.spinner.hide();
+            });
     }
 
-    validateOldPassword(){
-        let currentPassEle = this.template.querySelector('lightning-input[data-id=current-password]');        
-        this.incorrectOldPassword ? currentPassEle.classList.add("profile-info-error-input") : currentPassEle.classList.remove("profile-info-error-input");
+    validateOldPassword() {
+        let currentPassEle = this.template.querySelector(
+            'lightning-input[data-id=current-password]'
+        );
+        this.incorrectOldPassword
+            ? currentPassEle.classList.add('profile-info-error-input')
+            : currentPassEle.classList.remove('profile-info-error-input');
     }
 
-    togglePassword(event){
-        let iconId = event.currentTarget.getAttribute("data-id");
-        switch (iconId){
+    togglePassword(event) {
+        let iconId = event.currentTarget.getAttribute('data-id');
+        switch (iconId) {
             case '1':
                 this.showCurrentPassword = !this.showCurrentPassword;
                 break;
@@ -397,7 +420,7 @@ export default class PpChangePassword extends LightningElement {
             case '3':
                 this.showReNewPassword = !this.showReNewPassword;
                 break;
-        }        
+        }
     }
 
     showMenuBar(event) {
@@ -412,5 +435,4 @@ export default class PpChangePassword extends LightningElement {
             this.isInitialized = false;
         }
     }
-
 }
