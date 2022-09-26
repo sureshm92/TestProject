@@ -330,8 +330,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
-                    const reminderOptn = this.template.querySelector('c-pp-Study-Visit-Details-Card').reminderOption;
-                    console.log('reminderOptn::',reminderOptn);
                     if(this.template.querySelector('c-pp-Study-Visit-Details-Card')){
                         this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
                     }
