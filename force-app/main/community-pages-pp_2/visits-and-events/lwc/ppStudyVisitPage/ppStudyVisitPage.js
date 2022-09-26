@@ -301,12 +301,18 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 const obj = JSON.parse(jsonstr);
                 if (typeof result[0].task === 'undefined') {
                     obj.task = JSON.parse(str);
+
                 }
                 if (typeof result[0].visitDate === 'undefined') {
                     obj.visitDate = '';
                 }
                 this.visitdata = obj;
                 this.taskId = this.visitdata.task.Id;
+
+                if(this.taskId){
+                    this.upcomingVisits[this.selectedIndex].isReminderDate = true;
+                }
+
                 if (!this.past) {
                     this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
                         this.visitdata.visitDate;
@@ -324,7 +330,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 if (!this.initialPageLoad) {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
-                    this.template.querySelector('c-pp-Study-Visit-Details-Card')?.callFromParent();
+                    const reminderOptn = this.template.querySelector('c-pp-Study-Visit-Details-Card').reminderOption;
+                    console.log('reminderOptn::',reminderOptn);
+                    if(this.template.querySelector('c-pp-Study-Visit-Details-Card')){
+                        this.template.querySelector('c-pp-Study-Visit-Details-Card').callFromParent();
+                    }
                 } else {
                     this.initializeData(this.visitid);
                     this.contentLoaded = true;
