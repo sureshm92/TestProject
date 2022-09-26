@@ -509,7 +509,7 @@ color: #0768fd!important;
 }
 
 :focus-visible {
-    outline: #0768fd auto 1px;
+    outline: #015ff1 auto 1px;
 }
 
 .fadePlaceholder button span{
@@ -610,12 +610,9 @@ c-pp-study-visit-details-card .slds-card__header {
     display: none;
 }
 
-.cCustomThemeLayout .slds-input[type="time"],
-.cCustomThemeLayout .slds-input_faux.slds-combobox__input,
-.cCustomThemeLayout .slds-combobox__input.slds-input,
-[lightning-combobox_combobox-host], 
-[lightning-input_input-host],
-input::-webkit-datetime-edit {     
+.cCustomThemeLayout .curve-input .slds-input[type="time"],
+.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
+.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input {     
     height: 30px!important;
     width: 300px;
     display: flex;
@@ -629,6 +626,17 @@ input::-webkit-datetime-edit {
     color: #595959;
     text-overflow: ellipsis;
 }
+
+.cCustomThemeLayout .curve-input .slds-input[type="time"]:focus,
+.cCustomThemeLayout .curve-input .slds-input[type="time"]:focus-visible,
+.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus,
+.cCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input:focus-within,
+.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus,
+.cCustomThemeLayout .curve-input .slds-combobox__input.slds-input:focus-within {
+    outline: unset;
+    box-shadow: unset;
+}
+
 
 .pp-change-pwd [lightning-input_input-host] {
     width: 92% !important;
@@ -655,15 +663,9 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
     position: relative;
 }
 
-.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
-    background-color: #00a3e0;
-    border-radius: 2px;
-    border: none;
-    top: 1px;
-}
-
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux,
 .task-comm-pref .slds-checkbox [type=checkbox]:checked+.slds-checkbox__label .slds-checkbox_faux {
-    background-color: #0768FD;
+    background-color: #00a3e0;
     border-radius: 2px;
     border: none;
     top: 1px;
@@ -687,6 +689,30 @@ c-pp-Study-Visit-Details-Card .slds-form-element:nth-child(2) .slds-checkbox .sl
 
 input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     box-shadow: none
+}
+
+.slds-form-element__control .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before,
+.task-comm-pref .slds-checkbox [type=checkbox]:checked:focus+.slds-checkbox__label .slds-checkbox_faux:before{
+     border: 2px solid #051ff1;
+    height: 16px;
+    width: 16px;
+    content: "";
+    position: absolute;
+    border-radius: 2px;
+    top: 0;
+    left: 0;
+}
+
+.slds-form-element__control .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before,
+.task-comm-pref .slds-checkbox [type=checkbox]:focus+.slds-checkbox__label .slds-checkbox_faux:before { 
+     border: 2px solid #051ff1;
+    height: 16px;
+    width: 16px;
+    content: "";
+    position: absolute;
+    border-radius: 2px;
+    top: -1px;
+    left: -1px;
 }
 
 .fadePlaceholder button span{
