@@ -195,10 +195,10 @@ a {
 }
 
 .left-line:before {
-   content: "";
-   position: absolute;
-   width: 4px;
-   height: 100%;
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 100%;
     background-color: #009dd6;
     top: 0;
     left: 0;
@@ -214,10 +214,6 @@ a {
     position: absolute;
     margin-left: 385px;
     top: 170px;
-}
-
-.visitColumnTitle {
-    font-size: 2rem;
 }
 
 .image-result {
@@ -329,7 +325,7 @@ a {
 
 .visitDateTime {
     display: flex;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 }
 
 @media all and (max-width: 1200px) {

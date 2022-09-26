@@ -40,8 +40,9 @@
                                             data-name={item.visit.Name}
                                         >
                                             <div class="slds-grid slds-wrap">
-                                                <div class="slds-col slds-size_1-of-6 left-line">
-                                                </div>
+                                                <div
+                                                    class="slds-col slds-size_1-of-6 left-line"
+                                                ></div>
 
                                                 <div class="slds-col slds-size_4-of-6">
                                                     <div>
@@ -331,9 +332,21 @@
                                                     </template>
                                                 </span>
                                             </div>
-                                            <div
-                                                class="slds-col top-padding slds-size_1-of-6"
-                                            ></div>
+                                            <div class="slds-col slds-size_1-of-6">
+                                                <template if:true={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="icon_bell"
+                                                        icon-color="#009DD6"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                                <template if:false={item.isReminderDate}>
+                                                    <c-web-icon
+                                                        icon-name="alarm_bell_off"
+                                                        icon-size="medium"
+                                                    ></c-web-icon
+                                                ></template>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
