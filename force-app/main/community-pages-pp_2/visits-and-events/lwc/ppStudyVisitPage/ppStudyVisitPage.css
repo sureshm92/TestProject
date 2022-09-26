@@ -230,7 +230,7 @@ a {
     border: 1px solid #015ff1;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.75rem;
     margin-bottom: 0.5rem;
 }
 .list-selection,
@@ -243,6 +243,14 @@ a {
     margin-bottom: 1.5rem;
 }
 
+.name-card {
+    padding: 0px;
+}
+
+.reminder-icon {
+    padding-left: 40px;
+}
+
 .inactive-custom-box {
     box-sizing: border-box;
     height: 80px;
@@ -250,7 +258,7 @@ a {
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.75rem;
     margin-bottom: 0.5rem;
 }
 
