@@ -141,6 +141,7 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 32px;
+    margin-left: -25px;
 }
 
 .icon-style {
@@ -301,6 +302,7 @@ a {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+    margin-left: -25px;
 }
 
 .unavailable-style {
@@ -309,9 +311,19 @@ a {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+    margin-left: -25px;
 }
 
 .date-style {
+    width: 189px;
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    margin-left: -25px;    
+}
+
+.time-style {
     width: 189px;
     color: #595959;
     font-family: 'Proxima Nova';

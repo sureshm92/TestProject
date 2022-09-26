@@ -99,9 +99,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             visitMode: this.visitMode
         })
             .then((result) => {
+                console.log('result1:'+JSON.stringify(result));
                 if (result.length > 0) {
-                    this.visitid = result[0].visit.Id;
-                    this.taskSubject = result[0].visit.Name;
+                    
                     for (let i = 0; i < result.length; i++) {
                         if (
                             result[i].visit.Completed_Date__c == null &&
@@ -140,6 +140,12 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.visitTimezone = TIME_ZONE;
                         result[i].visitTimezone = this.visitTimezone;
                     }
+                    console.log('upcomingVisits:'+JSON.stringify(this.upcomingVisits));
+                    console.log('pastVisits:'+JSON.stringify(this.pastVisits));
+
+                    this.visitid = this.upcomingVisits[0].visit.Id;
+                    this.taskSubject = this.upcomingVisits[0].visit.Name;
+
                     if (!this.pastVisitId && this.pastVisits.length > 0) {
                         this.pastVisits = this.pastVisits.reverse();
                         this.pastVisitId = this.pastVisits[0].visit.Id;
