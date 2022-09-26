@@ -99,7 +99,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
             visitMode: this.visitMode
         })
             .then((result) => {
-                console.log('result1:'+JSON.stringify(result));
                 if (result.length > 0) {
                     
                     for (let i = 0; i < result.length; i++) {
@@ -140,8 +139,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         this.visitTimezone = TIME_ZONE;
                         result[i].visitTimezone = this.visitTimezone;
                     }
-                    console.log('upcomingVisits:'+JSON.stringify(this.upcomingVisits));
-                    console.log('pastVisits:'+JSON.stringify(this.pastVisits));
 
                     this.visitid = this.upcomingVisits[0].visit.Id;
                     this.taskSubject = this.upcomingVisits[0].visit.Name;
@@ -272,8 +269,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     redirectPage(visitid) {
         this.visitdetailurl =
             window.location.origin + basePathName + '/visit-details' + '?visitid=' + visitid;
-
-        console.log('visitdetailurl:: ', this.visitdetailurl);
 
         const config = {
             type: 'standard__webPage',
