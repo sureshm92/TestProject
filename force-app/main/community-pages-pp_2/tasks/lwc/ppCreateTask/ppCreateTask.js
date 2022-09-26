@@ -195,6 +195,27 @@ export default class PpCreateTask extends LightningElement {
         var ss = String((currentDate.getSeconds() < 10 ? '0' : '') + currentDate.getSeconds());
         var currentTime = hh + ':' + mm + ':' + ss;
         this.todaytime = currentTime;
-        return this.taskDueDate == this.todaydate ? currentTime : null;
+        return currentTime;
+    }
+
+    get isDueDateTimeSelected() {
+        return this.taskDateTime && this.taskTime && this.taskDate ? true : false;
+    }
+
+    handleCustomReminder(event) {
+        this.task.Remind_Using_Email__c = event.detail.emailReminderOptIn;
+        this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
+        this.task.Remind_Me__c =
+            event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderType;
+        this.initData.reminderDate =
+            event.detail.reminderType == 'No reminder' ? '' : event.detail.reminderDateTime;
+        this.isReminderSelected = event.detail.reminderType == 'No reminder' ? false : true;
+    }
+
+    handleReminder(event) {
+        this.task.Remind_Using_Email__c = event.detail.emailReminderOptIn;
+        this.task.Remind_Using_SMS__c = event.detail.smsReminderOptIn;
+        this.task.Remind_Me__c = event.detail.reminderType;
+        this.isReminderSelected = true;
     }
 }

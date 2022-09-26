@@ -485,7 +485,7 @@
                             </div>
                             <!--- Age-->
                             <div
-                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4 smallName"
                                  >   
                                 <aura:if
                                          isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
@@ -523,7 +523,9 @@
                                         <div class="label">
                                             <abbr title="required" class="slds-required"></abbr>{!$Label.c.Age}
                                         </div>
+                                        <div class="input-text alignAge">
                                         {!v.valueAge}
+                                        </div>
                                         <aura:set attribute="else">
                                             
                                             <div class="label">
