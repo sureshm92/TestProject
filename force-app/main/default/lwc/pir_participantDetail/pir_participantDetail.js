@@ -1078,6 +1078,9 @@ export default class Pir_participantDetail extends LightningElement {
        if(this.participantSelectedAge == undefined){
         err++;
        }
+        if((this.delegateLevels == 'Level 3' || this.delegateLevels == 'Level 2') && (!this.pd.delegate.Participant_Delegate__r.Attestation__c)){
+            err++;
+        }
         return err == 0;
     }
     isUpdated() {
